@@ -184,6 +184,14 @@ body.onboarding .app { padding: 0; max-width: 480px; min-height: 100dvh; }
 .contenuto.grande .c-testo { padding: 4px 14px 14px; }
 .contenuto.grande .c-titolo { font-size: 18px; }
 .contenuto.letto { opacity: .6; }
+/* Immagine del risultato */
+.cnd-anteprima { display: flex; justify-content: center; }
+.cnd-anteprima canvas { width: 200px; height: auto; border-radius: 14px; box-shadow: 0 10px 30px #0003; background: var(--navy); }
+.cnd-anteprima.quadrato canvas { width: 280px; }
+.cnd-sfondo { width: 60px; height: 60px; border-radius: 12px; border: 2px solid transparent; font: 700 12px var(--body); cursor: pointer; display: flex; align-items: flex-end; justify-content: center; padding: 0 2px 6px; text-align: center; }
+.cnd-sfondo.blu { background: #1E2B4A; color: #fff; } .cnd-sfondo.arancio { background: #C2410C; color: #fff; } .cnd-sfondo.chiaro { background: #fff; color: var(--fg); border-color: var(--line); }
+.cnd-sfondo.citta { background: #22304F; color: #fff; } .cnd-sfondo.foto { background: var(--surface); color: var(--fg2); border: 1px dashed var(--muted); align-items: center; }
+.cnd-sfondo[aria-pressed="true"], .cnd-sfondo.on { outline: 3px solid var(--accent); outline-offset: 2px; }
 /* Statistiche (pagina riservata) */
 .stat-kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .stat-kpi b { font: 700 44px/1 var(--display); }

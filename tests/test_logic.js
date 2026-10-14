@@ -123,4 +123,15 @@ assert.strictEqual(L.tempoDaParti("3", "5", ""), "3:05:00");
 assert.strictEqual(L.tempoDaParti("", "", ""), "");
 assert.strictEqual(L.tempoDaParti("1", "4a", "0"), "");
 assert.ok(L.leggiTempo("21", L.tempoDaParti("1", "75", "00")).errore);
+
+// immagine del risultato: andata a capo e taglio con i puntini (larghezza finta: 10 px a carattere)
+{
+  const I = require("../app/immagine.js");
+  const ctx = { measureText: (t) => ({ width: String(t).length * 10 }) };
+  assert.deepStrictEqual(I.aCapo(ctx, "ESTRA Firenze Marathon", 140, 2), ["ESTRA Firenze", "Marathon"]);
+  const r = I.aCapo(ctx, "Maratona Internazionale di Reggio Emilia Città del Tricolore", 160, 2);
+  assert.strictEqual(r.length, 2); assert.ok(r[1].endsWith("…") && r.every((x) => x.length * 10 <= 160), r);
+  assert.deepStrictEqual(I.aCapo(ctx, "", 100, 2), []);
+  assert.deepStrictEqual(I.FORMATI.storia, [1080, 1920]);
+}
 console.log("ok");

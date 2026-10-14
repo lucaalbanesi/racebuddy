@@ -40,7 +40,7 @@
         ["content/fasi.json", "content/percorso.json", "content/pillole.json", "data/gare.json"].map((u) => fetch(u, { cache: "no-cache" }).then((r) => { if (!r.ok) throw new Error(u); return r.json(); })));
       Object.assign(D, { fasi, percorso, pillole, gare: cal.gare || [], aggiornato: cal.aggiornato, ok: true });
       const opz = (u, def) => fetch(u, { cache: "no-cache" }).then((r) => (r.ok ? r.json() : def)).catch(() => def);
-      [D.schede, D.contenuti, D.sorrisi, D.novita] = await Promise.all([opz("content/schede.json", {}), opz("data/contenuti.json", { contenuti: [] }).then((x) => x.contenuti || []), opz("content/sorrisi.json", []), opz("data/novita_gare.json", { novita: [] }).then((x) => x.novita || [])]);
+      [D.schede, D.contenuti, D.sorrisi, D.novita, D.sfondi] = await Promise.all([opz("content/schede.json", {}), opz("data/contenuti.json", { contenuti: [] }).then((x) => x.contenuti || []), opz("content/sorrisi.json", []), opz("data/novita_gare.json", { novita: [] }).then((x) => x.novita || []), opz("content/sfondi.json", {})]);
     } catch (e) {
       D.errore = "Non riesco a caricare i contenuti. Controlla la connessione e ricarica.";
     }
@@ -1020,6 +1020,76 @@
     const o = oggi();
     return S.gare.filter((g) => g.data < o && L.diffDays(o, g.data) <= 7 && !(S.risultati || {})[g.id]).sort((a, b) => (a.data < b.data ? 1 : -1))[0] || null;
   }
+  // ---------------------------------------------------------------- immagine del risultato da condividere
+  // Tutto sul telefono: la foto scelta e l'immagine non vanno online.
+  const CND = { id: null, formato: "storia", stile: "blu", parole: true, posizione: false, foto: null, citta: {} };
+  const DIST_SU = { "10": "sui 10 km", "21": "sulla mezza", "42": "sulla maratona" };
+  const chiaveCitta = (g) => String(g.luogo || "").trim().toLowerCase();
+  function posizioneNelGruppo(g, r) {
+    const d = GD();
+    if (!d || !S.gruppo || !S.gruppo.dentro || d.io.mostra_pb === false) return 0;
+    const lista = (d.classifica || []).filter((c) => c.distanza === g.distanza).sort((a, b) => a.secondi - b.secondi);
+    const i = lista.findIndex((c) => c.mio);
+    return i >= 0 && lista[i].secondi === r.secondi ? i + 1 : 0; // solo se in classifica c'è proprio questo tempo
+  }
+  function datiImmagine(g, r) {
+    const t = (L.leggiTempo(g.distanza, r.tempo).tempo || r.tempo).replace(/^0:/, "");
+    const quando = new Date(g.data + "T12:00:00").toLocaleDateString("it-IT", { day: "numeric", month: "long", year: "numeric" });
+    const pos = CND.posizione ? posizioneNelGruppo(g, r) : 0, sf = (D.sfondi || {})[chiaveCitta(g)];
+    return {
+      gara: titoloGara(g.nome), sottotitolo: `${L.DIST_LABEL[g.distanza]} · ${quando}`, tempo: t,
+      badge: r.pb && r.precedente ? `Nuovo personale · −${fmtDiff(r.precedente.secondi - r.secondi)}` : "",
+      posizione: pos ? `${pos}° nel gruppo ${DIST_SU[g.distanza]}` : "", frase: CND.parole ? r.testo || "" : "",
+      credito: CND.stile === "citta" && sf ? `Foto: ${sf.autore} · Wikimedia Commons (${sf.licenza})` : "",
+    };
+  }
+  const caricaImg = (src) => new Promise((ok, ko) => { const im = new Image(); im.onload = () => ok(im); im.onerror = ko; im.src = src; });
+  async function disegnaAnteprima() {
+    const cv = document.getElementById("cnd-canvas"), g = S.gare.find((x) => x.id === CND.id), r = (S.risultati || {})[CND.id];
+    if (!cv || !g || !r || !window.RBImmagine) return;
+    const ctx = cv.getContext && cv.getContext("2d");
+    if (!ctx) return;
+    try { if (document.fonts) await Promise.all(['700 100px "Barlow Condensed"', '700 40px "Barlow"', '600 40px "Barlow"', '500 40px "Barlow"'].map((f) => document.fonts.load(f))); } catch (e) { /* caratteri di riserva */ }
+    let immagine = null, fuoco = null;
+    const sf = (D.sfondi || {})[chiaveCitta(g)];
+    if (CND.stile === "citta" && sf) {
+      try { immagine = CND.citta[sf.file] || (CND.citta[sf.file] = await caricaImg(sf.file)); fuoco = sf.fuoco; } catch (e) { toast("Foto della città non disponibile"); }
+    } else if (CND.stile === "foto" && CND.foto) { immagine = CND.foto; fuoco = [0.5, 0.4]; }
+    const [W, H] = window.RBImmagine.FORMATI[CND.formato];
+    cv.width = W; cv.height = H;
+    window.RBImmagine.disegna(ctx, datiImmagine(g, r), { formato: CND.formato, stile: CND.stile, immagine, fuoco });
+  }
+  function fileImmagine() {
+    const cv = document.getElementById("cnd-canvas"), g = S.gare.find((x) => x.id === CND.id);
+    const foto = CND.stile === "citta" || CND.stile === "foto", tipo = foto ? "image/jpeg" : "image/png";
+    const nome = `racebuddy-${titoloGara(g.nome).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}.${foto ? "jpg" : "png"}`;
+    return new Promise((ok, ko) => cv.toBlob((b) => (b ? ok(new File([b], nome, { type: tipo })) : ko(new Error("Immagine non pronta"))), tipo, 0.9));
+  }
+  const scaricaFile = (f) => { const a = document.createElement("a"); a.href = URL.createObjectURL(f); a.download = f.name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000); };
+  function vistaCondividi(id) {
+    const g = S.gare.find((x) => x.id === id), r = (S.risultati || {})[id];
+    if (!g) return garaMancante();
+    if (!r || !r.tempo) return `<header class="head-back">${back(urlGara(id))}<h1 style="font-size:28px">Condividi</h1></header><p class="sub">Prima segna il tuo tempo.</p><a class="btn" href="#/risultato/${encodeURIComponent(id)}">Com'è andata?</a>`;
+    if (CND.id !== id) Object.assign(CND, { id, formato: "storia", stile: "blu", parole: true, posizione: false, foto: null });
+    const sf = (D.sfondi || {})[chiaveCitta(g)], pos = posizioneNelGruppo(g, r);
+    if (CND.stile === "citta" && !sf) CND.stile = "blu";
+    setTimeout(disegnaAnteprima, 0);
+    const chip = (k, v, l) => `<button class="chip" data-act="cnd" data-k="${k}" data-v="${v}" aria-pressed="${CND[k] === v}">${l}</button>`;
+    const sfondo = (v, l, cls) => `<button class="cnd-sfondo ${cls}" data-act="cnd" data-k="stile" data-v="${v}" aria-pressed="${CND.stile === v}">${l}</button>`;
+    const interr = (k, l, sub) => `<label class="check" style="border:0;padding:6px 0"><input type="checkbox" data-act-change="cnd-flag" data-k="${k}" ${CND[k] ? "checked" : ""}><span><span class="t">${l}</span>${sub ? `<br><span class="d">${sub}</span>` : ""}</span></label>`;
+    return `${bannerProva()}<header class="head-back">${back(urlGara(id))}<div style="min-width:0"><span class="eyebrow">${esc(titoloGara(g.nome))} · ${esc(L.fmtBreve(g.data))}</span><h1 style="font-size:28px">Condividi il risultato</h1></div></header>
+      <div class="cnd-anteprima ${CND.formato}"><canvas id="cnd-canvas" width="1080" height="1920" role="img" aria-label="Anteprima dell'immagine del risultato"></canvas></div>
+      <section style="display:flex;flex-direction:column;gap:8px"><h2>Formato</h2><div class="grid2">${chip("formato", "storia", "Storia")}${chip("formato", "quadrato", "Quadrato")}</div></section>
+      <section style="display:flex;flex-direction:column;gap:8px"><h2>Sfondo</h2><div class="row" style="flex-wrap:wrap">${sfondo("blu", "Blu", "blu")}${sfondo("arancio", "Arancio", "arancio")}${sfondo("chiaro", "Chiaro", "chiaro")}${sf ? sfondo("citta", esc(nomeLuogo(g.luogo)), "citta") : ""}
+        <label class="cnd-sfondo foto ${CND.stile === "foto" ? "on" : ""}">Tua foto<input type="file" accept="image/*" id="cnd-foto" class="sr"></label></div>
+        ${sf && CND.stile === "citta" ? `<span class="small muted">${esc(sf.titolo)}: foto di ${esc(sf.autore)}, licenza ${esc(sf.licenza)}.</span>` : ""}
+        ${CND.stile === "foto" ? `<span class="small muted">La tua foto resta sul telefono.</span>` : ""}</section>
+      <section class="card" style="gap:0">${interr("parole", "Le tue due parole", r.testo ? "" : "Non le hai scritte: aggiungile in Com'è andata?")}${pos ? interr("posizione", `Posizione nel gruppo`, `${pos}° ${DIST_SU[g.distanza]}`) : ""}</section>
+      <button class="btn block" data-act="cnd-condividi">Condividi</button>
+      <button class="btn ghost block" data-act="cnd-salva">Salva l'immagine</button>
+      <p class="sub">L'immagine si crea su questo telefono: non va online niente.</p>`;
+  }
+
   function vistaRisultato(id) {
     const g = S.gare.find((x) => x.id === id);
     if (!g) return `<p class="sub">Gara non trovata.</p>`;
@@ -1034,6 +1104,7 @@
       <div class="field"><label for="ris-testo">Due parole <span class="muted">(facoltativo)</span></label><textarea class="input" id="ris-testo" maxlength="280" placeholder="es. Crisi al 16, poi il traguardo mi ha tirato su.">${esc(r.testo || "")}</textarea></div>
       ${inGruppo ? `<section class="card" style="gap:0"><label class="check"><input type="checkbox" id="ris-bacheca" checked><span><span class="t">Condividi in bacheca con il gruppo</span>${GD() && GD().io && GD().io.mostra_pb !== false ? `<br><span class="d">Se è un nuovo personale, si aggiorna anche in classifica.</span>` : ""}</span></label></section>` : `<p class="sub">Entra in un gruppo per condividere i risultati con la tua società.</p>`}
       <button class="btn block" type="submit">${inGruppo ? "Salva e condividi" : "Salva"}</button>
+      ${r.tempo ? `<a class="btn ghost block" href="#/condividi/${encodeURIComponent(id)}">Crea l'immagine da condividere</a>` : ""}
       ${altri.length ? `<div class="row">${avatari(altri)}<span class="small muted">${esc(altri.slice(0, 3).join(", "))} ${altri.length === 1 ? "ha" : "hanno"} già condiviso il loro</span></div>` : ""}</form>`;
   }
 
@@ -1202,7 +1273,7 @@
     const parts = path.split("/").map(decodeURIComponent);
     const param = Object.fromEntries(new URLSearchParams(query || ""));
     const tab = parts[0] || "oggi";
-    document.querySelectorAll("nav.tabs a").forEach((a) => a.setAttribute("aria-current", a.dataset.tab === ({ aggiungi: "gare", gara: "gare", checklist: "gare", percorso: "gare", meteo: "oggi", pillole: "oggi", invito: "gruppo", risultato: "oggi", pb: "io", statistiche: "io" }[tab] || tab) ? "page" : "false"));
+    document.querySelectorAll("nav.tabs a").forEach((a) => a.setAttribute("aria-current", a.dataset.tab === ({ aggiungi: "gare", gara: "gare", checklist: "gare", percorso: "gare", meteo: "oggi", pillole: "oggi", invito: "gruppo", risultato: "oggi", pb: "io", statistiche: "io", condividi: "gare" }[tab] || tab) ? "page" : "false"));
     if (D.errore) { $app.innerHTML = `<section class="card"><span class="title">Qualcosa non va</span><span class="small">${esc(D.errore)}</span></section>`; return; }
     let html;
     const benvenuto = !S.benvenuto && !S.gare.length && (tab === "oggi" || tab === "benvenuto");
@@ -1218,6 +1289,7 @@
         break;
       case "invito": html = vistaInvito(parts[1]); break;
       case "pb": html = vistaPB(); break;
+      case "condividi": html = vistaCondividi(parts[1]); break;
       case "statistiche": html = vistaStatistiche(); break;
       case "risultato": html = vistaRisultato(parts[1]); break;
       case "io": if (parts[1] === "documenti") S.ioAperto = { ...(S.ioAperto || {}), documenti: true }; html = vistaIo(); break;
@@ -1297,6 +1369,14 @@
       fotoTogli(t.dataset.k).catch(() => {}); doc(t.dataset.k).foto = false; salva(); toast("Foto tolta"); rerender();
     } else if (act === "gps") {
       usaGps(t);
+    } else if (act === "cnd") {
+      CND[t.dataset.k] = t.dataset.v; rerender();
+    } else if (act === "cnd-condividi" || act === "cnd-salva") {
+      fileImmagine().then(async (f) => {
+        if (act === "cnd-condividi" && navigator.canShare && navigator.canShare({ files: [f] })) {
+          try { await navigator.share({ files: [f], title: "Il mio risultato" }); } catch (e) { if (e.name !== "AbortError") scaricaFile(f); }
+        } else { scaricaFile(f); if (act === "cnd-condividi") toast("Immagine salvata: condividila dalla galleria"); }
+      }).catch((e) => toast(e.message || "Non riuscito"));
     } else if (act === "stat-periodo") {
       statPeriodo = Number(t.dataset.n) || 30; rerender();
     } else if (act === "stat-giorno") {
@@ -1345,7 +1425,12 @@
   }
 
   document.addEventListener("change", (e) => {
-    if (e.target.dataset && e.target.dataset.actChange === "g-ruolo") {
+    if (e.target.dataset && e.target.dataset.actChange === "cnd-flag") {
+      CND[e.target.dataset.k] = e.target.checked; disegnaAnteprima();
+    } else if (e.target.id === "cnd-foto" && e.target.files && e.target.files[0]) {
+      const url = URL.createObjectURL(e.target.files[0]);
+      caricaImg(url).then((im) => { CND.foto = im; CND.stile = "foto"; rerender(); }).catch(() => toast("Non riesco ad aprire la foto"));
+    } else if (e.target.dataset && e.target.dataset.actChange === "g-ruolo") {
       azioneGruppo(() => rpc("admin_ruolo", { p_token: token(), p_membro: e.target.dataset.id, p_ruolo: e.target.value }), "Ruolo aggiornato");
     } else if (e.target.id === "io-mostra-pb") {
       const on = e.target.checked;
@@ -1449,12 +1534,17 @@
       if (lt.errore) { toast(lt.errore); return; }
       const tempo = lt.tempo, sec = lt.secondi;
       S.pb = S.pb || {}; S.risultati = S.risultati || {};
-      const prec = S.pb[g.distanza], pb = !prec || sec < prec.secondi;
-      S.risultati[id] = { tempo, testo: v("ris-testo").trim(), pb };
+      // Il confronto è con il personale di PRIMA di questa gara: se la si risalva (o corregge), non si confronta con sé stessa.
+      const r0 = S.risultati[id], att = S.pb[g.distanza];
+      const daQuesta = att && att.gara === g.nome && att.data === g.data;
+      const prec = r0 && "precedente" in r0 ? r0.precedente : daQuesta ? null : att || null;
+      const pb = !prec || sec < prec.secondi;
+      S.risultati[id] = { tempo, secondi: sec, testo: v("ris-testo").trim(), pb, precedente: prec ? { tempo: prec.tempo, secondi: prec.secondi, gara: prec.gara || "", data: prec.data || "" } : null };
       if (pb) S.pb[g.distanza] = { tempo, secondi: sec, gara: g.nome, data: g.data };
+      else if (daQuesta && prec) S.pb[g.distanza] = { ...prec }; // corretto al ribasso: torna il personale di prima
       S.spunte[`${id}:P051`] = true; salva();
       const condividi = document.getElementById("ris-bacheca");
-      const fine = () => { toast(pb && prec ? `Nuovo personale! −${fmtDiff(prec.secondi - sec)}` : pb ? "Primo tempo registrato" : "Tempo salvato"); location.hash = condividi && condividi.checked ? "#/gruppo" : "#/oggi"; };
+      const fine = () => { toast(pb && prec ? `Nuovo personale! −${fmtDiff(prec.secondi - sec)}` : pb ? "Primo tempo registrato" : "Tempo salvato"); location.hash = `#/condividi/${encodeURIComponent(id)}`; };
       if (condividi && condividi.checked) {
         rpc("pubblica_risultato", { p_token: token(), p: { gara_id: id, gara_nome: g.nome, distanza: g.distanza, data_gara: g.data, tempo, pb, testo: v("ris-testo").trim() } })
           .then(() => aggiornaGruppo(true)).then(fine).catch((e) => { toast(e.message || "Salvato sul telefono, non condiviso"); });

@@ -54,6 +54,13 @@ canale (`https://www.youtube.com/feeds/videos.xml?channel_id=UC…`; il `channel
 `nomi` sono i modi in cui la gara viene chiamata dai giornali (2–3 al massimo, senza sponsor): servono a riconoscere
 gli articoli delle riviste che parlano della gara.
 
+Foto della città (sfondo dell'immagine del risultato): per ogni città di una gara seguita che non è ancora in
+`content/sfondi.json`, una foto riconoscibile della città (monumento o veduta, meglio se legata al percorso) da
+Wikimedia Commons con licenza **CC0 o pubblico dominio** (niente CC BY-SA: obbligherebbe l'immagine condivisa alla stessa
+licenza). Salvata in `content/sfondi/<città>.jpg`, lato lungo 1920 px, JPEG qualità 72, senza EXIF; in `sfondi.json`
+chiave = città in minuscolo come in `luogo`, con `titolo`, `autore`, `licenza`, `fonte` (pagina Commons) e `fuoco`
+([x, y] da 0 a 1: il punto da tenere al centro nel taglio verticale). Mai loghi delle gare.
+
 Il campo `partenza` contiene solo l'orario (es. "8:30" o "8:30 da confermare"): spiegazioni e varianti vanno in `note`.
 
 Se due pagine ufficiali si contraddicono (es. orario), riportare entrambe le versioni nel campo con "da confermare" e segnalarlo nel riepilogo.
