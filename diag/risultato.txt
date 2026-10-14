@@ -1,0 +1,29 @@
+FORM:<form id="calendario" method="GET" action="">
+  campo: anno
+  campo: mese
+  campo: livello
+  campo: new_regione
+  campo: new_tipo
+  campo: new_categoria
+  campo: submit
+  campo: new_campionati
+  campo: omologazione
+  campo: omologazione_tipo
+  anno -> ['2026', '2025', '2024', '2023', '2022', '2021', '2020', '2019', '2018', '2017', '2016', '2015', '2014', '2013', '2012']
+  mese -> []
+  livello -> ['', 'COD', 'REG']
+  new_regione -> ['', 'ABRUZZO', 'ALTOADIGE', 'BASILICATA', 'CALABRIA', 'CAMPANIA', 'EMILIAROMAGNA', 'FRIULIVENEZIAGIULIA', 'LAZIO', 'LIGURIA', 'LOMBARDIA', 'MARCHE', 'MOLISE', 'PIEMONTE', 'PUGLIA']
+  new_tipo -> ['0', '2', '3', '8', '11', '4', '13', '5', '10', '6', '12', '7', '9']
+  new_categoria -> ['', 'ESO', 'RAG', 'CAD', 'ALL', 'JUN', 'PRO', 'SEN', 'MAS']
+  omologazione -> ['', 'no', 'si']
+  omologazione_tipo -> ['', 'a', 'b']
+ICAL: https://www.fidal.it/ical/ical_man.php?&anno=2026&mese=10&livello=COD
+baseline mese=11: ['202610']
+POST mese=11 -> date nella pagina: ['03/10', '04/10', '05/10', '10/10', '11/10', '17/10'] ical:['ical_man.php?&anno=2026&mese=10&livello=COD']
+   poi ical stesso cookie: ['202610']
+POST new_mese=11 -> date nella pagina: ['03/10', '04/10', '05/10', '10/10', '11/10', '17/10'] ical:['ical_man.php?&anno=2026&mese=10&livello=COD']
+   poi ical stesso cookie: ['202610']
+POST month=11 -> date nella pagina: ['03/10', '04/10', '05/10', '10/10', '11/10', '17/10'] ical:['ical_man.php?&anno=2026&mese=10&livello=COD']
+   poi ical stesso cookie: ['202610']
+POST mm=11 -> date nella pagina: ['03/10', '04/10', '05/10', '10/10', '11/10', '17/10'] ical:['ical_man.php?&anno=2026&mese=10&livello=COD']
+   poi ical stesso cookie: ['202610']
