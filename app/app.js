@@ -32,6 +32,7 @@
       const [fasi, percorso, pillole, cal] = await Promise.all(
         ["content/fasi.json", "content/percorso.json", "content/pillole.json", "data/gare.json"].map((u) => fetch(u, { cache: "no-cache" }).then((r) => { if (!r.ok) throw new Error(u); return r.json(); })));
       Object.assign(D, { fasi, percorso, pillole, gare: cal.gare || [], aggiornato: cal.aggiornato, ok: true });
+      D.schede = await fetch("content/schede.json", { cache: "no-cache" }).then((r) => (r.ok ? r.json() : {})).catch(() => ({}));
     } catch (e) {
       D.errore = "Non riesco a caricare i contenuti. Controlla la connessione e ricarica.";
     }
@@ -47,7 +48,7 @@
     meteoCache[k] = p ? { lat: p.latitude, lon: p.longitude, nome: p.name } : null;
     return meteoCache[k];
   }
-  async function meteoAlle(citta, quandoISO) {
+  async function serie(citta) {
     const c = await coordinate(citta);
     if (!c) return null;
     const k = `m:${c.lat},${c.lon}`;
@@ -55,7 +56,13 @@
       const u = `https://api.open-meteo.com/v1/forecast?latitude=${c.lat}&longitude=${c.lon}&hourly=temperature_2m,precipitation_probability,wind_speed_10m&timezone=Europe%2FRome&forecast_days=16`;
       meteoCache[k] = await fetch(u).then((x) => x.json());
     }
-    const h = meteoCache[k].hourly;
+    return { h: meteoCache[k].hourly, c };
+  }
+  const oraISO = (ora) => { const m = String(ora || "").match(/(\d{1,2})(?:[:.](\d{2}))?/); return `${String(Math.min(23, Number(m ? m[1] : 7))).padStart(2, "0")}:00`; };
+  async function meteoAlle(citta, quandoISO) {
+    const sr = await serie(citta);
+    if (!sr) return null;
+    const { h, c } = sr;
     const i = h.time.indexOf(quandoISO);
     if (i < 0) return null;
     return { temp: h.temperature_2m[i], pioggia: h.precipitation_probability[i] ?? 0, vento: h.wind_speed_10m[i] ?? 0, luogo: c.nome };
@@ -108,16 +115,16 @@
     const { obiettivo, focus, tutte } = L.gareAttive(S.gare, D.fasi, o);
     if (!obiettivo) return vistaVuota() + `<p class="sub">Le tue gare sono concluse: scegline una nuova.</p>`;
     const f = L.fase(D.fasi, obiettivo.distanza, obiettivo.data, o);
-    const altra = tutte.find((g) => g.id !== obiettivo.id);
     const mancano = (g) => g.mancano === 0 ? "oggi" : g.mancano === 1 ? "domani" : g.mancano > 0 ? `tra ${g.mancano} giorni` : "conclusa";
     const hero = `<section class="card dark" aria-label="Le tue gare">
-      <div class="between" style="align-items:flex-end"><div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+      <a class="between" href="#/gara/${encodeURIComponent(obiettivo.id)}" style="align-items:flex-end;color:inherit;text-decoration:none;font-weight:inherit" aria-label="Scheda gara: ${esc(titoloGara(obiettivo.nome))}"><div style="display:flex;flex-direction:column;gap:2px;min-width:0">
         <span class="eyebrow">${esc(L.RUOLO_LABEL[obiettivo.ruolo])}</span>
         <span style="font:700 24px/1.1 var(--display)">${esc(titoloGara(obiettivo.nome))}</span>
         <span class="sub">${esc(L.fmtGiorno(obiettivo.data))} · ${esc(L.DIST_LABEL[obiettivo.distanza])} · ${esc(f.nome)}</span></div>
-        <div style="text-align:right">${obiettivo.mancano > 0 ? `<div class="big">${obiettivo.mancano}</div><span class="sub">${obiettivo.mancano === 1 ? "giorno" : "giorni"}</span>` : `<span class="pill navy">${esc(mancano(obiettivo))}</span>`}</div></div>
+        <div style="text-align:right">${obiettivo.mancano > 0 ? `<div class="big">${obiettivo.mancano}</div><span class="sub">${obiettivo.mancano === 1 ? "giorno" : "giorni"}</span>` : `<span class="pill navy">${esc(mancano(obiettivo))}</span>`}</div></a>
       ${barraFasi(obiettivo, true)}
-      ${altra ? `<div class="between small" style="border-top:1px solid #FFFFFF26;padding-top:10px"><span><b>${esc(titoloGara(altra.nome))}</b> · ${esc(L.RUOLO_LABEL[altra.ruolo].toLowerCase())}</span><span class="pill navy">${esc(mancano(altra))}</span></div>` : ""}
+      <div class="links-dark"><a href="#/gara/${encodeURIComponent(obiettivo.id)}">Scheda gara</a><a href="#/percorso/${encodeURIComponent(obiettivo.id)}">Percorso</a><a href="#/checklist/${encodeURIComponent(obiettivo.id)}">Borsa</a></div>
+      ${tutte.filter((g) => g.id !== obiettivo.id).slice(0, 2).map((altra) => `<a class="between small" href="#/gara/${encodeURIComponent(altra.id)}" style="border-top:1px solid #FFFFFF26;padding-top:10px;color:inherit;text-decoration:none;font-weight:inherit"><span><b>${esc(titoloGara(altra.nome))}</b> · ${esc(L.RUOLO_LABEL[altra.ruolo].toLowerCase())}</span><span class="pill navy">${esc(mancano(altra))} ›</span></a>`).join("")}
     </section>`;
 
     const st = L.stato(D.percorso, focus, o, S.spunte, S.rinvii);
@@ -144,7 +151,7 @@
     const pil = L.pillola(D.pillole, fp.id, focus.distanza, o, Number(o.slice(5, 7)));
     const pill = pil ? `<section class="card soft" aria-label="Pillola del giorno"><span class="eyebrow" style="color:var(--accent-strong)">Pillola · ${esc(fp.nome)}</span><span class="title">${esc(pil.titolo)}</span><span class="small">${esc(pil.testo)}</span></section>` : "";
 
-    const meteo = S.profilo.citta ? `<section class="card" id="meteo" aria-label="Meteo dell'uscita"><span class="eyebrow">${esc(S.profilo.citta)} · uscita delle ${esc(S.profilo.ora || "7:00")}</span><span class="small muted">Meteo in arrivo…</span></section>`
+    const meteo = S.profilo.citta ? `<a class="card" id="meteo" href="#/meteo" style="text-decoration:none;color:inherit;font-weight:inherit" aria-label="Meteo dell'uscita, apri il dettaglio"><span class="eyebrow">${esc(S.profilo.citta)} · uscita delle ${esc(S.profilo.ora || "7:00")}</span><span class="small muted">Meteo in arrivo…</span></a>`
       : `<a class="card" href="#/io" style="text-decoration:none;color:inherit"><span class="title">Meteo e vestizione</span><span class="small">Dimmi dove e a che ora corri di solito: ti dico come vestirti.</span></a>`;
 
     return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(o))}</span><h1>Buongiorno${S.profilo.nome ? ", " + esc(S.profilo.nome) : ""}</h1></div></header>${hero}${meteo}${blocco}${pill}`;
@@ -154,11 +161,11 @@
     const box = document.getElementById("meteo");
     if (!box || !S.profilo.citta) return;
     try {
-      const quando = S.prova ? `${S.prova}T${String(parseInt(S.profilo.ora || "7", 10)).padStart(2, "0")}:00` : L.prossimaUscita(S.profilo.ora, new Date());
+      const quando = S.prova ? `${S.prova}T${oraISO(S.profilo.ora)}` : L.prossimaUscita(S.profilo.ora, new Date());
       const m = await meteoAlle(S.profilo.citta, quando);
       if (!m) { box.innerHTML = `<span class="eyebrow">${esc(S.profilo.citta)}</span><span class="small">Previsioni non disponibili per questa data.</span>`; return; }
       const giorno = quando.slice(0, 10) === L.todayISO() ? "oggi" : "domani";
-      box.innerHTML = `<span class="eyebrow">${esc(m.luogo)} · uscita di ${giorno} alle ${esc(S.profilo.ora || "7:00")}</span><span class="title">${esc(L.descriviMeteo(m))}</span><span class="small">${esc(L.vestizione(m))}</span>`;
+      box.innerHTML = `<span class="eyebrow">${esc(m.luogo)} · uscita di ${giorno} alle ${esc(S.profilo.ora || "7:00")}</span><span class="title">${esc(L.descriviMeteo(m))}</span><span class="small">${esc(L.vestizione(m))}</span><span class="small" style="color:var(--accent);font-weight:700">Prossimi giorni e meteo gara ›</span>`;
     } catch (e) { box.innerHTML = `<span class="small muted">Meteo non disponibile al momento.</span>`; }
   }
 
@@ -169,7 +176,7 @@
     const ris = L.cercaGare(D.gare, q, dist, o);
     const chip = (v, l) => `<button class="chip" data-act="filtro" data-d="${v}" aria-pressed="${dist === v}">${l}</button>`;
     return `${bannerProva()}<header class="head"><h1>Gare</h1></header>
-      ${mie.length ? `<section class="card list" aria-label="Le mie gare" style="padding-top:12px;padding-bottom:6px"><h2>Le mie gare</h2>${mie.map((g) => `<div class="line" style="align-items:center"><div style="flex:1;min-width:0"><a href="#/percorso/${encodeURIComponent(g.id)}" style="color:inherit;text-decoration:none"><b>${esc(titoloGara(g.nome))}</b><br><span class="small muted">${esc(L.fmtGiorno(g.data))} · ${esc(L.DIST_LABEL[g.distanza])} · ${esc(L.RUOLO_LABEL[g.ruolo])}</span></a></div><button class="btn ghost small" data-act="rimuovi" data-id="${esc(g.id)}" aria-label="Rimuovi ${esc(titoloGara(g.nome))}">Rimuovi</button></div>`).join("")}</section>` : ""}
+      ${mie.length ? `<section class="card list" aria-label="Le mie gare" style="padding-top:12px;padding-bottom:6px"><h2>Le mie gare</h2>${mie.map((g) => `<div class="line" style="align-items:center"><div style="flex:1;min-width:0"><a href="#/gara/${encodeURIComponent(g.id)}" style="color:inherit;text-decoration:none"><b>${esc(titoloGara(g.nome))}</b><br><span class="small muted">${esc(L.fmtGiorno(g.data))} · ${esc(L.DIST_LABEL[g.distanza])} · ${esc(L.RUOLO_LABEL[g.ruolo])}</span></a></div><button class="btn ghost small" data-act="rimuovi" data-id="${esc(g.id)}" aria-label="Rimuovi ${esc(titoloGara(g.nome))}">Rimuovi</button></div>`).join("")}</section>` : ""}
       <div class="field"><label for="cerca">Cerca una gara o una città</label><input class="input" id="cerca" type="search" value="${esc(q)}" placeholder="es. Firenze" autocomplete="off"></div>
       <div class="chips" role="group" aria-label="Distanza">${chip("", "Tutte")}${chip("10", "10 km")}${chip("21", "Mezza")}${chip("42", "Maratona")}</div>
       <div id="risultati">${risultati(ris)}</div>
@@ -230,7 +237,7 @@
       ${scelta}<section aria-label="Fase attuale: ${esc(f.nome)}">${barraFasi(g)}</section>
       ${f.id === "prima" ? `<section class="card"><span class="small">La preparazione per questa gara parte il <b>${esc(L.fmtGiorno(L.addDays(g.data, D.fasi.find((x) => x.ordine === 1).giorni[g.distanza].inizio)))}</b>. Ti avviso io.</span></section>` : ""}
       ${rec}${sett}${tappe}${mom}
-      <a class="btn ghost" href="#/checklist/${encodeURIComponent(g.id)}">Checklist della borsa</a>
+      <div class="grid2"><a class="btn ghost" href="#/gara/${encodeURIComponent(g.id)}">Scheda gara</a><a class="btn ghost" href="#/checklist/${encodeURIComponent(g.id)}">Borsa</a></div>
       <details class="card"><summary>Tutto il percorso</summary>${tutto}</details>
       <a class="btn dashed" href="#/gare">+ Aggiungi una gara</a>`;
   }
@@ -249,6 +256,7 @@
       <section class="card" style="gap:0;padding-top:4px;padding-bottom:4px" aria-label="Borsa">${ck.borsa.map((v) => voceCheck(v, { nodesc: !v.messaggio })).join("")}</section>
       <form id="personale" class="row"><label class="sr" for="p-voce">Aggiungi una voce tua</label><input class="input" id="p-voce" placeholder="Aggiungi una voce tua" required><button class="btn" type="submit">Aggiungi</button></form>
       ${S.personali.length ? `<p class="sub">Le tue voci restano salvate per le prossime gare. <button class="btn ghost small" data-act="svuota-personali">Svuota le mie voci</button></p>` : ""}
+      ${(() => { const i = Object.assign({}, (D.schede || {})[g.id] || {}, g.info || {}); const r = [["Partenza", i.partenza], ["Griglia", i.griglia], ["Deposito", i.deposito], ["Dove", i.luogoPartenza]].filter((x) => x[1]); return r.length ? `<section class="card list" style="padding-top:12px;padding-bottom:6px"><div class="between"><h2>Promemoria dalla scheda</h2><a class="small" href="#/gara/${encodeURIComponent(g.id)}">Scheda</a></div>${r.map(([l, t]) => `<div class="line"><span class="when" style="width:76px">${l}</span><span>${esc(t)}</span></div>`).join("")}</section>` : `<a class="small" href="#/gara/${encodeURIComponent(g.id)}?modifica=1">+ Annota orario di partenza, griglia e deposito nella scheda gara</a>`; })()}
       <section class="card" aria-label="Mattina della gara"><h2>La mattina della gara</h2>${ck.mattina.map((v) => voceCheck(v)).join("")}</section>`;
   }
   async function riempiMeteoGara(id) {
@@ -256,10 +264,99 @@
     const g = S.gare.find((x) => x.id === id);
     if (!el || !g || !el.textContent) return;
     try {
-      const m = await meteoAlle(nomeLuogo(g.luogo) || S.profilo.citta || "", `${g.data}T09:00`);
-      el.textContent = m ? `alle 9: ${L.descriviMeteo(m)}` : "";
-      if (m) el.insertAdjacentHTML("afterend", ""), document.querySelector('[aria-label="Borsa"]').insertAdjacentHTML("beforebegin", `<section class="card soft"><span class="eyebrow" style="color:var(--accent-strong)">Vestizione per la gara · orario indicativo</span><span class="small">${esc(L.vestizione(m, true))}</span></section>`);
+      const m = await meteoAlle(nomeLuogo(g.luogo) || S.profilo.citta || "", `${g.data}T${oraISO((g.info || {}).partenza || "9:00")}`);
+      el.textContent = m ? `alle ${(g.info || {}).partenza || "9"}: ${L.descriviMeteo(m)}` : "";
+      if (m) el.insertAdjacentHTML("afterend", ""), document.querySelector('[aria-label="Borsa"]').insertAdjacentHTML("beforebegin", `<section class="card soft"><span class="eyebrow" style="color:var(--accent-strong)">Vestizione per la gara · alle ${esc((g.info || {}).partenza || "9:00")}${(g.info || {}).partenza ? "" : " (orario indicativo)"}</span><span class="small">${esc(L.vestizione(m, true))}</span></section>`);
     } catch (e) { el.textContent = ""; }
+  }
+
+
+  // ---------------------------------------------------------------- scheda gara
+  const CAMPI = [
+    ["partenza", "Orario di partenza", "es. 8:30"],
+    ["luogoPartenza", "Partenza e arrivo", "es. Piazza Duomo / Stadio"],
+    ["pettorale", "Ritiro pettorale", "dove e quando, es. Expo, ven-sab 10-19"],
+    ["griglia", "Griglia o onda", "es. griglia C, chiusura 8:15"],
+    ["deposito", "Deposito borse", "dove e fino a che ora"],
+    ["ristori", "Ristori e spugnaggi", "es. ogni 5 km, gel al 25°"],
+    ["arrivare", "Come arrivare e parcheggi", "es. metro A fermata …"],
+    ["sito", "Sito ufficiale", "https://…"],
+    ["note", "Altre note", ""],
+  ];
+  function vistaScheda(id, param) {
+    const g = S.gare.find((x) => x.id === id);
+    if (!g) return `<p class="sub">Gara non trovata.</p><a class="btn" href="#/gare">Le mie gare</a>`;
+    const info = Object.assign({}, (D.schede || {})[g.id] || {}, g.info || {});
+    const o = oggi(), mancano = L.diffDays(g.data, o);
+    const f = L.fase(D.fasi, g.distanza, g.data, o);
+    const compilati = CAMPI.filter(([k]) => info[k]);
+    const cerca = `https://www.google.com/search?q=${encodeURIComponent(titoloGara(g.nome) + " " + g.data.slice(0, 4) + " sito ufficiale")}`;
+    const sitoOk = /^https?:\/\//i.test(info.sito || "");
+    const testa = `${bannerProva()}<header class="head-back">${back("#/gare")}<div style="min-width:0"><span class="eyebrow">${esc(L.RUOLO_LABEL[g.ruolo])} · ${esc(f.nome)}</span><h1 style="font-size:28px">${esc(titoloGara(g.nome))}</h1></div></header>
+      <section class="card dark"><div class="between" style="align-items:flex-end"><div style="display:flex;flex-direction:column;gap:2px">
+        <span style="font:700 20px/1.1 var(--display)">${esc(L.fmtGiorno(g.data))} ${esc(g.data.slice(0, 4))}${info.partenza ? " · ore " + esc(info.partenza) : ""}</span>
+        <span class="sub">${esc(nomeLuogo(g.luogo) || "Luogo da indicare")} · ${esc(L.DIST_LABEL[g.distanza])}${g.tempo ? " · obiettivo " + esc(g.tempo) : ""}</span></div>
+        <div style="text-align:right">${mancano > 0 ? `<div class="big" style="font-size:40px">${mancano}</div><span class="sub">${mancano === 1 ? "giorno" : "giorni"}</span>` : `<span class="pill navy">${mancano === 0 ? "oggi" : "conclusa"}</span>`}</div></div>
+        <div class="links-dark"><a href="#/percorso/${encodeURIComponent(g.id)}">Percorso</a><a href="#/checklist/${encodeURIComponent(g.id)}">Borsa</a>${sitoOk ? `<a href="${esc(info.sito)}" target="_blank" rel="noopener">Sito ufficiale ↗</a>` : ""}</div></section>
+      <section class="card" id="meteo-scheda" aria-label="Meteo della gara"><h2>Meteo della gara</h2><span class="small muted">${mancano >= 0 && mancano <= 15 ? "Previsioni in arrivo…" : mancano > 15 ? `Le previsioni arrivano 15 giorni prima della gara, dal ${esc(L.fmtGiorno(L.addDays(g.data, -15)))}.` : "Gara conclusa."}</span></section>`;
+    if (param.modifica) {
+      return `${testa}<form id="scheda" data-id="${esc(g.id)}" class="card"><h2>Informazioni pratiche</h2>
+        <div class="grid2"><div class="field"><label for="i-ruolo">Ruolo</label><select class="input" id="i-ruolo">${["obiettivo", "tappa", "divertimento"].map((r) => `<option value="${r}" ${g.ruolo === r ? "selected" : ""}>${L.RUOLO_LABEL[r]}</option>`).join("")}</select></div>
+        <div class="field"><label for="i-tempo">Tempo obiettivo</label><input class="input" id="i-tempo" value="${esc(g.tempo)}" placeholder="es. 3:45:00"></div></div>
+        ${CAMPI.map(([k, l, ph]) => `<div class="field"><label for="i-${k}">${l}</label>${k === "note" ? `<textarea class="input" id="i-${k}">${esc(info[k])}</textarea>` : `<input class="input" id="i-${k}" value="${esc(info[k])}" placeholder="${esc(ph)}" ${k === "sito" ? 'type="url" inputmode="url"' : ""}>`}</div>`).join("")}
+        <div class="grid2"><button class="btn" type="submit">Salva</button><a class="btn ghost" href="#/gara/${encodeURIComponent(g.id)}">Annulla</a></div></form>`;
+    }
+    const logistica = compilati.length
+      ? `<section class="card list" style="padding-top:12px;padding-bottom:6px" aria-label="Informazioni pratiche"><div class="between"><h2>Informazioni pratiche</h2><a class="small" href="#/gara/${encodeURIComponent(g.id)}?modifica=1">Modifica</a></div>
+        ${compilati.filter(([k]) => k !== "sito").map(([k, l]) => `<div class="line" style="flex-direction:column;gap:2px"><span class="small muted" style="font-weight:600">${l}</span><span style="white-space:pre-line">${esc(info[k])}</span></div>`).join("")}</section>`
+      : `<section class="card"><h2>Informazioni pratiche</h2><span class="small">Orario di partenza, ritiro pettorale, griglie, deposito borse, ristori: annotali qui una volta sola e li ritrovi quando servono, anche nella checklist.</span>
+        <div class="grid2"><a class="btn" href="#/gara/${encodeURIComponent(g.id)}?modifica=1">Compila</a><a class="btn ghost" href="${cerca}" target="_blank" rel="noopener">Cerca il sito ↗</a></div>
+        <span class="small muted">Presto le prenderemo noi dal sito dell'organizzatore.</span></section>`;
+    return `${testa}${logistica}
+      <p class="sub">Dati del calendario: ${g.fonte === "manuale" ? "inseriti da te" : "FIDAL"}. Fai sempre fede al regolamento ufficiale della gara.</p>`;
+  }
+  async function riempiMeteoScheda(id) {
+    const box = document.getElementById("meteo-scheda");
+    const g = S.gare.find((x) => x.id === id);
+    if (!box || !g) return;
+    const mancano = L.diffDays(g.data, oggi());
+    if (mancano < 0 || mancano > 15) return;
+    const ora = (g.info || {}).partenza || "9:00";
+    try {
+      const m = await meteoAlle(nomeLuogo(g.luogo) || S.profilo.citta || "", `${g.data}T${oraISO(ora)}`);
+      box.innerHTML = m ? `<h2>Meteo della gara · ${esc(m.luogo)} alle ${esc(ora)}</h2><span class="title">${esc(L.descriviMeteo(m))}</span><span class="small">${esc(L.vestizione(m, true))}</span>${(g.info || {}).partenza ? "" : `<span class="small muted">Orario indicativo: indica la partenza nelle informazioni pratiche.</span>`}`
+        : `<h2>Meteo della gara</h2><span class="small">Previsioni non disponibili per questo luogo.</span>`;
+    } catch (e) { box.innerHTML = `<h2>Meteo della gara</h2><span class="small muted">Meteo non disponibile al momento.</span>`; }
+  }
+
+  // ---------------------------------------------------------------- meteo dettaglio
+  function vistaMeteo() {
+    if (!S.profilo.citta) return `<header class="head-back">${back("#/oggi")}<h1 style="font-size:28px">Meteo</h1></header><a class="card" href="#/io" style="text-decoration:none;color:inherit"><span class="title">Dimmi dove corri</span><span class="small">Indica città e orario di uscita nel profilo.</span></a>`;
+    return `${bannerProva()}<header class="head-back">${back("#/oggi")}<div><h1 style="font-size:28px">Meteo e vestizione</h1><span class="sub">${esc(S.profilo.citta)} · uscite alle ${esc(S.profilo.ora || "7:00")} · <a href="#/io">cambia</a></span></div></header>
+      <div id="meteo-dettaglio" style="display:flex;flex-direction:column;gap:14px"><p class="sub">Previsioni in arrivo…</p></div>
+      <p class="sub">Previsioni Open-Meteo. La vestizione è un'indicazione generale: ognuno sente il freddo a modo suo.</p>`;
+  }
+  async function riempiMeteoDettaglio() {
+    const box = document.getElementById("meteo-dettaglio");
+    if (!box) return;
+    try {
+      const sr = await serie(S.profilo.citta);
+      if (!sr) { box.innerHTML = `<p class="sub">Non trovo la città "${esc(S.profilo.citta)}". Correggila nel profilo.</p>`; return; }
+      const { h, c } = sr, ora = oraISO(S.profilo.ora), o = oggi();
+      const at = (t) => { const i = h.time.indexOf(t); return i < 0 ? null : { temp: h.temperature_2m[i], pioggia: h.precipitation_probability[i] ?? 0, vento: h.wind_speed_10m[i] ?? 0 }; };
+      const giorni = [];
+      const passata = !S.prova && new Date().getHours() > Number(ora.slice(0, 2));
+      for (let d = passata ? 1 : 0; d < (passata ? 8 : 7); d++) { const dd = L.addDays(o, d), m = at(`${dd}T${ora}`); if (m) giorni.push([dd, m]); }
+      const ore = [];
+      const base = S.prova ? `${S.prova}T${ora}` : null;
+      let i0 = base ? h.time.indexOf(base) : h.time.indexOf(`${L.todayISO()}T${String(new Date().getHours()).padStart(2, "0")}:00`);
+      if (i0 >= 0) for (let i = i0; i < Math.min(h.time.length, i0 + 12); i += 2) ore.push([h.time[i].slice(11), { temp: h.temperature_2m[i], pioggia: h.precipitation_probability[i] ?? 0 }]);
+      const gareMeteo = S.gare.filter((g) => { const n = L.diffDays(g.data, o); return n >= 0 && n <= 15; });
+      box.innerHTML = (giorni.length ? `<section class="card" style="gap:12px">${(() => { const [dd, m] = giorni[0]; return `<span class="eyebrow">${dd === L.todayISO() ? "Oggi" : esc(L.fmtGiorno(dd))} alle ${esc(S.profilo.ora || "7:00")} · ${esc(c.nome)}</span><span class="title" style="font-size:22px">${esc(L.descriviMeteo(m))}</span><span class="small">${esc(L.vestizione(m))}</span>`; })()}</section>` : `<p class="sub">Previsioni non disponibili per questa data.</p>`)
+        + (ore.length ? `<section class="card"><h2>Nelle prossime ore</h2><div style="display:flex;justify-content:space-between;gap:4px;text-align:center">${ore.map(([t, m]) => `<div style="display:flex;flex-direction:column;gap:2px"><span class="small muted">${esc(t)}</span><b style="font:700 20px var(--display)">${Math.round(m.temp)}°</b><span class="small muted">${m.pioggia}%</span></div>`).join("")}</div><span class="small muted">Temperatura e probabilità di pioggia.</span></section>` : "")
+        + (giorni.length > 1 ? `<section class="card list" style="padding-top:12px;padding-bottom:6px"><h2>Le prossime uscite</h2>${giorni.slice(1).map(([dd, m]) => `<div class="line" style="flex-direction:column;gap:2px"><div class="between"><b>${esc(L.fmtGiorno(dd))}</b><span><b>${Math.round(m.temp)}°</b> <span class="small muted">· pioggia ${m.pioggia}% · vento ${Math.round(m.vento)} km/h</span></span></div><span class="small">${esc(L.vestizione(m))}</span></div>`).join("")}</section>` : "")
+        + gareMeteo.map((g) => `<a class="card soft" href="#/gara/${encodeURIComponent(g.id)}" style="text-decoration:none;color:inherit;font-weight:inherit"><span class="between"><span class="title">Meteo per ${esc(titoloGara(g.nome))}</span><span aria-hidden="true">›</span></span><span class="small">Il ${esc(L.fmtGiorno(g.data))}: apri la scheda gara.</span></a>`).join("");
+    } catch (e) { box.innerHTML = `<p class="sub">Meteo non disponibile al momento.</p>`; }
   }
 
   function vistaGruppo() {
@@ -304,7 +401,7 @@
     const parts = path.split("/").map(decodeURIComponent);
     const param = Object.fromEntries(new URLSearchParams(query || ""));
     const tab = parts[0] || "oggi";
-    document.querySelectorAll("nav.tabs a").forEach((a) => a.setAttribute("aria-current", a.dataset.tab === (tab === "aggiungi" ? "gare" : tab === "checklist" ? "percorso" : tab) ? "page" : "false"));
+    document.querySelectorAll("nav.tabs a").forEach((a) => a.setAttribute("aria-current", a.dataset.tab === ({ aggiungi: "gare", gara: "gare", checklist: "percorso", meteo: "oggi" }[tab] || tab) ? "page" : "false"));
     if (D.errore) { $app.innerHTML = `<section class="card"><span class="title">Qualcosa non va</span><span class="small">${esc(D.errore)}</span></section>`; return; }
     let html;
     switch (tab) {
@@ -314,11 +411,15 @@
       case "checklist": html = vistaChecklist(parts[1]); break;
       case "gruppo": html = vistaGruppo(); break;
       case "io": html = vistaIo(); break;
+      case "gara": html = vistaScheda(parts[1], param); break;
+      case "meteo": html = vistaMeteo(); break;
       default: html = vistaOggi();
     }
     $app.innerHTML = html;
     if (tab === "oggi" || !tab) riempiMeteo();
     if (tab === "checklist") riempiMeteoGara(parts[1]);
+    if (tab === "gara") riempiMeteoScheda(parts[1]);
+    if (tab === "meteo") riempiMeteoDettaglio();
     if (tab === "gare" && param.focus) { const c = document.getElementById("cerca"); if (c) { c.focus(); c.setSelectionRange(c.value.length, c.value.length); } }
   }
   const rerender = () => { const y = window.scrollY; route(); window.scrollTo(0, y); };
@@ -388,6 +489,13 @@
       if (v("a-ora")) S.profilo.ora = v("a-ora");
       delete S._bozza; salva(); toast("Percorso creato");
       location.hash = `#/percorso/${encodeURIComponent(id)}`;
+    } else if (f.id === "scheda") {
+      const g = S.gare.find((x) => x.id === f.dataset.id);
+      if (g) {
+        g.info = {}; CAMPI.forEach(([k]) => { const val = v("i-" + k).trim(); if (val) g.info[k] = val; });
+        g.ruolo = v("i-ruolo") || g.ruolo; g.tempo = v("i-tempo").trim(); salva(); toast("Scheda salvata");
+        location.hash = `#/gara/${encodeURIComponent(g.id)}`;
+      }
     } else if (f.id === "personale") {
       const t = v("p-voce").trim(); if (!t) return;
       S.personali.push({ id: "U" + Date.now().toString(36), titolo: t }); salva(); rerender();

@@ -102,3 +102,5 @@ nav.tabs a[aria-current="page"] { color: var(--accent); font-weight: 700; }
 details summary { cursor: pointer; font-weight: 700; color: var(--accent); min-height: 44px; display: flex; align-items: center; }
 .sr { position: absolute; left: -9999px; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+.links-dark { display: flex; gap: 8px; flex-wrap: wrap; }
+.links-dark a { color: var(--navy-fg); background: #FFFFFF1A; border-radius: 999px; padding: 0 14px; min-height: 36px; display: inline-flex; align-items: center; font-size: 14px; text-decoration: none; }
