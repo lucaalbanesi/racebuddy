@@ -26,6 +26,7 @@ Nasce per il suo gruppo di amici/società (pochi utenti), ma deve poter crescere
 - Per te: articoli/video/podcast classificati per fase e distanza (ranking sul telefono), sorrisi.
 - Gruppo: invito con codice, ruoli admin/organizzatore (vede e condivide l'invito)/membro, gare in comune, bacheca con applausi, classifica dei personali (sezione sua, da `pb_membri`: un PB per persona e distanza, solo per chi sceglie di comparire), pagina di gestione. Identità senza account: token casuale sul telefono, online solo l'hash.
 - I tuoi personali (`#/pb`): PB su 10/21/42 inseriti a mano (anche di gare passate) o aggiornati da "Com'è andata?"; tempo in tre caselle ore · min · sec (tastiera numerica, avanti da sole), controllato da `L.tempoDaParti` + `L.leggiTempo`. Invito al primo avvio (benvenuto) e una volta in Oggi.
+- Benvenuto (primo avvio, rivedibile da Io): 5 schermate dimostrative – La preparazione (conto alla rovescia animato, fasi, oggi + contenuto), Meteo e avvisi, La gara, Il gruppo (primi 3 dei personali + chi corre la gara), Partiamo (gara · personali · invito).
 - Io: sezioni a fisarmonica (Profilo con GPS, Tessera e certificato, Notifiche con preferenze, Gruppo, I miei personali, Scarpe), strumenti di prova (data simulata), tutorial.
 
 ## Online (Supabase + Actions)

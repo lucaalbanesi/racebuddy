@@ -350,32 +350,42 @@
   function vistaBenvenuto() {
     const m = { temp: -1, vento: 27, pioggia: 15, codice: 2 };
     const fasiDemo = [["Si parte", 21, "done"], ["Costruzione", 28, "fill"], ["Picco", 21, ""], ["Scarico", 14, ""]];
-    const barra = `<div class="bar" style="height:10px">${fasiDemo.map(([, n, c]) => `<div style="flex:${n}">${c === "done" ? '<div class="done" style="width:100%"></div>' : c === "fill" ? '<div class="fill" style="width:55%"></div>' : ""}</div>`).join("")}</div><div class="bar-labels">${fasiDemo.map(([t, n, c]) => `<span style="flex:${n}" class="${c === "fill" ? "cur" : ""}">${t}</span>`).join("")}</div>`;
-    const voce = (t, d, quando, fatto) => `<label class="check ${fatto ? "done" : ""}"><input type="checkbox" ${fatto ? "checked" : ""} tabindex="-1"><span><span class="t">${t}</span><br><span class="d">${d}</span></span><span class="ob-quando ${quando === "oggi" ? "hot" : ""}">${quando}</span></label>`;
+    const barra = `<div class="bar" style="height:10px">${fasiDemo.map(([, n, c]) => `<div style="flex:${n}">${c === "done" ? '<div class="done" style="width:100%"></div>' : c === "fill" ? '<div class="fill" data-ob-w="55%" style="width:55%"></div>' : ""}</div>`).join("")}</div><div class="bar-labels">${fasiDemo.map(([t, n, c]) => `<span style="flex:${n}" class="${c === "fill" ? "cur" : ""}">${t}</span>`).join("")}</div>`;
     const riga = (l, t) => `<div class="line"><span class="when" style="width:84px">${l}</span><span class="small">${t}</span></div>`;
     const mappaDemo = `<svg class="ob-mappa" viewBox="0 0 300 96" aria-hidden="true"><rect width="300" height="96" rx="10" fill="var(--line2)"/><path d="M0 70 C60 60 90 80 150 64 S240 40 300 52" stroke="var(--cloud)" stroke-width="10" fill="none"/><path d="M30 30 C70 10 110 70 150 50 S220 20 270 62" stroke="var(--accent)" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-dasharray="1 0"/><circle cx="30" cy="30" r="6" fill="var(--ok)"/><circle cx="270" cy="62" r="6" fill="var(--navy)"/><text x="40" y="26" font-size="11" font-weight="700" fill="var(--fg2)">Partenza</text><text x="226" y="84" font-size="11" font-weight="700" fill="var(--fg2)">Arrivo</text></svg>`;
+    const notifica = (ora, titolo, testo) => `<div class="ob-notif"><img src="icon-192.png" alt="" width="34" height="34"><div class="ob-notif-t"><div class="between"><span>RaceBuddy</span><span>${ora}</span></div><b>${titolo}</b><span>${testo}</span></div></div>`;
+    const pos = (n, nome, tempo, tu) => `<div class="post ${tu ? "mio" : ""}"><span class="ob-pos p${n}">${n}</span>${avatar(nome, 30)}<span style="flex:1;min-width:0"><b>${tu ? "Tu" : nome}</b>${tu ? `<br><span class="small" style="color:var(--accent-strong);font-weight:600">a 2:10 da Marco</span>` : ""}</span><b class="pb-tempo">${tempo}</b></div>`;
+    const chi = (nome, ruolo, tempo) => `<div class="between small"><span><b>${nome}</b> · ${ruolo}</span><span class="muted">${tempo}</span></div>`;
     const slides = [
-      { k: "Ciao!", t: "Il tuo buddy per la gara", d: "Ti accompagno dal giorno dell'iscrizione fino al traguardo. 10 km, mezza o maratona.",
-        ill: `<div class="ob-countdown"><span class="big">46</span><span>giorni alla tua gara</span></div>` },
-      { k: "1 · La preparazione", t: "Ogni giorno sai cosa fare", d: "Scegli la gara e la preparazione si costruisce sulle date vere: cosa provare nei lunghi, cosa preparare e quando. Spunti e vai avanti.",
-        ill: `<div class="card ob-mini">${barra}
-          ${voce("Certificato medico e tessera", "Validi fino al giorno della gara", "fatto", true)}
-          ${voce("Prima prova di rifornimento", "Nel lungo prova il gel che userai in gara", "oggi", false)}
-          ${voce("Prova il completo da gara", "Maglia, calze e scarpe insieme, in un lungo", "sab", false)}
-          ${voce("Ritiro pettorale: orari e regole", "Documenti, delega, giorni dell'Expo", "tra 5 sett.", false)}</div>` },
-      { k: "2 · Il meteo", t: "Come vestirti, ogni mattina", d: "Il meteo all'ora della tua uscita, cosa mettere e un avviso quando serve: gelo, caldo, vento forte, temporale.",
-        ill: `<div class="card ob-mini">${bloccoMeteo(m, false)}</div>` },
-      { k: "3 · La gara", t: "La tua gara, in una scheda", d: "Orari, ritiro pettorale, griglie, deposito e percorso, presi dal sito ufficiale e ricontrollati fino al via. Con la partenza su Maps.",
+      { k: "Ciao! · La preparazione", t: "Ogni giorno sai cosa fare", d: "Dall'iscrizione al traguardo: cosa provare, cosa preparare e cosa leggere, sulle date vere della tua gara.",
+        ill: `<div class="ob-countdown"><span class="big ob-num" id="ob-num">46</span><span>giorni alla tua gara</span></div>
+          <div class="card dark ob-barra">${barra}</div>
+          <div class="card ob-mini"><span class="eyebrow" style="color:var(--accent)">Oggi</span>
+            <label class="check"><input type="checkbox" tabindex="-1"><span><span class="t">Prova il gel nel lungo</span><br><span class="d">Lo stesso che userai in gara, al 10° km</span></span></label>
+            <div class="ob-cont"><span class="thumb noimg t-video"><span class="play" aria-hidden="true">▶</span></span><span class="c-testo"><span class="c-meta">Per la tua fase · video · 6 min</span><span class="c-titolo">Il lungo a ritmo gara, spiegato bene</span></span></div></div>` },
+      { k: "Meteo e avvisi", t: "Ti avviso quando serve", d: "Come vestirti all'ora della tua uscita. E una notifica solo se cambia qualcosa: al massimo una al mattino, la vigilia alle 19. Mai di notte.",
+        nota: "Le notifiche le attivi da Io. Su iPhone prima aggiungi RaceBuddy alla schermata Home.",
+        ill: `<div class="card ob-mini"><span class="eyebrow">Roma · uscita di domani alle 7:00</span><div class="meteo-top">${icona(m, 52)}<div style="flex:1;min-width:0"><div class="meteo-temp">${Math.round(m.temp)}°</div><span class="small muted">${esc(NOME_CIELO[L.tipoCielo(m)])}</span></div>${datiMeteo(m)}</div><span class="small">${esc(L.vestizione(m, false))}</span><span class="pill" style="align-self:flex-start">Rischio ghiaccio</span></div>
+          ${notifica("6:00", "Il meteo cambia", "Alle 7: -1°, vento forte. Guanti e uno strato antivento.")}
+          ${notifica("19:00", "Domani: Firenze Marathon", "Partenza alle 8:30. Prepara la borsa stasera: la checklist è pronta.")}` },
+      { k: "La gara", t: "La tua gara, in una scheda", d: "Orari, ritiro pettorale, griglie, deposito e percorso, presi dal sito ufficiale e ricontrollati fino al via. Con la partenza su Maps.",
         ill: `<div class="card ob-mini"><div class="between"><b>Domenica · ore 8:30</b><span class="pill ok">dal sito ufficiale</span></div>${mappaDemo}<div class="list" style="display:flex;flex-direction:column">${riga("Pettorale", "Expo, ven 10-19 · sab 9-19")}${riga("Griglia", "Per tempo, ingresso 7:00-8:00")}${riga("Deposito", "In piazza dalle 7:00")}</div><span class="small" style="color:var(--accent);font-weight:700">Partenza in Maps ↗ · Percorso ↗</span></div>` },
+      { k: "Il gruppo", t: "Corri con la tua società", d: "La classifica dei personali della squadra e chi corre le tue gare, con gli applausi a ogni traguardo. Condividi solo quello che scegli.",
+        ill: `<div class="card ob-mini" style="gap:4px"><div class="between"><span style="font:700 22px/1 var(--display)">Classifica dei personali</span><span class="chip" aria-pressed="true" style="height:26px;font-size:12px;display:inline-flex;align-items:center">Mezza</span></div>
+            ${pos(1, "Giulia", "1:38:00")}${pos(2, "Marco", "1:41:20")}${pos(3, "Tu", "1:43:30", true)}</div>
+          <div class="card ob-mini ob-mini2"><div class="between" style="align-items:flex-end"><div><span class="eyebrow">Il gruppo alla gara</span><div style="font:700 22px/1 var(--display)">Firenze Marathon</div></div><span class="small" style="font-weight:700;color:var(--accent)">dom 29 nov</span></div>
+            <div class="row">${avatari(["Giulia B", "Marco R", "Sara P", "Anna", "Paolo", "Luca"], 3)}<span class="small"><b>6 del gruppo</b> la corrono con te</span></div>
+            <div style="display:flex;flex-direction:column;gap:4px;border-top:1px solid var(--line2);padding-top:8px">${chi("Giulia", "Obiettivo", "3:25:00")}${chi("Marco", "Obiettivo", "3:40:00")}${chi("Sara", "Per divertimento", "")}</div></div>` },
     ];
+    const tot = slides.length + 1;
     return `<section class="ob" aria-roledescription="tutorial" aria-label="Benvenuto in RaceBuddy">
       <div class="ob-top"><span class="ob-logo">RaceBuddy</span><button class="ob-salta" data-act="ob-fine">Salta</button></div>
-      <div class="ob-track" id="ob-track">${slides.map((x, i) => `<article class="ob-slide" aria-label="${i + 1} di ${slides.length + 1}"><div class="ob-ill">${x.ill}</div><span class="eyebrow">${x.k}</span><h1>${x.t}</h1><p>${x.d}</p></article>`).join("")}
-        <article class="ob-slide" aria-label="${slides.length + 1} di ${slides.length + 1}"><div class="ob-ill"><div class="ob-countdown"><span class="big">Via!</span></div></div><span class="eyebrow">Partiamo</span><h1>Qual è la tua prossima gara?</h1><p>Ci vuole un minuto. I tuoi dati restano su questo telefono.</p>
+      <div class="ob-track" id="ob-track">${slides.map((x, i) => `<article class="ob-slide" aria-label="${i + 1} di ${tot}"><div class="ob-ill">${x.ill}</div><span class="eyebrow">${x.k}</span><h1>${x.t}</h1><p>${x.d}</p>${x.nota ? `<p class="ob-nota">${x.nota}</p>` : ""}</article>`).join("")}
+        <article class="ob-slide" aria-label="${tot} di ${tot}"><div class="ob-ill"><div class="ob-countdown"><span class="big">Via!</span></div></div><span class="eyebrow">Partiamo</span><h1>Qual è la tua prossima gara?</h1><p>Ci vuole un minuto. I tuoi dati restano su questo telefono.</p>
           <button class="btn block" data-act="ob-fine" data-vai="#/gare">Scegli la tua gara</button>
-          <button class="ob-salta" data-act="ob-fine" data-vai="#/pb" style="align-self:center">Hai già dei personali? Inseriscili</button>
+          <div class="grid2"><button class="btn ob-sec" data-act="ob-fine" data-vai="#/pb">Inserisci i tuoi personali</button><button class="btn ob-sec" data-act="ob-fine" data-vai="#/gruppo">Ho un invito del gruppo</button></div>
           <p class="ob-nota">Indicazioni generali per runner amatoriali in salute: non sostituiscono medico, nutrizionista o allenatore.</p></article></div>
-      <div class="ob-bottom"><div class="ob-dots" aria-hidden="true">${[...slides, 0].map((_, i) => `<span class="${i ? "" : "on"}"></span>`).join("")}</div><button class="btn" id="ob-avanti" data-act="ob-avanti">Avanti</button></div></section>`;
+      <div class="ob-bottom"><div class="ob-dots" aria-hidden="true">${Array.from({ length: tot }, (_, i) => `<span class="${i ? "" : "on"}"></span>`).join("")}</div><button class="btn" id="ob-avanti" data-act="ob-avanti">Avanti</button></div></section>`;
   }
   function avviaBenvenuto() {
     const tr = document.getElementById("ob-track");
@@ -386,6 +396,15 @@
       dots.forEach((d, j) => d.classList.toggle("on", j === i));
       av.style.visibility = i === dots.length - 1 ? "hidden" : "visible";
     }, { passive: true });
+    // Prima schermata: il conto alla rovescia scende a 46 e la fase si riempie, una volta sola (niente se il telefono riduce le animazioni).
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const num = document.getElementById("ob-num"), fill = tr.querySelector(".ob-barra .fill");
+    if (!num || !fill) return;
+    const da = 60, a = 46, durata = 900, t0 = performance.now();
+    fill.style.width = "0%";
+    requestAnimationFrame(() => requestAnimationFrame(() => { fill.style.transition = `width ${durata}ms ease-out`; fill.style.width = fill.dataset.obW; }));
+    const passo = (t) => { const k = Math.min(1, (t - t0) / durata), e = 1 - Math.pow(1 - k, 3); num.textContent = String(Math.round(da - (da - a) * e)); if (k < 1) requestAnimationFrame(passo); };
+    requestAnimationFrame(passo);
   }
 
   const cardMeteo = () => (S.profilo.citta ? `<a class="card" id="meteo" href="#/meteo" style="text-decoration:none;color:inherit;font-weight:inherit" aria-label="Meteo dell'uscita, apri il dettaglio"><span class="eyebrow">${esc(S.profilo.citta)} · uscita delle ${esc(S.profilo.ora || "7:00")}</span><span class="small muted">Meteo in arrivo…</span></a>`
