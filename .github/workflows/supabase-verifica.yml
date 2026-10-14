@@ -11,7 +11,8 @@ jobs:
           echo "URL=$(grep -o 'https://[a-z0-9]*\.supabase\.co' app/config.js)" >> $GITHUB_ENV
           echo "KEY=$(grep -o 'sb_publishable_[A-Za-z0-9_-]*' app/config.js)" >> $GITHUB_ENV
       - name: Lettura consentita
-        run: test "$(curl -s -o /dev/null -w '%{http_code}' "$URL/rest/v1/gare_aggiunte?select=gara_id&limit=1" -H "apikey: $KEY")" = 200
+        run: |
+          test "$(curl -s -o /dev/null -w '%{http_code}' "$URL/rest/v1/gare_aggiunte?select=gara_id&limit=1" -H "apikey: $KEY")" = 200
       - name: Aggiunta consentita
         run: |
           code=$(curl -s -o /dev/null -w '%{http_code}' -X POST "$URL/rest/v1/gare_aggiunte" -H "apikey: $KEY" -H "Content-Type: application/json" -H "Prefer: return=minimal" \
