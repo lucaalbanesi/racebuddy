@@ -165,7 +165,7 @@
     const reg = await navigator.serviceWorker.ready;
     reg.showNotification("RaceBuddy · prova", { body: "Le notifiche funzionano. Ti scrivo solo quando c'è qualcosa di nuovo per te.", icon: "icon-192.png", badge: "badge-96.png", data: { url: "./#/oggi" } });
   }
-  function cardPush(compatta) {
+  function cardPush(compatta, nudo) {
     const st = supportoPush(), on = S.push && S.push.attivo;
     if (st === "non-pronto") return compatta ? "" : `<section class="card"><h2>Messaggio del mattino</h2><span class="small">In arrivo a breve.</span></section>`;
     if (compatta && (on || S.pushNonOra || st === "no" || st === "negato")) return "";
@@ -180,6 +180,7 @@
     else if (st === "negato") corpo = `<span class="small">Le notifiche sono bloccate per questa app: riattivale dalle impostazioni del telefono o del browser.</span>`;
     else if (st === "no") corpo = `<span class="small">Questo browser non supporta le notifiche.</span>`;
     else corpo = `<span class="small">Solo quando serve: il meteo che cambia, le tappe importanti del percorso, la vigilia e la mattina della gara. Niente countdown, niente doppioni.</span><div class="${compatta ? "grid2" : ""}" style="display:${compatta ? "grid" : "flex"}"><button class="btn" data-act="push-on" style="${compatta ? "" : "width:100%"}">Attiva le notifiche</button>${compatta ? `<button class="btn ghost" data-act="push-nonora">Non ora</button>` : ""}</div>`;
+    if (nudo) return `${corpo}<span class="small muted">Per mandarle salviamo online orario, zona (circa 1 km) e le tue gare, senza il tuo nome.</span>${S.errorePush && !on ? `<span class="small muted">Ultimo errore: ${esc(S.errorePush)}</span>` : ""}`;
     return `<section class="card ${compatta ? "soft" : ""}" aria-label="Messaggio del mattino"><div class="between"><h2>Notifiche</h2>${on ? `<span class="pill ok">attivo</span>` : ""}</div>${corpo}${!compatta ? `<span class="small muted">Per mandarlo salviamo online orario, zona (circa 1 km) e le tue gare, senza il tuo nome.</span>` : ""}${S.errorePush && !on && !compatta ? `<span class="small muted">Ultimo errore: ${esc(S.errorePush)}</span>` : ""}</section>`;
   }
 
@@ -903,31 +904,37 @@
         <div class="between small"><span><b>${Math.round(st.km)}</b> di ${st.limite} km</span><span style="font-weight:700;color:${st.livello === "attenzione" ? "var(--warn)" : st.livello === "info" ? "var(--accent)" : "var(--ok)"}">${esc(st.etichetta)}</span></div>
         <form class="row" data-form="km" data-id="${esc(s.id)}"><label class="sr" for="km-${esc(s.id)}">Aggiungi km a ${esc(s.nome)}</label><input class="input" id="km-${esc(s.id)}" type="number" inputmode="decimal" min="0" step="0.1" placeholder="+ km corsi"><button class="btn ghost" type="submit">Aggiungi</button><button class="btn ghost" type="button" data-act="del-scarpa" data-id="${esc(s.id)}" aria-label="Elimina ${esc(s.nome)}">✕</button></form></article>`;
     }).join("");
+    const aperto = S.ioAperto || {};
+    const acc = (k, titolo, stato, corpo) => `<details class="card acc" data-acc="${k}" ${aperto[k] ? "open" : ""}><summary><span class="acc-t">${titolo}</span><span class="acc-s">${stato}</span></summary><div class="acc-body">${corpo}</div></details>`;
+    const on = S.push && S.push.attivo, sp = supportoPush();
+    const daCambiare = S.scarpe.filter((x) => L.statoScarpa(x).livello === "attenzione").length;
+    const inG = S.gruppo && S.gruppo.dentro && GD();
     return `${bannerProva()}<header class="head"><h1>Io</h1></header>
-      <form id="profilo" class="card" autocomplete="off"><div class="between"><h2>Profilo</h2><span class="small muted">si salva da solo</span></div>
+      ${acc("profilo", "Profilo", esc([P.nome, P.citta, P.ora && oraInput(P.ora)].filter(Boolean).join(" · ") || "da completare"), `<form id="profilo" autocomplete="off" style="display:flex;flex-direction:column;gap:10px">
         <div class="field"><label for="p-nome">Come ti chiami</label><input class="input" id="p-nome" data-auto="nome" value="${esc(P.nome)}" autocomplete="given-name"></div>
         <div class="field"><label for="p-citta">Dove corri di solito</label><input class="input" id="p-citta" data-auto="citta" value="${esc(P.citta)}" placeholder="es. Roma">
           <div class="between">${bottoneGps("p-citta")}${P.coord ? `<span class="small muted">dal GPS</span>` : ""}</div></div>
-        <div class="field"><label for="p-ora">A che ora esci di solito</label><input class="input" id="p-ora" data-auto="ora" type="time" step="900" value="${esc(oraInput(P.ora))}"></div></form>
-      ${cardPush(false)}
-      ${S.gruppo && S.gruppo.dentro && GD() ? `<section class="card"><div class="between"><h2>Gruppo</h2><span class="pill">${esc(RUOLI_G[GD().io.ruolo])}</span></div>
-        <span class="small">Sei in <b>${esc(GD().gruppo.nome)}</b> come «${esc(GD().io.nome)}».</span>
+        <div class="field"><label for="p-ora">A che ora esci di solito</label><input class="input" id="p-ora" data-auto="ora" type="time" step="900" value="${esc(oraInput(P.ora))}"></div>
+        <span class="small muted">Si salva da solo.</span></form>`)}
+      ${acc("notifiche", "Notifiche", on ? '<span class="pill ok">attive</span>' : sp === "ok" ? "da attivare" : sp === "non-pronto" ? "in arrivo" : "non disponibili", cardPush(false, true))}
+      ${acc("gruppo", "Gruppo", inG ? `${esc(GD().gruppo.nome)} · ${esc(RUOLI_G[GD().io.ruolo].toLowerCase())}` : "non sei in un gruppo", inG ? `<span class="small">Sei in <b>${esc(GD().gruppo.nome)}</b> come «${esc(GD().io.nome)}».</span>
         <label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="io-mostra" ${GD().io.mostra_gare ? "checked" : ""}><span><span class="t">Mostra al gruppo le mie gare</span><br><span class="d">Nome della gara, ruolo e tempo obiettivo.</span></span></label>
-        <a class="btn ghost" href="#/gruppo/admin">${GD().io.ruolo === "membro" ? "Membri ed esci dal gruppo" : "Gestisci il gruppo"}</a></section>` : `<a class="card" href="#/gruppo" style="text-decoration:none;color:inherit;font-weight:inherit"><span class="title">Gruppo</span><span class="small">Entra nel gruppo della tua società o crealo ›</span></a>`}
-      <section style="display:flex;flex-direction:column;gap:10px" aria-label="Le mie scarpe"><div class="between"><h2>Le mie scarpe</h2><span class="small muted">km a mano · Strava in arrivo</span></div>${scarpe || `<p class="sub">Nessuna scarpa ancora.</p>`}
-      <details class="card"><summary>+ Aggiungi una scarpa</summary><form id="scarpa" style="display:flex;flex-direction:column;gap:10px">
+        <a class="btn ghost" href="#/gruppo/admin">${GD().io.ruolo === "membro" ? "Membri ed esci dal gruppo" : "Gestisci il gruppo"}</a>` : `<span class="small">Entra nel gruppo della tua società con il link d'invito, oppure crealo se sei il presidente.</span><a class="btn ghost" href="#/gruppo">Vai al gruppo</a>`)}
+      ${acc("scarpe", "Le mie scarpe", S.scarpe.length ? `${S.scarpe.length} ${S.scarpe.length === 1 ? "paio" : "paia"}${daCambiare ? ` · <b style="color:var(--warn)">${daCambiare} da cambiare</b>` : ""}` : "nessuna", `${scarpe || `<span class="small">Nessuna scarpa ancora.</span>`}
+        <details class="card"><summary>+ Aggiungi una scarpa</summary><form id="scarpa" style="display:flex;flex-direction:column;gap:10px">
         <div class="field"><label for="s-nome">Modello</label><input class="input" id="s-nome" required placeholder="es. la mia scarpa da lento"></div>
         <div class="grid2"><div class="field"><label for="s-tipo">Uso</label><select class="input" id="s-tipo"><option value="allenamento">Allenamento</option><option value="ritmo">Ritmo e lunghi</option><option value="gara">Gara</option><option value="trail">Trail</option></select></div>
         <div class="field"><label for="s-km">Km attuali</label><input class="input" id="s-km" type="number" min="0" value="0"></div></div>
         <div class="field"><label for="s-lim">Da cambiare a (km)</label><input class="input" id="s-lim" type="number" min="100" value="800"></div>
-        <button class="btn" type="submit">Aggiungi scarpa</button></form></details></section>
+        <button class="btn" type="submit">Aggiungi scarpa</button></form></details>
+        <span class="small muted">I km si aggiornano a mano; con Strava arriveranno da soli.</span>`)}
       <details class="card"><summary>Strumenti di prova</summary>
         <form id="prova" style="display:flex;flex-direction:column;gap:10px"><div class="field"><label for="d-prova">Fai finta che oggi sia</label><input class="input" id="d-prova" type="date" value="${esc(S.prova)}"></div>
         <div class="grid2"><button class="btn" type="submit">Applica</button><button class="btn ghost" type="button" data-act="prova-off">Torna a oggi</button></div></form>
         <div id="reset-box" style="display:flex;flex-direction:column;gap:8px"><button class="btn ghost" type="button" data-act="reset-ask">Cancella tutti i miei dati</button></div></details>
       <a class="btn ghost" href="#/benvenuto">Rivedi il tutorial</a>
       <p class="sub">Versione ${esc(window.RB_VERSION || "?")} · gare condivise: ${Object.keys(S.segnalate || {}).length} di ${S.gare.length}${S.erroreSegnala ? ` · ultimo errore: ${esc(S.erroreSegnala)}` : ""}</p>
-      <p class="sub">I dati restano su questo telefono. Con il collegamento a Telegram si salveranno anche online.</p>`;
+      <p class="sub">Profilo, preparazione e scarpe restano su questo telefono.</p>`;
   }
 
   // ---------------------------------------------------------------- router
@@ -1176,6 +1183,10 @@
     }
   });
 
+  document.addEventListener("toggle", (e) => {
+    const k = e.target.dataset && e.target.dataset.acc;
+    if (k) { S.ioAperto = { ...(S.ioAperto || {}), [k]: e.target.open }; try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (err) { /* niente */ } }
+  }, true);
   window.addEventListener("hashchange", () => { route(); window.scrollTo(0, 0); });
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
   carica().then(() => { route(); S.gare.forEach((g) => segnalaGara(g, g.id.startsWith("M") ? "manuale" : "FIDAL")); if (S.push && S.push.attivo) sincronizzaPush(); if (S.gruppo && S.gruppo.dentro) { aggiornaGruppo(true); sincronizzaGareGruppo(); } });

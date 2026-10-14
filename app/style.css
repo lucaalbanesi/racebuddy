@@ -216,3 +216,13 @@ body.onboarding .app { padding: 0; max-width: 480px; min-height: 100dvh; }
 .mia-gara .chev { font-size: 28px; color: var(--accent); font-weight: 700; padding-left: 4px; }
 .btn.danger { background: var(--surface); color: #B91C1C; border: 1.5px solid #B91C1C; }
 @media (prefers-color-scheme: dark) { .btn.danger { color: #F87171; border-color: #F87171; } }
+/* Io: sezioni a fisarmonica */
+details.acc > summary { list-style: none; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 12px; color: var(--fg); min-height: 52px; padding-right: 26px; position: relative; }
+details.acc > summary::-webkit-details-marker { display: none; }
+details.acc > summary::after { content: ""; position: absolute; right: 4px; top: 50%; width: 9px; height: 9px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: translateY(-70%) rotate(45deg); transition: transform .15s; }
+details.acc[open] > summary::after { transform: translateY(-30%) rotate(-135deg); }
+.acc-t { font: 700 20px/1.1 var(--display); }
+.acc-s { font-size: 14px; font-weight: 500; color: var(--muted); }
+.acc-body { display: flex; flex-direction: column; gap: 10px; padding-bottom: 6px; }
+.acc-body > .card { background: var(--bg); }
+details.acc:not([open]) { gap: 0; padding-top: 6px; padding-bottom: 6px; }
