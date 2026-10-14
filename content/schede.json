@@ -1,1 +1,21 @@
-{}
+{
+ "Hd9df59d4b1-21": {
+  "partenza": "8:30 prima onda (il regolamento indica 8:30, la home del sito 8:00: da confermare)",
+  "luogoPartenza": "Partenza da Porta Ardeatina, arrivo al Colosseo (via degli Annibaldi)",
+  "pettorale": "Expo a Eataly Ostiense (Piazzale XII Ottobre 1492): gio 15 ottobre 15-20, ven 16 9-19, sab 17 9-20. Servono documento e Lettera di Conferma (da 'Verifica iscrizione'). Domenica nessun ritiro.",
+  "griglia": "Tre onde a distanza di almeno 5 minuti, griglia in base al colore del pettorale. Orari di accesso non ancora comunicati.",
+  "deposito": "Camion con il numero indicato sul pettorale, usando la sacca fornita dall'organizzazione. Orari non ancora comunicati.",
+  "ristori": "Ristori lungo il percorso come da regolamento FIDAL; all'arrivo sacchetto con acqua e sali.",
+  "arrivare": "Expo: metro B Piramide (5 min a piedi), treno FL Ostiense, bus 715, 716, 769, 23.",
+  "sito": "https://www.romehalfmarathon.it/",
+  "note": "Tempo massimo 3h30, cancelli al km 10 (1h40) e al km 15 (2h30). Ritiro con delega solo compilando la sezione DELEGA della Lettera di Conferma.",
+  "fonti": [
+   "https://www.romehalfmarathon.it/regolamento/",
+   "https://www.romehalfmarathon.it/expo-wizz-air-rome-half-marathon-by-brooks-2026-it/",
+   "https://www.romehalfmarathon.it/faq/",
+   "https://www.romehalfmarathon.it/"
+  ],
+  "verificato": "2026-10-14",
+  "edizione": "2026"
+ }
+}
