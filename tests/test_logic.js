@@ -116,4 +116,11 @@ assert.ok(L.leggiTempo("10", "5:00:00").errore);   // troppo lento
 assert.ok(L.leggiTempo("21", "1:75:00").errore);
 assert.ok(L.leggiTempo("21", "abc").errore);
 assert.ok(L.leggiTempo("5", "20:00").errore);
+// tre caselle ore · min · sec
+assert.strictEqual(L.tempoDaParti("1", "44", "10"), "1:44:10");
+assert.strictEqual(L.tempoDaParti("", "47", "30"), "0:47:30");
+assert.strictEqual(L.tempoDaParti("3", "5", ""), "3:05:00");
+assert.strictEqual(L.tempoDaParti("", "", ""), "");
+assert.strictEqual(L.tempoDaParti("1", "4a", "0"), "");
+assert.ok(L.leggiTempo("21", L.tempoDaParti("1", "75", "00")).errore);
 console.log("ok");

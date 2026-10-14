@@ -947,9 +947,9 @@
     const altri = inGruppo && GD() ? GD().bacheca.filter((p) => p.tipo === "risultato" && p.gara_nome === g.nome && !p.mio).map((p) => p.membro) : [];
     return `${bannerProva()}<header class="head-back">${back("#/oggi")}<div><span class="eyebrow">${esc(titoloGara(g.nome))} · ${esc(L.fmtGiorno(g.data))}</span><h1 style="font-size:30px">Com'è andata?</h1></div></header>
       <form id="risultato" data-id="${esc(id)}" style="display:flex;flex-direction:column;gap:12px">
-      <section class="card" style="align-items:center;text-align:center"><label for="ris-tempo" class="eyebrow">Il tuo tempo ufficiale</label>
-        <input class="input tempo-grande" id="ris-tempo" required inputmode="decimal" pattern="\\d{1,2}[:.,]\\d{2}([:.,]\\d{2})?" placeholder="${g.distanza === "10" ? "0:47:30" : g.distanza === "21" ? "1:45:00" : "3:45:00"}" value="${esc(r.tempo || "")}">
-        <span class="small muted" id="ris-pb">${pb ? `Il tuo personale: ${esc(pb.tempo)}` : "Ore:minuti:secondi"}</span></section>
+      <section class="card" style="align-items:center;text-align:center"><span class="eyebrow" id="ris-tempo-l">Il tuo tempo ufficiale</span>
+        ${campoTempo("ris-tempo", g.distanza, r.tempo, "ris-tempo-l", true)}
+        <span class="small muted" id="ris-pb">${pb ? `Il tuo personale: ${esc(L.leggiTempo(g.distanza, pb.tempo).tempo || pb.tempo)}` : "Solo numeri: si passa da solo alla casella dopo"}</span></section>
       <div class="field"><label for="ris-testo">Due parole <span class="muted">(facoltativo)</span></label><textarea class="input" id="ris-testo" maxlength="280" placeholder="es. Crisi al 16, poi il traguardo mi ha tirato su.">${esc(r.testo || "")}</textarea></div>
       ${inGruppo ? `<section class="card" style="gap:0"><label class="check"><input type="checkbox" id="ris-bacheca" checked><span><span class="t">Condividi in bacheca con il gruppo</span>${GD() && GD().io && GD().io.mostra_pb !== false ? `<br><span class="d">Se è un nuovo personale, si aggiorna anche in classifica.</span>` : ""}</span></label></section>` : `<p class="sub">Entra in un gruppo per condividere i risultati con la tua società.</p>`}
       <button class="btn block" type="submit">${inGruppo ? "Salva e condividi" : "Salva"}</button>
@@ -957,15 +957,27 @@
   }
 
   // ---------------------------------------------------------------- personali
+  // Tempo in tre caselle (ore · min · sec) con la tastiera numerica: niente due punti da scrivere.
+  function campoTempo(id, distanza, valore, etichetta, grande) {
+    const t = valore ? L.leggiTempo(distanza, valore).tempo : "";
+    const [h, m, s] = t ? t.split(":") : ["", "", ""];
+    const ph = { "10": ["0", "47", "30"], "21": ["1", "45", "00"], "42": ["3", "45", "00"] }[distanza];
+    const box = (k, v, max, p, nome) => `<input class="input" id="${id}-${k}" inputmode="numeric" pattern="[0-9]*" maxlength="${max}" autocomplete="off" placeholder="${p}" value="${esc(v)}" aria-label="${nome}">`;
+    return `<div class="tempo3${grande ? " grande" : ""}" role="group" aria-labelledby="${etichetta}">${box("h", h, 1, ph[0], "Ore")}<span>h</span>${box("m", m, 2, ph[1], "Minuti")}<span>min</span>${box("s", s, 2, ph[2], "Secondi")}<span>s</span></div>`;
+  }
+  function leggiCampoTempo(id, distanza) {
+    const t = L.tempoDaParti(...["h", "m", "s"].map((k) => (document.getElementById(`${id}-${k}`) || {}).value || ""));
+    return t ? L.leggiTempo(distanza, t) : { errore: "Scrivi il tempo: ore, minuti e secondi" };
+  }
   function sezionePB() {
     const pb = S.pb || {}, inG = S.gruppo && S.gruppo.dentro && GD();
     const riga = (d) => {
-      const x = pb[d], ph = { "10": "0:47:30", "21": "1:45:00", "42": "3:45:00" }[d];
+      const x = pb[d];
       return `<form class="pb-riga" data-form="pb" data-d="${d}">
         <div class="between"><span class="title">${esc(L.DIST_LABEL[d])}</span>${x ? `<b class="pb-tempo">${esc(L.leggiTempo(d, x.tempo).tempo || x.tempo)}</b>` : `<span class="small muted">da inserire</span>`}</div>
         ${x && (x.gara || x.data) ? `<span class="small muted">${esc([titoloGara(x.gara), x.data && L.fmtBreve(x.data)].filter(Boolean).join(" · "))}</span>` : ""}
         <details><summary class="small">${x ? "Modifica" : "Inserisci il personale"}</summary><div style="display:flex;flex-direction:column;gap:10px;padding-top:10px">
-          <div class="field"><label for="pb-t-${d}">Tempo ufficiale</label><input class="input" id="pb-t-${d}" required inputmode="decimal" pattern="\\d{1,2}[:.,]\\d{2}([:.,]\\d{2})?" placeholder="${ph}" value="${esc(x ? L.leggiTempo(d, x.tempo).tempo || x.tempo : "")}"></div>
+          <div class="field"><span class="lbl" id="pb-t-${d}-l">Tempo ufficiale</span>${campoTempo(`pb-t-${d}`, d, x && x.tempo, `pb-t-${d}-l`)}</div>
           <div class="grid2"><div class="field"><label for="pb-g-${d}">Gara <span class="muted">(facoltativo)</span></label><input class="input" id="pb-g-${d}" maxlength="120" value="${esc(x ? x.gara || "" : "")}" placeholder="es. Roma-Ostia"></div>
           <div class="field"><label for="pb-d-${d}">Quando</label><input class="input" id="pb-d-${d}" type="date" max="${L.todayISO()}" value="${esc(x ? x.data || "" : "")}"></div></div>
           <div class="row"><button class="btn" type="submit">Salva</button>${x ? `<button class="btn ghost" type="button" data-act="pb-togli" data-d="${d}">Togli</button>` : ""}</div></div></details></form>`;
@@ -1197,6 +1209,24 @@
     salva(); toast("Salvato");
   });
 
+  // Caselle del tempo: solo cifre, si passa da sole alla casella dopo, il tasto cancella su una casella vuota torna indietro.
+  const caselleTempo = (el) => (el && el.closest && el.closest(".tempo3") ? [...el.closest(".tempo3").querySelectorAll("input")] : null);
+  document.addEventListener("input", (e) => {
+    const tutte = caselleTempo(e.target);
+    if (!tutte) return;
+    const el = e.target, pulito = el.value.replace(/\D/g, "").slice(0, el.maxLength);
+    if (pulito !== el.value) el.value = pulito;
+    const dopo = tutte[tutte.indexOf(el) + 1];
+    if (pulito.length === el.maxLength && dopo) dopo.focus();
+  });
+  document.addEventListener("keydown", (e) => {
+    const tutte = caselleTempo(e.target);
+    if (!tutte || e.key !== "Backspace" || e.target.value) return;
+    const prima = tutte[tutte.indexOf(e.target) - 1];
+    if (prima) { e.preventDefault(); prima.focus(); }
+  });
+  document.addEventListener("focusin", (e) => { if (caselleTempo(e.target)) e.target.select(); });
+
   let timer;
   document.addEventListener("input", (e) => {
     if (e.target.id !== "cerca") return;
@@ -1248,7 +1278,7 @@
       azioneGruppo(() => rpc("admin_gruppo", { p_token: token(), p_nome: v("g-nn").trim(), p_nuovo_codice: false }), "Nome aggiornato");
     } else if (f.id === "risultato") {
       const id = f.dataset.id, g = S.gare.find((x) => x.id === id);
-      const lt = g ? L.leggiTempo(g.distanza, v("ris-tempo")) : { errore: "Gara non trovata" };
+      const lt = g ? leggiCampoTempo("ris-tempo", g.distanza) : { errore: "Gara non trovata" };
       if (lt.errore) { toast(lt.errore); return; }
       const tempo = lt.tempo, sec = lt.secondi;
       S.pb = S.pb || {}; S.risultati = S.risultati || {};
@@ -1281,7 +1311,7 @@
     } else if (f.id === "scarpa") {
       S.scarpe.push({ id: "S" + Date.now().toString(36), nome: v("s-nome").trim(), tipo: v("s-tipo"), km: Number(v("s-km")) || 0, limite: Number(v("s-lim")) || 800 }); salva(); toast("Scarpa aggiunta"); rerender();
     } else if (f.dataset.form === "pb") {
-      const d = f.dataset.d, lt = L.leggiTempo(d, v(`pb-t-${d}`));
+      const d = f.dataset.d, lt = leggiCampoTempo(`pb-t-${d}`, d);
       if (lt.errore) { toast(lt.errore); return; }
       S.pb = S.pb || {};
       S.pb[d] = { tempo: lt.tempo, secondi: lt.secondi, gara: v(`pb-g-${d}`).trim(), data: v(`pb-d-${d}`) };

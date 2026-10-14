@@ -224,7 +224,15 @@
     return { tempo: `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`, secondi };
   }
 
-  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, sorriso, prossimaUscita, cercaGare, statoScarpa, leggiTempo };
+  /** Tre caselle ore · minuti · secondi → "h:mm:ss" da passare a leggiTempo; "" se vuote o non numeriche. Vuoto vale 0. */
+  function tempoDaParti(ore, minuti, secondi) {
+    const p = [ore, minuti, secondi].map((x) => String(x ?? "").trim());
+    if (p.every((x) => x === "") || p.some((x) => x !== "" && !/^\d{1,2}$/.test(x))) return "";
+    const [h, m, s] = p.map((x) => Number(x || 0));
+    return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  }
+
+  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, sorriso, prossimaUscita, cercaGare, statoScarpa, leggiTempo, tempoDaParti };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);

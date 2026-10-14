@@ -25,7 +25,7 @@ Nasce per il suo gruppo di amici/società (pochi utenti), ma deve poter crescere
 - La gara (`#/gara/:id`): Panoramica (riassunto e rimandi) + sezioni `preparazione`, `info` (logistica, percorso di gara, meteo, fonti), `borsa` (checklist, vestizione, mattina della gara). Barra a segmenti in alto, freccia indietro → Panoramica. "Preparazione" = percorso di avvicinamento; "percorso" = solo il tracciato di gara.
 - Per te: articoli/video/podcast classificati per fase e distanza (ranking sul telefono), sorrisi.
 - Gruppo: invito con codice, ruoli admin/organizzatore (vede e condivide l'invito)/membro, gare in comune, bacheca con applausi, classifica dei personali (sezione sua, da `pb_membri`: un PB per persona e distanza, solo per chi sceglie di comparire), pagina di gestione. Identità senza account: token casuale sul telefono, online solo l'hash.
-- I tuoi personali (`#/pb`): PB su 10/21/42 inseriti a mano (anche di gare passate) o aggiornati da "Com'è andata?"; tempi letti e controllati da `L.leggiTempo`. Invito al primo avvio (benvenuto) e una volta in Oggi.
+- I tuoi personali (`#/pb`): PB su 10/21/42 inseriti a mano (anche di gare passate) o aggiornati da "Com'è andata?"; tempo in tre caselle ore · min · sec (tastiera numerica, avanti da sole), controllato da `L.tempoDaParti` + `L.leggiTempo`. Invito al primo avvio (benvenuto) e una volta in Oggi.
 - Io: sezioni a fisarmonica (Profilo con GPS, Tessera e certificato, Notifiche con preferenze, Gruppo, I miei personali, Scarpe), strumenti di prova (data simulata), tutorial.
 
 ## Online (Supabase + Actions)
