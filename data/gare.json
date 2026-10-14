@@ -1,6 +1,6 @@
 {
-  "aggiornato": "2026-10-14T07:27:28Z",
-  "fonte": "Calendario FIDAL, https://www.fidal.it/calendario.php",
+  "aggiornato": "2026-10-14T11:19:40Z",
+  "fonte": "Calendario FIDAL (https://www.fidal.it/calendario.php) e calendario FIDAL di maratone e mezze dell'anno successivo",
   "gare": [
     {
       "id": "Ha7c4f82f69-10",
@@ -1751,6 +1751,2186 @@
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Pb904b0d03e-21",
+      "nome": "XVII^ Mezza Maratona sul Brembo",
+      "data": "2027-01-06",
+      "luogo": "DALMINE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P82ebab11af-21",
+      "nome": "II^ StraGardaLake - Run Your Dream",
+      "data": "2027-01-10",
+      "luogo": "DESENZANO DEL GARDA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P3098d13103-21",
+      "nome": "I^ Losa Experience 21K Half Marathon",
+      "data": "2027-01-17",
+      "luogo": "ARCONATE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pf7324ffc90-42",
+      "nome": "XXII^ Mangia's Maratona di Ragusa",
+      "data": "2027-01-17",
+      "luogo": "RAGUSA",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pe38f2e9fb7-21",
+      "nome": "XXII^ Mangia's Straragusa",
+      "data": "2027-01-17",
+      "luogo": "RAGUSA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pa1d6835b0e-21",
+      "nome": "I^ iRun21 - La Mezza di Vicenza",
+      "data": "2027-01-24",
+      "luogo": "VICENZA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P4d407c5609-21",
+      "nome": "L^ Valli e Pinete Ravenna - 21K",
+      "data": "2027-01-24",
+      "luogo": "RAVENNA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pc47edf6bdd-21",
+      "nome": "VIII^ Half Marathon Citta' di Montecatini Terme",
+      "data": "2027-01-24",
+      "luogo": "MONTECATINI-TERME",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P62ad75edb2-21",
+      "nome": "VI^ Novara Half Marathon",
+      "data": "2027-01-24",
+      "luogo": "NOVARA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pbb30c648c1-21",
+      "nome": "III^ Faenza Half Marathon",
+      "data": "2027-01-31",
+      "luogo": "FAENZA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pe6db33bfa0-21",
+      "nome": "II^ La Mezza di Garda",
+      "data": "2027-01-31",
+      "luogo": "GARDA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P446f2dfae7-42",
+      "nome": "Portofino Marathon",
+      "data": "2027-01-31",
+      "luogo": "RAPALLO",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P1a977f9b0f-21",
+      "nome": "XIV^ Bergamo Half Marathon",
+      "data": "2027-01-31",
+      "luogo": "BERGAMO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pb024667078-21",
+      "nome": "XI^ MezzaCiocia…ra",
+      "data": "2027-01-31",
+      "luogo": "FROSINONE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P512d720ec4-21",
+      "nome": "XVIII^ Maratonina dello Jonio",
+      "data": "2027-01-31",
+      "luogo": "GALLIPOLI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P9afe9063e4-21",
+      "nome": "XXIV^ Nuceria Paganorum Half Marathon - XXIV Memorial Franco De Maio",
+      "data": "2027-01-31",
+      "luogo": "NOCERA INFERIORE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P62d9074120-21",
+      "nome": "XX^ Mezza Maratona Int.le delle Due Perle",
+      "data": "2027-01-31",
+      "luogo": "RAPALLO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pb8a0fc1ede-21",
+      "nome": "II^ Rovigo in Love Half Marathon",
+      "data": "2027-02-07",
+      "luogo": "ROVIGO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P3ac0ef1304-42",
+      "nome": "VII^ Maratona Maga Circe",
+      "data": "2027-02-07",
+      "luogo": "SAN FELICE CIRCEO",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P6cf9104d72-21",
+      "nome": "XXII^ Mezza Maratona del Castello",
+      "data": "2027-02-07",
+      "luogo": "VITTUONE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P85caf4ec7d-21",
+      "nome": "XXXVI^ Maratonina di Centobuchi",
+      "data": "2027-02-07",
+      "luogo": "MONTEPRANDONE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P04787cfced-42",
+      "nome": "III^ Corime Barletta Marathon",
+      "data": "2027-02-14",
+      "luogo": "BARLETTA",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P5008429477-21",
+      "nome": "XIII^ Maratonina dei Nebrodi - Memorial Finanziere Maurizio Gorgone",
+      "data": "2027-02-14",
+      "luogo": "SANT'AGATA DI MILITELLO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pee52db81c8-21",
+      "nome": "XIII^ Mezza Maratona di Oristano",
+      "data": "2027-02-14",
+      "luogo": "ORISTANO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P28edbecfa4-21",
+      "nome": "XIV^ Corime Barletta Half Marathon",
+      "data": "2027-02-14",
+      "luogo": "BARLETTA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P08cca4547f-21",
+      "nome": "XX^ Romeo & Giulietta Half Marathon",
+      "data": "2027-02-14",
+      "luogo": "VERONA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P2ece046ecd-42",
+      "nome": "X^ White Marble Marathon",
+      "data": "2027-02-14",
+      "luogo": "CARRARA",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P06d3db5839-21",
+      "nome": "X^ World Running Academy Half Marathon",
+      "data": "2027-02-14",
+      "luogo": "CARRARA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P95e43dd906-21",
+      "nome": "XIII^ COELMO Napoli City Half Marathon",
+      "data": "2027-02-21",
+      "luogo": "NAPOLI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P3ea13701f1-21",
+      "nome": "XII^ La Mezza del Marchesato",
+      "data": "2027-02-21",
+      "luogo": "SALUZZO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P5e8df25d79-21",
+      "nome": "XIV^ Agnolotto Half Marathon",
+      "data": "2027-02-21",
+      "luogo": "TRECATE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pa0ff6d307a-42",
+      "nome": "XVI^ Maratona \"Antonello da Messina\"",
+      "data": "2027-02-21",
+      "luogo": "MESSINA",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pf4395f6d6a-42",
+      "nome": "XVI^ Maratona di San Valentino",
+      "data": "2027-02-21",
+      "luogo": "TERNI",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P929d9d008e-21",
+      "nome": "XVI^ Mezza Maratona \"Eufemio da Messina\"",
+      "data": "2027-02-21",
+      "luogo": "MESSINA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P9b3185c905-21",
+      "nome": "XVI^ Mezza Maratona di San Valentino",
+      "data": "2027-02-21",
+      "luogo": "TERNI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pf87c798a62-21",
+      "nome": "XXVIII^ Verdi Marathon (21,097 km)",
+      "data": "2027-02-21",
+      "luogo": "SALSOMAGGIORE TERME",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P0c05fc5b4b-42",
+      "nome": "XXVIII^ Verdi Marathon (42,195 km)",
+      "data": "2027-02-21",
+      "luogo": "SALSOMAGGIORE TERME",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P90286a6e97-21",
+      "nome": "II^ Citta' di Vercelli Half Marathon",
+      "data": "2027-02-28",
+      "luogo": "VERCELLI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P322c67b7bf-21",
+      "nome": "LII^ RomaOstia Half Marathon",
+      "data": "2027-02-28",
+      "luogo": "ROMA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P7f131b10de-21",
+      "nome": "XIII^ Maratonina del Golfo",
+      "data": "2027-02-28",
+      "luogo": "GELA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pfc9b4cf027-42",
+      "nome": "XLI^ Ferrara Marathon",
+      "data": "2027-02-28",
+      "luogo": "FERRARA",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pc5e9cd515d-21",
+      "nome": "XXXV^ Ferrara Half Marathon",
+      "data": "2027-02-28",
+      "luogo": "FERRARA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P36a6d63659-21",
+      "nome": "VII^ Mezza di Primavera",
+      "data": "2027-03-07",
+      "luogo": "CIRIÈ",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P561cafe042-42",
+      "nome": "VI^ Bologna Marathon",
+      "data": "2027-03-07",
+      "luogo": "BOLOGNA",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P66bc6fa570-21",
+      "nome": "VI^ Derthona Half Marathon",
+      "data": "2027-03-07",
+      "luogo": "TORTONA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P18d665398c-21",
+      "nome": "XII^ Maratonina della Vittoria",
+      "data": "2027-03-07",
+      "luogo": "VITTORIO VENETO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P54d6f1f9ae-21",
+      "nome": "XII^ Run For Life 21Km",
+      "data": "2027-03-07",
+      "luogo": "MONZA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pa5ce2437e0-21",
+      "nome": "XIX^ Lago Maggiore Half Marathon - Mezza Maratona",
+      "data": "2027-03-07",
+      "luogo": "VERBANIA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P87c81f6cad-21",
+      "nome": "XVII^ Mare&Sale Half Marathon",
+      "data": "2027-03-07",
+      "luogo": "MARGHERITA DI SAVOIA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P460a62cd14-21",
+      "nome": "XXIII^ Run Tune Up",
+      "data": "2027-03-07",
+      "luogo": "BOLOGNA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P84ea71435e-21",
+      "nome": "XXIV^ Maratonina di Treviglio",
+      "data": "2027-03-07",
+      "luogo": "TREVIGLIO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P6a2bfd447e-21",
+      "nome": "XX^ Strasimeno Half Marathon",
+      "data": "2027-03-07",
+      "luogo": "CASTIGLIONE DEL LAGO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pc63655c4ff-42",
+      "nome": "XX^ Strasimeno Marathon",
+      "data": "2027-03-07",
+      "luogo": "CASTIGLIONE DEL LAGO",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pe570451a7b-21",
+      "nome": "III^ Mezza Maratona d'Italia - Memorial Enzo Ferrari",
+      "data": "2027-03-14",
+      "luogo": "MARANELLO-MODENA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P0c7b5adde1-21",
+      "nome": "II^ Mezza Maratona Citta' di Termini Imerese",
+      "data": "2027-03-14",
+      "luogo": "TERMINI IMERESE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P04594a119b-21",
+      "nome": "LI^ Stracivitanova - Banco Marchigiano Half Marathon",
+      "data": "2027-03-14",
+      "luogo": "CIVITANOVA MARCHE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P176f4898dd-21",
+      "nome": "XVI^ Brescia Half Marathon",
+      "data": "2027-03-14",
+      "luogo": "BRESCIA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P0ca18b3797-21",
+      "nome": "XXVIII^ Maratonina Comune di Brugnera - Alto Livenza",
+      "data": "2027-03-14",
+      "luogo": "BRUGNERA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pf864fd4d55-42",
+      "nome": "XXV^ Brescia Art Marathon",
+      "data": "2027-03-14",
+      "luogo": "BRESCIA",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P8cb521dda8-42",
+      "nome": "XXXII^ Run Rome The Marathon",
+      "data": "2027-03-14",
+      "luogo": "ROMA",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P050c4340d7-21",
+      "nome": "XX^ Scarpadoro Half Marathon",
+      "data": "2027-03-14",
+      "luogo": "VIGEVANO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P6e4b746714-21",
+      "nome": "IV^ Mezza Maratona “21k tra Storia e Natura”",
+      "data": "2027-03-21",
+      "luogo": "ACAYA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P44ab281a15-42",
+      "nome": "I^ Cervia Marathon",
+      "data": "2027-03-21",
+      "luogo": "CERVIA",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pa963fb71b4-21",
+      "nome": "LIV^ Stramilano Half Marathon",
+      "data": "2027-03-21",
+      "luogo": "MILANO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pb00fc6aee4-21",
+      "nome": "XXIII^ Mezza Maratona di Agrigento",
+      "data": "2027-03-21",
+      "luogo": "AGRIGENTO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P11b4625e91-21",
+      "nome": "XXX^ Dogi's Half Marathon",
+      "data": "2027-03-21",
+      "luogo": "DOLO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P3322b8c1e2-21",
+      "nome": "III^ Maratonina Partanna - Selinunte \"Dal Castello Grifeo al Tempio di Hera\"",
+      "data": "2027-04-04",
+      "luogo": "PARTANNA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P82df035df3-21",
+      "nome": "III^ Mezza Maratona del Sulcis/Cammino Minerario di Santa Barbara",
+      "data": "2027-04-04",
+      "luogo": "SANTADI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P012fe7d946-21",
+      "nome": "II^ Mezza Maratona \"Terre a Levante\"",
+      "data": "2027-04-04",
+      "luogo": "ANDRANO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P6d137a7348-21",
+      "nome": "I^ Mezza Maratona di Alessandria",
+      "data": "2027-04-04",
+      "luogo": "ALESSANDRIA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P95dddf0954-21",
+      "nome": "VI^ Half Marathon \"La Mezza del Metauro\"",
+      "data": "2027-04-04",
+      "luogo": "FOSSOMBRONE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pecc181dceb-21",
+      "nome": "V^ ScoglittiRace V Half Marathon Trofeo Pescamare",
+      "data": "2027-04-04",
+      "luogo": "VITTORIA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P3b1e99ee8f-42",
+      "nome": "XXV^ Wizz Air Milano Marathon",
+      "data": "2027-04-04",
+      "luogo": "MILANO",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P322eced9b2-21",
+      "nome": "XXXV^ Mezza Maratona di Latina",
+      "data": "2027-04-04",
+      "luogo": "LATINA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P31317c8ccb-21",
+      "nome": "IX^ Terni Half Marathon",
+      "data": "2027-04-11",
+      "luogo": "TERNI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P717aff4534-42",
+      "nome": "I^ Maratona dei Laghi",
+      "data": "2027-04-11",
+      "luogo": "ANGERA",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P920ca7e469-21",
+      "nome": "I^ Mezza Maratona dei Laghi",
+      "data": "2027-04-11",
+      "luogo": "ANGERA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P51d9ca81f1-42",
+      "nome": "I^ Sardinia Marathon Valle dei Nuraghi",
+      "data": "2027-04-11",
+      "luogo": "TORRALBA",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P37967a2fb9-42",
+      "nome": "VI^ Lake Garda 42",
+      "data": "2027-04-11",
+      "luogo": "LIMONE SUL GARDA",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Paa165151d6-21",
+      "nome": "VI^ Lake Garda 42 (km 21,0975)",
+      "data": "2027-04-11",
+      "luogo": "ARCO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P0f076081f7-21",
+      "nome": "XII^ La Mezza di Torino",
+      "data": "2027-04-11",
+      "luogo": "TORINO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P140220ede0-21",
+      "nome": "XIV^ Bossoni Half Marathon",
+      "data": "2027-04-11",
+      "luogo": "ORZINUOVI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P5a9c644f00-42",
+      "nome": "XLIX^ Maratona del Lamone",
+      "data": "2027-04-11",
+      "luogo": "RUSSI",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P2bcf1305d6-21",
+      "nome": "XXVIII^ Mezza Due Laghi - Mezza Maratona",
+      "data": "2027-04-11",
+      "luogo": "GRAVELLONA TOCE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P8784d59851-21",
+      "nome": "XXVII^ Mezza Maratona dei Fiori",
+      "data": "2027-04-11",
+      "luogo": "SAN BENEDETTO DEL TRONTO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P910218f559-21",
+      "nome": "XXVI^ Agropoli Paestum Half Marathon",
+      "data": "2027-04-11",
+      "luogo": "AGROPOLI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pd479d20649-42",
+      "nome": "III^ Sigel Marsala Marathon - Citta' Garibaldina",
+      "data": "2027-04-18",
+      "luogo": "MARSALA",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pa275813620-21",
+      "nome": "II^ La Mezza di Cremona",
+      "data": "2027-04-18",
+      "luogo": "CREMONA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P7b8ea87eca-21",
+      "nome": "I^ Mezza Maratona del Crati",
+      "data": "2027-04-18",
+      "luogo": "COSENZA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P76d39ec1ab-21",
+      "nome": "VIII^ Kormed 21100 Varese Half Marathon",
+      "data": "2027-04-18",
+      "luogo": "VARESE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pa5a2c2def7-21",
+      "nome": "V^ Rimini Half Marathon",
+      "data": "2027-04-18",
+      "luogo": "RIMINI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P76db8ced2d-42",
+      "nome": "XII^ Rimini Marathon",
+      "data": "2027-04-18",
+      "luogo": "RIMINI",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P61392a3429-21",
+      "nome": "XII^ Sigel Marsala HalfMarathon - Citta' Garibaldina",
+      "data": "2027-04-18",
+      "luogo": "MARSALA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pbd0bda343e-21",
+      "nome": "XVIII^ Padova Half Marathon 2027",
+      "data": "2027-04-18",
+      "luogo": "ABANO TERME",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pde577b8834-21",
+      "nome": "XXI^ Mezza Maratona Int.le di Genova",
+      "data": "2027-04-18",
+      "luogo": "GENOVA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P5a9d52a298-42",
+      "nome": "XXVII^ Padova Marathon 2027",
+      "data": "2027-04-18",
+      "luogo": "PADOVA",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P0fc3875648-21",
+      "nome": "XXXVII^ Prato Half Marathon Maratonina Citta' di Prato",
+      "data": "2027-04-18",
+      "luogo": "PRATO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P2231a658e1-21",
+      "nome": "XIII^ Mezza Maratona di Ostuni",
+      "data": "2027-04-25",
+      "luogo": "OSTUNI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pdbc7ec9f50-21",
+      "nome": "XV^ Conerorunning",
+      "data": "2027-04-25",
+      "luogo": "NUMANA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pf0e7841f0e-42",
+      "nome": "III^ Maratona del Riso",
+      "data": "2027-05-01",
+      "luogo": "SANTHÀ",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P2d1e524741-21",
+      "nome": "III^ Mezza Maratona del Riso",
+      "data": "2027-05-01",
+      "luogo": "SANTHIÀ",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pf31bbccdd4-21",
+      "nome": "IV^ Olbia21",
+      "data": "2027-05-02",
+      "luogo": "OLBIA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P6107f88cac-21",
+      "nome": "VI^ Med Marathon",
+      "data": "2027-05-02",
+      "luogo": "BARI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pa832c006b5-21",
+      "nome": "XIII^ Lucca Half Marathon",
+      "data": "2027-05-02",
+      "luogo": "LUCCA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P6226818b1e-42",
+      "nome": "XVI^ Trieste 42K",
+      "data": "2027-05-02",
+      "luogo": "TRIESTE",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pdea52015cf-21",
+      "nome": "XXVI^ Maratonina Citta' di Terrasini",
+      "data": "2027-05-02",
+      "luogo": "TERRASINI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P9c3875ab76-21",
+      "nome": "XXXI^ Trieste 21K",
+      "data": "2027-05-02",
+      "luogo": "TRIESTE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P1d3d542a8c-21",
+      "nome": "VI^ Comacchio Half Marathon",
+      "data": "2027-05-08",
+      "luogo": "COMACCHIO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pa8c9f4a13b-21",
+      "nome": "VIII^ Half ColleMar-athon",
+      "data": "2027-05-09",
+      "luogo": "TERRE ROVERESCHE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P90f5b4f59c-21",
+      "nome": "XI^ Bibione Half Marathon",
+      "data": "2027-05-09",
+      "luogo": "BIBIONE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P002184f4a4-42",
+      "nome": "XXIII^ ColleMar-athon",
+      "data": "2027-05-09",
+      "luogo": "TERRE ROVERESCHE",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P230b9b857d-21",
+      "nome": "XXX^ Placentia Half Marathon",
+      "data": "2027-05-09",
+      "luogo": "PIACENZA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P0fe3bdd3bf-21",
+      "nome": "IV^ Straforli' Run in the City",
+      "data": "2027-05-16",
+      "luogo": "FORLÌ",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P34f654ed2a-21",
+      "nome": "XII^ Maratonina del Mare - Pescara Half Marathon",
+      "data": "2027-05-16",
+      "luogo": "PESCARA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P075510802f-21",
+      "nome": "XVI^ Mezza Maratona di Capo d'Orlando",
+      "data": "2027-05-16",
+      "luogo": "CAPO D'ORLANDO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pe0a48dfc74-21",
+      "nome": "XXX^ Mezza Maratona del Naviglio",
+      "data": "2027-05-16",
+      "luogo": "CERNUSCO SUL NAVIGLIO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P83aa26c135-21",
+      "nome": "XVI^ Jesolo Moonlight Half Marathon",
+      "data": "2027-05-22",
+      "luogo": "JESOLO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pfcb4d1bff7-21",
+      "nome": "IX^ Omphalos Half-Marathon",
+      "data": "2027-05-23",
+      "luogo": "MAROTTA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P78181fc04b-21",
+      "nome": "I^ Stracittadina Citta' di L'Aquila",
+      "data": "2027-05-23",
+      "luogo": "L'AQUILA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P516e553f6e-21",
+      "nome": "VIII^ Maratonina dei Laghi",
+      "data": "2027-05-29",
+      "luogo": "BELLARIA-IGEA MARINA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pf92699334f-21",
+      "nome": "IV^ Aosta 21k Half Marathon",
+      "data": "2027-05-30",
+      "luogo": "AOSTA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P513aaf0dd6-21",
+      "nome": "IV^ Mezza Maratona della Memoria",
+      "data": "2027-05-30",
+      "luogo": "PALERMO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pbe1b93e648-21",
+      "nome": "III^ Lago d'Iseo Half Marathon",
+      "data": "2027-06-02",
+      "luogo": "PISOGNE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P1fa92ead40-21",
+      "nome": "III^ Run the Night \"Karhu x CDF\"",
+      "data": "2027-06-25",
+      "luogo": "CUNEO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P2c12a0d9e7-21",
+      "nome": "VII^ Dolomitica Run Half Marathon Val Rendena",
+      "data": "2027-09-12",
+      "luogo": "PINZOLO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pd4c88b2b3b-21",
+      "nome": "VI^ Guastalla Half Marathon",
+      "data": "2027-09-12",
+      "luogo": "GUASTALLA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P7869589674-21",
+      "nome": "XVI^ Mezza Maratona Alzheimer - IX Memorial Azeglio Vicini",
+      "data": "2027-09-12",
+      "luogo": "CESENATICO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pfc3fd4cadc-21",
+      "nome": "XXIX^ Parma Mezza Maratona",
+      "data": "2027-09-12",
+      "luogo": "PARMA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P179a1b50db-21",
+      "nome": "V^ Half Marathon Licata Citta' di Mare",
+      "data": "2027-09-19",
+      "luogo": "LICATA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pa9152f4a71-21",
+      "nome": "XIX^ M6C 21KM",
+      "data": "2027-09-19",
+      "luogo": "VILLAVERLA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P234faaf150-21",
+      "nome": "XLIV^ Mezza Maratona del Piceno Fermano",
+      "data": "2027-09-19",
+      "luogo": "PORTO SAN GIORGIO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pdb00669f2e-21",
+      "nome": "XXVII^ Maratonina Citta' di Udine",
+      "data": "2027-09-19",
+      "luogo": "UDINE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P44895a5a65-42",
+      "nome": "LII^ Maratona del Mugello",
+      "data": "2027-09-26",
+      "luogo": "BORGO SAN LORENZO",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P828e577429-21",
+      "nome": "V^ River Run Valtellina Half Marathon",
+      "data": "2027-09-26",
+      "luogo": "SONDRIO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P51f43bd335-21",
+      "nome": "XVIII^ Pantano Half Marathon",
+      "data": "2027-09-26",
+      "luogo": "PIGNOLA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P28651a11b0-21",
+      "nome": "XVI^ Trento Half Marathon",
+      "data": "2027-09-26",
+      "luogo": "TRENTO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pfbd07dd172-21",
+      "nome": "III^ Half Marathon Empoli",
+      "data": "2027-10-03",
+      "luogo": "EMPOLI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pbbc5c38a70-21",
+      "nome": "IV^ Overborders Half Marathon Bibione - Lignano Sabbiadoro",
+      "data": "2027-10-03",
+      "luogo": "BIBIONE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pf5f7dcf5ff-21",
+      "nome": "XII^ Andersenrun La Mezza tra le Baie",
+      "data": "2027-10-03",
+      "luogo": "SESTRI LEVANTE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P8ead910516-21",
+      "nome": "XII^ Telesia Half Marathon - Telesia 21K",
+      "data": "2027-10-03",
+      "luogo": "TELESE TERME",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pc57324476d-21",
+      "nome": "XXXII^ Mantova Half Marathon",
+      "data": "2027-10-03",
+      "luogo": "MANTOVA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P89cb84d9b3-21",
+      "nome": "X^ Alghero Half Marathon",
+      "data": "2027-10-03",
+      "luogo": "ALGHERO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P5fed32554e-42",
+      "nome": "I^ Bergamo Marathon",
+      "data": "2027-10-04",
+      "luogo": "BERGAMO",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P3e58aa98aa-21",
+      "nome": "III^ Half Marathon Lago d'Orta",
+      "data": "2027-10-10",
+      "luogo": "GOZZANO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pcb05d344ec-42",
+      "nome": "III^ Maratona Reale",
+      "data": "2027-10-10",
+      "luogo": "VENARIA REALE",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pb76d7f644e-21",
+      "nome": "II^ GO&GO Half Marathon - Maratonina Transfrontaliera Citta' di Gorizia",
+      "data": "2027-10-10",
+      "luogo": "GORIZIA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P73ae9cfd7c-21",
+      "nome": "I^ Villa Manin Half Marathon",
+      "data": "2027-10-10",
+      "luogo": "CODROIPO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pa53f743524-21",
+      "nome": "XIII^ La Mezza di Treviso",
+      "data": "2027-10-10",
+      "luogo": "TREVISO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P8cec43d1fb-21",
+      "nome": "XIV^ Io21Zero97 - La Bella Corsa di Walter",
+      "data": "2027-10-10",
+      "luogo": "BRENO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P8c58e51e0d-21",
+      "nome": "XIV^ Una Corsa da Re Mezza Maratona",
+      "data": "2027-10-10",
+      "luogo": "VENARIA REALE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P4d4685d626-21",
+      "nome": "XI^ Pisa Half Marathon",
+      "data": "2027-10-10",
+      "luogo": "PISA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pc6301e40fe-21",
+      "nome": "XVII^ Tranincorsa",
+      "data": "2027-10-10",
+      "luogo": "TRANI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pcb1bb806cd-21",
+      "nome": "XXIII^ Corripavia Half Marathon",
+      "data": "2027-10-10",
+      "luogo": "PAVIA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P4ce643e0e2-21",
+      "nome": "XXX^ Trofeo Sale & Saline",
+      "data": "2027-10-10",
+      "luogo": "TRAPANI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P26afae1de7-21",
+      "nome": "IV^ Brescia Park Run (km 21,0975)",
+      "data": "2027-10-17",
+      "luogo": "BRESCIA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pf8444a6e01-21",
+      "nome": "IV^ Rome Half Marathon",
+      "data": "2027-10-17",
+      "luogo": "ROMA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P4b3df102b5-21",
+      "nome": "XIV^ Palermo International Half Marathon",
+      "data": "2027-10-17",
+      "luogo": "PALERMO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P259ffb9453-42",
+      "nome": "XI^ Parma Marathon (42,195km)",
+      "data": "2027-10-17",
+      "luogo": "PARMA",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P5ed2a0ce92-21",
+      "nome": "XVIII^ Mezza Maratona della Ceramica Citta' di Assemini",
+      "data": "2027-10-17",
+      "luogo": "ASSEMINI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P86d1c3defc-21",
+      "nome": "I^ Mezza del Volo",
+      "data": "2027-10-24",
+      "luogo": "GALATINA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pcd7950a2fd-21",
+      "nome": "VII^ Neapolis Half Marathon",
+      "data": "2027-10-24",
+      "luogo": "NAPOLI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P7c084588f4-42",
+      "nome": "VII^ Neapolis Marathon",
+      "data": "2027-10-24",
+      "luogo": "NAPOLI",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P5cc5ca64eb-21",
+      "nome": "VII^ Varese City Run",
+      "data": "2027-10-24",
+      "luogo": "VARESE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P75404c07d8-21",
+      "nome": "VI^ Venice Half Marathon",
+      "data": "2027-10-24",
+      "luogo": "VENEZIA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P0392bed1d2-21",
+      "nome": "XI^ Mezza e Dieci che Vale",
+      "data": "2027-10-24",
+      "luogo": "TORINO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pebf35bde3e-42",
+      "nome": "XLI^ Venicemarathon",
+      "data": "2027-10-24",
+      "luogo": "VENEZIA",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P6e4217867b-21",
+      "nome": "XV^ Maratonina Blu Jonio",
+      "data": "2027-10-24",
+      "luogo": "RIPOSTO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pef0472a49b-21",
+      "nome": "IV^ Egnazia Half Marathon",
+      "data": "2027-10-31",
+      "luogo": "SAVELLETRI DI FASANO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P9975c22219-21",
+      "nome": "Laus Half Marathon",
+      "data": "2027-10-31",
+      "luogo": "LODI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pc6f3893f0d-21",
+      "nome": "V^ Costa dei Trabocchi BCC Half Marathon",
+      "data": "2027-10-31",
+      "luogo": "ORTONA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P656373e6cf-21",
+      "nome": "XIII^ Mezza Maratona “Citta' di Foligno” e Fasten 10km",
+      "data": "2027-10-31",
+      "luogo": "FOLIGNO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pef3e690c4b-21",
+      "nome": "XII^ RunRivieraRun Half Marathon",
+      "data": "2027-10-31",
+      "luogo": "FINALE LIGURE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P9f653e657c-21",
+      "nome": "XXVIII^ Maratonina Citta' di Arezzo",
+      "data": "2027-10-31",
+      "luogo": "AREZZO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P068f8d6458-21",
+      "nome": "XXXII^ Strasalerno Half Marathon",
+      "data": "2027-10-31",
+      "luogo": "SALERNO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P8f06f86f3a-21",
+      "nome": "VIII^ Torino City Half Marathon",
+      "data": "2027-11-07",
+      "luogo": "TORINO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P79e3577243-42",
+      "nome": "VIII^ Torino City Marathon",
+      "data": "2027-11-07",
+      "luogo": "TORINO",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pcd1ba8dd81-21",
+      "nome": "V^ Co.Ro. Half Marathon",
+      "data": "2027-11-07",
+      "luogo": "CORIGLIANO CALABRO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P83fac02268-21",
+      "nome": "XIX^ Padenghe Half Marathon",
+      "data": "2027-11-07",
+      "luogo": "PADENGHE SUL GARDA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P0347d65c10-21",
+      "nome": "XLIX^ Strataranto Half Marathon del Mediterraneo",
+      "data": "2027-11-07",
+      "luogo": "TARANTO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pc72005e626-42",
+      "nome": "XVI^ Lago Maggiore Marathon - Maratona",
+      "data": "2027-11-07",
+      "luogo": "VERBANIA",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P127875a81c-21",
+      "nome": "XVI^ Lago Maggiore Marathon - Mezza Maratona",
+      "data": "2027-11-07",
+      "luogo": "VERBANIA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P318c0918e4-21",
+      "nome": "XXV^ Mezza Maratona \"Citta' di Palmanova\"",
+      "data": "2027-11-07",
+      "luogo": "PALMANOVA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P0a0d7008b9-21",
+      "nome": "XXXIV^ Maratonina Citta' di Busto Arsizio",
+      "data": "2027-11-07",
+      "luogo": "BUSTO ARSIZIO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P53475379a5-42",
+      "nome": "III^ Due Mari Marathon",
+      "data": "2027-11-14",
+      "luogo": "TARANTO",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pc92f939e2a-21",
+      "nome": "III^ Mezza Maratona delle due Province (Siracusa - Ragusa)",
+      "data": "2027-11-14",
+      "luogo": "ROSOLINI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Peba7a5d2c1-21",
+      "nome": "II^ Mezza Maratona della Grecia Salentina",
+      "data": "2027-11-14",
+      "luogo": "CALIMERA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P79192f53fb-21",
+      "nome": "XV^ Ravenna Half Marathon",
+      "data": "2027-11-14",
+      "luogo": "RAVENNA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pe52e93ab9a-21",
+      "nome": "XXI^ Maratonina Citta' di Crema",
+      "data": "2027-11-14",
+      "luogo": "CREMA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pf2b74e4586-42",
+      "nome": "XXVIII^ Maratona di Ravenna Citta' d'Arte",
+      "data": "2027-11-14",
+      "luogo": "RAVENNA",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P6110140133-21",
+      "nome": "XXXII^ TUI Palermo Half Marathon",
+      "data": "2027-11-14",
+      "luogo": "PALERMO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pdf6c5533f4-42",
+      "nome": "XXXII^ TUI Palermo Marathon",
+      "data": "2027-11-14",
+      "luogo": "PALERMO",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P59333a12ab-21",
+      "nome": "III^ 21k San Francesco Marathon",
+      "data": "2027-11-21",
+      "luogo": "ASSISI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P5d133f66d5-42",
+      "nome": "IV^ San Francesco Marathon 2027",
+      "data": "2027-11-21",
+      "luogo": "ASSISI",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P4b66e48e5f-21",
+      "nome": "XIII^ Savona International Half Marathon",
+      "data": "2027-11-21",
+      "luogo": "SAVONA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P17b594bd63-21",
+      "nome": "XII^ Mezza Maratona Int.le Citta' di Caserta \"Reggia- Reggia\"",
+      "data": "2027-11-21",
+      "luogo": "CASERTA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pdf2c01e286-21",
+      "nome": "XIV^ Verona Run Halfmarathon",
+      "data": "2027-11-21",
+      "luogo": "VERONA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pf17a3ee24b-21",
+      "nome": "XXIX^ Maratonina Citta' di Uta",
+      "data": "2027-11-21",
+      "luogo": "UTA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P98018bd51b-42",
+      "nome": "XXVI^ Verona Run Marathon",
+      "data": "2027-11-21",
+      "luogo": "VERONA",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pb58027073d-21",
+      "nome": "X^ Half Riviera Marathon",
+      "data": "2027-11-21",
+      "luogo": "GROTTAMMARE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pcf26a4858e-21",
+      "nome": "VIII^ Half Marathon Francavilla al Mare",
+      "data": "2027-11-28",
+      "luogo": "FRANCAVILLA AL MARE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P2e66eec3dc-21",
+      "nome": "VIII^ Maratonina di San Biagio",
+      "data": "2027-11-28",
+      "luogo": "SAN BIAGIO DI CALLALTA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pb5765bccf2-21",
+      "nome": "XIV^ Half Marathon Mazara",
+      "data": "2027-11-28",
+      "luogo": "MAZARA DEL VALLO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P9f749a0056-42",
+      "nome": "XLIII^ Estra Firenze Marathon",
+      "data": "2027-11-28",
+      "luogo": "FIRENZE",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P44f7f5242a-21",
+      "nome": "X^ Milano Half Marathon",
+      "data": "2027-11-28",
+      "luogo": "MILANO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P41d910137e-21",
+      "nome": "XIX^ CagliariRespira'27 - 19a Mezza Maratona Int.le Citta' di Cagliari",
+      "data": "2027-12-05",
+      "luogo": "CAGLIARI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pb2ad369617-21",
+      "nome": "XVI^ Como Lake Half Marathon",
+      "data": "2027-12-05",
+      "luogo": "COMO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P5caca288cf-21",
+      "nome": "XVI^ Mezzamaratona Citta' di Monopoli",
+      "data": "2027-12-05",
+      "luogo": "MONOPOLI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pb79f33fb46-21",
+      "nome": "IV^ Mezza Maratona del Tricolore",
+      "data": "2027-12-12",
+      "luogo": "REGGIO NELL'EMILIA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P1f633a90cd-21",
+      "nome": "V^ 13ª Fatica di Ercole \"Ripulire le Stalle di Augia\"",
+      "data": "2027-12-12",
+      "luogo": "POLICORO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P5b78fe27d0-21",
+      "nome": "XLI^ Salento Half Marathon 2027",
+      "data": "2027-12-12",
+      "luogo": "COLLEPASSO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P049c19ada8-21",
+      "nome": "XXXIX^ Invernalissima",
+      "data": "2027-12-12",
+      "luogo": "BASTIA UMBRA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P0c83b757c7-42",
+      "nome": "XXXI^ Maratona di Reggio Emilia - Citta' del Tricolore",
+      "data": "2027-12-12",
+      "luogo": "REGGIO NELL'EMILIA",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P1cafc24536-42",
+      "nome": "X^ Catania Marathon",
+      "data": "2027-12-12",
+      "luogo": "CATANIA",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P4ca2277645-21",
+      "nome": "X^ Catania Marathon (km 21,0975)",
+      "data": "2027-12-12",
+      "luogo": "CATANIA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P6ba477a6f3-21",
+      "nome": "IX^ Half Marathon Arancia di Ribera D.O.P.",
+      "data": "2027-12-19",
+      "luogo": "RIBERA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pc5ea420405-21",
+      "nome": "XXI^ Maratonina della Citta' Murata",
+      "data": "2027-12-19",
+      "luogo": "CITTADELLA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Pc6e14976db-42",
+      "nome": "XXVIII^ Maratona di Pisa",
+      "data": "2027-12-19",
+      "luogo": "PISA",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "P1787c26dc6-21",
+      "nome": "XXVII^ Mezza Maratona di Pisa",
+      "data": "2027-12-19",
+      "luogo": "PISA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL maratone e mezze",
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
     }
   ]
 }
