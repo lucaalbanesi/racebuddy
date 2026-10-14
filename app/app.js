@@ -21,6 +21,7 @@
   const nomeLuogo = (l) => String(l || "").toLowerCase().replace(/(^|[\s'-])\S/g, (m) => m.toUpperCase());
 
   function toast(msg) {
+    document.querySelectorAll(".toast").forEach((x) => x.remove());
     const t = document.createElement("div");
     t.className = "toast"; t.setAttribute("role", "status"); t.textContent = msg;
     document.body.appendChild(t); setTimeout(() => t.remove(), 2400);
@@ -39,7 +40,10 @@
   }
 
   // ---------------------------------------------------------------- meteo (Open-Meteo, gratuito, senza chiave)
+  // Luogo dell'utente: coordinate dal GPS se le ha date, altrimenti il nome della città.
+  const mioLuogo = () => (S.profilo.coord ? { ...S.profilo.coord, nome: S.profilo.citta } : S.profilo.citta);
   async function coordinate(citta) {
+    if (citta && typeof citta === "object") return citta;
     const k = "geo:" + citta.toLowerCase();
     if (meteoCache[k]) return meteoCache[k];
     const u = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(citta)}&count=1&language=it&countryCode=IT`;
@@ -51,13 +55,14 @@
   async function serie(citta) {
     const c = await coordinate(citta);
     if (!c) return null;
-    const k = `m:${c.lat},${c.lon}`;
+    const k = `m:${c.lat.toFixed(2)},${c.lon.toFixed(2)}`;
     if (!meteoCache[k]) {
       const u = `https://api.open-meteo.com/v1/forecast?latitude=${c.lat}&longitude=${c.lon}&hourly=temperature_2m,precipitation_probability,wind_speed_10m,weather_code,is_day&timezone=Europe%2FRome&forecast_days=16`;
       meteoCache[k] = await fetch(u).then((x) => x.json());
     }
     return { h: meteoCache[k].hourly, c };
   }
+  const oraInput = (ora) => { const m = String(ora || "").match(/(\d{1,2})(?:[:.](\d{2}))?/); return m ? `${m[1].padStart(2, "0")}:${m[2] || "00"}` : ""; };
   const oraISO = (ora) => { const m = String(ora || "").match(/(\d{1,2})(?:[:.](\d{2}))?/); return `${String(Math.min(23, Number(m ? m[1] : 7))).padStart(2, "0")}:00`; };
   async function meteoAlle(citta, quandoISO) {
     const sr = await serie(citta);
@@ -83,6 +88,30 @@
       body: JSON.stringify(corpo),
     }).then((r) => { if (r.ok) { S.segnalate[g.id] = true; delete S.erroreSegnala; } else { S.erroreSegnala = `HTTP ${r.status}`; r.text().then((t) => { S.erroreSegnala += " " + t.slice(0, 120); salva(); }); } salva(); })
       .catch((e) => { S.erroreSegnala = String(e && e.message || e).slice(0, 120); salva(); });
+  }
+
+  // ---------------------------------------------------------------- posizione dal GPS
+  // Le coordinate restano sul telefono, arrotondate a circa 1 km. Il nome della città arriva da BigDataCloud (gratuito, senza chiave).
+  const ICO_PIN = `<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg>`;
+  const bottoneGps = (target) => `<button class="btn ghost small gps" type="button" data-act="gps" data-target="${target}">${ICO_PIN}Usa la mia posizione</button>`;
+  function usaGps(btn) {
+    if (!navigator.geolocation) { toast("Il telefono non dà la posizione: scrivi la città"); return; }
+    btn.disabled = true; btn.lastChild.textContent = "Cerco la posizione…";
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+      const lat = Math.round(pos.coords.latitude * 100) / 100, lon = Math.round(pos.coords.longitude * 100) / 100;
+      let nome = "";
+      try {
+        const r = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=it`).then((x) => x.json());
+        nome = r.city || r.locality || r.principalSubdivision || "";
+      } catch (e) { /* senza nome va bene lo stesso */ }
+      S.profilo = { ...S.profilo, coord: { lat, lon }, citta: nome || "La mia zona" };
+      salva(); toast(`Posizione impostata: ${S.profilo.citta}`);
+      const campo = document.getElementById(btn.dataset.target);
+      if (btn.dataset.target === "a-citta" && campo) { campo.value = S.profilo.citta; btn.disabled = false; btn.lastChild.textContent = "Usa la mia posizione"; } else rerender();
+    }, (err) => {
+      btn.disabled = false; btn.lastChild.textContent = "Usa la mia posizione";
+      toast(err.code === 1 ? "Permesso negato: scrivi la città a mano" : "Posizione non disponibile: scrivi la città");
+    }, { enableHighAccuracy: false, timeout: 10000, maximumAge: 600000 });
   }
 
   // ---------------------------------------------------------------- icone meteo (SVG in linea, nessuna dipendenza)
@@ -205,7 +234,7 @@
     if (!box || !S.profilo.citta) return;
     try {
       const quando = S.prova ? `${S.prova}T${oraISO(S.profilo.ora)}` : L.prossimaUscita(S.profilo.ora, new Date());
-      const m = await meteoAlle(S.profilo.citta, quando);
+      const m = await meteoAlle(mioLuogo(), quando);
       if (!m) { box.innerHTML = `<span class="eyebrow">${esc(S.profilo.citta)}</span><span class="small">Previsioni non disponibili per questa data.</span>`; return; }
       const giorno = quando.slice(0, 10) === L.todayISO() ? "oggi" : "domani";
       box.innerHTML = `<span class="eyebrow">${esc(m.luogo)} · uscita di ${giorno} alle ${esc(S.profilo.ora || "7:00")}</span>${bloccoMeteo(m, false)}<span class="small" style="color:var(--accent);font-weight:700">Prossimi giorni e meteo gara ›</span>`;
@@ -253,8 +282,9 @@
         ${r("divertimento", "Per divertimento", "Solo checklist e promemoria", false)}</fieldset>
       <div class="field"><label for="a-tempo">Tempo obiettivo <span class="muted">(facoltativo)</span></label><input class="input" id="a-tempo" placeholder="es. 3:45:00"></div>
       ${P.citta ? "" : `<span class="title">Due cose su di te <span class="muted small" style="font-weight:500">· puoi saltarle</span></span>
+      <div class="field">${bottoneGps("a-citta")}</div>
       <div class="grid2"><div class="field"><label for="a-citta">Dove corri di solito</label><input class="input" id="a-citta" placeholder="es. Roma"></div>
-      <div class="field"><label for="a-ora">A che ora</label><input class="input" id="a-ora" placeholder="es. 6:30"></div></div>`}
+      <div class="field"><label for="a-ora">A che ora</label><input class="input" id="a-ora" type="time" step="900" value="07:00"></div></div>`}
       <button class="btn block" type="submit">Crea il mio percorso</button></form>`;
   }
 
@@ -395,7 +425,7 @@
     const box = document.getElementById("meteo-dettaglio");
     if (!box) return;
     try {
-      const sr = await serie(S.profilo.citta);
+      const sr = await serie(mioLuogo());
       if (!sr) { box.innerHTML = `<p class="sub">Non trovo la città "${esc(S.profilo.citta)}". Correggila nel profilo.</p>`; return; }
       const { h, c } = sr, ora = oraISO(S.profilo.ora), o = oggi();
       const at = (t) => { const i = h.time.indexOf(t); return i < 0 ? null : { temp: h.temperature_2m[i], pioggia: h.precipitation_probability[i] ?? 0, vento: h.wind_speed_10m[i] ?? 0, codice: h.weather_code ? h.weather_code[i] : null, notte: h.is_day ? h.is_day[i] === 0 : false }; };
@@ -444,11 +474,11 @@
         <form class="row" data-form="km" data-id="${esc(s.id)}"><label class="sr" for="km-${esc(s.id)}">Aggiungi km a ${esc(s.nome)}</label><input class="input" id="km-${esc(s.id)}" type="number" inputmode="decimal" min="0" step="0.1" placeholder="+ km corsi"><button class="btn ghost" type="submit">Aggiungi</button><button class="btn ghost" type="button" data-act="del-scarpa" data-id="${esc(s.id)}" aria-label="Elimina ${esc(s.nome)}">✕</button></form></article>`;
     }).join("");
     return `${bannerProva()}<header class="head"><h1>Io</h1></header>
-      <form id="profilo" class="card"><h2>Profilo</h2>
-        <div class="field"><label for="p-nome">Come ti chiami</label><input class="input" id="p-nome" value="${esc(P.nome)}"></div>
-        <div class="grid2"><div class="field"><label for="p-citta">Dove corri di solito</label><input class="input" id="p-citta" value="${esc(P.citta)}" placeholder="es. Roma"></div>
-        <div class="field"><label for="p-ora">A che ora</label><input class="input" id="p-ora" value="${esc(P.ora)}" placeholder="es. 6:30"></div></div>
-        <button class="btn" type="submit">Salva</button></form>
+      <form id="profilo" class="card" autocomplete="off"><div class="between"><h2>Profilo</h2><span class="small muted">si salva da solo</span></div>
+        <div class="field"><label for="p-nome">Come ti chiami</label><input class="input" id="p-nome" data-auto="nome" value="${esc(P.nome)}" autocomplete="given-name"></div>
+        <div class="field"><label for="p-citta">Dove corri di solito</label><input class="input" id="p-citta" data-auto="citta" value="${esc(P.citta)}" placeholder="es. Roma">
+          <div class="between">${bottoneGps("p-citta")}${P.coord ? `<span class="small muted">dal GPS</span>` : ""}</div></div>
+        <div class="field"><label for="p-ora">A che ora esci di solito</label><input class="input" id="p-ora" data-auto="ora" type="time" step="900" value="${esc(oraInput(P.ora))}"></div></form>
       <section style="display:flex;flex-direction:column;gap:10px" aria-label="Le mie scarpe"><div class="between"><h2>Le mie scarpe</h2><span class="small muted">km a mano · Strava in arrivo</span></div>${scarpe || `<p class="sub">Nessuna scarpa ancora.</p>`}
       <details class="card"><summary>+ Aggiungi una scarpa</summary><form id="scarpa" style="display:flex;flex-direction:column;gap:10px">
         <div class="field"><label for="s-nome">Modello</label><input class="input" id="s-nome" required placeholder="es. la mia scarpa da lento"></div>
@@ -504,6 +534,8 @@
       if (t.tagName === "INPUT") S.spunte[t.dataset.k] = t.checked; else S.spunte[t.dataset.k] = true;
       if (!S.spunte[t.dataset.k]) delete S.spunte[t.dataset.k];
       salva(); if (t.tagName !== "INPUT") toast("Fatto"); rerender();
+    } else if (act === "gps") {
+      usaGps(t);
     } else if (act === "letto") {
       S.letti = S.letti || {}; S.letti[t.dataset.k] = true; salva(); rerender();
     } else if (act === "rinvia") {
@@ -533,6 +565,17 @@
     ok.focus();
     return true;
   }
+
+  // Profilo: salvataggio automatico quando lasci un campo.
+  document.addEventListener("change", (e) => {
+    const k = e.target.dataset && e.target.dataset.auto;
+    if (!k) return;
+    const val = e.target.value.trim();
+    if ((S.profilo[k] || "") === val) return;
+    S.profilo = { ...S.profilo, [k]: val };
+    if (k === "citta") delete S.profilo.coord;
+    salva(); toast("Salvato");
+  });
 
   let timer;
   document.addEventListener("input", (e) => {
@@ -575,7 +618,7 @@
       const t = v("p-voce").trim(); if (!t) return;
       S.personali.push({ id: "U" + Date.now().toString(36), titolo: t }); salva(); rerender();
     } else if (f.id === "profilo") {
-      S.profilo = { ...S.profilo, nome: v("p-nome").trim(), citta: v("p-citta").trim(), ora: v("p-ora").trim() }; salva(); toast("Profilo salvato"); rerender();
+      document.activeElement && document.activeElement.blur();
     } else if (f.id === "scarpa") {
       S.scarpe.push({ id: "S" + Date.now().toString(36), nome: v("s-nome").trim(), tipo: v("s-tipo"), km: Number(v("s-km")) || 0, limite: Number(v("s-lim")) || 800 }); salva(); toast("Scarpa aggiunta"); rerender();
     } else if (f.dataset.form === "km") {

@@ -116,3 +116,6 @@ details summary { cursor: pointer; font-weight: 700; color: var(--accent); min-h
 .avviso { display: flex; gap: 10px; align-items: flex-start; border-radius: 12px; padding: 10px 12px; font-size: 14px; background: var(--info-soft); color: var(--info-fg); }
 .avviso.attenzione { background: var(--warn-soft); color: var(--warn); }
 .avviso-ico { font-size: 18px; line-height: 1.1; }
+.btn.gps { gap: 6px; color: var(--accent); align-self: flex-start; }
+input[type="time"].input { appearance: none; -webkit-appearance: none; }
+details.card:not([open]) { padding-top: 2px; padding-bottom: 2px; }
