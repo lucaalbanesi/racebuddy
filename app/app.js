@@ -68,6 +68,22 @@
     return { temp: h.temperature_2m[i], pioggia: h.precipitation_probability[i] ?? 0, vento: h.wind_speed_10m[i] ?? 0, luogo: c.nome };
   }
 
+  // ---------------------------------------------------------------- elenco condiviso delle gare seguite
+  // Manda solo i dati pubblici della gara (nessun dato personale), una volta per gara per telefono.
+  function segnalaGara(g, fonte) {
+    const C = window.RB_CONFIG || {};
+    if (!C.supabaseUrl || !C.supabaseKey || !g) return;
+    S.segnalate = S.segnalate || {};
+    if (S.segnalate[g.id]) return;
+    const corpo = { gara_id: g.id.slice(0, 40), nome: String(g.nome).slice(0, 150), data: g.data, luogo: String(g.luogo || "").slice(0, 80), distanza: String(g.distanza), fonte: fonte === "manuale" ? "manuale" : "FIDAL" };
+    if (corpo.nome.length < 3) return;
+    fetch(`${C.supabaseUrl}/rest/v1/gare_aggiunte`, {
+      method: "POST",
+      headers: { apikey: C.supabaseKey, "Content-Type": "application/json", Prefer: "return=minimal" },
+      body: JSON.stringify(corpo),
+    }).then((r) => { if (r.ok) { S.segnalate[g.id] = true; salva(); } }).catch(() => {});
+  }
+
   // ---------------------------------------------------------------- pezzi di interfaccia
   const back = (href) => `<a class="back" href="${href}" aria-label="Indietro"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></a>`;
   const bannerProva = () => (S.prova ? `<div class="banner-prova">Modalità prova: oggi è ${esc(L.fmtGiorno(S.prova))} · <a href="#/io" style="color:#fff">cambia</a></div>` : "");
@@ -488,6 +504,7 @@
       if (v("a-citta")) S.profilo.citta = v("a-citta");
       if (v("a-ora")) S.profilo.ora = v("a-ora");
       delete S._bozza; salva(); toast("Percorso creato");
+      segnalaGara(S.gare[S.gare.length - 1], base.fonte);
       location.hash = `#/percorso/${encodeURIComponent(id)}`;
     } else if (f.id === "scheda") {
       const g = S.gare.find((x) => x.id === f.dataset.id);
@@ -512,5 +529,5 @@
   });
 
   window.addEventListener("hashchange", () => { route(); window.scrollTo(0, 0); });
-  carica().then(route);
+  carica().then(() => { route(); S.gare.forEach((g) => segnalaGara(g, g.id.startsWith("M") ? "manuale" : "FIDAL")); });
 })();
