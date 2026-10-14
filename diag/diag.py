@@ -1,28 +1,27 @@
-import re, urllib.request, urllib.parse, http.cookiejar
+import re, urllib.request, urllib.parse, itertools
 UA={"User-Agent":"RaceBuddy-calendario/0.1 (diagnostica una tantum)"}
-cj=http.cookiejar.CookieJar(); op=urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
-def get(u,data=None):
-    r=urllib.request.Request(u,data=data,headers=UA)
-    return op.open(r,timeout=60).read().decode("utf-8","replace")
-def mesi(ics): return sorted(set(re.findall(r"DTSTART[^:]*:(\d{6})",ics)))
+def get(u): return urllib.request.urlopen(urllib.request.Request(u,headers=UA),timeout=60).read().decode("utf-8","replace")
 out=[]
-h=get("https://www.fidal.it/calendario.php")
-forms=re.findall(r"<form.*?</form>",h,re.S|re.I)
-for f in forms:
-    if re.search(r"mese|anno",f,re.I):
-        out.append("FORM:"+re.sub(r"\s+"," ",re.search(r"<form[^>]*>",f,re.I).group(0)))
-        for n in re.findall(r"<(?:select|input)[^>]*name=[\"']([^\"']+)",f,re.I): out.append("  campo: "+n)
-        for s in re.findall(r"<select[^>]*name=[\"']([^\"']+)[^>]*>(.*?)</select>",f,re.S|re.I):
-            vals=re.findall(r"value=[\"']([^\"']*)",s[1])[:15]; out.append(f"  {s[0]} -> {vals}")
-for l in re.findall(r"[^\"'<>]*ical[^\"'<>]*",h,re.I)[:5]: out.append("ICAL: "+l)
-out.append("baseline mese=11: "+str(mesi(get("https://www.fidal.it/ical/ical_man.php?&anno=2026&mese=11&livello=COD"))))
-for k in ["mese","new_mese","month","mm"]:
+base={"anno":"2026","mese":"11"}
+extra=[{},{"submit":"Invia"},{"livello":"COD"},{"livello":"COD","submit":"Invia"},{"new_tipo":"0","submit":"Invia"},
+       {"livello":"COD","new_tipo":"0","submit":"Invia"},{"livello":"","new_regione":"","new_tipo":"0","new_categoria":"","submit":"Invia"},
+       {"livello":"COD","new_regione":"","new_tipo":"0","new_categoria":"","new_campionati":"0","omologazione":"","omologazione_tipo":"","submit":"Invia"},
+       {"livello":"COD","new_tipo":"0","new_campionati":"0","submit":"Invia"}]
+h0=get("https://www.fidal.it/calendario.php")
+m=re.search(r"<select[^>]*name=[\"']mese[\"'][^>]*>(.*?)</select>",h0,re.S|re.I)
+out.append("opzioni mese: "+re.sub(r"\s+"," ",m.group(1))[:600] if m else "select mese non trovato")
+m=re.search(r"<select[^>]*name=[\"']new_campionati[\"'][^>]*>(.*?)</select>",h0,re.S|re.I)
+out.append("opzioni campionati: "+re.sub(r"\s+"," ",m.group(1))[:300] if m else "no campionati")
+for e in extra:
+    q=urllib.parse.urlencode({**base,**e})
     try:
-        d=urllib.parse.urlencode({"anno":"2026",k:"11"}).encode()
-        h2=get("https://www.fidal.it/calendario.php",d)
-        ic=re.findall(r"ical_man\.php\?[^\"'<>]*",h2)
-        out.append(f"POST {k}=11 -> date nella pagina: {sorted(set(re.findall(r'(\d\d/1[0-2])',h2)))[:6]} ical:{ic[:1]}")
-        out.append(f"   poi ical stesso cookie: {mesi(get('https://www.fidal.it/ical/ical_man.php?&anno=2026&mese=11&livello=COD'))}")
-    except Exception as e: out.append(f"POST {k}: errore {e}")
+        h=get("https://www.fidal.it/calendario.php?"+q)
+        err="ERRORE" if "PDOException" in h else "ok"
+        date=sorted(set(re.findall(r">\s*(\d\d(?:-\d\d)?/\d\d)\s*<",h)))
+        ic=re.findall(r"ical_man\.php\?[^\"'<>]*",h)
+        out.append(f"{q}\n   -> {err}; date: {date[:5]}...{date[-2:] if date else ''} ({len(date)}); ical: {ic[:1]}")
+    except Exception as ex: out.append(f"{q} -> eccezione {ex}")
+for q in ["anno=2026&mese=11&livello=COD","anno=2026&mese=11&livello=","anno=2026&mese=11&livello=REG","anno=2026&mese=11"]:
+    ics=get("https://www.fidal.it/ical/ical_man.php?&"+q)
+    out.append(f"ICAL {q}: mesi {sorted(set(re.findall(r'DTSTART[^:]*:(\d{{6}})',ics)))} eventi {ics.count('BEGIN:VEVENT')}")
 open("diag/risultato.txt","w").write("\n".join(out)+"\n")
-print("\n".join(out))
