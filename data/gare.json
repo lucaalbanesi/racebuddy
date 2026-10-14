@@ -1,7 +1,17 @@
 {
-  "aggiornato": "2026-10-14T07:24:10Z",
+  "aggiornato": "2026-10-14T07:25:46Z",
   "fonte": "Calendario FIDAL, https://www.fidal.it/calendario.php",
   "gare": [
+    {
+      "id": "Ha7c4f82f69-10",
+      "nome": "V^ 10k I Tre Borghi",
+      "data": "2026-10-17",
+      "luogo": "LEVANTO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
     {
       "id": "Ha7c4f82f69",
       "nome": "V^ 10k I Tre Borghi",
@@ -13,10 +23,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H0566aa15ae-21",
+      "nome": "17^ MEZZA MARATONA DELLA CERAMICA “Città di ASSEMINI”",
+      "data": "2026-10-18",
+      "luogo": "ASSEMINI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H0566aa15ae",
       "nome": "17^ MEZZA MARATONA DELLA CERAMICA “Città di ASSEMINI”",
       "data": "2026-10-18",
       "luogo": "ASSEMINI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H9c76b4b971-21",
+      "nome": "21 KM DIVISI IN DUE",
+      "data": "2026-10-18",
+      "luogo": "SAN GIUSTINO",
       "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
@@ -63,6 +93,16 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Hd9df59d4b1-21",
+      "nome": "III^ Rome Half Marathon",
+      "data": "2026-10-18",
+      "luogo": "ROMA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "Hd9df59d4b1",
       "nome": "III^ Rome Half Marathon",
       "data": "2026-10-18",
@@ -77,6 +117,16 @@
       "nome": "INCONTRO INTERNAZIONALE UNDER 23 DI CORSA SU STRADA KM 10",
       "data": "2026-10-18",
       "luogo": "TRIESTE",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H5758af462b-10",
+      "nome": "IV^ Corri a Marina di Modica",
+      "data": "2026-10-18",
+      "luogo": "MODICA",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -103,6 +153,16 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H278ad29f05-21",
+      "nome": "I^ APUANIA - Nessuno Resta Indietro",
+      "data": "2026-10-18",
+      "luogo": "MASSA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H278ad29f05",
       "nome": "I^ APUANIA - Nessuno Resta Indietro",
       "data": "2026-10-18",
@@ -113,10 +173,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Hd1f8b4318b-10",
+      "nome": "I^ APUANIA - Nessuno Resta Indietro (km 10)",
+      "data": "2026-10-18",
+      "luogo": "MASSA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "Hd1f8b4318b",
       "nome": "I^ APUANIA - Nessuno Resta Indietro (km 10)",
       "data": "2026-10-18",
       "luogo": "MASSA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H52f35d0b0a-10",
+      "nome": "I^ ITT Motion Run - La Dieci Senza Freni",
+      "data": "2026-10-18",
+      "luogo": "BARGE",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -133,10 +213,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H715e8fa3e0-10",
+      "nome": "LIII^ Giro delle Cascine (km 10)",
+      "data": "2026-10-18",
+      "luogo": "GAGLIANICO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H715e8fa3e0",
       "nome": "LIII^ Giro delle Cascine (km 10)",
       "data": "2026-10-18",
       "luogo": "GAGLIANICO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Ha9421d3e35-10",
+      "nome": "Trofarello (TO) - 1a La Quasi 10K di Trofarello - Memorial Marco Biino - Km. 9,8",
+      "data": "2026-10-18",
+      "luogo": "TROFARELLO",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -153,10 +253,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H8b0812cc67-10",
+      "nome": "VI CORRI TEVEROLA - KM 9,980",
+      "data": "2026-10-18",
+      "luogo": "TEVEROLA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H8b0812cc67",
       "nome": "VI CORRI TEVEROLA - KM 9,980",
       "data": "2026-10-18",
       "luogo": "TEVEROLA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H7b663b715c-10",
+      "nome": "VII^ La Dieci di Ancona",
+      "data": "2026-10-18",
+      "luogo": "ANCONA",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -173,11 +293,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H7521da09de-10",
+      "nome": "VI^ CR10",
+      "data": "2026-10-18",
+      "luogo": "CREMONA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H7521da09de",
       "nome": "VI^ CR10",
       "data": "2026-10-18",
       "luogo": "CREMONA",
       "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Hdea7e9d01c-21",
+      "nome": "VI^ Neapolis Half Marathon",
+      "data": "2026-10-18",
+      "luogo": "NAPOLI",
+      "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -193,11 +333,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H980534b2f8-42",
+      "nome": "VI^ Neapolis Marathon",
+      "data": "2026-10-18",
+      "luogo": "NAPOLI",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H980534b2f8",
       "nome": "VI^ Neapolis Marathon",
       "data": "2026-10-18",
       "luogo": "NAPOLI",
       "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H2962538b3f-21",
+      "nome": "V^ Meda Urban Race",
+      "data": "2026-10-18",
+      "luogo": "MEDA",
+      "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -213,10 +373,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H8de5d6caee-10",
+      "nome": "V^ Meda Urban Race (km 10)",
+      "data": "2026-10-18",
+      "luogo": "MEDA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H8de5d6caee",
       "nome": "V^ Meda Urban Race (km 10)",
       "data": "2026-10-18",
       "luogo": "MEDA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Ha987b4728d-10",
+      "nome": "V^ SMOE Run 5K e 10K 2026 - San Marino",
+      "data": "2026-10-18",
+      "luogo": "FALCIANO",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -233,10 +413,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H53573b1a1e-10",
+      "nome": "XIII^ 10 km di Palermo",
+      "data": "2026-10-18",
+      "luogo": "PALERMO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H53573b1a1e",
       "nome": "XIII^ 10 km di Palermo",
       "data": "2026-10-18",
       "luogo": "PALERMO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Hac997144a1-10",
+      "nome": "XIII^ La 10 di Bardolino",
+      "data": "2026-10-18",
+      "luogo": "BARDOLINO",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -248,6 +448,16 @@
       "data": "2026-10-18",
       "luogo": "BARDOLINO",
       "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H82c7c31065-21",
+      "nome": "XIII^ Palermo International Half Marathon",
+      "data": "2026-10-18",
+      "luogo": "PALERMO",
+      "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -273,12 +483,32 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Hf0bd8c21d2-10",
+      "nome": "XVII^ Mezza Maratona della Ceramica Citta' di Assemini (km 10)",
+      "data": "2026-10-18",
+      "luogo": "ASSEMINI",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "Hf0bd8c21d2",
       "nome": "XVII^ Mezza Maratona della Ceramica Citta' di Assemini (km 10)",
       "data": "2026-10-18",
       "luogo": "ASSEMINI",
       "distanza": "10",
       "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H8021658853-21",
+      "nome": "XXV^ Mezza Maratona di Cremona",
+      "data": "2026-10-18",
+      "luogo": "CREMONA",
+      "distanza": "21",
+      "annullata": true,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
     },
@@ -293,11 +523,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H3e98ac2d78-10",
+      "nome": "X^ Corsa dei Castelli",
+      "data": "2026-10-18",
+      "luogo": "TRIESTE",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H3e98ac2d78",
       "nome": "X^ Corsa dei Castelli",
       "data": "2026-10-18",
       "luogo": "TRIESTE",
       "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H64656d646c-42",
+      "nome": "X^ Parma Marathon",
+      "data": "2026-10-18",
+      "luogo": "PARMA",
+      "distanza": "42",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -313,10 +563,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H5c40cfe18c-10",
+      "nome": "X^ Parma Marathon (km 10)",
+      "data": "2026-10-18",
+      "luogo": "PARMA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H5c40cfe18c",
       "nome": "X^ Parma Marathon (km 10)",
       "data": "2026-10-18",
       "luogo": "PARMA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H54df2709c1-10",
+      "nome": "Palermo 10k Running",
+      "data": "2026-10-24",
+      "luogo": "PALERMO",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -333,10 +603,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H7c22307fa9-21",
+      "nome": "2^ Corsa della Contea",
+      "data": "2026-10-25",
+      "luogo": "RIPOSTO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H7c22307fa9",
       "nome": "2^ Corsa della Contea",
       "data": "2026-10-25",
       "luogo": "RIPOSTO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H9d48de3a60-21",
+      "nome": "CAMPIONATO ITALIANO INDIVIDUALE  e di SOCIETA' MASTER di MARATONINA",
+      "data": "2026-10-25",
+      "luogo": "ORTONA",
       "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
@@ -353,10 +643,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H5e9232e72c-10",
+      "nome": "GARA PODISTICA DI KM 10,500 (NELL'AMBITO DELLA STRASALERNO DI KM 21,097)",
+      "data": "2026-10-25",
+      "luogo": "SALERNO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H5e9232e72c",
       "nome": "GARA PODISTICA DI KM 10,500 (NELL'AMBITO DELLA STRASALERNO DI KM 21,097)",
       "data": "2026-10-25",
       "luogo": "SALERNO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H7d3a5de467-10",
+      "nome": "III^ Oktoberfest Run",
+      "data": "2026-10-25",
+      "luogo": "RENDE",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -373,11 +683,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Hf6d6b70311-10",
+      "nome": "II^ 10000 dell'Aceto Balsamico",
+      "data": "2026-10-25",
+      "luogo": "SPILAMBERTO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "Hf6d6b70311",
       "nome": "II^ 10000 dell'Aceto Balsamico",
       "data": "2026-10-25",
       "luogo": "SPILAMBERTO",
       "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H257265b726-21",
+      "nome": "IV^ Costa dei Trabocchi BCC Half Marathon",
+      "data": "2026-10-25",
+      "luogo": "FOSSACESIA",
+      "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -393,11 +723,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Hf29e505eaf-10",
+      "nome": "IV^ La Dieci d'Autunno",
+      "data": "2026-10-25",
+      "luogo": "NOVI LIGURE",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "Hf29e505eaf",
       "nome": "IV^ La Dieci d'Autunno",
       "data": "2026-10-25",
       "luogo": "NOVI LIGURE",
       "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Hbbe3854300-21",
+      "nome": "MARATONINA DELLE CASTAGNE",
+      "data": "2026-10-25",
+      "luogo": "ROCCA DI PAPA",
+      "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -433,10 +783,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Haa42897e78-10",
+      "nome": "V TROFEO ATLETICA MARCIANISE - KM 9,900",
+      "data": "2026-10-25",
+      "luogo": "CAPODRISE",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "Haa42897e78",
       "nome": "V TROFEO ATLETICA MARCIANISE - KM 9,900",
       "data": "2026-10-25",
       "luogo": "CAPODRISE",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Hb7f224798e-10",
+      "nome": "VII^ STAD10 - La Stracittadina di Terni",
+      "data": "2026-10-25",
+      "luogo": "TERNI",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -453,6 +823,16 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H9a788ab5ef-21",
+      "nome": "VI^ Varese City Run",
+      "data": "2026-10-25",
+      "luogo": "VARESE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H9a788ab5ef",
       "nome": "VI^ Varese City Run",
       "data": "2026-10-25",
@@ -463,11 +843,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H6418abcaa5-10",
+      "nome": "VI^ Varese City Run Ten",
+      "data": "2026-10-25",
+      "luogo": "VARESE",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H6418abcaa5",
       "nome": "VI^ Varese City Run Ten",
       "data": "2026-10-25",
       "luogo": "VARESE",
       "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H5b3f36e9a5-21",
+      "nome": "V^ Venice Half Marathon",
+      "data": "2026-10-25",
+      "luogo": "VENEZIA",
+      "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -493,6 +893,16 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H2a3a2958db-10",
+      "nome": "XI^ Dieci Che Vale",
+      "data": "2026-10-25",
+      "luogo": "TORINO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H2a3a2958db",
       "nome": "XI^ Dieci Che Vale",
       "data": "2026-10-25",
@@ -503,10 +913,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H7e3b69af6e-21",
+      "nome": "XI^ Laus Half Marathon",
+      "data": "2026-10-25",
+      "luogo": "LODI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H7e3b69af6e",
       "nome": "XI^ Laus Half Marathon",
       "data": "2026-10-25",
       "luogo": "LODI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H16905a7755-21",
+      "nome": "XI^ Mezza e Dieci che Vale",
+      "data": "2026-10-25",
+      "luogo": "TORINO",
       "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
@@ -523,11 +953,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Hf713ce68ff-10",
+      "nome": "XL^ Stracittadina Novolese",
+      "data": "2026-10-25",
+      "luogo": "NOVOLI",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "Hf713ce68ff",
       "nome": "XL^ Stracittadina Novolese",
       "data": "2026-10-25",
       "luogo": "NOVOLI",
       "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Hf33438d256-42",
+      "nome": "XL^ Venicemarathon",
+      "data": "2026-10-25",
+      "luogo": "VENEZIA",
+      "distanza": "42",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -543,6 +993,16 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H1f0b208aec-10",
+      "nome": "XXIII^ Flik Flok",
+      "data": "2026-10-25",
+      "luogo": "CASERTA",
+      "distanza": "10",
+      "annullata": true,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H1f0b208aec",
       "nome": "XXIII^ Flik Flok",
       "data": "2026-10-25",
@@ -553,10 +1013,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H042989d225-21",
+      "nome": "XXVII^ Maratonina Citta' di Arezzo",
+      "data": "2026-10-25",
+      "luogo": "AREZZO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H042989d225",
       "nome": "XXVII^ Maratonina Citta' di Arezzo",
       "data": "2026-10-25",
       "luogo": "AREZZO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Hcd5345da09-21",
+      "nome": "XXXI^ Strasalerno Half Marathon",
+      "data": "2026-10-25",
+      "luogo": "SALERNO",
       "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
@@ -573,12 +1053,32 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H9764a82194-10",
+      "nome": "XX^ CorriMolfetta",
+      "data": "2026-10-25",
+      "luogo": "MOLFETTA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H9764a82194",
       "nome": "XX^ CorriMolfetta",
       "data": "2026-10-25",
       "luogo": "MOLFETTA",
       "distanza": "10",
       "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Hd15dcc7074-21",
+      "nome": "X^ Mezza Maratona di Ascoli",
+      "data": "2026-10-25",
+      "luogo": "ASCOLI PICENO",
+      "distanza": "21",
+      "annullata": true,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
     },
@@ -613,11 +1113,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H9b5fd4e924-21",
+      "nome": "III^ Egnazia Half Marathon",
+      "data": "2026-11-01",
+      "luogo": "SAVELLETRI DI FASANO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H9b5fd4e924",
       "nome": "III^ Egnazia Half Marathon",
       "data": "2026-11-01",
       "luogo": "SAVELLETRI DI FASANO",
       "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H8f5810ac68-10",
+      "nome": "I^ FasTen",
+      "data": "2026-11-01",
+      "luogo": "FOLIGNO",
+      "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -633,6 +1153,16 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H8cc967016f-10",
+      "nome": "V^ 10 Km Tigullio Run",
+      "data": "2026-11-01",
+      "luogo": "CHIAVARI",
+      "distanza": "10",
+      "annullata": true,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H8cc967016f",
       "nome": "V^ 10 Km Tigullio Run",
       "data": "2026-11-01",
@@ -643,11 +1173,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H90acb6cab1-10",
+      "nome": "XIII^ Trofeo del Mare",
+      "data": "2026-11-01",
+      "luogo": "BAGHERIA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H90acb6cab1",
       "nome": "XIII^ Trofeo del Mare",
       "data": "2026-11-01",
       "luogo": "BAGHERIA",
       "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Ha81331df59-21",
+      "nome": "XII^ Mezza Maratona 'Citta' di Foligno'",
+      "data": "2026-11-01",
+      "luogo": "FOLIGNO",
+      "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -663,11 +1213,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H869555e784-10",
+      "nome": "XIX^ Applerun",
+      "data": "2026-11-01",
+      "luogo": "CAVOUR",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H869555e784",
       "nome": "XIX^ Applerun",
       "data": "2026-11-01",
       "luogo": "CAVOUR",
       "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H102c8d110b-21",
+      "nome": "XVIII^ Padenghe Half Marathon",
+      "data": "2026-11-01",
+      "luogo": "PADENGHE SUL GARDA",
+      "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -693,11 +1263,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Hf399d23297-10",
+      "nome": "V^ Michelin FastConi",
+      "data": "2026-11-07",
+      "luogo": "CUNEO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "Hf399d23297",
       "nome": "V^ Michelin FastConi",
       "data": "2026-11-07",
       "luogo": "CUNEO",
       "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H5fcea71416-42",
+      "nome": "2^ NURAGHES MARATHON SARDINIA",
+      "data": "2026-11-08",
+      "luogo": "ORISTANO",
+      "distanza": "42",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -713,10 +1303,40 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H683f87d26a-10",
+      "nome": "34° MARCIALONGA D’AUTUNNO  - 6° MEMORIAL “SANDRO BARCHIESI",
+      "data": "2026-11-08",
+      "luogo": "FALCONARA MARITTIMA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H683f87d26a",
       "nome": "34° MARCIALONGA D’AUTUNNO  - 6° MEMORIAL “SANDRO BARCHIESI",
       "data": "2026-11-08",
       "luogo": "FALCONARA MARITTIMA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Hb73547f9a3-21",
+      "nome": "Bosconero (TO) - 3a 21 D’ Inverno dell’Abate Guglielmo - Km. 21/9,9",
+      "data": "2026-11-08",
+      "luogo": "BOSCONERO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Hb73547f9a3-10",
+      "nome": "Bosconero (TO) - 3a 21 D’ Inverno dell’Abate Guglielmo - Km. 21/9,9",
+      "data": "2026-11-08",
+      "luogo": "BOSCONERO",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -743,12 +1363,32 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H5194788aad-10",
+      "nome": "III CORSA DI SAN MARTINO - KM 9,600",
+      "data": "2026-11-08",
+      "luogo": "CASTELLABATE",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H5194788aad",
       "nome": "III CORSA DI SAN MARTINO - KM 9,600",
       "data": "2026-11-08",
       "luogo": "CASTELLABATE",
       "distanza": "10",
       "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "He0e5fd2134-21",
+      "nome": "II^ Lumia Half Marathon",
+      "data": "2026-11-08",
+      "luogo": "AVOLA",
+      "distanza": "21",
+      "annullata": true,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
     },
@@ -773,10 +1413,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H48dbddf46d-21",
+      "nome": "IV^ Co.Ro. Half Marathon",
+      "data": "2026-11-08",
+      "luogo": "CORIGLIANO-ROSSANO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H48dbddf46d",
       "nome": "IV^ Co.Ro. Half Marathon",
       "data": "2026-11-08",
       "luogo": "CORIGLIANO-ROSSANO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H3f09da405c-21",
+      "nome": "I^ La Mezza del Borgo",
+      "data": "2026-11-08",
+      "luogo": "NOTO",
       "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
@@ -793,10 +1453,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H55c5d09a66-10",
+      "nome": "I^ StrAVicenza Fast",
+      "data": "2026-11-08",
+      "luogo": "VICENZA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H55c5d09a66",
       "nome": "I^ StrAVicenza Fast",
       "data": "2026-11-08",
       "luogo": "VICENZA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H37697b0c71-10",
+      "nome": "Torino (TO) - 3a Cedas We Run - Km. 9.9",
+      "data": "2026-11-08",
+      "luogo": "TORINO",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -813,10 +1493,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H3803935dab-10",
+      "nome": "V STRACASALE - KM 9,900",
+      "data": "2026-11-08",
+      "luogo": "CASAL DI PRINCIPE",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H3803935dab",
       "nome": "V STRACASALE - KM 9,900",
       "data": "2026-11-08",
       "luogo": "CASAL DI PRINCIPE",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Hd74256421b-10",
+      "nome": "VII CORRI MONTORO - KM 9,900",
+      "data": "2026-11-08",
+      "luogo": "MONTORO",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -833,10 +1533,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H6ed9471e45-10",
+      "nome": "VIII^ 10km Citta' di Crema",
+      "data": "2026-11-08",
+      "luogo": "CREMA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H6ed9471e45",
       "nome": "VIII^ 10km Citta' di Crema",
       "data": "2026-11-08",
       "luogo": "CREMA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H0119a968df-10",
+      "nome": "V^ X° Trofeo Equilibra - IV° Trofeo Nunzio Ganci Uno di Noi",
+      "data": "2026-11-08",
+      "luogo": "PALERMO",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -863,6 +1583,16 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H3ae0346be3-10",
+      "nome": "XIV^ Oliolivarun",
+      "data": "2026-11-08",
+      "luogo": "IMPERIA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H3ae0346be3",
       "nome": "XIV^ Oliolivarun",
       "data": "2026-11-08",
@@ -873,10 +1603,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H1e1e099118-21",
+      "nome": "XIV^ Ravenna Half Marathon",
+      "data": "2026-11-08",
+      "luogo": "RAVENNA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H1e1e099118",
       "nome": "XIV^ Ravenna Half Marathon",
       "data": "2026-11-08",
       "luogo": "RAVENNA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H89134eab46-21",
+      "nome": "XLVIII^ Strataranto Half Marathon del Mediterraneo",
+      "data": "2026-11-08",
+      "luogo": "TARANTO",
       "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
@@ -893,11 +1643,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Hb9ea5476e8-10",
+      "nome": "XV^ Lago Maggiore Marathon - 10 km",
+      "data": "2026-11-08",
+      "luogo": "VERBANIA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "Hb9ea5476e8",
       "nome": "XV^ Lago Maggiore Marathon - 10 km",
       "data": "2026-11-08",
       "luogo": "VERBANIA",
       "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Hf5dd27ca38-42",
+      "nome": "XV^ Lago Maggiore Marathon - Maratona",
+      "data": "2026-11-08",
+      "luogo": "VERBANIA",
+      "distanza": "42",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -913,11 +1683,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H302e1ecf52-21",
+      "nome": "XV^ Lago Maggiore Marathon - Mezza Maratona",
+      "data": "2026-11-08",
+      "luogo": "VERBANIA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H302e1ecf52",
       "nome": "XV^ Lago Maggiore Marathon - Mezza Maratona",
       "data": "2026-11-08",
       "luogo": "VERBANIA",
       "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Hd79dcd671b-42",
+      "nome": "XXVII^ Maratona di Ravenna Citta' d'Arte",
+      "data": "2026-11-08",
+      "luogo": "RAVENNA",
+      "distanza": "42",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -933,10 +1723,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H87e6a4a5ed-21",
+      "nome": "XXXIII^ Maratonina Citta' di Busto Arsizio",
+      "data": "2026-11-08",
+      "luogo": "BUSTO ARSIZIO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H87e6a4a5ed",
       "nome": "XXXIII^ Maratonina Citta' di Busto Arsizio",
       "data": "2026-11-08",
       "luogo": "BUSTO ARSIZIO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H5a51f2c404-21",
+      "nome": "XX^ Maratonina Citta' di Crema",
+      "data": "2026-11-08",
+      "luogo": "CREMA",
       "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
@@ -963,11 +1773,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H48c3077553-10",
+      "nome": "Alba (CN) - 49° Trofeo Gruppo Podisti Albesi - Gran Premio Guido Galliano - Km. 9,5",
+      "data": "2026-11-15",
+      "luogo": "ALBA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H48c3077553",
       "nome": "Alba (CN) - 49° Trofeo Gruppo Podisti Albesi - Gran Premio Guido Galliano - Km. 9,5",
       "data": "2026-11-15",
       "luogo": "ALBA",
       "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H6ba3fa01bb-42",
+      "nome": "II^ Due Mari Marathon",
+      "data": "2026-11-15",
+      "luogo": "TARANTO",
+      "distanza": "42",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -983,10 +1813,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H1d7cd09f11-10",
+      "nome": "IV SAN MARZANO CORRE - KM 9,900",
+      "data": "2026-11-15",
+      "luogo": "SAN MARZANO SUL SARNO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H1d7cd09f11",
       "nome": "IV SAN MARZANO CORRE - KM 9,900",
       "data": "2026-11-15",
       "luogo": "SAN MARZANO SUL SARNO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H0117915b1d-10",
+      "nome": "IV SPARTACUS RUN - KM 9,900",
+      "data": "2026-11-15",
+      "luogo": "SANTA MARIA CAPUA VETERE",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -1003,10 +1853,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H9f33eb79da-10",
+      "nome": "IV^ San Giovanni in Run",
+      "data": "2026-11-15",
+      "luogo": "SAN GIOVANNI ROTONDO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H9f33eb79da",
       "nome": "IV^ San Giovanni in Run",
       "data": "2026-11-15",
       "luogo": "SAN GIOVANNI ROTONDO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H4ecf39321c-10",
+      "nome": "I^ 10 K Trofeo Citta' dello Zafferano",
+      "data": "2026-11-15",
+      "luogo": "SAN GAVINO MONREALE",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -1033,11 +1903,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H2cd4f11b90-10",
+      "nome": "LII^ Cheursa di Bech",
+      "data": "2026-11-15",
+      "luogo": "SANTARCANGELO DI ROMAGNA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H2cd4f11b90",
       "nome": "LII^ Cheursa di Bech",
       "data": "2026-11-15",
       "luogo": "SANTARCANGELO DI ROMAGNA",
       "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Hf58ca9cda3-21",
+      "nome": "Metà Mezza",
+      "data": "2026-11-15",
+      "luogo": "TRESTINA",
+      "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -1063,6 +1953,16 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H5ebe117628-42",
+      "nome": "VII^ Maratona della Grecìa Salentina",
+      "data": "2026-11-15",
+      "luogo": "CALIMERA",
+      "distanza": "42",
+      "annullata": true,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H5ebe117628",
       "nome": "VII^ Maratona della Grecìa Salentina",
       "data": "2026-11-15",
@@ -1073,11 +1973,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Hecb8fa9db9-21",
+      "nome": "VII^ Mezza Maratona della Grecia Salentina",
+      "data": "2026-11-15",
+      "luogo": "CALIMERA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "Hecb8fa9db9",
       "nome": "VII^ Mezza Maratona della Grecia Salentina",
       "data": "2026-11-15",
       "luogo": "CALIMERA",
       "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H49400b8ce6-10",
+      "nome": "VI^ Corsa del Ricordo",
+      "data": "2026-11-15",
+      "luogo": "MILANO",
+      "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -1093,10 +2013,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H2a616c9bdc-21",
+      "nome": "XIII^ Verona Run Halfmarathon",
+      "data": "2026-11-15",
+      "luogo": "VERONA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H2a616c9bdc",
       "nome": "XIII^ Verona Run Halfmarathon",
       "data": "2026-11-15",
       "luogo": "VERONA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Ha60293ff77-21",
+      "nome": "XII^ Savona International Half Marathon",
+      "data": "2026-11-15",
+      "luogo": "SAVONA",
       "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
@@ -1113,10 +2053,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Hfdc570ade3-10",
+      "nome": "XII^ Savona Ten 10K",
+      "data": "2026-11-15",
+      "luogo": "SAVONA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "Hfdc570ade3",
       "nome": "XII^ Savona Ten 10K",
       "data": "2026-11-15",
       "luogo": "SAVONA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H5dfb274b4a-10",
+      "nome": "XVII^ AlpinCup",
+      "data": "2026-11-15",
+      "luogo": "CINISELLO BALSAMO",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -1133,6 +2093,16 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H3e7a039fcb-10",
+      "nome": "XXII^ Trofeo Citta' di Castelnuovo Vomano",
+      "data": "2026-11-15",
+      "luogo": "CASTELNUOVO VOMANO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H3e7a039fcb",
       "nome": "XXII^ Trofeo Citta' di Castelnuovo Vomano",
       "data": "2026-11-15",
@@ -1143,10 +2113,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Hae3ab37fd7-42",
+      "nome": "XXV^ Verona Run Marathon",
+      "data": "2026-11-15",
+      "luogo": "VERONA",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "Hae3ab37fd7",
       "nome": "XXV^ Verona Run Marathon",
       "data": "2026-11-15",
       "luogo": "VERONA",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H8f7c1b5d77-42",
+      "nome": "XXXI^ Maratona Citta' di Palermo",
+      "data": "2026-11-15",
+      "luogo": "PALERMO",
       "distanza": "42",
       "annullata": false,
       "fonte": "FIDAL",
@@ -1163,10 +2153,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H2c2ae4fe0b-21",
+      "nome": "XXXI^ Mezza Maratona Citta' di Palermo",
+      "data": "2026-11-15",
+      "luogo": "PALERMO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H2c2ae4fe0b",
       "nome": "XXXI^ Mezza Maratona Citta' di Palermo",
       "data": "2026-11-15",
       "luogo": "PALERMO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Ha67d7d97bf-21",
+      "nome": "XX^ Mezza Maratona Terre d'Acqua Citta' di Trino",
+      "data": "2026-11-15",
+      "luogo": "TRINO",
       "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
@@ -1183,6 +2193,16 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H71c7f2b0f6-21",
+      "nome": "XII^ Mezza Maratona Int.le Citta' di Caserta 'Reggia-Reggia'",
+      "data": "2026-11-21",
+      "luogo": "CASERTA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H71c7f2b0f6",
       "nome": "XII^ Mezza Maratona Int.le Citta' di Caserta 'Reggia-Reggia'",
       "data": "2026-11-21",
@@ -1193,11 +2213,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Hefc8ffafa3-10",
+      "nome": "10K San Francesco Marathon",
+      "data": "2026-11-22",
+      "luogo": "ASSISI",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "Hefc8ffafa3",
       "nome": "10K San Francesco Marathon",
       "data": "2026-11-22",
       "luogo": "ASSISI",
       "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H55390a9555-21",
+      "nome": "28^ MARATONINA CITTA' DI UTA",
+      "data": "2026-11-22",
+      "luogo": "UTA",
+      "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -1223,11 +2263,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Hdc03f5f540-21",
+      "nome": "III^ BCC Brescia Park Run",
+      "data": "2026-11-22",
+      "luogo": "BRESCIA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "Hdc03f5f540",
       "nome": "III^ BCC Brescia Park Run",
       "data": "2026-11-22",
       "luogo": "BRESCIA",
       "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Hab4a59cd5c-10",
+      "nome": "III^ BCC Brescia Park Run 10K",
+      "data": "2026-11-22",
+      "luogo": "BRESCIA",
+      "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -1243,11 +2303,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Hb4500e5888-42",
+      "nome": "III^ San Francesco Marathon 2026",
+      "data": "2026-11-22",
+      "luogo": "ASSISI",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "Hb4500e5888",
       "nome": "III^ San Francesco Marathon 2026",
       "data": "2026-11-22",
       "luogo": "ASSISI",
       "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H254ba03df8-21",
+      "nome": "II^ 21k San Francesco Marathon",
+      "data": "2026-11-22",
+      "luogo": "ASSISI",
+      "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -1263,10 +2343,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H8c532b719b-10",
+      "nome": "IV^ 10K Riviera delle Palme 10km",
+      "data": "2026-11-22",
+      "luogo": "GROTTAMMARE",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H8c532b719b",
       "nome": "IV^ 10K Riviera delle Palme 10km",
       "data": "2026-11-22",
       "luogo": "GROTTAMMARE",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Hf1cb19af7d-10",
+      "nome": "IV^ La 10 km della Perla dello Jonio",
+      "data": "2026-11-22",
+      "luogo": "SOVERATO",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -1283,10 +2383,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H724eb9889e-21",
+      "nome": "IX^ Half Marathon Riviera Palme",
+      "data": "2026-11-22",
+      "luogo": "GROTTAMMARE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H724eb9889e",
       "nome": "IX^ Half Marathon Riviera Palme",
       "data": "2026-11-22",
       "luogo": "GROTTAMMARE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H0e7dc2579e-21",
+      "nome": "IX^ Milano21",
+      "data": "2026-11-22",
+      "luogo": "MILANO",
       "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
@@ -1303,11 +2423,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H9d7d1dd70d-10",
+      "nome": "IX^ Milano21 (10K)",
+      "data": "2026-11-22",
+      "luogo": "MILANO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H9d7d1dd70d",
       "nome": "IX^ Milano21 (10K)",
       "data": "2026-11-22",
       "luogo": "MILANO",
       "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H815bf515a2-21",
+      "nome": "VII^ Maratonina di San Biagio",
+      "data": "2026-11-22",
+      "luogo": "SAN BIAGIO DI CALLALTA",
+      "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -1323,10 +2463,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H2ec7578a3f-10",
+      "nome": "VI^ StraFloridia",
+      "data": "2026-11-22",
+      "luogo": "FLORIDIA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H2ec7578a3f",
       "nome": "VI^ StraFloridia",
       "data": "2026-11-22",
       "luogo": "FLORIDIA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H730a1fbd10-10",
+      "nome": "V^ 10 km Citta' di Faenza",
+      "data": "2026-11-22",
+      "luogo": "FAENZA",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -1343,10 +2503,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H2f2a26d05b-10",
+      "nome": "XIV^ Taranto nel Cuore",
+      "data": "2026-11-22",
+      "luogo": "TARANTO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H2f2a26d05b",
       "nome": "XIV^ Taranto nel Cuore",
       "data": "2026-11-22",
       "luogo": "TARANTO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H696ffb4c62-10",
+      "nome": "XXIV^ Palio Fiorentino",
+      "data": "2026-11-22",
+      "luogo": "SESTO FIORENTINO",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -1383,6 +2563,16 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Hcc1b41c975-10",
+      "nome": "CAMPIONATO ITALIANO INDIVIDUALE e DI SOCIETA' MASTER KM 10 su STRADA",
+      "data": "2026-11-29",
+      "luogo": "PORTO SAN GIORGIO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "Hcc1b41c975",
       "nome": "CAMPIONATO ITALIANO INDIVIDUALE e DI SOCIETA' MASTER KM 10 su STRADA",
       "data": "2026-11-29",
@@ -1403,10 +2593,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H16538e4778-10",
+      "nome": "II RUNNING CUP MACERATESE - KM 9,900",
+      "data": "2026-11-29",
+      "luogo": "MACERATA CAMPANIA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H16538e4778",
       "nome": "II RUNNING CUP MACERATESE - KM 9,900",
       "data": "2026-11-29",
       "luogo": "MACERATA CAMPANIA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H6f0172616d-10",
+      "nome": "III^ 10K Firenze Marathon",
+      "data": "2026-11-29",
+      "luogo": "FIRENZE",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -1423,10 +2633,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H1cda2bdc1d-10",
+      "nome": "III^ CorriaMola...Insieme",
+      "data": "2026-11-29",
+      "luogo": "MOLA DI BARI",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H1cda2bdc1d",
       "nome": "III^ CorriaMola...Insieme",
       "data": "2026-11-29",
       "luogo": "MOLA DI BARI",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Heedbaea5fa-10",
+      "nome": "III^ Osteria dei Podisti Run",
+      "data": "2026-11-29",
+      "luogo": "MONTELABBATE",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -1443,6 +2673,16 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Hbc4c9531f9-10",
+      "nome": "IV POMIGLIANO PER TELETHON - KM 9,900",
+      "data": "2026-11-29",
+      "luogo": "POMIGLIANO D'ARCO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "Hbc4c9531f9",
       "nome": "IV POMIGLIANO PER TELETHON - KM 9,900",
       "data": "2026-11-29",
@@ -1453,10 +2693,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H75715bdf54-10",
+      "nome": "IV^ Stramilano SottoZero",
+      "data": "2026-11-29",
+      "luogo": "MILANO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H75715bdf54",
       "nome": "IV^ Stramilano SottoZero",
       "data": "2026-11-29",
       "luogo": "MILANO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H6d35f66ca8-10",
+      "nome": "Piossasco (TO) - 32a 6 Miglia di Piossasco - Camminata per la Vita - Km. 9,6",
+      "data": "2026-11-29",
+      "luogo": "PIOSSASCO",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -1483,10 +2743,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Hce5444c297-21",
+      "nome": "VII^ La Michettiana Running",
+      "data": "2026-11-29",
+      "luogo": "FRANCAVILLA LA MARE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "Hce5444c297",
       "nome": "VII^ La Michettiana Running",
       "data": "2026-11-29",
       "luogo": "FRANCAVILLA LA MARE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "He4c95e401a-21",
+      "nome": "VI^ Torino City Half Marathon",
+      "data": "2026-11-29",
+      "luogo": "TORINO",
       "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
@@ -1503,6 +2783,16 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H043d655796-42",
+      "nome": "VI^ Torino City Marathon",
+      "data": "2026-11-29",
+      "luogo": "TORINO",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H043d655796",
       "nome": "VI^ Torino City Marathon",
       "data": "2026-11-29",
@@ -1513,10 +2803,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H8e657cb819-10",
+      "nome": "V^ La 10 di Malo - 5° Trofeo Sacme",
+      "data": "2026-11-29",
+      "luogo": "MALO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H8e657cb819",
       "nome": "V^ La 10 di Malo - 5° Trofeo Sacme",
       "data": "2026-11-29",
       "luogo": "MALO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H3a762d8fcd-10",
+      "nome": "V^ Spotorno Run 10K",
+      "data": "2026-11-29",
+      "luogo": "SPOTORNO",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -1533,11 +2843,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H23f695ad17-21",
+      "nome": "X PODISTICA MAZARA",
+      "data": "2026-11-29",
+      "luogo": "MAZARA DEL VALLO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H23f695ad17",
       "nome": "X PODISTICA MAZARA",
       "data": "2026-11-29",
       "luogo": "MAZARA DEL VALLO",
       "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H60f5893e57-10",
+      "nome": "XI^ Cinque Fossi",
+      "data": "2026-11-29",
+      "luogo": "MINERBIO",
+      "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -1553,11 +2883,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H88b48310e5-42",
+      "nome": "XLII^ ESTRA Firenze Marathon",
+      "data": "2026-11-29",
+      "luogo": "FIRENZE",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H88b48310e5",
       "nome": "XLII^ ESTRA Firenze Marathon",
       "data": "2026-11-29",
       "luogo": "FIRENZE",
       "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H2fc67b4872-21",
+      "nome": "XXIII^ Fiumicino Half Marathon",
+      "data": "2026-11-29",
+      "luogo": "FIUMICINO",
+      "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -1583,11 +2933,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H0b3d8d0a6b-21",
+      "nome": "XXIV^ Mezza Maratona 'Citta' di Palmanova'",
+      "data": "2026-11-29",
+      "luogo": "PALMANOVA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H0b3d8d0a6b",
       "nome": "XXIV^ Mezza Maratona 'Citta' di Palmanova'",
       "data": "2026-11-29",
       "luogo": "PALMANOVA",
       "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H39519d2004-10",
+      "nome": "XXV^ Trofeo Santa Barbara",
+      "data": "2026-11-29",
+      "luogo": "PATERNò",
+      "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -1603,11 +2973,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H60f90dc0af-21",
+      "nome": "18^ CAGLIARI RESPIRA - MEZZA MARATONA  INTERNAZIONALE",
+      "data": "2026-12-06",
+      "luogo": "CAGLIARI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H60f90dc0af",
       "nome": "18^ CAGLIARI RESPIRA - MEZZA MARATONA  INTERNAZIONALE",
       "data": "2026-12-06",
       "luogo": "CAGLIARI",
       "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H8084c9aa8b-10",
+      "nome": "IX^ Trofeo Spazio Conad Vialarga",
+      "data": "2026-12-06",
+      "luogo": "BOLOGNA",
+      "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -1623,10 +3013,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H316f3784a4-21",
+      "nome": "I^ Mezza Maratona Citta' di Termini Imerese",
+      "data": "2026-12-06",
+      "luogo": "TERMINI IMERESE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H316f3784a4",
       "nome": "I^ Mezza Maratona Citta' di Termini Imerese",
       "data": "2026-12-06",
       "luogo": "TERMINI IMERESE",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Hd4aa7b5c6a-21",
+      "nome": "V^ La Sanremo International Half Marathon - La Mezza Maratona Int.le di Sanremo e della Riviera dei Fiori",
+      "data": "2026-12-06",
+      "luogo": "SANREMO",
       "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
@@ -1643,11 +3053,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H295d840e1a-10",
+      "nome": "XI CORRIAMO SAVIANO - KM 9,900",
+      "data": "2026-12-06",
+      "luogo": "SAVIANO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H295d840e1a",
       "nome": "XI CORRIAMO SAVIANO - KM 9,900",
       "data": "2026-12-06",
       "luogo": "SAVIANO",
       "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Ha725761a25-42",
+      "nome": "XI^ La Sanremo International Marathon - La Maratona Int.le di Sanremo e della Riviera dei Fiori",
+      "data": "2026-12-06",
+      "luogo": "SANREMO",
+      "distanza": "42",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -1673,10 +3103,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Hc6b705562f-21",
+      "nome": "XVI^ Mezzamaratona Citta' di Monopoli",
+      "data": "2026-12-06",
+      "luogo": "MONOPOLI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "Hc6b705562f",
       "nome": "XVI^ Mezzamaratona Citta' di Monopoli",
       "data": "2026-12-06",
       "luogo": "MONOPOLI",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H6ab7c834ea-21",
+      "nome": "XV^ Como Lake Half Marathon",
+      "data": "2026-12-06",
+      "luogo": "COMO",
       "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
@@ -1693,6 +3143,16 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H4fbf7285b7-42",
+      "nome": "XXV^ Maratona di Latina",
+      "data": "2026-12-06",
+      "luogo": "LATINA",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H4fbf7285b7",
       "nome": "XXV^ Maratona di Latina",
       "data": "2026-12-06",
@@ -1703,10 +3163,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H6fbf2f59d1-10",
+      "nome": "XXXIII^ Best Woman",
+      "data": "2026-12-06",
+      "luogo": "FIUMICINO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H6fbf2f59d1",
       "nome": "XXXIII^ Best Woman",
       "data": "2026-12-06",
       "luogo": "FIUMICINO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H7b8ed625ca-10",
+      "nome": "X^ 10 km di Capo Peloro - Trofeo Luigi Cacopardi",
+      "data": "2026-12-06",
+      "luogo": "MESSINA",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -1723,11 +3203,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H5e34172db0-10",
+      "nome": "IV CORRI PER AMORE - KM 9,900",
+      "data": "2026-12-08",
+      "luogo": "CARDITO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H5e34172db0",
       "nome": "IV CORRI PER AMORE - KM 9,900",
       "data": "2026-12-08",
       "luogo": "CARDITO",
       "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H31527128db-21",
+      "nome": "XV^ Mezza Maratona 'Giuseppe Cerone' Citta' di San Miniato",
+      "data": "2026-12-08",
+      "luogo": "SAN MINIATO",
+      "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -1743,10 +3243,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Hd3e6d7e98f-21",
+      "nome": "Fatiche di Ercole Half Marathon",
+      "data": "2026-12-13",
+      "luogo": "POLICORO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "Hd3e6d7e98f",
       "nome": "Fatiche di Ercole Half Marathon",
       "data": "2026-12-13",
       "luogo": "POLICORO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H8bf9c917cf-21",
+      "nome": "III^ Mezza Maratona del Tricolore",
+      "data": "2026-12-13",
+      "luogo": "REGGIO NELL'EMILIA",
       "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
@@ -1773,10 +3293,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Ha5570f355c-10",
+      "nome": "Torino (TO) - 6a Miglia di Natale - Km. 9,5",
+      "data": "2026-12-13",
+      "luogo": "TORINO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "Ha5570f355c",
       "nome": "Torino (TO) - 6a Miglia di Natale - Km. 9,5",
       "data": "2026-12-13",
       "luogo": "TORINO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H25ab7f4606-10",
+      "nome": "VI AVELLINO RUN - TROFEO AGATON CITTA' DI AVELLINO - KM 9,900",
+      "data": "2026-12-13",
+      "luogo": "AVELLINO",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -1793,11 +3333,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H6499ae76d0-10",
+      "nome": "VII LA CORSA DELLA DEA - KM 9,900",
+      "data": "2026-12-13",
+      "luogo": "BELLONA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H6499ae76d0",
       "nome": "VII LA CORSA DELLA DEA - KM 9,900",
       "data": "2026-12-13",
       "luogo": "BELLONA",
       "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H1ca2fac114-42",
+      "nome": "VIII^ Naturosa Catania Marathon",
+      "data": "2026-12-13",
+      "luogo": "CATANIA",
+      "distanza": "42",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -1813,11 +3373,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Hf87bbcd056-21",
+      "nome": "VIII^ Naturosa Half Marathon",
+      "data": "2026-12-13",
+      "luogo": "CATANIA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "Hf87bbcd056",
       "nome": "VIII^ Naturosa Half Marathon",
       "data": "2026-12-13",
       "luogo": "CATANIA",
       "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H90cfe48275-10",
+      "nome": "XI VIVI SAN VITALIANO - KM 9,900",
+      "data": "2026-12-13",
+      "luogo": "SAN VITALIANO",
+      "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -1833,10 +3413,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Hf87a9559ff-21",
+      "nome": "XLVIII^ Invernalissima",
+      "data": "2026-12-13",
+      "luogo": "BASTIA UMBRA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "Hf87a9559ff",
       "nome": "XLVIII^ Invernalissima",
       "data": "2026-12-13",
       "luogo": "BASTIA UMBRA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H864d35f9e9-21",
+      "nome": "XL^ Salento Half Marathon 2026",
+      "data": "2026-12-13",
+      "luogo": "COLLEPASSO",
       "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
@@ -1853,11 +3453,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H90a44ed91b-10",
+      "nome": "XXIV^ Roma Urbs Mundi",
+      "data": "2026-12-13",
+      "luogo": "ROMA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H90a44ed91b",
       "nome": "XXIV^ Roma Urbs Mundi",
       "data": "2026-12-13",
       "luogo": "ROMA",
       "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H466b8254ce-42",
+      "nome": "XXX^ Maratona di Reggio Emilia Citta' del Tricolore",
+      "data": "2026-12-13",
+      "luogo": "REGGIO NELL'EMILIA",
+      "distanza": "42",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -1873,6 +3493,16 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H05d304edbd-10",
+      "nome": "I^ Grandapulia 71100 Run",
+      "data": "2026-12-20",
+      "luogo": "FOGGIA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H05d304edbd",
       "nome": "I^ Grandapulia 71100 Run",
       "data": "2026-12-20",
@@ -1883,10 +3513,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H9a62c7c244-21",
+      "nome": "PODISTICA DI NATALE (14.8 e 21 Km)",
+      "data": "2026-12-20",
+      "luogo": "SAN MARINO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H9a62c7c244",
       "nome": "PODISTICA DI NATALE (14.8 e 21 Km)",
       "data": "2026-12-20",
       "luogo": "SAN MARINO",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H4f84d874d4-21",
+      "nome": "VIII^ Half Marathon Arancia di Ribera D.O.P.",
+      "data": "2026-12-20",
+      "luogo": "RIBERA",
       "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
@@ -1903,6 +3553,16 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Ha6b6be26fb-10",
+      "nome": "XII TROFEO CITTA' DI NOLA - KM 9,900",
+      "data": "2026-12-20",
+      "luogo": "NOLA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "Ha6b6be26fb",
       "nome": "XII TROFEO CITTA' DI NOLA - KM 9,900",
       "data": "2026-12-20",
@@ -1913,10 +3573,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Ha0a67fadd7-21",
+      "nome": "XIX^ Mezza Maratona di Pisa La Pisanina",
+      "data": "2026-12-20",
+      "luogo": "PISA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "Ha0a67fadd7",
       "nome": "XIX^ Mezza Maratona di Pisa La Pisanina",
       "data": "2026-12-20",
       "luogo": "PISA",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Hf10abb3d13-21",
+      "nome": "XLVII^ Corrida del Progresso",
+      "data": "2026-12-20",
+      "luogo": "CASTEL MAGGIORE",
       "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
@@ -1933,11 +3613,31 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H4e5186abd6-42",
+      "nome": "XXVII^ Maratona di Pisa",
+      "data": "2026-12-20",
+      "luogo": "PISA",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H4e5186abd6",
       "nome": "XXVII^ Maratona di Pisa",
       "data": "2026-12-20",
       "luogo": "PISA",
       "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H44b8793d8a-21",
+      "nome": "XX^ Maratonina della Citta' Murata",
+      "data": "2026-12-20",
+      "luogo": "CITTADELLA",
+      "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -1953,10 +3653,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H7635daa9a9-10",
+      "nome": "LA 10 KM DEL CLUB VAI ! - KM 9,900",
+      "data": "2026-12-27",
+      "luogo": "SANTA MARIA CAPUA VETERE",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H7635daa9a9",
       "nome": "LA 10 KM DEL CLUB VAI ! - KM 9,900",
       "data": "2026-12-27",
       "luogo": "SANTA MARIA CAPUA VETERE",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H9bbd194d7e-10",
+      "nome": "VII BRINDIAMO INSIEME - KM 9,900",
+      "data": "2026-12-27",
+      "luogo": "CESINALI",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -1973,6 +3693,16 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H12166ef3c0-10",
+      "nome": "XXI^ Forio In Corsa",
+      "data": "2026-12-27",
+      "luogo": "FORIO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H12166ef3c0",
       "nome": "XXI^ Forio In Corsa",
       "data": "2026-12-27",
@@ -1983,10 +3713,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H1e9aecb9fe-10",
+      "nome": "LII^ Gara Int.le di San Silvestro BOclassic 2026",
+      "data": "2026-12-31",
+      "luogo": "BOLZANO/BOZEN",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "H1e9aecb9fe",
       "nome": "LII^ Gara Int.le di San Silvestro BOclassic 2026",
       "data": "2026-12-31",
       "luogo": "BOLZANO/BOZEN",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "H3e2f4aa625-10",
+      "nome": "XV^ Atleticom We Run Rome",
+      "data": "2026-12-31",
+      "luogo": "ROMA",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
