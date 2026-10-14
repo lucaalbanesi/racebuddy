@@ -6,4 +6,8 @@ window.RB_CONFIG = {
   supabaseKey: "sb_publishable_CgobJLAyW_dDIUAJxtaN-w_Yjr9vXoo",
   // Chiave pubblica per le notifiche push (la privata è solo nei GitHub Secrets).
   vapidPublic: "BJyKMwWISnW3fvymSckSRbscGl2DmTIMin0stisNCgwRUiGCfNVZqFLako75Djg5MATIa7nN4NNLgmQJH-_D9tc",
+  // Login con email e codice (Supabase Auth) e integrazione Strava: si accendono quando la configurazione manuale è fatta
+  // (vedi docs/login-strava.md).
+  login: false,
+  strava: false,
 };

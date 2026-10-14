@@ -1,7 +1,7 @@
 name: Test database gruppo
 on:
   push:
-    paths: ["docs/supabase*.sql", "tests/test_gruppo.sql", "tests/test_statistiche.sql", ".github/workflows/test-db.yml"]
+    paths: ["docs/supabase*.sql", "tests/test_*.sql", ".github/workflows/test-db.yml"]
   workflow_dispatch:
 jobs:
   test:
@@ -39,6 +39,15 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f tests/test_statistiche.sql > esito3.txt 2>&1 || true
           cat esito3.txt
           if ! grep -q "permessi statistiche ok" esito3.txt; then echo "::error::statistiche: $(grep -iE 'error|errore|assert|context|line' esito3.txt | head -6 | tr '\n' ' ')"; exit 1; fi
+      - name: Account e Strava
+        run: |
+          # come su Supabase: schema auth, utenti, auth.uid() dal JWT (qui da request.jwt.claim.sub), ruolo authenticated
+          psql -v ON_ERROR_STOP=1 -c "create schema auth; create table auth.users (id uuid primary key, email text); create function auth.uid() returns uuid language sql stable as \$\$ select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid \$\$; grant usage on schema auth to anon, authenticated; grant execute on function auth.uid() to anon, authenticated;"
+          psql -v ON_ERROR_STOP=1 -f docs/supabase_account.sql
+          psql -v ON_ERROR_STOP=1 -f docs/supabase_account.sql   # ripetibile
+          psql -v ON_ERROR_STOP=1 -f tests/test_account.sql > esito4.txt 2>&1 || true
+          cat esito4.txt
+          if ! grep -q "permessi account ok" esito4.txt; then echo "::error::account: $(grep -iE 'error|errore|assert|context|line' esito4.txt | head -6 | tr '\n' ' ')"; exit 1; fi
       # La migrazione dei personali, applicata allo schema in produzione prima dei personali (f287bf8), deve dare lo stesso risultato.
       - name: Migrazione personali sullo schema in produzione
         run: |

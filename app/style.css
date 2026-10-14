@@ -184,6 +184,9 @@ body.onboarding .app { padding: 0; max-width: 480px; min-height: 100dvh; }
 .contenuto.grande .c-testo { padding: 4px 14px 14px; }
 .contenuto.grande .c-titolo { font-size: 18px; }
 .contenuto.letto { opacity: .6; }
+/* Account e Strava */
+.codice-otp { height: 56px; text-align: center; font: 700 30px var(--display); letter-spacing: .4em; }
+.strava-meglio { border: 2px solid var(--accent); }
 /* Immagine del risultato */
 .cnd-anteprima { display: flex; justify-content: center; }
 .cnd-anteprima canvas { width: 200px; height: auto; border-radius: 14px; box-shadow: 0 10px 30px #0003; background: var(--navy); }

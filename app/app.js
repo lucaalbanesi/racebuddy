@@ -134,6 +134,48 @@
     }
     try { return testo ? JSON.parse(testo) : null; } catch (e) { return testo; }
   }
+  // ---------------------------------------------------------------- account (facoltativo: email e codice, Supabase Auth)
+  // La sessione sta in una chiave a parte, non nei dati dell'app. Dell'account online c'è solo l'email.
+  const AUTH_KEY = "racebuddy.account";
+  let AUTH = null;
+  try { AUTH = JSON.parse(localStorage.getItem(AUTH_KEY) || "null"); } catch (e) { AUTH = null; }
+  const salvaAuth = () => { try { if (AUTH) localStorage.setItem(AUTH_KEY, JSON.stringify(AUTH)); else localStorage.removeItem(AUTH_KEY); } catch (e) { /* niente */ } };
+  const ERR_AUTH = { otp_expired: "Codice scaduto o sbagliato: chiedine uno nuovo", over_email_send_rate_limit: "Troppe email in poco tempo: riprova tra qualche minuto",
+    email_address_invalid: "Email non valida", validation_failed: "Email non valida", otp_disabled: "Il login non è ancora attivo" };
+  async function chiamaAuth(percorso, corpo, bearer) {
+    const r = await fetch(`${C().supabaseUrl}/auth/v1/${percorso}`, { method: "POST", headers: { apikey: C().supabaseKey, "Content-Type": "application/json", ...(bearer ? { Authorization: `Bearer ${bearer}` } : {}) }, body: JSON.stringify(corpo || {}) });
+    const t = await r.text(); let j = {};
+    try { j = t ? JSON.parse(t) : {}; } catch (e) { /* testo grezzo */ }
+    if (!r.ok) throw new Error(ERR_AUTH[j.error_code || j.code] || (r.status === 429 ? ERR_AUTH.over_email_send_rate_limit : "Non riuscito, riprova"));
+    return j;
+  }
+  function salvaSessione(j) { AUTH = { access: j.access_token, refresh: j.refresh_token, scade: Date.now() + (Number(j.expires_in) || 3600) * 1000, email: (j.user && j.user.email) || (AUTH && AUTH.email) || "" }; salvaAuth(); }
+  async function tokenAccount() {
+    if (!AUTH) return null;
+    if (AUTH.scade > Date.now() + 60000) return AUTH.access;
+    try { salvaSessione(await chiamaAuth("token?grant_type=refresh_token", { refresh_token: AUTH.refresh })); return AUTH.access; }
+    catch (e) { AUTH = null; salvaAuth(); return null; }
+  }
+  async function conAccount(url, corpo) {
+    const tk = await tokenAccount();
+    if (!tk) throw new Error("Entra di nuovo con la tua email");
+    return fetch(url, { method: "POST", headers: { apikey: C().supabaseKey, Authorization: `Bearer ${tk}`, "Content-Type": "application/json" }, body: JSON.stringify(corpo || {}) });
+  }
+  async function rpcAccount(nome, corpo) {
+    const r = await conAccount(`${C().supabaseUrl}/rest/v1/rpc/${nome}`, corpo), t = await r.text();
+    if (!r.ok) { let m = t; try { m = JSON.parse(t).message || t; } catch (e) { /* testo */ } throw new Error(String(m).slice(0, 160)); }
+    try { return t ? JSON.parse(t) : null; } catch (e) { return t; }
+  }
+  async function funzioneStrava(corpo) {
+    const r = await conAccount(`${C().supabaseUrl}/functions/v1/strava`, corpo), j = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(j.errore === "non collegato" ? "Strava non è collegato" : "Strava non risponde, riprova più tardi");
+    return j;
+  }
+  async function endpointPush() {
+    try { const reg = await Promise.race([navigator.serviceWorker.ready, new Promise((_, ko) => setTimeout(ko, 2000))]); const sub = await reg.pushManager.getSubscription(); return sub ? sub.endpoint : null; }
+    catch (e) { return null; }
+  }
+
   async function inviaIscrizione(sub) {
     const j = sub.toJSON();
     await rpc("salva_iscrizione", { p_endpoint: j.endpoint, p_p256dh: j.keys.p256dh, p_auth: j.keys.auth, p_dati: datiPush() });
@@ -160,12 +202,13 @@
       btn.disabled = false; toast("Non sono riuscito ad attivarle"); S.errorePush = String(e.message || e).slice(0, 140); salva(); rerender();
     }
   }
-  async function disattivaPush() {
+  async function disattivaPush(silenziosa) {
     try {
-      const reg = await navigator.serviceWorker.ready, sub = await reg.pushManager.getSubscription();
+      const reg = await Promise.race([navigator.serviceWorker.ready, new Promise((_, ko) => setTimeout(ko, 2000))]), sub = await reg.pushManager.getSubscription();
       if (sub) { await rpc("cancella_iscrizione", { p_endpoint: sub.endpoint }).catch(() => {}); await sub.unsubscribe(); }
     } catch (e) { /* va bene lo stesso */ }
-    S.push = null; salva(); toast("Notifiche disattivate"); rerender();
+    S.push = null; salva();
+    if (!silenziosa) { toast("Notifiche disattivate"); rerender(); }
   }
   async function provaNotifica() {
     const reg = await navigator.serviceWorker.ready;
@@ -1096,10 +1139,12 @@
     const r = (S.risultati || {})[id] || {}, pb = (S.pb || {})[g.distanza];
     const inGruppo = S.gruppo && S.gruppo.dentro;
     const altri = inGruppo && GD() ? GD().bacheca.filter((p) => p.tipo === "risultato" && p.gara_nome === g.nome && !p.mio).map((p) => p.membro) : [];
+    setTimeout(() => stravaRisultato(id), 0);
     return `${bannerProva()}<header class="head-back">${back("#/oggi")}<div><span class="eyebrow">${esc(titoloGara(g.nome))} · ${esc(L.fmtGiorno(g.data))}</span><h1 style="font-size:30px">Com'è andata?</h1></div></header>
       <form id="risultato" data-id="${esc(id)}" style="display:flex;flex-direction:column;gap:12px">
       <section class="card" style="align-items:center;text-align:center"><span class="eyebrow" id="ris-tempo-l">Il tuo tempo ufficiale</span>
         ${campoTempo("ris-tempo", g.distanza, r.tempo, "ris-tempo-l", true)}
+        <div id="ris-strava" style="width:100%"></div>
         <span class="small muted" id="ris-pb">${pb ? `Il tuo personale: ${esc(L.leggiTempo(g.distanza, pb.tempo).tempo || pb.tempo)}` : "Solo numeri: si passa da solo alla casella dopo"}</span></section>
       <div class="field"><label for="ris-testo">Due parole <span class="muted">(facoltativo)</span></label><textarea class="input" id="ris-testo" maxlength="280" placeholder="es. Crisi al 16, poi il traguardo mi ha tirato su.">${esc(r.testo || "")}</textarea></div>
       ${inGruppo ? `<section class="card" style="gap:0"><label class="check"><input type="checkbox" id="ris-bacheca" checked><span><span class="t">Condividi in bacheca con il gruppo</span>${GD() && GD().io && GD().io.mostra_pb !== false ? `<br><span class="d">Se è un nuovo personale, si aggiorna anche in classifica.</span>` : ""}</span></label></section>` : `<p class="sub">Entra in un gruppo per condividere i risultati con la tua società.</p>`}
@@ -1199,7 +1244,7 @@
     const riga = (d) => {
       const x = pb[d];
       return `<form class="pb-riga" data-form="pb" data-d="${d}">
-        <div class="between"><span class="title">${esc(L.DIST_LABEL[d])}</span>${x ? `<b class="pb-tempo">${esc(L.leggiTempo(d, x.tempo).tempo || x.tempo)}</b>` : `<span class="small muted">da inserire</span>`}</div>
+        <div class="between"><span class="title">${esc(L.DIST_LABEL[d])}${x && x.fonte === "strava" ? ' <span class="small muted" style="font-weight:700">· da Strava</span>' : ""}</span>${x ? `<b class="pb-tempo">${esc(L.leggiTempo(d, x.tempo).tempo || x.tempo)}</b>` : `<span class="small muted">da inserire</span>`}</div>
         ${x && (x.gara || x.data) ? `<span class="small muted">${esc([titoloGara(x.gara), x.data && L.fmtBreve(x.data)].filter(Boolean).join(" · "))}</span>` : ""}
         <details><summary class="small">${x ? "Modifica" : "Inserisci il personale"}</summary><div style="display:flex;flex-direction:column;gap:10px;padding-top:10px">
           <div class="field"><span class="lbl" id="pb-t-${d}-l">Tempo ufficiale</span>${campoTempo(`pb-t-${d}`, d, x && x.tempo, `pb-t-${d}-l`)}</div>
@@ -1209,11 +1254,14 @@
     };
     return `${DISTANZE.map(riga).join("")}
       ${inG ? `<label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="io-mostra-pb" ${GD().io.mostra_pb !== false ? "checked" : ""}><span><span class="t">Metti i miei personali nella classifica del gruppo</span><br><span class="d">Al gruppo vanno solo tempo, gara e data.</span></span></label><a class="small" href="#/gruppo/classifica">Classifica del gruppo ›</a>` : ""}
+      ${S.strava && S.strava.attivo && AUTH ? `<a class="btn ghost" href="#/pb?strava=1">Cerca i miei personali su Strava</a>` : ""}
       <span class="small muted">Restano su questo telefono. Dopo ogni gara, se fai meglio, il personale si aggiorna da solo.</span>`;
   }
   const riassuntoPB = () => DISTANZE.filter((d) => (S.pb || {})[d]).map((d) => `${L.DIST_LABEL[d]} ${L.leggiTempo(d, S.pb[d].tempo).tempo || S.pb[d].tempo}`).join(" · ");
-  function vistaPB() {
+  function vistaPB(param = {}) {
+    if (param.strava && !STRAVA_PB && S.strava && S.strava.attivo && AUTH) caricaPBStrava();
     return `${bannerProva()}<header class="head-back">${back("#/io")}<div><span class="eyebrow">Io</span><h1 style="font-size:28px">I tuoi personali</h1></div></header>
+      ${param.strava ? sezioneStravaPB() : ""}
       <p class="sub">Il tuo miglior tempo su 10 km, mezza e maratona, anche di gare corse prima di RaceBuddy.</p>
       <section class="card" style="gap:14px">${sezionePB()}</section>`;
   }
@@ -1221,10 +1269,148 @@
     : `<section class="card soft"><span class="title">Hai già dei personali?</span><span class="small">Inseriscili una volta: dopo ogni gara ti dico se hai fatto meglio${S.gruppo && S.gruppo.dentro ? " e, se vuoi, entrano nella classifica del gruppo" : ""}.</span>
       <div class="grid2"><a class="btn" href="#/pb">Inseriscili</a><button class="btn ghost" data-act="letto" data-k="pb-invito">Non ora</button></div></section>`);
 
+  // ---------------------------------------------------------------- account e Strava (in Io)
+  const ACC = { email: "", inviato: false };
+  async function dopoLogin() {
+    try {
+      const r = await rpcAccount("collega_account", { p_token: token(), p_endpoint: await endpointPush() });
+      if (r && r.stato === "ritrovato") { G().dentro = true; salva(); await aggiornaGruppo(true); toast(`Bentornato: sei di nuovo in «${r.gruppo}»`); }
+      else if (r && r.stato === "conflitto") toast("Su questo telefono sei già nel gruppo con un altro profilo: esci dal gruppo qui e rientra dopo il login");
+      else toast("Sei entrato");
+    } catch (e) { toast("Sei entrato, ma il gruppo non risponde: riprovo alla prossima apertura"); }
+  }
+  function sezioneAccount() {
+    if (AUTH) return `<span class="small">Sei entrato come <b>${esc(AUTH.email)}</b>.</span><span class="small muted">Gruppo e notifiche sono legati all'account: li ritrovi su un altro telefono dopo il login.</span>
+      <div id="acc-box" class="grid2"><button class="btn ghost" data-act="acc-esci">Esci</button><button class="btn ghost" data-act="acc-cancella" style="color:#B91C1C">Cancella account</button></div>`;
+    if (ACC.inviato) return `<form id="acc-codice" style="display:flex;flex-direction:column;gap:10px"><span class="small">Ti abbiamo scritto a <b>${esc(ACC.email)}</b>. Inserisci il codice di 6 cifre.</span>
+      <label class="sr" for="acc-cod">Codice di 6 cifre</label><input class="input codice-otp" id="acc-cod" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required>
+      <button class="btn" type="submit">Entra</button>
+      <div class="between"><button type="button" class="linkbtn small" data-act="acc-rimanda">Non è arrivato? Rimandalo</button><button type="button" class="linkbtn small" data-act="acc-cambia">Cambia email</button></div>
+      <span class="small muted">Il codice vale qualche minuto.</span></form>`;
+    return `<span class="small">Facoltativo. Con l'account ritrovi gruppo, personali in classifica e notifiche anche su un altro telefono, e puoi collegare Strava. Profilo, preparazione e documenti restano su questo telefono.</span>
+      <form id="acc-email" style="display:flex;flex-direction:column;gap:10px"><div class="field"><label for="acc-mail">La tua email</label><input class="input" id="acc-mail" type="email" autocomplete="email" required value="${esc(ACC.email)}"></div>
+      <button class="btn" type="submit">Mandami il codice</button></form><span class="small muted">Online va solo l'email. Puoi uscire o cancellare l'account quando vuoi.</span>`;
+  }
+
+  let STRAVA_STATO = null, STRAVA_PB = null, stravaInCarico = false;
+  const STRAVA_GIORNO = {};
+  async function caricaStatoStrava() {
+    if (!C().strava || !AUTH || stravaInCarico) return;
+    stravaInCarico = true;
+    try {
+      STRAVA_STATO = await rpcAccount("strava_stato", {});
+      if (STRAVA_STATO.collegato && !(S.strava && S.strava.attivo)) { S.strava = { attivo: true, dal: oggi() }; salva(); aggiornaScarpeStrava(true); }
+      if (!STRAVA_STATO.collegato && S.strava && S.strava.attivo) scollegaLocale();
+    } catch (e) { STRAVA_STATO = { errore: true }; }
+    stravaInCarico = false;
+    if (/^#\/io/.test(location.hash)) rerender();
+  }
+  // Scarpe da Strava: una sola fonte alla volta. Al primo collegamento le manuali vanno in Archivio.
+  async function aggiornaScarpeStrava(forza) {
+    if (!S.strava || !S.strava.attivo || !AUTH) return;
+    if (!forza && S.strava.letto && Date.now() - S.strava.letto < 3600e3) return;
+    try {
+      const { scarpe } = await funzioneStrava({ azione: "scarpe" });
+      if (!S.strava.archiviato) { S.scarpeArchivio = [...(S.scarpeArchivio || []), ...S.scarpe.filter((x) => !x.strava)]; S.scarpe = S.scarpe.filter((x) => x.strava); S.strava.archiviato = true; }
+      const prima = Object.fromEntries(S.scarpe.filter((x) => x.strava).map((x) => [x.stravaId, x]));
+      S.scarpe = (scarpe || []).filter((x) => !x.ritirata).map((x) => ({ tipo: "allenamento", limite: 800, ...(prima[x.id] || {}), id: "st-" + x.id, stravaId: x.id, nome: x.nome, km: x.km, strava: true }));
+      S.strava.letto = Date.now(); salva();
+      if (/^#\/io/.test(location.hash)) rerender();
+    } catch (e) { /* riprova alla prossima apertura */ }
+  }
+  // Scollegato (o account cancellato): scarpe e personali importati restano e diventano manuali.
+  function scollegaLocale() {
+    S.scarpe.forEach((x, i) => { if (x.strava) { x.strava = false; delete x.stravaId; x.id = "S" + Date.now().toString(36) + i; } });
+    for (const d of DISTANZE) if (S.pb && S.pb[d] && S.pb[d].fonte === "strava") delete S.pb[d].fonte;
+    S.strava = null; STRAVA_PB = null; salva();
+  }
+  function sezioneStrava() {
+    if (!AUTH) return `<span class="small">Per collegare Strava serve l'account: entra con la tua email nella sezione Account, qui sopra.</span>`;
+    if (!STRAVA_STATO) { setTimeout(caricaStatoStrava, 0); return `<span class="small muted">Controllo Strava…</span>`; }
+    if (STRAVA_STATO.errore) return `<span class="small">Strava non è raggiungibile al momento.</span><button class="btn ghost small" data-act="strava-ricarica" style="align-self:flex-start">Riprova</button>`;
+    const liberi = Math.max(0, STRAVA_STATO.massimo - STRAVA_STATO.posti);
+    if (STRAVA_STATO.collegato) return `<span class="small">Collegato. Le scarpe e i loro km arrivano da Strava; dopo ogni gara ti proponiamo il tempo. I dati di Strava li vedi solo tu.</span>
+      <a class="riga-novita" href="#/pb?strava=1"><span style="flex:1">Cerca i miei personali su Strava</span><span aria-hidden="true">›</span></a>
+      ${S.strava && S.strava.letto ? `<span class="small muted">Scarpe aggiornate alle ${esc(new Date(S.strava.letto).toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" }))}</span>` : ""}
+      <div id="strava-box"><button class="btn ghost" data-act="strava-scollega">Scollega Strava</button></div>
+      <span class="small muted">Se scolleghi, scarpe e personali importati restano e diventano manuali.</span>`;
+    if (!liberi) return `<span class="small">L'integrazione con Strava è in prova con un gruppo di ${STRAVA_STATO.massimo} tester e i posti sono esauriti. Arriverà per tutti: intanto scarpe e personali si inseriscono a mano.</span><button class="btn ghost" disabled>Collega Strava</button>`;
+    return `<span class="small">Le scarpe e i loro km arrivano da Strava, e dopo ogni gara ti proponiamo il tempo. È in prova con un gruppo di tester: ${liberi} ${liberi === 1 ? "posto libero" : "posti liberi"}.</span>
+      ${S.scarpe.some((x) => !x.strava) ? `<span class="small muted">Le scarpe che hai inserito a mano andranno in Archivio: non contano più finché Strava è collegato.</span>` : ""}
+      <button class="btn" data-act="strava-collega">Collega Strava</button>`;
+  }
+  function ritornoStrava(esito) {
+    S.ioAperto = { ...(S.ioAperto || {}), strava: true };
+    const MSG = { ok: "Strava collegato: arrivano scarpe e km", pieno: "I posti per i tester di Strava sono esauriti", negato: "Collegamento a Strava annullato",
+      permessi: "Servono i permessi su profilo e attività: riprova lasciandoli spuntati", scaduto: "Collegamento scaduto: riprova", errore: "Collegamento a Strava non riuscito: riprova" };
+    toast(MSG[esito] || MSG.errore);
+    if (esito === "ok") { S.strava = { attivo: true, dal: oggi() }; salva(); aggiornaScarpeStrava(true); }
+    STRAVA_STATO = null;
+  }
+  // Personali da Strava: le corse segnate come gara, la migliore per distanza, da confermare una per una.
+  function caricaPBStrava() {
+    STRAVA_PB = "carico";
+    funzioneStrava({ azione: "gare" }).then((r) => { STRAVA_PB = { ...L.candidatiPersonali(r.gare), totale: (r.gare || []).length }; }).catch((e) => { STRAVA_PB = { errore: e.message }; })
+      .then(() => { if (/^#\/pb/.test(location.hash)) rerender(); });
+  }
+  function sezioneStravaPB() {
+    if (!STRAVA_PB) return "";
+    if (STRAVA_PB === "carico") return `<section class="card"><span class="small">Leggo le tue gare su Strava…</span></section>`;
+    if (STRAVA_PB.errore) return `<section class="card"><span class="small">${esc(STRAVA_PB.errore)}</span><button class="btn ghost small" data-act="strava-pb" style="align-self:flex-start">Riprova</button></section>`;
+    const voce = (d) => {
+      const lista = STRAVA_PB[d] || [], c = lista[0], att = (S.pb || {})[d];
+      if (!c) return `<section class="card"><div class="between"><span class="title">${esc(L.DIST_LABEL[d])}</span><span class="small muted">nessuna su Strava</span></div><span class="small muted">Nessuna corsa di questa distanza segnata come gara. Puoi inserirla a mano.</span></section>`;
+      const meglio = !att || c.secondi < att.secondi, km = (c.metri / 1000).toFixed(1).replace(".", ",");
+      const altre = lista.slice(1, 8);
+      return `<section class="card ${meglio ? "strava-meglio" : ""}"><div class="between"><span class="title">${esc(L.DIST_LABEL[d])}</span><span class="small muted">${att ? `oggi nell'app: ${esc(L.leggiTempo(d, att.tempo).tempo || att.tempo)}` : "non ancora inserito"}</span></div>
+        <div class="between"><span style="min-width:0"><b>${esc(c.nome)}</b><br><span class="small muted">${esc(L.fmtBreve(c.data))} · ${km} km sul GPS</span></span><b class="pb-tempo">${esc(c.tempo)}</b></div>
+        ${meglio ? `${att ? `<span class="small" style="color:var(--accent-strong);font-weight:700">Migliore di quello che hai: −${esc(fmtDiff(att.secondi - c.secondi))}</span>` : ""}
+          <div class="grid2"><button class="btn" data-act="strava-pb-salva" data-d="${d}" data-id="${esc(c.id)}">Salva come personale</button><button class="btn ghost" data-act="strava-pb-correggi" data-d="${d}" data-id="${esc(c.id)}">Correggi il tempo</button></div>`
+          : `<span class="small muted">${c.secondi === att.secondi ? "È già il tuo personale." : `Più lento di quello che hai: resta ${esc(L.leggiTempo(d, att.tempo).tempo || att.tempo)}.`}</span>`}
+        ${altre.length ? `<details><summary class="small">Altre ${altre.length} trovate</summary>${altre.map((x) => `<div class="between small" style="padding:6px 0"><span>${esc(x.nome)} · ${esc(L.fmtBreve(x.data))}</span><span class="row"><b>${esc(x.tempo)}</b><button class="linkbtn" data-act="strava-pb-salva" data-d="${d}" data-id="${esc(x.id)}">Usa questa</button></span></div>`).join("")}</details>` : ""}</section>`;
+    };
+    return `<p class="sub">Abbiamo letto le tue corse segnate come <b>gara</b> su Strava: ${STRAVA_PB.totale}. Conferma il tempo ufficiale, che può differire da quello del GPS.</p>${DISTANZE.map(voce).join("")}
+      <p class="sub">I tempi da Strava restano sul telefono. Entrano nella classifica del gruppo solo quelli che salvi, e solo se hai scelto di comparire.</p>`;
+  }
+  // "Com'è andata?": il tempo della corsa su Strava, da confermare (vale il chip).
+  function riempiTempo(id, tempo) {
+    const [h, m, s] = tempo.split(":");
+    for (const [k, v] of [["h", String(Number(h))], ["m", m], ["s", s]]) { const el = document.getElementById(`${id}-${k}`); if (el) el.value = v; }
+  }
+  async function stravaRisultato(id) {
+    const g = S.gare.find((x) => x.id === id);
+    if (!g || !S.strava || !S.strava.attivo || !AUTH || (S.stravaIgnora || {})[id]) return;
+    const n = L.diffDays(oggi(), g.data);
+    if (n < 0 || n > 7) return;
+    let dati = STRAVA_GIORNO[id];
+    if (!dati) { try { dati = STRAVA_GIORNO[id] = await funzioneStrava({ azione: "giorno", data: g.data }); } catch (e) { return; } }
+    const box = document.getElementById("ris-strava");
+    if (!box) return;
+    const { scelta, altre } = L.corsaDellaGara(dati.corse, g.distanza), r = (S.risultati || {})[id];
+    if (!scelta) { box.innerHTML = `<span class="small muted">Su Strava questa gara non c'è ancora: riprovo alla prossima apertura.</span>`; return; }
+    const km = (scelta.metri / 1000).toFixed(1).replace(".", ","), simili = L.candidatiPersonali(altre)[g.distanza] || [];
+    const alternative = simili.length ? `<span class="small">Non è questa? ${simili.map((x) => `<button type="button" class="linkbtn" data-act="ris-strava-usa" data-t="${esc(x.tempo)}">${esc(x.nome)} ${esc(x.tempo)}</button>`).join(" · ")}</span>` : "";
+    if (!r || !r.tempo) {
+      if (["h", "m", "s"].every((k) => !(document.getElementById(`ris-tempo-${k}`) || {}).value)) riempiTempo("ris-tempo", scelta.tempo);
+      box.innerHTML = `<section class="card soft"><span class="eyebrow" style="color:var(--accent-strong)">Da Strava</span><span class="small">Tempo da Strava: <b>${esc(scelta.tempo)}</b> (${km} km sul GPS). Controlla il tempo ufficiale del chip prima di salvare.</span>${alternative}</section>`;
+    } else if (L.leggiTempo(g.distanza, r.tempo).secondi !== L.leggiTempo(g.distanza, scelta.tempo).secondi) {
+      box.innerHTML = `<section class="card soft"><span class="eyebrow" style="color:var(--accent-strong)">Arrivato da Strava</span><span class="small">Su Strava questa gara risulta <b>${esc(scelta.tempo)}</b> (${km} km sul GPS). Il tuo tempo salvato è <b>${esc(L.leggiTempo(g.distanza, r.tempo).tempo || r.tempo)}</b>.</span>
+        <div class="grid2"><button type="button" class="btn" data-act="ris-strava-tieni" data-id="${esc(id)}">Tieni il mio</button><button type="button" class="btn ghost" data-act="ris-strava-usa" data-t="${esc(scelta.tempo)}">Usa Strava</button></div>
+        <span class="small muted">Il tempo ufficiale è quello del chip: di solito vale il tuo.</span>${alternative}</section>`;
+    }
+  }
+
   function vistaIo() {
     const P = S.profilo;
+    const USI = { allenamento: "Allenamento", ritmo: "Ritmo e lunghi", gara: "Gara", trail: "Trail" };
+    const opzioni = (vals, att, fmt) => vals.map((v) => `<option value="${v}" ${String(att) === String(v) ? "selected" : ""}>${fmt(v)}</option>`).join("");
     const scarpe = S.scarpe.map((s) => {
       const st = L.statoScarpa(s);
+      if (s.strava) return `<article class="card"><div class="between"><span class="title">${esc(s.nome)}</span><span class="small muted" style="font-weight:700">da Strava</span></div>
+        <div class="meter ${st.livello}" aria-hidden="true"><div style="width:${Math.max(3, Math.round(st.quota * 100))}%"></div></div>
+        <div class="between small"><span><b>${Math.round(st.km)}</b> di ${st.limite} km</span><span style="font-weight:700;color:${st.livello === "attenzione" ? "var(--warn)" : st.livello === "info" ? "var(--accent)" : "var(--ok)"}">${esc(st.etichetta)}</span></div>
+        <div class="grid2"><div class="field"><label for="su-${esc(s.id)}">Uso</label><select class="input" id="su-${esc(s.id)}" data-act-change="scarpa-uso" data-id="${esc(s.id)}">${opzioni(Object.keys(USI), s.tipo, (v) => USI[v])}</select></div>
+        <div class="field"><label for="sl-${esc(s.id)}">Da cambiare a</label><select class="input" id="sl-${esc(s.id)}" data-act-change="scarpa-limite" data-id="${esc(s.id)}">${opzioni([400, 500, 600, 700, 800, 900, 1000], s.limite, (v) => `${v} km`)}</select></div></div></article>`;
       return `<article class="card"><div class="between"><span class="title">${esc(s.nome)}</span><span class="small muted">${esc({ allenamento: "allenamento", ritmo: "ritmo e lunghi", gara: "gara", trail: "trail" }[s.tipo] || s.tipo)}</span></div>
         <div class="meter ${st.livello}" aria-hidden="true"><div style="width:${Math.max(3, Math.round(st.quota * 100))}%"></div></div>
         <div class="between small"><span><b>${Math.round(st.km)}</b> di ${st.limite} km</span><span style="font-weight:700;color:${st.livello === "attenzione" ? "var(--warn)" : st.livello === "info" ? "var(--accent)" : "var(--ok)"}">${esc(st.etichetta)}</span></div>
@@ -1235,7 +1421,9 @@
     const on = S.push && S.push.attivo, sp = supportoPush();
     const daCambiare = S.scarpe.filter((x) => L.statoScarpa(x).livello === "attenzione").length;
     const inG = S.gruppo && S.gruppo.dentro && GD();
+    const stravaOn = !!(S.strava && S.strava.attivo), archivio = S.scarpeArchivio || [];
     return `${bannerProva()}<header class="head"><h1>Io</h1></header>
+      ${C().login ? acc("account", "Account", AUTH ? '<span class="pill ok">connesso</span>' : "facoltativo", sezioneAccount()) : ""}
       ${acc("profilo", "Profilo", esc([P.nome, P.citta, P.ora && oraInput(P.ora)].filter(Boolean).join(" · ") || "da completare"), `<form id="profilo" autocomplete="off" style="display:flex;flex-direction:column;gap:10px">
         <div class="field"><label for="p-nome">Come ti chiami</label><input class="input" id="p-nome" data-auto="nome" value="${esc(P.nome)}" autocomplete="given-name"></div>
         <div class="field"><label for="p-citta">Dove corri di solito</label><input class="input" id="p-citta" data-auto="citta" value="${esc(P.citta)}" placeholder="es. Roma">
@@ -1248,14 +1436,17 @@
         <label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="io-mostra" ${GD().io.mostra_gare ? "checked" : ""}><span><span class="t">Mostra al gruppo le mie gare</span><br><span class="d">Nome della gara, ruolo e tempo obiettivo.</span></span></label>
         <a class="btn ghost" href="#/gruppo/admin">${GD().io.ruolo === "membro" ? "Membri ed esci dal gruppo" : "Gestisci il gruppo"}</a>` : `<span class="small">Entra nel gruppo della tua società con il link d'invito, oppure crealo se sei il presidente.</span><a class="btn ghost" href="#/gruppo">Vai al gruppo</a>`)}
       ${acc("personali", "I miei personali", esc(riassuntoPB()) || "da inserire", sezionePB())}
-      ${acc("scarpe", "Le mie scarpe", S.scarpe.length ? `${S.scarpe.length} ${S.scarpe.length === 1 ? "paio" : "paia"}${daCambiare ? ` · <b style="color:var(--warn)">${daCambiare} da cambiare</b>` : ""}` : "nessuna", `${scarpe || `<span class="small">Nessuna scarpa ancora.</span>`}
-        <details class="card"><summary>+ Aggiungi una scarpa</summary><form id="scarpa" style="display:flex;flex-direction:column;gap:10px">
+      ${C().strava ? acc("strava", "Strava", STRAVA_STATO && STRAVA_STATO.collegato ? '<span class="pill ok">collegato</span>' : "in prova", sezioneStrava()) : ""}
+      ${acc("scarpe", "Le mie scarpe", S.scarpe.length ? `${S.scarpe.length} ${stravaOn ? "da Strava" : S.scarpe.length === 1 ? "paio" : "paia"}${daCambiare ? ` · <b style="color:var(--warn)">${daCambiare} da cambiare</b>` : ""}` : "nessuna", `${scarpe || `<span class="small">Nessuna scarpa ancora.</span>`}
+        ${stravaOn ? `<span class="small muted">I km arrivano da Strava${S.strava.letto ? `, aggiornati alle ${esc(new Date(S.strava.letto).toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" }))}` : ""}. Una scarpa nuova si aggiunge su Strava; quelle ritirate lì spariscono da qui.</span>` : ""}
+        ${archivio.length ? `<details class="card"><summary>Archivio · ${archivio.length} ${archivio.length === 1 ? "scarpa inserita" : "scarpe inserite"} a mano</summary>${archivio.map((x) => `<div class="between" style="padding:6px 0"><span>${esc(x.nome)} <span class="small muted">· ${Math.round(Number(x.km) || 0)} km</span></span><button class="btn ghost small" data-act="arch-del" data-id="${esc(x.id)}">Elimina</button></div>`).join("")}<span class="small muted">${stravaOn ? "Non contano finché Strava è collegato." : "Se sono le stesse scarpe che hai già, eliminale."}</span></details>` : ""}
+        ${stravaOn ? "" : `<details class="card"><summary>+ Aggiungi una scarpa</summary><form id="scarpa" style="display:flex;flex-direction:column;gap:10px">
         <div class="field"><label for="s-nome">Modello</label><input class="input" id="s-nome" required placeholder="es. la mia scarpa da lento"></div>
         <div class="grid2"><div class="field"><label for="s-tipo">Uso</label><select class="input" id="s-tipo"><option value="allenamento">Allenamento</option><option value="ritmo">Ritmo e lunghi</option><option value="gara">Gara</option><option value="trail">Trail</option></select></div>
         <div class="field"><label for="s-km">Km attuali</label><input class="input" id="s-km" type="number" min="0" value="0"></div></div>
         <div class="field"><label for="s-lim">Da cambiare a (km)</label><input class="input" id="s-lim" type="number" min="100" value="800"></div>
         <button class="btn" type="submit">Aggiungi scarpa</button></form></details>
-        <span class="small muted">I km si aggiornano a mano; con Strava arriveranno da soli.</span>`)}
+        <span class="small muted">I km si aggiornano a mano${C().strava ? "; con Strava arrivano da soli" : ""}.</span>`}`)}
       <details class="card"><summary>Strumenti di prova</summary>
         <form id="prova" style="display:flex;flex-direction:column;gap:10px"><div class="field"><label for="d-prova">Fai finta che oggi sia</label><input class="input" id="d-prova" type="date" value="${esc(S.prova)}"></div>
         <div class="grid2"><button class="btn" type="submit">Applica</button><button class="btn ghost" type="button" data-act="prova-off">Torna a oggi</button></div></form>
@@ -1288,11 +1479,12 @@
         html = parts[1] === "gara" ? vistaGaraGruppo(parts[2]) : parts[1] === "classifica" ? vistaClassifica(param) : parts[1] === "admin" ? vistaAdmin() : vistaGruppo();
         break;
       case "invito": html = vistaInvito(parts[1]); break;
-      case "pb": html = vistaPB(); break;
+      case "pb": html = vistaPB(param); break;
       case "condividi": html = vistaCondividi(parts[1]); break;
       case "statistiche": html = vistaStatistiche(); break;
       case "risultato": html = vistaRisultato(parts[1]); break;
-      case "io": if (parts[1] === "documenti") S.ioAperto = { ...(S.ioAperto || {}), documenti: true }; html = vistaIo(); break;
+      case "io": if (param.strava) { ritornoStrava(param.strava); history.replaceState(null, "", "#/io"); }
+        if (parts[1] === "documenti") S.ioAperto = { ...(S.ioAperto || {}), documenti: true }; html = vistaIo(); break;
       case "gara": html = parts[2] === "novita" ? vistaNovitaGara(parts[1], param) : parts[2] === "preparazione" ? vistaPreparazione(parts[1]) : parts[2] === "info" ? vistaInfoGara(parts[1], param) : parts[2] === "borsa" ? vistaBorsa(parts[1]) : vistaGaraHome(parts[1], param); break;
       case "meteo": html = vistaMeteo(); break;
       case "pillole": html = vistaPillole(parts[1]); break;
@@ -1403,7 +1595,57 @@
     } else if (act === "svuota-personali") {
       if (confirmBox(t, "Cancellare le tue voci personali?", () => { S.personali = []; salva(); rerender(); })) return;
     } else if (act === "reset-ask") {
-      confirmBox(t, "Cancello gare, spunte, scarpe e documenti da questo telefono?", () => { fotoTogli("tessera").catch(() => {}); fotoTogli("certificato").catch(() => {}); S = vuoto(); salva(); location.hash = "#/oggi"; route(); });
+      // Cancella anche quello che è online: iscrizione alle notifiche e profilo nel gruppo (l'account, se c'è, si cancella da Account).
+      confirmBox(t, "Cancello gare, spunte, scarpe e documenti da questo telefono, e online la tua iscrizione alle notifiche e il tuo profilo nel gruppo?", async () => {
+        if (S.gruppo && S.gruppo.dentro) {
+          try { await rpc("esci_gruppo", { p_token: token() }); }
+          catch (e) { if (/nomina prima/.test(e.message || "")) { toast("Sei l'unico amministratore del gruppo: nomina prima un altro amministratore (Gruppo → Gestisci)"); rerender(); return; } }
+        }
+        if (S.push && S.push.attivo) await disattivaPush(true);
+        fotoTogli("tessera").catch(() => {}); fotoTogli("certificato").catch(() => {});
+        S = vuoto(); salva(); toast(AUTH ? "Dati cancellati. L'account resta: per cancellarlo vai in Io → Account" : "Dati cancellati"); location.hash = "#/oggi"; route();
+      });
+    } else if (act === "acc-rimanda") {
+      chiamaAuth("otp", { email: ACC.email, create_user: true }).then(() => toast("Codice rimandato")).catch((e) => toast(e.message));
+    } else if (act === "acc-cambia") {
+      ACC.inviato = false; rerender();
+    } else if (act === "acc-esci") {
+      const tk = AUTH && AUTH.access; AUTH = null; salvaAuth(); STRAVA_STATO = null;
+      if (tk) chiamaAuth("logout", {}, tk).catch(() => {});
+      toast("Sei uscito dall'account"); rerender();
+    } else if (act === "acc-cancella") {
+      confirmBox(t, "Cancello l'account e tutto quello che è online: profilo nel gruppo, notifiche, Strava? I dati su questo telefono restano.", async () => {
+        try { await rpcAccount("cancella_account", {}); } catch (e) { toast(e.message || "Non riuscito"); rerender(); return; }
+        if (S.push && S.push.attivo) await disattivaPush(true);
+        if (S.strava) scollegaLocale();
+        S.gruppo = null; AUTH = null; salvaAuth(); STRAVA_STATO = null; salva(); toast("Account cancellato"); rerender();
+      });
+    } else if (act === "strava-collega") {
+      t.disabled = true;
+      funzioneStrava({ azione: "inizio" }).then((r) => { if (r.pieno) { toast("I posti per i tester di Strava sono esauriti"); STRAVA_STATO = null; rerender(); } else location.href = r.url; })
+        .catch((e) => { t.disabled = false; toast(e.message); });
+    } else if (act === "strava-scollega") {
+      confirmBox(t, "Scollego Strava? Scarpe e personali importati restano e diventano manuali.", () => {
+        funzioneStrava({ azione: "scollega" }).catch(() => {}).then(() => { scollegaLocale(); STRAVA_STATO = null; toast("Strava scollegato"); rerender(); });
+      });
+    } else if (act === "strava-ricarica") {
+      STRAVA_STATO = null; rerender();
+    } else if (act === "strava-pb") {
+      caricaPBStrava(); rerender();
+    } else if (act === "strava-pb-salva" || act === "strava-pb-correggi") {
+      const d = t.dataset.d, c = ((STRAVA_PB || {})[d] || []).find((x) => x.id === t.dataset.id);
+      if (!c) return;
+      if (act === "strava-pb-salva") { S.pb = S.pb || {}; S.pb[d] = { tempo: c.tempo, secondi: c.secondi, gara: c.nome, data: c.data, fonte: "strava" }; salva(); toast(`${L.DIST_LABEL[d]}: personale salvato`); rerender(); }
+      else {
+        const det = document.querySelector(`form[data-form="pb"][data-d="${d}"] details`);
+        if (det) { det.open = true; riempiTempo(`pb-t-${d}`, c.tempo); document.getElementById(`pb-g-${d}`).value = c.nome; document.getElementById(`pb-d-${d}`).value = c.data; det.scrollIntoView({ block: "center" }); document.getElementById(`pb-t-${d}-h`).focus(); }
+      }
+    } else if (act === "ris-strava-usa") {
+      riempiTempo("ris-tempo", t.dataset.t); toast("Tempo di Strava inserito: controlla e salva");
+    } else if (act === "ris-strava-tieni") {
+      S.stravaIgnora = { ...(S.stravaIgnora || {}), [t.dataset.id]: true }; salva(); const b = document.getElementById("ris-strava"); if (b) b.innerHTML = "";
+    } else if (act === "arch-del") {
+      S.scarpeArchivio = (S.scarpeArchivio || []).filter((x) => x.id !== t.dataset.id); salva(); rerender();
     }
   });
   async function azioneGruppo(fn, msg) {
@@ -1425,7 +1667,10 @@
   }
 
   document.addEventListener("change", (e) => {
-    if (e.target.dataset && e.target.dataset.actChange === "cnd-flag") {
+    if (e.target.dataset && (e.target.dataset.actChange === "scarpa-uso" || e.target.dataset.actChange === "scarpa-limite")) {
+      const sc = S.scarpe.find((x) => x.id === e.target.dataset.id);
+      if (sc) { if (e.target.dataset.actChange === "scarpa-uso") sc.tipo = e.target.value; else sc.limite = Number(e.target.value); salva(); rerender(); }
+    } else if (e.target.dataset && e.target.dataset.actChange === "cnd-flag") {
       CND[e.target.dataset.k] = e.target.checked; disegnaAnteprima();
     } else if (e.target.id === "cnd-foto" && e.target.files && e.target.files[0]) {
       const url = URL.createObjectURL(e.target.files[0]);
@@ -1567,6 +1812,14 @@
       document.activeElement && document.activeElement.blur();
     } else if (f.id === "scarpa") {
       S.scarpe.push({ id: "S" + Date.now().toString(36), nome: v("s-nome").trim(), tipo: v("s-tipo"), km: Number(v("s-km")) || 0, limite: Number(v("s-lim")) || 800 }); salva(); toast("Scarpa aggiunta"); rerender();
+    } else if (f.id === "acc-email") {
+      const btn = f.querySelector("button[type=submit]"), email = v("acc-mail").trim().toLowerCase(); btn.disabled = true;
+      chiamaAuth("otp", { email, create_user: true }).then(() => { ACC.email = email; ACC.inviato = true; rerender(); setTimeout(() => { const c = document.getElementById("acc-cod"); if (c) c.focus(); }, 50); })
+        .catch((e) => { btn.disabled = false; toast(e.message); });
+    } else if (f.id === "acc-codice") {
+      const btn = f.querySelector("button[type=submit]"), cod = v("acc-cod").replace(/\D/g, ""); btn.disabled = true;
+      chiamaAuth("verify", { type: "email", email: ACC.email, token: cod }).then(async (j) => { salvaSessione(j); ACC.inviato = false; await dopoLogin(); rerender(); })
+        .catch((e) => { btn.disabled = false; toast(e.message); });
     } else if (f.id === "stat-accesso") {
       const btn = f.querySelector("button[type=submit]"); btn.disabled = true;
       caricaStatistiche(v("stat-pw"), document.getElementById("stat-ricorda").checked).then(rerender)
@@ -1591,5 +1844,5 @@
   }, true);
   window.addEventListener("hashchange", () => { route(); window.scrollTo(0, 0); });
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
-  carica().then(() => { route(); contaApertura(); S.gare.forEach((g) => segnalaGara(g, g.id.startsWith("M") ? "manuale" : "FIDAL")); if (S.push && S.push.attivo) sincronizzaPush(); if (S.gruppo && S.gruppo.dentro) { aggiornaGruppo(true).then(() => sincronizzaPBGruppo()); sincronizzaGareGruppo(); } });
+  carica().then(() => { route(); contaApertura(); if (C().strava && AUTH) aggiornaScarpeStrava(); S.gare.forEach((g) => segnalaGara(g, g.id.startsWith("M") ? "manuale" : "FIDAL")); if (S.push && S.push.attivo) sincronizzaPush(); if (S.gruppo && S.gruppo.dentro) { aggiornaGruppo(true).then(() => sincronizzaPBGruppo()); sincronizzaGareGruppo(); } });
 })();

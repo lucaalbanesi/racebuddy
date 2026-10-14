@@ -1,0 +1,4 @@
+# Configurazione delle Edge Functions di RaceBuddy (pubblicate dal workflow "Pubblica funzioni Supabase").
+# "strava" controlla da sola il login (il ritorno da Strava arriva senza token), quindi niente verifica automatica del JWT.
+[functions.strava]
+verify_jwt = false

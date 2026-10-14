@@ -124,6 +124,28 @@ assert.strictEqual(L.tempoDaParti("", "", ""), "");
 assert.strictEqual(L.tempoDaParti("1", "4a", "0"), "");
 assert.ok(L.leggiTempo("21", L.tempoDaParti("1", "75", "00")).errore);
 
+// Strava: candidate a personale e corsa del giorno della gara
+{
+  const gare = [
+    { id: "1", nome: "Roma-Ostia", data: "2026-03-01", metri: 21300, secondi: 6178 },
+    { id: "2", nome: "Mezza di Napoli", data: "2025-02-23", metri: 21150, secondi: 6400 },
+    { id: "3", nome: "Corsa di Miguel", data: "2026-01-18", metri: 10100, secondi: 2885 },
+    { id: "4", nome: "Trail 15 km", data: "2026-05-01", metri: 15000, secondi: 5400 },
+    { id: "5", nome: "Mezza con GPS impazzito", data: "2026-04-01", metri: 21200, secondi: 1800 },  // 30 minuti: impossibile
+  ];
+  const c = L.candidatiPersonali(gare);
+  assert.deepStrictEqual(c["21"].map((x) => x.id), ["1", "2"]);
+  assert.strictEqual(c["21"][0].tempo, "1:42:58");
+  assert.deepStrictEqual(c["10"].map((x) => x.tempo), ["0:48:05"]);
+  assert.deepStrictEqual(c["42"], []);
+  const giorno = [{ id: "a", metri: 2000, secondi: 700 }, { id: "b", metri: 42400, secondi: 13325, gara: true }, { id: "c", metri: 42300, secondi: 13400 }];
+  let g = L.corsaDellaGara(giorno, "42");
+  assert.strictEqual(g.scelta.id, "b"); assert.strictEqual(g.scelta.tempo, "3:42:05"); assert.deepStrictEqual(g.altre.map((x) => x.id), ["a", "c"]);
+  g = L.corsaDellaGara([{ id: "x", metri: 42900, secondi: 13500 }, { id: "y", metri: 42250, secondi: 13600 }], "42");
+  assert.strictEqual(g.scelta.id, "y", "senza la gara segnata: la distanza più vicina a 42,195");
+  assert.strictEqual(L.corsaDellaGara([{ id: "z", metri: 5000, secondi: 1500 }], "21").scelta, null);
+}
+
 // immagine del risultato: andata a capo e taglio con i puntini (larghezza finta: 10 px a carattere)
 {
   const I = require("../app/immagine.js");

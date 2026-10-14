@@ -232,7 +232,29 @@
     return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
   }
 
-  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, sorriso, prossimaUscita, cercaGare, statoScarpa, leggiTempo, tempoDaParti };
+  /** Strava: in che distanza cade una corsa (il GPS sbaglia di qualche centinaio di metri). */
+  const FINESTRE_KM = { "10": [9.8, 10.6], "21": [20.9, 21.8], "42": [41.9, 43.3] };
+  const distanzaDi = (metri) => Object.keys(FINESTRE_KM).find((d) => metri / 1000 >= FINESTRE_KM[d][0] && metri / 1000 <= FINESTRE_KM[d][1]) || null;
+  /** Corse segnate come gara su Strava → per ogni distanza le candidate a personale, dalla più veloce. */
+  const hms = (s) => `${Math.floor(s / 3600)}:${String(Math.floor((s % 3600) / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+  function candidatiPersonali(gare) {
+    const out = { "10": [], "21": [], "42": [] };
+    for (const a of gare || []) {
+      const d = distanzaDi(a.metri || 0), t = d && a.secondi > 0 ? leggiTempo(d, hms(a.secondi)) : null; // leggiTempo scarta i tempi impossibili
+      if (t && t.tempo) out[d].push({ ...a, tempo: t.tempo, secondi: t.secondi });
+    }
+    for (const d of Object.keys(out)) out[d].sort((x, y) => x.secondi - y.secondi || (x.data < y.data ? 1 : -1));
+    return out;
+  }
+  /** Le corse di Strava del giorno della gara → quella che è la gara (segnata come gara, o con la distanza più giusta), più le altre. */
+  function corsaDellaGara(corse, distanza) {
+    const ufficiale = { "10": 10000, "21": 21097, "42": 42195 }[distanza];
+    const giuste = (corse || []).filter((a) => distanzaDi(a.metri || 0) === distanza && a.secondi > 0 && leggiTempo(distanza, hms(a.secondi)).tempo);
+    const scelta = giuste.find((a) => a.gara) || [...giuste].sort((x, y) => Math.abs(x.metri - ufficiale) - Math.abs(y.metri - ufficiale))[0] || null;
+    return { scelta: scelta ? { ...scelta, tempo: leggiTempo(distanza, hms(scelta.secondi)).tempo } : null, altre: (corse || []).filter((a) => a !== scelta && a.secondi > 0) };
+  }
+
+  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, sorriso, prossimaUscita, cercaGare, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);
