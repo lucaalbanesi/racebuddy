@@ -89,4 +89,19 @@ assert.strictEqual(L.statoScarpa({ km: 40, limite: 400, tipo: "gara" }).etichett
   assert.strictEqual(L.tipoCielo({ pioggia: 70, temp: 0 }), "neve");
   assert.strictEqual(L.tipoCielo({ codice: 45 }), "nebbia");
 }
+{
+  const cont = [
+    { id: "a", data: "2026-10-13", fasi: ["scarico"], distanze: ["42"], argomenti: ["gara"], tipo: "articolo" },
+    { id: "b", data: "2026-10-14", fasi: [], distanze: [], argomenti: [], tipo: "video" },
+    { id: "c", data: "2026-10-12", fasi: ["scarico"], distanze: ["21"], argomenti: ["gara"], tipo: "articolo" },
+  ];
+  const r = L.perTe(cont, { fase: "scarico", distanza: "42", oggi: "2026-10-14" });
+  assert.deepStrictEqual(r.map((x) => x.id), ["a", "c", "b"]);
+  assert.ok(r[0].perLaFase && !r[2].perLaFase);
+  assert.strictEqual(L.perTe(cont, { fase: "scarico", distanza: "42", oggi: "2026-10-14", letti: { a: true } })[0].id, "c");
+  assert.deepStrictEqual(L.perTe(cont, { fase: "scarico", oggi: "2026-10-14", tipo: "video" }).map((x) => x.id), ["b"]);
+  const sr = [{ id: "1", fase: "scarico", testo: "x" }, { id: "2", fase: "senza_gara", testo: "y" }];
+  assert.strictEqual(L.sorriso(sr, "scarico", "2026-10-14").id, "1");
+  assert.strictEqual(L.sorriso(sr, "picco", "2026-10-14").id, "2");
+}
 console.log("ok");

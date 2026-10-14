@@ -30,6 +30,8 @@ ESTRATTO = 180
 
 SPAM = re.compile(r"\b(casin[oò]|scommess|betting|bet\b|mostbet|slot|poker|bonus senza deposito|crypto|bitcoin|forex|escort|viagra)", re.I)
 CORSA = re.compile(r"\b(cors[aei]|corr(ere|o|i|endo)|runn(er|ing)|maraton|mezza|10 ?km|podis|gara|garmin forerunner|scarpe da (corsa|running)|trail|allenament|ripetut|ritmo)", re.I)
+# Temi che non promuoviamo (dimagrimento, diete): non coerenti con lo spirito dell'app
+EVITA = re.compile(r"perder(e)? peso|dimagr|calorie bruciate|pancia piatta|bruciare (i )?grassi", re.I)
 STOP_IT = re.compile(r"\b(il|lo|la|le|gli|di|del|della|dei|che|per|con|una|un|non|come|più|sono|alla|nel|nella|anche|dopo|prima|quando)\b", re.I)
 
 ARGOMENTI = {
@@ -56,7 +58,7 @@ FASI = {
     "dopo": r"dopo la (gara|maratona|mezza)|recuper|riposo|bilancio|post ?gara|prossima gara",
 }
 FASE_DA_ARGOMENTO = {"rifornimento": ["costruzione", "picco", "scarico"], "forza": ["si_parte", "costruzione"],
-                     "recupero": ["dopo"], "abbigliamento": ["scarico", "gara"], "scarpe": ["si_parte", "costruzione", "picco"],
+                     "recupero": ["dopo"], "scarpe": ["si_parte", "costruzione", "picco"],
                      "mente": ["scarico", "gara"], "alimentazione": ["costruzione", "scarico"]}
 
 
@@ -199,6 +201,9 @@ def main() -> int:
             insieme = f"{v['titolo']} {v['testo'][:600]}"
             if SPAM.search(insieme):
                 scartati["spam"] += 1
+                continue
+            if EVITA.search(v["titolo"]):
+                scartati["evitati"] = scartati.get("evitati", 0) + 1
                 continue
             if f["tipo"] != "youtube" and len(STOP_IT.findall(insieme)) < 3:
                 scartati["lingua"] += 1

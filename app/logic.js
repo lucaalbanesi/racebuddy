@@ -118,6 +118,35 @@
     return `${Math.round(temp)}°C, ${v}${p}`;
   }
 
+  /** Contenuti "per te": punteggio in base a fase e distanza della gara, freschezza e già letti.
+      Tutto calcolato sul telefono: online non va nulla di personale. */
+  const ARG_FASE = { si_parte: ["scarpe", "forza", "allenamento"], costruzione: ["allenamento", "rifornimento", "forza", "scarpe"],
+    picco: ["allenamento", "rifornimento", "scarpe"], scarico: ["gara", "rifornimento", "mente", "alimentazione", "abbigliamento"],
+    gara: ["gara", "mente", "abbigliamento"], dopo: ["recupero", "racconti"] };
+  function punteggio(c, fase, distanza, oggi, letti = {}) {
+    const giorni = Math.max(0, diffDays(oggi, c.data));
+    let p = Math.max(0, 30 - giorni) / 10;
+    if (fase && (c.fasi || []).includes(fase)) p += 3;
+    if (distanza && (c.distanze || []).includes(distanza)) p += 2;
+    else if (distanza && (c.distanze || []).length) p -= 1.5;
+    p += (c.argomenti || []).filter((a) => (ARG_FASE[fase] || []).includes(a)).length * 0.7;
+    if (letti[c.id]) p -= 6;
+    return p;
+  }
+  function perTe(contenuti, { fase, distanza, oggi, letti = {}, tipo = "" }) {
+    return contenuti
+      .filter((c) => !tipo || c.tipo === tipo)
+      .map((c) => ({ c, p: punteggio(c, fase, distanza, oggi, letti) }))
+      .sort((a, b) => b.p - a.p || (a.c.data < b.c.data ? 1 : -1))
+      .map((x) => ({ ...x.c, punteggio: Math.round(x.p * 10) / 10, perLaFase: !!fase && (x.c.fasi || []).includes(fase) }));
+  }
+  /** Sorriso del giorno: stesso per tutto il giorno, coerente con la fase. */
+  function sorriso(sorrisi, fase, oggi) {
+    const pool = sorrisi.filter((s) => s.fase === fase);
+    const lista = pool.length ? pool : sorrisi.filter((s) => s.fase === "senza_gara");
+    return lista.length ? lista[hash("s" + oggi + fase) % lista.length] : null;
+  }
+
   /** Tipo di cielo dal codice meteo WMO di Open-Meteo (se manca, si deduce dalla probabilità di pioggia). */
   function tipoCielo({ codice, pioggia = 0, temp = 10 } = {}) {
     const c = Number(codice);
@@ -178,7 +207,7 @@
     return { km, limite: lim, quota, etichetta, livello };
   }
 
-  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, prossimaUscita, cercaGare, statoScarpa };
+  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, sorriso, prossimaUscita, cercaGare, statoScarpa };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);

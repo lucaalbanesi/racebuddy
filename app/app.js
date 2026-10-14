@@ -37,7 +37,8 @@
       const [fasi, percorso, pillole, cal] = await Promise.all(
         ["content/fasi.json", "content/percorso.json", "content/pillole.json", "data/gare.json"].map((u) => fetch(u, { cache: "no-cache" }).then((r) => { if (!r.ok) throw new Error(u); return r.json(); })));
       Object.assign(D, { fasi, percorso, pillole, gare: cal.gare || [], aggiornato: cal.aggiornato, ok: true });
-      D.schede = await fetch("content/schede.json", { cache: "no-cache" }).then((r) => (r.ok ? r.json() : {})).catch(() => ({}));
+      const opz = (u, def) => fetch(u, { cache: "no-cache" }).then((r) => (r.ok ? r.json() : def)).catch(() => def);
+      [D.schede, D.contenuti, D.sorrisi] = await Promise.all([opz("content/schede.json", {}), opz("data/contenuti.json", { contenuti: [] }).then((x) => x.contenuti || []), opz("content/sorrisi.json", [])]);
     } catch (e) {
       D.errore = "Non riesco a caricare i contenuti. Controlla la connessione e ricarica.";
     }
@@ -355,7 +356,11 @@
     const meteo = S.profilo.citta ? `<a class="card" id="meteo" href="#/meteo" style="text-decoration:none;color:inherit;font-weight:inherit" aria-label="Meteo dell'uscita, apri il dettaglio"><span class="eyebrow">${esc(S.profilo.citta)} · uscita delle ${esc(S.profilo.ora || "7:00")}</span><span class="small muted">Meteo in arrivo…</span></a>`
       : `<a class="card" href="#/io" style="text-decoration:none;color:inherit"><span class="title">Meteo e vestizione</span><span class="small">Dimmi dove e a che ora corri di solito: ti dico come vestirti.</span></a>`;
 
-    return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(o))}</span><h1>Buongiorno${S.profilo.nome ? ", " + esc(S.profilo.nome) : ""}</h1></div></header>${hero}${meteo}${blocco}${cardPush(true)}${pill}`;
+    return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(o))}</span><h1>Buongiorno${S.profilo.nome ? ", " + esc(S.profilo.nome) : ""}</h1></div></header>${hero}${meteo}${blocco}${cardPush(true)}${pill}${(() => {
+      const cx = contesto(), letti = Object.fromEntries(Object.keys(S.letti || {}).filter((k) => k.startsWith("c:")).map((k) => [k.slice(2), true]));
+      const top = L.perTe(D.contenuti || [], { fase: cx.fase, distanza: cx.distanza, oggi: cx.o, letti }).filter((c) => !letti[c.id]).slice(0, 2);
+      return top.length ? `<section aria-label="Per te oggi"><div class="between" style="margin-bottom:8px"><h2>Per te oggi</h2><a class="small" href="#/perte">Altro ›</a></div><div class="lista-c">${top.map((c, i) => cardContenuto(c, i === 0)).join("")}</div></section>` : "";
+    })()}`;
   }
 
   async function riempiMeteo() {
@@ -587,6 +592,51 @@
       <p class="sub">Cambiano con le fasi della preparazione: quando entri nella fase successiva qui trovi le nuove.</p>`;
   }
 
+  // ---------------------------------------------------------------- per te: articoli, video, podcast, sorrisi
+  const TIPO_LABEL = { articolo: "Articolo", video: "Video", podcast: "Podcast" };
+  const fa = (d) => { const n = L.diffDays(oggi(), d); return n <= 0 ? "oggi" : n === 1 ? "ieri" : n < 7 ? `${n} giorni fa` : L.fmtBreve(d); };
+  function contesto() {
+    const o = oggi(), { focus } = L.gareAttive(S.gare, D.fasi, o);
+    if (!focus) return { o, fase: null, nomeFase: "Senza gara in vista", distanza: null };
+    const f = L.fase(D.fasi, focus.distanza, focus.data, o);
+    const fase = ["prima", "conclusa"].includes(f.id) ? null : f.id;
+    return { o, fase, nomeFase: fase ? `${f.nome} · ${L.DIST_LABEL[focus.distanza]}` : "Senza gara in vista", distanza: focus.distanza };
+  }
+  function cardContenuto(c, grande) {
+    const letto = (S.letti || {})["c:" + c.id];
+    const img = c.immagine ? `<img src="${esc(c.immagine)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add('noimg');this.remove()">` : "";
+    return `<a class="contenuto ${grande ? "grande" : ""} ${letto ? "letto" : ""}" href="${esc(c.link)}" target="_blank" rel="noopener" data-act="apri-contenuto" data-id="${esc(c.id)}">
+      <div class="thumb ${img ? "" : "noimg"} t-${esc(c.tipo)}">${img}${c.tipo === "video" ? '<span class="play" aria-hidden="true">▶</span>' : c.tipo === "podcast" ? '<span class="play" aria-hidden="true">🎧</span>' : ""}</div>
+      <div class="c-testo"><span class="c-meta">${esc(c.fonte)} · ${esc(TIPO_LABEL[c.tipo] || "")} · ${esc(fa(c.data))}${letto ? " · già visto" : ""}</span>
+      <span class="c-titolo">${esc(c.titolo)}</span>${grande && c.estratto ? `<span class="c-estratto">${esc(c.estratto)}</span>` : ""}</div></a>`;
+  }
+  function cardSorriso(sr) {
+    return sr ? `<section class="card sorriso" aria-label="Sorriso del giorno"><span class="eyebrow">Sorriso del giorno</span><p>${esc(sr.testo)}</p></section>` : "";
+  }
+  function vistaPerTe(param) {
+    const { o, fase, nomeFase, distanza } = contesto();
+    const tipo = param.t || "", letti = Object.fromEntries(Object.keys(S.letti || {}).filter((k) => k.startsWith("c:")).map((k) => [k.slice(2), true]));
+    const chip = (v, l) => `<button class="chip" data-act="perte-tipo" data-t="${v}" aria-pressed="${tipo === v}">${l}</button>`;
+    const testa = `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(nomeFase)}</span><h1>Per te</h1></div></header>
+      <div class="chips" role="group" aria-label="Tipo di contenuto">${chip("", "Tutto")}${chip("articolo", "Articoli")}${chip("video", "Video")}${chip("podcast", "Podcast")}${chip("sorrisi", "Sorrisi")}</div>`;
+    if (tipo === "sorrisi") {
+      const lista = [...(D.sorrisi || [])].sort((a, b) => (a.fase === fase ? -1 : 0) - (b.fase === fase ? -1 : 0));
+      return `${testa}${lista.map((x) => `<section class="card sorriso"><p>${esc(x.testo)}</p></section>`).join("")}<p class="sub">Battute originali di RaceBuddy.</p>`;
+    }
+    const lista = L.perTe(D.contenuti || [], { fase, distanza, oggi: o, letti, tipo });
+    if (!lista.length) return `${testa}<p class="sub">Nessun contenuto per ora: le fonti si aggiornano due volte al giorno.</p>`;
+    const perFase = fase ? lista.filter((c) => c.perLaFase && !letti[c.id]).slice(0, 6) : [];
+    const usati = new Set(perFase.map((c) => c.id));
+    const novita = lista.filter((c) => !usati.has(c.id)).sort((a, b) => (a.data < b.data ? 1 : a.data > b.data ? -1 : 0));
+    const n = Number(param.n || 20);
+    return `${testa}
+      ${!tipo ? cardSorriso(L.sorriso(D.sorrisi || [], fase || "senza_gara", o)) : ""}
+      ${perFase.length ? `<section aria-label="Per la tua fase"><h2 style="margin-bottom:8px">Per la tua fase</h2><div class="lista-c">${perFase.map((c, i) => cardContenuto(c, i === 0)).join("")}</div></section>` : ""}
+      <section aria-label="Novità"><h2 style="margin-bottom:8px">Novità dalle fonti</h2><div class="lista-c">${novita.slice(0, n).map((c) => cardContenuto(c)).join("")}</div></section>
+      ${novita.length > n ? `<a class="btn ghost" href="#/perte?t=${tipo}&n=${n + 20}">Mostra altri</a>` : ""}
+      <p class="sub">Titoli ed estratti dalle fonti originali in italiano: tocca per leggere o guardare sul sito dell'autore. La scelta in base alla tua fase avviene sul telefono.</p>`;
+  }
+
   function vistaGruppo() {
     return `${bannerProva()}<header class="head"><h1>Gruppo</h1></header>
       <section class="card empty"><span class="title">Arriva con il collegamento a Telegram</span>
@@ -648,6 +698,7 @@
       case "gara": html = vistaScheda(parts[1], param); break;
       case "meteo": html = vistaMeteo(); break;
       case "pillole": html = vistaPillole(parts[1]); break;
+      case "perte": html = vistaPerTe(param); break;
       default: html = vistaOggi();
     }
     $app.innerHTML = html;
@@ -673,6 +724,12 @@
     } else if (act === "ob-fine") {
       S.benvenuto = true; salva(); document.body.classList.remove("onboarding");
       if (t.dataset.vai) location.hash = t.dataset.vai; else if (location.hash === "#/benvenuto") location.hash = "#/oggi"; else route();
+    } else if (act === "perte-tipo") {
+      location.hash = `#/perte?t=${t.dataset.t}`;
+      return;
+    } else if (act === "apri-contenuto") {
+      S.letti = S.letti || {}; S.letti["c:" + t.dataset.id] = oggi(); salva(); // il link si apre comunque
+      return;
     } else if (act === "push-on") {
       attivaPush(t);
     } else if (act === "push-off") {
