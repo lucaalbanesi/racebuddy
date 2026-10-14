@@ -30,6 +30,8 @@ dell'atleta, PDF), e vale per tutti gli utenti che seguono quella gara.
 }
 ```
 
+Il campo `partenza` contiene solo l'orario (es. "8:30" o "8:30 da confermare"): spiegazioni e varianti vanno in `note`.
+
 Se due pagine ufficiali si contraddicono (es. orario), riportare entrambe le versioni nel campo con "da confermare" e segnalarlo nella pull request.
 
 Tutti i campi testuali sono facoltativi: **un campo si scrive solo se l'informazione è sul sito ufficiale per

@@ -311,7 +311,7 @@
     const sitoOk = /^https?:\/\//i.test(info.sito || "");
     const testa = `${bannerProva()}<header class="head-back">${back("#/gare")}<div style="min-width:0"><span class="eyebrow">${esc(L.RUOLO_LABEL[g.ruolo])} · ${esc(f.nome)}</span><h1 style="font-size:28px">${esc(titoloGara(g.nome))}</h1></div></header>
       <section class="card dark"><div class="between" style="align-items:flex-end"><div style="display:flex;flex-direction:column;gap:2px">
-        <span style="font:700 20px/1.1 var(--display)">${esc(L.fmtGiorno(g.data))} ${esc(g.data.slice(0, 4))}${info.partenza ? " · ore " + esc(info.partenza) : ""}</span>
+        <span style="font:700 20px/1.1 var(--display)">${esc(L.fmtGiorno(g.data))} ${esc(g.data.slice(0, 4))}${info.partenza && /\d{1,2}[:.]\d{2}/.test(info.partenza) ? " · ore " + esc(info.partenza.match(/\d{1,2}[:.]\d{2}/)[0]) : ""}</span>
         <span class="sub">${esc(nomeLuogo(g.luogo) || "Luogo da indicare")} · ${esc(L.DIST_LABEL[g.distanza])}${g.tempo ? " · obiettivo " + esc(g.tempo) : ""}</span></div>
         <div style="text-align:right">${mancano > 0 ? `<div class="big" style="font-size:40px">${mancano}</div><span class="sub">${mancano === 1 ? "giorno" : "giorni"}</span>` : `<span class="pill navy">${mancano === 0 ? "oggi" : "conclusa"}</span>`}</div></div>
         <div class="links-dark"><a href="#/percorso/${encodeURIComponent(g.id)}">Percorso</a><a href="#/checklist/${encodeURIComponent(g.id)}">Borsa</a>${sitoOk ? `<a href="${esc(info.sito)}" target="_blank" rel="noopener">Sito ufficiale ↗</a>` : ""}</div></section>
