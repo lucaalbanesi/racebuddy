@@ -183,7 +183,8 @@ def main() -> int:
     limite = (oggi - dt.timedelta(days=GIORNI)).isoformat()
 
     vecchi = json.loads(OUT.read_text()).get("contenuti", []) if OUT.exists() else []
-    per_id = {c["id"]: c for c in vecchi if c.get("data", "") >= limite}
+    per_id = {c["id"]: c for c in vecchi if c.get("data", "") >= limite and c.get("fonteId") not in escluse
+              and not SPAM.search(c["titolo"]) and not EVITA.search(c["titolo"])}
     scartati = {"spam": 0, "lingua": 0, "fuori tema": 0}
     errori = 0
     for f in fonti:
