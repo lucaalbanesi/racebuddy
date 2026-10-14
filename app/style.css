@@ -214,3 +214,5 @@ body.onboarding .app { padding: 0; max-width: 480px; min-height: 100dvh; }
 .mia-gara { flex-direction: row; align-items: center; text-decoration: none; color: inherit; font-weight: inherit; border-left: 4px solid var(--accent); }
 .mia-gara .race { flex: 1; min-width: 0; }
 .mia-gara .chev { font-size: 28px; color: var(--accent); font-weight: 700; padding-left: 4px; }
+.btn.danger { background: var(--surface); color: #B91C1C; border: 1.5px solid #B91C1C; }
+@media (prefers-color-scheme: dark) { .btn.danger { color: #F87171; border-color: #F87171; } }

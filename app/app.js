@@ -517,8 +517,8 @@
         <form id="gara-imp" data-id="${esc(g.id)}" style="display:flex;flex-direction:column;gap:10px">
         <div class="grid2"><div class="field"><label for="gi-ruolo">Ruolo</label><select class="input" id="gi-ruolo">${["obiettivo", "tappa", "divertimento"].map((r) => `<option value="${r}" ${g.ruolo === r ? "selected" : ""}>${L.RUOLO_LABEL[r]}</option>`).join("")}</select></div>
         <div class="field"><label for="gi-tempo">Tempo obiettivo</label><input class="input" id="gi-tempo" value="${esc(g.tempo || "")}" placeholder="es. 3:45:00"></div></div>
-        <button class="btn" type="submit">Salva</button></form>
-        <div><button class="btn ghost small" data-act="rimuovi" data-id="${esc(g.id)}">Togli questa gara</button></div></details>`;
+        <button class="btn" type="submit">Salva</button></form></details>
+      <div><button class="btn danger block" data-act="rimuovi" data-id="${esc(g.id)}">Rimuovi gara</button></div>`;
   }
 
   function vistaPreparazione(id) {
