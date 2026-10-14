@@ -73,7 +73,7 @@ async function messaggio(d) {
 const oraInvioPer = (ora) => { const h = Number(String(ora || "07:00").split(/[:.]/)[0]); return h <= 12 ? Math.max(5, h - 1) : 7; };
 
 async function main() {
-  if (!KEY || !PRIV || !VAPID_PUB) { console.error("Mancano SUPABASE_SECRET_KEY, VAPID_PRIVATE_KEY o vapidPublic in config.js"); process.exit(1); }
+  if (!KEY || !PRIV || !VAPID_PUB) { console.log("Notifiche non ancora configurate (secret o chiave pubblica mancanti): niente da fare."); return; }
   webpush.setVapidDetails("https://github.com/lucaalbanesi/racebuddy", VAPID_PUB, PRIV);
   const r = await sb("push_iscrizioni?select=endpoint,p256dh,auth,dati,ultimo_invio");
   if (!r.ok) { console.error("Lettura iscrizioni fallita", r.status, await r.text()); process.exit(1); }
