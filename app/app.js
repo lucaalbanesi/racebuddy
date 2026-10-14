@@ -115,7 +115,7 @@
     const o = oggi(), attive = S.gare.filter((g) => g.data >= L.addDays(o, -14));
     const ids = new Set(attive.map((g) => g.id));
     return {
-      v: 1, membro: (S.gruppo && S.gruppo.dati && S.gruppo.dati.io && S.gruppo.dati.io.id) || null, ora: S.profilo.ora || "07:00", pref: { meteo: true, percorso: true, gara: true, ...(S.prefPush || {}) },
+      v: 1, membro: (S.gruppo && S.gruppo.dati && S.gruppo.dati.io && S.gruppo.dati.io.id) || null, ora: S.profilo.ora || "07:00", pref: { meteo: true, percorso: true, gara: true, gruppo: true, ...(S.prefPush || {}) },
       luogo: S.profilo.coord ? { lat: S.profilo.coord.lat, lon: S.profilo.coord.lon } : S.profilo.citta ? { citta: S.profilo.citta } : null,
       gare: attive.map((g) => ({ id: g.id, nome: g.nome, data: g.data, distanza: g.distanza, ruolo: g.ruolo, aggiunta: g.aggiunta })),
       spunte: Object.keys(S.spunte).filter((k) => ids.has(k.split(":")[0])),
@@ -171,10 +171,10 @@
     if (compatta && (on || S.pushNonOra || st === "no" || st === "negato")) return "";
     const ora = esc(S.profilo.ora || "7:00");
     let corpo;
-    const pr = { meteo: true, percorso: true, gara: true, ...(S.prefPush || {}) };
+    const pr = { meteo: true, percorso: true, gara: true, gruppo: true, ...(S.prefPush || {}) };
     const sw = (k, t, d) => `<label class="check" style="cursor:pointer"><input type="checkbox" data-act="push-pref" data-k="${k}" ${pr[k] ? "checked" : ""}><span><span class="t">${t}</span><br><span class="d">${d}</span></span></label>`;
     if (on) corpo = `<span class="small">Ti scrivo solo quando c'è qualcosa di nuovo, al massimo una volta al giorno, un'ora prima della tua uscita delle <b>${ora}</b>. Mai di notte.</span>
-      <div>${sw("meteo", "Meteo che cambia", "Solo se cambia davvero rispetto a ieri: gelo, caldo, vento forte, pioggia, ±5°. Mai lo stesso avviso due volte.")}${sw("percorso", "Tappe del percorso", "Le cose importanti da fare e quelle che hai rimandato a oggi.")}${sw("gara", "La tua gara", "Scheda pronta o cambiata, prime previsioni, la vigilia alle 19 e la mattina della gara.")}</div>
+      <div>${sw("meteo", "Meteo che cambia", "Solo se cambia davvero rispetto a ieri: gelo, caldo, vento forte, pioggia, ±5°. Mai lo stesso avviso due volte.")}${sw("percorso", "Tappe del percorso", "Le cose importanti da fare e quelle che hai rimandato a oggi.")}${sw("gara", "La tua gara", "Scheda pronta o cambiata, prime previsioni, la vigilia alle 19 e la mattina della gara.")}${S.gruppo && S.gruppo.dentro ? sw("gruppo", "Il gruppo", "Nuovi ritrovi, il promemoria la sera prima se hai detto «ci sono», i ritrovi annullati. Mai la bacheca.") : ""}</div>
       <div class="grid2"><button class="btn ghost" data-act="push-prova">Prova</button><button class="btn ghost" data-act="push-off">Disattiva</button></div>`;
     else if (st === "ios-home") corpo = `<span class="small">Su iPhone le notifiche arrivano solo se RaceBuddy è sulla schermata Home: in Safari tocca <b>Condividi</b> → <b>Aggiungi alla schermata Home</b>, poi apri l'app da lì e torna qui.</span>`;
     else if (st === "negato") corpo = `<span class="small">Le notifiche sono bloccate per questa app: riattivale dalle impostazioni del telefono o del browser.</span>`;

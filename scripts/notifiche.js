@@ -174,4 +174,42 @@ function pianifica(ctx) {
   return { invio: { title: top.title, body: [top.body, rigaMeteo].filter(Boolean).join("\n"), url: top.url || url, tag: `mattino-${oggi}` }, stato };
 }
 
-module.exports = { pianifica, oraMattino, oraGara, fascia, cambioMeteo };
+/**
+ * Notifiche del gruppo (ritrovi), separate da quelle personali: al massimo una per volta, solo tra le 7 e le 21.
+ * - nuovo ritrovo: a chi lo riceve (tutto il gruppo, o chi corre quella gara), non all'autore;
+ * - promemoria: la sera prima alle 19, solo a chi ha detto «ci sono»;
+ * - annullato: solo a chi aveva detto «ci sono».
+ * ctx: { oggi, ora, membro, corre: [gara_id], ritrovi: [{id, titolo, giorno, etichetta, luogo, gara_id, autore_id, annullato, promemoria, si: [membro_id]}], stato, pref }
+ */
+function gruppo(ctx) {
+  const { oggi, ora, membro, ritrovi = [], corre = [] } = ctx;
+  const pref = { gruppo: true, ...(ctx.pref || {}) };
+  const stato = JSON.parse(JSON.stringify(ctx.stato || {}));
+  stato.ritrovi = stato.ritrovi || {};
+  if (!membro || !pref.gruppo || ora < 7 || ora > 21) return { invio: null, stato };
+  const visto = (id, k) => (stato.ritrovi[id] || "").split(",").includes(k);
+  const segna = (id, k) => { stato.ritrovi[id] = [...new Set([...(stato.ritrovi[id] || "").split(",").filter(Boolean), k])].join(","); };
+  for (const id of Object.keys(stato.ritrovi)) if (!ritrovi.some((r) => r.id === id)) delete stato.ritrovi[id];
+  const url = (r) => `./#/gruppo/ritrovo/${r.id}`;
+  for (const r of [...ritrovi].sort((a, b) => (a.giorno < b.giorno ? -1 : 1))) {
+    const perMe = !r.gara_id || corre.includes(r.gara_id) || r.autore_id === membro;
+    if (!perMe || r.giorno < oggi) continue;
+    const ci = (r.si || []).includes(membro);
+    if (r.annullato) {
+      if (ci && !visto(r.id, "annullato") && r.autore_id !== membro) { segna(r.id, "annullato"); return { invio: { title: `Annullato: ${r.titolo}`, body: `Il ritrovo di ${r.etichetta} non si fa più.`, url: "./#/gruppo", tag: `ritrovo-${r.id}` }, stato }; }
+      continue;
+    }
+    if (!visto(r.id, "nuovo")) {
+      segna(r.id, "nuovo");
+      if (r.autore_id !== membro && !ci && r.promemoria !== false)
+        return { invio: { title: `Nuovo ritrovo: ${r.titolo}`, body: `${r.etichetta}${r.luogo ? ` · ${r.luogo}` : ""}. Ci sei? Rispondi con un tocco.`, url: url(r), tag: `ritrovo-${r.id}` }, stato };
+    }
+    if (ci && r.promemoria !== false && L.diffDays(r.giorno, oggi) === 1 && ora >= 19 && !visto(r.id, "promemoria")) {
+      segna(r.id, "promemoria");
+      return { invio: { title: `Domani: ${r.titolo}`, body: `${r.etichetta}${r.luogo ? ` · ${r.luogo}` : ""}. Ci vediamo lì!`, url: url(r), tag: `ritrovo-${r.id}` }, stato };
+    }
+  }
+  return { invio: null, stato };
+}
+
+module.exports = { pianifica, gruppo, oraMattino, oraGara, fascia, cambioMeteo };

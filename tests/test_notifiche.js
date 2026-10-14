@@ -77,4 +77,27 @@ assert.strictEqual(N.pianifica(base({ oggi: "2026-11-29", ora: 6, schede: scheda
 r = N.pianifica(base({ oggi: "2026-10-21", stato: { meteo: { temp: 15, pioggia: 0, fascia: 2 } }, meteoUscita: freddo, dati: { ora: "07:00", gare: [], pref: { meteo: false } } }));
 assert.strictEqual(r.invio, null);
 
+// gruppo: ritrovi
+{
+  const rit = (o = {}) => ({ id: "r1", titolo: "Lungo della domenica", giorno: "2026-10-25", etichetta: "dom 25 ott alle 8:00", luogo: "Piazza", gara_id: null, autore_id: "m1", annullato: false, promemoria: true, si: ["m1"], ...o });
+  let g = N.gruppo({ oggi: "2026-10-20", ora: 12, membro: "m2", ritrovi: [rit()] });
+  assert.ok(g.invio && g.invio.title.startsWith("Nuovo ritrovo"), g.invio);
+  assert.strictEqual(N.gruppo({ oggi: "2026-10-20", ora: 13, membro: "m2", ritrovi: [rit()], stato: g.stato }).invio, null);   // una volta sola
+  assert.strictEqual(N.gruppo({ oggi: "2026-10-20", ora: 12, membro: "m1", ritrovi: [rit()] }).invio, null);                  // non all'autore
+  assert.strictEqual(N.gruppo({ oggi: "2026-10-20", ora: 23, membro: "m2", ritrovi: [rit()] }).invio, null);                  // non di notte
+  assert.strictEqual(N.gruppo({ oggi: "2026-10-20", ora: 12, membro: "m2", ritrovi: [rit({ gara_id: "F-42" })] }).invio, null); // non corre quella gara
+  assert.ok(N.gruppo({ oggi: "2026-10-20", ora: 12, membro: "m2", corre: ["F-42"], ritrovi: [rit({ gara_id: "F-42" })] }).invio);
+  // promemoria la sera prima solo a chi ha detto sì
+  g = N.gruppo({ oggi: "2026-10-24", ora: 19, membro: "m2", ritrovi: [rit({ si: ["m1", "m2"] })], stato: g.stato });
+  assert.ok(g.invio && g.invio.title.startsWith("Domani"), g.invio);
+  assert.strictEqual(N.gruppo({ oggi: "2026-10-24", ora: 20, membro: "m2", ritrovi: [rit({ si: ["m1", "m2"] })], stato: g.stato }).invio, null);
+  assert.strictEqual(N.gruppo({ oggi: "2026-10-24", ora: 19, membro: "m3", ritrovi: [rit()], stato: { ritrovi: { r1: "nuovo" } } }).invio, null);
+  // annullato: solo a chi aveva detto sì
+  g = N.gruppo({ oggi: "2026-10-22", ora: 10, membro: "m2", ritrovi: [rit({ annullato: true, si: ["m1", "m2"] })], stato: { ritrovi: { r1: "nuovo" } } });
+  assert.ok(g.invio && g.invio.title.startsWith("Annullato"), g.invio);
+  assert.strictEqual(N.gruppo({ oggi: "2026-10-22", ora: 10, membro: "m3", ritrovi: [rit({ annullato: true })], stato: { ritrovi: { r1: "nuovo" } } }).invio, null);
+  // preferenza spenta
+  assert.strictEqual(N.gruppo({ oggi: "2026-10-20", ora: 12, membro: "m2", ritrovi: [rit()], pref: { gruppo: false } }).invio, null);
+}
+
 console.log("ok");
