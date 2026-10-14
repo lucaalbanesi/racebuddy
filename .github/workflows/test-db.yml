@@ -24,4 +24,7 @@ jobs:
       - name: Schema del gruppo
         run: psql -v ON_ERROR_STOP=1 -f docs/supabase_gruppo.sql
       - name: Prove
-        run: psql -v ON_ERROR_STOP=1 -f tests/test_gruppo.sql 2>&1 | tee esito.txt; grep -q "permessi ok" esito.txt
+        run: |
+          psql -v ON_ERROR_STOP=1 -f tests/test_gruppo.sql > esito.txt 2>&1 || true
+          cat esito.txt
+          if ! grep -q "permessi ok" esito.txt; then echo "::error::$(grep -iE 'error|errore|assert|context|line' esito.txt | head -6 | tr '\n' ' ')"; exit 1; fi
