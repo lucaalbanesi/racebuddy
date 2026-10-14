@@ -308,11 +308,21 @@
     }, { passive: true });
   }
 
-  function vistaVuota() {
-    return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(oggi()))}</span><h1>Ciao${S.profilo.nome ? ", " + esc(S.profilo.nome) : ""}</h1></div></header>
-      <section class="card empty"><span class="title">Ti accompagno fino alla tua prossima gara</span>
-      <p>Cosa fare e quando, come vestirti, cosa mettere nella borsa. Si comincia scegliendo la gara.</p>
-      <a class="btn block" href="#/gare">Scegli la tua gara</a></section>
+  const cardMeteo = () => (S.profilo.citta ? `<a class="card" id="meteo" href="#/meteo" style="text-decoration:none;color:inherit;font-weight:inherit" aria-label="Meteo dell'uscita, apri il dettaglio"><span class="eyebrow">${esc(S.profilo.citta)} · uscita delle ${esc(S.profilo.ora || "7:00")}</span><span class="small muted">Meteo in arrivo…</span></a>`
+    : `<a class="card" href="#/io" style="text-decoration:none;color:inherit"><span class="title">Meteo e vestizione</span><span class="small">Dimmi dove e a che ora corri di solito: ti dico come vestirti.</span></a>`);
+  function cardPerTe(titolo) {
+    const cx = contesto(), letti = Object.fromEntries(Object.keys(S.letti || {}).filter((k) => k.startsWith("c:")).map((k) => [k.slice(2), true]));
+    const top = L.perTe(D.contenuti || [], { fase: cx.fase, distanza: cx.distanza, oggi: cx.o, letti }).filter((c) => !letti[c.id]).slice(0, 3);
+    return top.length ? `<section aria-label="${titolo}"><div class="between" style="margin-bottom:8px"><h2>${titolo}</h2><a class="small" href="#/perte">Altro ›</a></div><div class="lista-c">${top.map((c, i) => cardContenuto(c, i === 0)).join("")}</div></section>` : "";
+  }
+  function vistaVuota(concluse) {
+    const o = oggi(), pil = L.pillola(D.pillole, "nessuna", "21", o, Number(o.slice(5, 7)));
+    return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(o))}</span><h1>${S.profilo.nome ? "Ciao, " + esc(S.profilo.nome) : "Buongiorno"}</h1></div></header>
+      <a class="card dark" href="#/gare" style="text-decoration:none;font-weight:inherit"><span class="eyebrow">${concluse ? "Tutte le tue gare sono concluse" : "Nessuna gara in vista"}</span><span style="font:700 24px/1.1 var(--display)">${concluse ? "Qual è la prossima?" : "Scegli la tua prossima gara"}</span><span class="sub">Ti preparo la strada fino al via: cosa fare e quando, info gara, borsa ›</span></a>
+      ${cardMeteo()}
+      ${cardSorriso(L.sorriso(D.sorrisi || [], "senza_gara", o))}
+      ${pil ? `<section class="card soft" aria-label="Pillola del giorno"><span class="eyebrow" style="color:var(--accent-strong)">Pillola di stagione</span><span class="title">${esc(pil.titolo)}</span><span class="small">${esc(pil.testo)}</span></section>` : ""}
+      ${cardPerTe("Da leggere e guardare")}
       <p class="sub">Indicazioni generali per runner amatoriali in salute: non sostituiscono medico, nutrizionista o allenatore.</p>`;
   }
 
@@ -320,7 +330,7 @@
     if (!S.gare.length) return vistaVuota();
     const o = oggi();
     const { obiettivo, focus, tutte } = L.gareAttive(S.gare, D.fasi, o);
-    if (!obiettivo) return vistaVuota() + `<p class="sub">Le tue gare sono concluse: scegline una nuova.</p>`;
+    if (!obiettivo) return vistaVuota(true);
     const f = L.fase(D.fasi, obiettivo.distanza, obiettivo.data, o);
     const mancano = (g) => g.mancano === 0 ? "oggi" : g.mancano === 1 ? "domani" : g.mancano > 0 ? `tra ${g.mancano} giorni` : "conclusa";
     const hero = `<section class="card dark" aria-label="Le tue gare">
@@ -360,8 +370,7 @@
     const pil = L.pillola(D.pillole, fp.id, focus.distanza, o, Number(o.slice(5, 7)));
     const pill = pil ? `<section class="card soft" aria-label="Pillola del giorno"><span class="eyebrow" style="color:var(--accent-strong)">Pillola · ${esc(fp.nome)}</span><span class="title">${esc(pil.titolo)}</span><span class="small">${esc(pil.testo)}</span>${(() => { const n = L.pillolePool(D.pillole, fp.id, focus.distanza, Number(o.slice(5, 7))).length - 1; return n > 0 ? `<a class="small" href="#/pillole/${encodeURIComponent(focus.id)}">Vedi le altre ${n} di questa fase ›</a>` : ""; })()}</section>` : "";
 
-    const meteo = S.profilo.citta ? `<a class="card" id="meteo" href="#/meteo" style="text-decoration:none;color:inherit;font-weight:inherit" aria-label="Meteo dell'uscita, apri il dettaglio"><span class="eyebrow">${esc(S.profilo.citta)} · uscita delle ${esc(S.profilo.ora || "7:00")}</span><span class="small muted">Meteo in arrivo…</span></a>`
-      : `<a class="card" href="#/io" style="text-decoration:none;color:inherit"><span class="title">Meteo e vestizione</span><span class="small">Dimmi dove e a che ora corri di solito: ti dico come vestirti.</span></a>`;
+    const meteo = cardMeteo();
 
     return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(o))}</span><h1>Buongiorno${S.profilo.nome ? ", " + esc(S.profilo.nome) : ""}</h1></div></header>${hero}${meteo}${blocco}${cardPush(true)}${pill}${(() => {
       const cx = contesto(), letti = Object.fromEntries(Object.keys(S.letti || {}).filter((k) => k.startsWith("c:")).map((k) => [k.slice(2), true]));
