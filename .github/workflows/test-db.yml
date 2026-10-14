@@ -1,0 +1,27 @@
+name: Test database gruppo
+on:
+  push:
+    paths: ["docs/supabase_gruppo.sql", "tests/test_gruppo.sql", ".github/workflows/test-db.yml"]
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: prova
+        ports: ["5432:5432"]
+        options: --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      PGHOST: localhost
+      PGUSER: postgres
+      PGPASSWORD: prova
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ruoli come su Supabase
+        run: psql -v ON_ERROR_STOP=1 -c "create role anon nologin; create role authenticated nologin; grant usage on schema public to anon, authenticated; create schema extensions;"
+      - name: Schema del gruppo
+        run: psql -v ON_ERROR_STOP=1 -f docs/supabase_gruppo.sql
+      - name: Prove
+        run: psql -v ON_ERROR_STOP=1 -f tests/test_gruppo.sql 2>&1 | tee esito.txt; grep -q "permessi ok" esito.txt
