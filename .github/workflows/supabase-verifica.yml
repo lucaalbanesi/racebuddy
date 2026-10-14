@@ -32,3 +32,7 @@ jobs:
         run: |
           n=$(curl -s "$URL/rest/v1/gare_aggiunte?select=gara_id" -H "apikey: $KEY" | grep -o '"gara_id"' | wc -l)
           echo "righe=$n"; test "$n" -ge 2
+      - name: Gare vere presenti
+        run: |
+          n=$(curl -s "$URL/rest/v1/gare_aggiunte?select=gara_id&gara_id=neq.TEST" -H "apikey: $KEY" | grep -o '"gara_id"' | wc -l)
+          echo "gare=$n"; test "$n" -ge 1
