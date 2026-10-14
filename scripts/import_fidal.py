@@ -28,7 +28,7 @@ OUT = Path(__file__).resolve().parent.parent / "data" / "gare.json"
 USER_AGENT = "RaceBuddy-calendario/0.1 (progetto amatoriale; contatto via GitHub lucaalbanesi/racebuddy)"
 
 # Parole che escludono una gara anche se la distanza coincide
-ESCLUSI = re.compile(r"\b(trail|montagna|cross|pista|marcia|nordic|staffetta|ultra|vertical|skyrace|indoor)\b", re.I)
+ESCLUSI = re.compile(r"\b(trail|montagna|cross|pista|marcia|nordic|staffetta|straffetta|ultra|vertical|skyrace|indoor)\b|\b\d+\s*x\s*\d", re.I)
 
 
 # ---------------------------------------------------------------- parsing iCal
@@ -75,19 +75,28 @@ def parse_date(value: str | None) -> str | None:
 KM = re.compile(r"(\d+(?:[.,]\d+)?)\s*k(?:m)?\b|\bkm\.?\s*(\d+(?:[.,]\d+)?)", re.I)
 
 
-def _da_km(testo: str) -> tuple[bool, str | None]:
-    """(trovato_km, distanza) dai chilometri scritti nel testo."""
-    trovati = False
-    for a, b in KM.findall(testo):
-        val = float((a or b).replace(",", "."))
-        trovati = True
-        if 9.5 <= val <= 10.5:
-            return True, "10"
-        if 21.0 <= val <= 21.2:
-            return True, "21"
-        if 42.0 <= val <= 42.3:
-            return True, "42"
-    return trovati, None
+def _classe(val: float) -> str | None:
+    if 9.5 <= val <= 10.5:
+        return "10"
+    if 21.0 <= val <= 21.2:
+        return "21"
+    if 42.0 <= val <= 42.3:
+        return "42"
+    return None
+
+
+def _da_km(testo: str) -> tuple[bool, list[str]]:
+    """(trovato_km, distanze) dai chilometri scritti nel testo.
+    Gestisce anche gli elenchi del calendario regionale: "Km. 42,195/33/21,0975/10"."""
+    valori = [float((a or b).replace(",", ".")) for a, b in KM.findall(testo)]
+    for elenco in re.findall(r"\bkm\.?\s*((?:\d+(?:[.,]\d+)?\s*/\s*)+\d+(?:[.,]\d+)?)", testo, re.I):
+        valori += [float(v.replace(",", ".")) for v in re.split(r"\s*/\s*", elenco)]
+    out: list[str] = []
+    for v in valori:
+        c = _classe(v)
+        if c and c not in out:
+            out.append(c)
+    return bool(valori), out
 
 
 def _da_parole(testo: str) -> str | None:
@@ -99,19 +108,27 @@ def _da_parole(testo: str) -> str | None:
     return None
 
 
-def distanza(nome: str, descr: str) -> str | None:
-    """Restituisce '10', '21' o '42', oppure None se la gara non interessa.
+def distanze(nome: str, descr: str) -> list[str]:
+    """Distanze di interesse ('10', '21', '42') della gara, lista vuota se nessuna.
     Ordine: km scritti nel nome, parole chiave nel nome, poi la descrizione."""
     if ESCLUSI.search(nome):  # solo sul nome: la descrizione cita spesso gare collaterali
-        return None
+        return []
     trovati, d = _da_km(nome)
     if trovati:
         return d  # il nome dichiara una distanza: vale quella (es. "Parma Marathon (km 10)")
-    d = _da_parole(nome)
-    if d:
-        return d
+    p = _da_parole(nome)
+    if p:
+        return [p]
     trovati, d = _da_km(descr)
-    return d if trovati else _da_parole(descr)
+    if trovati:
+        return d
+    p = _da_parole(descr)
+    return [p] if p else []
+
+
+def distanza(nome: str, descr: str) -> str | None:
+    d = distanze(nome, descr)
+    return d[0] if d else None
 
 
 def codice_fidal(*testi: str) -> str | None:
@@ -122,22 +139,30 @@ def codice_fidal(*testi: str) -> str | None:
     return None
 
 
-def to_gara(ev: dict) -> dict | None:
+def to_gare(ev: dict) -> list[dict]:
+    """Una voce per ciascuna distanza di interesse dell'evento."""
     nome = ev.get("SUMMARY", "").strip()
     descr = ev.get("DESCRIPTION", "")
     data = parse_date(ev.get("DTSTART"))
     if not nome or not data:
-        return None
-    dist = distanza(nome, descr)
-    if dist is None:
-        return None
+        return []
+    return [g for g in (_gara(ev, nome, descr, data, d) for d in distanze(nome, descr)) if g]
+
+
+def to_gara(ev: dict) -> dict | None:
+    g = to_gare(ev)
+    return g[0] if g else None
+
+
+def _gara(ev: dict, nome: str, descr: str, data: str, dist: str) -> dict | None:
     annullata = bool(re.match(r"\s*annullat[ao]\b", nome, re.I))
     nome_pulito = re.sub(r"^\s*annullat[ao]\s*[-–]\s*", "", nome, flags=re.I)
     url = ev.get("URL", "")
     cod = codice_fidal(url, descr)
     luogo = ev.get("LOCATION", "").strip()
     # L'UID del feed cambia a ogni download: usiamo il codice FIDAL o un hash stabile
-    gid = cod or "H" + hashlib.sha1(f"{data}|{nome_pulito}|{luogo}".encode()).hexdigest()[:10]
+    base = cod or "H" + hashlib.sha1(f"{data}|{nome_pulito}|{luogo}".encode()).hexdigest()[:10]
+    gid = f"{base}-{dist}"
     return {
         "id": gid,
         "nome": nome_pulito,
@@ -148,6 +173,18 @@ def to_gara(ev: dict) -> dict | None:
         "fonte": "FIDAL",
         "url": url or (f"https://www.fidal.it/calendario/x/{cod}" if cod else "https://www.fidal.it/calendario.php"),
     }
+
+
+def deduplica(gare: dict[str, dict]) -> dict[str, dict]:
+    """La stessa gara compare nel calendario nazionale e in quello regionale con nomi diversi:
+    a parità di data, luogo e distanza tiene il nome più breve (di solito quello nazionale)."""
+    scelte: dict[tuple, dict] = {}
+    for g in gare.values():
+        k = (g["data"], g["luogo"].upper(), g["distanza"])
+        cur = scelte.get(k)
+        if cur is None or (cur["annullata"], len(cur["nome"])) > (g["annullata"], len(g["nome"])):
+            scelte[k] = g
+    return {g["id"]: g for g in scelte.values()}
 
 
 # ----------------------------------------------------------------- download
@@ -194,9 +231,10 @@ def main() -> int:
 
     gare: dict[str, dict] = {}
     for ev in eventi:
-        g = to_gara(ev)
-        if g and g["data"] >= oggi.isoformat():
-            gare[g["id"]] = g
+        for g in to_gare(ev):
+            if g["data"] >= oggi.isoformat():
+                gare[g["id"]] = g
+    gare = deduplica(gare)
 
     # Conserva le gare future già note che il feed non riporta più (es. mese non scaricato)
     if OUT.exists() and not args.file:
