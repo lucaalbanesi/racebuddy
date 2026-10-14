@@ -327,8 +327,10 @@
         ${compilati.filter(([k]) => k !== "sito").map(([k, l]) => `<div class="line" style="flex-direction:column;gap:2px"><span class="small muted" style="font-weight:600">${l}</span><span style="white-space:pre-line">${esc(info[k])}</span></div>`).join("")}</section>`
       : `<section class="card"><h2>Informazioni pratiche</h2><span class="small">Orario di partenza, ritiro pettorale, griglie, deposito borse, ristori: annotali qui una volta sola e li ritrovi quando servono, anche nella checklist.</span>
         <div class="grid2"><a class="btn" href="#/gara/${encodeURIComponent(g.id)}?modifica=1">Compila</a><a class="btn ghost" href="${cerca}" target="_blank" rel="noopener">Cerca il sito ↗</a></div>
-        <span class="small muted">Presto le prenderemo noi dal sito dell'organizzatore.</span></section>`;
-    return `${testa}${logistica}
+        <span class="small muted">${mancano >= 0 ? "Le cerchiamo noi sul sito ufficiale: di solito compaiono qui entro un paio di giorni, quando l'organizzatore le ha pubblicate." : ""}</span></section>`;
+    const uff = (D.schede || {})[g.id];
+    const prov = uff ? `<p class="sub">Informazioni dal sito ufficiale${uff.verificato ? `, verificate il ${esc(L.fmtGiorno(uff.verificato))}` : ""}${(uff.fonti || []).filter((u) => /^https?:\/\//.test(u)).slice(0, 2).map((u, i) => ` · <a href="${esc(u)}" target="_blank" rel="noopener">fonte${uff.fonti.length > 1 ? " " + (i + 1) : ""} ↗</a>`).join("")}.${g.info && Object.keys(g.info).length ? " I campi che hai modificato tu valgono solo per te." : ""}</p>` : "";
+    return `${testa}${logistica}${prov}
       <p class="sub">Dati del calendario: ${g.fonte === "manuale" ? "inseriti da te" : "FIDAL"}. Fai sempre fede al regolamento ufficiale della gara.</p>`;
   }
   async function riempiMeteoScheda(id) {
@@ -509,7 +511,8 @@
     } else if (f.id === "scheda") {
       const g = S.gare.find((x) => x.id === f.dataset.id);
       if (g) {
-        g.info = {}; CAMPI.forEach(([k]) => { const val = v("i-" + k).trim(); if (val) g.info[k] = val; });
+        const uff = (D.schede || {})[g.id] || {};
+        g.info = {}; CAMPI.forEach(([k]) => { const val = v("i-" + k).trim(); if (val && val !== uff[k]) g.info[k] = val; });
         g.ruolo = v("i-ruolo") || g.ruolo; g.tempo = v("i-tempo").trim(); salva(); toast("Scheda salvata");
         location.hash = `#/gara/${encodeURIComponent(g.id)}`;
       }

@@ -1,0 +1,19 @@
+name: Esporta gare seguite
+on:
+  schedule:
+    - cron: "23 3 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  esporta:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/esporta_seguite.py
+      - name: Salva se cambiato
+        run: |
+          git config user.name "racebuddy-bot"
+          git config user.email "racebuddy-bot@users.noreply.github.com"
+          git add data/gare_seguite.json
+          git diff --cached --quiet || (git commit -m "Gare seguite aggiornate" && git push)
