@@ -1,0 +1,25 @@
+name: Aggiorna contenuti
+on:
+  schedule:
+    - cron: "41 4,15 * * *"   # due volte al giorno
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  contenuti:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test
+        run: python tests/test_contenuti.py
+      - name: Raccogli contenuti
+        run: python scripts/importa_contenuti.py
+      - name: Salva se cambiato
+        run: |
+          git config user.name "racebuddy-bot"
+          git config user.email "racebuddy-bot@users.noreply.github.com"
+          git add data/contenuti.json
+          git diff --cached --quiet || (git commit -m "Contenuti aggiornati" && git pull --rebase && git push)
