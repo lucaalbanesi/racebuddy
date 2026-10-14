@@ -81,7 +81,8 @@
       method: "POST",
       headers: { apikey: C.supabaseKey, "Content-Type": "application/json", Prefer: "return=minimal" },
       body: JSON.stringify(corpo),
-    }).then((r) => { if (r.ok) { S.segnalate[g.id] = true; salva(); } }).catch(() => {});
+    }).then((r) => { if (r.ok) { S.segnalate[g.id] = true; delete S.erroreSegnala; } else { S.erroreSegnala = `HTTP ${r.status}`; r.text().then((t) => { S.erroreSegnala += " " + t.slice(0, 120); salva(); }); } salva(); })
+      .catch((e) => { S.erroreSegnala = String(e && e.message || e).slice(0, 120); salva(); });
   }
 
   // ---------------------------------------------------------------- pezzi di interfaccia
@@ -409,6 +410,7 @@
         <form id="prova" style="display:flex;flex-direction:column;gap:10px"><div class="field"><label for="d-prova">Fai finta che oggi sia</label><input class="input" id="d-prova" type="date" value="${esc(S.prova)}"></div>
         <div class="grid2"><button class="btn" type="submit">Applica</button><button class="btn ghost" type="button" data-act="prova-off">Torna a oggi</button></div></form>
         <div id="reset-box" style="display:flex;flex-direction:column;gap:8px"><button class="btn ghost" type="button" data-act="reset-ask">Cancella tutti i miei dati</button></div></details>
+      <p class="sub">Versione ${esc(window.RB_VERSION || "?")} · gare condivise: ${Object.keys(S.segnalate || {}).length} di ${S.gare.length}${S.erroreSegnala ? ` · ultimo errore: ${esc(S.erroreSegnala)}` : ""}</p>
       <p class="sub">I dati restano su questo telefono. Con il collegamento a Telegram si salveranno anche online.</p>`;
   }
 

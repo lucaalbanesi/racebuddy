@@ -35,6 +35,7 @@ jobs:
           mkdir -p _site
           cp -r app/* _site/
           cp -r content data _site/
+          sed -i "s/__V__/${GITHUB_SHA::7}/g" _site/index.html
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
