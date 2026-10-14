@@ -1,0 +1,11 @@
+{
+  "name": "RaceBuddy",
+  "short_name": "RaceBuddy",
+  "description": "Il tuo compagno per la preparazione della gara, dal 10 km alla maratona.",
+  "lang": "it",
+  "start_url": "./#/oggi",
+  "display": "standalone",
+  "background_color": "#F3F5F7",
+  "theme_color": "#1E2B4A",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

@@ -1,0 +1,408 @@
+/* RaceBuddy – web app (fetta 1: tutto sul telefono, senza account).
+   Stato salvato nel browser; contenuti e calendario letti dai file pubblicati. */
+(function () {
+  "use strict";
+  const L = window.RBLogic;
+  const KEY = "racebuddy.v1";
+  const $app = document.getElementById("app");
+
+  // ------------------------------------------------------------------ stato
+  const vuoto = () => ({ profilo: {}, gare: [], spunte: {}, rinvii: {}, personali: [], scarpe: [], prova: "" });
+  let S = vuoto();
+  try { S = Object.assign(vuoto(), JSON.parse(localStorage.getItem(KEY) || "{}")); } catch (e) { /* storage non disponibile */ }
+  const salva = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast("Non riesco a salvare sul telefono"); } };
+
+  const D = { fasi: [], percorso: [], pillole: [], gare: [], aggiornato: null, ok: false, errore: "" };
+  const meteoCache = {};
+
+  const oggi = () => S.prova || L.todayISO();
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const titoloGara = (n) => String(n || "").replace(/^\s*[IVXLCDM]+\^\s*/, "").replace(/^\d+[ªa°^]\s*/, "");
+  const nomeLuogo = (l) => String(l || "").toLowerCase().replace(/(^|[\s'-])\S/g, (m) => m.toUpperCase());
+
+  function toast(msg) {
+    const t = document.createElement("div");
+    t.className = "toast"; t.setAttribute("role", "status"); t.textContent = msg;
+    document.body.appendChild(t); setTimeout(() => t.remove(), 2400);
+  }
+
+  // ---------------------------------------------------------------- dati
+  async function carica() {
+    try {
+      const [fasi, percorso, pillole, cal] = await Promise.all(
+        ["content/fasi.json", "content/percorso.json", "content/pillole.json", "data/gare.json"].map((u) => fetch(u, { cache: "no-cache" }).then((r) => { if (!r.ok) throw new Error(u); return r.json(); })));
+      Object.assign(D, { fasi, percorso, pillole, gare: cal.gare || [], aggiornato: cal.aggiornato, ok: true });
+    } catch (e) {
+      D.errore = "Non riesco a caricare i contenuti. Controlla la connessione e ricarica.";
+    }
+  }
+
+  // ---------------------------------------------------------------- meteo (Open-Meteo, gratuito, senza chiave)
+  async function coordinate(citta) {
+    const k = "geo:" + citta.toLowerCase();
+    if (meteoCache[k]) return meteoCache[k];
+    const u = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(citta)}&count=1&language=it&countryCode=IT`;
+    const r = await fetch(u).then((x) => x.json());
+    const p = r.results && r.results[0];
+    meteoCache[k] = p ? { lat: p.latitude, lon: p.longitude, nome: p.name } : null;
+    return meteoCache[k];
+  }
+  async function meteoAlle(citta, quandoISO) {
+    const c = await coordinate(citta);
+    if (!c) return null;
+    const k = `m:${c.lat},${c.lon}`;
+    if (!meteoCache[k]) {
+      const u = `https://api.open-meteo.com/v1/forecast?latitude=${c.lat}&longitude=${c.lon}&hourly=temperature_2m,precipitation_probability,wind_speed_10m&timezone=Europe%2FRome&forecast_days=16`;
+      meteoCache[k] = await fetch(u).then((x) => x.json());
+    }
+    const h = meteoCache[k].hourly;
+    const i = h.time.indexOf(quandoISO);
+    if (i < 0) return null;
+    return { temp: h.temperature_2m[i], pioggia: h.precipitation_probability[i] ?? 0, vento: h.wind_speed_10m[i] ?? 0, luogo: c.nome };
+  }
+
+  // ---------------------------------------------------------------- pezzi di interfaccia
+  const back = (href) => `<a class="back" href="${href}" aria-label="Indietro"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></a>`;
+  const bannerProva = () => (S.prova ? `<div class="banner-prova">Modalità prova: oggi è ${esc(L.fmtGiorno(S.prova))} · <a href="#/io" style="color:#fff">cambia</a></div>` : "");
+
+  function barraFasi(gara, scuro) {
+    const fasi = [...D.fasi].sort((a, b) => a.ordine - b.ordine).filter((f) => f.id !== "dopo");
+    const f = L.fase(D.fasi, gara.distanza, gara.data, oggi());
+    const segs = fasi.map((x) => {
+      const g = x.giorni[gara.distanza], len = g.fine - g.inizio + 1;
+      let inner = "";
+      if (f.offset > g.fine) inner = `<div class="done" style="width:100%"></div>`;
+      else if (f.offset >= g.inizio) inner = `<div class="fill" style="width:${Math.max(6, Math.round(((f.offset - g.inizio + 1) / len) * 100))}%"></div>`;
+      return `<div style="flex:${len}">${inner}</div>`;
+    }).join("");
+    const labels = fasi.map((x) => { const g = x.giorni[gara.distanza]; return `<span style="flex:${g.fine - g.inizio + 1}" class="${x.id === f.id ? "cur" : ""}">${x.id === "gara" ? "" : esc(x.nome)}</span>`; }).join("");
+    return `<div class="bar" aria-hidden="true">${segs}</div>${scuro ? "" : `<div class="bar-labels" aria-hidden="true">${labels}</div>`}`;
+  }
+
+  function voceCheck(v, opts = {}) {
+    const fatto = !!S.spunte[v.chiave];
+    return `<label class="check ${fatto ? "done" : ""}"><input type="checkbox" data-act="spunta" data-k="${esc(v.chiave)}" ${fatto ? "checked" : ""}>
+      <span><span class="t">${esc(v.titolo)}</span>${opts.nodesc ? "" : `<br><span class="d">${esc(v.messaggio)}</span>`}${opts.quando ? `<br><span class="d muted">${esc(opts.quando)}</span>` : ""}</span></label>`;
+  }
+
+  function cardGara(g, attiva) {
+    const d = new Date(g.data + "T12:00:00");
+    const mesi = ["gen", "feb", "mar", "apr", "mag", "giu", "lug", "ago", "set", "ott", "nov", "dic"];
+    const giorni = ["dom", "lun", "mar", "mer", "gio", "ven", "sab"];
+    return `<div class="race"><div class="date" aria-hidden="true"><span class="m">${mesi[d.getMonth()]}</span><b>${d.getDate()}</b><span>${giorni[d.getDay()]}</span></div>
+      <div class="info"><span class="title">${esc(titoloGara(g.nome))}</span><span class="small muted">${esc(nomeLuogo(g.luogo))} · ${esc(L.DIST_LABEL[g.distanza])}</span>${attiva || ""}</div></div>`;
+  }
+
+  // ---------------------------------------------------------------- viste
+  function vistaVuota() {
+    return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(oggi()))}</span><h1>Ciao${S.profilo.nome ? ", " + esc(S.profilo.nome) : ""}</h1></div></header>
+      <section class="card empty"><span class="title">Ti accompagno fino alla tua prossima gara</span>
+      <p>Cosa fare e quando, come vestirti, cosa mettere nella borsa. Si comincia scegliendo la gara.</p>
+      <a class="btn block" href="#/gare">Scegli la tua gara</a></section>
+      <p class="sub">Indicazioni generali per runner amatoriali in salute: non sostituiscono medico, nutrizionista o allenatore.</p>`;
+  }
+
+  function vistaOggi() {
+    if (!S.gare.length) return vistaVuota();
+    const o = oggi();
+    const { obiettivo, focus, tutte } = L.gareAttive(S.gare, D.fasi, o);
+    if (!obiettivo) return vistaVuota() + `<p class="sub">Le tue gare sono concluse: scegline una nuova.</p>`;
+    const f = L.fase(D.fasi, obiettivo.distanza, obiettivo.data, o);
+    const altra = tutte.find((g) => g.id !== obiettivo.id);
+    const mancano = (g) => g.mancano === 0 ? "oggi" : g.mancano === 1 ? "domani" : g.mancano > 0 ? `tra ${g.mancano} giorni` : "conclusa";
+    const hero = `<section class="card dark" aria-label="Le tue gare">
+      <div class="between" style="align-items:flex-end"><div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+        <span class="eyebrow">${esc(L.RUOLO_LABEL[obiettivo.ruolo])}</span>
+        <span style="font:700 24px/1.1 var(--display)">${esc(titoloGara(obiettivo.nome))}</span>
+        <span class="sub">${esc(L.fmtGiorno(obiettivo.data))} · ${esc(L.DIST_LABEL[obiettivo.distanza])} · ${esc(f.nome)}</span></div>
+        <div style="text-align:right">${obiettivo.mancano > 0 ? `<div class="big">${obiettivo.mancano}</div><span class="sub">${obiettivo.mancano === 1 ? "giorno" : "giorni"}</span>` : `<span class="pill navy">${esc(mancano(obiettivo))}</span>`}</div></div>
+      ${barraFasi(obiettivo, true)}
+      ${altra ? `<div class="between small" style="border-top:1px solid #FFFFFF26;padding-top:10px"><span><b>${esc(titoloGara(altra.nome))}</b> · ${esc(L.RUOLO_LABEL[altra.ruolo].toLowerCase())}</span><span class="pill navy">${esc(mancano(altra))}</span></div>` : ""}
+    </section>`;
+
+    const st = L.stato(D.percorso, focus, o, S.spunte, S.rinvii);
+    const stO = focus.id === obiettivo.id ? st : L.stato(D.percorso, obiettivo, o, S.spunte, S.rinvii);
+    const daFare = [...st.oggi, ...(focus.id === obiettivo.id ? [] : stO.oggi)].filter((v) => v.tipo !== "momento" || true);
+    const azioni = daFare.filter((v) => v.tipo === "cosa da fare");
+    const momenti = daFare.filter((v) => v.tipo === "momento");
+    const recuperi = stO.daRecuperare.length;
+    let blocco = "";
+    if (momenti.length) blocco += momenti.map((m) => `<section class="card soft"><span class="eyebrow" style="color:var(--accent-strong)">Momento</span><span class="title">${esc(m.titolo)}</span><span class="small">${esc(m.messaggio)}</span></section>`).join("");
+    if (azioni.length) {
+      blocco += `<section class="card" aria-label="Da fare oggi"><h2>Da fare oggi</h2>${azioni.map((v) => {
+        const fatto = !!S.spunte[v.chiave];
+        return `<div style="display:flex;flex-direction:column;gap:10px">${voceCheck(v)}${fatto ? "" : `<div class="grid2"><button class="btn" data-act="spunta" data-k="${esc(v.chiave)}">Fatto</button><button class="btn ghost" data-act="rinvia" data-k="${esc(v.chiave)}">Domani</button></div>`}</div>`;
+      }).join("")}</section>`;
+    } else {
+      const prossima = st.settimana.find((v) => !S.spunte[v.chiave]);
+      blocco += `<section class="card"><h2>Da fare oggi</h2><span class="small">Niente di speciale oggi.${prossima ? ` Prossima cosa: <b>${esc(prossima.titolo)}</b> (${esc(L.fmtGiorno(prossima.data))}).` : ""}</span></section>`;
+    }
+    if (recuperi) blocco += `<a class="card soft" href="#/percorso/${encodeURIComponent(obiettivo.id)}" style="text-decoration:none;color:inherit"><span class="between"><span class="title">Hai ${recuperi} ${recuperi === 1 ? "cosa" : "cose"} da recuperare</span><span aria-hidden="true">›</span></span><span class="small">Ti sei iscritto a preparazione iniziata.</span></a>`;
+    if (focus.mancano >= 0 && focus.mancano <= 2) blocco += `<a class="btn block" href="#/checklist/${encodeURIComponent(focus.id)}">Apri la checklist della borsa</a>`;
+
+    const fp = L.fase(D.fasi, focus.distanza, focus.data, o);
+    const pil = L.pillola(D.pillole, fp.id, focus.distanza, o, Number(o.slice(5, 7)));
+    const pill = pil ? `<section class="card soft" aria-label="Pillola del giorno"><span class="eyebrow" style="color:var(--accent-strong)">Pillola · ${esc(fp.nome)}</span><span class="title">${esc(pil.titolo)}</span><span class="small">${esc(pil.testo)}</span></section>` : "";
+
+    const meteo = S.profilo.citta ? `<section class="card" id="meteo" aria-label="Meteo dell'uscita"><span class="eyebrow">${esc(S.profilo.citta)} · uscita delle ${esc(S.profilo.ora || "7:00")}</span><span class="small muted">Meteo in arrivo…</span></section>`
+      : `<a class="card" href="#/io" style="text-decoration:none;color:inherit"><span class="title">Meteo e vestizione</span><span class="small">Dimmi dove e a che ora corri di solito: ti dico come vestirti.</span></a>`;
+
+    return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(o))}</span><h1>Buongiorno${S.profilo.nome ? ", " + esc(S.profilo.nome) : ""}</h1></div></header>${hero}${meteo}${blocco}${pill}`;
+  }
+
+  async function riempiMeteo() {
+    const box = document.getElementById("meteo");
+    if (!box || !S.profilo.citta) return;
+    try {
+      const quando = S.prova ? `${S.prova}T${String(parseInt(S.profilo.ora || "7", 10)).padStart(2, "0")}:00` : L.prossimaUscita(S.profilo.ora, new Date());
+      const m = await meteoAlle(S.profilo.citta, quando);
+      if (!m) { box.innerHTML = `<span class="eyebrow">${esc(S.profilo.citta)}</span><span class="small">Previsioni non disponibili per questa data.</span>`; return; }
+      const giorno = quando.slice(0, 10) === L.todayISO() ? "oggi" : "domani";
+      box.innerHTML = `<span class="eyebrow">${esc(m.luogo)} · uscita di ${giorno} alle ${esc(S.profilo.ora || "7:00")}</span><span class="title">${esc(L.descriviMeteo(m))}</span><span class="small">${esc(L.vestizione(m))}</span>`;
+    } catch (e) { box.innerHTML = `<span class="small muted">Meteo non disponibile al momento.</span>`; }
+  }
+
+  function vistaGare(param) {
+    const o = oggi();
+    const mie = [...S.gare].sort((a, b) => a.data.localeCompare(b.data));
+    const q = param.q || "", dist = param.d || "";
+    const ris = L.cercaGare(D.gare, q, dist, o);
+    const chip = (v, l) => `<button class="chip" data-act="filtro" data-d="${v}" aria-pressed="${dist === v}">${l}</button>`;
+    return `${bannerProva()}<header class="head"><h1>Gare</h1></header>
+      ${mie.length ? `<section class="card list" aria-label="Le mie gare" style="padding-top:12px;padding-bottom:6px"><h2>Le mie gare</h2>${mie.map((g) => `<div class="line" style="align-items:center"><div style="flex:1;min-width:0"><a href="#/percorso/${encodeURIComponent(g.id)}" style="color:inherit;text-decoration:none"><b>${esc(titoloGara(g.nome))}</b><br><span class="small muted">${esc(L.fmtGiorno(g.data))} · ${esc(L.DIST_LABEL[g.distanza])} · ${esc(L.RUOLO_LABEL[g.ruolo])}</span></a></div><button class="btn ghost small" data-act="rimuovi" data-id="${esc(g.id)}" aria-label="Rimuovi ${esc(titoloGara(g.nome))}">Rimuovi</button></div>`).join("")}</section>` : ""}
+      <div class="field"><label for="cerca">Cerca una gara o una città</label><input class="input" id="cerca" type="search" value="${esc(q)}" placeholder="es. Firenze" autocomplete="off"></div>
+      <div class="chips" role="group" aria-label="Distanza">${chip("", "Tutte")}${chip("10", "10 km")}${chip("21", "Mezza")}${chip("42", "Maratona")}</div>
+      <div id="risultati">${risultati(ris)}</div>
+      <details class="card"><summary>Non la trovi? Aggiungila a mano</summary>
+        <form id="manuale" style="display:flex;flex-direction:column;gap:10px">
+          <div class="field"><label for="m-nome">Nome della gara</label><input class="input" id="m-nome" required></div>
+          <div class="grid2"><div class="field"><label for="m-data">Data</label><input class="input" id="m-data" type="date" required min="${o}"></div>
+          <div class="field"><label for="m-dist">Distanza</label><select class="input" id="m-dist"><option value="10">10 km</option><option value="21">Mezza</option><option value="42">Maratona</option></select></div></div>
+          <div class="field"><label for="m-luogo">Città</label><input class="input" id="m-luogo"></div>
+          <button class="btn" type="submit">Continua</button></form></details>
+      <p class="sub">Calendario FIDAL su strada${D.aggiornato ? `, aggiornato il ${esc(L.fmtGiorno(D.aggiornato.slice(0, 10)))}` : ""}. Le gare del 2027 compaiono man mano che vengono pubblicate.</p>`;
+  }
+  function risultati(ris) {
+    if (!ris.length) return `<p class="sub">Nessuna gara trovata. Prova con la città o aggiungila a mano.</p>`;
+    const giaMie = new Set(S.gare.map((g) => g.id));
+    return `<h2 style="margin-bottom:8px">Risultati · ${ris.length}${ris.length === 40 ? "+" : ""}</h2><div style="display:flex;flex-direction:column;gap:8px">${ris.map((g) =>
+      `<article class="card">${cardGara(g, giaMie.has(g.id) ? `<span class="pill ok">già tra le tue gare</span>` : `<a class="btn small" style="align-self:flex-start" href="#/aggiungi/${encodeURIComponent(g.id)}">Scegli ${esc(L.DIST_LABEL[g.distanza])}</a>`)}</article>`).join("")}</div>`;
+  }
+
+  function vistaAggiungi(id) {
+    const g = D.gare.find((x) => x.id === id) || (S._bozza && S._bozza.id === id ? S._bozza : null);
+    if (!g) return `<p class="sub">Gara non trovata.</p><a class="btn" href="#/gare">Torna alle gare</a>`;
+    const ha = S.gare.some((x) => x.ruolo === "obiettivo" && x.data >= oggi());
+    const r = (v, t, d, chk) => `<label class="radio"><input type="radio" name="ruolo" value="${v}" ${chk ? "checked" : ""}><span><span class="title" style="font-size:16px">${t}</span><br><span class="small">${d}</span></span></label>`;
+    const P = S.profilo;
+    return `<header class="head-back">${back("#/gare")}<div><h1 style="font-size:26px">${esc(titoloGara(g.nome))}</h1><span class="sub">${esc(L.fmtGiorno(g.data))} · ${esc(L.DIST_LABEL[g.distanza])} · tra ${L.diffDays(g.data, oggi())} giorni</span></div></header>
+      <form id="aggiungi" data-id="${esc(id)}" style="display:flex;flex-direction:column;gap:16px">
+      <fieldset style="border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:8px"><legend class="title" style="margin-bottom:8px;padding:0">Che gara è per te?</legend>
+        ${r("obiettivo", "Obiettivo", "Costruisco la preparazione su questa gara", !ha)}
+        ${r("tappa", "Tappa", "Una gara di passaggio verso l'obiettivo", ha)}
+        ${r("divertimento", "Per divertimento", "Solo checklist e promemoria", false)}</fieldset>
+      <div class="field"><label for="a-tempo">Tempo obiettivo <span class="muted">(facoltativo)</span></label><input class="input" id="a-tempo" placeholder="es. 3:45:00"></div>
+      ${P.citta ? "" : `<span class="title">Due cose su di te <span class="muted small" style="font-weight:500">· puoi saltarle</span></span>
+      <div class="grid2"><div class="field"><label for="a-citta">Dove corri di solito</label><input class="input" id="a-citta" placeholder="es. Roma"></div>
+      <div class="field"><label for="a-ora">A che ora</label><input class="input" id="a-ora" placeholder="es. 6:30"></div></div>`}
+      <button class="btn block" type="submit">Crea il mio percorso</button></form>`;
+  }
+
+  function vistaPercorso(id) {
+    const o = oggi();
+    if (!S.gare.length) return vistaVuota();
+    const g = S.gare.find((x) => x.id === id) || L.gareAttive(S.gare, D.fasi, o).focus || S.gare[0];
+    const f = L.fase(D.fasi, g.distanza, g.data, o);
+    const st = L.stato(D.percorso, g, o, S.spunte, S.rinvii);
+    const scelta = S.gare.length > 1 ? `<div class="chips" role="group" aria-label="Gara">${S.gare.map((x) => `<a class="chip" href="#/percorso/${encodeURIComponent(x.id)}" aria-pressed="${x.id === g.id}" style="display:inline-flex;align-items:center;text-decoration:none;color:inherit">${esc(titoloGara(x.nome).slice(0, 22))}</a>`).join("")}</div>` : "";
+    const rec = st.daRecuperare.length ? `<section class="card soft" aria-label="Da recuperare"><div class="between"><span class="title" style="color:var(--accent-strong)">Ti sei iscritto a preparazione iniziata</span><span class="small"><b>${st.daRecuperare.length}</b></span></div>${st.daRecuperare.map((v) => voceCheck(v)).join("")}</section>` : "";
+    const sett = st.settimana.length ? `<section class="card" aria-label="Prossimi giorni"><h2>Nei prossimi 7 giorni</h2>${st.settimana.map((v) => voceCheck(v, { quando: L.fmtGiorno(v.data) })).join("")}</section>` : "";
+    const mom = st.momenti.length ? `<section class="card list" aria-label="Prossimi momenti" style="padding-top:12px;padding-bottom:6px"><h2>Prossimi momenti</h2>${st.momenti.map((v) => `<div class="line"><span class="when">${esc(L.fmtBreve(v.data))}</span><span>${esc(v.titolo)}</span></div>`).join("")}</section>` : "";
+    const altre = S.gare.filter((x) => x.id !== g.id && x.data <= g.data && x.data >= o);
+    const tappe = altre.length ? `<section class="card list" style="padding-top:12px;padding-bottom:6px"><h2>Altre gare prima di questa</h2>${altre.map((x) => `<div class="line"><span class="when hot">${esc(L.fmtBreve(x.data))}</span><a href="#/percorso/${encodeURIComponent(x.id)}">${esc(titoloGara(x.nome))} · ${esc(L.RUOLO_LABEL[x.ruolo].toLowerCase())}</a></div>`).join("")}</section>` : "";
+    // percorso completo per fase
+    const perFase = {};
+    st.voci.forEach((v) => { (perFase[v.fase] = perFase[v.fase] || []).push(v); });
+    const tutto = [...D.fasi].sort((a, b) => a.ordine - b.ordine).filter((x) => perFase[x.id]).map((x) =>
+      `<h2 style="margin-top:8px">${esc(x.nome)}</h2>${perFase[x.id].map((v) => v.tipo === "cosa da fare" ? voceCheck(v, { nodesc: true, quando: L.fmtGiorno(v.data) }) : `<div class="line" style="opacity:${v.data < o ? 0.55 : 1}"><span class="when">${esc(L.fmtBreve(v.data))}</span><span>${esc(v.titolo)}</span></div>`).join("")}`).join("");
+    const mancano = L.diffDays(g.data, o);
+    return `${bannerProva()}<header class="head"><div style="min-width:0"><span class="eyebrow">Il tuo percorso · ${esc(L.RUOLO_LABEL[g.ruolo].toLowerCase())}</span><h1>${esc(titoloGara(g.nome))}</h1></div><span style="font:700 22px var(--display);color:var(--accent);white-space:nowrap">${mancano > 0 ? "−" + mancano + " gg" : mancano === 0 ? "oggi" : "fatta"}</span></header>
+      ${scelta}<section aria-label="Fase attuale: ${esc(f.nome)}">${barraFasi(g)}</section>
+      ${f.id === "prima" ? `<section class="card"><span class="small">La preparazione per questa gara parte il <b>${esc(L.fmtGiorno(L.addDays(g.data, D.fasi.find((x) => x.ordine === 1).giorni[g.distanza].inizio)))}</b>. Ti avviso io.</span></section>` : ""}
+      ${rec}${sett}${tappe}${mom}
+      <a class="btn ghost" href="#/checklist/${encodeURIComponent(g.id)}">Checklist della borsa</a>
+      <details class="card"><summary>Tutto il percorso</summary>${tutto}</details>
+      <a class="btn dashed" href="#/gare">+ Aggiungi una gara</a>`;
+  }
+
+  function vistaChecklist(id) {
+    const g = S.gare.find((x) => x.id === id);
+    if (!g) return `<p class="sub">Gara non trovata.</p><a class="btn" href="#/gare">Le mie gare</a>`;
+    const ck = L.checklist(D.percorso, g, S.personali);
+    const tutte = [...ck.borsa, ...ck.mattina];
+    const fatte = tutte.filter((v) => S.spunte[v.chiave]).length;
+    const pct = tutte.length ? Math.round((fatte / tutte.length) * 100) : 0;
+    const mancano = L.diffDays(g.data, oggi());
+    return `${bannerProva()}<header class="head-back">${back("#/percorso/" + encodeURIComponent(g.id))}<div><h1 style="font-size:28px">Borsa ${mancano === 1 ? "per domani" : mancano === 0 ? "per oggi" : "della gara"}</h1><span class="sub">${esc(titoloGara(g.nome))} · ${esc(L.fmtGiorno(g.data))}</span></div></header>
+      <div style="display:flex;flex-direction:column;gap:6px"><div class="between small"><b>${fatte} di ${tutte.length} pronte</b><span class="muted" id="meteo-gara">${mancano >= 0 && mancano <= 14 ? "Meteo della gara in arrivo…" : ""}</span></div>
+      <div class="meter acc" aria-hidden="true"><div style="width:${pct}%"></div></div></div>
+      <section class="card" style="gap:0;padding-top:4px;padding-bottom:4px" aria-label="Borsa">${ck.borsa.map((v) => voceCheck(v, { nodesc: !v.messaggio })).join("")}</section>
+      <form id="personale" class="row"><label class="sr" for="p-voce">Aggiungi una voce tua</label><input class="input" id="p-voce" placeholder="Aggiungi una voce tua" required><button class="btn" type="submit">Aggiungi</button></form>
+      ${S.personali.length ? `<p class="sub">Le tue voci restano salvate per le prossime gare. <button class="btn ghost small" data-act="svuota-personali">Svuota le mie voci</button></p>` : ""}
+      <section class="card" aria-label="Mattina della gara"><h2>La mattina della gara</h2>${ck.mattina.map((v) => voceCheck(v)).join("")}</section>`;
+  }
+  async function riempiMeteoGara(id) {
+    const el = document.getElementById("meteo-gara");
+    const g = S.gare.find((x) => x.id === id);
+    if (!el || !g || !el.textContent) return;
+    try {
+      const m = await meteoAlle(nomeLuogo(g.luogo) || S.profilo.citta || "", `${g.data}T09:00`);
+      el.textContent = m ? `alle 9: ${L.descriviMeteo(m)}` : "";
+      if (m) el.insertAdjacentHTML("afterend", ""), document.querySelector('[aria-label="Borsa"]').insertAdjacentHTML("beforebegin", `<section class="card soft"><span class="eyebrow" style="color:var(--accent-strong)">Vestizione per la gara · orario indicativo</span><span class="small">${esc(L.vestizione(m, true))}</span></section>`);
+    } catch (e) { el.textContent = ""; }
+  }
+
+  function vistaGruppo() {
+    return `${bannerProva()}<header class="head"><h1>Gruppo</h1></header>
+      <section class="card empty"><span class="title">Arriva con il collegamento a Telegram</span>
+      <p>Qui vedrai chi del gruppo corre le tue gare, i ritrovi organizzati dal presidente e i risultati condivisi.</p></section>`;
+  }
+
+  function vistaIo() {
+    const P = S.profilo;
+    const scarpe = S.scarpe.map((s) => {
+      const st = L.statoScarpa(s);
+      return `<article class="card"><div class="between"><span class="title">${esc(s.nome)}</span><span class="small muted">${esc({ allenamento: "allenamento", ritmo: "ritmo e lunghi", gara: "gara", trail: "trail" }[s.tipo] || s.tipo)}</span></div>
+        <div class="meter ${st.livello}" aria-hidden="true"><div style="width:${Math.max(3, Math.round(st.quota * 100))}%"></div></div>
+        <div class="between small"><span><b>${Math.round(st.km)}</b> di ${st.limite} km</span><span style="font-weight:700;color:${st.livello === "attenzione" ? "var(--warn)" : st.livello === "info" ? "var(--accent)" : "var(--ok)"}">${esc(st.etichetta)}</span></div>
+        <form class="row" data-form="km" data-id="${esc(s.id)}"><label class="sr" for="km-${esc(s.id)}">Aggiungi km a ${esc(s.nome)}</label><input class="input" id="km-${esc(s.id)}" type="number" inputmode="decimal" min="0" step="0.1" placeholder="+ km corsi"><button class="btn ghost" type="submit">Aggiungi</button><button class="btn ghost" type="button" data-act="del-scarpa" data-id="${esc(s.id)}" aria-label="Elimina ${esc(s.nome)}">✕</button></form></article>`;
+    }).join("");
+    return `${bannerProva()}<header class="head"><h1>Io</h1></header>
+      <form id="profilo" class="card"><h2>Profilo</h2>
+        <div class="field"><label for="p-nome">Come ti chiami</label><input class="input" id="p-nome" value="${esc(P.nome)}"></div>
+        <div class="grid2"><div class="field"><label for="p-citta">Dove corri di solito</label><input class="input" id="p-citta" value="${esc(P.citta)}" placeholder="es. Roma"></div>
+        <div class="field"><label for="p-ora">A che ora</label><input class="input" id="p-ora" value="${esc(P.ora)}" placeholder="es. 6:30"></div></div>
+        <button class="btn" type="submit">Salva</button></form>
+      <section style="display:flex;flex-direction:column;gap:10px" aria-label="Le mie scarpe"><div class="between"><h2>Le mie scarpe</h2><span class="small muted">km a mano · Strava in arrivo</span></div>${scarpe || `<p class="sub">Nessuna scarpa ancora.</p>`}
+      <details class="card"><summary>+ Aggiungi una scarpa</summary><form id="scarpa" style="display:flex;flex-direction:column;gap:10px">
+        <div class="field"><label for="s-nome">Modello</label><input class="input" id="s-nome" required placeholder="es. la mia scarpa da lento"></div>
+        <div class="grid2"><div class="field"><label for="s-tipo">Uso</label><select class="input" id="s-tipo"><option value="allenamento">Allenamento</option><option value="ritmo">Ritmo e lunghi</option><option value="gara">Gara</option><option value="trail">Trail</option></select></div>
+        <div class="field"><label for="s-km">Km attuali</label><input class="input" id="s-km" type="number" min="0" value="0"></div></div>
+        <div class="field"><label for="s-lim">Da cambiare a (km)</label><input class="input" id="s-lim" type="number" min="100" value="800"></div>
+        <button class="btn" type="submit">Aggiungi scarpa</button></form></details></section>
+      <details class="card"><summary>Strumenti di prova</summary>
+        <form id="prova" style="display:flex;flex-direction:column;gap:10px"><div class="field"><label for="d-prova">Fai finta che oggi sia</label><input class="input" id="d-prova" type="date" value="${esc(S.prova)}"></div>
+        <div class="grid2"><button class="btn" type="submit">Applica</button><button class="btn ghost" type="button" data-act="prova-off">Torna a oggi</button></div></form>
+        <div id="reset-box" style="display:flex;flex-direction:column;gap:8px"><button class="btn ghost" type="button" data-act="reset-ask">Cancella tutti i miei dati</button></div></details>
+      <p class="sub">I dati restano su questo telefono. Con il collegamento a Telegram si salveranno anche online.</p>`;
+  }
+
+  // ---------------------------------------------------------------- router
+  function route() {
+    const h = location.hash.replace(/^#\/?/, "");
+    const [path, query] = h.split("?");
+    const parts = path.split("/").map(decodeURIComponent);
+    const param = Object.fromEntries(new URLSearchParams(query || ""));
+    const tab = parts[0] || "oggi";
+    document.querySelectorAll("nav.tabs a").forEach((a) => a.setAttribute("aria-current", a.dataset.tab === (tab === "aggiungi" ? "gare" : tab === "checklist" ? "percorso" : tab) ? "page" : "false"));
+    if (D.errore) { $app.innerHTML = `<section class="card"><span class="title">Qualcosa non va</span><span class="small">${esc(D.errore)}</span></section>`; return; }
+    let html;
+    switch (tab) {
+      case "gare": html = vistaGare(param); break;
+      case "aggiungi": html = vistaAggiungi(parts[1]); break;
+      case "percorso": html = vistaPercorso(parts[1]); break;
+      case "checklist": html = vistaChecklist(parts[1]); break;
+      case "gruppo": html = vistaGruppo(); break;
+      case "io": html = vistaIo(); break;
+      default: html = vistaOggi();
+    }
+    $app.innerHTML = html;
+    if (tab === "oggi" || !tab) riempiMeteo();
+    if (tab === "checklist") riempiMeteoGara(parts[1]);
+    if (tab === "gare" && param.focus) { const c = document.getElementById("cerca"); if (c) { c.focus(); c.setSelectionRange(c.value.length, c.value.length); } }
+  }
+  const rerender = () => { const y = window.scrollY; route(); window.scrollTo(0, y); };
+
+  // ---------------------------------------------------------------- azioni
+  document.addEventListener("click", (e) => {
+    const t = e.target.closest("[data-act]");
+    if (!t) return;
+    const act = t.dataset.act;
+    if (act === "spunta") {
+      if (t.tagName === "INPUT") S.spunte[t.dataset.k] = t.checked; else S.spunte[t.dataset.k] = true;
+      if (!S.spunte[t.dataset.k]) delete S.spunte[t.dataset.k];
+      salva(); if (t.tagName !== "INPUT") toast("Fatto"); rerender();
+    } else if (act === "rinvia") {
+      S.rinvii[t.dataset.k] = L.addDays(oggi(), 1); salva(); toast("Te lo ricordo domani"); rerender();
+    } else if (act === "filtro") {
+      const q = document.getElementById("cerca").value;
+      location.hash = `#/gare?q=${encodeURIComponent(q)}&d=${t.dataset.d}`;
+    } else if (act === "rimuovi") {
+      S.gare = S.gare.filter((g) => g.id !== t.dataset.id); salva(); toast("Gara rimossa"); rerender();
+    } else if (act === "del-scarpa") {
+      S.scarpe = S.scarpe.filter((s) => s.id !== t.dataset.id); salva(); rerender();
+    } else if (act === "prova-off") {
+      S.prova = ""; salva(); toast("Torniamo a oggi"); rerender();
+    } else if (act === "svuota-personali") {
+      if (confirmBox(t, "Cancellare le tue voci personali?", () => { S.personali = []; salva(); rerender(); })) return;
+    } else if (act === "reset-ask") {
+      confirmBox(t, "Cancello gare, spunte e scarpe da questo telefono?", () => { S = vuoto(); salva(); location.hash = "#/oggi"; route(); });
+    }
+  });
+  function confirmBox(anchor, domanda, si) {
+    const box = document.createElement("div");
+    box.className = "card soft"; box.setAttribute("role", "alertdialog");
+    box.innerHTML = `<span class="small"><b>${esc(domanda)}</b></span><div class="grid2"><button class="btn" type="button">Sì</button><button class="btn ghost" type="button">No</button></div>`;
+    anchor.replaceWith(box);
+    const [ok, no] = box.querySelectorAll("button");
+    ok.addEventListener("click", si); no.addEventListener("click", rerender);
+    ok.focus();
+    return true;
+  }
+
+  let timer;
+  document.addEventListener("input", (e) => {
+    if (e.target.id !== "cerca") return;
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      const d = (location.hash.match(/[?&]d=(\d*)/) || [])[1] || "";
+      document.getElementById("risultati").innerHTML = risultati(L.cercaGare(D.gare, e.target.value, d, oggi()));
+      history.replaceState(null, "", `#/gare?q=${encodeURIComponent(e.target.value)}&d=${d}`);
+    }, 150);
+  });
+
+  document.addEventListener("submit", (e) => {
+    const f = e.target; e.preventDefault();
+    const v = (id) => (document.getElementById(id) || {}).value || "";
+    if (f.id === "manuale") {
+      const id = "M" + Date.now().toString(36);
+      S._bozza = { id, nome: v("m-nome"), data: v("m-data"), distanza: v("m-dist"), luogo: v("m-luogo"), fonte: "manuale" };
+      salva(); location.hash = `#/aggiungi/${id}`;
+    } else if (f.id === "aggiungi") {
+      const id = f.dataset.id;
+      const base = D.gare.find((x) => x.id === id) || S._bozza;
+      const ruolo = (f.querySelector('input[name="ruolo"]:checked') || {}).value || "obiettivo";
+      S.gare = S.gare.filter((g) => g.id !== id);
+      S.gare.push({ id, nome: base.nome, data: base.data, luogo: base.luogo || "", distanza: base.distanza, ruolo, tempo: v("a-tempo"), aggiunta: oggi() });
+      if (v("a-citta")) S.profilo.citta = v("a-citta");
+      if (v("a-ora")) S.profilo.ora = v("a-ora");
+      delete S._bozza; salva(); toast("Percorso creato");
+      location.hash = `#/percorso/${encodeURIComponent(id)}`;
+    } else if (f.id === "personale") {
+      const t = v("p-voce").trim(); if (!t) return;
+      S.personali.push({ id: "U" + Date.now().toString(36), titolo: t }); salva(); rerender();
+    } else if (f.id === "profilo") {
+      S.profilo = { ...S.profilo, nome: v("p-nome").trim(), citta: v("p-citta").trim(), ora: v("p-ora").trim() }; salva(); toast("Profilo salvato"); rerender();
+    } else if (f.id === "scarpa") {
+      S.scarpe.push({ id: "S" + Date.now().toString(36), nome: v("s-nome").trim(), tipo: v("s-tipo"), km: Number(v("s-km")) || 0, limite: Number(v("s-lim")) || 800 }); salva(); toast("Scarpa aggiunta"); rerender();
+    } else if (f.dataset.form === "km") {
+      const s = S.scarpe.find((x) => x.id === f.dataset.id); const km = Number(f.querySelector("input").value);
+      if (s && km > 0) { s.km = Math.round((Number(s.km) + km) * 10) / 10; salva(); toast(`+${km} km`); rerender(); }
+    } else if (f.id === "prova") {
+      S.prova = v("d-prova"); salva(); toast(S.prova ? "Modalità prova attiva" : "Torniamo a oggi"); location.hash = "#/oggi";
+    }
+  });
+
+  window.addEventListener("hashchange", () => { route(); window.scrollTo(0, 0); });
+  carica().then(route);
+})();
