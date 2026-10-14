@@ -193,9 +193,9 @@ begin
   end loop;
   delete from public.gare_membri where membro_id = m.id;
   insert into public.gare_membri (membro_id, gara_id, nome, data, luogo, distanza, ruolo, tempo)
-  select m.id, left(x->>'id', 40), left(x->>'nome', 120), (x->>'data')::date, left(x->>'luogo', 80), x->>'distanza', x->>'ruolo', left(x->>'tempo', 12)
-  from jsonb_array_elements(coalesce(p_gare, '[]')) x
-  where x->>'distanza' in ('10', '21', '42');
+  select m.id, left(e->>'id', 40), left(e->>'nome', 120), (e->>'data')::date, left(e->>'luogo', 80), e->>'distanza', e->>'ruolo', left(e->>'tempo', 12)
+  from jsonb_array_elements(coalesce(p_gare, '[]')) e
+  where e->>'distanza' in ('10', '21', '42');
 end $$;
 
 -- ------------------------------------------------------------------ ritrovi
