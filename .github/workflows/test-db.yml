@@ -39,7 +39,14 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f tests/test_statistiche.sql > esito3.txt 2>&1 || true
           cat esito3.txt
           if ! grep -q "permessi statistiche ok" esito3.txt; then echo "::error::statistiche: $(grep -iE 'error|errore|assert|context|line' esito3.txt | head -6 | tr '\n' ' ')"; exit 1; fi
-      - name: Account e Strava
+      - name: Strava
+        run: |
+          psql -v ON_ERROR_STOP=1 -f docs/supabase_strava.sql
+          psql -v ON_ERROR_STOP=1 -f docs/supabase_strava.sql   # ripetibile
+          psql -v ON_ERROR_STOP=1 -f tests/test_strava.sql > esito5.txt 2>&1 || true
+          cat esito5.txt
+          if ! grep -q "permessi strava ok" esito5.txt; then echo "::error::strava: $(grep -iE 'error|errore|assert|context|line' esito5.txt | head -6 | tr '\n' ' ')"; exit 1; fi
+      - name: Account (login, per ora spento)
         run: |
           # come su Supabase: schema auth, utenti, auth.uid() dal JWT (qui da request.jwt.claim.sub), ruolo authenticated
           psql -v ON_ERROR_STOP=1 -c "create schema auth; create table auth.users (id uuid primary key, email text); create function auth.uid() returns uuid language sql stable as \$\$ select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid \$\$; grant usage on schema auth to anon, authenticated; grant execute on function auth.uid() to anon, authenticated;"

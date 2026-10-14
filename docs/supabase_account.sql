@@ -1,4 +1,4 @@
--- RaceBuddy – account (login con email e codice) e Strava (ottobre 2026).
+-- RaceBuddy – account (login con email e codice), per ora spento (ottobre 2026). Strava: vedi supabase_strava.sql.
 -- Da eseguire nell'SQL Editor di Supabase DOPO supabase.sql, supabase_gruppo.sql e supabase_gruppo_personali.sql.
 -- Si può rilanciare.
 --
@@ -77,46 +77,14 @@ begin
   delete from public.membri where user_id = uid;
   delete from public.gruppi g where g.id = m.gruppo_id and not exists (select 1 from public.membri x where x.gruppo_id = g.id);
   delete from public.push_iscrizioni where user_id = uid;
-  delete from public.strava_atleti where user_id = uid;
   delete from auth.users where id = uid;
 end $$;
 
--- ------------------------------------------------------------------ Strava (in prova: al massimo 10 atleti)
--- I token di Strava stanno solo qui e li usa solo la funzione "strava" (Edge Function, con la chiave segreta).
-create table if not exists public.strava_atleti (
-  user_id uuid primary key references auth.users(id) on delete cascade,
-  athlete_id bigint not null unique,
-  access_token text not null,
-  refresh_token text not null,
-  scade timestamptz not null,
-  collegato timestamptz not null default now()
-);
--- collegamenti avviati e non ancora tornati da Strava (si scartano dopo 15 minuti)
-create table if not exists public.strava_stati (
-  stato text primary key,
-  user_id uuid not null references auth.users(id) on delete cascade,
-  creato timestamptz not null default now()
-);
-alter table public.strava_atleti enable row level security;
-alter table public.strava_stati enable row level security;
-
--- Per l'app: se sono collegato e quanti posti di tester sono occupati.
-create or replace function public.strava_stato() returns json
-language sql security definer set search_path = '' as $$
-  select json_build_object(
-    'collegato', exists (select 1 from public.strava_atleti where user_id = auth.uid()),
-    'da', (select collegato from public.strava_atleti where user_id = auth.uid()),
-    'posti', (select count(*) from public.strava_atleti),
-    'massimo', 10);
-$$;
-
 revoke all on function public.collega_account(text, text) from public, anon;
 revoke all on function public.cancella_account() from public, anon;
-revoke all on function public.strava_stato() from public, anon;
 do $$ begin
   if exists (select 1 from pg_roles where rolname = 'authenticated') then
     execute 'grant execute on function public.collega_account(text, text) to authenticated';
     execute 'grant execute on function public.cancella_account() to authenticated';
-    execute 'grant execute on function public.strava_stato() to authenticated';
   end if;
 end $$;

@@ -7,8 +7,9 @@
 // POST {azione:"giorno", data:"AAAA-MM-GG"}  corse di quel giorno (per il tempo a fine gara)
 // POST {azione:"scollega"}    revoca l'autorizzazione e cancella i token
 //
-// I token di Strava restano nel database (tabella strava_atleti, solo con la chiave segreta): mai al telefono.
-// I dati letti da Strava vanno solo all'utente che li chiede.
+// Chi chiama si riconosce dal codice segreto del telefono (intestazione x-racebuddy-token, lo stesso del gruppo):
+// nel database ne va solo l'impronta sha256. I token di Strava restano nel database (tabella strava_atleti, solo con la
+// chiave segreta): mai al telefono. I dati letti da Strava vanno solo al telefono che li chiede.
 
 export const MAX_ATLETI = 10;
 const STRAVA = "https://www.strava.com";
@@ -17,34 +18,33 @@ const SCOPE = "read,profile:read_all,activity:read";
 export function crea(env, fetchImpl = fetch) {
   const SB = env.SUPABASE_URL, KEY = env.SUPABASE_SERVICE_ROLE_KEY, APP = env.APP_URL || "https://lucaalbanesi.github.io/racebuddy/";
   const ritornoUrl = `${SB}/functions/v1/strava`;
-  const cors = { "Access-Control-Allow-Origin": env.APP_ORIGIN || "*", "Access-Control-Allow-Headers": "authorization, apikey, content-type", "Access-Control-Allow-Methods": "POST, GET, OPTIONS" };
+  const cors = { "Access-Control-Allow-Origin": env.APP_ORIGIN || "*", "Access-Control-Allow-Headers": "authorization, apikey, content-type, x-racebuddy-token", "Access-Control-Allow-Methods": "POST, GET, OPTIONS" };
   const json = (corpo, status = 200) => new Response(JSON.stringify(corpo), { status, headers: { ...cors, "Content-Type": "application/json" } });
   const vaiAllApp = (esito) => new Response(null, { status: 302, headers: { Location: `${APP}#/io?strava=${esito}` } });
   const db = (q, opt = {}) => fetchImpl(`${SB}/rest/v1/${q}`, { ...opt, headers: { apikey: KEY, Authorization: `Bearer ${KEY}`, "Content-Type": "application/json", ...(opt.headers || {}) } });
   const righe = async (q) => { const r = await db(q); return r.ok ? r.json() : []; };
 
-  async function utente(req) {
-    const auth = req.headers.get("authorization") || "";
-    if (!/^Bearer\s+\S+/.test(auth)) return null;
-    const r = await fetchImpl(`${SB}/auth/v1/user`, { headers: { apikey: env.SUPABASE_ANON_KEY || KEY, Authorization: auth } });
-    if (!r.ok) return null;
-    const u = await r.json();
-    return u && u.id ? u.id : null;
+  // impronta del codice segreto del telefono, come public._hash nel database (sha256 esadecimale)
+  async function proprietario(req) {
+    const t = req.headers.get("x-racebuddy-token") || "";
+    if (t.length < 32 || t.length > 200) return null;
+    const h = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(t));
+    return [...new Uint8Array(h)].map((b) => b.toString(16).padStart(2, "0")).join("");
   }
   async function posti() {
-    const r = await db("strava_atleti?select=user_id", { headers: { Prefer: "count=exact", Range: "0-0" } });
+    const r = await db("strava_atleti?select=proprietario", { headers: { Prefer: "count=exact", Range: "0-0" } });
     const tot = Number(((r.headers.get("content-range") || "").split("/")[1]) || 0);
     return Number.isFinite(tot) ? tot : 0;
   }
   async function token(uid) {
-    const [a] = await righe(`strava_atleti?user_id=eq.${uid}&select=*`);
+    const [a] = await righe(`strava_atleti?proprietario=eq.${uid}&select=*`);
     if (!a) return null;
     if (new Date(a.scade).getTime() > Date.now() + 60_000) return a.access_token;
     const r = await fetchImpl(`${STRAVA}/oauth/token`, { method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ client_id: env.STRAVA_CLIENT_ID, client_secret: env.STRAVA_CLIENT_SECRET, grant_type: "refresh_token", refresh_token: a.refresh_token }) });
     if (!r.ok) return null;
     const t = await r.json();
-    await db(`strava_atleti?user_id=eq.${uid}`, { method: "PATCH", body: JSON.stringify({ access_token: t.access_token, refresh_token: t.refresh_token, scade: new Date(t.expires_at * 1000).toISOString() }) });
+    await db(`strava_atleti?proprietario=eq.${uid}`, { method: "PATCH", body: JSON.stringify({ access_token: t.access_token, refresh_token: t.refresh_token, scade: new Date(t.expires_at * 1000).toISOString() }) });
     return t.access_token;
   }
   const api = (tk, percorso) => fetchImpl(`${STRAVA}/api/v3/${percorso}`, { headers: { Authorization: `Bearer ${tk}` } });
@@ -60,14 +60,21 @@ export function crea(env, fetchImpl = fetch) {
     if (url.searchParams.get("error")) return vaiAllApp("negato");
     const scope = url.searchParams.get("scope") || "";
     if (!scope.includes("activity:read") || !scope.includes("profile:read_all")) return vaiAllApp("permessi");
-    const gia = (await righe(`strava_atleti?user_id=eq.${s.user_id}&select=user_id`)).length > 0;
-    if (!gia && (await posti()) >= MAX_ATLETI) return vaiAllApp("pieno");
     const r = await fetchImpl(`${STRAVA}/oauth/token`, { method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ client_id: env.STRAVA_CLIENT_ID, client_secret: env.STRAVA_CLIENT_SECRET, code: url.searchParams.get("code"), grant_type: "authorization_code" }) });
     if (!r.ok) return vaiAllApp("errore");
     const t = await r.json();
-    const ok = await db("strava_atleti?on_conflict=user_id", { method: "POST", headers: { Prefer: "resolution=merge-duplicates" },
-      body: JSON.stringify({ user_id: s.user_id, athlete_id: t.athlete && t.athlete.id, access_token: t.access_token, refresh_token: t.refresh_token, scade: new Date(t.expires_at * 1000).toISOString() }) });
+    // posti: conta solo chi è nuovo (questo telefono o questo atleta non sono già collegati)
+    const gia = (await righe(`strava_atleti?proprietario=eq.${s.proprietario}&select=proprietario`)).length > 0
+      || (t.athlete && (await righe(`strava_atleti?athlete_id=eq.${t.athlete.id}&select=proprietario`)).length > 0);
+    if (!gia && (await posti()) >= MAX_ATLETI) {
+      await fetchImpl(`${STRAVA}/oauth/deauthorize`, { method: "POST", headers: { Authorization: `Bearer ${t.access_token}` } }).catch(() => null);
+      return vaiAllApp("pieno");
+    }
+    // lo stesso atleta da un telefono nuovo (dati cancellati, telefono cambiato): sostituisce il collegamento vecchio
+    if (t.athlete && t.athlete.id) await db(`strava_atleti?athlete_id=eq.${t.athlete.id}&proprietario=neq.${s.proprietario}`, { method: "DELETE" });
+    const ok = await db("strava_atleti?on_conflict=proprietario", { method: "POST", headers: { Prefer: "resolution=merge-duplicates" },
+      body: JSON.stringify({ proprietario: s.proprietario, athlete_id: t.athlete && t.athlete.id, access_token: t.access_token, refresh_token: t.refresh_token, scade: new Date(t.expires_at * 1000).toISOString() }) });
     return vaiAllApp(ok.ok ? "ok" : "errore");
   }
 
@@ -76,24 +83,25 @@ export function crea(env, fetchImpl = fetch) {
     const url = new URL(req.url);
     if (req.method === "GET") return ritorno(url);
     if (req.method !== "POST") return json({ errore: "metodo" }, 405);
-    const uid = await utente(req);
-    if (!uid) return json({ errore: "serve il login" }, 401);
+    const uid = await proprietario(req);
+    if (!uid) return json({ errore: "codice del telefono mancante" }, 401);
     let corpo = {};
     try { corpo = await req.json(); } catch (e) { /* vuoto */ }
     const az = corpo.azione;
     if (az === "inizio") {
-      const gia = (await righe(`strava_atleti?user_id=eq.${uid}&select=user_id`)).length > 0;
-      if (!gia && (await posti()) >= MAX_ATLETI) return json({ pieno: true });
+      // posti esauriti: si ferma qui, salvo chi dice di essere già tester (telefono nuovo); al ritorno si ricontrolla
+      const gia = (await righe(`strava_atleti?proprietario=eq.${uid}&select=proprietario`)).length > 0;
+      if (!gia && !corpo.giaTester && (await posti()) >= MAX_ATLETI) return json({ pieno: true });
       const stato = crypto.randomUUID();
       await db(`strava_stati?creato=lt.${new Date(Date.now() - 15 * 60_000).toISOString()}`, { method: "DELETE" });
-      await db("strava_stati", { method: "POST", body: JSON.stringify({ stato, user_id: uid }) });
+      await db("strava_stati", { method: "POST", body: JSON.stringify({ stato, proprietario: uid }) });
       const q = new URLSearchParams({ client_id: env.STRAVA_CLIENT_ID, response_type: "code", redirect_uri: ritornoUrl, approval_prompt: "auto", scope: SCOPE, state: stato });
       return json({ url: `${STRAVA}/oauth/authorize?${q}` });
     }
     if (az === "scollega") {
-      const [a] = await righe(`strava_atleti?user_id=eq.${uid}&select=access_token`);
+      const [a] = await righe(`strava_atleti?proprietario=eq.${uid}&select=access_token`);
       if (a) await fetchImpl(`${STRAVA}/oauth/deauthorize`, { method: "POST", headers: { Authorization: `Bearer ${a.access_token}` } }).catch(() => null);
-      await db(`strava_atleti?user_id=eq.${uid}`, { method: "DELETE" });
+      await db(`strava_atleti?proprietario=eq.${uid}`, { method: "DELETE" });
       return json({ ok: true });
     }
     const tk = await token(uid);

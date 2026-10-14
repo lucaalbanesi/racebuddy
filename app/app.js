@@ -166,8 +166,10 @@
     if (!r.ok) { let m = t; try { m = JSON.parse(t).message || t; } catch (e) { /* testo */ } throw new Error(String(m).slice(0, 160)); }
     try { return t ? JSON.parse(t) : null; } catch (e) { return t; }
   }
+  // Strava non richiede l'account: la funzione riconosce il telefono dal suo codice segreto (lo stesso del gruppo).
   async function funzioneStrava(corpo) {
-    const r = await conAccount(`${C().supabaseUrl}/functions/v1/strava`, corpo), j = await r.json().catch(() => ({}));
+    const r = await fetch(`${C().supabaseUrl}/functions/v1/strava`, { method: "POST", headers: { apikey: C().supabaseKey, "x-racebuddy-token": token(), "Content-Type": "application/json" }, body: JSON.stringify(corpo || {}) });
+    const j = await r.json().catch(() => ({}));
     if (!r.ok) throw new Error(j.errore === "non collegato" ? "Strava non è collegato" : "Strava non risponde, riprova più tardi");
     return j;
   }
@@ -1254,12 +1256,12 @@
     };
     return `${DISTANZE.map(riga).join("")}
       ${inG ? `<label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="io-mostra-pb" ${GD().io.mostra_pb !== false ? "checked" : ""}><span><span class="t">Metti i miei personali nella classifica del gruppo</span><br><span class="d">Al gruppo vanno solo tempo, gara e data.</span></span></label><a class="small" href="#/gruppo/classifica">Classifica del gruppo ›</a>` : ""}
-      ${S.strava && S.strava.attivo && AUTH ? `<a class="btn ghost" href="#/pb?strava=1">Cerca i miei personali su Strava</a>` : ""}
+      ${S.strava && S.strava.attivo ? `<a class="btn ghost" href="#/pb?strava=1">Cerca i miei personali su Strava</a>` : ""}
       <span class="small muted">Restano su questo telefono. Dopo ogni gara, se fai meglio, il personale si aggiorna da solo.</span>`;
   }
   const riassuntoPB = () => DISTANZE.filter((d) => (S.pb || {})[d]).map((d) => `${L.DIST_LABEL[d]} ${L.leggiTempo(d, S.pb[d].tempo).tempo || S.pb[d].tempo}`).join(" · ");
   function vistaPB(param = {}) {
-    if (param.strava && !STRAVA_PB && S.strava && S.strava.attivo && AUTH) caricaPBStrava();
+    if (param.strava && !STRAVA_PB && S.strava && S.strava.attivo) caricaPBStrava();
     return `${bannerProva()}<header class="head-back">${back("#/io")}<div><span class="eyebrow">Io</span><h1 style="font-size:28px">I tuoi personali</h1></div></header>
       ${param.strava ? sezioneStravaPB() : ""}
       <p class="sub">Il tuo miglior tempo su 10 km, mezza e maratona, anche di gare corse prima di RaceBuddy.</p>
@@ -1295,10 +1297,10 @@
   let STRAVA_STATO = null, STRAVA_PB = null, stravaInCarico = false;
   const STRAVA_GIORNO = {};
   async function caricaStatoStrava() {
-    if (!C().strava || !AUTH || stravaInCarico) return;
+    if (!C().strava || stravaInCarico) return;
     stravaInCarico = true;
     try {
-      STRAVA_STATO = await rpcAccount("strava_stato", {});
+      STRAVA_STATO = await rpc("strava_stato", { p_token: token() });
       if (STRAVA_STATO.collegato && !(S.strava && S.strava.attivo)) { S.strava = { attivo: true, dal: oggi() }; salva(); aggiornaScarpeStrava(true); }
       if (!STRAVA_STATO.collegato && S.strava && S.strava.attivo) scollegaLocale();
     } catch (e) { STRAVA_STATO = { errore: true }; }
@@ -1307,7 +1309,7 @@
   }
   // Scarpe da Strava: una sola fonte alla volta. Al primo collegamento le manuali vanno in Archivio.
   async function aggiornaScarpeStrava(forza) {
-    if (!S.strava || !S.strava.attivo || !AUTH) return;
+    if (!S.strava || !S.strava.attivo) return;
     if (!forza && S.strava.letto && Date.now() - S.strava.letto < 3600e3) return;
     try {
       const { scarpe } = await funzioneStrava({ azione: "scarpe" });
@@ -1325,7 +1327,6 @@
     S.strava = null; STRAVA_PB = null; salva();
   }
   function sezioneStrava() {
-    if (!AUTH) return `<span class="small">Per collegare Strava serve l'account: entra con la tua email nella sezione Account, qui sopra.</span>`;
     if (!STRAVA_STATO) { setTimeout(caricaStatoStrava, 0); return `<span class="small muted">Controllo Strava…</span>`; }
     if (STRAVA_STATO.errore) return `<span class="small">Strava non è raggiungibile al momento.</span><button class="btn ghost small" data-act="strava-ricarica" style="align-self:flex-start">Riprova</button>`;
     const liberi = Math.max(0, STRAVA_STATO.massimo - STRAVA_STATO.posti);
@@ -1334,7 +1335,8 @@
       ${S.strava && S.strava.letto ? `<span class="small muted">Scarpe aggiornate alle ${esc(new Date(S.strava.letto).toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" }))}</span>` : ""}
       <div id="strava-box"><button class="btn ghost" data-act="strava-scollega">Scollega Strava</button></div>
       <span class="small muted">Se scolleghi, scarpe e personali importati restano e diventano manuali.</span>`;
-    if (!liberi) return `<span class="small">L'integrazione con Strava è in prova con un gruppo di ${STRAVA_STATO.massimo} tester e i posti sono esauriti. Arriverà per tutti: intanto scarpe e personali si inseriscono a mano.</span><button class="btn ghost" disabled>Collega Strava</button>`;
+    if (!liberi) return `<span class="small">L'integrazione con Strava è in prova con un gruppo di ${STRAVA_STATO.massimo} tester e i posti sono esauriti. Arriverà per tutti: intanto scarpe e personali si inseriscono a mano.</span><button class="btn ghost" disabled>Collega Strava</button>
+      <button class="linkbtn small" data-act="strava-collega" data-gia="1" style="align-self:flex-start">Sei già tester e hai cambiato telefono? Ricollegati</button>`;
     return `<span class="small">Le scarpe e i loro km arrivano da Strava, e dopo ogni gara ti proponiamo il tempo. È in prova con un gruppo di tester: ${liberi} ${liberi === 1 ? "posto libero" : "posti liberi"}.</span>
       ${S.scarpe.some((x) => !x.strava) ? `<span class="small muted">Le scarpe che hai inserito a mano andranno in Archivio: non contano più finché Strava è collegato.</span>` : ""}
       <button class="btn" data-act="strava-collega">Collega Strava</button>`;
@@ -1379,7 +1381,7 @@
   }
   async function stravaRisultato(id) {
     const g = S.gare.find((x) => x.id === id);
-    if (!g || !S.strava || !S.strava.attivo || !AUTH || (S.stravaIgnora || {})[id]) return;
+    if (!g || !S.strava || !S.strava.attivo || (S.stravaIgnora || {})[id]) return;
     const n = L.diffDays(oggi(), g.data);
     if (n < 0 || n > 7) return;
     let dati = STRAVA_GIORNO[id];
@@ -1596,12 +1598,13 @@
       if (confirmBox(t, "Cancellare le tue voci personali?", () => { S.personali = []; salva(); rerender(); })) return;
     } else if (act === "reset-ask") {
       // Cancella anche quello che è online: iscrizione alle notifiche e profilo nel gruppo (l'account, se c'è, si cancella da Account).
-      confirmBox(t, "Cancello gare, spunte, scarpe e documenti da questo telefono, e online la tua iscrizione alle notifiche e il tuo profilo nel gruppo?", async () => {
+      confirmBox(t, "Cancello gare, spunte, scarpe e documenti da questo telefono, e online la tua iscrizione alle notifiche, il tuo profilo nel gruppo e il collegamento a Strava?", async () => {
         if (S.gruppo && S.gruppo.dentro) {
           try { await rpc("esci_gruppo", { p_token: token() }); }
           catch (e) { if (/nomina prima/.test(e.message || "")) { toast("Sei l'unico amministratore del gruppo: nomina prima un altro amministratore (Gruppo → Gestisci)"); rerender(); return; } }
         }
         if (S.push && S.push.attivo) await disattivaPush(true);
+        if (S.strava && S.strava.attivo) await funzioneStrava({ azione: "scollega" }).catch(() => {});
         fotoTogli("tessera").catch(() => {}); fotoTogli("certificato").catch(() => {});
         S = vuoto(); salva(); toast(AUTH ? "Dati cancellati. L'account resta: per cancellarlo vai in Io → Account" : "Dati cancellati"); location.hash = "#/oggi"; route();
       });
@@ -1622,7 +1625,7 @@
       });
     } else if (act === "strava-collega") {
       t.disabled = true;
-      funzioneStrava({ azione: "inizio" }).then((r) => { if (r.pieno) { toast("I posti per i tester di Strava sono esauriti"); STRAVA_STATO = null; rerender(); } else location.href = r.url; })
+      funzioneStrava({ azione: "inizio", giaTester: t.dataset.gia === "1" }).then((r) => { if (r.pieno) { toast("I posti per i tester di Strava sono esauriti"); STRAVA_STATO = null; rerender(); } else location.href = r.url; })
         .catch((e) => { t.disabled = false; toast(e.message); });
     } else if (act === "strava-scollega") {
       confirmBox(t, "Scollego Strava? Scarpe e personali importati restano e diventano manuali.", () => {
@@ -1844,5 +1847,5 @@
   }, true);
   window.addEventListener("hashchange", () => { route(); window.scrollTo(0, 0); });
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
-  carica().then(() => { route(); contaApertura(); if (C().strava && AUTH) aggiornaScarpeStrava(); S.gare.forEach((g) => segnalaGara(g, g.id.startsWith("M") ? "manuale" : "FIDAL")); if (S.push && S.push.attivo) sincronizzaPush(); if (S.gruppo && S.gruppo.dentro) { aggiornaGruppo(true).then(() => sincronizzaPBGruppo()); sincronizzaGareGruppo(); } });
+  carica().then(() => { route(); contaApertura(); if (C().strava) aggiornaScarpeStrava(); S.gare.forEach((g) => segnalaGara(g, g.id.startsWith("M") ? "manuale" : "FIDAL")); if (S.push && S.push.attivo) sincronizzaPush(); if (S.gruppo && S.gruppo.dentro) { aggiornaGruppo(true).then(() => sincronizzaPBGruppo()); sincronizzaGareGruppo(); } });
 })();

@@ -1,4 +1,4 @@
--- Prova di account e Strava su un Postgres vuoto (GitHub Actions), dopo gli altri schemi e supabase_account.sql.
+-- Prova dell'account su un Postgres vuoto (GitHub Actions), dopo gli altri schemi e supabase_account.sql.
 -- auth.uid() è simulato leggendo request.jwt.claim.sub, come fa Supabase.
 \set ON_ERROR_STOP on
 do $$
@@ -34,17 +34,10 @@ begin
   assert (public.collega_account(b, null))->>'stato' = 'conflitto', 'conflitto';
   assert (select user_id from public.membri where nome = 'Giulia') is null, 'Giulia non toccata';
 
-  -- Strava: stato iniziale
-  j := public.strava_stato();
-  assert not (j->>'collegato')::boolean and (j->>'posti')::int = 0 and (j->>'massimo')::int = 10, 'strava stato';
-  insert into public.strava_atleti (user_id, athlete_id, access_token, refresh_token, scade) values (u1, 42, 't', 'r', now());
-  assert (public.strava_stato()->>'collegato')::boolean, 'strava collegato';
-
-  -- cancella account: via profilo, telefoni, notifiche, Strava, account; Giulia diventa amministratrice
+  -- cancella account: via profilo, telefoni, notifiche, account; Giulia diventa amministratrice
   perform public.cancella_account();
   assert not exists (select 1 from auth.users where id = u1), 'account cancellato';
   assert not exists (select 1 from public.push_iscrizioni where endpoint = 'https://p/e1'), 'notifiche cancellate';
-  assert not exists (select 1 from public.strava_atleti), 'strava cancellato';
   assert not exists (select 1 from public.dispositivi), 'telefoni cancellati';
   assert (select ruolo from public.membri where nome = 'Giulia') = 'admin', 'nuova amministratrice';
   begin perform public.stato_gruppo(a2); assert false, 'telefono nuovo ancora dentro';
@@ -63,7 +56,6 @@ set role anon;
 do $$ begin
   begin perform public.collega_account(repeat('a', 40), null); assert false, 'anon collega'; exception when insufficient_privilege then null; end;
   begin perform public.cancella_account(); assert false, 'anon cancella'; exception when insufficient_privilege then null; end;
-  begin perform 1 from public.strava_atleti; assert false, 'anon legge i token'; exception when insufficient_privilege then null; end;
   begin perform 1 from public.dispositivi; assert false, 'anon legge i telefoni'; exception when insufficient_privilege then null; end;
   raise notice 'permessi account ok';
 end $$;
