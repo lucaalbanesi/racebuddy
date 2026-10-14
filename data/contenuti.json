@@ -134,10 +134,7 @@
     "abbigliamento"
    ],
    "distanze": [],
-   "fasi": [
-    "scarico",
-    "gara"
-   ]
+   "fasi": []
   },
   {
    "id": "3f30f2dce7be",
@@ -257,10 +254,7 @@
    "distanze": [
     "42"
    ],
-   "fasi": [
-    "scarico",
-    "gara"
-   ]
+   "fasi": []
   },
   {
    "id": "f517b8b8adc2",
@@ -1195,10 +1189,7 @@
     "abbigliamento"
    ],
    "distanze": [],
-   "fasi": [
-    "scarico",
-    "gara"
-   ]
+   "fasi": []
   },
   {
    "id": "d38cb8b275e2",
@@ -1368,10 +1359,7 @@
     "abbigliamento"
    ],
    "distanze": [],
-   "fasi": [
-    "scarico",
-    "gara"
-   ]
+   "fasi": []
   },
   {
    "id": "96c874d45237",
@@ -1389,9 +1377,7 @@
    ],
    "distanze": [],
    "fasi": [
-    "costruzione",
-    "scarico",
-    "gara"
+    "costruzione"
    ]
   },
   {
@@ -1418,6 +1404,29 @@
     "picco",
     "scarico",
     "gara"
+   ]
+  },
+  {
+   "id": "1741a140de9e",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Chiara Pavan, la cheffe runner verso la Maratona di Venezia",
+   "estratto": "Cheffe stellata, volto di MasterChef Italia e anche runner, Chiara Pavan si prepara alla sua prima maratona tra i turni al ristorante Venissa e gli impegni di una vita sempre di…",
+   "link": "https://www.runnersworld.com/it/vip/a71215857/chiara-pavan-cheffe-maratona-di-venezia/",
+   "data": "2026-10-09",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/46210d7b-99ea-41fd-a76e-73b6f6f5dc6b.png",
+   "argomenti": [
+    "rifornimento",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico"
    ]
   },
   {
@@ -1542,9 +1551,7 @@
    "fasi": [
     "si_parte",
     "costruzione",
-    "picco",
-    "scarico",
-    "gara"
+    "picco"
    ]
   },
   {
@@ -1656,9 +1663,7 @@
    "fasi": [
     "si_parte",
     "costruzione",
-    "picco",
-    "scarico",
-    "gara"
+    "picco"
    ]
   },
   {
@@ -2024,8 +2029,6 @@
     "si_parte",
     "costruzione",
     "picco",
-    "scarico",
-    "gara",
     "dopo"
    ]
   },
@@ -2152,8 +2155,7 @@
    ],
    "distanze": [],
    "fasi": [
-    "scarico",
-    "gara"
+    "scarico"
    ]
   },
   {
@@ -2209,8 +2211,6 @@
    "fasi": [
     "si_parte",
     "costruzione",
-    "scarico",
-    "gara",
     "dopo"
    ]
   },
@@ -2255,9 +2255,7 @@
    "fasi": [
     "si_parte",
     "costruzione",
-    "picco",
-    "scarico",
-    "gara"
+    "picco"
    ]
   },
   {
@@ -2318,6 +2316,24 @@
    "distanze": [
     "42"
    ],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "2452d400fa44",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Come arrivare a 50 piegamenti di fila in un mese",
+   "estratto": "Quattro settimane di serie che restano sotto il massimo, una scala a settimana e pochi piegamenti sparsi nella giornata: il limite si tocca solo nei tre test. Il criterio di un…",
+   "link": "https://runlovers.it/2026/programma-mensile-50-piegamenti-braccia/",
+   "data": "2026-09-30",
+   "immagine": null,
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
    "fasi": [
     "costruzione"
    ]
