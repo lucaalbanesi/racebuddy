@@ -143,3 +143,8 @@ body.onboarding .app { padding: 0; max-width: 480px; min-height: 100dvh; }
 .ob-dots span { width: 8px; height: 8px; border-radius: 4px; background: #FFFFFF40; transition: width .2s; }
 .ob-dots span.on { width: 22px; background: var(--accent-on-dark); }
 .ob-nota { font-size: 13px !important; }
+.ob-quando { margin-left: auto; flex: none; font-size: 12px; font-weight: 700; color: var(--muted); padding-top: 3px; }
+.ob-quando.hot { color: var(--accent); }
+.ob-mini .check { padding: 7px 0; min-height: 0; }
+.ob-mappa { width: 100%; height: auto; display: block; }
+.ob-mini .line { padding: 6px 0; }

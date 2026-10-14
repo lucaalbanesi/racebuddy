@@ -175,18 +175,25 @@
   // ---------------------------------------------------------------- viste
   // ---------------------------------------------------------------- benvenuto (tutorial al primo avvio)
   function vistaBenvenuto() {
-    const m = { temp: 7, vento: 12, pioggia: 10, codice: 1 };
+    const m = { temp: -1, vento: 27, pioggia: 15, codice: 2 };
     const fasiDemo = [["Si parte", 21, "done"], ["Costruzione", 28, "fill"], ["Picco", 21, ""], ["Scarico", 14, ""]];
     const barra = `<div class="bar" style="height:10px">${fasiDemo.map(([, n, c]) => `<div style="flex:${n}">${c === "done" ? '<div class="done" style="width:100%"></div>' : c === "fill" ? '<div class="fill" style="width:55%"></div>' : ""}</div>`).join("")}</div><div class="bar-labels">${fasiDemo.map(([t, n, c]) => `<span style="flex:${n}" class="${c === "fill" ? "cur" : ""}">${t}</span>`).join("")}</div>`;
+    const voce = (t, d, quando, fatto) => `<label class="check ${fatto ? "done" : ""}"><input type="checkbox" ${fatto ? "checked" : ""} tabindex="-1"><span><span class="t">${t}</span><br><span class="d">${d}</span></span><span class="ob-quando ${quando === "oggi" ? "hot" : ""}">${quando}</span></label>`;
+    const riga = (l, t) => `<div class="line"><span class="when" style="width:84px">${l}</span><span class="small">${t}</span></div>`;
+    const mappaDemo = `<svg class="ob-mappa" viewBox="0 0 300 96" aria-hidden="true"><rect width="300" height="96" rx="10" fill="var(--line2)"/><path d="M0 70 C60 60 90 80 150 64 S240 40 300 52" stroke="var(--cloud)" stroke-width="10" fill="none"/><path d="M30 30 C70 10 110 70 150 50 S220 20 270 62" stroke="var(--accent)" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-dasharray="1 0"/><circle cx="30" cy="30" r="6" fill="var(--ok)"/><circle cx="270" cy="62" r="6" fill="var(--navy)"/><text x="40" y="26" font-size="11" font-weight="700" fill="var(--fg2)">Partenza</text><text x="226" y="84" font-size="11" font-weight="700" fill="var(--fg2)">Arrivo</text></svg>`;
     const slides = [
       { k: "Ciao!", t: "Il tuo buddy per la gara", d: "Ti accompagno dal giorno dell'iscrizione fino al traguardo. 10 km, mezza o maratona.",
         ill: `<div class="ob-countdown"><span class="big">46</span><span>giorni alla tua gara</span></div>` },
-      { k: "1 · Il percorso", t: "Ogni giorno sai cosa fare", d: "Scegli la gara dal calendario FIDAL: il percorso si costruisce sulle date vere. Cosa provare, cosa preparare, i momenti da vivere.",
-        ill: `<div class="card ob-mini">${barra}<label class="check"><input type="checkbox" checked tabindex="-1"><span><span class="t">Prova il gel nel lungo</span></span></label><label class="check" style="border:0"><input type="checkbox" tabindex="-1"><span><span class="t">Scegli le calze da gara</span></span></label></div>` },
-      { k: "2 · Il meteo", t: "Come vestirti, ogni mattina", d: "Meteo all'ora della tua uscita, cosa mettere e gli avvisi quando fa freddo, caldo o tira vento.",
+      { k: "1 · Il percorso", t: "Ogni giorno sai cosa fare", d: "Scegli la gara e il percorso si costruisce sulle date vere: cosa provare nei lunghi, cosa preparare e quando. Spunti e vai avanti.",
+        ill: `<div class="card ob-mini">${barra}
+          ${voce("Certificato medico e tessera", "Validi fino al giorno della gara", "fatto", true)}
+          ${voce("Prima prova di rifornimento", "Nel lungo prova il gel che userai in gara", "oggi", false)}
+          ${voce("Prova il completo da gara", "Maglia, calze e scarpe insieme, in un lungo", "sab", false)}
+          ${voce("Ritiro pettorale: orari e regole", "Documenti, delega, giorni dell'Expo", "tra 5 sett.", false)}</div>` },
+      { k: "2 · Il meteo", t: "Come vestirti, ogni mattina", d: "Il meteo all'ora della tua uscita, cosa mettere e un avviso quando serve: gelo, caldo, vento forte, temporale.",
         ill: `<div class="card ob-mini">${bloccoMeteo(m, false)}</div>` },
-      { k: "3 · La gara", t: "Tutto sulla gara, in un posto", d: "Orari, ritiro pettorale, griglie, percorso e meteo del giorno, presi dal sito ufficiale. E la checklist della borsa da spuntare la sera prima.",
-        ill: `<div class="card ob-mini"><div class="between"><b>Ritiro pettorale</b><span class="pill ok">sito ufficiale</span></div><span class="small">Expo, ven 10-19 · sab 9-19</span><div class="meter acc"><div style="width:70%"></div></div><span class="small"><b>12 di 17</b> cose nella borsa</span></div>` },
+      { k: "3 · La gara", t: "La tua gara, in una scheda", d: "Orari, ritiro pettorale, griglie, deposito e percorso, presi dal sito ufficiale e ricontrollati fino al via. Con la partenza su Maps.",
+        ill: `<div class="card ob-mini"><div class="between"><b>Domenica · ore 8:30</b><span class="pill ok">dal sito ufficiale</span></div>${mappaDemo}<div class="list" style="display:flex;flex-direction:column">${riga("Pettorale", "Expo, ven 10-19 · sab 9-19")}${riga("Griglia", "Per tempo, ingresso 7:00-8:00")}${riga("Deposito", "In piazza dalle 7:00")}</div><span class="small" style="color:var(--accent);font-weight:700">Partenza in Maps ↗ · Percorso ↗</span></div>` },
     ];
     return `<section class="ob" aria-roledescription="tutorial" aria-label="Benvenuto in RaceBuddy">
       <div class="ob-top"><span class="ob-logo">RaceBuddy</span><button class="ob-salta" data-act="ob-fine">Salta</button></div>
