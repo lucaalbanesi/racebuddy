@@ -22,5 +22,27 @@
   "percorsoImmagine": "https://www.romehalfmarathon.it/wp-content/uploads/2026/09/Il-PERCORSO_RHM2026_invio-scaled.jpg",
   "percorsoLink": "https://www.romehalfmarathon.it/percorso/",
   "percorsoDescrizione": "Da Porta Ardeatina al Colosseo passando per Piramide, Circo Massimo, Castel Sant'Angelo, San Pietro, Foro Italico (km 13, punto più lontano), Piazza del Popolo, Piazza di Spagna e Piazza Venezia. Nel finale la salita di via Cavour."
+ },
+ "H88b48310e5-42": {
+  "partenza": "8:30",
+  "luogoPartenza": "Partenza da Piazza Duomo (ritrovo nell'area di partenza alle 8:00)",
+  "mappa": "Piazza del Duomo, Firenze",
+  "pettorale": "Marathon Expo alla Stazione Leopolda (Viale Fratelli Rosselli 5): venerdì 27 e sabato 28 novembre, orari da confermare (vedi note). Servono documento, lettera di conferma (anche sul telefono) e tesserino FIDAL o RunCard con certificato medico.",
+  "griglia": "Griglie per personal best in maratona degli ultimi 2 anni: gialla fino a 2h30, rossa 2h31-3h00, azzurra 3h01-3h30, grigia 3h31-4h00, verde 4h01-4h30, fucsia oltre 4h30. Ingresso dalle 7:00 alle 8:00.",
+  "deposito": "Piazza Santa Maria Novella dalle 7:00, per gruppi di pettorale, con la sacca ufficiale. L'organizzazione fornisce una mantella di plastica.",
+  "ristori": "Ogni 5 km acqua, tè e sali; cibo solido dal km 15.",
+  "arrivare": "Expo: tranvia T1 fermata Porta al Prato Leopolda; bus 9, 12, 16, 17, 26, 27, 29, 30, 35, C1, C2; a circa 1 km dalla stazione Santa Maria Novella.",
+  "percorsoLink": "https://www.firenzemarathon.it/la-maratona/",
+  "percorsoDescrizione": "Dal Duomo per le strade del centro storico e lungo l'Arno.",
+  "sito": "https://www.firenzemarathon.it/",
+  "note": "Gara sold out. Orari Expo: il regolamento indica ven 10-19:30 e sab 9-19:30, la pagina Expo ven 10:30-19:30 e sab 9:30-19:30. Tempo massimo 6 ore, cancelli alla mezza (3h) e al km 30 (4h15).",
+  "fonti": [
+   "https://www.firenzemarathon.it/regolamento-maratona/",
+   "https://www.firenzemarathon.it/expo/",
+   "https://www.firenzemarathon.it/la-maratona/",
+   "https://www.firenzemarathon.it/"
+  ],
+  "verificato": "2026-10-14",
+  "edizione": "2026"
  }
 }
