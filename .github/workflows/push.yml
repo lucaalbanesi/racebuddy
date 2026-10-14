@@ -1,7 +1,7 @@
-name: Messaggio del mattino
+name: Notifiche push
 on:
   schedule:
-    - cron: "7 3-9 * * *"   # ogni ora dalle 5 alle 11 circa (ora di Roma), invia a chi esce tra un'ora
+    - cron: "7 3-10,16-18 * * *"   # mattino 5-11 e sera (vigilia alle 19) ora di Roma, con ora legale e solare
   workflow_dispatch:
     inputs:
       prova:
@@ -16,6 +16,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
+      - name: Test delle regole
+        run: node tests/test_notifiche.js
       - run: npm install --no-save web-push@3.6.7
       - name: Invia
         env:

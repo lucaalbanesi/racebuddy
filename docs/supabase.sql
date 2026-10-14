@@ -11,7 +11,8 @@ create table public.push_iscrizioni (
   dati jsonb not null default '{}'::jsonb check (pg_column_size(dati) <= 20000),
   creato timestamptz not null default now(),
   aggiornato timestamptz not null default now(),
-  ultimo_invio date
+  ultimo_invio date,
+  stato jsonb not null default '{}'::jsonb  -- memoria delle regole di non disturbo (cosa è già stato detto)
 );
 
 -- Nessun accesso diretto dall'app: solo le due funzioni qui sotto.

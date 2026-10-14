@@ -112,7 +112,7 @@
     const o = oggi(), attive = S.gare.filter((g) => g.data >= L.addDays(o, -14));
     const ids = new Set(attive.map((g) => g.id));
     return {
-      v: 1, ora: S.profilo.ora || "07:00",
+      v: 1, ora: S.profilo.ora || "07:00", pref: { meteo: true, percorso: true, gara: true, ...(S.prefPush || {}) },
       luogo: S.profilo.coord ? { lat: S.profilo.coord.lat, lon: S.profilo.coord.lon } : S.profilo.citta ? { citta: S.profilo.citta } : null,
       gare: attive.map((g) => ({ id: g.id, nome: g.nome, data: g.data, distanza: g.distanza, ruolo: g.ruolo, aggiunta: g.aggiunta })),
       spunte: Object.keys(S.spunte).filter((k) => ids.has(k.split(":")[0])),
@@ -144,7 +144,7 @@
       const sub = (await reg.pushManager.getSubscription()) || (await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64(C().vapidPublic) }));
       await inviaIscrizione(sub);
       S.push = { attivo: true, dal: oggi() }; salva();
-      toast("Fatto: ci sentiamo domattina"); rerender();
+      toast("Notifiche attive"); rerender();
     } catch (e) {
       btn.disabled = false; toast("Non sono riuscito ad attivarle"); S.errorePush = String(e.message || e).slice(0, 140); salva(); rerender();
     }
@@ -158,7 +158,7 @@
   }
   async function provaNotifica() {
     const reg = await navigator.serviceWorker.ready;
-    reg.showNotification("RaceBuddy · prova", { body: "Così ti arriverà il messaggio del mattino: meteo, come vestirti e cosa fare oggi.", icon: "icon-192.png", badge: "badge-96.png", data: { url: "./#/oggi" } });
+    reg.showNotification("RaceBuddy · prova", { body: "Le notifiche funzionano. Ti scrivo solo quando c'è qualcosa di nuovo per te.", icon: "icon-192.png", badge: "badge-96.png", data: { url: "./#/oggi" } });
   }
   function cardPush(compatta) {
     const st = supportoPush(), on = S.push && S.push.attivo;
@@ -166,12 +166,16 @@
     if (compatta && (on || S.pushNonOra || st === "no" || st === "negato")) return "";
     const ora = esc(S.profilo.ora || "7:00");
     let corpo;
-    if (on) corpo = `<span class="small">Attivo: ogni mattina, circa un'ora prima della tua uscita delle <b>${ora}</b>, ti arrivano meteo, come vestirti e cosa fare oggi.</span><div class="grid2"><button class="btn ghost" data-act="push-prova">Prova</button><button class="btn ghost" data-act="push-off">Disattiva</button></div>`;
+    const pr = { meteo: true, percorso: true, gara: true, ...(S.prefPush || {}) };
+    const sw = (k, t, d) => `<label class="check" style="cursor:pointer"><input type="checkbox" data-act="push-pref" data-k="${k}" ${pr[k] ? "checked" : ""}><span><span class="t">${t}</span><br><span class="d">${d}</span></span></label>`;
+    if (on) corpo = `<span class="small">Ti scrivo solo quando c'è qualcosa di nuovo, al massimo una volta al giorno, un'ora prima della tua uscita delle <b>${ora}</b>. Mai di notte.</span>
+      <div>${sw("meteo", "Meteo che cambia", "Solo se cambia davvero rispetto a ieri: gelo, caldo, vento forte, pioggia, ±5°. Mai lo stesso avviso due volte.")}${sw("percorso", "Tappe del percorso", "Le cose importanti da fare e quelle che hai rimandato a oggi.")}${sw("gara", "La tua gara", "Scheda pronta o cambiata, prime previsioni, la vigilia alle 19 e la mattina della gara.")}</div>
+      <div class="grid2"><button class="btn ghost" data-act="push-prova">Prova</button><button class="btn ghost" data-act="push-off">Disattiva</button></div>`;
     else if (st === "ios-home") corpo = `<span class="small">Su iPhone le notifiche arrivano solo se RaceBuddy è sulla schermata Home: in Safari tocca <b>Condividi</b> → <b>Aggiungi alla schermata Home</b>, poi apri l'app da lì e torna qui.</span>`;
     else if (st === "negato") corpo = `<span class="small">Le notifiche sono bloccate per questa app: riattivale dalle impostazioni del telefono o del browser.</span>`;
     else if (st === "no") corpo = `<span class="small">Questo browser non supporta le notifiche.</span>`;
-    else corpo = `<span class="small">Ogni mattina, prima della tua uscita delle <b>${ora}</b>: meteo, come vestirti e cosa fare oggi per la tua gara.</span><div class="${compatta ? "grid2" : ""}" style="display:${compatta ? "grid" : "flex"}"><button class="btn" data-act="push-on" style="${compatta ? "" : "width:100%"}">Attiva le notifiche</button>${compatta ? `<button class="btn ghost" data-act="push-nonora">Non ora</button>` : ""}</div>`;
-    return `<section class="card ${compatta ? "soft" : ""}" aria-label="Messaggio del mattino"><div class="between"><h2>Messaggio del mattino</h2>${on ? `<span class="pill ok">attivo</span>` : ""}</div>${corpo}${!compatta ? `<span class="small muted">Per mandarlo salviamo online orario, zona (circa 1 km) e le tue gare, senza il tuo nome.</span>` : ""}${S.errorePush && !on && !compatta ? `<span class="small muted">Ultimo errore: ${esc(S.errorePush)}</span>` : ""}</section>`;
+    else corpo = `<span class="small">Solo quando serve: il meteo che cambia, le tappe importanti del percorso, la vigilia e la mattina della gara. Niente countdown, niente doppioni.</span><div class="${compatta ? "grid2" : ""}" style="display:${compatta ? "grid" : "flex"}"><button class="btn" data-act="push-on" style="${compatta ? "" : "width:100%"}">Attiva le notifiche</button>${compatta ? `<button class="btn ghost" data-act="push-nonora">Non ora</button>` : ""}</div>`;
+    return `<section class="card ${compatta ? "soft" : ""}" aria-label="Messaggio del mattino"><div class="between"><h2>Notifiche</h2>${on ? `<span class="pill ok">attivo</span>` : ""}</div>${corpo}${!compatta ? `<span class="small muted">Per mandarlo salviamo online orario, zona (circa 1 km) e le tue gare, senza il tuo nome.</span>` : ""}${S.errorePush && !on && !compatta ? `<span class="small muted">Ultimo errore: ${esc(S.errorePush)}</span>` : ""}</section>`;
   }
 
   // ---------------------------------------------------------------- posizione dal GPS
@@ -675,6 +679,8 @@
       disattivaPush();
     } else if (act === "push-prova") {
       provaNotifica();
+    } else if (act === "push-pref") {
+      S.prefPush = { ...(S.prefPush || {}), [t.dataset.k]: t.checked }; salva(); toast("Preferenze salvate");
     } else if (act === "push-nonora") {
       S.pushNonOra = true; salva(); rerender();
     } else if (act === "gps") {
