@@ -79,4 +79,14 @@ assert.strictEqual(L.prossimaUscita("6:30", new Date(2026, 9, 14, 9, 0)), "2026-
 assert.strictEqual(L.statoScarpa({ km: 720, limite: 800 }).etichetta, "quasi a fine vita");
 assert.strictEqual(L.statoScarpa({ km: 40, limite: 400, tipo: "gara" }).etichetta, "da rodare");
 
+{
+  const A = L.avvisiMeteo;
+  assert.deepStrictEqual(A({ temp: -2, vento: 5, pioggia: 0, codice: 0 }).map((a) => a.tipo), ["gelo"]);
+  assert.deepStrictEqual(A({ temp: 3, vento: 45, pioggia: 80, codice: 63 }).map((a) => a.tipo), ["freddo", "vento", "pioggia"]);
+  assert.deepStrictEqual(A({ temp: 30, vento: 0, pioggia: 10, codice: 1 }).map((a) => a.livello), ["attenzione"]);
+  assert.deepStrictEqual(A({ temp: 15, vento: 10, pioggia: 90, codice: 96 }).map((a) => a.tipo), ["temporale"]);
+  assert.strictEqual(A({ temp: 15, vento: 10, pioggia: 10, codice: 2 }).length, 0);
+  assert.strictEqual(L.tipoCielo({ pioggia: 70, temp: 0 }), "neve");
+  assert.strictEqual(L.tipoCielo({ codice: 45 }), "nebbia");
+}
 console.log("ok");

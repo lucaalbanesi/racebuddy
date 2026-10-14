@@ -106,3 +106,13 @@ details summary { cursor: pointer; font-weight: 700; color: var(--accent); min-h
 .links-dark a { color: var(--navy-fg); background: #FFFFFF1A; border-radius: 999px; padding: 0 14px; min-height: 36px; display: inline-flex; align-items: center; font-size: 14px; text-decoration: none; }
 .mappa-percorso { display: block; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); background: var(--line2); }
 .mappa-percorso img { display: block; width: 100%; height: auto; max-height: 420px; object-fit: contain; }
+:root { --moon: #8E9BC4; --sun: #F59E0B; --cloud: #E6EAF0; --cloud-line: #8A96A6; --rain: #2F7BD6; --info-soft: #EAF2FC; --info-fg: #1D4F8C; --warn-soft: #FDF0DD; }
+@media (prefers-color-scheme: dark) { :root { --moon: #C9D2E3; --sun: #FBBF24; --cloud: #3A4656; --cloud-line: #9AA6B6; --rain: #6AA8F0; --info-soft: #18263A; --info-fg: #A9CBF5; --warn-soft: #3A2A12; } }
+.meteo-top { display: flex; align-items: center; gap: 12px; }
+.meteo-temp { font: 700 40px/1 var(--display); }
+.meteo-dati { display: flex; flex-direction: column; gap: 4px; align-items: flex-end; font-size: 14px; font-weight: 600; color: var(--fg2); }
+.meteo-dati span { display: inline-flex; align-items: center; gap: 4px; }
+.ico-meteo { flex: none; }
+.avviso { display: flex; gap: 10px; align-items: flex-start; border-radius: 12px; padding: 10px 12px; font-size: 14px; background: var(--info-soft); color: var(--info-fg); }
+.avviso.attenzione { background: var(--warn-soft); color: var(--warn); }
+.avviso-ico { font-size: 18px; line-height: 1.1; }

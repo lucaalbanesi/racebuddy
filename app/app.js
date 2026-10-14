@@ -53,7 +53,7 @@
     if (!c) return null;
     const k = `m:${c.lat},${c.lon}`;
     if (!meteoCache[k]) {
-      const u = `https://api.open-meteo.com/v1/forecast?latitude=${c.lat}&longitude=${c.lon}&hourly=temperature_2m,precipitation_probability,wind_speed_10m&timezone=Europe%2FRome&forecast_days=16`;
+      const u = `https://api.open-meteo.com/v1/forecast?latitude=${c.lat}&longitude=${c.lon}&hourly=temperature_2m,precipitation_probability,wind_speed_10m,weather_code,is_day&timezone=Europe%2FRome&forecast_days=16`;
       meteoCache[k] = await fetch(u).then((x) => x.json());
     }
     return { h: meteoCache[k].hourly, c };
@@ -65,7 +65,7 @@
     const { h, c } = sr;
     const i = h.time.indexOf(quandoISO);
     if (i < 0) return null;
-    return { temp: h.temperature_2m[i], pioggia: h.precipitation_probability[i] ?? 0, vento: h.wind_speed_10m[i] ?? 0, luogo: c.nome };
+    return { temp: h.temperature_2m[i], pioggia: h.precipitation_probability[i] ?? 0, vento: h.wind_speed_10m[i] ?? 0, codice: h.weather_code ? h.weather_code[i] : null, notte: h.is_day ? h.is_day[i] === 0 : false, luogo: c.nome };
   }
 
   // ---------------------------------------------------------------- elenco condiviso delle gare seguite
@@ -84,6 +84,32 @@
     }).then((r) => { if (r.ok) { S.segnalate[g.id] = true; delete S.erroreSegnala; } else { S.erroreSegnala = `HTTP ${r.status}`; r.text().then((t) => { S.erroreSegnala += " " + t.slice(0, 120); salva(); }); } salva(); })
       .catch((e) => { S.erroreSegnala = String(e && e.message || e).slice(0, 120); salva(); });
   }
+
+  // ---------------------------------------------------------------- icone meteo (SVG in linea, nessuna dipendenza)
+  const SOLE = `<circle cx="12" cy="12" r="4.2" fill="var(--sun)" stroke="none"/><g stroke="var(--sun)"><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></g>`;
+  const NUVOLA = (y = 0) => `<path transform="translate(0 ${y})" d="M7 18.5h10a3.8 3.8 0 0 0 .4-7.6A5.5 5.5 0 0 0 6.8 12 3.3 3.3 0 0 0 7 18.5z" fill="var(--cloud)" stroke="var(--cloud-line)"/>`;
+  const LUNA = `<path d="M15.5 4.5a7.5 7.5 0 1 0 4 12.8A6.2 6.2 0 0 1 15.5 4.5z" fill="var(--moon)" stroke="none"/>`;
+  const ICONE = {
+    sereno: SOLE,
+    variabile: `<g transform="translate(-3 -3) scale(.8)">${SOLE}</g>${NUVOLA(1)}`,
+    nuvoloso: NUVOLA(-1),
+    nebbia: `${NUVOLA(-4)}<g stroke="var(--cloud-line)"><path d="M5 18h14M7 21h10"/></g>`,
+    pioggia: `${NUVOLA(-4)}<g stroke="var(--rain)"><path d="M9 17l-1 3M13 17l-1 3M17 17l-1 3"/></g>`,
+    neve: `${NUVOLA(-4)}<g fill="var(--rain)" stroke="none"><circle cx="8.5" cy="18.5" r="1.1"/><circle cx="12.5" cy="20.5" r="1.1"/><circle cx="16.5" cy="18.5" r="1.1"/></g>`,
+    temporale: `${NUVOLA(-4)}<path d="M13 15l-3 4h3l-2 4" stroke="var(--sun)" fill="none"/>`,
+  };
+  const icona = (m, size = 40) => {
+    const t = L.tipoCielo(m);
+    const g = m.notte && t === "sereno" ? LUNA : m.notte && t === "variabile" ? `<g transform="translate(-3 -3) scale(.8)">${LUNA}</g>${NUVOLA(1)}` : ICONE[t];
+    return `<svg class="ico-meteo" aria-hidden="true" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${g}</svg>`;
+  };
+  const ICO_VENTO = `<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 8h10a2.5 2.5 0 1 0-2.5-2.5M3 12h15a3 3 0 1 1-3 3M3 16h7"/></svg>`;
+  const ICO_GOCCIA = `<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></svg>`;
+  const ICO_AVVISO = { gelo: "❄", freddo: "🧤", caldo: "☀", vento: "💨", pioggia: "☔", temporale: "⚡", neve: "❄", nebbia: "🌫" };
+  const NOME_CIELO = { sereno: "Sereno", variabile: "Variabile", nuvoloso: "Nuvoloso", nebbia: "Nebbia", pioggia: "Pioggia", neve: "Neve", temporale: "Temporale" };
+  const datiMeteo = (m) => `<div class="meteo-dati"><span>${ICO_VENTO}${Math.round(m.vento)} km/h</span><span>${ICO_GOCCIA}${Math.round(m.pioggia)}%</span></div>`;
+  const avvisi = (m, gara) => L.avvisiMeteo(m, gara).map((a) => `<div class="avviso ${a.livello}" role="note"><span class="avviso-ico" aria-hidden="true">${ICO_AVVISO[a.tipo] || "!"}</span><span><b>${esc(a.titolo)}.</b> ${esc(a.testo)}</span></div>`).join("");
+  const bloccoMeteo = (m, gara, titolo) => `<div class="meteo-top">${icona(m, 52)}<div style="flex:1;min-width:0"><div class="meteo-temp">${Math.round(m.temp)}°</div><span class="small muted">${esc(NOME_CIELO[L.tipoCielo(m)])}</span></div>${datiMeteo(m)}</div>${titolo || ""}<span class="small">${esc(L.vestizione(m, gara))}</span>${avvisi(m, gara)}`;
 
   // ---------------------------------------------------------------- pezzi di interfaccia
   const back = (href) => `<a class="back" href="${href}" aria-label="Indietro"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></a>`;
@@ -182,7 +208,7 @@
       const m = await meteoAlle(S.profilo.citta, quando);
       if (!m) { box.innerHTML = `<span class="eyebrow">${esc(S.profilo.citta)}</span><span class="small">Previsioni non disponibili per questa data.</span>`; return; }
       const giorno = quando.slice(0, 10) === L.todayISO() ? "oggi" : "domani";
-      box.innerHTML = `<span class="eyebrow">${esc(m.luogo)} · uscita di ${giorno} alle ${esc(S.profilo.ora || "7:00")}</span><span class="title">${esc(L.descriviMeteo(m))}</span><span class="small">${esc(L.vestizione(m))}</span><span class="small" style="color:var(--accent);font-weight:700">Prossimi giorni e meteo gara ›</span>`;
+      box.innerHTML = `<span class="eyebrow">${esc(m.luogo)} · uscita di ${giorno} alle ${esc(S.profilo.ora || "7:00")}</span>${bloccoMeteo(m, false)}<span class="small" style="color:var(--accent);font-weight:700">Prossimi giorni e meteo gara ›</span>`;
     } catch (e) { box.innerHTML = `<span class="small muted">Meteo non disponibile al momento.</span>`; }
   }
 
@@ -282,8 +308,8 @@
     if (!el || !g || !el.textContent) return;
     try {
       const m = await meteoAlle(nomeLuogo(g.luogo) || S.profilo.citta || "", `${g.data}T${oraISO((g.info || {}).partenza || "9:00")}`);
-      el.textContent = m ? `alle ${(g.info || {}).partenza || "9"}: ${L.descriviMeteo(m)}` : "";
-      if (m) el.insertAdjacentHTML("afterend", ""), document.querySelector('[aria-label="Borsa"]').insertAdjacentHTML("beforebegin", `<section class="card soft"><span class="eyebrow" style="color:var(--accent-strong)">Vestizione per la gara · alle ${esc((g.info || {}).partenza || "9:00")}${(g.info || {}).partenza ? "" : " (orario indicativo)"}</span><span class="small">${esc(L.vestizione(m, true))}</span></section>`);
+      el.textContent = m ? `alle ${(((g.info || {}).partenza || "9").match(/\d{1,2}([:.]\d{2})?/) || ["9"])[0]}: ${L.descriviMeteo(m)}` : "";
+      if (m) el.insertAdjacentHTML("afterend", ""), document.querySelector('[aria-label="Borsa"]').insertAdjacentHTML("beforebegin", `<section class="card soft"><span class="eyebrow" style="color:var(--accent-strong)">Vestizione per la gara · alle ${esc((g.info || {}).partenza || "9:00")}${(g.info || {}).partenza ? "" : " (orario indicativo)"}</span><span class="small">${esc(L.vestizione(m, true))}</span>${avvisi(m, true)}</section>`);
     } catch (e) { el.textContent = ""; }
   }
 
@@ -353,7 +379,7 @@
     const ora = (g.info || {}).partenza || "9:00";
     try {
       const m = await meteoAlle(nomeLuogo(g.luogo) || S.profilo.citta || "", `${g.data}T${oraISO(ora)}`);
-      box.innerHTML = m ? `<h2>Meteo della gara · ${esc(m.luogo)} alle ${esc(ora)}</h2><span class="title">${esc(L.descriviMeteo(m))}</span><span class="small">${esc(L.vestizione(m, true))}</span>${(g.info || {}).partenza ? "" : `<span class="small muted">Orario indicativo: indica la partenza nelle informazioni pratiche.</span>`}`
+      box.innerHTML = m ? `<h2>Meteo della gara · ${esc(m.luogo)} alle ${esc((ora.match(/\d{1,2}[:.]\d{2}/) || [ora])[0])}</h2>${bloccoMeteo(m, true)}${(g.info || {}).partenza ? "" : `<span class="small muted">Orario indicativo: indica la partenza nelle informazioni pratiche.</span>`}`
         : `<h2>Meteo della gara</h2><span class="small">Previsioni non disponibili per questo luogo.</span>`;
     } catch (e) { box.innerHTML = `<h2>Meteo della gara</h2><span class="small muted">Meteo non disponibile al momento.</span>`; }
   }
@@ -372,18 +398,18 @@
       const sr = await serie(S.profilo.citta);
       if (!sr) { box.innerHTML = `<p class="sub">Non trovo la città "${esc(S.profilo.citta)}". Correggila nel profilo.</p>`; return; }
       const { h, c } = sr, ora = oraISO(S.profilo.ora), o = oggi();
-      const at = (t) => { const i = h.time.indexOf(t); return i < 0 ? null : { temp: h.temperature_2m[i], pioggia: h.precipitation_probability[i] ?? 0, vento: h.wind_speed_10m[i] ?? 0 }; };
+      const at = (t) => { const i = h.time.indexOf(t); return i < 0 ? null : { temp: h.temperature_2m[i], pioggia: h.precipitation_probability[i] ?? 0, vento: h.wind_speed_10m[i] ?? 0, codice: h.weather_code ? h.weather_code[i] : null, notte: h.is_day ? h.is_day[i] === 0 : false }; };
       const giorni = [];
       const passata = !S.prova && new Date().getHours() > Number(ora.slice(0, 2));
       for (let d = passata ? 1 : 0; d < (passata ? 8 : 7); d++) { const dd = L.addDays(o, d), m = at(`${dd}T${ora}`); if (m) giorni.push([dd, m]); }
       const ore = [];
       const base = S.prova ? `${S.prova}T${ora}` : null;
       let i0 = base ? h.time.indexOf(base) : h.time.indexOf(`${L.todayISO()}T${String(new Date().getHours()).padStart(2, "0")}:00`);
-      if (i0 >= 0) for (let i = i0; i < Math.min(h.time.length, i0 + 12); i += 2) ore.push([h.time[i].slice(11), { temp: h.temperature_2m[i], pioggia: h.precipitation_probability[i] ?? 0 }]);
+      if (i0 >= 0) for (let i = i0; i < Math.min(h.time.length, i0 + 12); i += 2) ore.push([h.time[i].slice(11), { temp: h.temperature_2m[i], pioggia: h.precipitation_probability[i] ?? 0, codice: h.weather_code ? h.weather_code[i] : null, notte: h.is_day ? h.is_day[i] === 0 : false }]);
       const gareMeteo = S.gare.filter((g) => { const n = L.diffDays(g.data, o); return n >= 0 && n <= 15; });
-      box.innerHTML = (giorni.length ? `<section class="card" style="gap:12px">${(() => { const [dd, m] = giorni[0]; return `<span class="eyebrow">${dd === L.todayISO() ? "Oggi" : esc(L.fmtGiorno(dd))} alle ${esc(S.profilo.ora || "7:00")} · ${esc(c.nome)}</span><span class="title" style="font-size:22px">${esc(L.descriviMeteo(m))}</span><span class="small">${esc(L.vestizione(m))}</span>`; })()}</section>` : `<p class="sub">Previsioni non disponibili per questa data.</p>`)
-        + (ore.length ? `<section class="card"><h2>Nelle prossime ore</h2><div style="display:flex;justify-content:space-between;gap:4px;text-align:center">${ore.map(([t, m]) => `<div style="display:flex;flex-direction:column;gap:2px"><span class="small muted">${esc(t)}</span><b style="font:700 20px var(--display)">${Math.round(m.temp)}°</b><span class="small muted">${m.pioggia}%</span></div>`).join("")}</div><span class="small muted">Temperatura e probabilità di pioggia.</span></section>` : "")
-        + (giorni.length > 1 ? `<section class="card list" style="padding-top:12px;padding-bottom:6px"><h2>Le prossime uscite</h2>${giorni.slice(1).map(([dd, m]) => `<div class="line" style="flex-direction:column;gap:2px"><div class="between"><b>${esc(L.fmtGiorno(dd))}</b><span><b>${Math.round(m.temp)}°</b> <span class="small muted">· pioggia ${m.pioggia}% · vento ${Math.round(m.vento)} km/h</span></span></div><span class="small">${esc(L.vestizione(m))}</span></div>`).join("")}</section>` : "")
+      box.innerHTML = (giorni.length ? `<section class="card" style="gap:12px">${(() => { const [dd, m] = giorni[0]; return `<span class="eyebrow">${dd === L.todayISO() ? "Oggi" : esc(L.fmtGiorno(dd))} alle ${esc(S.profilo.ora || "7:00")} · ${esc(c.nome)}</span>${bloccoMeteo(m, false)}`; })()}</section>` : `<p class="sub">Previsioni non disponibili per questa data.</p>`)
+        + (ore.length ? `<section class="card"><h2>Nelle prossime ore</h2><div style="display:flex;justify-content:space-between;gap:4px;text-align:center">${ore.map(([t, m]) => `<div style="display:flex;flex-direction:column;align-items:center;gap:2px"><span class="small muted">${esc(t)}</span>${icona(m, 28)}<b style="font:700 20px var(--display)">${Math.round(m.temp)}°</b><span class="small muted">${m.pioggia}%</span></div>`).join("")}</div><span class="small muted">Temperatura e probabilità di pioggia, alle ore indicate.</span></section>` : "")
+        + (giorni.length > 1 ? `<section class="card list" style="padding-top:12px;padding-bottom:6px"><h2>Le prossime uscite</h2>${giorni.slice(1).map(([dd, m]) => `<div class="line" style="flex-direction:column;gap:4px"><div class="between"><span style="display:flex;align-items:center;gap:8px">${icona(m, 30)}<b>${esc(L.fmtGiorno(dd))}</b></span><span style="display:flex;align-items:center;gap:10px"><b style="font:700 20px var(--display)">${Math.round(m.temp)}°</b>${datiMeteo(m)}</span></div><span class="small">${esc(L.vestizione(m))}</span>${L.avvisiMeteo(m).filter((a) => a.livello === "attenzione").map((a) => `<span class="small" style="color:var(--warn);font-weight:600">${ICO_AVVISO[a.tipo] || "!"} ${esc(a.titolo)}</span>`).join("")}</div>`).join("")}</section>` : "")
         + gareMeteo.map((g) => `<a class="card soft" href="#/gara/${encodeURIComponent(g.id)}" style="text-decoration:none;color:inherit;font-weight:inherit"><span class="between"><span class="title">Meteo per ${esc(titoloGara(g.nome))}</span><span aria-hidden="true">›</span></span><span class="small">Il ${esc(L.fmtGiorno(g.data))}: apri la scheda gara.</span></a>`).join("");
     } catch (e) { box.innerHTML = `<p class="sub">Meteo non disponibile al momento.</p>`; }
   }

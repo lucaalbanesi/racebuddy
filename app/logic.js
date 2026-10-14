@@ -113,6 +113,38 @@
     return `${Math.round(temp)}°C, ${v}${p}`;
   }
 
+  /** Tipo di cielo dal codice meteo WMO di Open-Meteo (se manca, si deduce dalla probabilità di pioggia). */
+  function tipoCielo({ codice, pioggia = 0, temp = 10 } = {}) {
+    const c = Number(codice);
+    if (codice == null || Number.isNaN(c)) return pioggia >= 60 ? (temp <= 1 ? "neve" : "pioggia") : pioggia >= 30 ? "nuvoloso" : "sereno";
+    if (c >= 95) return "temporale";
+    if ((c >= 71 && c <= 77) || c === 85 || c === 86) return "neve";
+    if ((c >= 51 && c <= 67) || (c >= 80 && c <= 82)) return "pioggia";
+    if (c === 45 || c === 48) return "nebbia";
+    if (c === 3) return "nuvoloso";
+    if (c === 2) return "variabile";
+    return "sereno";
+  }
+
+  /** Avvisi pratici per l'uscita o la gara: freddo, gelo, caldo, vento, pioggia, temporale, neve, nebbia.
+      Solo indicazioni generali di buon senso, nessuna prescrizione. livello: "attenzione" | "info". */
+  function avvisiMeteo(m = {}, gara = false) {
+    const { temp = 10, vento = 0, pioggia = 0 } = m;
+    const cielo = tipoCielo(m), out = [];
+    const add = (tipo, livello, titolo, testo) => out.push({ tipo, livello, titolo, testo });
+    if (cielo === "temporale") add("temporale", "attenzione", "Temporale previsto", gara ? "Segui le comunicazioni dell'organizzazione sul sito e sui social della gara." : "Valuta di spostare l'uscita o di correre al chiuso.");
+    if (cielo === "neve") add("neve", "attenzione", "Neve", "Fondo scivoloso: scarpe con buona aderenza e passo corto.");
+    if (temp <= 0) add("gelo", "attenzione", "Rischio ghiaccio", "Attenzione a ponti, tombini e marciapiedi in ombra. Meglio percorsi conosciuti e illuminati.");
+    else if (temp <= 4) add("freddo", "info", "Fa freddo", "Copri mani e orecchie e scaldati qualche minuto al chiuso prima di uscire.");
+    if (temp >= 27) add("caldo", "attenzione", "Caldo intenso", gara ? "Sfrutta tutti i ristori e cerca l'ombra nell'attesa in griglia." : "Esci nelle ore più fresche, porta da bere e scegli percorsi all'ombra.");
+    else if (temp >= 23) add("caldo", "info", "Fa caldo", "Porta da bere e preferisci le ore più fresche.");
+    if (vento >= 40) add("vento", "attenzione", "Vento forte", "Attenzione a rami e cantieri. Meglio un percorso riparato.");
+    else if (vento >= 25) add("vento", "info", "Ventoso", "Parti controvento e torna col vento a favore.");
+    if (cielo === "nebbia") add("nebbia", "info", "Nebbia", "Indossa qualcosa di chiaro o riflettente e attenzione agli incroci.");
+    if (pioggia >= 70 && cielo !== "temporale" && cielo !== "neve") add("pioggia", "info", "Pioggia quasi certa", "Calze asciutte e un cambio per dopo; un po' di crema sui punti di sfregamento.");
+    return out;
+  }
+
   /** Prossima uscita: oggi all'ora indicata se non è passata, altrimenti domani. Ritorna "YYYY-MM-DDTHH:00". */
   function prossimaUscita(oraUscita, adesso) {
     const [h] = String(oraUscita || "7:00").split(":").map(Number);
@@ -141,7 +173,7 @@
     return { km, limite: lim, quota, etichetta, livello };
   }
 
-  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, gareAttive, pillola, vestizione, descriviMeteo, prossimaUscita, cercaGare, statoScarpa };
+  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, gareAttive, pillola, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, prossimaUscita, cercaGare, statoScarpa };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);
