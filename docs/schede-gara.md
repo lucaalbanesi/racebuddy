@@ -22,6 +22,7 @@ dell'atleta, PDF), e vale per tutti gli utenti che seguono quella gara.
   "deposito": "…, fino alle 8:00",
   "ristori": "Ogni 5 km acqua e sali; gel al 25° km",
   "arrivare": "…",
+  "mappa": "Viale di Porta Ardeatina, Roma",
   "sito": "https://…",
   "note": "…",
   "fonti": ["https://… pagina usata", "https://… regolamento.pdf"],
@@ -29,6 +30,8 @@ dell'atleta, PDF), e vale per tutti gli utenti che seguono quella gara.
   "edizione": "2026"
 }
 ```
+
+Il campo `mappa` è l'indirizzo della partenza come lo cercheresti su Google Maps (via o piazza + città), oppure "lat,lon" se il sito li riporta: serve al pulsante "Partenza in Maps". Si scrive solo se il luogo di partenza è indicato dal sito ufficiale.
 
 Il campo `partenza` contiene solo l'orario (es. "8:30" o "8:30 da confermare"): spiegazioni e varianti vanno in `note`.
 

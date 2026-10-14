@@ -273,7 +273,7 @@
       <section class="card" style="gap:0;padding-top:4px;padding-bottom:4px" aria-label="Borsa">${ck.borsa.map((v) => voceCheck(v, { nodesc: !v.messaggio })).join("")}</section>
       <form id="personale" class="row"><label class="sr" for="p-voce">Aggiungi una voce tua</label><input class="input" id="p-voce" placeholder="Aggiungi una voce tua" required><button class="btn" type="submit">Aggiungi</button></form>
       ${S.personali.length ? `<p class="sub">Le tue voci restano salvate per le prossime gare. <button class="btn ghost small" data-act="svuota-personali">Svuota le mie voci</button></p>` : ""}
-      ${(() => { const i = Object.assign({}, (D.schede || {})[g.id] || {}, g.info || {}); const r = [["Partenza", i.partenza], ["Griglia", i.griglia], ["Deposito", i.deposito], ["Dove", i.luogoPartenza]].filter((x) => x[1]); return r.length ? `<section class="card list" style="padding-top:12px;padding-bottom:6px"><div class="between"><h2>Promemoria dalla scheda</h2><a class="small" href="#/gara/${encodeURIComponent(g.id)}">Scheda</a></div>${r.map(([l, t]) => `<div class="line"><span class="when" style="width:76px">${l}</span><span>${esc(t)}</span></div>`).join("")}</section>` : `<a class="small" href="#/gara/${encodeURIComponent(g.id)}?modifica=1">+ Annota orario di partenza, griglia e deposito nella scheda gara</a>`; })()}
+      ${(() => { const i = Object.assign({}, (D.schede || {})[g.id] || {}, g.info || {}); const r = [["Partenza", i.partenza], ["Griglia", i.griglia], ["Deposito", i.deposito], ["Dove", i.luogoPartenza]].filter((x) => x[1]); return r.length ? `<section class="card list" style="padding-top:12px;padding-bottom:6px"><div class="between"><h2>Promemoria dalla scheda</h2><a class="small" href="#/gara/${encodeURIComponent(g.id)}">Scheda</a></div>${r.map(([l, t]) => `<div class="line"><span class="when" style="width:76px">${l}</span><span>${esc(t)}${l === "Dove" ? ` · <a href="${mappa(i, g)}" target="_blank" rel="noopener">Maps ↗</a>` : ""}</span></div>`).join("")}</section>` : `<a class="small" href="#/gara/${encodeURIComponent(g.id)}?modifica=1">+ Annota orario di partenza, griglia e deposito nella scheda gara</a>`; })()}
       <section class="card" aria-label="Mattina della gara"><h2>La mattina della gara</h2>${ck.mattina.map((v) => voceCheck(v)).join("")}</section>`;
   }
   async function riempiMeteoGara(id) {
@@ -300,6 +300,11 @@
     ["sito", "Sito ufficiale", "https://…"],
     ["note", "Altre note", ""],
   ];
+  // Link a Google Maps per la partenza: usa il campo "mappa" della scheda (indirizzo o "lat,lon"), altrimenti il testo + città.
+  function mappa(info, g) {
+    const q = info.mappa || `${String(info.luogoPartenza || "").split(/,|\barrivo\b/i)[0].replace(/^partenza (da|in)\s*/i, "")} ${nomeLuogo(g.luogo)}`;
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q.trim())}`;
+  }
   function vistaScheda(id, param) {
     const g = S.gare.find((x) => x.id === id);
     if (!g) return `<p class="sub">Gara non trovata.</p><a class="btn" href="#/gare">Le mie gare</a>`;
@@ -314,7 +319,7 @@
         <span style="font:700 20px/1.1 var(--display)">${esc(L.fmtGiorno(g.data))} ${esc(g.data.slice(0, 4))}${info.partenza && /\d{1,2}[:.]\d{2}/.test(info.partenza) ? " · ore " + esc(info.partenza.match(/\d{1,2}[:.]\d{2}/)[0]) : ""}</span>
         <span class="sub">${esc(nomeLuogo(g.luogo) || "Luogo da indicare")} · ${esc(L.DIST_LABEL[g.distanza])}${g.tempo ? " · obiettivo " + esc(g.tempo) : ""}</span></div>
         <div style="text-align:right">${mancano > 0 ? `<div class="big" style="font-size:40px">${mancano}</div><span class="sub">${mancano === 1 ? "giorno" : "giorni"}</span>` : `<span class="pill navy">${mancano === 0 ? "oggi" : "conclusa"}</span>`}</div></div>
-        <div class="links-dark"><a href="#/percorso/${encodeURIComponent(g.id)}">Percorso</a><a href="#/checklist/${encodeURIComponent(g.id)}">Borsa</a>${sitoOk ? `<a href="${esc(info.sito)}" target="_blank" rel="noopener">Sito ufficiale ↗</a>` : ""}</div></section>
+        <div class="links-dark"><a href="#/percorso/${encodeURIComponent(g.id)}">Percorso</a><a href="#/checklist/${encodeURIComponent(g.id)}">Borsa</a>${info.luogoPartenza || info.mappa ? `<a href="${mappa(info, g)}" target="_blank" rel="noopener">Partenza in Maps ↗</a>` : ""}${sitoOk ? `<a href="${esc(info.sito)}" target="_blank" rel="noopener">Sito ufficiale ↗</a>` : ""}</div></section>
       <section class="card" id="meteo-scheda" aria-label="Meteo della gara"><h2>Meteo della gara</h2><span class="small muted">${mancano >= 0 && mancano <= 15 ? "Previsioni in arrivo…" : mancano > 15 ? `Le previsioni arrivano 15 giorni prima della gara, dal ${esc(L.fmtGiorno(L.addDays(g.data, -15)))}.` : "Gara conclusa."}</span></section>`;
     if (param.modifica) {
       return `${testa}<form id="scheda" data-id="${esc(g.id)}" class="card"><h2>Informazioni pratiche</h2>
@@ -325,7 +330,7 @@
     }
     const logistica = compilati.length
       ? `<section class="card list" style="padding-top:12px;padding-bottom:6px" aria-label="Informazioni pratiche"><div class="between"><h2>Informazioni pratiche</h2><a class="small" href="#/gara/${encodeURIComponent(g.id)}?modifica=1">Modifica</a></div>
-        ${compilati.filter(([k]) => k !== "sito").map(([k, l]) => `<div class="line" style="flex-direction:column;gap:2px"><span class="small muted" style="font-weight:600">${l}</span><span style="white-space:pre-line">${esc(info[k])}</span></div>`).join("")}</section>`
+        ${compilati.filter(([k]) => k !== "sito").map(([k, l]) => `<div class="line" style="flex-direction:column;gap:2px"><span class="small muted" style="font-weight:600">${l}</span><span style="white-space:pre-line">${esc(info[k])}</span>${k === "luogoPartenza" ? `<a class="small" href="${mappa(info, g)}" target="_blank" rel="noopener">Apri la partenza in Maps ↗</a>` : ""}</div>`).join("")}</section>`
       : `<section class="card"><h2>Informazioni pratiche</h2><span class="small">Orario di partenza, ritiro pettorale, griglie, deposito borse, ristori: annotali qui una volta sola e li ritrovi quando servono, anche nella checklist.</span>
         <div class="grid2"><a class="btn" href="#/gara/${encodeURIComponent(g.id)}?modifica=1">Compila</a><a class="btn ghost" href="${cerca}" target="_blank" rel="noopener">Cerca il sito ↗</a></div>
         <span class="small muted">${mancano >= 0 ? "Le cerchiamo noi sul sito ufficiale: di solito compaiono qui entro un paio di giorni, quando l'organizzatore le ha pubblicate." : ""}</span></section>`;
