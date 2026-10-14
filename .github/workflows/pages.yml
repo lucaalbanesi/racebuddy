@@ -3,7 +3,7 @@ name: Pubblica web app
 on:
   push:
     branches: [main]
-    paths: ["app/**", "content/**", "data/**", ".github/workflows/pages.yml"]
+    paths: ["app/**", "content/**", "data/**", "tests/test_logic.js", ".github/workflows/pages.yml"]
   workflow_run:
     workflows: ["Aggiorna calendario gare"]
     types: [completed]
