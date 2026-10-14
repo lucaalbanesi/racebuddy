@@ -336,7 +336,12 @@
         <span class="small muted">${mancano >= 0 ? "Le cerchiamo noi sul sito ufficiale: di solito compaiono qui entro un paio di giorni, quando l'organizzatore le ha pubblicate." : ""}</span></section>`;
     const uff = (D.schede || {})[g.id];
     const prov = uff ? `<p class="sub">Informazioni dal sito ufficiale${uff.verificato ? `, verificate il ${esc(L.fmtGiorno(uff.verificato))}` : ""}${(uff.fonti || []).filter((u) => /^https?:\/\//.test(u)).slice(0, 2).map((u, i) => ` · <a href="${esc(u)}" target="_blank" rel="noopener">fonte${uff.fonti.length > 1 ? " " + (i + 1) : ""} ↗</a>`).join("")}.${g.info && Object.keys(g.info).length ? " I campi che hai modificato tu valgono solo per te." : ""}</p>` : "";
-    return `${testa}${logistica}${prov}
+    const imgOk = /^https:\/\//i.test(info.percorsoImmagine || ""), linkOk = /^https?:\/\//i.test(info.percorsoLink || "");
+    const tracciato = imgOk || linkOk || info.percorsoDescrizione ? `<section class="card" aria-label="Il percorso di gara"><h2>Il percorso</h2>
+      ${imgOk ? `<a href="${esc(info.percorsoImmagine)}" target="_blank" rel="noopener" class="mappa-percorso"><img src="${esc(info.percorsoImmagine)}" alt="Mappa del percorso di ${esc(titoloGara(g.nome))}" loading="lazy" onerror="this.closest('a').remove()"></a><span class="small muted">Tocca la mappa per ingrandirla · immagine dal sito ufficiale</span>` : ""}
+      ${info.percorsoDescrizione ? `<span class="small">${esc(info.percorsoDescrizione)}</span>` : ""}
+      ${linkOk ? `<a class="small" href="${esc(info.percorsoLink)}" target="_blank" rel="noopener">Il percorso sul sito ufficiale ↗</a>` : ""}</section>` : "";
+    return `${testa}${tracciato}${logistica}${prov}
       <p class="sub">Dati del calendario: ${g.fonte === "manuale" ? "inseriti da te" : "FIDAL"}. Fai sempre fede al regolamento ufficiale della gara.</p>`;
   }
   async function riempiMeteoScheda(id) {

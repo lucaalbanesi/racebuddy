@@ -13,10 +13,14 @@
    "https://www.romehalfmarathon.it/regolamento/",
    "https://www.romehalfmarathon.it/expo-wizz-air-rome-half-marathon-by-brooks-2026-it/",
    "https://www.romehalfmarathon.it/faq/",
-   "https://www.romehalfmarathon.it/"
+   "https://www.romehalfmarathon.it/",
+   "https://www.romehalfmarathon.it/percorso/"
   ],
   "verificato": "2026-10-14",
   "edizione": "2026",
-  "mappa": "Viale di Porta Ardeatina, Roma"
+  "mappa": "Viale di Porta Ardeatina, Roma",
+  "percorsoImmagine": "https://www.romehalfmarathon.it/wp-content/uploads/2026/09/Il-PERCORSO_RHM2026_invio-scaled.jpg",
+  "percorsoLink": "https://www.romehalfmarathon.it/percorso/",
+  "percorsoDescrizione": "Da Porta Ardeatina al Colosseo passando per Piramide, Circo Massimo, Castel Sant'Angelo, San Pietro, Foro Italico (km 13, punto più lontano), Piazza del Popolo, Piazza di Spagna e Piazza Venezia. Nel finale la salita di via Cavour."
  }
 }

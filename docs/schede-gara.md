@@ -23,6 +23,9 @@ dell'atleta, PDF), e vale per tutti gli utenti che seguono quella gara.
   "ristori": "Ogni 5 km acqua e sali; gel al 25° km",
   "arrivare": "…",
   "mappa": "Viale di Porta Ardeatina, Roma",
+  "percorsoImmagine": "https://… immagine della mappa sul sito ufficiale (https)",
+  "percorsoLink": "https://… pagina del percorso, oppure file GPX/KML/PDF o mappa ufficiale",
+  "percorsoDescrizione": "Una o due righe: punti di passaggio principali, salite, punto più lontano.",
   "sito": "https://…",
   "note": "…",
   "fonti": ["https://… pagina usata", "https://… regolamento.pdf"],
@@ -32,6 +35,8 @@ dell'atleta, PDF), e vale per tutti gli utenti che seguono quella gara.
 ```
 
 Il campo `mappa` è l'indirizzo della partenza come lo cercheresti su Google Maps (via o piazza + città), oppure "lat,lon" se il sito li riporta: serve al pulsante "Partenza in Maps". Si scrive solo se il luogo di partenza è indicato dal sito ufficiale.
+
+Percorso: `percorsoImmagine` è l'indirizzo diretto (https) dell'immagine della mappa pubblicata dall'organizzatore, non una foto; non si scarica né si ricarica altrove, l'app la mostra dal sito ufficiale. Se c'è un file GPX/KML o una mappa interattiva ufficiale, va in `percorsoLink`, altrimenti la pagina del percorso. Dislivello o salite solo se indicati dal sito.
 
 Il campo `partenza` contiene solo l'orario (es. "8:30" o "8:30 da confermare"): spiegazioni e varianti vanno in `note`.
 
