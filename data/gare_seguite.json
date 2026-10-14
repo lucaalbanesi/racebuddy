@@ -1,4 +1,16 @@
 {
  "aggiornato": "2026-10-14",
- "gare": []
+ "gare": [
+  {
+   "id": "Hd9df59d4b1-21",
+   "nome": "III^ Rome Half Marathon",
+   "data": "2026-10-18",
+   "luogo": "ROMA",
+   "distanza": "21",
+   "fonte": "FIDAL",
+   "prima_aggiunta": "2026-10-14",
+   "aggiunte": 1,
+   "ultima_aggiunta": "2026-10-14"
+  }
+ ]
 }
