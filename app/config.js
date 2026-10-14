@@ -9,5 +9,5 @@ window.RB_CONFIG = {
   // Login con email e codice (Supabase Auth) e integrazione Strava: si accendono quando la configurazione manuale è fatta
   // (vedi docs/login-strava.md).
   login: false,
-  strava: false,
+  strava: true,
 };
