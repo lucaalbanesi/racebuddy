@@ -30,6 +30,8 @@ dell'atleta, PDF), e vale per tutti gli utenti che seguono quella gara.
 }
 ```
 
+Se due pagine ufficiali si contraddicono (es. orario), riportare entrambe le versioni nel campo con "da confermare" e segnalarlo nella pull request.
+
 Tutti i campi testuali sono facoltativi: **un campo si scrive solo se l'informazione è sul sito ufficiale per
 l'edizione in corso**. Se non si trova, il campo resta assente (nell'app l'utente può compilarlo a mano).
 
@@ -63,6 +65,9 @@ Ricontrollare significa riaprire le fonti: se nulla è cambiato si aggiorna solo
 cambiato si aggiorna il campo e lo si segnala nella pull request.
 
 ## Pull request
+
+Si apre con l'API REST (`gh api -X POST repos/lucaalbanesi/racebuddy/pulls -f base=main -f head=<ramo> -f title=… -F body=@file`): `gh pr create` non funziona da Claude perché usa GraphQL. Le pull request aperte si trovano con `gh api 'repos/lucaalbanesi/racebuddy/pulls?state=open'`.
+
 
 Titolo: `Schede gara del AAAA-MM-GG: N nuove, M aggiornate`. Nel testo, per ogni gara: nome, data, cosa è
 nuovo o cambiato (prima → dopo), link alle fonti, campi non trovati. Se non c'è nessuna modifica (nemmeno di
