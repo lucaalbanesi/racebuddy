@@ -33,6 +33,14 @@ jobs:
           n=$(curl -s "$URL/rest/v1/gare_aggiunte?select=gara_id" -H "apikey: $KEY" | grep -o '"gara_id"' | wc -l)
           echo "righe=$n"; test "$n" -ge 2
       - name: Gare vere presenti
+        continue-on-error: true
         run: |
           n=$(curl -s "$URL/rest/v1/gare_aggiunte?select=gara_id&gara_id=neq.TEST" -H "apikey: $KEY" | grep -o '"gara_id"' | wc -l)
           echo "gare=$n"; test "$n" -ge 1
+      - name: Funzioni del gruppo presenti
+        if: always()
+        run: |
+          out=$(curl -s -w ' HTTP%{http_code}' -X POST "$URL/rest/v1/rpc/info_invito" -H "apikey: $KEY" -H "Content-Type: application/json" -d '{"p_codice":"XXXXXXXX"}')
+          echo "$out"; case "$out" in *HTTP200*) ;; *) echo "::error::info_invito: ${out:0:300}"; exit 1;; esac
+          out=$(curl -s -w ' HTTP%{http_code}' -X POST "$URL/rest/v1/rpc/stato_gruppo" -H "apikey: $KEY" -H "Content-Type: application/json" -d '{"p_token":"0000000000000000000000000000000000000000"}')
+          echo "::warning::stato_gruppo (atteso errore 'non sei in un gruppo'): ${out:0:300}"
