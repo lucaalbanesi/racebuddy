@@ -66,27 +66,6 @@
    ]
   },
   {
-   "id": "c58ad440a3f2",
-   "tipo": "articolo",
-   "fonte": "Runner's World Italia",
-   "fonteId": "runnersworld",
-   "titolo": "Perdere peso con la corsa: 7 consigli degli esperti",
-   "estratto": "Tra dieta, intensità, forza e tanti altri suggerimenti di allenatori e dietologi esperti",
-   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a74119932/perdere-peso-con-corsa-consigli/",
-   "data": "2026-10-14",
-   "immagine": "https://hips.hearstapps.com/hmg-prod/images/0282a5f2-43da-474b-ab29-af40dcc0036c.jpeg",
-   "argomenti": [
-    "alimentazione",
-    "forza"
-   ],
-   "distanze": [],
-   "fasi": [
-    "si_parte",
-    "costruzione",
-    "scarico"
-   ]
-  },
-  {
    "id": "30feb7779424",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -771,28 +750,6 @@
     "21"
    ],
    "fasi": []
-  },
-  {
-   "id": "8d159005d2e4",
-   "tipo": "articolo",
-   "fonte": "Runlovers",
-   "fonteId": "runlovers",
-   "titolo": "Pancia piatta e six-pack: un mese di allenamento e alimentazione",
-   "estratto": "Gli addominali ci sono già: per vederli bisogna assottigliare lo strato che li copre, e lo strato cala solo quando forza, movimento quotidiano e alimentazione lavorano insieme…",
-   "link": "https://runlovers.it/2026/programma-mensile-pancia-piatta-six-pack/",
-   "data": "2026-10-11",
-   "immagine": null,
-   "argomenti": [
-    "alimentazione",
-    "allenamento",
-    "forza"
-   ],
-   "distanze": [],
-   "fasi": [
-    "si_parte",
-    "costruzione",
-    "scarico"
-   ]
   },
   {
    "id": "c804dd7cd70e",
