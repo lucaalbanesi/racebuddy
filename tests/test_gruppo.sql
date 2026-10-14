@@ -3,7 +3,7 @@
 do $$
 declare
   a text := repeat('a', 40); b text := repeat('b', 40); c text := repeat('c', 40);
-  j json; cod text; rid uuid; pid uuid; mb uuid; n int;
+  j json; cod text; pid uuid; mb uuid; n int;
 begin
   j := public.crea_gruppo(a, 'Corriamo Insieme', 'Marco');
   cod := j->>'codice';
@@ -26,23 +26,11 @@ begin
   assert j->'gruppo'->>'codice' = cod, 'admin vede il codice';
   assert (public.stato_gruppo(b))->'gruppo'->>'codice' is null, 'membro non vede il codice';
 
-  -- ritrovi: solo organizzatori
-  begin perform public.crea_ritrovo(b, '{"titolo":"Lungo","quando":"2099-10-25T08:00:00+02"}'); assert false, 'membro crea ritrovo';
-  exception when others then if sqlerrm not like '%organizzatori%' then raise; end if; end;
+  -- organizzatore: vede il codice d'invito, ma non gestisce i membri
   select id into mb from public.membri where nome = 'Giulia';
   perform public.admin_ruolo(a, mb, 'organizzatore');
-  rid := public.crea_ritrovo(b, '{"titolo":"Lungo della domenica","quando":"2099-10-25T08:00:00+02","luogo":"Piazza","tipo":"allenamento"}');
-  perform public.rispondi_ritrovo(a, rid, 'si');
-  perform public.rispondi_ritrovo(c, rid, 'no');
-  j := public.stato_gruppo(c);
-  assert json_array_length(j->'ritrovi') = 1, 'ritrovo visibile';
-  assert json_array_length(j->'ritrovi'->0->'si') = 2 and (j->'ritrovi'->0->>'no')::int = 1 and j->'ritrovi'->0->>'mia' = 'no', 'risposte';
-  -- ritrovo solo per chi corre una gara: Paolo non mostra le gare, quindi non lo vede
-  perform public.crea_ritrovo(a, '{"titolo":"Foto prima del via","quando":"2099-11-29T07:30:00+01","gara_id":"F-42"}');
-  assert json_array_length((public.stato_gruppo(c))->'ritrovi') = 1, 'ritrovo di gara nascosto a chi non la corre';
-  assert json_array_length((public.stato_gruppo(b))->'ritrovi') = 2, 'ritrovo di gara visibile a chi la corre';
-  perform public.annulla_ritrovo(b, rid);
-  assert ((public.stato_gruppo(a))->'ritrovi'->0->>'annullato')::boolean, 'annullato';
+  assert (public.stato_gruppo(b))->'gruppo'->>'codice' = cod, 'organizzatore vede il codice';
+  assert (public.stato_gruppo(a))->'ritrovi' is null, 'niente ritrovi';
 
   -- risultati, applausi, classifica
   pid := public.pubblica_risultato(b, '{"gara_id":"R-21","gara_nome":"Rome Half","distanza":"21","data_gara":"2026-10-18","tempo":"1:42:10","pb":true,"testo":"Crisi al 16"}');

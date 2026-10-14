@@ -1,4 +1,4 @@
--- RaceBuddy – il gruppo (società): membri, ritrovi, bacheca, classifica PB, amministrazione.
+-- RaceBuddy – il gruppo (società): membri, gare in comune, bacheca, classifica PB, amministrazione.
 -- Da eseguire una volta nell'SQL Editor di Supabase.
 --
 -- Identità senza account: ogni telefono genera un codice segreto casuale (token) e lo tiene per sé.
@@ -39,30 +39,6 @@ create table public.gare_membri (
   primary key (membro_id, gara_id)
 );
 
-create table public.ritrovi (
-  id uuid primary key default gen_random_uuid(),
-  gruppo_id uuid not null references public.gruppi(id) on delete cascade,
-  autore_id uuid references public.membri(id) on delete set null,
-  tipo text not null default 'allenamento' check (tipo in ('allenamento', 'gara', 'sociale')),
-  titolo text not null check (char_length(titolo) between 2 and 80),
-  quando timestamptz not null,
-  luogo text check (char_length(luogo) <= 120),
-  mappa text check (char_length(mappa) <= 200),
-  note text check (char_length(note) <= 500),
-  gara_id text,           -- se valorizzato: solo per chi corre quella gara
-  promemoria boolean not null default true,
-  annullato boolean not null default false,
-  creato timestamptz not null default now()
-);
-
-create table public.risposte (
-  ritrovo_id uuid not null references public.ritrovi(id) on delete cascade,
-  membro_id uuid not null references public.membri(id) on delete cascade,
-  risposta text not null check (risposta in ('si', 'no')),
-  aggiornato timestamptz not null default now(),
-  primary key (ritrovo_id, membro_id)
-);
-
 create table public.bacheca (
   id uuid primary key default gen_random_uuid(),
   gruppo_id uuid not null references public.gruppi(id) on delete cascade,
@@ -89,8 +65,6 @@ create table public.applausi (
 alter table public.gruppi enable row level security;
 alter table public.membri enable row level security;
 alter table public.gare_membri enable row level security;
-alter table public.ritrovi enable row level security;
-alter table public.risposte enable row level security;
 alter table public.bacheca enable row level security;
 alter table public.applausi enable row level security;
 
@@ -198,38 +172,6 @@ begin
   where e->>'distanza' in ('10', '21', '42');
 end $$;
 
--- ------------------------------------------------------------------ ritrovi
-create or replace function public.crea_ritrovo(p_token text, p jsonb) returns uuid
-language plpgsql security definer set search_path = '' as $$
-declare m public.membri := public._io(p_token); r uuid;
-begin
-  if m.ruolo not in ('admin', 'organizzatore') then raise exception 'solo gli organizzatori possono creare ritrovi'; end if;
-  insert into public.ritrovi (gruppo_id, autore_id, tipo, titolo, quando, luogo, mappa, note, gara_id, promemoria)
-  values (m.gruppo_id, m.id, coalesce(p->>'tipo', 'allenamento'), trim(p->>'titolo'), (p->>'quando')::timestamptz,
-          nullif(trim(p->>'luogo'), ''), nullif(trim(p->>'mappa'), ''), nullif(trim(p->>'note'), ''), nullif(p->>'gara_id', ''), coalesce((p->>'promemoria')::boolean, true))
-  returning id into r;
-  insert into public.risposte (ritrovo_id, membro_id, risposta) values (r, m.id, 'si');
-  return r;
-end $$;
-
-create or replace function public.annulla_ritrovo(p_token text, p_id uuid) returns void
-language plpgsql security definer set search_path = '' as $$
-declare m public.membri := public._io(p_token);
-begin
-  update public.ritrovi set annullato = true
-  where id = p_id and gruppo_id = m.gruppo_id and (autore_id = m.id or m.ruolo = 'admin');
-  if not found then raise exception 'non puoi annullare questo ritrovo'; end if;
-end $$;
-
-create or replace function public.rispondi_ritrovo(p_token text, p_id uuid, p_risposta text) returns void
-language plpgsql security definer set search_path = '' as $$
-declare m public.membri := public._io(p_token);
-begin
-  if not exists (select 1 from public.ritrovi where id = p_id and gruppo_id = m.gruppo_id and not annullato) then raise exception 'ritrovo non trovato'; end if;
-  insert into public.risposte (ritrovo_id, membro_id, risposta) values (p_id, m.id, p_risposta)
-  on conflict (ritrovo_id, membro_id) do update set risposta = excluded.risposta, aggiornato = now();
-end $$;
-
 -- ------------------------------------------------------------------ bacheca e risultati
 create or replace function public.pubblica_risultato(p_token text, p jsonb) returns uuid
 language plpgsql security definer set search_path = '' as $$
@@ -270,13 +212,6 @@ begin
     'gruppo', (select json_build_object('id', g.id, 'nome', g.nome, 'codice', case when m.ruolo in ('admin', 'organizzatore') then g.codice end) from public.gruppi g where g.id = m.gruppo_id),
     'io', json_build_object('id', m.id, 'nome', m.nome, 'ruolo', m.ruolo, 'mostra_gare', m.mostra_gare),
     'membri', (select coalesce(json_agg(json_build_object('id', x.id, 'nome', x.nome, 'ruolo', x.ruolo, 'visto', x.visto::date) order by x.nome), '[]') from public.membri x where x.gruppo_id = m.gruppo_id),
-    'ritrovi', (select coalesce(json_agg(json_build_object('id', r.id, 'tipo', r.tipo, 'titolo', r.titolo, 'quando', r.quando, 'luogo', r.luogo, 'mappa', r.mappa, 'note', r.note,
-                  'gara_id', r.gara_id, 'annullato', r.annullato, 'autore', (select a.nome from public.membri a where a.id = r.autore_id), 'mio', r.autore_id = m.id,
-                  'si', (select coalesce(json_agg(x.nome order by s.aggiornato), '[]') from public.risposte s join public.membri x on x.id = s.membro_id where s.ritrovo_id = r.id and s.risposta = 'si'),
-                  'no', (select count(*) from public.risposte s where s.ritrovo_id = r.id and s.risposta = 'no'),
-                  'mia', (select s.risposta from public.risposte s where s.ritrovo_id = r.id and s.membro_id = m.id)) order by r.quando), '[]')
-                from public.ritrovi r where r.gruppo_id = m.gruppo_id and r.quando > now() - interval '12 hours'
-                  and (r.gara_id is null or r.autore_id = m.id or m.ruolo = 'admin' or exists (select 1 from public.gare_membri gm where gm.membro_id = m.id and gm.gara_id = r.gara_id))),
     'gare', (select coalesce(json_agg(json_build_object('gara_id', gm.gara_id, 'nome', gm.nome, 'data', gm.data, 'luogo', gm.luogo, 'distanza', gm.distanza,
                   'membro', x.nome, 'membro_id', x.id, 'ruolo', gm.ruolo, 'tempo', gm.tempo) order by gm.data, x.nome), '[]')
              from public.gare_membri gm join public.membri x on x.id = gm.membro_id where x.gruppo_id = m.gruppo_id and x.mostra_gare and gm.data >= current_date - 1),
@@ -334,8 +269,8 @@ declare f text;
 begin
   foreach f in array array[
     'crea_gruppo(text,text,text)', 'info_invito(text)', 'entra_gruppo(text,text,text,boolean)', 'esci_gruppo(text)',
-    'aggiorna_profilo(text,text,boolean)', 'sincronizza_gare(text,jsonb)', 'crea_ritrovo(text,jsonb)', 'annulla_ritrovo(text,uuid)',
-    'rispondi_ritrovo(text,uuid,text)', 'pubblica_risultato(text,jsonb)', 'applaudi(text,uuid)', 'togli_post(text,uuid)',
+    'aggiorna_profilo(text,text,boolean)', 'sincronizza_gare(text,jsonb)',
+    'pubblica_risultato(text,jsonb)', 'applaudi(text,uuid)', 'togli_post(text,uuid)',
     'stato_gruppo(text)', 'admin_ruolo(text,uuid,text)', 'admin_rimuovi(text,uuid)', 'admin_gruppo(text,text,boolean)']
   loop
     execute format('revoke all on function public.%s from public', f);

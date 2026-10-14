@@ -17,14 +17,14 @@ Nasce per il suo gruppo di amici/società (pochi utenti), ma deve poter crescere
 - `content/` – contenuti curati: `fasi.json`, `percorso.json` (voci della preparazione; `notifica: true` = tappe chiave che generano push), `pillole.json`, `sorrisi.json` (battute originali), `schede.json` (info gara dai siti ufficiali), `fonti.json`.
 - `data/` – dati generati dai job: `gare.json` (calendario), `gare_seguite.json`, `contenuti.json`, `fonti_verificate.json`.
 - `scripts/` – `import_fidal.py` (iCal FIDAL + PDF maratone/mezze anno successivo), `esporta_seguite.py`, `importa_contenuti.py` (feed → etichette fase/distanza/argomento), `notifiche.js` (regole push, pure), `invia_push.js` (invio), `verifica_fonti.py`.
-- `docs/` – `schede-gara.md` (procedura delle schede), `supabase.sql` (gare_aggiunte, push_iscrizioni), `supabase_gruppo.sql` (gruppo).
+- `docs/` – `schede-gara.md` (procedura delle schede), `supabase.sql` (gare_aggiunte, push_iscrizioni), `supabase_gruppo.sql` (gruppo), `supabase_gruppo_senza_ritrovi.sql` (migrazione una tantum che toglie i ritrovi).
 - Deploy: push su `main` → workflow "Pubblica web app" → GitHub Pages. I file sono versionati con `?v=<sha>`.
 
 ## Architettura dell'app (barra: Oggi · Gare · Per te · Gruppo · Io)
 - Oggi: gara in evidenza (conto alla rovescia, fasi, link La gara/Preparazione/Borsa), avvisi documenti, meteo e vestizione, momento, da fare oggi, pillola, Per te. Senza gare: invito a scegliere la gara + meteo, sorriso, pillola di stagione, contenuti.
 - La gara (`#/gara/:id`): Panoramica (riassunto e rimandi) + sezioni `preparazione`, `info` (logistica, percorso di gara, meteo, fonti), `borsa` (checklist, vestizione, mattina della gara). Barra a segmenti in alto, freccia indietro → Panoramica. "Preparazione" = percorso di avvicinamento; "percorso" = solo il tracciato di gara.
 - Per te: articoli/video/podcast classificati per fase e distanza (ranking sul telefono), sorrisi.
-- Gruppo: invito con codice, ruoli admin/organizzatore/membro, ritrovi con "ci sono", gare in comune, bacheca con applausi, classifica PB, pagina di gestione. Identità senza account: token casuale sul telefono, online solo l'hash.
+- Gruppo: invito con codice, ruoli admin/organizzatore (vede e condivide l'invito)/membro, gare in comune, bacheca con applausi, classifica PB, pagina di gestione. Identità senza account: token casuale sul telefono, online solo l'hash.
 - Io: sezioni a fisarmonica (Profilo con GPS, Tessera e certificato, Notifiche con preferenze, Gruppo, Scarpe), strumenti di prova (data simulata), tutorial.
 
 ## Online (Supabase + Actions)
@@ -36,7 +36,7 @@ Nasce per il suo gruppo di amici/società (pochi utenti), ma deve poter crescere
 ## Notifiche push (regole in `scripts/notifiche.js`)
 - Solo novità, mai countdown né doppioni; al mattino max 1 (un'ora prima dell'uscita; chi esce dopo le 12 alle 7). Mai di notte.
 - Ordine: scheda gara cambiata/pronta, scadenze documenti (30/15/2 gg), cose rimandate, tappe chiave, meteo gara (prima volta a 7 gg e se cambia molto), meteo uscita solo se cambia davvero (max 2 a settimana, stesso avviso non ripetuto).
-- Vigilia alle 19, mattina di gara 2 ore prima della partenza. Gruppo (7–21): nuovo ritrovo, promemoria la sera prima a chi ha detto sì, ritrovo annullato.
+- Vigilia alle 19, mattina di gara 2 ore prima della partenza. Il gruppo non manda notifiche (i ritrovi sono stati tolti a ottobre 2026).
 
 ## Note operative
 - Dall'ambiente cloud di Claude non si raggiungono fidal.it, supabase.co né github.io: le verifiche passano da GitHub Actions (es. workflow "Verifica collegamento Supabase"; errori leggibili come annotazioni dei job).
