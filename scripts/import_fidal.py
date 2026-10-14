@@ -175,14 +175,88 @@ def _gara(ev: dict, nome: str, descr: str, data: str, dist: str) -> dict | None:
     }
 
 
+def chiave_luogo(luogo: str) -> str:
+    """'Montecatini-Terme' e 'MONTECATINI TERME' sono lo stesso luogo."""
+    t = luogo.upper()
+    for a, b in (("À", "A"), ("È", "E"), ("É", "E"), ("Ì", "I"), ("Ò", "O"), ("Ù", "U"), ("'", "")):
+        t = t.replace(a, b)
+    return re.sub(r"[^A-Z]", "", t)
+
+
+# ----------------------------------------------------------------- calendario maratone e mezze (PDF FIDAL)
+# FIDAL pubblica in anticipo (ottobre) il calendario dell'anno dopo per maratone e mezze, in PDF.
+# Si cerca il link nella pagina della notizia; se la pagina cambia, si usa l'ultimo link noto.
+CALENDARI_PDF = [
+    ("https://www.fidal.it/content/Maratone-e-mezze-219-eventi-nel-2027/186849",
+     "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"),
+]
+DIST_PDF = {"21.0975km": "21", "42.195km": "42"}
+
+
+def url_pdf(pagina: str, noto: str) -> str:
+    try:
+        req = urllib.request.Request(pagina, headers={"User-Agent": USER_AGENT})
+        html = urllib.request.urlopen(req, timeout=60).read().decode("utf-8", errors="replace")
+        m = re.search(r'upload/files/Organizzazione/\d{4}/[^"]*Calendario%20Maratone[^"]*\.pdf', html)
+        if m:
+            return "https://www.fidal.it/" + m.group(0)
+    except Exception as e:
+        print(f"Attenzione: pagina calendario maratone non letta ({e})", file=sys.stderr)
+    return noto
+
+
+def righe_pdf(dati: bytes) -> list[list[str]]:
+    import io
+    import pdfplumber  # installato nel workflow
+    righe = []
+    with pdfplumber.open(io.BytesIO(dati)) as pdf:
+        for pagina in pdf.pages:
+            for tab in pagina.extract_tables():
+                righe += [[(c or "").strip() for c in r] for r in tab]
+    return righe
+
+
+def gare_da_righe(righe: list[list[str]], url: str) -> list[dict]:
+    """Colonne: Data fine, Codice società, Denominazione società, Manifestazione, Edizione, Città, Provincia,
+    Regione, Tipologia, Durata."""
+    out = []
+    for r in righe:
+        if len(r) < 10 or not re.match(r"\d{2}/\d{2}/\d{4}$", r[0]):
+            continue
+        data = dt.datetime.strptime(r[0], "%d/%m/%Y").date().isoformat()
+        nome, edizione, citta, tipo, durata = r[3].replace("\n", " "), r[4], r[5].replace("\n", " "), r[8].upper(), r[9].replace(" ", "")
+        dist = DIST_PDF.get(durata)
+        if not dist or tipo != "STRADA" or ESCLUSI.search(nome):
+            continue
+        nome = f"{edizione}^ {nome}" if edizione else nome
+        h = hashlib.sha1(f"{data}|{r[3]}|{citta}".encode()).hexdigest()[:10]
+        out.append({"id": f"P{h}-{dist}", "nome": nome, "data": data, "luogo": citta.upper(), "distanza": dist,
+                    "annullata": False, "fonte": "FIDAL maratone e mezze", "url": url})
+    return out
+
+
+def gare_pdf() -> list[dict]:
+    out = []
+    for pagina, noto in CALENDARI_PDF:
+        url = url_pdf(pagina, noto)
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+            out += gare_da_righe(righe_pdf(urllib.request.urlopen(req, timeout=60).read()), url)
+        except Exception as e:
+            print(f"Attenzione: calendario PDF non letto ({e})", file=sys.stderr)
+    return out
+
+
 def deduplica(gare: dict[str, dict]) -> dict[str, dict]:
     """La stessa gara compare nel calendario nazionale e in quello regionale con nomi diversi:
     a parità di data, luogo e distanza tiene il nome più breve (di solito quello nazionale)."""
     scelte: dict[tuple, dict] = {}
+    # a parità, vince il calendario iCal FIDAL rispetto al PDF di maratone e mezze (prima esce, poi resta)
     for g in gare.values():
-        k = (g["data"], g["luogo"].upper(), g["distanza"])
+        k = (g["data"], chiave_luogo(g["luogo"]), g["distanza"])
         cur = scelte.get(k)
-        if cur is None or (cur["annullata"], len(cur["nome"])) > (g["annullata"], len(g["nome"])):
+        rank = lambda x: (x["annullata"], x.get("fonte") != "FIDAL", len(x["nome"]))
+        if cur is None or rank(cur) > rank(g):
             scelte[k] = g
     return {g["id"]: g for g in scelte.values()}
 
@@ -208,6 +282,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--mesi", type=int, default=12)
     ap.add_argument("--file", help="file .ics locale invece del download")
+    ap.add_argument("--senza-pdf", action="store_true", help="non leggere il calendario PDF di maratone e mezze")
     args = ap.parse_args()
 
     oggi = dt.date.today()
@@ -246,6 +321,13 @@ def main() -> int:
                 gare[g["id"]] = g
         gare = deduplica(gare)
 
+    if not args.file and not args.senza_pdf:
+        extra = [g for g in gare_pdf() if g["data"] >= oggi.isoformat()]
+        print(f"Calendario maratone e mezze (PDF): {len(extra)} gare")
+        for g in extra:
+            gare.setdefault(g["id"], g)
+        gare = deduplica(gare)
+
     elenco = sorted(gare.values(), key=lambda g: (g["data"], g["nome"]))
     if not elenco and errori:
         print("Nessuna gara scaricata: il file esistente non viene toccato.", file=sys.stderr)
@@ -253,7 +335,7 @@ def main() -> int:
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps({
         "aggiornato": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "fonte": "Calendario FIDAL, https://www.fidal.it/calendario.php",
+        "fonte": "Calendario FIDAL (https://www.fidal.it/calendario.php) e calendario FIDAL di maratone e mezze dell'anno successivo",
         "gare": elenco,
     }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     per_dist = {d: sum(1 for g in elenco if g["distanza"] == d) for d in ("10", "21", "42")}

@@ -100,4 +100,21 @@ def test_classifica():
     assert {g["id"] for g in gare} == {g["id"] for g in again}
 
 if __name__ == "__main__":
-    test_classifica(); print("ok")
+    test_classifica(); 
+# Calendario PDF di maratone e mezze: righe come escono dalla tabella
+righe = [
+    ["Data fine", "Codice società", "Denominazione società", "Manifestazione", "Edizione", "Città", "Provincia", "Regione", "Tipologia", "Durata"],
+    ["14/03/2027", "RM001", "SOC", "Run Rome The Marathon", "XXXII", "Roma", "RM", "Lazio", "STRADA", "42.195km"],
+    ["28/02/2027", "RM002", "SOC", "RomaOstia Half Marathon", "LII", "Roma", "RM", "Lazio", "STRADA", "21.0975km"],
+    ["01/05/2027", "XX", "SOC", "Trail del Monte", "I", "Paese", "XX", "Lazio", "STRADA", "21.0975km"],
+    ["02/05/2027", "XX", "SOC", "Ultra 50", "I", "Paese", "XX", "Lazio", "STRADA", "50km"],
+]
+gp = f.gare_da_righe(righe, "u")
+assert [(g["data"], g["distanza"], g["luogo"]) for g in gp] == [("2027-03-14", "42", "ROMA"), ("2027-02-28", "21", "ROMA")], gp
+assert gp[0]["nome"] == "XXXII^ Run Rome The Marathon" and gp[0]["id"].startswith("P")
+# a parità di data, luogo e distanza vince il calendario iCal
+ical = {"id": "COD1-42", "nome": "XXXII^ Run Rome The Marathon e altro", "data": "2027-03-14", "luogo": "ROMA", "distanza": "42", "annullata": False, "fonte": "FIDAL"}
+d = f.deduplica({g["id"]: g for g in gp + [ical]})
+assert "COD1-42" in d and gp[0]["id"] not in d
+assert f.chiave_luogo("Montecatini-Terme") == f.chiave_luogo("MONTECATINI TERME")
+print("ok")

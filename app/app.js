@@ -300,7 +300,7 @@
           <div class="field"><label for="m-dist">Distanza</label><select class="input" id="m-dist"><option value="10">10 km</option><option value="21">Mezza</option><option value="42">Maratona</option></select></div></div>
           <div class="field"><label for="m-luogo">Città</label><input class="input" id="m-luogo"></div>
           <button class="btn" type="submit">Continua</button></form></details>
-      <p class="sub">Calendario FIDAL su strada${D.aggiornato ? `, aggiornato il ${esc(L.fmtGiorno(D.aggiornato.slice(0, 10)))}` : ""}. Le gare del 2027 compaiono man mano che vengono pubblicate.</p>`;
+      <p class="sub">Calendario FIDAL su strada${D.aggiornato ? `, aggiornato il ${esc(L.fmtGiorno(D.aggiornato.slice(0, 10)))}` : ""}. Maratone e mezze del 2027 dal calendario FIDAL già pubblicato; le altre gare del 2027 compaiono man mano.</p>`;
   }
   function risultati(ris) {
     if (!ris.length) return `<p class="sub">Nessuna gara trovata. Prova con la città o aggiungila a mano.</p>`;
