@@ -173,6 +173,40 @@
   }
 
   // ---------------------------------------------------------------- viste
+  // ---------------------------------------------------------------- benvenuto (tutorial al primo avvio)
+  function vistaBenvenuto() {
+    const m = { temp: 7, vento: 12, pioggia: 10, codice: 1 };
+    const fasiDemo = [["Si parte", 21, "done"], ["Costruzione", 28, "fill"], ["Picco", 21, ""], ["Scarico", 14, ""]];
+    const barra = `<div class="bar" style="height:10px">${fasiDemo.map(([, n, c]) => `<div style="flex:${n}">${c === "done" ? '<div class="done" style="width:100%"></div>' : c === "fill" ? '<div class="fill" style="width:55%"></div>' : ""}</div>`).join("")}</div><div class="bar-labels">${fasiDemo.map(([t, n, c]) => `<span style="flex:${n}" class="${c === "fill" ? "cur" : ""}">${t}</span>`).join("")}</div>`;
+    const slides = [
+      { k: "Ciao!", t: "Il tuo buddy per la gara", d: "Ti accompagno dal giorno dell'iscrizione fino al traguardo. 10 km, mezza o maratona.",
+        ill: `<div class="ob-countdown"><span class="big">46</span><span>giorni alla tua gara</span></div>` },
+      { k: "1 · Il percorso", t: "Ogni giorno sai cosa fare", d: "Scegli la gara dal calendario FIDAL: il percorso si costruisce sulle date vere. Cosa provare, cosa preparare, i momenti da vivere.",
+        ill: `<div class="card ob-mini">${barra}<label class="check"><input type="checkbox" checked tabindex="-1"><span><span class="t">Prova il gel nel lungo</span></span></label><label class="check" style="border:0"><input type="checkbox" tabindex="-1"><span><span class="t">Scegli le calze da gara</span></span></label></div>` },
+      { k: "2 · Il meteo", t: "Come vestirti, ogni mattina", d: "Meteo all'ora della tua uscita, cosa mettere e gli avvisi quando fa freddo, caldo o tira vento.",
+        ill: `<div class="card ob-mini">${bloccoMeteo(m, false)}</div>` },
+      { k: "3 · La gara", t: "Tutto sulla gara, in un posto", d: "Orari, ritiro pettorale, griglie, percorso e meteo del giorno, presi dal sito ufficiale. E la checklist della borsa da spuntare la sera prima.",
+        ill: `<div class="card ob-mini"><div class="between"><b>Ritiro pettorale</b><span class="pill ok">sito ufficiale</span></div><span class="small">Expo, ven 10-19 · sab 9-19</span><div class="meter acc"><div style="width:70%"></div></div><span class="small"><b>12 di 17</b> cose nella borsa</span></div>` },
+    ];
+    return `<section class="ob" aria-roledescription="tutorial" aria-label="Benvenuto in RaceBuddy">
+      <div class="ob-top"><span class="ob-logo">RaceBuddy</span><button class="ob-salta" data-act="ob-fine">Salta</button></div>
+      <div class="ob-track" id="ob-track">${slides.map((x, i) => `<article class="ob-slide" aria-label="${i + 1} di ${slides.length + 1}"><div class="ob-ill">${x.ill}</div><span class="eyebrow">${x.k}</span><h1>${x.t}</h1><p>${x.d}</p></article>`).join("")}
+        <article class="ob-slide" aria-label="${slides.length + 1} di ${slides.length + 1}"><div class="ob-ill"><div class="ob-countdown"><span class="big">Via!</span></div></div><span class="eyebrow">Partiamo</span><h1>Qual è la tua prossima gara?</h1><p>Ci vuole un minuto. I tuoi dati restano su questo telefono.</p>
+          <button class="btn block" data-act="ob-fine" data-vai="#/gare">Scegli la tua gara</button>
+          <p class="ob-nota">Indicazioni generali per runner amatoriali in salute: non sostituiscono medico, nutrizionista o allenatore.</p></article></div>
+      <div class="ob-bottom"><div class="ob-dots" aria-hidden="true">${[...slides, 0].map((_, i) => `<span class="${i ? "" : "on"}"></span>`).join("")}</div><button class="btn" id="ob-avanti" data-act="ob-avanti">Avanti</button></div></section>`;
+  }
+  function avviaBenvenuto() {
+    const tr = document.getElementById("ob-track");
+    if (!tr) return;
+    const dots = [...document.querySelectorAll(".ob-dots span")], av = document.getElementById("ob-avanti");
+    tr.addEventListener("scroll", () => {
+      const i = Math.round(tr.scrollLeft / tr.clientWidth);
+      dots.forEach((d, j) => d.classList.toggle("on", j === i));
+      av.style.visibility = i === dots.length - 1 ? "hidden" : "visible";
+    }, { passive: true });
+  }
+
   function vistaVuota() {
     return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(oggi()))}</span><h1>Ciao${S.profilo.nome ? ", " + esc(S.profilo.nome) : ""}</h1></div></header>
       <section class="card empty"><span class="title">Ti accompagno fino alla tua prossima gara</span>
@@ -490,6 +524,7 @@
         <form id="prova" style="display:flex;flex-direction:column;gap:10px"><div class="field"><label for="d-prova">Fai finta che oggi sia</label><input class="input" id="d-prova" type="date" value="${esc(S.prova)}"></div>
         <div class="grid2"><button class="btn" type="submit">Applica</button><button class="btn ghost" type="button" data-act="prova-off">Torna a oggi</button></div></form>
         <div id="reset-box" style="display:flex;flex-direction:column;gap:8px"><button class="btn ghost" type="button" data-act="reset-ask">Cancella tutti i miei dati</button></div></details>
+      <a class="btn ghost" href="#/benvenuto">Rivedi il tutorial</a>
       <p class="sub">Versione ${esc(window.RB_VERSION || "?")} · gare condivise: ${Object.keys(S.segnalate || {}).length} di ${S.gare.length}${S.erroreSegnala ? ` · ultimo errore: ${esc(S.erroreSegnala)}` : ""}</p>
       <p class="sub">I dati restano su questo telefono. Con il collegamento a Telegram si salveranno anche online.</p>`;
   }
@@ -504,6 +539,9 @@
     document.querySelectorAll("nav.tabs a").forEach((a) => a.setAttribute("aria-current", a.dataset.tab === ({ aggiungi: "gare", gara: "gare", checklist: "percorso", meteo: "oggi", pillole: "oggi" }[tab] || tab) ? "page" : "false"));
     if (D.errore) { $app.innerHTML = `<section class="card"><span class="title">Qualcosa non va</span><span class="small">${esc(D.errore)}</span></section>`; return; }
     let html;
+    const benvenuto = !S.benvenuto && !S.gare.length && (tab === "oggi" || tab === "benvenuto");
+    document.body.classList.toggle("onboarding", benvenuto);
+    if (benvenuto || tab === "benvenuto") { $app.innerHTML = vistaBenvenuto(); document.body.classList.add("onboarding"); avviaBenvenuto(); return; }
     switch (tab) {
       case "gare": html = vistaGare(param); break;
       case "aggiungi": html = vistaAggiungi(parts[1]); break;
@@ -534,6 +572,11 @@
       if (t.tagName === "INPUT") S.spunte[t.dataset.k] = t.checked; else S.spunte[t.dataset.k] = true;
       if (!S.spunte[t.dataset.k]) delete S.spunte[t.dataset.k];
       salva(); if (t.tagName !== "INPUT") toast("Fatto"); rerender();
+    } else if (act === "ob-avanti") {
+      const tr = document.getElementById("ob-track"); tr.scrollBy({ left: tr.clientWidth, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    } else if (act === "ob-fine") {
+      S.benvenuto = true; salva(); document.body.classList.remove("onboarding");
+      if (t.dataset.vai) location.hash = t.dataset.vai; else if (location.hash === "#/benvenuto") location.hash = "#/oggi"; else route();
     } else if (act === "gps") {
       usaGps(t);
     } else if (act === "letto") {

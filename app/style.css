@@ -119,3 +119,27 @@ details summary { cursor: pointer; font-weight: 700; color: var(--accent); min-h
 .btn.gps { gap: 6px; color: var(--accent); align-self: flex-start; }
 input[type="time"].input { appearance: none; -webkit-appearance: none; }
 details.card:not([open]) { padding-top: 2px; padding-bottom: 2px; }
+/* Benvenuto */
+body.onboarding nav.tabs { display: none; }
+body.onboarding { background: var(--navy); }
+body.onboarding .app { padding: 0; max-width: 480px; min-height: 100dvh; }
+.ob { min-height: 100dvh; display: flex; flex-direction: column; color: var(--navy-fg); padding-top: env(safe-area-inset-top, 0px); }
+.ob-top { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px 0; }
+.ob-logo { font: 700 22px var(--display); letter-spacing: .02em; color: var(--accent-on-dark); }
+.ob-salta { background: none; border: 0; color: var(--navy-muted); font-weight: 600; min-height: 44px; padding: 0 4px; cursor: pointer; }
+.ob-track { flex: 1; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.ob-track::-webkit-scrollbar { display: none; }
+.ob-slide { flex: 0 0 100%; scroll-snap-align: start; padding: 12px 24px 8px; display: flex; flex-direction: column; gap: 10px; justify-content: flex-end; }
+.ob-slide .eyebrow { color: var(--accent-on-dark); }
+.ob-slide h1 { font-size: 38px; line-height: 1; color: #fff; }
+.ob-slide p { margin: 0; color: var(--navy-muted); font-size: 17px; line-height: 1.45; }
+.ob-ill { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 220px; }
+.ob-mini { width: 100%; color: var(--fg); box-shadow: 0 18px 40px #0003; transform: rotate(-1.5deg); }
+.ob-mini .check { pointer-events: none; }
+.ob-countdown { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--navy-muted); font-weight: 600; }
+.ob-countdown .big { font-size: 120px; }
+.ob-bottom { display: flex; justify-content: space-between; align-items: center; padding: 12px 24px calc(20px + env(safe-area-inset-bottom, 0px)); }
+.ob-dots { display: flex; gap: 6px; }
+.ob-dots span { width: 8px; height: 8px; border-radius: 4px; background: #FFFFFF40; transition: width .2s; }
+.ob-dots span.on { width: 22px; background: var(--accent-on-dark); }
+.ob-nota { font-size: 13px !important; }
