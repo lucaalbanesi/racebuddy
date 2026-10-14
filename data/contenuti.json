@@ -1,0 +1,2633 @@
+{
+ "aggiornato": "2026-10-14",
+ "contenuti": [
+  {
+   "id": "54ce6a6660c0",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Una partita a tennis allena gambe, cuore e prontezza di riflessi",
+   "estratto": "Una partita a tennis rompe la traiettoria lineare della corsa, costringendo il tuo corpo a gestire decelerazioni violente e reazioni visive istantanee. Struttura metabolica…",
+   "link": "https://runlovers.it/2026/tennis-cross-training-gambe-cuore-riflessi/",
+   "data": "2026-10-14",
+   "immagine": null,
+   "argomenti": [
+    "allenamento",
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "dopo"
+   ]
+  },
+  {
+   "id": "e22930547bcd",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Tre atleti Brooks e la sfida dei 21K: il dietro le quinte della preparazione verso la Mezza Maratona di Roma",
+   "estratto": "Nicolò Bedini, Melissa Fracassini e Thomas D’Este ci accompagnano in un viaggio tra passione, infortuni e ripartenze condividendo consigli per superare i propri limiti",
+   "link": "https://www.runnersworld.com/it/vip/a74092748/tre-atleti-brooks-e-la-sfida-dei-21k-il-dietro-le-quinte-della-preparazione-verso-la-mezza-maratona-di-roma/",
+   "data": "2026-10-14",
+   "immagine": "https://hips.hearstapps.com/vidthumb/d27686f7-a310-4c02-8c0e-9212d27ed1bb/thumb_1920x1080.0000001.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
+   "id": "1ff4c5107e28",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Sono un nutrizionista: ecco cosa mangio prima di una mezza maratona",
+   "estratto": "Le mie 24 ore prima di una mezza maratona: tanti carboidrati, ma non necessariamente tante calorie. Il mio protocollo, dalla colazione alla linea di partenza.",
+   "link": "https://www.runnersworld.com/it/alimentazione/food-drink/a74127281/cosa-mangio-prima-mezza-maratona/",
+   "data": "2026-10-14",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/48f9d8a6-0362-4877-8339-8a4d425ce149.jpeg",
+   "argomenti": [
+    "rifornimento",
+    "alimentazione",
+    "gara"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "c58ad440a3f2",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Perdere peso con la corsa: 7 consigli degli esperti",
+   "estratto": "Tra dieta, intensità, forza e tanti altri suggerimenti di allenatori e dietologi esperti",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a74119932/perdere-peso-con-corsa-consigli/",
+   "data": "2026-10-14",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/0282a5f2-43da-474b-ab29-af40dcc0036c.jpeg",
+   "argomenti": [
+    "alimentazione",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
+   "id": "30feb7779424",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Leonardo Trulli Race, 10 km nel cuore della Valle d’Itria",
+   "estratto": "Trulli, vigneti e masserie, domenica 18 ottobre Locorotondo ospita la Leonardo Trulli Race, gara che unisce corsa, tradizioni pugliesi e scoperta del territorio",
+   "link": "https://www.runnersworld.com/it/eventi/a74124804/leonardo-trulli-race-corsa-gara-10-km-valle-itria/",
+   "data": "2026-10-14",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/valle-d-itria-trulli-half-marathon-1661348069.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "10"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "461e18701e7e",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "La corsa, da sport a spot. Quando l’immagine corre più veloce dei runner",
+   "estratto": "Si moltiplicano i casi di influecer sorpresi a imbrogliare nelle gare pur di riuscire a comunicare una \"super prestazione\". Riflessione sui valori dell'etica sportiva nell'epoca…",
+   "link": "https://www.runnersworld.com/it/news/a74127695/imbroglio-corsa-squalifica-runner-maratona-social-influencer/",
+   "data": "2026-10-14",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/1f16cf2c-00c2-45f9-bdc1-512a2ca602af.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "72f2884d2b2e",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Il giusto abbigliamento per correre in inverno",
+   "estratto": "Scopri cosa indossare per non dover rinunciare alla passione della corsa neanche con le temperature più rigide",
+   "link": "https://www.runnersworld.com/it/equipment/abbigliamento/a45626490/abbigliamento-per-correre-inverno/",
+   "data": "2026-10-14",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/women-running-on-snow-in-winter-royalty-free-image-1698156572.jpg",
+   "argomenti": [
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "3f30f2dce7be",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Gasato per il progetto! Gear Fuga è pazzesco!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/Rxv-ZQr0WNw",
+   "data": "2026-10-14",
+   "immagine": "https://i3.ytimg.com/vi/Rxv-ZQr0WNw/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "ada4b68ba1d6",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Esercizi di reattività per runner: il circuito per migliorare appoggio e coordinazione",
+   "estratto": "Per correre meglio non basta avere forza: bisogna imparare a usarla. Questo circuito migliora coordinazione, qualità dell'appoggio e rapidità del gesto di corsa",
+   "link": "https://www.runnersworld.com/it/allenamento/coach-del-mese-allenamenti/g74116860/esercizi-reattivita-runner-appoggio-coordinazione/",
+   "data": "2026-10-14",
+   "immagine": "https://hips.hearstapps.com/vidthumb/a716a0b6-ce95-4a1d-85d2-2c461b51ed7f/6e5852c0-0c9a-4bf4-931e-8e2d6110607a.png",
+   "argomenti": [
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "2e14abe38d83",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Come capisci se stai correndo in modo poco economico?",
+   "estratto": "Come capisci se stai correndo in modo poco economico? Guarda la cadenza (sotto i 165 passi al minuto è un campanello d'allarme), quanto…",
+   "link": "https://www.youtube.com/shorts/QYvTLPdqw1E",
+   "data": "2026-10-14",
+   "immagine": "https://i2.ytimg.com/vi/QYvTLPdqw1E/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "48fdd58ac256",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Cento passi al minuto per una camminata che allena il cuore",
+   "estratto": "Camminare a cento passi al minuto trasforma lo spostamento quotidiano in uno stimolo cardiovascolare misurabile, accessibile senza cardiofrequenzimetro. La durata della camminata…",
+   "link": "https://runlovers.it/2026/cento-passi-minuto-camminata-veloce-cuore/",
+   "data": "2026-10-14",
+   "immagine": null,
+   "argomenti": [
+    "allenamento",
+    "recupero",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "dopo"
+   ]
+  },
+  {
+   "id": "48f6e0b57a46",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Salire le scale ogni giorno protegge il cuore negli anni",
+   "estratto": "Salire regolarmente le scale attiva una risposta emodinamica immediata, associata a una significativa riduzione del rischio cardiovascolare sul lungo periodo. Cinque rampe al…",
+   "link": "https://runlovers.it/2026/salire-scale-ogni-giorno-cuore-longevita/",
+   "data": "2026-10-13",
+   "immagine": null,
+   "argomenti": [
+    "alimentazione",
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
+   "id": "8c822139dcff",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Nessuno ci ha mai insegnato a correre",
+   "estratto": "La bicicletta, il mare e la corsa che nessuno spiega Mio padre correva curvo, una mano sul sellino e l’altra a mezz’aria, pronta a riprendermi. Il cortile dietro casa era di…",
+   "link": "https://runlovers.it/2026/nessuno-insegnato-correre-adulti/",
+   "data": "2026-10-13",
+   "immagine": null,
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "c23ebc1288c2",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Neapolis Marathon, a Napoli i runner di 95 nazioni",
+   "estratto": "Sono oltre 8.000 i partecipanti alla Neapolis Marathon in programma domenica 18 ottobre. Per tutti una maglia che porta un messaggio speciale",
+   "link": "https://www.runnersworld.com/it/eventi/a74124560/neapolis-marathon-corsa-maratona-napoli-runner/",
+   "data": "2026-10-13",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/2ed9f170-cc59-4f71-9cb2-255fff03e3d6.jpeg",
+   "argomenti": [
+    "abbigliamento"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "f517b8b8adc2",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Navigare di notte in montagna: il mio orologio!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/NGW2HH97p5w",
+   "data": "2026-10-13",
+   "immagine": "https://i3.ytimg.com/vi/NGW2HH97p5w/hqdefault.jpg",
+   "argomenti": [
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "6a2d2ce564d8",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Mondiali Master di maratona, l'Italia vola con 5 medaglie: i risultati",
+   "estratto": "Nella rassegna iridata Master, gli atleti italiani fanno razzia di medaglie, conquistando anche due ori",
+   "link": "https://www.runnersworld.com/it/news/a74119078/mondiali-master-maratona-risultati/",
+   "data": "2026-10-13",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/1631e7bd-058a-493f-88e6-ad2cc56f653c.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "541684bb9809",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona di Chicago in pillole: 7 spunti da ricordare",
+   "estratto": "Chicago non ha regalato il record del mondo, ma la 48ª edizione è stata ricca di spunti: dal successo di Amos Kipruto ai numeri da primato dei finisher, fino alla sfida tra adidas…",
+   "link": "https://www.runnersworld.com/it/news/a74050288/maratona-chicago-spunti-ricordare/",
+   "data": "2026-10-13",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/cce87b31-19bc-4648-951d-af67c6a2ba89.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "f6d93b54c7a4",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Luca Parmitano: l'astronauta italiano che ha concluso un Mondiale Ironman",
+   "estratto": "Alle Hawaii, l'astronauta scrive un pezzo di storia chiudendo i Mondiali di Ironman in 10h27', due ore in meno del suo precedente record. \"Una giornata perfetta\"",
+   "link": "https://www.runnersworld.com/it/news/a74118950/luca-parmitano-astronauta-ironman/",
+   "data": "2026-10-13",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/03b453fa-2558-4db4-8d7e-9fcb74ef268a.jpeg",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "39d3337bd341",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Lessona (BI) – 1° Ecotrail, vincono Gazzetto e Giovando",
+   "estratto": "13 ottobre – Per la seconda domenica consecutiva di ottobre, il bellissimo borgo biellese di Lessona (BI) è stato protagonista assoluto nello sport offroad con l’Ecotrail del…",
+   "link": "https://podisti.net/lessona-bi-1-ecotrail-vincono-gazzetto-e-giovando/",
+   "data": "2026-10-13",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/Podio-M-lungo-300x150.jpg",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "f8325e2ba7dc",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Le gare da correre nel weekend del 18 ottobre",
+   "estratto": "Nel fine settimana dominato dalla Rome Half Marathon, il calendario è fittissimo di appuntament, con corse e distanze veramente per tutti",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74118986/gare-correre-nel-weekend-18-ottobre-2026/",
+   "data": "2026-10-13",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/e6c3eb0f-6e60-4489-9e1a-65dfbcc6197a.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "e65d73e61084",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "I-Marziani sono buoni",
+   "estratto": "Quando si parla degli abitanti di Marte e delle loro intenzioni, esistono due opposte correnti di pensiero. Dal romanzo “La Guerra dei Mondi”, e la successiva lettura in diretta…",
+   "link": "https://podisti.net/i-marziani-sono-buoni/",
+   "data": "2026-10-13",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/I-Marziani-Foto-dal-loro-profilo-Facebook-300x150.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "ab793d8e82a0",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "I migliori esercizi di stretching per runner per svegliarsi con energia al mattino",
+   "estratto": "I movimenti delicati favoriscono la circolazione, dando una spinta alla tua giornata",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a74115072/esercizi-stretching-energia/",
+   "data": "2026-10-13",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/5ce73c4c-169a-4cfa-9fdd-729cb9faf810.jpeg",
+   "argomenti": [
+    "alimentazione",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
+   "id": "70e80cef45a9",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Gli effetti del caffè su forza, resistenza e concentrazione",
+   "estratto": "La caffeina aiuta soprattutto negli sforzi lunghi e nell’attenzione, a patto di dosarla sul proprio peso, prenderla con il giusto anticipo e conoscere la propria soglia. Cosa fa…",
+   "link": "https://runlovers.it/2026/caffe-effetti-forza-resistenza-concentrazione/",
+   "data": "2026-10-13",
+   "immagine": null,
+   "argomenti": [
+    "allenamento",
+    "forza",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "f8a269249b52",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Dolore al ginocchio quando alleni la forza? 5 errori da evitare",
+   "estratto": "Gli esperti sostengono che il punto numero cinque sia più importante",
+   "link": "https://www.runnersworld.com/it/allenamento/esercizi/a74104792/dolore-ginocchio-allenamento-forza-runner/",
+   "data": "2026-10-13",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/88b51ae6-7ea0-4a76-82be-cf187fdf8881.jpg",
+   "argomenti": [
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "0ab001123bcf",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Carboidrati durante la corsa: quanti grammi all’ora?",
+   "estratto": "Carboidrati durante la corsa: quanti grammi all’ora servono davvero? Dal gel alla borraccia: cosa dicono una meta-analisi di 50 studi e le ricerche sulla dose-risposta. E perché…",
+   "link": "https://podisti.net/carboidrati-durante-la-corsa-quanti-grammi-allora/",
+   "data": "2026-10-13",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/ART.12-Scienza-dei-carboidrati-nella-corsa-300x200.png",
+   "argomenti": [
+    "rifornimento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico"
+   ]
+  },
+  {
+   "id": "7d8c41a808ef",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Tempesta colpisce gara di trail, settanta runner portati in salvo",
+   "estratto": "In passato un episodio simile, con conseguenze tragiche, era avvenuto in Cina",
+   "link": "https://www.runnersworld.com/it/news/a74105204/moab-240-tempesta/",
+   "data": "2026-10-12",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/96d84dd4-544c-4ceb-a93b-e030e795d0b1.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "77f400b14bdb",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Sicurezza in montagna: l'importanza dell'attrezzatura!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/EOfEDQrVsoQ",
+   "data": "2026-10-12",
+   "immagine": "https://i2.ytimg.com/vi/EOfEDQrVsoQ/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "f4f569f47f98",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Premio Fair-Play della settimana a Gaspard Cothias-Faure",
+   "estratto": "Settimana scorsa ci eravamo concentrati su due furbetti, o meglio sui loro censurabili comportamenti: una influencer che saliva in bicicletta durante una maratona ed un…",
+   "link": "https://podisti.net/premio-fair-play-della-settimana-a-gaspard-cothias-faure/",
+   "data": "2026-10-12",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/Foto-da-profilo-Facebook-Stadion-300x150.jpg",
+   "argomenti": [
+    "rifornimento",
+    "gara"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "b651bfc43654",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Milano e il DNA sempre più runningcentrico: i segreti del boom",
+   "estratto": "Lo dicono i numeri e lo confermano il calendario di eventi annuali sempre più fitto e la crescente partecipazione di runner provenienti dall’estero",
+   "link": "https://www.runnersworld.com/it/news/a74104840/milano-eventi-corsa/",
+   "data": "2026-10-12",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/23350e1d-8342-4d85-9b27-b92dcd64c91a.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "3b1d513befae",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "La sindrome dell’impostore e come ridimensionarla al lavoro",
+   "estratto": "Credere che i tuoi risultati siano casuali impoverisce il lavoro: identificare questa distorsione permette di sostituire l’ansia con verifiche oggettive. L’esperienza…",
+   "link": "https://runlovers.it/2026/sindrome-impostore-lavoro-riconoscerla/",
+   "data": "2026-10-12",
+   "immagine": null,
+   "argomenti": [
+    "mente",
+    "racconti",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "d7c21e491e0a",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "La regola dei dieci gradi per vestirsi a correre quando fa freddo",
+   "estratto": "Se sul marciapiede non senti un principio di freddo, hai addosso troppi strati e finirai l’uscita zuppo di sudore. Il corpo sotto sforzo produce calore equivalente a un’aria…",
+   "link": "https://runlovers.it/2026/regola-dieci-gradi-vestirsi-correre-freddo/",
+   "data": "2026-10-12",
+   "immagine": null,
+   "argomenti": [
+    "mente",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "83f37046acd5",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Gli esercizi per avere addominali e core più forti, utili anche ai runner",
+   "estratto": "Non servono centinaia di crunch per allenare gli addominali. Un personal trainer indica gli esercizi per rafforzare il core, migliorare equilibrio e postura",
+   "link": "https://www.runnersworld.com/it/allenamento/indoor/g74022681/esercizi-addominali-core-runner/",
+   "data": "2026-10-12",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/53b525e5-7e89-4f4c-ad5b-d23317524c08.jpeg",
+   "argomenti": [
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "6b55d77ab8d3",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Functional training: allenare i gesti di ogni giorno",
+   "estratto": "Il functional training parte dai movimenti della giornata e li allena uno per uno: sei esercizi, dalla versione a corpo libero a quella con carico, per comporre due sedute da…",
+   "link": "https://runlovers.it/2026/functional-training-esercizi-gesti-quotidiani/",
+   "data": "2026-10-12",
+   "immagine": null,
+   "argomenti": [
+    "alimentazione",
+    "allenamento",
+    "forza",
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico",
+    "dopo"
+   ]
+  },
+  {
+   "id": "61210e2bd299",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Francesca Bertoni è tornata: dalle siepi alla vittoria nell’Hyrox con record italiano",
+   "estratto": "Dai titoli italiani nei 3000 siepi agli infortuni, fino alla vittoria nell’Hyrox di Roma con Christine Santi e al record italiano: Francesca Bertoni racconta il suo ritorno alle…",
+   "link": "https://www.runnersworld.com/it/vip/a74108596/francesca-bertoni-hyrox-record-italiano/",
+   "data": "2026-10-12",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/938d0fbd-4fdb-4a9f-aaa7-0e585410bfa5.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "b8876f70ec9f",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Foliage nel Lazio: faggete, laghi e sentieri dove vivere l'autunno a due passi da Roma",
+   "estratto": "Passeggiate tra boschi variopinti, borghi storici e panorami unici per vivere l’autunno nel cuore della regione",
+   "link": "https://www.runnersworld.com/it/travel/a65979212/foliage-lazio-cammini-autunno/",
+   "data": "2026-10-12",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/cac78d30-27b4-4951-84f9-ddc62bd51691.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "5106278b3c6b",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Foliage in Campania: boschi, borghi e sentieri per un autunno diverso dal solito",
+   "estratto": "Non solo mare, sole e pizza… la regione di Napoli incanta anche quando l’estate termina e le foglie iniziano a cadere",
+   "link": "https://www.runnersworld.com/it/travel/a66021605/foliage-campania-cammini-autunno/",
+   "data": "2026-10-12",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/b832f4ab-dd8b-4c3a-a9e9-32da22d7ac91.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
+   "id": "c82087270876",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Cosa non fare la settimana prima della maratona: 8 errori comuni",
+   "estratto": "Proteggi i frutti di mesi di allenamento con i consigli degli esperti, per una settimana di gara più agevole e ricca di successi",
+   "link": "https://www.runnersworld.com/it/allenamento/maratona/a74043564/cosa-non-fare-settimana-prima-maratona/",
+   "data": "2026-10-12",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/2c23fb65-5ccf-4e9a-884b-800a8a25abf8.jpg",
+   "argomenti": [
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
+   "id": "042e7a57c96c",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Come allenarsi per una maratona pianeggiante: 5 modi per correre forte fino al traguardo",
+   "estratto": "Sviluppa la disciplina nel gestire il ritmo, la resistenza muscolare e la sicurezza specifica per il percorso, in modo da mantenere un andamento costante per 42 chilometri",
+   "link": "https://www.runnersworld.com/it/allenamento/maratona/a74102952/maratona-pianeggiante-come-allenarsi/",
+   "data": "2026-10-12",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/0b1e0062-3df8-47b7-818a-460be0e7e379.jpg",
+   "argomenti": [
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "09b5c2d391f2",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Abbiamo provato il PACE 4 Pro: com’è il nuovo sportwatch COROS per runner",
+   "estratto": "Display AMOLED da 1,47 pollici, ghiera in titanio, vetro zaffiro e 60 ore di autonomia GPS: abbiamo provato il nuovo sportwatch premium di COROS",
+   "link": "https://www.runnersworld.com/it/equipment/tech/a74087445/coros-pace-4-pro-recensione-sportwatch/",
+   "data": "2026-10-12",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/39901eea-0169-4f18-91fa-89d89adf5c50.jpg",
+   "argomenti": [
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "e0e6a000d2a7",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Val Bregaglia Trail, si corre tra Svizzera e Italia per il titolo tricolore",
+   "estratto": "Il Val Bregaglia Trail festeggia la decima edizione con i Campionati italiani di corsa in montagna a staffetta: un weekend di gare tra Svizzera e Italia, sullo stesso percorso dei…",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74089459/val-bregaglia-trail-2026/",
+   "data": "2026-10-11",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/6d8b52be-2cf3-42b5-8cc0-aaca60794784.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "c1efffc85589",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Trani (BT) – 16^ Tranincorsa Half marathon, vincono Selvarolo e Martinelli",
+   "estratto": "11 ottobre – La solita festa sportiva, forse ancor più bella, più forte delle avverse condizioni climatiche di questo fine settimana in Puglia. Stamattina Trani ha ospitato la…",
+   "link": "https://podisti.net/trani-bt-16-tranincorsa-half-marathon-vincono-selvarolo-e-marinelli/",
+   "data": "2026-10-11",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/0001b-1-1-300x150.jpg",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "1a2a23d0dcee",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "San Pancrazio (RA) – Trofeo dell’Uva, Bianco e Ferretti vincono la 21km",
+   "estratto": "11 ottobre – Appuntamento storico quello vissuto a San Pancrazio (RA) dove il locale Trofeo dell’Uva ha vissuto il suo cinquantenario, richiamando tantissimi appassionati per una…",
+   "link": "https://podisti.net/san-pancrazio-ra-trofeo-delluva-bianco-e-ferretti-vincono-la-21km/",
+   "data": "2026-10-11",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/21_Km_1_uomo_arrivo_Poli_DSC0925-300x150.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "8d159005d2e4",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Pancia piatta e six-pack: un mese di allenamento e alimentazione",
+   "estratto": "Gli addominali ci sono già: per vederli bisogna assottigliare lo strato che li copre, e lo strato cala solo quando forza, movimento quotidiano e alimentazione lavorano insieme…",
+   "link": "https://runlovers.it/2026/programma-mensile-pancia-piatta-six-pack/",
+   "data": "2026-10-11",
+   "immagine": null,
+   "argomenti": [
+    "alimentazione",
+    "allenamento",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
+   "id": "c804dd7cd70e",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Metodo corsa-camminata: le 2 abilità da padroneggiare per migliorare i tuoi tempi",
+   "estratto": "Esegui questo semplice esercizio ogni settimana per risparmiare energia, ritardare l'affaticamento muscolare e concludere al meglio ogni sessione di corsa/camminata.",
+   "link": "https://www.runnersworld.com/it/allenamento/corsa-principianti/a74087118/corsa-camminata-abilita-migliorare-tempi/",
+   "data": "2026-10-11",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/7c4e74e0-03b6-4a35-b967-848522eae5c8.jpeg",
+   "argomenti": [
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "2777aa50bac8",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona di Chicago, Kipruto sorprende Kiplimo e diventa il quinto uomo di sempre",
+   "estratto": "Gara clamorosa per il keniano che pareggia il tempo di Kipchoge, crolla Kiplimo che finisce fuori dal podio",
+   "link": "https://www.runnersworld.com/it/news/a74102117/maratona-chicago-kipruto-kiplimo-risultati/",
+   "data": "2026-10-11",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/88a6bc24-cf2f-490a-a995-31a1e4112bfe.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "scarico"
+   ]
+  },
+  {
+   "id": "dbc6a90337db",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona di Chicago 2026: i risultati degli italiani",
+   "estratto": "Tantissimi gli italiani in gara alla Maratona di Chicago ed ecco come sono andati",
+   "link": "https://www.runnersworld.com/it/news/a74102212/maratona-chicago-2026-risultati-italiani/",
+   "data": "2026-10-11",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/8be7d53b-d54f-42fd-8cb2-9b2a65353392.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "gara"
+   ]
+  },
+  {
+   "id": "dff35a09e185",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Le scarpe che hanno dominato la Maratona di Chicago 2026",
+   "estratto": "Dopo il dominio di adidas a Berlino, a Chicago quali sono state le calzature usate dagli atleti più veloci?",
+   "link": "https://www.runnersworld.com/it/scarpe/scarpe-running/a74102966/scarpe-maratona-chicago-2026/",
+   "data": "2026-10-11",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/76a57572-9fd3-46f1-b9b4-5b23fef610e3.jpeg",
+   "argomenti": [
+    "scarpe",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "d255b220a0a8",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Kipchoge torna a vincere. A 41 anni conquista Melbourne e rilancia la sfida ai giovani",
+   "estratto": "Dopo tre anni Eliud Kipchoge torna a vincere una maratona. Domina a Melbourne e fa il record del percorso. Un messaggio alla gen Z: \"Il mio corpo è ancora al massimo\"",
+   "link": "https://www.runnersworld.com/it/news/a74101086/kipchoge-vittoria-maratona-41-anni-melbourne-corsa/",
+   "data": "2026-10-11",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/dd3bd5d4-b30d-483b-b3d9-371fc9210c61.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "c6c011fdfbcc",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Gorizia – Doppietta keniana alla 1^ Go & Go Half Marathon",
+   "estratto": "11 ottobre – Gorizia ha ritrovato il suo meritato spazio fra le grandi classiche della mezza maratona. Raccogliendo l’eredità della Maratonina Transfrontaliera, la Go & Go Half…",
+   "link": "https://podisti.net/gorizia-doppietta-keniana-alla-1-go-go-half-marathon/",
+   "data": "2026-10-11",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/Vincitore-300x150.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "0b41c0b3baff",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Dopo la maratona non c’è più niente da preparare",
+   "estratto": "La gara finisce in una mattina e lascia una casa silenziosa, dove la vera fatica comincia quando non devi più allacciarti le scarpe. La sveglia delle sei suona a vuoto, lasciando…",
+   "link": "https://runlovers.it/2026/dopo-la-maratona-non-ce-piu-niente-da-preparare/",
+   "data": "2026-10-11",
+   "immagine": null,
+   "argomenti": [
+    "scarpe",
+    "allenamento",
+    "gara",
+    "racconti"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "dopo"
+   ]
+  },
+  {
+   "id": "d3ebc4ab7ca2",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "David Nikolli e Ilaria Bergaglio vincono la CorriPavia Half Marathon",
+   "estratto": "Pavia 11 ottobre – Una tradizionale giornata di ottobre si è svegliata su una Pavia in festa, pacificamente invasa da migliaia tra atleti, famiglie e bambini, un allegro fiume…",
+   "link": "https://podisti.net/david-nikolli-e-ilaria-bergaglio-vincono-la-corripavia-half-marathon/",
+   "data": "2026-10-11",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/Corripavia-partenza-300x150.jpg",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [
+    "21",
+    "10"
+   ],
+   "fasi": [
+    "gara"
+   ]
+  },
+  {
+   "id": "d9018ad68a31",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Cosa succede se lavori un mese sulla tecnica di corsa e poi misuri tutto con Stryd?",
+   "estratto": "Cosa succede se lavori un mese sulla tecnica di corsa e poi misuri tutto con Stryd? Stessa potenza (244 watt medi), stessi battiti, ma il…",
+   "link": "https://www.youtube.com/shorts/IfsApW6Z9ks",
+   "data": "2026-10-11",
+   "immagine": "https://i2.ytimg.com/vi/IfsApW6Z9ks/hqdefault.jpg",
+   "argomenti": [
+    "scarpe"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "97dbd51ee5fe",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Corsa e stretching: quanto dura la flessibilità del runner",
+   "estratto": "Quanto dura la flessibilità se un runner smette di fare stretching? Gli studi indicano dopo quanto tempo la mobilità inizia a diminuire",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a74081324/stretching-flessibilita-runner/",
+   "data": "2026-10-11",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/124fce4f-21c1-4007-bb94-69918158a5d1.jpeg",
+   "argomenti": [
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "02a681ee9858",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Corsa 100km tra i lupi! Test luci notturne!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/r1vVba7lFBQ",
+   "data": "2026-10-11",
+   "immagine": "https://i3.ytimg.com/vi/r1vVba7lFBQ/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "7f0d841644c0",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Al Circuito dell’Acciaio terza vittoria per Diomandé e prima per Tamburi",
+   "estratto": "11 ottobre – Ancora una volta Terni ha vissuto una domenica dedicata alla corsa, mettendo per qualche ora da parte il traffico e lo stress quotidiano. Non è certamente un caso se…",
+   "link": "https://podisti.net/al-circuito-dellacciaio-terza-vittoria-per-diomande-e-prima-per-tamburi/",
+   "data": "2026-10-11",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/CIRCUITO-DELLACCIAIO-300x150.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "83711c58a8ed",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Rome Half Marathon al via: 40mila runner corrono nella storia della Capitale",
+   "estratto": "Sold out già a luglio, la mezza maratona del 18 ottobre porterà 40mila runner tra i luoghi più iconici di Roma. Il 78% degli iscritti arriva dall’estero",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74070821/rome-half-marathon-2026/",
+   "data": "2026-10-10",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/d7808c54-8f21-4a41-83fb-e9d58cb27a7f.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "ad30873916ea",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Per una settimana la città appartiene alla maratona",
+   "estratto": "La maratona supera il rito della domenica mattina, trasformando i quartieri urbani in un palcoscenico occupato per un’intera settimana. La maratona supera il confine temporale…",
+   "link": "https://runlovers.it/2026/maratona-settimana-citta-eventi-londra-berlino/",
+   "data": "2026-10-10",
+   "immagine": null,
+   "argomenti": [
+    "scarpe",
+    "allenamento",
+    "gara",
+    "abbigliamento"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "e58e5af993cd",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona, non contano solo i carboidrati: il ruolo delle proteine",
+   "estratto": "Come assicurarti di avere abbastanza energia in vista del giorno della gara",
+   "link": "https://www.runnersworld.com/it/alimentazione/food-drink/a74088736/maratona-carboidrati-proteine/",
+   "data": "2026-10-10",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/e4cee7d3-f6f7-4129-9889-94293f9040fb.jpg",
+   "argomenti": [
+    "rifornimento",
+    "alimentazione",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "3bb3c80fdef9",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Il metodo norvegese della soglia per chi corre tre volte a settimana",
+   "estratto": "Dal metodo norvegese, chi corre tre volte a settimana può prendere in prestito un’idea sola: lavorare appena sotto la soglia, a frazioni, senza mai andare oltre. Da dove viene il…",
+   "link": "https://runlovers.it/2026/metodo-norvegese-soglia-tre-uscite-settimana/",
+   "data": "2026-10-10",
+   "immagine": null,
+   "argomenti": [
+    "allenamento",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "97d4ec0f5312",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Il calcetto tra amici come cross training per cuore e gambe",
+   "estratto": "Un’ora di calcio a cinque spinge il cuore oltre l’ottanta per cento del massimale, trasformando una partita tra amici in una sessione anaerobica molto impegnativa. La frequenza…",
+   "link": "https://runlovers.it/2026/calcetto-cross-training-cuore-gambe/",
+   "data": "2026-10-10",
+   "immagine": null,
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "e57cc1c189fc",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Fitta al fianco durante la corsa: perché viene e come farla passare",
+   "estratto": "La fitta sotto le costole è generalmente innocua e non dipende dalla disidratazione o dalla scarsa forma fisica. Gli esperti spiegano cause, prevenzione e rimedi",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a74081961/fitta-fianco-corsa/",
+   "data": "2026-10-10",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/90dc49f0-cd02-49b9-9956-6c36994dbda4.jpeg",
+   "argomenti": [
+    "rifornimento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico"
+   ]
+  },
+  {
+   "id": "cd7beb8b74a8",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Dentro il metodo norvegese: perché la Norvegia domina negli sport di endurance",
+   "estratto": "Scienza, cultura sportiva e allenamento: ecco cosa c’è davvero dietro il metodo norvegese e i successi della Norvegia negli sport di endurance",
+   "link": "https://www.runnersworld.com/it/allenamento/a74079562/metodo-norvegese-sport-endurance/",
+   "data": "2026-10-10",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/a02a125b-95f8-4bec-b54c-6d17ec3e103f.jpeg",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "8548179c10e7",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Dalla marcia alla corsa, la nuova vita di Vittoria Di Dato: \"Mi sento libera\"",
+   "estratto": "Dalla maglia azzurra nella marcia alla corsa, Vittoria Di Dato ha ritrovato la libertà di correre senza pressioni",
+   "link": "https://www.runnersworld.com/it/vip/a74029605/vittoria-di-dato-corsa-marcia/",
+   "data": "2026-10-10",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/ec98ac97-62ae-4447-9b6a-98d0e45f27be.jpg",
+   "argomenti": [
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "d38cb8b275e2",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Corsa 100km nelle Dolomiti: buio, lupi e pericoli!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/sGA0gmSKlno",
+   "data": "2026-10-10",
+   "immagine": "https://i4.ytimg.com/vi/sGA0gmSKlno/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "d5cd2a3bdff4",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Spartan torna a Milano: arriva la nuova City Race all’Idroscalo",
+   "estratto": "La competizione internazionale di corsa a ostacoli aprirà la stagione italiana 2027 con una nuova destinazione e una giornata interamente dedicata a sport e community",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74087417/spartan-race-milano-2027/",
+   "data": "2026-10-09",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/e81ab061-bcbb-423e-be94-93837fbe05d8.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "76aa88693d77",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Qual è il tuo rituale che rende la corsa qualcosa di più di un semplice sport?",
+   "estratto": "Che colazione fare prima della gara? Che scarpe usare il giorno della gara? Come mangiare durante la gara? Semplice, come faresti nei tuoi…",
+   "link": "https://www.youtube.com/shorts/YrXSuheAgsA",
+   "data": "2026-10-09",
+   "immagine": "https://i2.ytimg.com/vi/YrXSuheAgsA/hqdefault.jpg",
+   "argomenti": [
+    "alimentazione",
+    "scarpe",
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "ec5fa4930456",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "New Balance SC Elite v6, la superscarpa da gara cambia passo",
+   "estratto": "New Balance ha rinnovato la sua scarpa da maratona più veloce. SC Elite v6 è una vera superscarpa pensata per il giorno della gara e per i runner efficienti che puntano alla…",
+   "link": "https://www.runnersworld.com/it/scarpe/scarpe-running/a73849510/new-balance-sc-elite-v6-super-scarpe-corsa-gara/",
+   "data": "2026-10-09",
+   "immagine": "https://hips.hearstapps.com/vidthumb/7b122c3c-1e8e-48a4-8e3e-cd72d136fb24/3476827c-1241-4612-a3e8-9b632af5a9d7.jpg",
+   "argomenti": [
+    "scarpe",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "gara"
+   ]
+  },
+  {
+   "id": "71c92d3098cb",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Mondiale Ironman di Kona, la corsa può decidere tutto: i favoriti e i runner più forti",
+   "estratto": "Alla vigilia della gara delle Hawaii che ha di fatto creato il triathlon, vediamo chi sono i favoriti e chi nella frazione di corsa cercherà di fare la differenza",
+   "link": "https://www.runnersworld.com/it/news/a74091500/favoriti-ironman-kona/",
+   "data": "2026-10-09",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/939d1cb4-ef67-47e7-8f7c-7279cfbad447.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "scarico"
+   ]
+  },
+  {
+   "id": "73b24f36913d",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona di Chicago 2026: dove vederla in tv e streaming",
+   "estratto": "Kiplimo va a caccia del record del mondo: ecco dove seguire la Maratona di Chicago in tv e streaming",
+   "link": "https://www.runnersworld.com/it/news/a74048788/maratona-chicago-2026-dove-vederla-tv-streaming/",
+   "data": "2026-10-09",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/3bdbbba6-55cf-4088-9578-0e61d5c77490.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "347a7f617b7f",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "La medaglia della Maratona di New York non è mai stata così grande",
+   "estratto": "Un omaggio ai cinque distretti da cui passa la major, per il suo 50° anniversario",
+   "link": "https://www.runnersworld.com/it/news/a74091283/medaglia-maratona-new-york/",
+   "data": "2026-10-09",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/8aa5a532-3ebb-417a-b827-ac214c0b6326.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "69f59184f662",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Gli esercizi per rinforzare la presa di mani e avambracci",
+   "estratto": "La presa è il primo anello a cedere sotto un carico, e si rinforza con pochi esercizi mirati da mettere in coda alla seduta, a casa come in palestra. Perché mani e avambracci…",
+   "link": "https://runlovers.it/2026/esercizi-rinforzare-presa-mani-avambracci/",
+   "data": "2026-10-09",
+   "immagine": null,
+   "argomenti": [
+    "allenamento",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "67353f48ccdf",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Fuga X330 Grip Fotonico: Testato su fango e pioggia!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/URKWPZBbIUA",
+   "data": "2026-10-09",
+   "immagine": "https://i2.ytimg.com/vi/URKWPZBbIUA/hqdefault.jpg",
+   "argomenti": [
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "96c874d45237",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Dove camminare nel foliage d’autunno, cinque boschi italiani",
+   "estratto": "Cinque camminate di un giorno nelle faggete vetuste italiane, per capire quando la quota trasforma il bosco e scegliere il sentiero corretto. I faggi scandiscono l’autunno montàno…",
+   "link": "https://runlovers.it/2026/foliage-camminate-boschi-autunno-italia/",
+   "data": "2026-10-09",
+   "immagine": null,
+   "argomenti": [
+    "allenamento",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "00bf0856de96",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Cosa mangiare e bere durante le lunghe uscite di trail",
+   "estratto": "La crisi di metà uscita si decide nella prima ora, quando non hai ancora fame: si evita mangiando presto e a piccole dosi regolari, e bevendo senza aspettare la sosta lunga…",
+   "link": "https://runlovers.it/2026/alimentazione-idratazione-uscite-lunghe-trail/",
+   "data": "2026-10-09",
+   "immagine": null,
+   "argomenti": [
+    "rifornimento",
+    "alimentazione",
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "e53b775fe72c",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Vitamina D in autunno: cosa fare quando il sole non basta",
+   "estratto": "Quando la luce d’autunno taglia l’orizzonte di sbieco, la sintesi cutanea di vitamina D rallenta: la risposta corretta sta nel consulto medico, non negli scaffali degli…",
+   "link": "https://runlovers.it/2026/vitamina-d-autunno-sole-carenza/",
+   "data": "2026-10-08",
+   "immagine": null,
+   "argomenti": [
+    "rifornimento",
+    "alimentazione"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico"
+   ]
+  },
+  {
+   "id": "d5873bc9ef05",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Quando il punteggio del sonno toglie il sonno",
+   "estratto": "Sessantadue prima di aprire gli occhi La mano arriva al comodino prima che io sappia di essere sveglio. Le dita tastano il legno nel buio, trovano il telefono sotto il filo del…",
+   "link": "https://runlovers.it/2026/punteggio-sonno-ortosonnia-wearable/",
+   "data": "2026-10-08",
+   "immagine": null,
+   "argomenti": [
+    "allenamento",
+    "forza",
+    "recupero",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "dopo"
+   ]
+  },
+  {
+   "id": "3768f0bf7549",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Panorama Mozzafiato: Si Vede Già uno Spiraglio!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/kUBKCAQQrcM",
+   "data": "2026-10-08",
+   "immagine": "https://i4.ytimg.com/vi/kUBKCAQQrcM/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "1e8152d9d5ec",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "NESSUN AIUTO, SOLO LA NOTTE: COME MI PREPARO ALLA 100K 💯 | VERSO LA 100K #3",
+   "estratto": "#100km #trailrunning #DolomitiFriulane Terzo episodio della mia sfida verso i 100 KM. Questa volta ho deciso di affrontare 15 km di corsa…",
+   "link": "https://www.youtube.com/watch?v=ORBzj0RN3Wo",
+   "data": "2026-10-08",
+   "immagine": "https://i4.ytimg.com/vi/ORBzj0RN3Wo/hqdefault.jpg",
+   "argomenti": [
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "gara"
+   ]
+  },
+  {
+   "id": "1974e7536a5b",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Le posizioni yoga per sciogliere le anche rigide dopo ore seduti",
+   "estratto": "Cinque movimenti controllati sul pavimento di casa per liberare le anche dopo ore di sedia, ripristinando la mobilità articolare senza dispersioni. La permanenza sulla sedia fissa…",
+   "link": "https://runlovers.it/2026/yoga-anche-rigide-posizioni-seduti/",
+   "data": "2026-10-08",
+   "immagine": null,
+   "argomenti": [
+    "alimentazione",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
+   "id": "9ea52c4c6db1",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Il LUNGHISSIMO MARATONA - La mia routine 37km",
+   "estratto": "Il lungo del fine settimana è l'allenamento che non salto mai. In questo video vi porto con me per 37 km: dal rituale della sera prima ai…",
+   "link": "https://www.youtube.com/watch?v=tPuA2Pq4o3o",
+   "data": "2026-10-08",
+   "immagine": "https://i1.ytimg.com/vi/tPuA2Pq4o3o/hqdefault.jpg",
+   "argomenti": [
+    "scarpe",
+    "allenamento",
+    "gara",
+    "abbigliamento"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "7d0cb75b7893",
+   "tipo": "video",
+   "fonte": "Andrea Vignone",
+   "fonteId": "yt_crazyvigno",
+   "titolo": "ANDRÒ ALLA DAKAR?!? | Tutto sul nuovo WHIP 4.0 + SCONTO SPECIALE",
+   "estratto": "NOVITA' DAKAR E AGGIORNAMENTO APP WHIP LIVE + SCONTO SPECIALE WHIP 4.0 È ARRIVATO… MA LA DOMANDA È UNA SOLA: ANDRÒ ALLA DAKAR?!? 🏁🔥 🔥 WHIP…",
+   "link": "https://www.youtube.com/watch?v=xEeceXmy_ow",
+   "data": "2026-10-08",
+   "immagine": "https://i1.ytimg.com/vi/xEeceXmy_ow/hqdefault.jpg",
+   "argomenti": [
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "d91bce969df2",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Zaino per 100km in solitaria: spazio per tutto?",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/FNzrEc0-mlM",
+   "data": "2026-10-07",
+   "immagine": "https://i3.ytimg.com/vi/FNzrEc0-mlM/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "5c43d898f253",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Respirare a narici alternate per calmarsi prima di dormire",
+   "estratto": "Un gesto meccanico delle dita e un flusso d’aria controllato assegnano all’attenzione un compito preciso, riducendo frequenza cardiaca e tensione prima del sonno. Spegnere la luce…",
+   "link": "https://runlovers.it/2026/respirazione-narici-alternate-sonno/",
+   "data": "2026-10-07",
+   "immagine": null,
+   "argomenti": [
+    "recupero",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico",
+    "gara",
+    "dopo"
+   ]
+  },
+  {
+   "id": "ae52173fecb0",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Più ti alleni senza recuperare, più aumenti il rischio di infortunarti e perdere mesi di preparazion",
+   "estratto": "Più ti alleni senza recuperare, più aumenti il rischio di infortunarti e perdere mesi di preparazione. Guarda l'ultimo video per scoprire…",
+   "link": "https://www.youtube.com/shorts/JzA3fY1j0Ic",
+   "data": "2026-10-07",
+   "immagine": "https://i3.ytimg.com/vi/JzA3fY1j0Ic/hqdefault.jpg",
+   "argomenti": [
+    "allenamento",
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "dopo"
+   ]
+  },
+  {
+   "id": "62432ed73358",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Mucca al Pascolo in Montagna: Che Spettacolo!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/JvCNEaaDu_Q",
+   "data": "2026-10-07",
+   "immagine": "https://i3.ytimg.com/vi/JvCNEaaDu_Q/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "3fa50b0ebc0a",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "La corsa sui social è tutta uguale",
+   "estratto": "Il pollice dopo cena Ho cenato tardi e le gambe sono ancora fredde dentro, di quel freddo che resta nei muscoli dopo quaranta minuti di pioggia presa lungo l’argine. Sul divano il…",
+   "link": "https://runlovers.it/2026/creator-corsa-social-comunicazione-appiattimento/",
+   "data": "2026-10-07",
+   "immagine": null,
+   "argomenti": [
+    "scarpe",
+    "allenamento",
+    "forza",
+    "gara"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "1111c5dd9e5e",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Hip thrust: la tecnica per allenare i glutei anche a casa",
+   "estratto": "Con le spalle appoggiate al bordo del divano e il bacino che sale fino a distendere l’anca, la fatica si concentra sui glutei proprio nel tratto in cui lavorano di più. Cosa…",
+   "link": "https://runlovers.it/2026/hip-thrust-tecnica-glutei-casa/",
+   "data": "2026-10-07",
+   "immagine": null,
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "cfc230963132",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Tre scarpe da gara Nike per tre obiettivi, da Swooshfly ad Apex",
+   "estratto": "Nike ha strutturato le sue scarpe da gara in base alla gara che stai preparando: Swooshfly per cominciare, Alphafly 4 per il personale in maratona, Apex per chi si gioca i…",
+   "link": "https://runlovers.it/2026/nike-apex-alphafly-swooshfly-scarpe-gara-obiettivi/",
+   "data": "2026-10-06",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/nike-system-speed-foto-02.jpg?resize=1160%2C773&#038;quality=75&#038;ssl=1",
+   "argomenti": [
+    "scarpe",
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "ac3190d27401",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "L’effetto Zeigarnik e i compiti a metà che non ci lasciano staccare",
+   "estratto": "I compiti lasciati a metà consumano energia mentale fino a notte fonda, ma un piano preciso puoi aiutarti a disperdere forze inutili. Un compito interrotto mantiene il cervello in…",
+   "link": "https://runlovers.it/2026/effetto-zeigarnik-compiti-meta-staccare/",
+   "data": "2026-10-06",
+   "immagine": null,
+   "argomenti": [
+    "recupero",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "scarico",
+    "gara",
+    "dopo"
+   ]
+  },
+  {
+   "id": "31dbb4567776",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Il sesto segno vitale è la velocità con cui cammini",
+   "estratto": "La velocità con cui ti sposti ogni giorno misura l’efficienza integrata del tuo corpo, rivelando il tuo stato di salute biologica. La velocità del cammino misura l’azione…",
+   "link": "https://runlovers.it/2026/velocita-cammino-sesto-segno-vitale-longevita/",
+   "data": "2026-10-06",
+   "immagine": null,
+   "argomenti": [
+    "allenamento",
+    "forza",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "2446656d46db",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Il SEGRETO è il RECUPERO: se non recuperi non migliori - PODCAST",
+   "estratto": "L'allenamento non è solo spingere al massimo sull'acceleratore. Se vuoi davvero migliorare ed evitare gli infortuni, devi capire come…",
+   "link": "https://www.youtube.com/watch?v=7-oKBTldjmg",
+   "data": "2026-10-06",
+   "immagine": "https://i4.ytimg.com/vi/7-oKBTldjmg/hqdefault.jpg",
+   "argomenti": [
+    "alimentazione",
+    "scarpe",
+    "allenamento",
+    "recupero"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara",
+    "dopo"
+   ]
+  },
+  {
+   "id": "0312a6f29bd7",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Follia! Collaborazione con un Brand Top! 🚀",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/jdniJgOq6v4",
+   "data": "2026-10-06",
+   "immagine": "https://i3.ytimg.com/vi/jdniJgOq6v4/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "0b434f7829d3",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "48km, gambe cotte: Non si molla mai!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/j4PAW8jOVgk",
+   "data": "2026-10-06",
+   "immagine": "https://i3.ytimg.com/vi/j4PAW8jOVgk/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "dd66e3c74233",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Tornare a correre dopo la maratona con il reverse taper",
+   "estratto": "Tre settimane per riportare il volume dove era prima dello scarico, risalendo un gradino alla volta invece di saltare dal divano alla tabella di sempre. Cosa succede a muscoli e…",
+   "link": "https://runlovers.it/2026/reverse-taper-tornare-correre-dopo-maratona/",
+   "data": "2026-10-05",
+   "immagine": null,
+   "argomenti": [
+    "allenamento",
+    "gara",
+    "mente"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "costruzione",
+    "scarico",
+    "gara",
+    "dopo"
+   ]
+  },
+  {
+   "id": "a7d81260f038",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Inizio Epico: 50km in Montagna - Vista Mozzafiato!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/1H3a9Jf1Mt0",
+   "data": "2026-10-05",
+   "immagine": "https://i2.ytimg.com/vi/1H3a9Jf1Mt0/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
+   "id": "207fe26e2071",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Il calendario delle maratone cambia per il clima",
+   "estratto": "Il calendario delle maratone poggiava sulla promessa del fresco autunnale, ma oggi preparare una gara significa scommettere su un meteo instabile. Le finestre stagionali storiche…",
+   "link": "https://runlovers.it/2026/clima-calendario-maratone-autunno-caldo/",
+   "data": "2026-10-05",
+   "immagine": null,
+   "argomenti": [
+    "gara",
+    "tecnologia"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "e64bdc2dd25c",
+   "tipo": "articolo",
+   "fonte": "Garmin Blog Italia",
+   "fonteId": "garmin_blog",
+   "titolo": "Che cos’è una corsa a tappe",
+   "estratto": "Dalle distanze più brevi fino alla maratona, la maggior parte delle gare di corsa si concentra nell’arco di una singola giornata e verso un solo traguardo. Tuttavia, esiste un…",
+   "link": "https://www.garmin.com/it-IT/blog/running/corsa-a-tappe/",
+   "data": "2026-10-05",
+   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/10/corsa-a-tappe-in-montagna.jpg",
+   "argomenti": [
+    "allenamento",
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "gara"
+   ]
+  },
+  {
+   "id": "9338aad68821",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Ammortizzazione mostruosa! Scarpe da ultra-distanza TOP",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/76DiZnE98D4",
+   "data": "2026-10-05",
+   "immagine": "https://i4.ytimg.com/vi/76DiZnE98D4/hqdefault.jpg",
+   "argomenti": [
+    "scarpe"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "37f57fec29dc",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Allenare tutto il corpo a casa con il protocollo Tabata",
+   "estratto": "Quattro blocchi Tabata a corpo libero, uno per esercizio, valgono qualcosa solo se i venti secondi di lavoro arrivano vicino al massimo: la seduta è costruita intorno a questa…",
+   "link": "https://runlovers.it/2026/tabata-corpo-libero-allenamento-casa-wow/",
+   "data": "2026-10-05",
+   "immagine": null,
+   "argomenti": [
+    "forza",
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "dopo"
+   ]
+  },
+  {
+   "id": "4d76f8ab9dba",
+   "tipo": "podcast",
+   "fonte": "Caffè Corsa (Esco a correre)",
+   "fonteId": "pod_caffecorsa",
+   "titolo": "A tre settimane dalla maratona: stop forzato e scelte difficili",
+   "estratto": "Caffè e Corsa torna nel momento più delicato della mia preparazione: problemi di stomaco, stop forzato e una maratona a tre settimane. Racconto come sto gestendo il rientro, quali…",
+   "link": "https://podcasters.spotify.com/pod/show/caffe-corsa/episodes/A-tre-settimane-dalla-maratona-stop-forzato-e-scelte-difficili-e3pugin",
+   "data": "2026-10-05",
+   "immagine": "https://d3t3ozftmdmh3i.cloudfront.net/staging/podcast_uploaded_nologo/44030550/44030550-1751963368445-ced14473c9721.jpg",
+   "durata": "01:02:59",
+   "argomenti": [
+    "gara",
+    "mente",
+    "racconti"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "72475d1572c9",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Ti sei mai visto correre in un video e non ti è piaciuto quello che hai visto?",
+   "estratto": "Ti sei mai visto correre in un video e non ti è piaciuto quello che hai visto? È successo a me a giugno, e da lì ho lavorato sulla tecnica…",
+   "link": "https://www.youtube.com/shorts/gw_3o3Q5Skk",
+   "data": "2026-10-04",
+   "immagine": "https://i4.ytimg.com/vi/gw_3o3Q5Skk/hqdefault.jpg",
+   "argomenti": [
+    "allenamento",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "ac32d8744db2",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Single Track Stile Ricky: Troppo Bello e Divertente!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/cYMcUjJGJr0",
+   "data": "2026-10-04",
+   "immagine": "https://i4.ytimg.com/vi/cYMcUjJGJr0/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "35a11d7d412d",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Le torsioni dello yoga per sciogliere la schiena rigida",
+   "estratto": "Sblocca la schiena rigida dalla scrivania comprendendo la biomeccanica del torace e usando il respiro per guidare cinque torsioni essenziali e misurate. La rotazione avviene quasi…",
+   "link": "https://runlovers.it/2026/torsioni-yoga-sciogliere-schiena/",
+   "data": "2026-10-04",
+   "immagine": null,
+   "argomenti": [
+    "scarpe",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "11bf3ef55adf",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Correre 5 km senza fermarsi partendo da zero",
+   "estratto": "Tre uscite a settimana per nove settimane, alternando corsa e camminata a un ritmo che ti lascia parlare, portano chi non ha mai corso a trenta minuti di corsa continua. Un…",
+   "link": "https://runlovers.it/2026/correre-5-km-senza-fermarsi-principianti/",
+   "data": "2026-10-04",
+   "immagine": null,
+   "argomenti": [
+    "scarpe",
+    "allenamento",
+    "recupero",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara",
+    "dopo"
+   ]
+  },
+  {
+   "id": "0f0677dc0568",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Un solo manubrio per allenare tutto il corpo a casa",
+   "estratto": "Sei esercizi con lo stesso manubrio coprono gambe, schiena, spalle e tronco, a patto di adattare ripetizioni e velocità a ciascun movimento. Un circuito di sei esercizi con un…",
+   "link": "https://runlovers.it/2026/manubrio-singolo-corpo-intero-casa-wow/",
+   "data": "2026-10-03",
+   "immagine": null,
+   "argomenti": [
+    "forza",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "d1aeb411a5cb",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "L’indoor cycling allena il cuore senza caricare le articolazioni",
+   "estratto": "Una lezione di indoor cycling allena cuore e gambe con un impatto minimo sulle articolazioni, a patto di regolare la bici prima di salire e di tenere per sé il controllo della…",
+   "link": "https://runlovers.it/2026/indoor-cycling-cross-training-cuore-articolazioni/",
+   "data": "2026-10-03",
+   "immagine": null,
+   "argomenti": [
+    "alimentazione",
+    "allenamento",
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico",
+    "dopo"
+   ]
+  },
+  {
+   "id": "784ebddd6f6a",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Il pettorale della gara che non abbiamo corso",
+   "estratto": "Il numero stampato su un pezzo di carta patinata e quattro spille sigillate testimoniano l’assenza sulla linea di partenza certificando il blocco. Il pettorale consegnato a casa…",
+   "link": "https://runlovers.it/2026/pettorale-gara-non-corsa-infortunio/",
+   "data": "2026-10-03",
+   "immagine": null,
+   "argomenti": [
+    "gara",
+    "mente",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "a5e2f8425ada",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Visitare una città a piedi, e godersi l’esperienza",
+   "estratto": "Una giornata in città si prepara nei giorni prima: uno o due quartieri, un anello da percorrere a piedi, poche visite al chiuso e un’ora lasciata libera. Come scegliere uno o due…",
+   "link": "https://runlovers.it/2026/organizzare-visita-citta-piedi-giornata/",
+   "data": "2026-10-02",
+   "immagine": null,
+   "argomenti": [
+    "allenamento",
+    "racconti"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "893dc80ef0d5",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Siamo la specie che ha imparato a non alzarsi",
+   "estratto": "Alle sette e quaranta l’esemplare lascia il suo giaciglio e percorre undici metri fino alla cucina. Si ferma davanti alla macchina del caffè, aspetta, torna indietro, si siede…",
+   "link": "https://runlovers.it/2026/asics-human-nature-movimento-specie-in-pericolo/",
+   "data": "2026-10-02",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/ASICS-human-nature-02.jpg?resize=1160%2C653&#038;quality=75&#038;ssl=1",
+   "argomenti": [
+    "alimentazione",
+    "allenamento",
+    "mente",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "accf9041f985",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "La maglietta della gara si indossa solo dopo il traguardo",
+   "estratto": "La indossi il giorno dopo il traguardo, non prima. È la differenza tra rivendicare uno sforzo e fingere di averlo compiuto. La ritiri in busta di plastica: spille, chip, odore di…",
+   "link": "https://runlovers.it/2026/maglietta-gara-indossare-dopo-traguardo/",
+   "data": "2026-10-02",
+   "immagine": null,
+   "argomenti": [
+    "gara",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "096b01894566",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Cerchi una scarpa da lento che ti accompagni per centinaia di chilometri senza pensieri?",
+   "estratto": "Cerchi una scarpa da lento che ti accompagni per centinaia di chilometri senza pensieri? La Novablast 6 dopo 214 km è ancora come nuova…",
+   "link": "https://www.youtube.com/shorts/yvmR_6Y-UO8",
+   "data": "2026-10-02",
+   "immagine": "https://i2.ytimg.com/vi/yvmR_6Y-UO8/hqdefault.jpg",
+   "argomenti": [
+    "scarpe"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "edfdacd5d711",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Bastoncini da trail: quando portarli e come usarli in salita",
+   "estratto": "Sulle salite in cui si cammina i bastoncini diventano due gambe in più, e usarli bene è questione di pochi gesti da imparare prima di partire. Su quali percorsi i bastoncini…",
+   "link": "https://runlovers.it/2026/bastoncini-trail-quando-usarli-salita/",
+   "data": "2026-10-02",
+   "immagine": null,
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "9d8e8504f659",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "La regola del collo per decidere se correre con il raffreddore",
+   "estratto": "Il naso chiuso prima di un lungo richiede lucidità: la regola del collo stabilisce un confine anatomico preciso tra l’allenamento e il riposo. La medicina dello sport traccia il…",
+   "link": "https://runlovers.it/2026/regola-collo-correre-raffreddore/",
+   "data": "2026-10-01",
+   "immagine": null,
+   "argomenti": [
+    "allenamento",
+    "recupero",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico",
+    "gara",
+    "dopo"
+   ]
+  },
+  {
+   "id": "8ed46f65f4b3",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "La linea ASICS BLAST - Guida all'acquisto e come abbinarle",
+   "estratto": "Novablast, Sonicblast, Superblast, Megablast: quale scarpa Asics comprare? In questo video ti accompagno dentro la linea Blast con le mie…",
+   "link": "https://www.youtube.com/watch?v=RgroRXnYJg0",
+   "data": "2026-10-01",
+   "immagine": "https://i3.ytimg.com/vi/RgroRXnYJg0/hqdefault.jpg",
+   "argomenti": [
+    "scarpe",
+    "allenamento",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "85f4821a9eb2",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Il prossimo grande marchio di scarpe da corsa potrebbe essere cinese",
+   "estratto": "L’asse dell’innovazione si è spostato a est: i marchi cinesi hanno smesso di cucire per terzi e ora progettano il futuro della biomeccanica. L’etichetta “made in China” indica…",
+   "link": "https://runlovers.it/2026/scarpe-corsa-cinesi-anta-li-ning-puma/",
+   "data": "2026-10-01",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/09/07-20261001-1730-Cinese-C-Kailas-Fuga-Pro.webp?resize=800%2C800&#038;quality=75&#038;ssl=1",
+   "argomenti": [
+    "scarpe",
+    "gara",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "ead40bcc368d",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Controllare l’udito per proteggere il cervello",
+   "estratto": "Sforzarsi di sentire affatica il cervello e isola dalle persone, ma proteggere l’udito frena un rischio primario per il declino cognitivo. Chiedere di ripetere le frasi nei luoghi…",
+   "link": "https://runlovers.it/2026/udito-declino-cognitivo-cervello/",
+   "data": "2026-10-01",
+   "immagine": null,
+   "argomenti": [
+    "rifornimento",
+    "alimentazione"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico"
+   ]
+  },
+  {
+   "id": "c545cf1cc9f3",
+   "tipo": "video",
+   "fonte": "Andrea Vignone",
+   "fonteId": "yt_crazyvigno",
+   "titolo": "4 CHIACCHIERE CON ELENA LODI AL TRANSITALIA MARATHON 🏍️🇮🇹",
+   "estratto": "4 CHIACCHIERE CON ELENA LODI AL TRANSITALIA MARATHON 🏍️🇮🇹 Questa settimana vi porto con me al Transitalia Marathon, uno degli appuntamenti…",
+   "link": "https://www.youtube.com/watch?v=c_nDrx6H2VM",
+   "data": "2026-10-01",
+   "immagine": "https://i4.ytimg.com/vi/c_nDrx6H2VM/hqdefault.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "0d48d897ff49",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "È solo questione di tempo!",
+   "estratto": "È solo questione di tempo! L'amatore spesso si allena più del professionista e va anche più piano, ed è proprio questo il motivo per cui…",
+   "link": "https://www.youtube.com/shorts/C3U_1uemLFU",
+   "data": "2026-09-30",
+   "immagine": "https://i4.ytimg.com/vi/C3U_1uemLFU/hqdefault.jpg",
+   "argomenti": [
+    "allenamento",
+    "gara",
+    "tecnologia"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "0282812b4a7d",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Oggi con le nuove Deviate NITRO Elite 4 di @pumarunning farò un 4x6' in soglia Z4, recupero 2'. ⏱️",
+   "estratto": "Oggi con le nuove Deviate NITRO Elite 4 di @pumarunning farò un 4x6' in soglia Z4, recupero 2'. ⏱️ Una scarpa leggerissima e reattiva…",
+   "link": "https://www.youtube.com/shorts/sXuDseM7VWU",
+   "data": "2026-09-28",
+   "immagine": "https://i4.ytimg.com/vi/sXuDseM7VWU/hqdefault.jpg",
+   "argomenti": [
+    "scarpe",
+    "allenamento",
+    "recupero",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "dopo"
+   ]
+  },
+  {
+   "id": "7240d03a698b",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Ma quando ha davvero senso inserire il potenziamento nei nostri programmi di corsa?!",
+   "estratto": "Ma quando ha davvero senso inserire il potenziamento nei nostri programmi di corsa?! Nell'ultimo video uscito sul canale Youtube parliamo…",
+   "link": "https://www.youtube.com/shorts/7cC9soyTZXc",
+   "data": "2026-09-27",
+   "immagine": "https://i4.ytimg.com/vi/7cC9soyTZXc/hqdefault.jpg",
+   "argomenti": [
+    "allenamento",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "5bce49166ce2",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Quali aspetti della tecnica di corsa contano davvero per correre in modo più economico?",
+   "estratto": "Quali aspetti della tecnica di corsa contano davvero per correre in modo più economico? Una meta-analisi su 51 studi e oltre 1000 runner…",
+   "link": "https://www.youtube.com/shorts/g23hR0rviyk",
+   "data": "2026-09-25",
+   "immagine": "https://i4.ytimg.com/vi/g23hR0rviyk/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "815daca0ecf8",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Ho cambiato la mia TECNICA - Ecco cosa è successo...",
+   "estratto": "A giugno ho fatto delle riprese con il drone, mi sono visto correre e non mi è piaciuto per niente. Da lì ho iniziato a lavorare sulla mia…",
+   "link": "https://www.youtube.com/watch?v=d4tJzRPZ-ik",
+   "data": "2026-09-24",
+   "immagine": "https://i1.ytimg.com/vi/d4tJzRPZ-ik/hqdefault.jpg",
+   "argomenti": [
+    "allenamento",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "3ab5acd54f75",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "La rotazione di tre scarpe rimane la scelta più intelligente.",
+   "estratto": "La rotazione di tre scarpe rimane la scelta più intelligente. Ma oggi esistono scarpe capaci di fare tutto, dai lenti alle ripetute. La…",
+   "link": "https://www.youtube.com/shorts/CESiJbT4duc",
+   "data": "2026-09-23",
+   "immagine": "https://i4.ytimg.com/vi/CESiJbT4duc/hqdefault.jpg",
+   "argomenti": [
+    "scarpe",
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "a90e1a65859c",
+   "tipo": "articolo",
+   "fonte": "Garmin Blog Italia",
+   "fonteId": "garmin_blog",
+   "titolo": "Le più belle mezze maratone d’Europa",
+   "estratto": "C’è un momento speciale nella routine di ogni runner: quello in cui, dopo settimane di allenamenti, ci si siede davanti al calendario per scegliere la prossima grande sfida. I…",
+   "link": "https://www.garmin.com/it-IT/blog/running/mezze-maratone-piu-belle-europa/",
+   "data": "2026-09-21",
+   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/09/piu-belle-mezze-maratone-in-europa.jpg",
+   "argomenti": [
+    "allenamento",
+    "gara",
+    "mente"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "03edadcee516",
+   "tipo": "video",
+   "fonte": "Riccardo Bugari · Running Bug",
+   "fonteId": "yt_runningbug",
+   "titolo": "ALTRA VANISH CARBON 3.",
+   "estratto": "🏃‍♂️ **ALTRA VANISH CARBON 3 – LA NUOVA SUPER SCARPA DA GARA DI ALTRA È finalmente arrivata la nuova Altra Vanish Carbon 3 e in questo…",
+   "link": "https://www.youtube.com/watch?v=XG2ruJ0qLdM",
+   "data": "2026-09-21",
+   "immagine": "https://i1.ytimg.com/vi/XG2ruJ0qLdM/hqdefault.jpg",
+   "argomenti": [
+    "scarpe",
+    "forza",
+    "gara",
+    "racconti"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "49ee8fe0112c",
+   "tipo": "video",
+   "fonte": "Andrea Vignone",
+   "fonteId": "yt_crazyvigno",
+   "titolo": "NON COMPRARE QUESTI ACCESSORI - nuovi upgrade moto e allenamento enduro estremo al ProPark",
+   "estratto": "NON COMPRARE QUESTI ACCESSORI - nuovi upgrade moto e allenamento enduro estremo al ProPark con Nico Camponovo Prodotti nice cnc: Link…",
+   "link": "https://www.youtube.com/watch?v=pYhkWUvevpk",
+   "data": "2026-09-17",
+   "immagine": "https://i1.ytimg.com/vi/pYhkWUvevpk/hqdefault.jpg",
+   "argomenti": [
+    "alimentazione",
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
+   "id": "d98f546b4e66",
+   "tipo": "articolo",
+   "fonte": "Garmin Blog Italia",
+   "fonteId": "garmin_blog",
+   "titolo": "10 luoghi dove fare kayak in Italia",
+   "estratto": "L’Italia è un Paese ricco di luoghi dove fare kayak. Dalle coste del Mediterraneo ai laghi alpini, fino ai corsi d’acqua che attraversano boschi, gole e aree protette, il nostro…",
+   "link": "https://www.garmin.com/it-IT/blog/outdoor/10-luoghi-dove-fare-kayak-in-italia/",
+   "data": "2026-09-14",
+   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/09/kayak-nei-fiumi.jpg",
+   "argomenti": [
+    "allenamento",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "53b95b6d2d41",
+   "tipo": "video",
+   "fonte": "Andrea Vignone",
+   "fonteId": "yt_crazyvigno",
+   "titolo": "LA MIA NUOVA MOTO DA ENDURO - GASGAS EC300 2027 - setting e 1' test",
+   "estratto": "LA MIA NUOVA MOTO DA ENDURO - GASGAS EC300 2027 - setting e 1' test Finalmente vado a prendere la mia nuova moto da enduro, poi mi fermo a…",
+   "link": "https://www.youtube.com/watch?v=JTjpd4nydVU",
+   "data": "2026-09-10",
+   "immagine": "https://i3.ytimg.com/vi/JTjpd4nydVU/hqdefault.jpg",
+   "argomenti": [
+    "alimentazione",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
+   "id": "405343655e32",
+   "tipo": "articolo",
+   "fonte": "Garmin Blog Italia",
+   "fonteId": "garmin_blog",
+   "titolo": "Le 5 mezze maratone più belle in Italia",
+   "estratto": "La mezza maratona è una distanza che richiede un equilibrio perfetto tra resistenza aerobica e velocità. I 21,097 km non lasciano spazio all’improvvisazione. Si tratta di una…",
+   "link": "https://www.garmin.com/it-IT/blog/running/mezze-maratone-piu-belle-italia/",
+   "data": "2026-09-08",
+   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/09/migliori-mezze-maratone-in-Italia.jpg",
+   "argomenti": [
+    "gara",
+    "mente",
+    "notizie"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": [
+    "si_parte",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "56124b32fdf3",
+   "tipo": "video",
+   "fonte": "Andrea Vignone",
+   "fonteId": "yt_crazyvigno",
+   "titolo": "ENDURO COUNTRY 2H MARATHON RACE - FAST IN MIOGLIA - GASGAS EC 500F",
+   "estratto": "ENDURO COUNTRY 2H MARATHON RACE - FAST IN MIOGLIA - GASGAS EC 500F GARA PAZZESCA, SUPER DIVERTENTE MA SOPRATTUTTO ALLENANTE! OTTIMA…",
+   "link": "https://www.youtube.com/watch?v=u7b_U69nNqs",
+   "data": "2026-09-03",
+   "immagine": "https://i2.ytimg.com/vi/u7b_U69nNqs/hqdefault.jpg",
+   "argomenti": [
+    "alimentazione",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
+   "id": "e1bf0c3a1344",
+   "tipo": "video",
+   "fonte": "Andrea Vignone",
+   "fonteId": "yt_crazyvigno",
+   "titolo": "HIKING ALLA CIMA MONGIOIE 2630m - DIRETTISSIMA E SCAGLIE con NATTA e LORENZO",
+   "estratto": "HIKING ALLA CIMA MONGIOIE 2630m - DIRETTISSIMA E SCAGLIE con NATTA e LORENZO 🏔️ Una giornata, papà, figlio e amico e una sola missione…",
+   "link": "https://www.youtube.com/watch?v=LwkUNG3Gm3I",
+   "data": "2026-08-27",
+   "immagine": "https://i1.ytimg.com/vi/LwkUNG3Gm3I/hqdefault.jpg",
+   "argomenti": [
+    "tecnologia",
+    "racconti"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "gara"
+   ]
+  },
+  {
+   "id": "6c8caf539775",
+   "tipo": "video",
+   "fonte": "Andrea Vignone",
+   "fonteId": "yt_crazyvigno",
+   "titolo": "NON SOLO BATTERIE AL LITIO! 🔋 impianto elettrico COMPLETO e i SERVIZI su misura di LITIO.STORE",
+   "estratto": "NON SOLO BATTERIE AL LITIO! 🔋 impianto elettrico COMPLETO e i SERVIZI su misura di LITIO.STORE 👉 Scopri Litio.Store e tutti i prodotti…",
+   "link": "https://www.youtube.com/watch?v=IYGU6RVB_4k",
+   "data": "2026-08-20",
+   "immagine": "https://i2.ytimg.com/vi/IYGU6RVB_4k/hqdefault.jpg",
+   "argomenti": [
+    "racconti"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "481eb15838e6",
+   "tipo": "video",
+   "fonte": "Riccardo Bugari · Running Bug",
+   "fonteId": "yt_runningbug",
+   "titolo": "Altra - Vanish Carbon 3 🔥🔥 #running #shoes #altrarunning",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/vkKpB7xm8rc",
+   "data": "2026-08-20",
+   "immagine": "https://i3.ytimg.com/vi/vkKpB7xm8rc/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  }
+ ]
+}
