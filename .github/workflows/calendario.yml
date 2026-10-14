@@ -1,0 +1,33 @@
+name: Aggiorna calendario gare
+
+on:
+  schedule:
+    - cron: "17 4 * * 1"   # ogni lunedì alle 04:17 UTC
+  workflow_dispatch:        # avvio manuale dalla scheda Actions
+
+permissions:
+  contents: write
+
+jobs:
+  aggiorna:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test importatore
+        run: python tests/test_import_fidal.py
+      - name: Scarica calendario FIDAL
+        run: python scripts/import_fidal.py --mesi 12
+      - name: Salva se cambiato
+        run: |
+          if git diff --quiet -- data/gare.json && git ls-files --error-unmatch data/gare.json >/dev/null 2>&1; then
+            echo "Nessuna modifica al calendario."
+            exit 0
+          fi
+          git config user.name "racebuddy-bot"
+          git config user.email "racebuddy-bot@users.noreply.github.com"
+          git add data/gare.json
+          git commit -m "Calendario gare aggiornato $(date -u +%Y-%m-%d)"
+          git push

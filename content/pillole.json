@@ -1,0 +1,972 @@
+[
+  {
+    "id": "L001",
+    "fase": "si_parte",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "obiettivo",
+    "titolo": "Un obiettivo, non un sogno",
+    "testo": "Un buon tempo obiettivo parte da quello che hai già fatto, non da quello che vorresti fare. Si può sempre alzare."
+  },
+  {
+    "id": "L002",
+    "fase": "si_parte",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "obiettivo",
+    "titolo": "Tre obiettivi",
+    "testo": "Prova a fissarne tre: uno ambizioso, uno realistico, uno minimo. Ti aiuteranno anche nei momenti difficili della gara."
+  },
+  {
+    "id": "L003",
+    "fase": "si_parte",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "motivazione",
+    "titolo": "Il percorso è lungo",
+    "testo": "Una preparazione si costruisce in settimane, non in giorni. Un allenamento saltato non cambia nulla, tre settimane saltate sì."
+  },
+  {
+    "id": "L004",
+    "fase": "si_parte",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "documenti",
+    "titolo": "Il certificato medico",
+    "testo": "In Italia per le gare competitive serve il certificato medico agonistico valido il giorno della gara. Controlla la scadenza adesso."
+  },
+  {
+    "id": "L005",
+    "fase": "si_parte",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "documenti",
+    "titolo": "FIDAL o Runcard",
+    "testo": "Per le gare FIDAL serve il tesseramento con una società o la Runcard. Verifica di averli in regola prima di iscriverti."
+  },
+  {
+    "id": "L006",
+    "fase": "si_parte",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "attrezzatura",
+    "titolo": "Quanti km ha la tua scarpa?",
+    "testo": "Molte scarpe da allenamento perdono reattività tra i 600 e gli 800 km. Se la tua è vicina, pensaci ora."
+  },
+  {
+    "id": "L007",
+    "fase": "si_parte",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "attrezzatura",
+    "titolo": "Una scarpa non basta",
+    "testo": "Alternare due paia di scarpe distribuisce meglio le sollecitazioni e fa durare di più entrambe."
+  },
+  {
+    "id": "L008",
+    "fase": "si_parte",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "logistica",
+    "titolo": "Le grandi gare si prenotano presto",
+    "testo": "Per le gare più partecipate alberghi e treni del weekend finiscono settimane prima. Meglio muoversi ora."
+  },
+  {
+    "id": "L009",
+    "fase": "si_parte",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "gruppo",
+    "titolo": "Prepararla insieme",
+    "testo": "Allenarsi con chi prepara la stessa gara aiuta a non saltare le uscite. Guarda chi del gruppo è iscritto."
+  },
+  {
+    "id": "L010",
+    "fase": "si_parte",
+    "distanze": [
+      "42"
+    ],
+    "categoria": "motivazione",
+    "titolo": "Dodici settimane",
+    "testo": "La maratona si prepara in circa tre mesi. Il segreto è arrivare al via sani, non stanchi."
+  },
+  {
+    "id": "L011",
+    "fase": "si_parte",
+    "distanze": [
+      "10"
+    ],
+    "categoria": "motivazione",
+    "titolo": "Il 10 km è una gara vera",
+    "testo": "Il 10 km è corto ma intenso: ritmo, partenza e riscaldamento contano più che sulle distanze lunghe."
+  },
+  {
+    "id": "L012",
+    "fase": "costruzione",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "allenamento",
+    "titolo": "La costanza batte l'intensità",
+    "testo": "Meglio quattro uscite tranquille a settimana per due mesi che due allenamenti eroici e poi una settimana ferma."
+  },
+  {
+    "id": "L013",
+    "fase": "costruzione",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "allenamento",
+    "titolo": "Il lento è allenamento",
+    "testo": "La corsa lenta costruisce la base. Se riesci a parlare mentre corri, stai andando al passo giusto."
+  },
+  {
+    "id": "L014",
+    "fase": "costruzione",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "corpo",
+    "titolo": "La forza aiuta la corsa",
+    "testo": "Polpacci, glutei e quadricipiti forti assorbono meglio i chilometri. Bastano 10-15 minuti, due volte a settimana."
+  },
+  {
+    "id": "L015",
+    "fase": "costruzione",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "corpo",
+    "titolo": "Ascolta i fastidi",
+    "testo": "Un fastidio che dura più di qualche giorno o peggiora va ascoltato. Annotalo nel diario e, se serve, chiedi a un professionista."
+  },
+  {
+    "id": "L016",
+    "fase": "costruzione",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "corpo",
+    "titolo": "Il sonno è allenamento",
+    "testo": "Il recupero avviene soprattutto mentre dormi. Nelle settimane di carico il sonno conta quanto i chilometri."
+  },
+  {
+    "id": "L017",
+    "fase": "costruzione",
+    "distanze": [
+      "21",
+      "42"
+    ],
+    "categoria": "rifornimento",
+    "titolo": "Perché i gel",
+    "testo": "Nelle gare lunghe le scorte di energia non bastano fino al traguardo. I gel servono a non arrivare scarichi negli ultimi chilometri."
+  },
+  {
+    "id": "L018",
+    "fase": "costruzione",
+    "distanze": [
+      "21",
+      "42"
+    ],
+    "categoria": "rifornimento",
+    "titolo": "Lo stomaco si allena",
+    "testo": "Anche l'intestino si abitua ai gel. Provarli nei lunghi riduce il rischio di problemi in gara."
+  },
+  {
+    "id": "L019",
+    "fase": "costruzione",
+    "distanze": [
+      "21",
+      "42"
+    ],
+    "categoria": "rifornimento",
+    "titolo": "Un gel alla volta",
+    "testo": "Prova un tipo di gel per volta: se qualcosa non va, sai subito quale."
+  },
+  {
+    "id": "L020",
+    "fase": "costruzione",
+    "distanze": [
+      "21",
+      "42"
+    ],
+    "categoria": "rifornimento",
+    "titolo": "Gel e acqua",
+    "testo": "Alcuni gel vanno presi con un sorso d'acqua, altri no. Leggi l'etichetta e prova in allenamento."
+  },
+  {
+    "id": "L021",
+    "fase": "costruzione",
+    "distanze": [
+      "21",
+      "42"
+    ],
+    "categoria": "rifornimento",
+    "titolo": "La caffeina",
+    "testo": "Alcuni gel contengono caffeina. Se vuoi usarli in gara, provali prima: non tutti la tollerano allo stesso modo."
+  },
+  {
+    "id": "L022",
+    "fase": "costruzione",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "rifornimento",
+    "titolo": "Bere in movimento",
+    "testo": "Stringi il bicchiere a becco e bevi a piccoli sorsi: sembra banale, ma in gara fa la differenza."
+  },
+  {
+    "id": "L023",
+    "fase": "costruzione",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "abbigliamento",
+    "titolo": "Niente di nuovo il giorno della gara",
+    "testo": "Scarpe, calze, pantaloncini, gel: tutto quello che userai in gara va provato prima."
+  },
+  {
+    "id": "L024",
+    "fase": "costruzione",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "abbigliamento",
+    "titolo": "Sfregamenti",
+    "testo": "I punti di sfregamento si scoprono nei lunghi. Meglio scoprirli adesso che al 30° km."
+  },
+  {
+    "id": "L025",
+    "fase": "costruzione",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "attrezzatura",
+    "titolo": "Scarpa da gara: quando",
+    "testo": "Una scarpa da gara nuova va rodata con qualche uscita prima del giorno della gara."
+  },
+  {
+    "id": "L026",
+    "fase": "costruzione",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "attrezzatura",
+    "titolo": "Le scarpe con piastra",
+    "testo": "Le scarpe con piastra sono pensate per i ritmi veloci. Per il lento quotidiano spesso conviene una scarpa da allenamento."
+  },
+  {
+    "id": "L027",
+    "fase": "costruzione",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "obiettivo",
+    "titolo": "A che punto sei",
+    "testo": "Un test o una gara di prova a metà preparazione dice più di cento sensazioni. Usalo per aggiornare il tempo obiettivo."
+  },
+  {
+    "id": "L028",
+    "fase": "costruzione",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "motivazione",
+    "titolo": "Le settimane storte",
+    "testo": "Ogni preparazione ha una settimana storta. Non si recupera tutto subito: si riprende dal piano."
+  },
+  {
+    "id": "L029",
+    "fase": "costruzione",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "meteo",
+    "titolo": "Correre con il freddo",
+    "testo": "Con il freddo vestiti a strati: dopo dieci minuti di corsa dovresti avere un po' fresco, non caldo."
+  },
+  {
+    "id": "L030",
+    "fase": "costruzione",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "meteo",
+    "titolo": "Correre con il caldo",
+    "testo": "Con il caldo corri nelle ore fresche, rallenta il passo e bevi di più. Il ritmo si adatta al meteo, non il contrario."
+  },
+  {
+    "id": "L031",
+    "fase": "costruzione",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "meteo",
+    "titolo": "Correre con la pioggia",
+    "testo": "Con la pioggia una visiera aiuta, e un po' di crema anti-sfregamento in più evita sorprese."
+  },
+  {
+    "id": "L032",
+    "fase": "costruzione",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "meteo",
+    "titolo": "Correre al buio",
+    "testo": "Al buio rendersi visibili è la prima regola: luce frontale o lampeggiante e qualcosa di riflettente."
+  },
+  {
+    "id": "L033",
+    "fase": "costruzione",
+    "distanze": [
+      "42"
+    ],
+    "categoria": "allenamento",
+    "titolo": "Il lungo della maratona",
+    "testo": "Il lungo non è una gara: si corre più lento del ritmo maratona, ed è il momento giusto per provare rifornimento e vestizione."
+  },
+  {
+    "id": "L034",
+    "fase": "costruzione",
+    "distanze": [
+      "21",
+      "42"
+    ],
+    "categoria": "alimentazione",
+    "titolo": "Mangiare prima del lungo",
+    "testo": "La colazione del lungo è la prova di quella della gara: trova cosa ti fa stare bene."
+  },
+  {
+    "id": "L035",
+    "fase": "picco",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "motivazione",
+    "titolo": "Le settimane più dure",
+    "testo": "Il picco è faticoso, ed è giusto così. È qui che arriva la fiducia per il giorno della gara."
+  },
+  {
+    "id": "L036",
+    "fase": "picco",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "prova generale",
+    "titolo": "La prova generale",
+    "testo": "Fai almeno una uscita esattamente come la gara: sveglia, colazione, vestizione, scarpe, gel."
+  },
+  {
+    "id": "L037",
+    "fase": "picco",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "corpo",
+    "titolo": "Stanchezza o segnale?",
+    "testo": "Un po' di stanchezza nel picco è normale. Un dolore che cambia il modo di correre no: in quel caso meglio fermarsi e chiedere."
+  },
+  {
+    "id": "L038",
+    "fase": "picco",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "corpo",
+    "titolo": "Recuperare è allenarsi",
+    "testo": "Dopo le sedute più dure il corpo ha bisogno di tempo per adattarsi. I giorni facili servono davvero."
+  },
+  {
+    "id": "L039",
+    "fase": "picco",
+    "distanze": [
+      "42"
+    ],
+    "categoria": "allenamento",
+    "titolo": "Il lungo più lungo",
+    "testo": "Il lungo più lungo della maratona serve soprattutto alla testa: dimostra che puoi stare in piedi a lungo."
+  },
+  {
+    "id": "L040",
+    "fase": "picco",
+    "distanze": [
+      "21",
+      "42"
+    ],
+    "categoria": "rifornimento",
+    "titolo": "Prova la strategia completa",
+    "testo": "Nella prova generale usa lo stesso numero di gel, agli stessi tempi, che pensi di usare in gara."
+  },
+  {
+    "id": "L041",
+    "fase": "picco",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "attrezzatura",
+    "titolo": "Rodaggio",
+    "testo": "La scarpa da gara deve avere qualche decina di chilometri al via: rodata, ma ancora fresca."
+  },
+  {
+    "id": "L042",
+    "fase": "picco",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "logistica",
+    "titolo": "Il percorso",
+    "testo": "Guarda il percorso della gara: salite, curve, punti dei ristori. Sapere cosa ti aspetta riduce l'ansia."
+  },
+  {
+    "id": "L043",
+    "fase": "picco",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "logistica",
+    "titolo": "Come arrivi alla partenza?",
+    "testo": "Strade chiuse, mezzi pubblici affollati, parcheggi pieni: decidi ora come arrivare alla partenza."
+  },
+  {
+    "id": "L044",
+    "fase": "picco",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "logistica",
+    "titolo": "La delega per il pettorale",
+    "testo": "Se un amico ritira il pettorale per te, di solito serve una delega e un documento. Controlla le regole nella scheda gara."
+  },
+  {
+    "id": "L045",
+    "fase": "picco",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "mente",
+    "titolo": "Visualizza la gara",
+    "testo": "Immagina la partenza, il passo, i ristori, il traguardo. Più è familiare, meno sorprese ci saranno."
+  },
+  {
+    "id": "L046",
+    "fase": "picco",
+    "distanze": [
+      "10"
+    ],
+    "categoria": "allenamento",
+    "titolo": "Il ritmo gara",
+    "testo": "Nel 10 km il ritmo gara è vicino al tuo limite: provarlo in allenamento ti aiuta a non partire troppo forte."
+  },
+  {
+    "id": "L047",
+    "fase": "scarico",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "motivazione",
+    "titolo": "Il lavoro è fatto",
+    "testo": "Nelle ultime settimane non si guadagna forma, si recupera. Fidati della preparazione."
+  },
+  {
+    "id": "L048",
+    "fase": "scarico",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "mente",
+    "titolo": "Gambe strane",
+    "testo": "Nello scarico è normale sentire le gambe strane o pesanti: il corpo si sta ricaricando."
+  },
+  {
+    "id": "L049",
+    "fase": "scarico",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "mente",
+    "titolo": "La tentazione di recuperare",
+    "testo": "Non provare a recuperare gli allenamenti saltati: ora conta arrivare freschi."
+  },
+  {
+    "id": "L050",
+    "fase": "scarico",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "corpo",
+    "titolo": "Dormire bene due notti prima",
+    "testo": "La notte prima della gara spesso si dorme poco. Conta di più dormire bene le notti precedenti."
+  },
+  {
+    "id": "L051",
+    "fase": "scarico",
+    "distanze": [
+      "21",
+      "42"
+    ],
+    "categoria": "alimentazione",
+    "titolo": "Il carico di carboidrati",
+    "testo": "Nei giorni prima della gara dai più spazio ai carboidrati, senza mangiare molto di più. Cibi semplici e conosciuti."
+  },
+  {
+    "id": "L052",
+    "fase": "scarico",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "alimentazione",
+    "titolo": "Niente esperimenti a tavola",
+    "testo": "La sera prima della gara non è il momento di provare il ristorante tipico. Mangia quello che conosci."
+  },
+  {
+    "id": "L053",
+    "fase": "scarico",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "alimentazione",
+    "titolo": "Idratazione",
+    "testo": "Bevi regolarmente nei giorni prima della gara, senza esagerare: non serve arrivare al via pieni d'acqua."
+  },
+  {
+    "id": "L054",
+    "fase": "scarico",
+    "distanze": [
+      "21",
+      "42"
+    ],
+    "categoria": "rifornimento",
+    "titolo": "Il piano definitivo",
+    "testo": "Scrivi il piano: quanti gel, a che chilometro, dove sono i ristori. Al polso o come sfondo del telefono."
+  },
+  {
+    "id": "L055",
+    "fase": "scarico",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "meteo",
+    "titolo": "Le previsioni",
+    "testo": "Le previsioni affidabili arrivano pochi giorni prima. Prepara due opzioni di vestizione e decidi alla fine."
+  },
+  {
+    "id": "L056",
+    "fase": "scarico",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "meteo",
+    "titolo": "Vestirsi per la gara",
+    "testo": "In gara ti scaldi più che in allenamento: vestiti come se ci fossero qualche grado in più."
+  },
+  {
+    "id": "L057",
+    "fase": "scarico",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "abbigliamento",
+    "titolo": "Lo strato da buttare",
+    "testo": "Una maglia vecchia o un poncho ti tengono caldo in griglia. Molte gare raccolgono i capi abbandonati e li donano."
+  },
+  {
+    "id": "L058",
+    "fase": "scarico",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "logistica",
+    "titolo": "Il pettorale",
+    "testo": "Ritira il pettorale appena puoi: ti toglie un pensiero e ti lascia più tempo per riposare."
+  },
+  {
+    "id": "L059",
+    "fase": "scarico",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "logistica",
+    "titolo": "La borsa la sera prima",
+    "testo": "Prepara la borsa la sera prima, con la checklist: la mattina della gara non si pensa lucidi."
+  },
+  {
+    "id": "L060",
+    "fase": "scarico",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "gruppo",
+    "titolo": "Il punto di ritrovo",
+    "testo": "Mettetevi d'accordo con il gruppo su dove trovarvi prima e dopo la gara."
+  },
+  {
+    "id": "L061",
+    "fase": "scarico",
+    "distanze": [
+      "10"
+    ],
+    "categoria": "allenamento",
+    "titolo": "Il riscaldamento del 10 km",
+    "testo": "Nel 10 km il riscaldamento conta: qualche minuto di corsa leggera e un paio di allunghi prima del via."
+  },
+  {
+    "id": "L062",
+    "fase": "gara",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "mente",
+    "titolo": "Parti piano",
+    "testo": "L'errore più comune è partire troppo forte. I primi chilometri devono sembrarti facili."
+  },
+  {
+    "id": "L063",
+    "fase": "gara",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "mente",
+    "titolo": "Corri la tua gara",
+    "testo": "Non inseguire chi ti supera all'inizio: segui il tuo passo."
+  },
+  {
+    "id": "L064",
+    "fase": "gara",
+    "distanze": [
+      "21",
+      "42"
+    ],
+    "categoria": "rifornimento",
+    "titolo": "Segui il piano",
+    "testo": "Prendi i gel ai chilometri previsti, anche se ti senti bene: quando arriva la crisi è tardi."
+  },
+  {
+    "id": "L065",
+    "fase": "gara",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "rifornimento",
+    "titolo": "I ristori",
+    "testo": "Ai ristori non fermarti di colpo: spostati di lato, prendi da bere e riparti."
+  },
+  {
+    "id": "L066",
+    "fase": "gara",
+    "distanze": [
+      "42"
+    ],
+    "categoria": "mente",
+    "titolo": "Il muro",
+    "testo": "Molti maratoneti trovano una crisi dopo il 30° km. Sapere che può arrivare aiuta ad affrontarla: un chilometro alla volta."
+  },
+  {
+    "id": "L067",
+    "fase": "gara",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "motivazione",
+    "titolo": "Goditela",
+    "testo": "Hai preparato questa gara per settimane. Guardati intorno: è la parte più bella."
+  },
+  {
+    "id": "L068",
+    "fase": "dopo",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "corpo",
+    "titolo": "Il recupero dopo la gara",
+    "testo": "Dopo una gara lunga il corpo ha bisogno di giorni facili. Riprendi con calma e ascolta le gambe."
+  },
+  {
+    "id": "L069",
+    "fase": "dopo",
+    "distanze": [
+      "42"
+    ],
+    "categoria": "corpo",
+    "titolo": "Dopo la maratona",
+    "testo": "Dopo una maratona molti si prendono una o due settimane di corsa molto leggera o riposo. Non c'è fretta."
+  },
+  {
+    "id": "L070",
+    "fase": "dopo",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "bilancio",
+    "titolo": "Il bilancio",
+    "testo": "Cosa rifaresti uguale? Cosa cambieresti? Annotarlo oggi rende migliore la prossima gara."
+  },
+  {
+    "id": "L071",
+    "fase": "dopo",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "bilancio",
+    "titolo": "Il risultato non è tutto",
+    "testo": "Al di là del tempo, cosa hai imparato? Rifornimento, passo, testa: ogni gara insegna qualcosa."
+  },
+  {
+    "id": "L072",
+    "fase": "dopo",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "attrezzatura",
+    "titolo": "Le scarpe dopo la gara",
+    "testo": "Le scarpe da gara durano meno di quelle da allenamento: tieni d'occhio i chilometri."
+  },
+  {
+    "id": "L073",
+    "fase": "dopo",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "prossima gara",
+    "titolo": "E adesso?",
+    "testo": "Ti meriti un po' di riposo. Quando hai voglia, ci sono gare in zona che fanno al caso tuo."
+  },
+  {
+    "id": "L074",
+    "fase": "dopo",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "gruppo",
+    "titolo": "Festeggiare insieme",
+    "testo": "Una pizza con il gruppo dopo la gara è parte dell'allenamento. Il recupero passa anche da lì."
+  },
+  {
+    "id": "L075",
+    "fase": "senza_gara",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "stagione",
+    "titolo": "Inverno",
+    "testo": "In inverno vestiti a strati e copri mani e orecchie, che sono le prime a raffreddarsi."
+  },
+  {
+    "id": "L076",
+    "fase": "senza_gara",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "stagione",
+    "titolo": "Estate",
+    "testo": "In estate anticipa l'uscita al mattino presto e porta acqua. Il passo si adatta al caldo."
+  },
+  {
+    "id": "L077",
+    "fase": "senza_gara",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "stagione",
+    "titolo": "Primavera",
+    "testo": "La primavera è la stagione delle maratone: un buon momento per scegliere la prossima gara."
+  },
+  {
+    "id": "L078",
+    "fase": "senza_gara",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "stagione",
+    "titolo": "Autunno",
+    "testo": "Le giornate si accorciano: se corri presto o tardi, pensa alla visibilità."
+  },
+  {
+    "id": "L079",
+    "fase": "senza_gara",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "motivazione",
+    "titolo": "Correre senza obiettivo",
+    "testo": "Anche senza una gara in vista, correre con regolarità mantiene la base per la prossima preparazione."
+  },
+  {
+    "id": "L080",
+    "fase": "senza_gara",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "prossima gara",
+    "titolo": "Scegli una gara",
+    "testo": "Una gara in calendario dà un senso alle uscite. Dai un'occhiata alle gare in zona."
+  },
+  {
+    "id": "L081",
+    "fase": "senza_gara",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "gruppo",
+    "titolo": "Il gruppo",
+    "testo": "Correre con altri rende più facile uscire anche quando non ne hai voglia."
+  },
+  {
+    "id": "L082",
+    "fase": "senza_gara",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "corpo",
+    "titolo": "Forza tutto l'anno",
+    "testo": "Il lavoro di forza non serve solo in preparazione: farlo tutto l'anno aiuta a prevenire i fastidi."
+  },
+  {
+    "id": "L083",
+    "fase": "senza_gara",
+    "distanze": [
+      "10",
+      "21",
+      "42"
+    ],
+    "categoria": "attrezzatura",
+    "titolo": "Il momento giusto per le scarpe",
+    "testo": "Fuori dalla preparazione è il momento ideale per provare una scarpa nuova senza fretta."
+  }
+]

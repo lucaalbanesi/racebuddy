@@ -1,0 +1,1010 @@
+[
+  {
+    "id": "P001",
+    "fase": "si_parte",
+    "tipo": "momento",
+    "categoria": "motivazione",
+    "titolo": "Iscrizione fatta!",
+    "messaggio": "Sei iscritto. Da oggi il buddy ti accompagna fino al traguardo: ecco il tuo percorso, settimana per settimana.",
+    "giorni": {
+      "10": 0,
+      "21": 0,
+      "42": 0
+    },
+    "riferimento": "attivazione",
+    "tappa": true,
+    "divertimento": true,
+    "recuperabile": false,
+    "modulo": "Percorso"
+  },
+  {
+    "id": "P002",
+    "fase": "si_parte",
+    "tipo": "cosa da fare",
+    "categoria": "documenti",
+    "titolo": "Certificato medico e tessera",
+    "messaggio": "Controlla che certificato medico agonistico e tessera (FIDAL o Runcard) siano validi fino al giorno della gara.",
+    "giorni": {
+      "10": -55,
+      "21": -69,
+      "42": -83
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": false,
+    "recuperabile": true,
+    "modulo": "Scheda gara"
+  },
+  {
+    "id": "P003",
+    "fase": "si_parte",
+    "tipo": "cosa da fare",
+    "categoria": "obiettivo",
+    "titolo": "Scegli il tempo obiettivo",
+    "messaggio": "Parti da una gara recente o da un test: un obiettivo realistico rende il percorso più utile. Potrai aggiornarlo strada facendo.",
+    "giorni": {
+      "10": -54,
+      "21": -68,
+      "42": -82
+    },
+    "riferimento": "gara",
+    "tappa": false,
+    "divertimento": false,
+    "recuperabile": true,
+    "modulo": "Previsione tempi"
+  },
+  {
+    "id": "P004",
+    "fase": "si_parte",
+    "tipo": "cosa da fare",
+    "categoria": "attrezzatura",
+    "titolo": "Controlla le scarpe",
+    "messaggio": "Quanti km hanno le scarpe che userai? Se una è a fine vita, meglio cambiarla ora che a metà preparazione.",
+    "giorni": {
+      "10": -53,
+      "21": -67,
+      "42": -81
+    },
+    "riferimento": "gara",
+    "tappa": false,
+    "divertimento": false,
+    "recuperabile": true,
+    "modulo": "Scarpe"
+  },
+  {
+    "id": "P005",
+    "fase": "si_parte",
+    "tipo": "momento",
+    "categoria": "gruppo",
+    "titolo": "Chi corre con te?",
+    "messaggio": "Guarda chi del gruppo ha scelto la stessa gara: prepararla insieme è più facile.",
+    "giorni": {
+      "10": -53,
+      "21": -66,
+      "42": -80
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": true,
+    "recuperabile": false,
+    "modulo": "Gruppo"
+  },
+  {
+    "id": "P006",
+    "fase": "si_parte",
+    "tipo": "cosa da fare",
+    "categoria": "logistica",
+    "titolo": "Prenota viaggio e alloggio",
+    "messaggio": "Se la gara è fuori città, prenota adesso: vicino alle grandi gare gli alloggi finiscono presto.",
+    "giorni": {
+      "10": -50,
+      "21": -64,
+      "42": -78
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": false,
+    "recuperabile": true,
+    "modulo": "Scheda gara"
+  },
+  {
+    "id": "P007",
+    "fase": "si_parte",
+    "tipo": "cosa da fare",
+    "categoria": "logistica",
+    "titolo": "Segna le date chiave",
+    "messaggio": "Annota in agenda ritiro pettorale, partenza e scadenze: le trovi nella scheda gara.",
+    "giorni": {
+      "10": -45,
+      "21": -60,
+      "42": -75
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": false,
+    "recuperabile": true,
+    "modulo": "Scheda gara"
+  },
+  {
+    "id": "P008",
+    "fase": "costruzione",
+    "tipo": "momento",
+    "categoria": "motivazione",
+    "titolo": "Inizia la costruzione",
+    "messaggio": "Da qui si costruisce: settimane regolari, senza strafare. La costanza conta più del singolo allenamento.",
+    "giorni": {
+      "10": -42,
+      "21": -56,
+      "42": -63
+    },
+    "riferimento": "gara",
+    "tappa": false,
+    "divertimento": false,
+    "recuperabile": false,
+    "modulo": "Percorso"
+  },
+  {
+    "id": "P009",
+    "fase": "costruzione",
+    "tipo": "cosa da fare",
+    "categoria": "corpo",
+    "titolo": "Forza e mobilità",
+    "messaggio": "Inserisci nella settimana due brevi sedute di forza e mobilità: aiutano a reggere i carichi delle prossime settimane.",
+    "giorni": {
+      "10": -41,
+      "21": -55,
+      "42": -62
+    },
+    "riferimento": "gara",
+    "tappa": false,
+    "divertimento": false,
+    "recuperabile": true,
+    "modulo": "Corpo"
+  },
+  {
+    "id": "P010",
+    "fase": "costruzione",
+    "tipo": "cosa da fare",
+    "categoria": "rifornimento",
+    "titolo": "Scegli i gel da provare",
+    "messaggio": "Scegli uno o due gel da provare nei lunghi. In gara userai solo quelli che il tuo stomaco ha già accettato.",
+    "giorni": {
+      "10": null,
+      "21": -50,
+      "42": -58
+    },
+    "riferimento": "gara",
+    "tappa": false,
+    "divertimento": false,
+    "recuperabile": true,
+    "modulo": "Rifornimento"
+  },
+  {
+    "id": "P011",
+    "fase": "costruzione",
+    "tipo": "cosa da fare",
+    "categoria": "rifornimento",
+    "titolo": "Prima prova di rifornimento",
+    "messaggio": "Nel lungo di questa settimana prova il gel scelto: annota come lo hai tollerato.",
+    "giorni": {
+      "10": null,
+      "21": -45,
+      "42": -52
+    },
+    "riferimento": "gara",
+    "tappa": false,
+    "divertimento": false,
+    "recuperabile": true,
+    "modulo": "Rifornimento"
+  },
+  {
+    "id": "P012",
+    "fase": "costruzione",
+    "tipo": "cosa da fare",
+    "categoria": "rifornimento",
+    "titolo": "Prova a bere in corsa",
+    "messaggio": "Prova a bere da un bicchiere senza fermarti: in gara i ristori sono veloci e affollati.",
+    "giorni": {
+      "10": -35,
+      "21": -42,
+      "42": -49
+    },
+    "riferimento": "gara",
+    "tappa": false,
+    "divertimento": false,
+    "recuperabile": true,
+    "modulo": "Rifornimento"
+  },
+  {
+    "id": "P013",
+    "fase": "costruzione",
+    "tipo": "cosa da fare",
+    "categoria": "attrezzatura",
+    "titolo": "Valuta la scarpa da gara",
+    "messaggio": "Se pensi a una scarpa nuova per la gara, questo è il momento di prenderla: serve tempo per rodarla.",
+    "giorni": {
+      "10": -35,
+      "21": -42,
+      "42": -49
+    },
+    "riferimento": "gara",
+    "tappa": false,
+    "divertimento": false,
+    "recuperabile": true,
+    "modulo": "Scarpe"
+  },
+  {
+    "id": "P014",
+    "fase": "costruzione",
+    "tipo": "momento",
+    "categoria": "motivazione",
+    "titolo": "Metà strada",
+    "messaggio": "Sei a metà del percorso. Come stai? Annota sensazioni e fastidi nel diario.",
+    "giorni": {
+      "10": -28,
+      "21": -35,
+      "42": -42
+    },
+    "riferimento": "gara",
+    "tappa": false,
+    "divertimento": false,
+    "recuperabile": false,
+    "modulo": "Corpo"
+  },
+  {
+    "id": "P015",
+    "fase": "costruzione",
+    "tipo": "momento",
+    "categoria": "obiettivo",
+    "titolo": "Test a metà percorso",
+    "messaggio": "Un test o una gara di prova ti dice a che punto sei: aggiorna il tempo obiettivo se serve.",
+    "giorni": {
+      "10": -30,
+      "21": -35,
+      "42": -45
+    },
+    "riferimento": "gara",
+    "tappa": false,
+    "divertimento": false,
+    "recuperabile": true,
+    "modulo": "Previsione tempi"
+  },
+  {
+    "id": "P016",
+    "fase": "costruzione",
+    "tipo": "cosa da fare",
+    "categoria": "rifornimento",
+    "titolo": "Seconda prova di rifornimento",
+    "messaggio": "Ripeti la prova nel lungo, con la quantità e i tempi che pensi di usare in gara.",
+    "giorni": {
+      "10": null,
+      "21": -32,
+      "42": -40
+    },
+    "riferimento": "gara",
+    "tappa": false,
+    "divertimento": false,
+    "recuperabile": true,
+    "modulo": "Rifornimento"
+  },
+  {
+    "id": "P017",
+    "fase": "costruzione",
+    "tipo": "cosa da fare",
+    "categoria": "abbigliamento",
+    "titolo": "Prova il completo da gara",
+    "messaggio": "Usa in allenamento quello che indosserai in gara: niente di nuovo il giorno della gara.",
+    "giorni": {
+      "10": -25,
+      "21": -30,
+      "42": -38
+    },
+    "riferimento": "gara",
+    "tappa": false,
+    "divertimento": false,
+    "recuperabile": true,
+    "modulo": "Meteo e vestizione"
+  },
+  {
+    "id": "P018",
+    "fase": "picco",
+    "tipo": "momento",
+    "categoria": "motivazione",
+    "titolo": "Inizia il picco",
+    "messaggio": "Le settimane più impegnative: qui si costruisce la fiducia per il giorno della gara.",
+    "giorni": {
+      "10": -21,
+      "21": -28,
+      "42": -35
+    },
+    "riferimento": "gara",
+    "tappa": false,
+    "divertimento": false,
+    "recuperabile": false,
+    "modulo": "Percorso"
+  },
+  {
+    "id": "P019",
+    "fase": "picco",
+    "tipo": "momento",
+    "categoria": "allenamento",
+    "titolo": "Il lungo più lungo",
+    "messaggio": "Questa settimana c'è il lungo più importante della preparazione: trattalo come una prova generale.",
+    "giorni": {
+      "10": null,
+      "21": -21,
+      "42": -24
+    },
+    "riferimento": "gara",
+    "tappa": false,
+    "divertimento": false,
+    "recuperabile": false,
+    "modulo": "Percorso"
+  },
+  {
+    "id": "P020",
+    "fase": "picco",
+    "tipo": "cosa da fare",
+    "categoria": "prova generale",
+    "titolo": "Prova generale completa",
+    "messaggio": "Nel lungo o nella seduta chiave della settimana: colazione, vestizione, gel e scarpa come il giorno della gara.",
+    "giorni": {
+      "10": -14,
+      "21": -21,
+      "42": -24
+    },
+    "riferimento": "gara",
+    "tappa": false,
+    "divertimento": false,
+    "recuperabile": true,
+    "modulo": "Rifornimento"
+  },
+  {
+    "id": "P021",
+    "fase": "picco",
+    "tipo": "cosa da fare",
+    "categoria": "attrezzatura",
+    "titolo": "Rodaggio scarpa da gara",
+    "messaggio": "Usa la scarpa da gara in qualche uscita: deve arrivare al via rodata, non nuova.",
+    "giorni": {
+      "10": -14,
+      "21": -18,
+      "42": -24
+    },
+    "riferimento": "gara",
+    "tappa": false,
+    "divertimento": false,
+    "recuperabile": true,
+    "modulo": "Scarpe"
+  },
+  {
+    "id": "P022",
+    "fase": "picco",
+    "tipo": "cosa da fare",
+    "categoria": "logistica",
+    "titolo": "Ricontrolla la logistica",
+    "messaggio": "Conferma alloggio, treno o parcheggio, e come arrivare alla partenza la mattina della gara.",
+    "giorni": {
+      "10": -10,
+      "21": -14,
+      "42": -20
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": false,
+    "recuperabile": true,
+    "modulo": "Scheda gara"
+  },
+  {
+    "id": "P023",
+    "fase": "picco",
+    "tipo": "cosa da fare",
+    "categoria": "logistica",
+    "titolo": "Ritiro pettorale: orari e regole",
+    "messaggio": "Controlla luogo e orari del ritiro pettorale, e se serve un documento o una delega per ritirarlo al posto di qualcuno.",
+    "giorni": {
+      "10": -9,
+      "21": -12,
+      "42": -16
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": false,
+    "recuperabile": true,
+    "modulo": "Scheda gara"
+  },
+  {
+    "id": "P024",
+    "fase": "scarico",
+    "tipo": "momento",
+    "categoria": "motivazione",
+    "titolo": "Inizia lo scarico",
+    "messaggio": "Il lavoro è fatto: ora si recupera per arrivare freschi. Meno chilometri, stessa routine.",
+    "giorni": {
+      "10": -7,
+      "21": -7,
+      "42": -14
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": false,
+    "recuperabile": false,
+    "modulo": "Percorso"
+  },
+  {
+    "id": "P025",
+    "fase": "scarico",
+    "tipo": "cosa da fare",
+    "categoria": "meteo",
+    "titolo": "Prime previsioni meteo",
+    "messaggio": "Sono uscite le prime previsioni per il giorno della gara: tienile d'occhio, possono ancora cambiare.",
+    "giorni": {
+      "10": -7,
+      "21": -7,
+      "42": -12
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": false,
+    "recuperabile": false,
+    "modulo": "Meteo e vestizione"
+  },
+  {
+    "id": "P026",
+    "fase": "scarico",
+    "tipo": "cosa da fare",
+    "categoria": "rifornimento",
+    "titolo": "Piano di rifornimento definitivo",
+    "messaggio": "Fissa il piano: quanti gel, a che chilometro, dove sono i ristori. Stampalo o salvalo come sfondo.",
+    "giorni": {
+      "10": null,
+      "21": -6,
+      "42": -10
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": false,
+    "recuperabile": true,
+    "modulo": "Rifornimento"
+  },
+  {
+    "id": "P027",
+    "fase": "scarico",
+    "tipo": "cosa da fare",
+    "categoria": "rifornimento",
+    "titolo": "Completa la scorta di gel",
+    "messaggio": "Controlla di avere tutti i gel del piano, più uno di riserva.",
+    "giorni": {
+      "10": null,
+      "21": -6,
+      "42": -9
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": false,
+    "recuperabile": true,
+    "modulo": "Vetrine"
+  },
+  {
+    "id": "P028",
+    "fase": "scarico",
+    "tipo": "momento",
+    "categoria": "mente",
+    "titolo": "Il nervosismo è normale",
+    "messaggio": "Gambe strane e un po' di ansia nei giorni di scarico sono normali: è il segno che stai recuperando.",
+    "giorni": {
+      "10": -4,
+      "21": -5,
+      "42": -7
+    },
+    "riferimento": "gara",
+    "tappa": false,
+    "divertimento": false,
+    "recuperabile": false,
+    "modulo": "Percorso"
+  },
+  {
+    "id": "P029",
+    "fase": "scarico",
+    "tipo": "cosa da fare",
+    "categoria": "alimentazione",
+    "titolo": "Più spazio ai carboidrati",
+    "messaggio": "Nei giorni prima della gara dai più spazio ai carboidrati, con cibi che conosci e digerisci bene. Niente esperimenti.",
+    "giorni": {
+      "10": null,
+      "21": -2,
+      "42": -3
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": false,
+    "recuperabile": false,
+    "modulo": "Percorso"
+  },
+  {
+    "id": "P030",
+    "fase": "scarico",
+    "tipo": "cosa da fare",
+    "categoria": "meteo",
+    "titolo": "Decidi la vestizione",
+    "messaggio": "Con il meteo previsto alla partenza e all'arrivo, decidi cosa indossare e cosa portare da buttare dopo il via.",
+    "giorni": {
+      "10": -2,
+      "21": -2,
+      "42": -2
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": true,
+    "recuperabile": false,
+    "modulo": "Meteo e vestizione"
+  },
+  {
+    "id": "P031",
+    "fase": "scarico",
+    "tipo": "cosa da fare",
+    "categoria": "logistica",
+    "titolo": "Ritira il pettorale",
+    "messaggio": "Oggi o domani si ritira il pettorale: luogo e orari sono nella scheda gara.",
+    "giorni": {
+      "10": -1,
+      "21": -1,
+      "42": -1
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": true,
+    "recuperabile": false,
+    "modulo": "Scheda gara"
+  },
+  {
+    "id": "P032",
+    "fase": "scarico",
+    "tipo": "cosa da fare",
+    "categoria": "logistica",
+    "titolo": "Sveglia e colazione",
+    "messaggio": "Imposta la sveglia in modo da fare colazione con calma e arrivare in anticipo. Colazione già provata nei lunghi.",
+    "giorni": {
+      "10": -1,
+      "21": -1,
+      "42": -1
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": true,
+    "recuperabile": false,
+    "modulo": "Percorso"
+  },
+  {
+    "id": "P033",
+    "fase": "scarico",
+    "tipo": "checklist",
+    "categoria": "borsa",
+    "titolo": "Pettorale e spille",
+    "messaggio": "Pettorale con spille, o portapettorale.",
+    "giorni": {
+      "10": -1,
+      "21": -1,
+      "42": -1
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": true,
+    "recuperabile": false,
+    "modulo": "Checklist"
+  },
+  {
+    "id": "P034",
+    "fase": "scarico",
+    "tipo": "checklist",
+    "categoria": "borsa",
+    "titolo": "Chip",
+    "messaggio": "Chip di cronometraggio, se separato dal pettorale.",
+    "giorni": {
+      "10": -1,
+      "21": -1,
+      "42": -1
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": true,
+    "recuperabile": false,
+    "modulo": "Checklist"
+  },
+  {
+    "id": "P035",
+    "fase": "scarico",
+    "tipo": "checklist",
+    "categoria": "borsa",
+    "titolo": "Scarpe e calze da gara",
+    "messaggio": "Le scarpe rodate e le calze già provate.",
+    "giorni": {
+      "10": -1,
+      "21": -1,
+      "42": -1
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": true,
+    "recuperabile": false,
+    "modulo": "Checklist"
+  },
+  {
+    "id": "P036",
+    "fase": "scarico",
+    "tipo": "checklist",
+    "categoria": "borsa",
+    "titolo": "Abbigliamento da gara",
+    "messaggio": "Il completo deciso in base al meteo.",
+    "giorni": {
+      "10": -1,
+      "21": -1,
+      "42": -1
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": true,
+    "recuperabile": false,
+    "modulo": "Checklist"
+  },
+  {
+    "id": "P037",
+    "fase": "scarico",
+    "tipo": "checklist",
+    "categoria": "borsa",
+    "titolo": "Strato da buttare",
+    "messaggio": "Maglia vecchia o poncho per l'attesa in griglia.",
+    "giorni": {
+      "10": -1,
+      "21": -1,
+      "42": -1
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": false,
+    "recuperabile": false,
+    "modulo": "Checklist"
+  },
+  {
+    "id": "P038",
+    "fase": "scarico",
+    "tipo": "checklist",
+    "categoria": "borsa",
+    "titolo": "Gel del piano",
+    "messaggio": "I gel del piano di rifornimento, più uno di riserva.",
+    "giorni": {
+      "10": null,
+      "21": -1,
+      "42": -1
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": false,
+    "recuperabile": false,
+    "modulo": "Checklist"
+  },
+  {
+    "id": "P039",
+    "fase": "scarico",
+    "tipo": "checklist",
+    "categoria": "borsa",
+    "titolo": "Crema anti-sfregamento",
+    "messaggio": "Vaselina o crema per i punti di sfregamento.",
+    "giorni": {
+      "10": -1,
+      "21": -1,
+      "42": -1
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": true,
+    "recuperabile": false,
+    "modulo": "Checklist"
+  },
+  {
+    "id": "P040",
+    "fase": "scarico",
+    "tipo": "checklist",
+    "categoria": "borsa",
+    "titolo": "Orologio carico",
+    "messaggio": "Orologio e fascia cardio carichi.",
+    "giorni": {
+      "10": -1,
+      "21": -1,
+      "42": -1
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": true,
+    "recuperabile": false,
+    "modulo": "Checklist"
+  },
+  {
+    "id": "P041",
+    "fase": "scarico",
+    "tipo": "checklist",
+    "categoria": "borsa",
+    "titolo": "Sacca per il deposito",
+    "messaggio": "Cambio asciutto, giacca e qualcosa da mangiare per dopo.",
+    "giorni": {
+      "10": -1,
+      "21": -1,
+      "42": -1
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": false,
+    "recuperabile": false,
+    "modulo": "Checklist"
+  },
+  {
+    "id": "P042",
+    "fase": "scarico",
+    "tipo": "checklist",
+    "categoria": "borsa",
+    "titolo": "Documento e telefono",
+    "messaggio": "Documento, telefono, un po' di contanti.",
+    "giorni": {
+      "10": -1,
+      "21": -1,
+      "42": -1
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": true,
+    "recuperabile": false,
+    "modulo": "Checklist"
+  },
+  {
+    "id": "P043",
+    "fase": "gara",
+    "tipo": "momento",
+    "categoria": "motivazione",
+    "titolo": "È il giorno",
+    "messaggio": "Oggi si raccoglie quello che hai seminato. Parti al tuo passo e goditela.",
+    "giorni": {
+      "10": 0,
+      "21": 0,
+      "42": 0
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": true,
+    "recuperabile": false,
+    "modulo": "Percorso"
+  },
+  {
+    "id": "P044",
+    "fase": "gara",
+    "tipo": "checklist",
+    "categoria": "mattina",
+    "titolo": "Colazione provata",
+    "messaggio": "La colazione che hai già provato nei lunghi, con il giusto anticipo.",
+    "giorni": {
+      "10": 0,
+      "21": 0,
+      "42": 0
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": true,
+    "recuperabile": false,
+    "modulo": "Checklist"
+  },
+  {
+    "id": "P045",
+    "fase": "gara",
+    "tipo": "checklist",
+    "categoria": "mattina",
+    "titolo": "Arriva in anticipo",
+    "messaggio": "Calcola il tempo per arrivare, il deposito borse e la fila ai bagni.",
+    "giorni": {
+      "10": 0,
+      "21": 0,
+      "42": 0
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": true,
+    "recuperabile": false,
+    "modulo": "Scheda gara"
+  },
+  {
+    "id": "P046",
+    "fase": "gara",
+    "tipo": "checklist",
+    "categoria": "mattina",
+    "titolo": "Deposito borse",
+    "messaggio": "Consegna la sacca prima della chiusura del deposito (orario nella scheda gara).",
+    "giorni": {
+      "10": 0,
+      "21": 0,
+      "42": 0
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": false,
+    "recuperabile": false,
+    "modulo": "Scheda gara"
+  },
+  {
+    "id": "P047",
+    "fase": "gara",
+    "tipo": "checklist",
+    "categoria": "mattina",
+    "titolo": "Riscaldamento breve",
+    "messaggio": "Qualche minuto di corsa leggera e mobilità.",
+    "giorni": {
+      "10": 0,
+      "21": 0,
+      "42": 0
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": true,
+    "recuperabile": false,
+    "modulo": "Checklist"
+  },
+  {
+    "id": "P048",
+    "fase": "gara",
+    "tipo": "checklist",
+    "categoria": "mattina",
+    "titolo": "Entra in griglia",
+    "messaggio": "Raggiungi la tua griglia in tempo, con lo strato da buttare.",
+    "giorni": {
+      "10": 0,
+      "21": 0,
+      "42": 0
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": false,
+    "recuperabile": false,
+    "modulo": "Scheda gara"
+  },
+  {
+    "id": "P049",
+    "fase": "gara",
+    "tipo": "checklist",
+    "categoria": "mattina",
+    "titolo": "Piano al polso",
+    "messaggio": "Passo obiettivo e punti di rifornimento a portata d'occhio.",
+    "giorni": {
+      "10": null,
+      "21": 0,
+      "42": 0
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": false,
+    "recuperabile": false,
+    "modulo": "Rifornimento"
+  },
+  {
+    "id": "P050",
+    "fase": "gara",
+    "tipo": "momento",
+    "categoria": "motivazione",
+    "titolo": "Traguardo!",
+    "messaggio": "Ce l'hai fatta. Goditi il momento: il risultato lo registri quando vuoi.",
+    "giorni": {
+      "10": 0,
+      "21": 0,
+      "42": 0
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": true,
+    "recuperabile": false,
+    "modulo": "Percorso"
+  },
+  {
+    "id": "P051",
+    "fase": "dopo",
+    "tipo": "cosa da fare",
+    "categoria": "risultati",
+    "titolo": "Registra il risultato",
+    "messaggio": "Inserisci tempo ufficiale e sensazioni: se è un nuovo PB, lo aggiorniamo.",
+    "giorni": {
+      "10": 1,
+      "21": 1,
+      "42": 1
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": true,
+    "recuperabile": false,
+    "modulo": "Gare e PB"
+  },
+  {
+    "id": "P052",
+    "fase": "dopo",
+    "tipo": "momento",
+    "categoria": "gruppo",
+    "titolo": "Condividi con il gruppo",
+    "messaggio": "Racconta com'è andata e guarda i risultati di chi ha corso con te.",
+    "giorni": {
+      "10": 1,
+      "21": 1,
+      "42": 1
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": true,
+    "recuperabile": false,
+    "modulo": "Gruppo"
+  },
+  {
+    "id": "P053",
+    "fase": "dopo",
+    "tipo": "cosa da fare",
+    "categoria": "corpo",
+    "titolo": "Recupero",
+    "messaggio": "Qualche giorno facile o di riposo: ascolta le gambe prima di riprendere.",
+    "giorni": {
+      "10": 1,
+      "21": 2,
+      "42": 2
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": false,
+    "recuperabile": false,
+    "modulo": "Corpo"
+  },
+  {
+    "id": "P054",
+    "fase": "dopo",
+    "tipo": "cosa da fare",
+    "categoria": "attrezzatura",
+    "titolo": "Aggiorna i km delle scarpe",
+    "messaggio": "Aggiorna i km della scarpa da gara: le scarpe da gara si consumano in fretta.",
+    "giorni": {
+      "10": 2,
+      "21": 2,
+      "42": 2
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": false,
+    "recuperabile": false,
+    "modulo": "Scarpe"
+  },
+  {
+    "id": "P055",
+    "fase": "dopo",
+    "tipo": "cosa da fare",
+    "categoria": "bilancio",
+    "titolo": "Bilancio della gara",
+    "messaggio": "Cosa ha funzionato e cosa no? Rifornimento, scarpe, vestizione: annotalo per la prossima volta.",
+    "giorni": {
+      "10": 3,
+      "21": 3,
+      "42": 4
+    },
+    "riferimento": "gara",
+    "tappa": true,
+    "divertimento": false,
+    "recuperabile": false,
+    "modulo": "Percorso"
+  },
+  {
+    "id": "P056",
+    "fase": "dopo",
+    "tipo": "cosa da fare",
+    "categoria": "prossima gara",
+    "titolo": "Scegli la prossima gara",
+    "messaggio": "Ecco le prossime gare in zona adatte a te. Quando sei pronto, si riparte.",
+    "giorni": {
+      "10": 7,
+      "21": 10,
+      "42": 14
+    },
+    "riferimento": "gara",
+    "tappa": false,
+    "divertimento": true,
+    "recuperabile": false,
+    "modulo": "Calendario"
+  }
+]

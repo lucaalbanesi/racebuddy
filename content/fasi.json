@@ -1,0 +1,122 @@
+[
+  {
+    "id": "si_parte",
+    "ordine": 1,
+    "nome": "Si parte",
+    "descrizione": "Iscrizione, obiettivo, logistica, controllo attrezzatura",
+    "giorni": {
+      "10": {
+        "inizio": -56,
+        "fine": -43
+      },
+      "21": {
+        "inizio": -70,
+        "fine": -57
+      },
+      "42": {
+        "inizio": -84,
+        "fine": -64
+      }
+    }
+  },
+  {
+    "id": "costruzione",
+    "ordine": 2,
+    "nome": "Costruzione",
+    "descrizione": "Settimane regolari, prime prove di rifornimento e ritmo",
+    "giorni": {
+      "10": {
+        "inizio": -42,
+        "fine": -22
+      },
+      "21": {
+        "inizio": -56,
+        "fine": -29
+      },
+      "42": {
+        "inizio": -63,
+        "fine": -36
+      }
+    }
+  },
+  {
+    "id": "picco",
+    "ordine": 3,
+    "nome": "Picco",
+    "descrizione": "Il lungo più lungo, la prova generale, rodaggio scarpa da gara",
+    "giorni": {
+      "10": {
+        "inizio": -21,
+        "fine": -8
+      },
+      "21": {
+        "inizio": -28,
+        "fine": -8
+      },
+      "42": {
+        "inizio": -35,
+        "fine": -15
+      }
+    }
+  },
+  {
+    "id": "scarico",
+    "ordine": 4,
+    "nome": "Scarico",
+    "descrizione": "Meno carico, piano definitivo, meteo, borsa, pettorale",
+    "giorni": {
+      "10": {
+        "inizio": -7,
+        "fine": -1
+      },
+      "21": {
+        "inizio": -7,
+        "fine": -1
+      },
+      "42": {
+        "inizio": -14,
+        "fine": -1
+      }
+    }
+  },
+  {
+    "id": "gara",
+    "ordine": 5,
+    "nome": "Giorno gara",
+    "descrizione": "La mattina, la partenza, il traguardo",
+    "giorni": {
+      "10": {
+        "inizio": 0,
+        "fine": 0
+      },
+      "21": {
+        "inizio": 0,
+        "fine": 0
+      },
+      "42": {
+        "inizio": 0,
+        "fine": 0
+      }
+    }
+  },
+  {
+    "id": "dopo",
+    "ordine": 6,
+    "nome": "Dopo",
+    "descrizione": "Recupero, bilancio, prossima gara",
+    "giorni": {
+      "10": {
+        "inizio": 1,
+        "fine": 7
+      },
+      "21": {
+        "inizio": 1,
+        "fine": 14
+      },
+      "42": {
+        "inizio": 1,
+        "fine": 14
+      }
+    }
+  }
+]
