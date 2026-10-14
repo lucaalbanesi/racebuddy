@@ -88,6 +88,9 @@ export function crea(env, fetchImpl = fetch) {
     let corpo = {};
     try { corpo = await req.json(); } catch (e) { /* vuoto */ }
     const az = corpo.azione;
+    // diagnosi: quali impostazioni ci sono (sì/no) e i nomi delle variabili "strava", mai i valori
+    if (az === "verifica") return json({ STRAVA_CLIENT_ID: !!env.STRAVA_CLIENT_ID, STRAVA_CLIENT_SECRET: !!env.STRAVA_CLIENT_SECRET,
+      SUPABASE_URL: !!env.SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY: !!env.SUPABASE_SERVICE_ROLE_KEY, nomi: env.NOMI_STRAVA || [] });
     if (!env.STRAVA_CLIENT_ID || !env.STRAVA_CLIENT_SECRET) return json({ errore: "non configurato" }, 503);
     if (az === "inizio") {
       // posti esauriti: si ferma qui, salvo chi dice di essere già tester (telefono nuovo); al ritorno si ricontrolla

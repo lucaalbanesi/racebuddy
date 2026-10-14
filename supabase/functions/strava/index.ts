@@ -5,6 +5,8 @@ import { crea } from "./gestisci.js";
 
 // Le variabili si leggono una per una: è il modo documentato da Supabase, e si legge solo quello che serve.
 const NOMI = ["SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY", "STRAVA_CLIENT_ID", "STRAVA_CLIENT_SECRET", "APP_URL", "APP_ORIGIN"];
-const env = Object.fromEntries(NOMI.map((n) => [n, (Deno.env.get(n) || "").trim()]));
+const env: Record<string, unknown> = Object.fromEntries(NOMI.map((n) => [n, (Deno.env.get(n) || "").trim()]));
+// Per la diagnosi (azione "verifica"): solo i NOMI delle variabili che contengono "strava", mai i valori.
+try { env.NOMI_STRAVA = Object.keys(Deno.env.toObject()).filter((k) => /strava/i.test(k)); } catch (_e) { env.NOMI_STRAVA = ["(elenco non leggibile)"]; }
 
 Deno.serve(crea(env));
