@@ -174,10 +174,10 @@
     const stO = focus.id === obiettivo.id ? st : L.stato(D.percorso, obiettivo, o, S.spunte, S.rinvii);
     const daFare = [...st.oggi, ...(focus.id === obiettivo.id ? [] : stO.oggi)].filter((v) => v.tipo !== "momento" || true);
     const azioni = daFare.filter((v) => v.tipo === "cosa da fare");
-    const momenti = daFare.filter((v) => v.tipo === "momento");
+    const momenti = daFare.filter((v) => v.tipo === "momento" && !(S.letti || {})[v.chiave]);
     const recuperi = stO.daRecuperare.length;
     let blocco = "";
-    if (momenti.length) blocco += momenti.map((m) => `<section class="card soft"><span class="eyebrow" style="color:var(--accent-strong)">Momento</span><span class="title">${esc(m.titolo)}</span><span class="small">${esc(m.messaggio)}</span></section>`).join("");
+    if (momenti.length) blocco += momenti.map((m) => `<section class="card soft"><div class="between"><span class="eyebrow" style="color:var(--accent-strong)">Momento del percorso</span><button class="btn ghost small" data-act="letto" data-k="${esc(m.chiave)}" aria-label="Chiudi: ${esc(m.titolo)}">Ok, chiudi</button></div><span class="title">${esc(m.titolo)}</span><span class="small">${esc(m.messaggio)}</span></section>`).join("");
     if (azioni.length) {
       blocco += `<section class="card" aria-label="Da fare oggi"><h2>Da fare oggi</h2>${azioni.map((v) => {
         const fatto = !!S.spunte[v.chiave];
@@ -489,6 +489,8 @@
       if (t.tagName === "INPUT") S.spunte[t.dataset.k] = t.checked; else S.spunte[t.dataset.k] = true;
       if (!S.spunte[t.dataset.k]) delete S.spunte[t.dataset.k];
       salva(); if (t.tagName !== "INPUT") toast("Fatto"); rerender();
+    } else if (act === "letto") {
+      S.letti = S.letti || {}; S.letti[t.dataset.k] = true; salva(); rerender();
     } else if (act === "rinvia") {
       S.rinvii[t.dataset.k] = L.addDays(oggi(), 1); salva(); toast("Te lo ricordo domani"); rerender();
     } else if (act === "filtro") {
