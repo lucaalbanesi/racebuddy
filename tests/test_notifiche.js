@@ -9,11 +9,15 @@ const fasi = leggi("content/fasi.json"), percorso = leggi("content/percorso.json
 const firenze = { id: "F-42", nome: "XLII^ ESTRA Firenze Marathon", data: "2026-11-29", distanza: "42", ruolo: "obiettivo", aggiunta: "2026-09-01" };
 const scheda = { "F-42": { partenza: "8:30", luogoPartenza: "Partenza da Piazza Duomo", griglia: "Griglie per PB, ingresso 7:00-8:00.", deposito: "Piazza Santa Maria Novella dalle 7:00.", pettorale: "Expo Leopolda ven 10-19:30, sab 9-19:30." } };
 const freddo = { temp: 3, vento: 5, pioggia: 10, codice: 0 };
-const base = (over = {}) => ({ ora: 6, fasi, percorso, schede: {}, dati: { ora: "07:00", gare: [firenze], spunte: [] }, stato: {}, meteoUscita: { temp: 12, vento: 5, pioggia: 10, codice: 1 }, ...over });
+const base = (over = {}) => ({ ora: 6.5, fasi, percorso, schede: {}, dati: { ora: "07:00", gare: [firenze], spunte: [] }, stato: {}, meteoUscita: { temp: 12, vento: 5, pioggia: 10, codice: 1 }, ...over });
 
 // orari
-assert.strictEqual(N.oraMattino("06:30"), 5);
-assert.strictEqual(N.oraMattino("07:00"), 6);
+assert.strictEqual(N.oraMattino("06:30"), 6);
+assert.strictEqual(N.oraMattino("07:00"), 6.5);
+assert.strictEqual(N.oraMattino("07:15"), 6.5);
+assert.strictEqual(N.oraMattino("07:45"), 7);
+assert.strictEqual(N.oraMattino("05:00"), 5);
+assert.strictEqual(N.oraMattino("12:00"), 11.5);
 assert.strictEqual(N.oraMattino("18:30"), 7);
 assert.strictEqual(N.oraGara({ partenza: "8:30" }), 6);
 assert.strictEqual(N.oraGara({ partenza: "9:30 da confermare" }), 7);

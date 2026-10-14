@@ -18,8 +18,9 @@ const fasi = leggi("content/fasi.json"), percorso = leggi("content/percorso.json
 const sb = (q, opt = {}) => fetch(`${URL_SB}/rest/v1/${q}`, { ...opt, headers: { apikey: KEY, "Content-Type": "application/json", ...(opt.headers || {}) } });
 
 // Ora e data di Roma
-const parti = Object.fromEntries(new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Rome", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", hourCycle: "h23" }).formatToParts(new Date()).map((p) => [p.type, p.value]));
-const OGGI = `${parti.year}-${parti.month}-${parti.day}`, ORA = Number(parti.hour);
+const parti = Object.fromEntries(new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Rome", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).formatToParts(new Date()).map((p) => [p.type, p.value]));
+// ORA a mezz'ore (il job gira due volte l'ora): 6.5 = dalle 6:30 alle 6:59
+const OGGI = `${parti.year}-${parti.month}-${parti.day}`, ORA = Number(parti.hour) + (Number(parti.minute) >= 30 ? 0.5 : 0);
 
 const cacheMeteo = {};
 async function meteo(luogo, ora, giorno = OGGI) {
@@ -58,7 +59,7 @@ async function main() {
     const gareVicine = (d.gare || []).filter((g) => { const n = L.diffDays(g.data, OGGI); return n >= 0 && n <= 7; });
     const personale = PROVA || ORA === N.oraMattino(d.ora) || ORA === 19 || gareVicine.some((g) => g.data === OGGI && ORA === N.oraGara(schede[g.id]));
     // le novità urgenti delle gare si controllano ogni ora (8-21), non solo nei momenti fissi
-    const urgenti = !PROVA && ORA >= 8 && ORA <= 21 && (d.gare || []).some((g) => garaConUrgenti.has(g.id));
+    const urgenti = !PROVA && Number.isInteger(ORA) && ORA >= 8 && ORA <= 21 && (d.gare || []).some((g) => garaConUrgenti.has(g.id));
     if (!personale && !urgenti) continue;
     valutati++;
     const sub = { endpoint: it.endpoint, keys: { p256dh: it.p256dh, auth: it.auth } };

@@ -4,7 +4,9 @@
    ripetuto, niente avvisi già dati.
 
    Momenti di invio (ora di Roma):
-   - "mattino": un'ora prima dell'uscita abituale (chi esce dopo le 12 lo riceve alle 7). Al massimo 1 al giorno.
+   - "mattino": mezz'ora prima dell'uscita abituale, alla mezz'ora (uscita 7:00 → 6:30, 7:15 → 6:30; chi esce dopo le 12
+     lo riceve alle 7; mai prima delle 5). Al massimo 1 al giorno. Il job gira ogni mezz'ora: "ora" è in ore con 0.5
+     per la mezz'ora (6.5 = 6:30); vigilia, mattina di gara e novità urgenti valgono solo all'ora piena.
    - "vigilia": il giorno prima della gara alle 19.
    - "gara":    la mattina della gara, 2 ore prima della partenza (mai prima delle 5).
    Fuori da questi momenti non parte nulla: niente notifiche di notte.
@@ -36,10 +38,10 @@ const fmtOra = (o) => { const m = String(o || "").match(/(\d{1,2})[:.](\d{2})/);
 const ICONA = { sereno: "☀️", variabile: "⛅", nuvoloso: "☁️", nebbia: "🌫️", pioggia: "🌧️", neve: "❄️", temporale: "⛈️" };
 const icona = (m) => (m.notte && L.tipoCielo(m) === "sereno" ? "🌙" : ICONA[L.tipoCielo(m)]);
 
-/** Ora (intera, Roma) del messaggio del mattino. */
+/** Ora (Roma, a mezz'ore: 6.5 = 6:30) del messaggio del mattino: mezz'ora prima dell'uscita. */
 function oraMattino(oraUscita) {
-  const h = Math.floor(oraNum(oraUscita, 7));
-  return h <= 12 ? Math.max(5, h - 1) : 7;
+  const u = oraNum(oraUscita, 7);
+  return u <= 12 ? Math.max(5, Math.floor((u - 0.5) * 2) / 2) : 7;
 }
 /** Ora del messaggio della mattina di gara: 2 ore prima della partenza indicata nella scheda (default 8:30). */
 function oraGara(scheda) {
@@ -68,7 +70,7 @@ function novitaUrgente(ctx) {
   const pref = { ...PREF, ...(dati.pref || {}) };
   const stato = JSON.parse(JSON.stringify(ctx.stato || {}));
   stato.inviati = stato.inviati || {};
-  if (!pref.novita || ora < 8 || ora > 21) return { invio: null, stato };
+  if (!pref.novita || !Number.isInteger(ora) || ora < 8 || ora > 21) return { invio: null, stato };
   const gare = Object.fromEntries((dati.gare || []).filter((g) => g && g.data >= L.addDays(oggi, -14)).map((g) => [g.id, g]));
   const recente = (k, giorni) => stato.inviati[k] && L.diffDays(oggi, stato.inviati[k]) < giorni;
   const n = novita

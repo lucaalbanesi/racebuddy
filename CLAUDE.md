@@ -43,7 +43,7 @@ Nasce per il suo gruppo di amici/società (pochi utenti), ma deve poter crescere
 - Tabelle del gruppo: accesso solo tramite funzioni `security definer` con il token (vedi `docs/supabase_gruppo.sql`, testate in `tests/test_gruppo.sql` con il workflow "Test database gruppo").
 
 ## Notifiche push (regole in `scripts/notifiche.js`)
-- Solo novità, mai countdown né doppioni; al mattino max 1 (un'ora prima dell'uscita; chi esce dopo le 12 alle 7). Mai di notte.
+- Solo novità, mai countdown né doppioni; al mattino max 1 (mezz'ora prima dell'uscita, il job gira ogni mezz'ora; chi esce dopo le 12 alle 7). Mai di notte.
 - Ordine: scheda gara cambiata/pronta, scadenze documenti (30/15/2 gg), cose rimandate, tappe chiave, meteo gara (prima volta a 7 gg e se cambia molto), meteo uscita solo se cambia davvero (max 2 a settimana, stesso avviso non ripetuto).
 - Vigilia alle 19, mattina di gara 2 ore prima della partenza. Il gruppo non manda notifiche (i ritrovi sono stati tolti a ottobre 2026).
 - Novità urgenti delle gare (`novitaUrgente`): ogni ora tra le 8 e le 21, unica eccezione al "max 1 al mattino": al massimo una al giorno per gara, stesso tema non prima di 14 giorni, mai notizie vecchie di oltre 2 giorni. Le novità "del mattino" vanno come riga in più del messaggio del mattino; la domenica, se non c'è altro, un contenuto per la fase (max 1 a settimana). Preferenze `novita` e `fase`.
