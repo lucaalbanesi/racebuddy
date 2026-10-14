@@ -45,6 +45,18 @@ DTSTART;VALUE=DATE:{FUT}\r
 SUMMARY:Maratonina del Mare\r
 LOCATION:Ostia\r
 END:VEVENT\r
+BEGIN:VEVENT\r
+UID:a7@fidal.it\r
+DTSTART;VALUE=DATE:{FUT}\r
+SUMMARY:X^ Parma Marathon (km 10)\r
+LOCATION:Parma\r
+END:VEVENT\r
+BEGIN:VEVENT\r
+UID:a8@fidal.it\r
+DTSTART;VALUE=DATE:{FUT}\r
+SUMMARY:Maratonina di Prova (15km)\r
+LOCATION:Prova\r
+END:VEVENT\r
 END:VCALENDAR\r
 """
 
@@ -57,6 +69,8 @@ def test_classifica():
     assert by["Roma"]["distanza"] == "21" and by["Roma"]["annullata"] and by["Roma"]["nome"].startswith("Mezza")
     assert "Bologna" not in by           # trail escluso
     assert by["Ostia"]["distanza"] == "21"     # maratonina = mezza
+    assert by["Parma"]["distanza"] == "10"    # km nel nome vince su "Marathon"
+    assert "Prova" not in by             # 15 km esclusa anche se "maratonina"
     # id stabile per gare senza codice FIDAL
     again = [g for g in (f.to_gara(e) for e in f.parse_ics(ICS)) if g]
     assert {g["id"] for g in gare} == {g["id"] for g in again}

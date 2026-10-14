@@ -6,7 +6,7 @@ Uso:
     python scripts/import_fidal.py --mesi 6   # solo i prossimi 6 mesi
     python scripts/import_fidal.py --file feed.ics  # usa un file locale (test)
 
-Tiene solo le gare su strada di 10 km, mezza maratona e maratona.
+Scarica il calendario nazionale e regionale. Tiene solo le gare su strada di 10 km, mezza maratona e maratona.
 Le gare annullate restano nell'elenco con "annullata": true, così l'app
 può avvisare chi le aveva scelte.
 Fonte dati: calendario pubblico FIDAL (https://www.fidal.it/calendario.php).
@@ -21,7 +21,9 @@ import time
 import urllib.request
 from pathlib import Path
 
-FEED_URL = "https://www.fidal.it/ical/ical_man.php?&anno={anno}&mese={mese}&livello=COD"
+# submit=Invia è necessario: senza, il feed restituisce sempre il mese in corso
+FEED_URL = "https://www.fidal.it/ical/ical_man.php?&submit=Invia&anno={anno}&mese={mese}&livello={livello}"
+LIVELLI = ("COD", "REG")  # calendario nazionale e regionale
 OUT = Path(__file__).resolve().parent.parent / "data" / "gare.json"
 USER_AGENT = "RaceBuddy-calendario/0.1 (progetto amatoriale; contatto via GitHub lucaalbanesi/racebuddy)"
 
@@ -70,21 +72,46 @@ def parse_date(value: str | None) -> str | None:
 
 
 # ------------------------------------------------------------ classificazione
+KM = re.compile(r"(\d+(?:[.,]\d+)?)\s*k(?:m)?\b|\bkm\.?\s*(\d+(?:[.,]\d+)?)", re.I)
+
+
+def _da_km(testo: str) -> tuple[bool, str | None]:
+    """(trovato_km, distanza) dai chilometri scritti nel testo."""
+    trovati = False
+    for a, b in KM.findall(testo):
+        val = float((a or b).replace(",", "."))
+        trovati = True
+        if 9.5 <= val <= 10.5:
+            return True, "10"
+        if 21.0 <= val <= 21.2:
+            return True, "21"
+        if 42.0 <= val <= 42.3:
+            return True, "42"
+    return trovati, None
+
+
+def _da_parole(testo: str) -> str | None:
+    low = testo.lower()
+    if re.search(r"\bmezza\b|\bmaratonina\b|half\s*marathon", low):
+        return "21"
+    if re.search(r"\bmaratona\b|\bmarathon\b", low):
+        return "42"
+    return None
+
+
 def distanza(nome: str, descr: str) -> str | None:
-    """Restituisce '10', '21' o '42', oppure None se la gara non interessa."""
+    """Restituisce '10', '21' o '42', oppure None se la gara non interessa.
+    Ordine: km scritti nel nome, parole chiave nel nome, poi la descrizione."""
     if ESCLUSI.search(nome):  # solo sul nome: la descrizione cita spesso gare collaterali
         return None
-    testo = f"{nome} {descr}"
-    low = testo.lower()
-    if re.search(r"21[.,]0975|\bmezza\b|\bmaratonina\b|half\s*marathon|\b21\s*k(m)?\b", low):
-        return "21"
-    if re.search(r"42[.,]195|\bmaratona\b|\bmarathon\b|\b42\s*k(m)?\b", low):
-        return "42"
-    for km in re.findall(r"(\d+(?:[.,]\d+)?)\s*k(?:m)?\b", low):
-        val = float(km.replace(",", "."))
-        if 9.5 <= val <= 10.5:
-            return "10"
-    return None
+    trovati, d = _da_km(nome)
+    if trovati:
+        return d  # il nome dichiara una distanza: vale quella (es. "Parma Marathon (km 10)")
+    d = _da_parole(nome)
+    if d:
+        return d
+    trovati, d = _da_km(descr)
+    return d if trovati else _da_parole(descr)
 
 
 def codice_fidal(*testi: str) -> str | None:
@@ -124,8 +151,8 @@ def to_gara(ev: dict) -> dict | None:
 
 
 # ----------------------------------------------------------------- download
-def scarica(anno: int, mese: int) -> str:
-    req = urllib.request.Request(FEED_URL.format(anno=anno, mese=mese), headers={"User-Agent": USER_AGENT})
+def scarica(anno: int, mese: int, livello: str) -> str:
+    req = urllib.request.Request(FEED_URL.format(anno=anno, mese=mese, livello=livello), headers={"User-Agent": USER_AGENT})
     with urllib.request.urlopen(req, timeout=60) as r:
         return r.read().decode("utf-8", errors="replace")
 
@@ -153,12 +180,17 @@ def main() -> int:
         eventi = parse_ics(Path(args.file).read_text(encoding="utf-8"))
     else:
         for anno, mese in prossimi_mesi(args.mesi, oggi):
-            try:
-                eventi += parse_ics(scarica(anno, mese))
-            except Exception as e:  # un mese che fallisce non blocca gli altri
-                errori += 1
-                print(f"Attenzione: {anno}-{mese:02d} non scaricato ({e})", file=sys.stderr)
-            time.sleep(2)  # gentile con il server FIDAL
+            for livello in LIVELLI:
+                try:
+                    ev = parse_ics(scarica(anno, mese, livello))
+                    fuori = sum(1 for e in ev if not (e.get("DTSTART", "")[:6] == f"{anno}{mese:02d}"))
+                    if ev and fuori == len(ev):
+                        print(f"Attenzione: {anno}-{mese:02d} {livello}: il feed ha restituito un altro mese", file=sys.stderr)
+                    eventi += ev
+                except Exception as e:  # un mese che fallisce non blocca gli altri
+                    errori += 1
+                    print(f"Attenzione: {anno}-{mese:02d} {livello} non scaricato ({e})", file=sys.stderr)
+                time.sleep(2)  # gentile con il server FIDAL
 
     gare: dict[str, dict] = {}
     for ev in eventi:
