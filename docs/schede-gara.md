@@ -32,7 +32,7 @@ dell'atleta, PDF), e vale per tutti gli utenti che seguono quella gara.
 
 Il campo `partenza` contiene solo l'orario (es. "8:30" o "8:30 da confermare"): spiegazioni e varianti vanno in `note`.
 
-Se due pagine ufficiali si contraddicono (es. orario), riportare entrambe le versioni nel campo con "da confermare" e segnalarlo nella pull request.
+Se due pagine ufficiali si contraddicono (es. orario), riportare entrambe le versioni nel campo con "da confermare" e segnalarlo nel riepilogo.
 
 Tutti i campi testuali sono facoltativi: **un campo si scrive solo se l'informazione è sul sito ufficiale per
 l'edizione in corso**. Se non si trova, il campo resta assente (nell'app l'utente può compilarlo a mano).
@@ -49,7 +49,7 @@ l'edizione in corso**. Se non si trova, il campo resta assente (nell'app l'utent
 4. Testi brevi, in italiano, in forma pratica (una riga per campo, massimo due).
 5. Nessun dato personale, nessun consiglio di allenamento, integrazione o salute.
 6. Se la gara risulta annullata o spostata: scriverlo in `note` all'inizio ("ANNULLATA" / "SPOSTATA al …")
-   e segnalarlo nella descrizione della pull request.
+   e segnalarlo nel riepilogo.
 
 ## Quando controllare una gara
 
@@ -64,7 +64,7 @@ Al massimo 8 gare per esecuzione, dalle più vicine. Le schede di gare passate d
 togliere.
 
 Ricontrollare significa riaprire le fonti: se nulla è cambiato si aggiorna solo `verificato`; se qualcosa è
-cambiato si aggiorna il campo e lo si segnala nella pull request.
+cambiato si aggiorna il campo e lo si segnala nel commit e nel riepilogo.
 
 ## Commit e riepilogo
 
