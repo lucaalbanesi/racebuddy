@@ -84,12 +84,37 @@
    "fasi": []
   },
   {
+   "id": "9511e9d62c23",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "La prima generazione che invecchia correndo",
+   "estratto": "Al ritiro pettorali di una mezza maratona di provincia, la fila si blocca davanti a un uomo sulla sessantina. Porta la canotta di una stracittadina del 1991, lavata così tante…",
+   "link": "https://runlovers.it/2026/prima-generazione-invecchia-correndo-over-60/",
+   "data": "2026-10-14",
+   "immagine": null,
+   "argomenti": [
+    "scarpe",
+    "gara"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "gara"
+   ]
+  },
+  {
    "id": "461e18701e7e",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
    "fonteId": "runnersworld",
    "titolo": "La corsa, da sport a spot. Quando l’immagine corre più veloce dei runner",
-   "estratto": "Si moltiplicano i casi di influecer sorpresi a imbrogliare nelle gare pur di riuscire a comunicare una \"super prestazione\". Riflessione sui valori dell'etica sportiva nell'epoca…",
+   "estratto": "Si moltiplicano i casi di influencer sorpresi a imbrogliare nelle gare pur di riuscire a comunicare una \"super prestazione\". Riflessione sui valori dell'etica sportiva nell'epoca…",
    "link": "https://www.runnersworld.com/it/news/a74127695/imbroglio-corsa-squalifica-runner-maratona-social-influencer/",
    "data": "2026-10-14",
    "immagine": "https://hips.hearstapps.com/hmg-prod/images/1f16cf2c-00c2-45f9-bdc1-512a2ca602af.jpg",
@@ -147,6 +172,22 @@
     "si_parte",
     "costruzione"
    ]
+  },
+  {
+   "id": "883b975956c7",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Diagonale des Fous: Tom Evans e Ruth Croft guidano l’assalto alla Réunion",
+   "estratto": "I vincitori dell'UTMB 2025 saranno al via di una delle 100 miglia più dure al mondo, che quest'anno si correrà su un percorso ancora più duro",
+   "link": "https://www.runnersworld.com/it/news/a74121699/diagonale-des-fous-tom-evans-ruth-croft-reunion/",
+   "data": "2026-10-14",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/49a8be2f-5072-4d33-b46f-9c71288127bd.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": []
   },
   {
    "id": "2e14abe38d83",
