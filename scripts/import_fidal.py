@@ -236,12 +236,15 @@ def main() -> int:
                 gare[g["id"]] = g
     gare = deduplica(gare)
 
-    # Conserva le gare future già note che il feed non riporta più (es. mese non scaricato)
+    # Conserva le gare future già note solo per i mesi che questa volta non sono arrivati
+    # (download fallito): per i mesi scaricati fa fede il feed appena letto.
     if OUT.exists() and not args.file:
+        mesi_letti = {g["data"][:7] for g in gare.values()}
         vecchie = json.loads(OUT.read_text(encoding="utf-8")).get("gare", [])
         for g in vecchie:
-            if g["data"] >= oggi.isoformat() and g["id"] not in gare:
+            if g["data"] >= oggi.isoformat() and g["data"][:7] not in mesi_letti and g["id"] not in gare:
                 gare[g["id"]] = g
+        gare = deduplica(gare)
 
     elenco = sorted(gare.values(), key=lambda g: (g["data"], g["nome"]))
     if not elenco and errori:
