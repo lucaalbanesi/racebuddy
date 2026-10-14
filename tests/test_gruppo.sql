@@ -32,15 +32,29 @@ begin
   assert (public.stato_gruppo(b))->'gruppo'->>'codice' = cod, 'organizzatore vede il codice';
   assert (public.stato_gruppo(a))->'ritrovi' is null, 'niente ritrovi';
 
-  -- risultati, applausi, classifica
+  -- risultati e applausi
   pid := public.pubblica_risultato(b, '{"gara_id":"R-21","gara_nome":"Rome Half","distanza":"21","data_gara":"2026-10-18","tempo":"1:42:10","pb":true,"testo":"Crisi al 16"}');
   perform public.pubblica_risultato(a, '{"gara_id":"R-21","gara_nome":"Rome Half","distanza":"21","data_gara":"2026-10-18","tempo":"1:35:02"}');
-  perform public.pubblica_risultato(a, '{"gara_id":"X-21","gara_nome":"Altra","distanza":"21","data_gara":"2026-09-01","tempo":"1:38:00"}');
   perform public.applaudi(a, pid); perform public.applaudi(c, pid); perform public.applaudi(c, pid);
   j := public.stato_gruppo(b);
   select (x->>'applausi')::int into n from json_array_elements(j->'bacheca') x where x->>'id' = pid::text;
   assert n = 1, 'applausi a interruttore';
-  assert json_array_length(j->'classifica') = 2 and j->'classifica'->0->>'membro' = 'Marco' and j->'classifica'->0->>'tempo' = '1:35:02', 'classifica: miglior tempo per membro';
+  assert json_array_length(j->'classifica') = 0, 'la bacheca non entra in classifica';
+  -- personali: uno per distanza, il nuovo invio sostituisce il vecchio
+  perform public.sincronizza_pb(a, '[{"distanza":"21","tempo":"1:38:00","gara":"Altra","data":"2025-03-01"},{"distanza":"10","tempo":"0:44:10"}]');
+  perform public.sincronizza_pb(a, '[{"distanza":"21","tempo":"1:35:02","gara":"Rome Half","data":"2026-10-18"},{"distanza":"10","tempo":"0:44:10"}]');
+  perform public.sincronizza_pb(b, '[{"distanza":"21","tempo":"1:42:10","gara":"Rome Half"}]');
+  assert json_array_length((public.stato_gruppo(b))->'classifica') = 3, 'tre personali';
+  select x into j from json_array_elements((public.stato_gruppo(b))->'classifica') x where x->>'distanza' = '21' limit 1;
+  assert j->>'membro' = 'Marco' and j->>'tempo' = '1:35:02' and (j->>'secondi')::int = 5702, 'classifica: il più veloce in testa';
+  begin perform public.sincronizza_pb(b, '[{"distanza":"21","tempo":"abc"}]'); assert false, 'tempo pb non valido accettato';
+  exception when check_violation or not_null_violation then null; end;
+  -- chi non vuole comparire esce dalla classifica
+  perform public.imposta_mostra_pb(b, false);
+  assert json_array_length((public.stato_gruppo(a))->'classifica') = 2, 'personali nascosti';
+  assert not ((public.stato_gruppo(b))->'io'->>'mostra_pb')::boolean, 'scelta salvata';
+  perform public.sincronizza_pb(b, '[{"distanza":"21","tempo":"1:40:00"}]');
+  assert json_array_length((public.stato_gruppo(a))->'classifica') = 2, 'nessun invio se nascosti';
   begin perform public.pubblica_risultato(b, '{"distanza":"21","data_gara":"2026-10-18","tempo":"abc"}'); assert false, 'tempo non valido accettato';
   exception when check_violation then null; end;
 

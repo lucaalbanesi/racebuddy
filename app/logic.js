@@ -207,7 +207,24 @@
     return { km, limite: lim, quota, etichetta, livello };
   }
 
-  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, sorriso, prossimaUscita, cercaGare, statoScarpa };
+  /** Tempo di gara scritto a mano → { tempo: "h:mm:ss", secondi } oppure { errore }.
+   *  Accetta h:mm:ss, mm:ss o h:mm (due parti: si sceglie la lettura plausibile per la distanza), anche con i punti. */
+  const LIMITI_TEMPO = { "10": [25 * 60, 2.5 * 3600], "21": [55 * 60, 4.5 * 3600], "42": [118 * 60, 8 * 3600] };
+  function leggiTempo(distanza, testo) {
+    const lim = LIMITI_TEMPO[distanza];
+    const t = String(testo || "").trim().replace(/[.,]/g, ":");
+    if (!lim || !/^\d{1,2}:\d{2}(:\d{2})?$/.test(t)) return { errore: "Scrivi il tempo come ore:minuti:secondi, es. 1:45:00" };
+    const p = t.split(":").map(Number);
+    if (p.slice(1).some((x) => x > 59)) return { errore: "Minuti e secondi vanno da 00 a 59" };
+    const ok = (s) => s >= lim[0] && s <= lim[1];
+    const candidati = p.length === 3 ? [p[0] * 3600 + p[1] * 60 + p[2]] : [p[0] * 60 + p[1], p[0] * 3600 + p[1] * 60];
+    const secondi = candidati.find(ok);
+    if (secondi == null) return { errore: `Il tempo non sembra giusto per ${{ "10": "un 10 km", "21": "una mezza", "42": "una maratona" }[distanza]}: ricontrollalo` };
+    const h = Math.floor(secondi / 3600), m = Math.floor((secondi % 3600) / 60), s = secondi % 60;
+    return { tempo: `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`, secondi };
+  }
+
+  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, sorriso, prossimaUscita, cercaGare, statoScarpa, leggiTempo };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);

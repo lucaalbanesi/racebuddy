@@ -8,7 +8,7 @@ Nasce per il suo gruppo di amici/società (pochi utenti), ma deve poter crescere
 - Il buddy dice cosa provare, mai quanto correre: nessuna prescrizione di allenamento, nessuna diagnosi, nessun consiglio personalizzato su integratori. Niente contenuti su diete/dimagrimento.
 - Dati Strava (quando arriveranno): solo all'utente stesso, mai in prompt o funzioni AI.
 - Segreti solo nei GitHub Secrets (`SUPABASE_SECRET_KEY`, `VAPID_PRIVATE_KEY`), mai nel codice o in chat. In `app/config.js` solo valori pubblici (URL Supabase, chiave publishable, chiave pubblica VAPID).
-- Privacy: profilo, preparazione, spunte, scarpe, documenti (tessera, certificato medico e foto) restano sul telefono (localStorage / IndexedDB). Online va solo il minimo necessario (vedi sotto).
+- Privacy: profilo, preparazione, spunte, scarpe, personali (online solo se in classifica: tempo, gara, data), documenti (tessera, certificato medico e foto) restano sul telefono (localStorage / IndexedDB). Online va solo il minimo necessario (vedi sotto).
 - Manutenzione bassa: HTML/JS statico senza build né dipendenze, Supabase piano gratuito, GitHub Actions per i job.
 - Prima di pubblicare: prova nel browser a larghezza telefono (390px), `node tests/test_logic.js`, `node tests/test_notifiche.js`.
 
@@ -17,15 +17,16 @@ Nasce per il suo gruppo di amici/società (pochi utenti), ma deve poter crescere
 - `content/` – contenuti curati: `fasi.json`, `percorso.json` (voci della preparazione; `notifica: true` = tappe chiave che generano push), `pillole.json`, `sorrisi.json` (battute originali), `schede.json` (info gara dai siti ufficiali), `fonti.json`.
 - `data/` – dati generati dai job: `gare.json` (calendario), `gare_seguite.json`, `contenuti.json`, `fonti_verificate.json`.
 - `scripts/` – `import_fidal.py` (iCal FIDAL + PDF maratone/mezze anno successivo), `esporta_seguite.py`, `importa_contenuti.py` (feed → etichette fase/distanza/argomento), `notifiche.js` (regole push, pure), `invia_push.js` (invio), `verifica_fonti.py`.
-- `docs/` – `schede-gara.md` (procedura delle schede), `supabase.sql` (gare_aggiunte, push_iscrizioni), `supabase_gruppo.sql` (gruppo), `supabase_gruppo_senza_ritrovi.sql` (migrazione una tantum che toglie i ritrovi).
+- `docs/` – `schede-gara.md` (procedura delle schede), `supabase.sql` (gare_aggiunte, push_iscrizioni), `supabase_gruppo.sql` (gruppo), migrazioni una tantum `supabase_gruppo_senza_ritrovi.sql` e `supabase_gruppo_personali.sql` (provata nel workflow "Test database gruppo").
 - Deploy: push su `main` → workflow "Pubblica web app" → GitHub Pages. I file sono versionati con `?v=<sha>`.
 
 ## Architettura dell'app (barra: Oggi · Gare · Per te · Gruppo · Io)
 - Oggi: gara in evidenza (conto alla rovescia, fasi, link La gara/Preparazione/Borsa), avvisi documenti, meteo e vestizione, momento, da fare oggi, pillola, Per te. Senza gare: invito a scegliere la gara + meteo, sorriso, pillola di stagione, contenuti.
 - La gara (`#/gara/:id`): Panoramica (riassunto e rimandi) + sezioni `preparazione`, `info` (logistica, percorso di gara, meteo, fonti), `borsa` (checklist, vestizione, mattina della gara). Barra a segmenti in alto, freccia indietro → Panoramica. "Preparazione" = percorso di avvicinamento; "percorso" = solo il tracciato di gara.
 - Per te: articoli/video/podcast classificati per fase e distanza (ranking sul telefono), sorrisi.
-- Gruppo: invito con codice, ruoli admin/organizzatore (vede e condivide l'invito)/membro, gare in comune, bacheca con applausi, classifica PB, pagina di gestione. Identità senza account: token casuale sul telefono, online solo l'hash.
-- Io: sezioni a fisarmonica (Profilo con GPS, Tessera e certificato, Notifiche con preferenze, Gruppo, Scarpe), strumenti di prova (data simulata), tutorial.
+- Gruppo: invito con codice, ruoli admin/organizzatore (vede e condivide l'invito)/membro, gare in comune, bacheca con applausi, classifica dei personali (sezione sua, da `pb_membri`: un PB per persona e distanza, solo per chi sceglie di comparire), pagina di gestione. Identità senza account: token casuale sul telefono, online solo l'hash.
+- I tuoi personali (`#/pb`): PB su 10/21/42 inseriti a mano (anche di gare passate) o aggiornati da "Com'è andata?"; tempi letti e controllati da `L.leggiTempo`. Invito al primo avvio (benvenuto) e una volta in Oggi.
+- Io: sezioni a fisarmonica (Profilo con GPS, Tessera e certificato, Notifiche con preferenze, Gruppo, I miei personali, Scarpe), strumenti di prova (data simulata), tutorial.
 
 ## Online (Supabase + Actions)
 - `gare_aggiunte`: l'app segnala le gare seguite (solo dati pubblici della gara). Ogni notte `esporta_seguite.py` → `data/gare_seguite.json`.

@@ -104,4 +104,16 @@ assert.strictEqual(L.statoScarpa({ km: 40, limite: 400, tipo: "gara" }).etichett
   assert.strictEqual(L.sorriso(sr, "scarico", "2026-10-14").id, "1");
   assert.strictEqual(L.sorriso(sr, "picco", "2026-10-14").id, "2");
 }
+
+// tempi dei personali
+assert.deepStrictEqual(L.leggiTempo("21", "1:45:00"), { tempo: "1:45:00", secondi: 6300 });
+assert.deepStrictEqual(L.leggiTempo("21", "1:45"), { tempo: "1:45:00", secondi: 6300 });    // h:mm per la mezza
+assert.deepStrictEqual(L.leggiTempo("10", "47:30"), { tempo: "0:47:30", secondi: 2850 });   // mm:ss per il 10 km
+assert.deepStrictEqual(L.leggiTempo("42", "3.29.59"), { tempo: "3:29:59", secondi: 12599 });
+assert.deepStrictEqual(L.leggiTempo("21", "1,45,00"), { tempo: "1:45:00", secondi: 6300 });  // tastiera italiana
+assert.ok(L.leggiTempo("42", "0:47:30").errore);   // troppo veloce per una maratona
+assert.ok(L.leggiTempo("10", "5:00:00").errore);   // troppo lento
+assert.ok(L.leggiTempo("21", "1:75:00").errore);
+assert.ok(L.leggiTempo("21", "abc").errore);
+assert.ok(L.leggiTempo("5", "20:00").errore);
 console.log("ok");

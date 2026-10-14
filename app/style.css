@@ -179,6 +179,10 @@ body.onboarding .app { padding: 0; max-width: 480px; min-height: 100dvh; }
 .post:last-child { border-bottom: 0; }
 .post.mio { background: var(--accent-soft); margin: 0 -16px; padding: 10px 16px; }
 .post .pos { width: 22px; text-align: center; font: 700 18px var(--display); color: var(--muted); }
+.pb-riga { display: flex; flex-direction: column; gap: 4px; padding-bottom: 12px; border-bottom: 1px solid var(--line2); }
+.pb-riga:last-of-type { border-bottom: 0; }
+.pb-tempo { font: 700 22px var(--display); }
+.pb-riga summary { cursor: pointer; color: var(--accent); font-weight: 700; min-height: 32px; display: flex; align-items: center; }
 .pb { color: var(--accent-strong); font-weight: 700; }
 .applauso { flex: none; min-width: 52px; height: 36px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font-size: 15px; cursor: pointer; }
 .applauso.on { background: var(--accent-soft); border-color: transparent; color: var(--accent-strong); font-weight: 700; }

@@ -1,7 +1,7 @@
 name: Test database gruppo
 on:
   push:
-    paths: ["docs/supabase_gruppo.sql", "tests/test_gruppo.sql", ".github/workflows/test-db.yml"]
+    paths: ["docs/supabase_gruppo.sql", "docs/supabase_gruppo_personali.sql", "tests/test_gruppo.sql", ".github/workflows/test-db.yml"]
   workflow_dispatch:
 jobs:
   test:
@@ -19,6 +19,8 @@ jobs:
       PGPASSWORD: prova
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Ruoli come su Supabase
         run: psql -v ON_ERROR_STOP=1 -c "create role anon nologin; create role authenticated nologin; grant usage on schema public to anon, authenticated; create schema extensions;"
       - name: Schema del gruppo
@@ -28,3 +30,18 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f tests/test_gruppo.sql > esito.txt 2>&1 || true
           cat esito.txt
           if ! grep -q "permessi ok" esito.txt; then echo "::error::$(grep -iE 'error|errore|assert|context|line' esito.txt | head -6 | tr '\n' ' ')"; exit 1; fi
+      # La migrazione dei personali, applicata allo schema in produzione prima dei personali (f287bf8), deve dare lo stesso risultato.
+      - name: Migrazione personali sullo schema in produzione
+        run: |
+          createdb vecchio
+          psql -v ON_ERROR_STOP=1 -d vecchio -c "create schema extensions; grant usage on schema public to anon, authenticated;"
+          git show f287bf8:docs/supabase_gruppo.sql | psql -v ON_ERROR_STOP=1 -q -d vecchio
+          psql -v ON_ERROR_STOP=1 -d vecchio -c "select public.crea_gruppo(repeat('z', 40), 'Prima', 'Zeno');"
+          psql -v ON_ERROR_STOP=1 -d vecchio -c "select public.pubblica_risultato(repeat('z', 40), '{\"distanza\":\"10\",\"data_gara\":\"2026-01-01\",\"tempo\":\"47:30\"}');"
+          psql -v ON_ERROR_STOP=1 -d vecchio -f docs/supabase_gruppo_personali.sql
+          psql -v ON_ERROR_STOP=1 -d vecchio -f docs/supabase_gruppo_personali.sql   # ripetibile
+          test "$(psql -tA -d vecchio -c "select tempo from public.pb_membri")" = "0:47:30"
+          psql -v ON_ERROR_STOP=1 -d vecchio -c "select public.esci_gruppo(repeat('z', 40));"
+          psql -v ON_ERROR_STOP=1 -d vecchio -f tests/test_gruppo.sql > esito2.txt 2>&1 || true
+          cat esito2.txt
+          if ! grep -q "permessi ok" esito2.txt; then echo "::error::migrazione: $(grep -iE 'error|errore|assert|context|line' esito2.txt | head -6 | tr '\n' ' ')"; exit 1; fi

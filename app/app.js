@@ -14,7 +14,7 @@
   const salva = () => {
     try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast("Non riesco a salvare sul telefono"); }
     if (S.push && S.push.attivo) { clearTimeout(timerPush); timerPush = setTimeout(() => sincronizzaPush(), 2000); }
-    if (S.gruppo && S.gruppo.dentro) { clearTimeout(timerGareGruppo); timerGareGruppo = setTimeout(() => sincronizzaGareGruppo(), 2500); }
+    if (S.gruppo && S.gruppo.dentro) { clearTimeout(timerGareGruppo); timerGareGruppo = setTimeout(() => { sincronizzaGareGruppo(); sincronizzaPBGruppo(); }, 2500); }
   };
   let timerGareGruppo;
 
@@ -373,6 +373,7 @@
       <div class="ob-track" id="ob-track">${slides.map((x, i) => `<article class="ob-slide" aria-label="${i + 1} di ${slides.length + 1}"><div class="ob-ill">${x.ill}</div><span class="eyebrow">${x.k}</span><h1>${x.t}</h1><p>${x.d}</p></article>`).join("")}
         <article class="ob-slide" aria-label="${slides.length + 1} di ${slides.length + 1}"><div class="ob-ill"><div class="ob-countdown"><span class="big">Via!</span></div></div><span class="eyebrow">Partiamo</span><h1>Qual è la tua prossima gara?</h1><p>Ci vuole un minuto. I tuoi dati restano su questo telefono.</p>
           <button class="btn block" data-act="ob-fine" data-vai="#/gare">Scegli la tua gara</button>
+          <button class="ob-salta" data-act="ob-fine" data-vai="#/pb" style="align-self:center">Hai già dei personali? Inseriscili</button>
           <p class="ob-nota">Indicazioni generali per runner amatoriali in salute: non sostituiscono medico, nutrizionista o allenatore.</p></article></div>
       <div class="ob-bottom"><div class="ob-dots" aria-hidden="true">${[...slides, 0].map((_, i) => `<span class="${i ? "" : "on"}"></span>`).join("")}</div><button class="btn" id="ob-avanti" data-act="ob-avanti">Avanti</button></div></section>`;
   }
@@ -399,6 +400,7 @@
     return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(o))}</span><h1>${S.profilo.nome ? "Ciao, " + esc(S.profilo.nome) : "Buongiorno"}</h1></div></header>
       <a class="card dark" href="#/gare" style="text-decoration:none;font-weight:inherit"><span class="eyebrow">${concluse ? "Tutte le tue gare sono concluse" : "Nessuna gara in vista"}</span><span style="font:700 24px/1.1 var(--display)">${concluse ? "Qual è la prossima?" : "Scegli la tua prossima gara"}</span><span class="sub">Ti preparo la strada fino al via: cosa fare e quando, info gara, borsa ›</span></a>
       ${cardMeteo()}
+      ${cardInvitoPB()}
       ${cardSorriso(L.sorriso(D.sorrisi || [], "senza_gara", o))}
       ${pil ? `<section class="card soft" aria-label="Pillola del giorno"><span class="eyebrow" style="color:var(--accent-strong)">Pillola di stagione</span><span class="title">${esc(pil.titolo)}</span><span class="small">${esc(pil.testo)}</span></section>` : ""}
       ${cardPerTe("Da leggere e guardare")}
@@ -444,6 +446,7 @@
     if (daRaccontare) blocco = `<a class="card dark" href="#/risultato/${encodeURIComponent(daRaccontare.id)}" style="text-decoration:none;font-weight:inherit"><span class="eyebrow">Dopo la gara</span><span style="font:700 24px/1.1 var(--display)">Com'è andata la ${esc(titoloGara(daRaccontare.nome))}?</span><span class="sub">Segna il tuo tempo${S.gruppo && S.gruppo.dentro ? " e condividilo con il gruppo" : ""} ›</span></a>` + blocco;
     if (recuperi) blocco += `<a class="card soft" href="${urlGara(obiettivo.id, "preparazione")}" style="text-decoration:none;color:inherit"><span class="between"><span class="title">Hai ${recuperi} ${recuperi === 1 ? "cosa" : "cose"} da recuperare</span><span aria-hidden="true">›</span></span><span class="small">Ti sei iscritto a preparazione iniziata.</span></a>`;
     if (focus.mancano >= 0 && focus.mancano <= 2) blocco += `<a class="btn block" href="${urlGara(focus.id, "borsa")}">Apri la checklist della borsa</a>`;
+    blocco += cardInvitoPB();
 
     const fp = L.fase(D.fasi, focus.distanza, focus.data, o);
     const pil = L.pillola(D.pillole, fp.id, focus.distanza, o, Number(o.slice(5, 7)));
@@ -789,6 +792,7 @@
   const avatari = (nomi, max = 4) => `<span class="avs" aria-hidden="true">${nomi.slice(0, max).map((n) => avatar(n)).join("")}${nomi.length > max ? `<span class="av piu">+${nomi.length - max}</span>` : ""}</span>`;
   const linkInvito = (codice) => `${location.origin}${location.pathname}#/invito/${codice}`;
   const RUOLI_G = { admin: "Amministratore", organizzatore: "Organizzatore", membro: "Membro" };
+  const DISTANZE = ["10", "21", "42"];
 
   let caricando = false;
   async function aggiornaGruppo(silenzioso) {
@@ -809,6 +813,15 @@
     const o = oggi();
     const gare = S.gare.filter((g) => g.data >= L.addDays(o, -2)).map((g) => ({ id: g.id, nome: g.nome, data: g.data, luogo: g.luogo, distanza: g.distanza, ruolo: g.ruolo, tempo: g.tempo || "" }));
     try { await rpc("sincronizza_gare", { p_token: token(), p_gare: gare }); } catch (e) { /* riprova al prossimo salvataggio */ }
+  }
+  // Personali al gruppo: solo tempo, gara e data, e solo se il membro li vuole in classifica. Si inviano solo se cambiati.
+  async function sincronizzaPBGruppo(forza) {
+    if (!S.gruppo || !S.gruppo.dentro) return;
+    if (!forza && GD() && GD().io && GD().io.mostra_pb === false) return;
+    const pb = DISTANZE.filter((d) => (S.pb || {})[d]).map((d) => ({ distanza: d, tempo: L.leggiTempo(d, S.pb[d].tempo).tempo, gara: S.pb[d].gara || "", data: S.pb[d].data || "" })).filter((x) => x.tempo);
+    const firma = JSON.stringify(pb);
+    if (!forza && G().pbInviati === firma) return;
+    try { await rpc("sincronizza_pb", { p_token: token(), p_pb: pb }); G().pbInviati = firma; localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* riprova al prossimo salvataggio */ }
   }
 
   function vistaSenzaGruppo() {
@@ -840,6 +853,7 @@
       <form id="g-entra" data-codice="${esc(codice)}" class="card" style="color:var(--fg)">
         <div class="field"><label for="g-io">Come ti vedono gli altri</label><input class="input" id="g-io" required maxlength="40" value="${esc(S.profilo.nome || "")}" placeholder="es. Luca A."></div>
         <label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="g-mostra" checked><span><span class="t">Mostra al gruppo le gare a cui sono iscritto</span></span></label>
+        <label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="g-mostra-pb" checked><span><span class="t">Metti i miei personali nella classifica del gruppo</span></span></label>
         <button class="btn block" type="submit">Entra nel gruppo</button>
         <span class="small muted">Niente email né password: il gruppo ti riconosce da questo telefono. Puoi uscire quando vuoi.</span></form></section>`;
   }
@@ -861,8 +875,20 @@
       <button class="applauso ${p.applaudito ? "on" : ""}" data-act="g-applaudi" data-id="${p.id}" aria-pressed="${p.applaudito}" aria-label="Applaudi">👏 ${p.applausi || ""}</button></div>`;
     return `${bannerProva()}<header class="head"><div style="min-width:0"><span class="eyebrow">Il gruppo · ${d.membri.length} runner</span><h1>${esc(d.gruppo.nome)}</h1></div>${org ? `<a class="btn ghost small" href="#/gruppo/admin">${io.ruolo === "admin" ? "Gestisci" : "Invita"}</a>` : ""}</header>
       <section aria-label="Gare in comune"><h2 style="margin-bottom:8px">Le gare del gruppo</h2>${comuni.length ? `<div class="lista-c">${comuni.slice(0, 6).map((g) => `<a class="card" href="#/gruppo/gara/${encodeURIComponent(g.gara_id)}" style="text-decoration:none;color:inherit;font-weight:inherit"><div class="between"><span class="title">${esc(titoloGara(g.nome))}</span><span class="small" style="font-weight:700;color:${g.mia ? "var(--accent)" : "var(--muted)"}">${esc(L.fmtGiorno(g.data))}</span></div><div class="row">${avatari(g.chi)}<span class="small">${g.chi.length} del gruppo${g.mia ? ", tu compreso" : ""} ›</span></div></a>`).join("")}</div>` : `<p class="sub">Ancora nessuna gara condivisa.</p>`}</section>
-      <section class="card" aria-label="Bacheca" style="gap:0"><div class="between" style="margin-bottom:4px"><h2>In bacheca</h2><a class="small" href="#/gruppo/classifica">Classifica PB ›</a></div>${d.bacheca.length ? d.bacheca.slice(0, 15).map(post).join("") : `<span class="small">Qui compaiono i risultati e le iscrizioni che il gruppo condivide.</span>`}</section>
+      ${cardClassifica(d)}
+      <section class="card" aria-label="Bacheca" style="gap:0"><div class="between" style="margin-bottom:4px"><h2>In bacheca</h2></div>${d.bacheca.length ? d.bacheca.slice(0, 15).map(post).join("") : `<span class="small">Qui compaiono i risultati e le iscrizioni che il gruppo condivide.</span>`}</section>
       <p class="sub">Ognuno sceglie cosa condividere: le tue gare si vedono solo se lo hai scelto (Io → Gruppo).</p>`;
+  }
+
+  function cardClassifica(d) {
+    const righe = DISTANZE.map((dist) => {
+      const l = d.classifica.filter((c) => c.distanza === dist).sort((a, b) => a.secondi - b.secondi);
+      if (!l.length) return "";
+      const io = l.findIndex((c) => c.mio);
+      return `<a class="post" href="#/gruppo/classifica?d=${dist}" style="color:inherit;text-decoration:none;font-weight:inherit"><span style="width:76px;font-weight:700">${esc(L.DIST_LABEL[dist])}</span>${avatar(l[0].membro, 30)}<span style="flex:1;min-width:0"><b>${esc(l[0].membro)}</b> ${esc(l[0].tempo)}<br><span class="small muted">${l.length} in classifica${io >= 0 ? ` · tu ${io + 1}°` : ""}</span></span><span aria-hidden="true">›</span></a>`;
+    }).join("");
+    return `<section class="card" aria-label="Classifica dei personali" style="gap:0"><div class="between" style="margin-bottom:4px"><h2>Classifica dei personali</h2><a class="small" href="#/pb">I tuoi ›</a></div>
+      ${righe || `<span class="small">Ancora nessun personale. <a href="#/pb">Inserisci i tuoi</a>: bastano tempo, gara e data.</span>`}</section>`;
   }
 
   function vistaGaraGruppo(id) {
@@ -877,13 +903,14 @@
 
   function vistaClassifica(param) {
     const d = GD(); if (!d) return vistaGruppo();
-    const dist = param.d || "21";
+    const dist = param.d || DISTANZE.find((x) => d.classifica.some((c) => c.distanza === x)) || "21";
     const lista = d.classifica.filter((c) => c.distanza === dist).sort((a, b) => a.secondi - b.secondi);
     const chip = (v, l) => `<a class="chip" href="#/gruppo/classifica?d=${v}" aria-pressed="${dist === v}" style="display:inline-flex;align-items:center;text-decoration:none;color:inherit">${l}</a>`;
     return `${bannerProva()}<header class="head-back">${back("#/gruppo")}<div><span class="eyebrow">${esc(d.gruppo.nome)}</span><h1 style="font-size:28px">Classifica dei PB</h1></div></header>
       <div class="chips">${chip("10", "10 km")}${chip("21", "Mezza")}${chip("42", "Maratona")}</div>
       ${lista.length ? `<section class="card" style="gap:0">${lista.map((c, i) => `<div class="post ${c.mio ? "mio" : ""}"><span class="pos">${i + 1}</span>${avatar(c.membro, 32)}<span style="flex:1;min-width:0"><b>${esc(c.membro)}</b><br><span class="small muted">${esc(titoloGara(c.gara_nome || ""))} · ${esc(c.data_gara ? L.fmtBreve(c.data_gara) : "")}</span></span><b style="font:700 20px var(--display)">${esc(c.tempo)}</b></div>`).join("")}</section>` : `<p class="sub">Ancora nessun risultato condiviso su questa distanza.</p>`}
-      <p class="sub">Contano i tempi che ognuno inserisce dopo la gara e sceglie di mettere in classifica.</p>`;
+      <a class="btn ghost" href="#/pb">I tuoi personali</a>
+      <p class="sub">Un personale a testa per distanza: quello che ognuno inserisce a mano o migliora dopo una gara. Ci sono solo i runner che hanno scelto di comparire.</p>`;
   }
 
   function vistaAdmin() {
@@ -907,7 +934,6 @@
   }
 
   // ---------------------------------------------------------------- risultato dopo la gara
-  const secondi = (t) => { const p = String(t).split(":").map(Number); return p.length === 3 ? p[0] * 3600 + p[1] * 60 + p[2] : p.length === 2 ? p[0] * 60 + p[1] : NaN; };
   const fmtDiff = (s) => { s = Math.abs(s); const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), x = s % 60; return h ? `${h}:${String(m).padStart(2, "0")}:${String(x).padStart(2, "0")}` : `${m}:${String(x).padStart(2, "0")}`; };
   function garaDaRaccontare() {
     const o = oggi();
@@ -922,13 +948,41 @@
     return `${bannerProva()}<header class="head-back">${back("#/oggi")}<div><span class="eyebrow">${esc(titoloGara(g.nome))} · ${esc(L.fmtGiorno(g.data))}</span><h1 style="font-size:30px">Com'è andata?</h1></div></header>
       <form id="risultato" data-id="${esc(id)}" style="display:flex;flex-direction:column;gap:12px">
       <section class="card" style="align-items:center;text-align:center"><label for="ris-tempo" class="eyebrow">Il tuo tempo ufficiale</label>
-        <input class="input tempo-grande" id="ris-tempo" required inputmode="numeric" pattern="\\d{1,2}:\\d{2}(:\\d{2})?" placeholder="${g.distanza === "10" ? "0:47:30" : g.distanza === "21" ? "1:45:00" : "3:45:00"}" value="${esc(r.tempo || "")}">
+        <input class="input tempo-grande" id="ris-tempo" required inputmode="decimal" pattern="\\d{1,2}[:.,]\\d{2}([:.,]\\d{2})?" placeholder="${g.distanza === "10" ? "0:47:30" : g.distanza === "21" ? "1:45:00" : "3:45:00"}" value="${esc(r.tempo || "")}">
         <span class="small muted" id="ris-pb">${pb ? `Il tuo personale: ${esc(pb.tempo)}` : "Ore:minuti:secondi"}</span></section>
       <div class="field"><label for="ris-testo">Due parole <span class="muted">(facoltativo)</span></label><textarea class="input" id="ris-testo" maxlength="280" placeholder="es. Crisi al 16, poi il traguardo mi ha tirato su.">${esc(r.testo || "")}</textarea></div>
-      ${inGruppo ? `<section class="card" style="gap:0"><label class="check"><input type="checkbox" id="ris-bacheca" checked><span><span class="t">Condividi in bacheca con il gruppo</span></span></label><label class="check"><input type="checkbox" id="ris-class" checked><span><span class="t">Metti il tempo nella classifica dei PB</span></span></label></section>` : `<p class="sub">Entra in un gruppo per condividere i risultati con la tua società.</p>`}
+      ${inGruppo ? `<section class="card" style="gap:0"><label class="check"><input type="checkbox" id="ris-bacheca" checked><span><span class="t">Condividi in bacheca con il gruppo</span>${GD() && GD().io && GD().io.mostra_pb !== false ? `<br><span class="d">Se è un nuovo personale, si aggiorna anche in classifica.</span>` : ""}</span></label></section>` : `<p class="sub">Entra in un gruppo per condividere i risultati con la tua società.</p>`}
       <button class="btn block" type="submit">${inGruppo ? "Salva e condividi" : "Salva"}</button>
       ${altri.length ? `<div class="row">${avatari(altri)}<span class="small muted">${esc(altri.slice(0, 3).join(", "))} ${altri.length === 1 ? "ha" : "hanno"} già condiviso il loro</span></div>` : ""}</form>`;
   }
+
+  // ---------------------------------------------------------------- personali
+  function sezionePB() {
+    const pb = S.pb || {}, inG = S.gruppo && S.gruppo.dentro && GD();
+    const riga = (d) => {
+      const x = pb[d], ph = { "10": "0:47:30", "21": "1:45:00", "42": "3:45:00" }[d];
+      return `<form class="pb-riga" data-form="pb" data-d="${d}">
+        <div class="between"><span class="title">${esc(L.DIST_LABEL[d])}</span>${x ? `<b class="pb-tempo">${esc(L.leggiTempo(d, x.tempo).tempo || x.tempo)}</b>` : `<span class="small muted">da inserire</span>`}</div>
+        ${x && (x.gara || x.data) ? `<span class="small muted">${esc([titoloGara(x.gara), x.data && L.fmtBreve(x.data)].filter(Boolean).join(" · "))}</span>` : ""}
+        <details><summary class="small">${x ? "Modifica" : "Inserisci il personale"}</summary><div style="display:flex;flex-direction:column;gap:10px;padding-top:10px">
+          <div class="field"><label for="pb-t-${d}">Tempo ufficiale</label><input class="input" id="pb-t-${d}" required inputmode="decimal" pattern="\\d{1,2}[:.,]\\d{2}([:.,]\\d{2})?" placeholder="${ph}" value="${esc(x ? L.leggiTempo(d, x.tempo).tempo || x.tempo : "")}"></div>
+          <div class="grid2"><div class="field"><label for="pb-g-${d}">Gara <span class="muted">(facoltativo)</span></label><input class="input" id="pb-g-${d}" maxlength="120" value="${esc(x ? x.gara || "" : "")}" placeholder="es. Roma-Ostia"></div>
+          <div class="field"><label for="pb-d-${d}">Quando</label><input class="input" id="pb-d-${d}" type="date" max="${L.todayISO()}" value="${esc(x ? x.data || "" : "")}"></div></div>
+          <div class="row"><button class="btn" type="submit">Salva</button>${x ? `<button class="btn ghost" type="button" data-act="pb-togli" data-d="${d}">Togli</button>` : ""}</div></div></details></form>`;
+    };
+    return `${DISTANZE.map(riga).join("")}
+      ${inG ? `<label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="io-mostra-pb" ${GD().io.mostra_pb !== false ? "checked" : ""}><span><span class="t">Metti i miei personali nella classifica del gruppo</span><br><span class="d">Al gruppo vanno solo tempo, gara e data.</span></span></label><a class="small" href="#/gruppo/classifica">Classifica del gruppo ›</a>` : ""}
+      <span class="small muted">Restano su questo telefono. Dopo ogni gara, se fai meglio, il personale si aggiorna da solo.</span>`;
+  }
+  const riassuntoPB = () => DISTANZE.filter((d) => (S.pb || {})[d]).map((d) => `${L.DIST_LABEL[d]} ${L.leggiTempo(d, S.pb[d].tempo).tempo || S.pb[d].tempo}`).join(" · ");
+  function vistaPB() {
+    return `${bannerProva()}<header class="head-back">${back("#/io")}<div><span class="eyebrow">Io</span><h1 style="font-size:28px">I tuoi personali</h1></div></header>
+      <p class="sub">Il tuo miglior tempo su 10 km, mezza e maratona, anche di gare corse prima di RaceBuddy.</p>
+      <section class="card" style="gap:14px">${sezionePB()}</section>`;
+  }
+  const cardInvitoPB = () => (DISTANZE.some((d) => (S.pb || {})[d]) || (S.letti || {})["pb-invito"] ? ""
+    : `<section class="card soft"><span class="title">Hai già dei personali?</span><span class="small">Inseriscili una volta: dopo ogni gara ti dico se hai fatto meglio${S.gruppo && S.gruppo.dentro ? " e, se vuoi, entrano nella classifica del gruppo" : ""}.</span>
+      <div class="grid2"><a class="btn" href="#/pb">Inseriscili</a><button class="btn ghost" data-act="letto" data-k="pb-invito">Non ora</button></div></section>`);
 
   function vistaIo() {
     const P = S.profilo;
@@ -956,6 +1010,7 @@
       ${acc("gruppo", "Gruppo", inG ? `${esc(GD().gruppo.nome)} · ${esc(RUOLI_G[GD().io.ruolo].toLowerCase())}` : "non sei in un gruppo", inG ? `<span class="small">Sei in <b>${esc(GD().gruppo.nome)}</b> come «${esc(GD().io.nome)}».</span>
         <label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="io-mostra" ${GD().io.mostra_gare ? "checked" : ""}><span><span class="t">Mostra al gruppo le mie gare</span><br><span class="d">Nome della gara, ruolo e tempo obiettivo.</span></span></label>
         <a class="btn ghost" href="#/gruppo/admin">${GD().io.ruolo === "membro" ? "Membri ed esci dal gruppo" : "Gestisci il gruppo"}</a>` : `<span class="small">Entra nel gruppo della tua società con il link d'invito, oppure crealo se sei il presidente.</span><a class="btn ghost" href="#/gruppo">Vai al gruppo</a>`)}
+      ${acc("personali", "I miei personali", esc(riassuntoPB()) || "da inserire", sezionePB())}
       ${acc("scarpe", "Le mie scarpe", S.scarpe.length ? `${S.scarpe.length} ${S.scarpe.length === 1 ? "paio" : "paia"}${daCambiare ? ` · <b style="color:var(--warn)">${daCambiare} da cambiare</b>` : ""}` : "nessuna", `${scarpe || `<span class="small">Nessuna scarpa ancora.</span>`}
         <details class="card"><summary>+ Aggiungi una scarpa</summary><form id="scarpa" style="display:flex;flex-direction:column;gap:10px">
         <div class="field"><label for="s-nome">Modello</label><input class="input" id="s-nome" required placeholder="es. la mia scarpa da lento"></div>
@@ -980,7 +1035,7 @@
     const parts = path.split("/").map(decodeURIComponent);
     const param = Object.fromEntries(new URLSearchParams(query || ""));
     const tab = parts[0] || "oggi";
-    document.querySelectorAll("nav.tabs a").forEach((a) => a.setAttribute("aria-current", a.dataset.tab === ({ aggiungi: "gare", gara: "gare", checklist: "gare", percorso: "gare", meteo: "oggi", pillole: "oggi", invito: "gruppo", risultato: "oggi" }[tab] || tab) ? "page" : "false"));
+    document.querySelectorAll("nav.tabs a").forEach((a) => a.setAttribute("aria-current", a.dataset.tab === ({ aggiungi: "gare", gara: "gare", checklist: "gare", percorso: "gare", meteo: "oggi", pillole: "oggi", invito: "gruppo", risultato: "oggi", pb: "io" }[tab] || tab) ? "page" : "false"));
     if (D.errore) { $app.innerHTML = `<section class="card"><span class="title">Qualcosa non va</span><span class="small">${esc(D.errore)}</span></section>`; return; }
     let html;
     const benvenuto = !S.benvenuto && !S.gare.length && (tab === "oggi" || tab === "benvenuto");
@@ -995,6 +1050,7 @@
         html = parts[1] === "gara" ? vistaGaraGruppo(parts[2]) : parts[1] === "classifica" ? vistaClassifica(param) : parts[1] === "admin" ? vistaAdmin() : vistaGruppo();
         break;
       case "invito": html = vistaInvito(parts[1]); break;
+      case "pb": html = vistaPB(); break;
       case "risultato": html = vistaRisultato(parts[1]); break;
       case "io": if (parts[1] === "documenti") S.ioAperto = { ...(S.ioAperto || {}), documenti: true }; html = vistaIo(); break;
       case "gara": html = parts[2] === "preparazione" ? vistaPreparazione(parts[1]) : parts[2] === "info" ? vistaInfoGara(parts[1], param) : parts[2] === "borsa" ? vistaBorsa(parts[1]) : vistaGaraHome(parts[1], param); break;
@@ -1070,6 +1126,8 @@
       fotoTogli(t.dataset.k).catch(() => {}); doc(t.dataset.k).foto = false; salva(); toast("Foto tolta"); rerender();
     } else if (act === "gps") {
       usaGps(t);
+    } else if (act === "pb-togli") {
+      delete (S.pb || {})[t.dataset.d]; salva(); toast("Personale tolto"); rerender();
     } else if (act === "letto") {
       S.letti = S.letti || {}; S.letti[t.dataset.k] = true; salva(); rerender();
     } else if (act === "rinvia") {
@@ -1110,6 +1168,9 @@
   document.addEventListener("change", (e) => {
     if (e.target.dataset && e.target.dataset.actChange === "g-ruolo") {
       azioneGruppo(() => rpc("admin_ruolo", { p_token: token(), p_membro: e.target.dataset.id, p_ruolo: e.target.value }), "Ruolo aggiornato");
+    } else if (e.target.id === "io-mostra-pb") {
+      const on = e.target.checked;
+      azioneGruppo(async () => { await rpc("imposta_mostra_pb", { p_token: token(), p_mostra: on }); if (on) await sincronizzaPBGruppo(true); }, on ? "I tuoi personali sono in classifica" : "I tuoi personali non sono più in classifica");
     } else if (e.target.id === "io-mostra") {
       azioneGruppo(async () => { await rpc("aggiorna_profilo", { p_token: token(), p_nome: null, p_mostra: e.target.checked }); if (e.target.checked) await sincronizzaGareGruppo(); }, e.target.checked ? "Il gruppo vede le tue gare" : "Le tue gare ora sono private");
     }
@@ -1175,7 +1236,9 @@
           if (f.id === "g-crea") await rpc("crea_gruppo", { p_token: token(), p_gruppo: v("g-nome").trim(), p_nome: nome });
           else await rpc("entra_gruppo", { p_token: token(), p_codice: f.dataset.codice, p_nome: nome, p_mostra: document.getElementById("g-mostra").checked });
           G().dentro = true; if (!S.profilo.nome) S.profilo.nome = nome.split(" ")[0]; salva();
-          await sincronizzaGareGruppo(); await aggiornaGruppo(true);
+          const pbNo = document.getElementById("g-mostra-pb") && !document.getElementById("g-mostra-pb").checked;
+          if (pbNo) await rpc("imposta_mostra_pb", { p_token: token(), p_mostra: false }).catch(() => {});
+          await sincronizzaGareGruppo(); if (!pbNo) await sincronizzaPBGruppo(true); await aggiornaGruppo(true);
           document.body.classList.remove("onboarding");
           toast(f.id === "g-crea" ? "Gruppo creato: ora invita gli altri" : "Benvenuto nel gruppo!");
           location.hash = f.id === "g-crea" ? "#/gruppo/admin" : "#/gruppo";
@@ -1184,9 +1247,10 @@
     } else if (f.id === "g-rinomina") {
       azioneGruppo(() => rpc("admin_gruppo", { p_token: token(), p_nome: v("g-nn").trim(), p_nuovo_codice: false }), "Nome aggiornato");
     } else if (f.id === "risultato") {
-      const id = f.dataset.id, g = S.gare.find((x) => x.id === id), tempo = v("ris-tempo").trim().replace(/\./g, ":");
-      const sec = secondi(tempo);
-      if (!g || !/^\d{1,2}:\d{2}(:\d{2})?$/.test(tempo) || !(sec > 0)) { toast("Scrivi il tempo come ore:minuti:secondi"); return; }
+      const id = f.dataset.id, g = S.gare.find((x) => x.id === id);
+      const lt = g ? L.leggiTempo(g.distanza, v("ris-tempo")) : { errore: "Gara non trovata" };
+      if (lt.errore) { toast(lt.errore); return; }
+      const tempo = lt.tempo, sec = lt.secondi;
       S.pb = S.pb || {}; S.risultati = S.risultati || {};
       const prec = S.pb[g.distanza], pb = !prec || sec < prec.secondi;
       S.risultati[id] = { tempo, testo: v("ris-testo").trim(), pb };
@@ -1195,7 +1259,7 @@
       const condividi = document.getElementById("ris-bacheca");
       const fine = () => { toast(pb && prec ? `Nuovo personale! −${fmtDiff(prec.secondi - sec)}` : pb ? "Primo tempo registrato" : "Tempo salvato"); location.hash = condividi && condividi.checked ? "#/gruppo" : "#/oggi"; };
       if (condividi && condividi.checked) {
-        rpc("pubblica_risultato", { p_token: token(), p: { gara_id: id, gara_nome: g.nome, distanza: g.distanza, data_gara: g.data, tempo: tempo.split(":").length === 2 ? `0:${tempo}` : tempo, pb, in_classifica: document.getElementById("ris-class").checked, testo: v("ris-testo").trim() } })
+        rpc("pubblica_risultato", { p_token: token(), p: { gara_id: id, gara_nome: g.nome, distanza: g.distanza, data_gara: g.data, tempo, pb, testo: v("ris-testo").trim() } })
           .then(() => aggiornaGruppo(true)).then(fine).catch((e) => { toast(e.message || "Salvato sul telefono, non condiviso"); });
       } else fine();
     } else if (f.id === "gara-imp") {
@@ -1216,6 +1280,12 @@
       document.activeElement && document.activeElement.blur();
     } else if (f.id === "scarpa") {
       S.scarpe.push({ id: "S" + Date.now().toString(36), nome: v("s-nome").trim(), tipo: v("s-tipo"), km: Number(v("s-km")) || 0, limite: Number(v("s-lim")) || 800 }); salva(); toast("Scarpa aggiunta"); rerender();
+    } else if (f.dataset.form === "pb") {
+      const d = f.dataset.d, lt = L.leggiTempo(d, v(`pb-t-${d}`));
+      if (lt.errore) { toast(lt.errore); return; }
+      S.pb = S.pb || {};
+      S.pb[d] = { tempo: lt.tempo, secondi: lt.secondi, gara: v(`pb-g-${d}`).trim(), data: v(`pb-d-${d}`) };
+      salva(); toast("Personale salvato"); rerender();
     } else if (f.dataset.form === "km") {
       const s = S.scarpe.find((x) => x.id === f.dataset.id); const km = Number(f.querySelector("input").value);
       if (s && km > 0) { s.km = Math.round((Number(s.km) + km) * 10) / 10; salva(); toast(`+${km} km`); rerender(); }
@@ -1230,5 +1300,5 @@
   }, true);
   window.addEventListener("hashchange", () => { route(); window.scrollTo(0, 0); });
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
-  carica().then(() => { route(); S.gare.forEach((g) => segnalaGara(g, g.id.startsWith("M") ? "manuale" : "FIDAL")); if (S.push && S.push.attivo) sincronizzaPush(); if (S.gruppo && S.gruppo.dentro) { aggiornaGruppo(true); sincronizzaGareGruppo(); } });
+  carica().then(() => { route(); S.gare.forEach((g) => segnalaGara(g, g.id.startsWith("M") ? "manuale" : "FIDAL")); if (S.push && S.push.attivo) sincronizzaPush(); if (S.gruppo && S.gruppo.dentro) { aggiornaGruppo(true).then(() => sincronizzaPBGruppo()); sincronizzaGareGruppo(); } });
 })();
