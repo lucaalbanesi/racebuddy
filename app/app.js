@@ -1307,15 +1307,22 @@
     stravaInCarico = false;
     if (/^#\/io/.test(location.hash)) rerender();
   }
-  // Scarpe da Strava: una sola fonte alla volta. Al primo collegamento le manuali vanno in Archivio.
+  // Scarpe da Strava: una sola fonte alla volta, ma solo se su Strava c'è almeno una scarpa attiva: allora le manuali vanno
+  // in Archivio. Se su Strava non ce ne sono (o non più), restano o tornano quelle inserite a mano.
   async function aggiornaScarpeStrava(forza) {
     if (!S.strava || !S.strava.attivo) return;
     if (!forza && S.strava.letto && Date.now() - S.strava.letto < 3600e3) return;
     try {
       const { scarpe } = await funzioneStrava({ azione: "scarpe" });
-      if (!S.strava.archiviato) { S.scarpeArchivio = [...(S.scarpeArchivio || []), ...S.scarpe.filter((x) => !x.strava)]; S.scarpe = S.scarpe.filter((x) => x.strava); S.strava.archiviato = true; }
-      const prima = Object.fromEntries(S.scarpe.filter((x) => x.strava).map((x) => [x.stravaId, x]));
-      S.scarpe = (scarpe || []).filter((x) => !x.ritirata).map((x) => ({ tipo: "allenamento", limite: 800, ...(prima[x.id] || {}), id: "st-" + x.id, stravaId: x.id, nome: x.nome, km: x.km, strava: true }));
+      const attive = (scarpe || []).filter((x) => !x.ritirata);
+      if (!attive.length) {
+        S.scarpe = S.scarpe.filter((x) => !x.strava);
+        if (S.strava.archiviato) { S.scarpe = [...S.scarpe, ...(S.scarpeArchivio || [])]; S.scarpeArchivio = []; S.strava.archiviato = false; }
+      } else {
+        if (!S.strava.archiviato) { S.scarpeArchivio = [...(S.scarpeArchivio || []), ...S.scarpe.filter((x) => !x.strava)]; S.scarpe = S.scarpe.filter((x) => x.strava); S.strava.archiviato = true; }
+        const prima = Object.fromEntries(S.scarpe.filter((x) => x.strava).map((x) => [x.stravaId, x]));
+        S.scarpe = attive.map((x) => ({ tipo: "allenamento", limite: 800, ...(prima[x.id] || {}), id: "st-" + x.id, stravaId: x.id, nome: x.nome, km: x.km, strava: true }));
+      }
       S.strava.letto = Date.now(); salva();
       if (/^#\/io/.test(location.hash)) rerender();
     } catch (e) { /* riprova alla prossima apertura */ }
@@ -1330,7 +1337,7 @@
     if (!STRAVA_STATO) { setTimeout(caricaStatoStrava, 0); return `<span class="small muted">Controllo Strava…</span>`; }
     if (STRAVA_STATO.errore) return `<span class="small">Strava non è raggiungibile al momento.</span><button class="btn ghost small" data-act="strava-ricarica" style="align-self:flex-start">Riprova</button>`;
     const liberi = Math.max(0, STRAVA_STATO.massimo - STRAVA_STATO.posti);
-    if (STRAVA_STATO.collegato) return `<span class="small">Collegato. Le scarpe e i loro km arrivano da Strava; dopo ogni gara ti proponiamo il tempo. I dati di Strava li vedi solo tu.</span>
+    if (STRAVA_STATO.collegato) return `<span class="small">Collegato. ${S.strava && S.strava.archiviato ? "Le scarpe e i loro km arrivano da Strava" : "Su Strava non hai scarpe attive: tieni quelle inserite qui"}; dopo ogni gara ti proponiamo il tempo. I dati di Strava li vedi solo tu.</span>
       <a class="riga-novita" href="#/pb?strava=1"><span style="flex:1">Cerca i miei personali su Strava</span><span aria-hidden="true">›</span></a>
       ${S.strava && S.strava.letto ? `<span class="small muted">Scarpe aggiornate alle ${esc(new Date(S.strava.letto).toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" }))}</span>` : ""}
       <div id="strava-box"><button class="btn ghost" data-act="strava-scollega">Scollega Strava</button></div>
@@ -1338,7 +1345,7 @@
     if (!liberi) return `<span class="small">L'integrazione con Strava è in prova con un gruppo di ${STRAVA_STATO.massimo} tester e i posti sono esauriti. Arriverà per tutti: intanto scarpe e personali si inseriscono a mano.</span><button class="btn ghost" disabled>Collega Strava</button>
       <button class="linkbtn small" data-act="strava-collega" data-gia="1" style="align-self:flex-start">Sei già tester e hai cambiato telefono? Ricollegati</button>`;
     return `<span class="small">Le scarpe e i loro km arrivano da Strava, e dopo ogni gara ti proponiamo il tempo. È in prova con un gruppo di tester: ${liberi} ${liberi === 1 ? "posto libero" : "posti liberi"}.</span>
-      ${S.scarpe.some((x) => !x.strava) ? `<span class="small muted">Le scarpe che hai inserito a mano andranno in Archivio: non contano più finché Strava è collegato.</span>` : ""}
+      ${S.scarpe.some((x) => !x.strava) ? `<span class="small muted">Se su Strava hai delle scarpe, quelle inserite a mano andranno in Archivio: non contano più finché Strava è collegato. Se non ne hai, restano queste.</span>` : ""}
       <button class="btn" data-act="strava-collega">Collega Strava</button>`;
   }
   function ritornoStrava(esito) {
@@ -1423,7 +1430,7 @@
     const on = S.push && S.push.attivo, sp = supportoPush();
     const daCambiare = S.scarpe.filter((x) => L.statoScarpa(x).livello === "attenzione").length;
     const inG = S.gruppo && S.gruppo.dentro && GD();
-    const stravaOn = !!(S.strava && S.strava.attivo), archivio = S.scarpeArchivio || [];
+    const stravaOn = !!(S.strava && S.strava.attivo && S.strava.archiviato), archivio = S.scarpeArchivio || [];
     return `${bannerProva()}<header class="head"><h1>Io</h1></header>
       ${C().login ? acc("account", "Account", AUTH ? '<span class="pill ok">connesso</span>' : "facoltativo", sezioneAccount()) : ""}
       ${acc("profilo", "Profilo", esc([P.nome, P.citta, P.ora && oraInput(P.ora)].filter(Boolean).join(" · ") || "da completare"), `<form id="profilo" autocomplete="off" style="display:flex;flex-direction:column;gap:10px">
@@ -1440,7 +1447,7 @@
       ${acc("personali", "I miei personali", esc(riassuntoPB()) || "da inserire", sezionePB())}
       ${C().strava ? acc("strava", "Strava", STRAVA_STATO && STRAVA_STATO.collegato ? '<span class="pill ok">collegato</span>' : "in prova", sezioneStrava()) : ""}
       ${acc("scarpe", "Le mie scarpe", S.scarpe.length ? `${S.scarpe.length} ${stravaOn ? "da Strava" : S.scarpe.length === 1 ? "paio" : "paia"}${daCambiare ? ` · <b style="color:var(--warn)">${daCambiare} da cambiare</b>` : ""}` : "nessuna", `${scarpe || `<span class="small">Nessuna scarpa ancora.</span>`}
-        ${stravaOn ? `<span class="small muted">I km arrivano da Strava${S.strava.letto ? `, aggiornati alle ${esc(new Date(S.strava.letto).toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" }))}` : ""}. Una scarpa nuova si aggiunge su Strava; quelle ritirate lì spariscono da qui.</span>` : ""}
+        ${stravaOn ? `<span class="small muted">I km arrivano da Strava${S.strava.letto ? `, aggiornati alle ${esc(new Date(S.strava.letto).toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" }))}` : ""}. Una scarpa nuova si aggiunge su Strava; quelle ritirate lì spariscono da qui.</span>` : S.strava && S.strava.attivo ? `<span class="small muted">Su Strava non hai scarpe attive, quindi usiamo quelle inserite qui. Se ne aggiungi una su Strava, i km arriveranno da lì e queste andranno in Archivio.</span>` : ""}
         ${archivio.length ? `<details class="card"><summary>Archivio · ${archivio.length} ${archivio.length === 1 ? "scarpa inserita" : "scarpe inserite"} a mano</summary>${archivio.map((x) => `<div class="between" style="padding:6px 0"><span>${esc(x.nome)} <span class="small muted">· ${Math.round(Number(x.km) || 0)} km</span></span><button class="btn ghost small" data-act="arch-del" data-id="${esc(x.id)}">Elimina</button></div>`).join("")}<span class="small muted">${stravaOn ? "Non contano finché Strava è collegato." : "Se sono le stesse scarpe che hai già, eliminale."}</span></details>` : ""}
         ${stravaOn ? "" : `<details class="card"><summary>+ Aggiungi una scarpa</summary><form id="scarpa" style="display:flex;flex-direction:column;gap:10px">
         <div class="field"><label for="s-nome">Modello</label><input class="input" id="s-nome" required placeholder="es. la mia scarpa da lento"></div>
