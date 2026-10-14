@@ -38,6 +38,10 @@ async function meteo(luogo, ora, giorno = OGGI) {
 
 const N = require("./notifiche.js");
 const schede = fs.existsSync(path.join(radice, "content/schede.json")) ? leggi("content/schede.json") : {};
+const opz = (f, def) => (fs.existsSync(path.join(radice, f)) ? leggi(f) : def);
+const novita = opz("data/novita_gare.json", { novita: [] }).novita || [];
+const contenuti = opz("data/contenuti.json", { contenuti: [] }).contenuti || [];
+const garaConUrgenti = new Set(novita.filter((n) => n.urgenza === "subito").map((n) => n.gara));
 const nomeLuogo = (l) => String(l || "").toLowerCase().replace(/(^|[\s'-])\S/g, (x) => x.toUpperCase());
 
 async function main() {
@@ -51,7 +55,9 @@ async function main() {
     const d = it.dati || {};
     const gareVicine = (d.gare || []).filter((g) => { const n = L.diffDays(g.data, OGGI); return n >= 0 && n <= 7; });
     const personale = PROVA || ORA === N.oraMattino(d.ora) || ORA === 19 || gareVicine.some((g) => g.data === OGGI && ORA === N.oraGara(schede[g.id]));
-    if (!personale) continue;
+    // le novità urgenti delle gare si controllano ogni ora (8-21), non solo nei momenti fissi
+    const urgenti = !PROVA && ORA >= 8 && ORA <= 21 && (d.gare || []).some((g) => garaConUrgenti.has(g.id));
+    if (!personale && !urgenti) continue;
     valutati++;
     const sub = { endpoint: it.endpoint, keys: { p256dh: it.p256dh, auth: it.auth } };
     let stato = it.stato || {}, inviato = false, scaduta = false;
@@ -63,17 +69,25 @@ async function main() {
       }
     };
     try {
-      const oraUscita = Math.floor(Number(String(d.ora || "07:00").split(/[:.]/)[0]));
-      const meteoUscita = await meteo(d.luogo, oraUscita).catch(() => null);
-      const meteoGare = {};
-      for (const g of gareVicine) {
-        const ora = Math.floor(Number((String((schede[g.id] || {}).partenza || "9").match(/\d{1,2}/) || ["9"])[0]));
-        meteoGare[g.id] = await meteo({ citta: nomeLuogo(g.luogo) || (d.luogo && d.luogo.citta) }, ora, g.data).catch(() => null);
+      if (personale) {
+        const oraUscita = Math.floor(Number(String(d.ora || "07:00").split(/[:.]/)[0]));
+        const meteoUscita = await meteo(d.luogo, oraUscita).catch(() => null);
+        const meteoGare = {};
+        for (const g of gareVicine) {
+          const ora = Math.floor(Number((String((schede[g.id] || {}).partenza || "9").match(/\d{1,2}/) || ["9"])[0]));
+          meteoGare[g.id] = await meteo({ citta: nomeLuogo(g.luogo) || (d.luogo && d.luogo.citta) }, ora, g.data).catch(() => null);
+        }
+        let esito = N.pianifica({ oggi: OGGI, ora: ORA, dati: d, stato, fasi, percorso, schede, novita, contenuti, meteoUscita, meteoGara: (g) => meteoGare[g.id] || null });
+        if (PROVA && !esito.invio) esito = { invio: { title: "RaceBuddy · prova", body: "Le notifiche funzionano. Ti scrivo solo quando c'è qualcosa di nuovo: cambi di meteo, tappe del percorso, la tua gara.", url: "./#/oggi", tag: "prova" }, stato };
+        stato = esito.stato;
+        if (esito.invio) await invia(esito.invio);
       }
-      let esito = N.pianifica({ oggi: OGGI, ora: ORA, dati: d, stato, fasi, percorso, schede, meteoUscita, meteoGara: (g) => meteoGare[g.id] || null });
-      if (PROVA && !esito.invio) esito = { invio: { title: "RaceBuddy · prova", body: "Le notifiche funzionano. Ti scrivo solo quando c'è qualcosa di nuovo: cambi di meteo, tappe del percorso, la tua gara.", url: "./#/oggi", tag: "prova" }, stato };
-      stato = esito.stato;
-      if (esito.invio) await invia(esito.invio);
+      // una notifica per giro: l'urgente, se il messaggio del mattino è appena partito, aspetta l'ora dopo
+      if (urgenti && !inviato && !scaduta) {
+        const u = N.novitaUrgente({ oggi: OGGI, ora: ORA, dati: d, stato, novita });
+        stato = u.stato;
+        if (u.invio) await invia(u.invio);
+      }
       if (!PROVA && !scaduta) await sb(`push_iscrizioni?endpoint=eq.${encodeURIComponent(it.endpoint)}`, { method: "PATCH", body: JSON.stringify({ stato, ...(inviato ? { ultimo_invio: OGGI } : {}) }) });
     } catch (e) { console.error("Errore", String(e.message || e).slice(0, 200)); }
   }

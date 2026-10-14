@@ -40,7 +40,7 @@
         ["content/fasi.json", "content/percorso.json", "content/pillole.json", "data/gare.json"].map((u) => fetch(u, { cache: "no-cache" }).then((r) => { if (!r.ok) throw new Error(u); return r.json(); })));
       Object.assign(D, { fasi, percorso, pillole, gare: cal.gare || [], aggiornato: cal.aggiornato, ok: true });
       const opz = (u, def) => fetch(u, { cache: "no-cache" }).then((r) => (r.ok ? r.json() : def)).catch(() => def);
-      [D.schede, D.contenuti, D.sorrisi] = await Promise.all([opz("content/schede.json", {}), opz("data/contenuti.json", { contenuti: [] }).then((x) => x.contenuti || []), opz("content/sorrisi.json", [])]);
+      [D.schede, D.contenuti, D.sorrisi, D.novita] = await Promise.all([opz("content/schede.json", {}), opz("data/contenuti.json", { contenuti: [] }).then((x) => x.contenuti || []), opz("content/sorrisi.json", []), opz("data/novita_gare.json", { novita: [] }).then((x) => x.novita || [])]);
     } catch (e) {
       D.errore = "Non riesco a caricare i contenuti. Controlla la connessione e ricarica.";
     }
@@ -115,7 +115,7 @@
     const o = oggi(), attive = S.gare.filter((g) => g.data >= L.addDays(o, -14));
     const ids = new Set(attive.map((g) => g.id));
     return {
-      v: 1, ora: S.profilo.ora || "07:00", pref: { meteo: true, percorso: true, gara: true, documenti: true, ...(S.prefPush || {}) },
+      v: 1, ora: S.profilo.ora || "07:00", pref: { meteo: true, percorso: true, gara: true, documenti: true, novita: true, fase: true, ...(S.prefPush || {}) },
       documenti: Object.fromEntries(Object.entries(S.documenti || {}).filter(([, d]) => d && d.scadenza).map(([k, d]) => [k, k === "tessera" ? { tipo: d.tipo || "", scadenza: d.scadenza } : { scadenza: d.scadenza }])),
       luogo: S.profilo.coord ? { lat: S.profilo.coord.lat, lon: S.profilo.coord.lon } : S.profilo.citta ? { citta: S.profilo.citta } : null,
       gare: attive.map((g) => ({ id: g.id, nome: g.nome, data: g.data, distanza: g.distanza, ruolo: g.ruolo, aggiunta: g.aggiunta })),
@@ -177,10 +177,10 @@
     if (compatta && (on || S.pushNonOra || st === "no" || st === "negato")) return "";
     const ora = esc(S.profilo.ora || "7:00");
     let corpo;
-    const pr = { meteo: true, percorso: true, gara: true, documenti: true, ...(S.prefPush || {}) };
+    const pr = { meteo: true, percorso: true, gara: true, documenti: true, novita: true, fase: true, ...(S.prefPush || {}) };
     const sw = (k, t, d) => `<label class="check" style="cursor:pointer"><input type="checkbox" data-act="push-pref" data-k="${k}" ${pr[k] ? "checked" : ""}><span><span class="t">${t}</span><br><span class="d">${d}</span></span></label>`;
     if (on) corpo = `<span class="small">Ti scrivo solo quando c'è qualcosa di nuovo, al massimo una volta al giorno, un'ora prima della tua uscita delle <b>${ora}</b>. Mai di notte.</span>
-      <div>${sw("meteo", "Meteo che cambia", "Solo se cambia davvero rispetto a ieri: gelo, caldo, vento forte, pioggia, ±5°. Mai lo stesso avviso due volte.")}${sw("percorso", "Tappe del percorso", "Le cose importanti da fare e quelle che hai rimandato a oggi.")}${sw("gara", "La tua gara", "Scheda pronta o cambiata, prime previsioni, la vigilia alle 19 e la mattina della gara.")}${sw("documenti", "Scadenze", "Tessera e certificato medico: 30, 15 e 2 giorni prima.")}</div>
+      <div>${sw("meteo", "Meteo che cambia", "Solo se cambia davvero rispetto a ieri: gelo, caldo, vento forte, pioggia, ±5°. Mai lo stesso avviso due volte.")}${sw("percorso", "Tappe del percorso", "Le cose importanti da fare e quelle che hai rimandato a oggi.")}${sw("gara", "La tua gara", "Scheda pronta o cambiata, prime previsioni, la vigilia alle 19 e la mattina della gara.")}${sw("novita", "Novità ufficiali della gara", "Medaglia, maglia, percorso, orari e pettorale appena escono, al massimo una al giorno per gara. Le altre notizie nel messaggio del mattino.")}${sw("documenti", "Scadenze", "Tessera e certificato medico: 30, 15 e 2 giorni prima.")}${sw("fase", "Da leggere per la tua fase", "Un contenuto a settimana, la domenica, solo se quel mattino non c'è altro.")}</div>
       <div class="grid2"><button class="btn ghost" data-act="push-prova">Prova</button><button class="btn ghost" data-act="push-off">Disattiva</button></div>`;
     else if (st === "ios-home") corpo = `<span class="small">Su iPhone le notifiche arrivano solo se RaceBuddy è sulla schermata Home: in Safari tocca <b>Condividi</b> → <b>Aggiungi alla schermata Home</b>, poi apri l'app da lì e torna qui.</span>`;
     else if (st === "negato") corpo = `<span class="small">Le notifiche sono bloccate per questa app: riattivale dalle impostazioni del telefono o del browser.</span>`;
@@ -461,6 +461,7 @@
       const prossima = st.settimana.find((v) => !S.spunte[v.chiave]);
       blocco += `<section class="card"><h2>Da fare oggi</h2><span class="small">Niente di speciale oggi.${prossima ? ` Prossima cosa: <b>${esc(prossima.titolo)}</b> (${esc(L.fmtGiorno(prossima.data))}).` : ""}</span></section>`;
     }
+    blocco = cardDallaGara() + blocco;
     const daRaccontare = garaDaRaccontare();
     if (daRaccontare) blocco = `<a class="card dark" href="#/risultato/${encodeURIComponent(daRaccontare.id)}" style="text-decoration:none;font-weight:inherit"><span class="eyebrow">Dopo la gara</span><span style="font:700 24px/1.1 var(--display)">Com'è andata la ${esc(titoloGara(daRaccontare.nome))}?</span><span class="sub">Segna il tuo tempo${S.gruppo && S.gruppo.dentro ? " e condividilo con il gruppo" : ""} ›</span></a>` + blocco;
     if (recuperi) blocco += `<a class="card soft" href="${urlGara(obiettivo.id, "preparazione")}" style="text-decoration:none;color:inherit"><span class="between"><span class="title">Hai ${recuperi} ${recuperi === 1 ? "cosa" : "cose"} da recuperare</span><span aria-hidden="true">›</span></span><span class="small">Ti sei iscritto a preparazione iniziata.</span></a>`;
@@ -613,6 +614,7 @@
         <div style="text-align:right">${n > 0 ? `<div class="big" style="font-size:44px">${n}</div><span class="sub">${n === 1 ? "giorno" : "giorni"}</span>` : `<span class="pill navy">${n === 0 ? "oggi!" : "conclusa"}</span>`}</div></div>
         ${n >= 0 ? `${barraFasi(g, true)}<span class="sub">${f.id === "prima" ? "Preparazione non ancora iniziata" : `Fase: <b style="color:#fff">${esc(f.nome)}</b>`}</span>` : ""}</section>
       ${n < 0 ? `<a class="card soft" href="#/risultato/${encodeURIComponent(g.id)}" style="text-decoration:none;color:inherit;font-weight:inherit"><span class="title">${ris ? `Il tuo tempo: ${esc(ris.tempo)}${ris.pb ? " · personale!" : ""}` : "Com'è andata?"}</span><span class="small">${ris ? "Modifica o condividi ›" : "Segna il tuo tempo ›"}</span></a>` : ""}
+      ${riquadroNovita(g)}
       ${n >= 0 ? avvisoDocumenti(g) : ""}
       ${n >= 0 ? `<a class="card link-card" href="${urlGara(g.id, "preparazione")}"><div class="between"><h2>Preparazione</h2><span class="small" style="color:var(--accent);font-weight:700">Tutta ›</span></div>
         ${prossime.length ? prossime.map((v) => `<div class="riga-next"><span class="when ${v.data <= o ? "hot" : ""}">${v.data <= o ? "oggi" : esc(L.fmtBreve(v.data))}</span><span>${esc(v.titolo)}</span></div>`).join("") : `<span class="small">Niente da fare nei prossimi giorni.</span>`}
@@ -755,6 +757,63 @@
   // ---------------------------------------------------------------- per te: articoli, video, podcast, sorrisi
   const TIPO_LABEL = { articolo: "Articolo", video: "Video", podcast: "Podcast" };
   const fa = (d) => { const n = L.diffDays(oggi(), d); return n <= 0 ? "oggi" : n === 1 ? "ieri" : n < 7 ? `${n} giorni fa` : L.fmtBreve(d); };
+
+  // ---------------------------------------------------------------- novità ufficiali delle gare (data/novita_gare.json)
+  const TEMA_LABEL = { annullata: "Annullata o rinviata", medaglia: "Medaglia", maglia: "Maglia ufficiale", percorso: "Percorso", partenza: "Partenza e orari", pettorale: "Pettorale ed Expo",
+    risultati: "Risultati e foto", pacer: "Pacer", allenamento: "Allenamenti ufficiali", video: "Video", iscrizioni: "Iscrizioni", promo: "Promozioni", notizia: "Notizia", altro: "Altro evento" };
+  const PRI_URG = { subito: 0, mattino: 1, app: 2 };
+  const novitaDi = (gid) => (D.novita || []).filter((n) => n.gara === gid).sort((a, b) => (a.data < b.data ? 1 : a.data > b.data ? -1 : PRI_URG[a.urgenza] - PRI_URG[b.urgenza]));
+  const novitaVista = (n) => !!(S.letti || {})["n:" + n.id];
+  const novitaNuova = (n) => !novitaVista(n) && L.diffDays(oggi(), n.data) <= 14;
+  const segnaNovitaViste = (lista) => { S.letti = S.letti || {}; let c = 0; for (const n of lista) if (!S.letti["n:" + n.id]) { S.letti["n:" + n.id] = oggi(); c++; } if (c) salva(); };
+  const urlNovita = (n) => `${urlGara(n.gara, "novita")}?n=${encodeURIComponent(n.id)}`;
+  const garaDiNovita = (n) => S.gare.find((g) => g.id === n.gara);
+  const pillTema = (n) => `<span class="pill ${PRI_URG[n.urgenza] ? "grigio" : ""}">${esc(n.ufficiale ? TEMA_LABEL[n.tema] || "Notizia" : "Dalle riviste")}</span>`;
+  const fonteNovita = (n) => `${esc(n.fonte)} · ${esc(fa(n.data))}`;
+  const thumbNovita = (n, cls = "") => `<div class="thumb ${n.immagine ? "" : "noimg"} t-${esc(n.tipo)} ${cls}">${n.immagine ? `<img src="${esc(n.immagine)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add('noimg');this.remove()">` : ""}${n.tipo === "video" ? '<span class="play" aria-hidden="true">▶</span>' : ""}</div>`;
+  // La novità più importante non ancora vista delle tue gare (per Oggi)
+  function novitaInEvidenza() {
+    const mie = new Set(S.gare.filter((g) => g.data >= L.addDays(oggi(), -14)).map((g) => g.id));
+    return (D.novita || []).filter((n) => mie.has(n.gara) && n.urgenza !== "app" && !novitaVista(n) && L.diffDays(oggi(), n.data) <= 7)
+      .sort((a, b) => PRI_URG[a.urgenza] - PRI_URG[b.urgenza] || (a.data < b.data ? 1 : -1))[0] || null;
+  }
+  function cardDallaGara() {
+    const n = novitaInEvidenza(), g = n && garaDiNovita(n);
+    if (!n || !g) return "";
+    return `<a class="card novita-top" href="${urlNovita(n)}">${thumbNovita(n)}<span class="nuovo-badge">Nuovo</span>
+      <div class="novita-testo"><span class="eyebrow" style="color:var(--accent)">Dalla tua gara · ${esc(TEMA_LABEL[n.tema] || "Notizia")}</span><span class="novita-titolo">${esc(n.titolo)}</span>
+      <span class="small muted">${esc(titoloGara(g.nome))} · ${fonteNovita(n)}</span><span class="small" style="color:var(--accent);font-weight:700">Tutte le novità della gara ›</span></div></a>`;
+  }
+  function riquadroNovita(g) {
+    const lista = novitaDi(g.id).filter((n) => n.tema !== "altro").slice(0, 3);
+    if (!lista.length) return "";
+    return `<section class="card" style="gap:0"><div class="between" style="margin-bottom:4px"><h2>Novità ufficiali</h2><a class="small" href="${urlGara(g.id, "novita")}">Tutte ›</a></div>
+      ${lista.map((n) => `<a class="riga-novita" href="${urlNovita(n)}"><span class="pallino ${novitaNuova(n) ? "on" : ""}" ${novitaNuova(n) ? 'aria-label="nuova"' : 'aria-hidden="true"'}></span><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span class="row" style="gap:6px">${pillTema(n)}<span class="small muted">${fonteNovita(n)}</span></span><span class="novita-riga-t">${esc(n.titolo)}</span></span></a>`).join("")}</section>`;
+  }
+  function vistaNovitaGara(id, param) {
+    const g = S.gare.find((x) => x.id === id);
+    if (!g) return garaMancante();
+    const lista = novitaDi(id), s = (D.schede || {})[id] || {}, can = s.canali || {};
+    const top = lista.find((n) => n.id === param.n) || lista.find((n) => novitaNuova(n) && n.urgenza === "subito") || lista[0];
+    setTimeout(() => segnaNovitaViste(lista), 0);
+    const altri = lista.filter((n) => n !== top);
+    const dettagli = (n) => (["percorso", "partenza", "pettorale"].includes(n.tema) ? `<a class="small" href="${urlGara(id, "info")}">I dettagli pratici sono in Info gara ›</a>` : "");
+    const link = [["Instagram", can.instagram], ["Facebook", can.facebook], ["Sito", s.sito]].filter(([, u]) => /^https:\/\//.test(u || ""));
+    return `${bannerProva()}<header class="head-back">${back(urlGara(id))}<div style="min-width:0"><span class="eyebrow">${esc(titoloGara(g.nome))}</span><h1 style="font-size:28px">Novità ufficiali</h1></div></header>
+      ${top ? `<a class="card novita-top ${novitaNuova(top) ? "" : "vista"}" href="${esc(top.link)}" target="_blank" rel="noopener" data-act="apri-novita" data-id="${esc(top.id)}">${thumbNovita(top)}${novitaNuova(top) ? '<span class="nuovo-badge">Nuovo</span>' : ""}
+        <div class="novita-testo"><span class="row" style="gap:6px">${pillTema(top)}<span class="small muted">${fonteNovita(top)}</span></span><span class="novita-titolo">${esc(top.titolo)}</span></div></a>${dettagli(top)}`
+        : `<p class="sub">Ancora nessuna novità ufficiale per questa gara. Le cerchiamo ogni ora sul sito ufficiale, sul canale YouTube della gara e nelle riviste italiane.</p>`}
+      ${altri.length ? `<div class="lista-c">${altri.map((n) => `<a class="card riga-novita box" href="${esc(n.link)}" target="_blank" rel="noopener" data-act="apri-novita" data-id="${esc(n.id)}"><span class="pallino ${novitaNuova(n) ? "on" : ""}" ${novitaNuova(n) ? 'aria-label="nuova"' : 'aria-hidden="true"'}></span><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px"><span class="row" style="gap:6px">${pillTema(n)}<span class="small muted">${fonteNovita(n)}</span></span><span class="novita-riga-t">${esc(n.titolo)}</span></span></a>`).join("")}</div>` : ""}
+      ${link.length ? `<section style="display:flex;flex-direction:column;gap:8px"><h2>Segui la gara anche su</h2><div class="row" style="flex-wrap:wrap">${link.map(([l, u]) => `<a class="btn ghost small" href="${esc(u)}" target="_blank" rel="noopener">${l} ↗</a>`).join("")}</div></section>` : ""}
+      <p class="sub">Raccolte dal sito ufficiale e dal canale YouTube della gara, e dalle riviste italiane che ne parlano: tocca per aprirle alla fonte.</p>`;
+  }
+  function cardNovitaPerTe(n) {
+    const g = garaDiNovita(n);
+    return `<a class="contenuto" href="${esc(n.link)}" target="_blank" rel="noopener" data-act="apri-novita" data-id="${esc(n.id)}">${thumbNovita(n)}
+      <div class="c-testo"><span class="row" style="gap:6px;flex-wrap:wrap"><span class="pill navy-pill">${esc(titoloGara(g ? g.nome : ""))}</span>${novitaNuova(n) ? '<span class="pill">Nuovo</span>' : ""}</span>
+      <span class="c-titolo">${esc(n.titolo)}</span><span class="c-meta">${n.ufficiale ? "Ufficiale" : esc(n.fonte)} · ${esc(TIPO_LABEL[n.tipo] || "")} · ${esc(fa(n.data))}</span></div></a>`;
+  }
+  const novitaMieGare = () => { const mie = new Set(S.gare.filter((g) => g.data >= L.addDays(oggi(), -14)).map((g) => g.id)); return (D.novita || []).filter((n) => mie.has(n.gara) && n.tema !== "altro").sort((a, b) => (novitaNuova(a) ? 0 : 1) - (novitaNuova(b) ? 0 : 1) || PRI_URG[a.urgenza] - PRI_URG[b.urgenza] || (a.data < b.data ? 1 : -1)); };
   function contesto() {
     const o = oggi(), { focus } = L.gareAttive(S.gare, D.fasi, o);
     if (!focus) return { o, fase: null, nomeFase: "Senza gara in vista", distanza: null };
@@ -775,14 +834,16 @@
   }
   function vistaPerTe(param) {
     const { o, fase, nomeFase, distanza } = contesto();
+    const mieGare = novitaMieGare();
     const tipo = param.t || "", letti = Object.fromEntries(Object.keys(S.letti || {}).filter((k) => k.startsWith("c:")).map((k) => [k.slice(2), true]));
     const chip = (v, l) => `<button class="chip" data-act="perte-tipo" data-t="${v}" aria-pressed="${tipo === v}">${l}</button>`;
     const testa = `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(nomeFase)}</span><h1>Per te</h1></div></header>
-      <div class="chips" role="group" aria-label="Tipo di contenuto">${chip("", "Tutto")}${chip("articolo", "Articoli")}${chip("video", "Video")}${chip("podcast", "Podcast")}${chip("sorrisi", "Sorrisi")}</div>`;
+      <div class="chips" role="group" aria-label="Tipo di contenuto">${chip("", "Tutto")}${mieGare.length ? chip("gare", `Le mie gare · ${mieGare.length}`) : ""}${chip("articolo", "Articoli")}${chip("video", "Video")}${chip("podcast", "Podcast")}${chip("sorrisi", "Sorrisi")}</div>`;
     if (tipo === "sorrisi") {
       const lista = [...(D.sorrisi || [])].sort((a, b) => (a.fase === fase ? -1 : 0) - (b.fase === fase ? -1 : 0));
       return `${testa}${lista.map((x) => `<section class="card sorriso"><p>${esc(x.testo)}</p></section>`).join("")}<p class="sub">Battute originali di RaceBuddy.</p>`;
     }
+    if (tipo === "gare") return `${testa}<div class="lista-c">${mieGare.map(cardNovitaPerTe).join("")}</div><p class="sub">Novità ufficiali e articoli delle riviste sulle gare che segui. Tocca per aprirli alla fonte.</p>`;
     const lista = L.perTe(D.contenuti || [], { fase, distanza, oggi: o, letti, tipo });
     if (!lista.length) return `${testa}<p class="sub">Nessun contenuto per ora: le fonti si aggiornano due volte al giorno.</p>`;
     const perFase = fase ? lista.filter((c) => c.perLaFase && !letti[c.id]).slice(0, 6) : [];
@@ -790,6 +851,7 @@
     const novita = lista.filter((c) => !usati.has(c.id)).sort((a, b) => (a.data < b.data ? 1 : a.data > b.data ? -1 : 0));
     const n = Number(param.n || 20);
     return `${testa}
+      ${!tipo && mieGare.length ? `<section aria-label="Dalle tue gare"><div class="between" style="margin-bottom:8px"><h2>Dalle tue gare</h2><button class="linkbtn small" data-act="perte-tipo" data-t="gare">Tutte ›</button></div><div class="lista-c">${mieGare.slice(0, 3).map(cardNovitaPerTe).join("")}</div></section>` : ""}
       ${!tipo ? cardSorriso(L.sorriso(D.sorrisi || [], fase || "senza_gara", o)) : ""}
       ${perFase.length ? `<section aria-label="Per la tua fase"><h2 style="margin-bottom:8px">Per la tua fase</h2><div class="lista-c">${perFase.map((c, i) => cardContenuto(c, i === 0)).join("")}</div></section>` : ""}
       <section aria-label="Novità"><h2 style="margin-bottom:8px">Novità dalle fonti</h2><div class="lista-c">${novita.slice(0, n).map((c) => cardContenuto(c)).join("")}</div></section>
@@ -1084,7 +1146,7 @@
       case "pb": html = vistaPB(); break;
       case "risultato": html = vistaRisultato(parts[1]); break;
       case "io": if (parts[1] === "documenti") S.ioAperto = { ...(S.ioAperto || {}), documenti: true }; html = vistaIo(); break;
-      case "gara": html = parts[2] === "preparazione" ? vistaPreparazione(parts[1]) : parts[2] === "info" ? vistaInfoGara(parts[1], param) : parts[2] === "borsa" ? vistaBorsa(parts[1]) : vistaGaraHome(parts[1], param); break;
+      case "gara": html = parts[2] === "novita" ? vistaNovitaGara(parts[1], param) : parts[2] === "preparazione" ? vistaPreparazione(parts[1]) : parts[2] === "info" ? vistaInfoGara(parts[1], param) : parts[2] === "borsa" ? vistaBorsa(parts[1]) : vistaGaraHome(parts[1], param); break;
       case "meteo": html = vistaMeteo(); break;
       case "pillole": html = vistaPillole(parts[1]); break;
       case "perte": html = vistaPerTe(param); break;
@@ -1135,6 +1197,9 @@
       });
     } else if (act === "perte-tipo") {
       location.hash = `#/perte?t=${t.dataset.t}`;
+      return;
+    } else if (act === "apri-novita") {
+      S.letti = S.letti || {}; S.letti["n:" + t.dataset.id] = oggi(); salva();
       return;
     } else if (act === "apri-contenuto") {
       S.letti = S.letti || {}; S.letti["c:" + t.dataset.id] = oggi(); salva(); // il link si apre comunque

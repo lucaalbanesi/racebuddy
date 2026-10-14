@@ -98,4 +98,56 @@ assert.strictEqual(r.invio, null);
   assert.strictEqual(N.pianifica(base({ oggi: "2026-10-16", dati: { ...dati("2026-11-15"), pref: { documenti: false } } })).invio, null);
 }
 
+// novità urgenti delle gare: subito (8-21), una al giorno per gara, mai vecchie, mai lo stesso tema due volte
+{
+  const nv = (o = {}) => ({ id: "n1", gara: "F-42", tema: "medaglia", urgenza: "subito", titolo: "Ecco la medaglia della 42ª edizione", data: "2026-10-21", trovato: "2026-10-21T08:50Z", fonte: "YouTube della gara", ufficiale: true, tipo: "video", ...o });
+  const dati = { ora: "07:00", gare: [firenze], spunte: [] };
+  let u = N.novitaUrgente({ oggi: "2026-10-21", ora: 10, dati, novita: [nv()] });
+  assert.ok(u.invio && u.invio.title === "ESTRA Firenze Marathon: ecco la medaglia" && /Tocca per vederlo/.test(u.invio.body), u.invio);
+  assert.strictEqual(u.invio.url, "./#/gara/F-42/novita?n=n1");
+  assert.strictEqual(N.novitaUrgente({ oggi: "2026-10-21", ora: 11, dati, novita: [nv()], stato: u.stato }).invio, null);               // una volta sola
+  assert.strictEqual(N.novitaUrgente({ oggi: "2026-10-21", ora: 11, dati, novita: [nv({ id: "n2", tema: "percorso" })], stato: u.stato }).invio, null); // una al giorno per gara
+  assert.ok(N.novitaUrgente({ oggi: "2026-10-22", ora: 9, dati, novita: [nv({ id: "n2", tema: "percorso", data: "2026-10-21" })], stato: u.stato }).invio); // il giorno dopo sì
+  assert.strictEqual(N.novitaUrgente({ oggi: "2026-10-23", ora: 9, dati, novita: [nv({ id: "n3", data: "2026-10-23", trovato: "2026-10-23T06:50Z", ufficiale: false, fonte: "Podisti.net" })], stato: u.stato }).invio, null); // stessa medaglia da una rivista: no
+  assert.strictEqual(N.novitaUrgente({ oggi: "2026-10-21", ora: 7, dati, novita: [nv()] }).invio, null);   // non prima delle 8
+  assert.strictEqual(N.novitaUrgente({ oggi: "2026-10-21", ora: 22, dati, novita: [nv()] }).invio, null);  // non di sera tardi
+  assert.strictEqual(N.novitaUrgente({ oggi: "2026-10-25", ora: 10, dati, novita: [nv()] }).invio, null);  // troppo vecchia
+  assert.strictEqual(N.novitaUrgente({ oggi: "2026-10-21", ora: 10, dati, novita: [nv({ data: "2026-09-15", trovato: "2026-10-21T08:50Z" })] }).invio, null); // primo import di una notizia vecchia
+  assert.strictEqual(N.novitaUrgente({ oggi: "2026-10-21", ora: 10, dati, novita: [nv({ gara: "X-21" })] }).invio, null); // gara non seguita
+  assert.strictEqual(N.novitaUrgente({ oggi: "2026-10-21", ora: 10, dati, novita: [nv({ urgenza: "mattino" })] }).invio, null);
+  assert.strictEqual(N.novitaUrgente({ oggi: "2026-10-21", ora: 10, dati: { ...dati, pref: { novita: false } }, novita: [nv()] }).invio, null);
+  // due urgenti insieme: prima la più importante
+  u = N.novitaUrgente({ oggi: "2026-10-21", ora: 10, dati, novita: [nv({ id: "a", tema: "maglia" }), nv({ id: "b", tema: "annullata", titolo: "Gara rinviata" })] });
+  assert.ok(/avviso importante/.test(u.invio.title), u.invio);
+
+  // al mattino: la novità "del mattino" diventa una riga in più della notifica principale…
+  const pacer = nv({ id: "p1", tema: "pacer", urgenza: "mattino", titolo: "Diventa pacer della Firenze Marathon", tipo: "articolo", data: "2026-10-19", trovato: "2026-10-19T05:50Z" });
+  let r = N.pianifica(base({ oggi: "2026-10-20", novita: [pacer], dati: { ...dati, rinvii: { "F-42:P016": "2026-10-20" } } }));
+  assert.ok(r.invio && r.invio.title.startsWith("Te lo ricordo") && /Dalla ESTRA Firenze Marathon: diventa pacer/.test(r.invio.body), r.invio);
+  assert.strictEqual(N.pianifica(base({ oggi: "2026-10-21", novita: [pacer], stato: r.stato })).invio, null); // già detta
+  // …o da sola se non c'è altro
+  r = N.pianifica(base({ oggi: "2026-10-20", novita: [pacer] }));
+  assert.ok(r.invio && r.invio.title === "Novità: ESTRA Firenze Marathon" && r.invio.url.includes("/novita?n=p1"), r.invio);
+  // solo app: mai
+  assert.strictEqual(N.pianifica(base({ oggi: "2026-10-20", novita: [{ ...pacer, urgenza: "app" }] })).invio, null);
+  // scheda cambiata subito dopo una novità urgente sullo stesso argomento: niente doppione
+  const s1 = N.pianifica(base({ oggi: "2026-11-01", schede: scheda })).stato;
+  s1.inviati["novita-giorno:F-42"] = "2026-11-01";
+  const s2 = { "F-42": { ...scheda["F-42"], partenza: "9:00" } };
+  r = N.pianifica(base({ oggi: "2026-11-02", schede: s2, stato: s1 }));
+  assert.ok(!r.invio || !r.invio.title.startsWith("Cambiato qualcosa"), r.invio);
+}
+
+// la domenica, se non c'è nulla: un contenuto per la fase, una volta a settimana
+{
+  const L = require("../app/logic.js");
+  const fase = L.fase(fasi, "42", "2026-11-29", "2026-11-01").id;   // domenica senza tappe del percorso
+  const cont = [{ id: "c1", tipo: "video", fonte: "Canale", titolo: "Il lungo a ritmo gara", data: "2026-10-28", fasi: [fase], distanze: ["42"], argomenti: [] }];
+  let r = N.pianifica(base({ oggi: "2026-11-01", contenuti: cont }));
+  assert.ok(r.invio && r.invio.title.startsWith("Per la tua fase") && /Il lungo a ritmo gara · Canale/.test(r.invio.body), r.invio);
+  assert.strictEqual(N.pianifica(base({ oggi: "2026-11-02", contenuti: cont })).invio, null);                        // solo la domenica
+  assert.strictEqual(N.pianifica(base({ oggi: "2026-11-08", contenuti: cont, stato: r.stato })).invio, null);        // mai lo stesso
+  assert.strictEqual(N.pianifica(base({ oggi: "2026-11-01", contenuti: cont, dati: { ora: "07:00", gare: [firenze], spunte: [], pref: { fase: false } } })).invio, null);
+}
+
 console.log("ok");

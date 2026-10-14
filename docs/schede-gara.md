@@ -27,6 +27,13 @@ dell'atleta, PDF), e vale per tutti gli utenti che seguono quella gara.
   "percorsoLink": "https://… pagina del percorso, oppure file GPX/KML/PDF o mappa ufficiale",
   "percorsoDescrizione": "Una o due righe: punti di passaggio principali, salite, punto più lontano.",
   "sito": "https://…",
+  "canali": {
+    "notizie": "https://… feed RSS delle notizie del sito ufficiale (es. https://sito/feed/)",
+    "youtube": "https://www.youtube.com/feeds/videos.xml?channel_id=… (oppure ?user=…)",
+    "instagram": "https://www.instagram.com/…",
+    "facebook": "https://www.facebook.com/…"
+  },
+  "nomi": ["Firenze Marathon", "Maratona di Firenze"],
   "note": "…",
   "fonti": ["https://… pagina usata", "https://… regolamento.pdf"],
   "verificato": "2026-10-15",
@@ -37,6 +44,15 @@ dell'atleta, PDF), e vale per tutti gli utenti che seguono quella gara.
 Il campo `mappa` è l'indirizzo della partenza come lo cercheresti su Google Maps (via o piazza + città), oppure "lat,lon" se il sito li riporta: serve al pulsante "Partenza in Maps". Si scrive solo se il luogo di partenza è indicato dal sito ufficiale.
 
 Percorso: `percorsoImmagine` è l'indirizzo diretto (https) dell'immagine della mappa pubblicata dall'organizzatore, non una foto; non si scarica né si ricarica altrove, l'app la mostra dal sito ufficiale. Se c'è un file GPX/KML o una mappa interattiva ufficiale, va in `percorsoLink`, altrimenti la pagina del percorso. Dislivello o salite solo se indicati dal sito.
+
+Canali (`canali`): servono alle **Novità ufficiali** della gara (`scripts/novita_gare.py`, ogni ora). Solo i canali
+**della gara stessa** collegati dal sito ufficiale (di solito nell'intestazione o nel piè di pagina), mai quelli di altre
+gare dello stesso organizzatore. `notizie` è il feed RSS del sito (cercare `<link rel="alternate" type="application/rss+xml">`
+nella pagina, o provare `/feed/`) e va scritto solo se risponde con un feed valido. `youtube` è l'indirizzo del feed del
+canale (`https://www.youtube.com/feeds/videos.xml?channel_id=UC…`; il `channel_id` è nel sorgente della pagina del canale,
+`"channelId"` o `<link rel="canonical">`). `instagram` e `facebook` sono solo link per l'utente: non si leggono.
+`nomi` sono i modi in cui la gara viene chiamata dai giornali (2–3 al massimo, senza sponsor): servono a riconoscere
+gli articoli delle riviste che parlano della gara.
 
 Il campo `partenza` contiene solo l'orario (es. "8:30" o "8:30 da confermare"): spiegazioni e varianti vanno in `note`.
 
@@ -67,6 +83,8 @@ Per ogni gara di `gare_seguite.json` con data da oggi in poi:
 - con scheda, `verificato` più vecchio di 14 giorni e gara oltre 30 giorni → ricontrollare;
 - gara entro 30 giorni e `verificato` più vecchio di 7 giorni → ricontrollare;
 - gara entro 3 giorni e ultima verifica fatta prima di quella finestra → ultimo controllo.
+
+Una scheda senza `canali` o senza `nomi` va completata al primo controllo utile (anche se il resto non cambia).
 
 Al massimo 8 gare per esecuzione, dalle più vicine. Le schede di gare passate da più di 30 giorni si possono
 togliere.

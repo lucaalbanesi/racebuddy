@@ -1,0 +1,35 @@
+name: Novità delle gare
+on:
+  schedule:
+    - cron: "50 3-19 * * *"   # ogni ora (circa 5-22 ora di Roma), qualche minuto prima del giro delle notifiche
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: novita
+  cancel-in-progress: false
+jobs:
+  novita:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test
+        run: python tests/test_novita.py
+      - name: Raccogli le novità
+        run: python scripts/novita_gare.py
+      - name: Salva e pubblica se cambiato
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "racebuddy-bot"
+          git config user.email "racebuddy-bot@users.noreply.github.com"
+          git add data/novita_gare.json
+          if git diff --cached --quiet; then echo "Nessuna novità"; exit 0; fi
+          git commit -m "Novità delle gare aggiornate"
+          git pull --rebase && git push
+          # i push fatti da questo job non avviano la pubblicazione: la si chiede esplicitamente
+          gh workflow run "Pubblica web app" --ref main

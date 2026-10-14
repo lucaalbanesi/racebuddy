@@ -21,7 +21,15 @@
   "mappa": "Viale di Porta Ardeatina, Roma",
   "percorsoImmagine": "https://www.romehalfmarathon.it/wp-content/uploads/2026/09/Il-PERCORSO_RHM2026_invio-scaled.jpg",
   "percorsoLink": "https://www.romehalfmarathon.it/percorso/",
-  "percorsoDescrizione": "Da Porta Ardeatina al Colosseo passando per Piramide, Circo Massimo, Castel Sant'Angelo, San Pietro, Foro Italico (km 13, punto più lontano), Piazza del Popolo, Piazza di Spagna e Piazza Venezia. Nel finale la salita di via Cavour."
+  "percorsoDescrizione": "Da Porta Ardeatina al Colosseo passando per Piramide, Circo Massimo, Castel Sant'Angelo, San Pietro, Foro Italico (km 13, punto più lontano), Piazza del Popolo, Piazza di Spagna e Piazza Venezia. Nel finale la salita di via Cavour.",
+  "canali": {
+   "notizie": "https://www.romehalfmarathon.it/feed/",
+   "instagram": "https://www.instagram.com/romehalfmarathon"
+  },
+  "nomi": [
+   "Rome Half Marathon",
+   "Mezza maratona di Roma"
+  ]
  },
  "H88b48310e5-42": {
   "partenza": "8:30",
@@ -43,6 +51,16 @@
    "https://www.firenzemarathon.it/"
   ],
   "verificato": "2026-10-14",
-  "edizione": "2026"
+  "edizione": "2026",
+  "canali": {
+   "notizie": "https://www.firenzemarathon.it/feed/",
+   "youtube": "https://www.youtube.com/feeds/videos.xml?user=MaratonaFirenze",
+   "instagram": "https://www.instagram.com/firenzemarathon/",
+   "facebook": "https://www.facebook.com/FirenzeMarathon/"
+  },
+  "nomi": [
+   "Firenze Marathon",
+   "Maratona di Firenze"
+  ]
  }
 }

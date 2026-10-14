@@ -184,6 +184,25 @@ body.onboarding .app { padding: 0; max-width: 480px; min-height: 100dvh; }
 .contenuto.grande .c-testo { padding: 4px 14px 14px; }
 .contenuto.grande .c-titolo { font-size: 18px; }
 .contenuto.letto { opacity: .6; }
+/* Novità ufficiali delle gare */
+.novita-top { position: relative; padding: 0; overflow: hidden; border: 2px solid var(--accent); text-decoration: none; color: inherit; font-weight: inherit; gap: 0; }
+.novita-top.vista { border: 1px solid var(--line); }
+.novita-top .thumb { position: relative; width: 100%; aspect-ratio: 16 / 8; background: var(--line2); }
+.novita-top .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.novita-top .thumb.noimg { background: linear-gradient(135deg, var(--navy), #2E4370); }
+.novita-top .play { position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font-size: 40px; text-shadow: 0 1px 6px #0008; }
+.novita-testo { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 4px; }
+.novita-titolo { font-size: 18px; font-weight: 700; line-height: 1.2; }
+.nuovo-badge { position: absolute; left: 12px; top: 12px; border-radius: 999px; padding: 3px 10px; font-size: 12px; font-weight: 700; background: var(--accent); color: #fff; }
+.riga-novita { display: flex; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line2); text-decoration: none; color: inherit; font-weight: inherit; }
+.riga-novita:last-child { border-bottom: 0; }
+.riga-novita.box { padding: 10px 12px; border: 1px solid var(--line); }
+.novita-riga-t { font-size: 15px; font-weight: 700; line-height: 1.25; }
+.pallino { flex: none; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--line); }
+.pallino.on { background: var(--accent); border-color: var(--accent); }
+.pill.grigio { background: var(--line2); color: var(--fg2); }
+.pill.navy-pill { background: var(--navy); color: #fff; }
+.contenuto .thumb.t-articolo.noimg::after { content: "Aa"; position: absolute; inset: 0; display: grid; place-items: center; color: #fff9; font: 700 26px var(--display); }
 .sorriso { background: var(--navy); color: var(--navy-fg); border-color: transparent; }
 .sorriso .eyebrow { color: var(--accent-on-dark); }
 .sorriso p { margin: 0; font: 600 20px/1.3 var(--display); letter-spacing: .01em; }

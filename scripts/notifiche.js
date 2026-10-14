@@ -17,8 +17,14 @@
    5. il meteo dell'uscita, solo se cambia davvero rispetto a ieri: nuovo avviso importante, ±5°, arriva la pioggia.
       Un avviso già dato ieri (o negli ultimi giorni) non si ripete. Al massimo 2 notifiche di solo meteo a settimana.
    Il cambio di meteo, se c'è, si aggiunge come seconda riga alla notifica principale.
+   Una novità ufficiale "del mattino" di una gara seguita (pacer, allenamenti ufficiali, video…) va come riga in più,
+   o da sola se non c'è altro. La domenica, se non c'è proprio nulla, un contenuto per la fase (una volta a settimana).
 
-   Preferenze dell'utente (dati.pref): meteo, percorso, gara (tutte attive di default). */
+   Novità urgenti delle gare (novitaUrgente, valutata ogni ora tra le 8 e le 21): medaglia, maglia, percorso,
+   partenza e orari, pettorale ed Expo, annullamento; dopo la gara risultati e foto. Al massimo una al giorno per
+   gara, lo stesso tema di una gara non più di una volta ogni 14 giorni, mai una novità vecchia di oltre 2 giorni.
+
+   Preferenze dell'utente (dati.pref): meteo, percorso, gara, documenti, novita, fase (tutte attive di default). */
 "use strict";
 const L = require("../app/logic.js");
 
@@ -44,6 +50,36 @@ function fascia(m) {
   const t = m.temp - (m.vento >= 20 ? 2 : 0);
   return t >= 22 ? 0 : t >= 16 ? 1 : t >= 11 ? 2 : t >= 6 ? 3 : t >= 1 ? 4 : 5;
 }
+const PREF = { meteo: true, percorso: true, gara: true, documenti: true, novita: true, fase: true };
+// Una novità è "fresca" se è uscita da poco e l'abbiamo vista da poco: le vecchie non si notificano mai.
+const fresca = (n, oggi, giorni) => n.data >= L.addDays(oggi, -giorni) && String(n.trovato || "").slice(0, 10) >= L.addDays(oggi, -giorni);
+const PRI_TEMA = ["annullata", "medaglia", "percorso", "partenza", "pettorale", "maglia", "risultati"];
+const TITOLO_TEMA = { annullata: "avviso importante", medaglia: "ecco la medaglia", maglia: "ecco la maglia ufficiale", percorso: "il percorso ufficiale",
+  partenza: "partenza e orari", pettorale: "ritiro del pettorale", risultati: "risultati e foto" };
+const urlNovita = (n) => `./#/gara/${encodeURIComponent(n.gara)}/novita?n=${encodeURIComponent(n.id)}`;
+const corpoNovita = (n) => `${n.titolo}${n.ufficiale ? "" : ` (${n.fonte})`}${n.tipo === "video" ? " Tocca per vederlo." : ""}`;
+
+/**
+ * Novità urgente di una gara seguita, valutata ogni ora tra le 8 e le 21 (in aggiunta al messaggio del mattino).
+ * ctx: { oggi, ora, dati, stato, novita: [{id, gara, tema, urgenza, titolo, data, trovato, fonte, ufficiale, tipo}] }
+ */
+function novitaUrgente(ctx) {
+  const { oggi, ora, dati = {}, novita = [] } = ctx;
+  const pref = { ...PREF, ...(dati.pref || {}) };
+  const stato = JSON.parse(JSON.stringify(ctx.stato || {}));
+  stato.inviati = stato.inviati || {};
+  if (!pref.novita || ora < 8 || ora > 21) return { invio: null, stato };
+  const gare = Object.fromEntries((dati.gare || []).filter((g) => g && g.data >= L.addDays(oggi, -14)).map((g) => [g.id, g]));
+  const recente = (k, giorni) => stato.inviati[k] && L.diffDays(oggi, stato.inviati[k]) < giorni;
+  const n = novita
+    .filter((x) => x.urgenza === "subito" && gare[x.gara] && fresca(x, oggi, 2) && !stato.inviati[`novita:${x.id}`]
+      && !recente(`novita-giorno:${x.gara}`, 1) && !recente(`novita-tema:${x.gara}:${x.tema}`, 14))
+    .sort((a, b) => PRI_TEMA.indexOf(a.tema) - PRI_TEMA.indexOf(b.tema) || (a.data < b.data ? 1 : -1))[0];
+  if (!n) return { invio: null, stato };
+  for (const k of [`novita:${n.id}`, `novita-giorno:${n.gara}`, `novita-tema:${n.gara}:${n.tema}`]) stato.inviati[k] = oggi;
+  return { invio: { title: `${titolo(gare[n.gara].nome)}: ${TITOLO_TEMA[n.tema] || "novità"}`, body: corpoNovita(n), url: urlNovita(n), tag: `novita-${n.id}` }, stato };
+}
+
 const firmaScheda = (s) => (s ? JSON.stringify([s.partenza || "", s.luogoPartenza || "", (s.note || "").match(/^(ANNULLATA|SPOSTATA[^.]*)/) ? s.note.slice(0, 40) : ""]) : "");
 
 /** Cambiamento del meteo rispetto all'ultima osservazione. Ritorna una riga di testo o null. */
@@ -68,7 +104,7 @@ function cambioMeteo(m, prec, avvisiRecenti) {
  */
 function pianifica(ctx) {
   const { oggi, ora, dati = {}, fasi, percorso, schede = {} } = ctx;
-  const pref = { meteo: true, percorso: true, gara: true, documenti: true, ...(dati.pref || {}) };
+  const pref = { ...PREF, ...(dati.pref || {}) };
   const stato = JSON.parse(JSON.stringify(ctx.stato || {}));
   stato.inviati = stato.inviati || {}; stato.schede = stato.schede || {}; stato.meteoGara = stato.meteoGara || {};
   const gia = (k) => !!stato.inviati[k];
@@ -117,6 +153,9 @@ function pianifica(ctx) {
       if (n <= 30) candidati.push({ pri: 1, title: `Scheda pronta: ${titolo(g.nome)}`, body: `Orari, ritiro pettorale e logistica dal sito ufficiale.${s.partenza ? ` Partenza alle ${fmtOra(s.partenza) || s.partenza}.` : ""}`, url: `./#/gara/${encodeURIComponent(g.id)}` });
     } else if (prima !== firma) {
       const ann = (s.note || "").match(/^(ANNULLATA|SPOSTATA[^.]*)/);
+      // la stessa cosa è appena arrivata come novità urgente della gara: niente doppione
+      const dNov = stato.inviati[`novita-giorno:${g.id}`];
+      if (!ann && dNov && L.diffDays(oggi, dNov) <= 2) continue;
       candidati.push({ pri: 0, title: ann ? `${titolo(g.nome)}: ${ann[1].toLowerCase()}` : `Cambiato qualcosa: ${titolo(g.nome)}`, body: ann ? "Controlla la scheda gara e il sito ufficiale." : `Aggiornate le informazioni della gara.${s.partenza ? ` Partenza: ${s.partenza}.` : ""}`, url: `./#/gara/${encodeURIComponent(g.id)}` });
     }
   }
@@ -176,19 +215,41 @@ function pianifica(ctx) {
     stato.meteo = { data: oggi, temp: m.temp, pioggia: m.pioggia, fascia: fascia(m) };
   }
 
+  // 6. novità ufficiale "del mattino" di una gara seguita (o urgente non ancora data): una riga in più
+  const perGara = Object.fromEntries(gare.map((g) => [g.id, g]));
+  const nov = pref.novita ? (ctx.novita || []).filter((x) => x.urgenza !== "app" && perGara[x.gara] && fresca(x, oggi, 3) && !gia(`novita:${x.id}`))
+    .sort((a, b) => (a.urgenza === "subito" ? 0 : 1) - (b.urgenza === "subito" ? 0 : 1) || (a.data < b.data ? 1 : -1))[0] : null;
+  const rigaNovita = nov ? `Dalla ${titolo(perGara[nov.gara].nome)}: ${minuscola(nov.titolo).replace(/[.!\s]*$/, ".")}` : null;
+  const segnaNovita = () => { if (nov) segna(`novita:${nov.id}`); };
+
   candidati.sort((a, b) => a.pri - b.pri);
   const top = candidati[0];
+  if (!top && !rigaMeteo && nov) {
+    segnaNovita(); stato.ultimo = oggi;
+    return { invio: { title: `Novità: ${titolo(perGara[nov.gara].nome)}`, body: corpoNovita(nov), url: urlNovita(nov), tag: `mattino-${oggi}` }, stato };
+  }
+  // 7. la domenica, se non c'è proprio nulla: un contenuto per la fase, una volta a settimana
+  if (!top && !rigaMeteo && pref.fase && new Date(`${oggi}T12:00:00Z`).getUTCDay() === 0 && focus) {
+    const f = L.fase(fasi, focus.distanza, focus.data, oggi);
+    const settimana = Object.entries(stato.inviati).some(([k, d]) => k.startsWith("contenuto:") && L.diffDays(oggi, d) < 7);
+    const c = !settimana && f.id !== "prima" && L.perTe(ctx.contenuti || [], { fase: f.id, distanza: focus.distanza, oggi })
+      .find((x) => x.perLaFase && !gia(`contenuto:${x.id}`) && L.diffDays(oggi, x.data) <= 21);
+    if (c) {
+      segna(`contenuto:${c.id}`); stato.ultimo = oggi;
+      return { invio: { title: `Per la tua fase: ${f.nome}`, body: `${c.titolo} · ${c.fonte}`, url: "./#/perte", tag: `fase-${oggi}` }, stato };
+    }
+  }
   if (!top && !rigaMeteo) return { invio: null, stato };
   if (!top) {
     const settimana = Object.entries(stato.inviati).filter(([k, d]) => k.startsWith("meteo:") && L.diffDays(oggi, d) < 7).length;
     if (settimana >= 2) return { invio: null, stato };
-    segna(`meteo:${oggi}`); stato.ultimo = oggi;
-    return { invio: { title: "Il meteo cambia", body: rigaMeteo, url: "./#/meteo", tag: `meteo-${oggi}` }, stato };
+    segna(`meteo:${oggi}`); stato.ultimo = oggi; segnaNovita();
+    return { invio: { title: "Il meteo cambia", body: [rigaMeteo, rigaNovita].filter(Boolean).join("\n"), url: "./#/meteo", tag: `meteo-${oggi}` }, stato };
   }
   if (top.chiave) segna(top.chiave);
   if (top.poi) top.poi();
-  stato.ultimo = oggi;
-  return { invio: { title: top.title, body: [top.body, rigaMeteo].filter(Boolean).join("\n"), url: top.url || url, tag: `mattino-${oggi}` }, stato };
+  stato.ultimo = oggi; segnaNovita();
+  return { invio: { title: top.title, body: [top.body, rigaNovita, rigaMeteo].filter(Boolean).join("\n"), url: top.url || url, tag: `mattino-${oggi}` }, stato };
 }
 
-module.exports = { pianifica, oraMattino, oraGara, fascia, cambioMeteo };
+module.exports = { pianifica, novitaUrgente, oraMattino, oraGara, fascia, cambioMeteo };
