@@ -23,3 +23,12 @@ jobs:
           curl -s -X DELETE "$URL/rest/v1/gare_aggiunte?gara_id=eq.TEST" -H "apikey: $KEY" -H "Prefer: return=representation" -o out.json || true
           n=$(curl -s "$URL/rest/v1/gare_aggiunte?select=id&gara_id=eq.TEST" -H "apikey: $KEY" | grep -o '"id"' | wc -l)
           test "$n" -ge 1
+      - name: Chiamata dal browser consentita (CORS)
+        run: |
+          curl -s -D h.txt -o /dev/null -X OPTIONS "$URL/rest/v1/gare_aggiunte" -H "Origin: https://lucaalbanesi.github.io" \
+            -H "Access-Control-Request-Method: POST" -H "Access-Control-Request-Headers: apikey,content-type,prefer"
+          grep -i "access-control-allow-origin" h.txt
+      - name: Righe presenti (solo conteggio)
+        run: |
+          n=$(curl -s "$URL/rest/v1/gare_aggiunte?select=gara_id" -H "apikey: $KEY" | grep -o '"gara_id"' | wc -l)
+          echo "righe=$n"; test "$n" -ge 2
