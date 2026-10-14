@@ -1,0 +1,24 @@
+name: Verifica collegamento Supabase
+# Prova a mano: lettura, aggiunta di una riga di prova (gara_id TEST) e controllo che la cancellazione sia vietata.
+on: workflow_dispatch
+jobs:
+  verifica:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Leggi configurazione
+        run: |
+          echo "URL=$(grep -o 'https://[a-z0-9]*\.supabase\.co' app/config.js)" >> $GITHUB_ENV
+          echo "KEY=$(grep -o 'sb_publishable_[A-Za-z0-9_-]*' app/config.js)" >> $GITHUB_ENV
+      - name: Lettura consentita
+        run: test "$(curl -s -o /dev/null -w '%{http_code}' "$URL/rest/v1/gare_aggiunte?select=gara_id&limit=1" -H "apikey: $KEY")" = 200
+      - name: Aggiunta consentita
+        run: |
+          code=$(curl -s -o /dev/null -w '%{http_code}' -X POST "$URL/rest/v1/gare_aggiunte" -H "apikey: $KEY" -H "Content-Type: application/json" -H "Prefer: return=minimal" \
+            -d '{"gara_id":"TEST","nome":"Prova collegamento RaceBuddy","data":"2026-12-31","luogo":"Prova","distanza":"10","fonte":"manuale"}')
+          test "$code" = 201
+      - name: Cancellazione vietata
+        run: |
+          curl -s -X DELETE "$URL/rest/v1/gare_aggiunte?gara_id=eq.TEST" -H "apikey: $KEY" -H "Prefer: return=representation" -o out.json || true
+          n=$(curl -s "$URL/rest/v1/gare_aggiunte?select=id&gara_id=eq.TEST" -H "apikey: $KEY" | grep -o '"id"' | wc -l)
+          test "$n" -ge 1
