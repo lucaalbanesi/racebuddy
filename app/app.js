@@ -126,7 +126,12 @@
   async function rpc(nome, corpo) {
     const r = await fetch(`${C().supabaseUrl}/rest/v1/rpc/${nome}`, { method: "POST", headers: { apikey: C().supabaseKey, "Content-Type": "application/json" }, body: JSON.stringify(corpo) });
     const testo = await r.text();
-    if (!r.ok) { let msg = testo; try { msg = JSON.parse(testo).message || testo; } catch (e) { /* testo grezzo */ } throw new Error(String(msg).slice(0, 160)); }
+    if (!r.ok) {
+      let msg = testo, code = "";
+      try { const j = JSON.parse(testo); msg = j.message || testo; code = j.code || ""; } catch (e) { /* testo grezzo */ }
+      if (code === "PGRST202") msg = "Il gruppo non è ancora attivo sul server: va completata la configurazione del database.";
+      throw new Error(String(msg).slice(0, 160));
+    }
     try { return testo ? JSON.parse(testo) : null; } catch (e) { return testo; }
   }
   async function inviaIscrizione(sub) {
