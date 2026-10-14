@@ -1037,6 +1037,79 @@
       ${altri.length ? `<div class="row">${avatari(altri)}<span class="small muted">${esc(altri.slice(0, 3).join(", "))} ${altri.length === 1 ? "ha" : "hanno"} già condiviso il loro</span></div>` : ""}</form>`;
   }
 
+  // ---------------------------------------------------------------- statistiche d'uso
+  // Aperture anonime: un +1 al giorno, alla settimana e alla prima apertura. Il telefono ricorda da sé cosa ha già
+  // contato: online arriva solo il +1, senza nessun identificativo.
+  function contaApertura() {
+    const oggiV = L.todayISO(), lun = L.addDays(oggiV, -((new Date(oggiV + "T12:00:00").getDay() + 6) % 7));
+    const c = { ...(S.conta || {}) };
+    if (!S.conta && (S.gare.length || S.benvenuto)) c.nuovo = true; // chi usava già l'app prima del contatore non è "nuovo"
+    const tipi = [c.giorno !== oggiV && "giorno", c.settimana !== lun && "settimana", !c.nuovo && "nuovo"].filter(Boolean);
+    if (!tipi.length) return;
+    rpc("conta_apertura", { p_tipi: tipi }).then(() => { S.conta = { giorno: oggiV, settimana: lun, nuovo: true }; try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* niente */ } }).catch(() => { /* riprova alla prossima apertura */ });
+  }
+
+  // Pagina riservata (Io → Strumenti di prova → Statistiche): solo totali, con parola d'ordine.
+  const STAT_KEY = "racebuddy.statistiche";
+  let STAT = null, statPeriodo = 30, statProvata = false;
+  const parolaStat = () => { try { return sessionStorage.getItem(STAT_KEY) || localStorage.getItem(STAT_KEY) || ""; } catch (e) { return ""; } };
+  const dimenticaStat = () => { STAT = null; statProvata = false; try { sessionStorage.removeItem(STAT_KEY); localStorage.removeItem(STAT_KEY); } catch (e) { /* niente */ } };
+  async function caricaStatistiche(parola, ricorda) {
+    STAT = await rpc("statistiche", { p_parola: parola });
+    STAT.letto = new Date();
+    try { sessionStorage.setItem(STAT_KEY, parola); if (ricorda) localStorage.setItem(STAT_KEY, parola); } catch (e) { /* niente */ }
+  }
+  const INVIO_LABEL = { mattino: "Mattino", meteo: "Meteo", novita: "Novità gara", vigilia: "Vigilia", gara: "Mattina di gara", fase: "Per la fase", altro: "Altro" };
+  const INTERR_LABEL = { percorso: "Tappe", gara: "La tua gara", meteo: "Meteo", novita: "Novità gara", documenti: "Scadenze", fase: "Per la fase" };
+  const barreOrizz = (righe, valore) => `<div class="hbar">${righe.map(([l, n, max]) => `<span>${esc(l)}</span><div class="hbar-t"><div style="width:${max ? Math.max(2, Math.round((n / max) * 100)) : 0}%"></div></div><b>${esc(valore(n))}</b>`).join("")}</div>`;
+  function vistaStatistiche() {
+    const testa = `<header class="head-back">${back("#/io")}<div style="min-width:0"><span class="eyebrow">RaceBuddy · solo per te</span><h1 style="font-size:32px">Statistiche</h1></div></header>`;
+    if (!STAT) {
+      const p = parolaStat();
+      if (p && !statProvata) {
+        statProvata = true;
+        caricaStatistiche(p).then(rerender).catch(() => { dimenticaStat(); statProvata = true; rerender(); });
+        return `${testa}<p class="sub">Carico le statistiche…</p>`;
+      }
+      return `${testa}<p class="sub">Pagina riservata. Scrivi la parola d'ordine che hai impostato in Supabase.</p>
+        <form id="stat-accesso" class="card"><div class="field"><label for="stat-pw">Parola d'ordine</label><input class="input" id="stat-pw" type="password" autocomplete="current-password" required></div>
+        <label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="stat-ricorda"><span><span class="t">Ricordala su questo telefono</span></span></label>
+        <button class="btn block" type="submit">Entra</button></form>
+        <p class="sub">Nel database c'è solo l'impronta della parola d'ordine.</p>`;
+    }
+    const d = STAT, att = d.attivi || {}, oggiS = d.oggi;
+    const giorni = Array.from({ length: statPeriodo }, (_, i) => L.addDays(oggiS, i - statPeriodo + 1));
+    const valori = giorni.map((g) => att[g] || 0), max = Math.max(1, ...valori);
+    const primo = Object.keys(att).sort()[0] || oggiS, conDati = valori.filter((_, i) => giorni[i] >= primo); // si conta dal primo giorno del contatore
+    const media = conDati.length ? Math.round(conDati.reduce((a, b) => a + b, 0) / conDati.length) : 0;
+    const chip = (n) => `<button class="chip" data-act="stat-periodo" data-n="${n}" aria-pressed="${statPeriodo === n}" style="height:30px;font-size:13px">${n} g</button>`;
+    const invii = Object.entries(d.invii7 || {}).filter(([k]) => k !== "scadute").sort((a, b) => b[1] - a[1]);
+    const maxInv = Math.max(0, ...invii.map(([, n]) => n)), totInv = invii.reduce((a, [, n]) => a + n, 0);
+    const interr = Object.entries(INTERR_LABEL).map(([k, l]) => [l, (d.interruttori || {})[k] || 0, d.iscritti]).sort((a, b) => b[1] - a[1]);
+    const kpi = (t, n, sotto, scuro) => `<div class="stat-kpi ${scuro ? "dark" : ""}"><span class="eyebrow">${t}</span><b>${esc(n)}</b><span class="small">${sotto}</span></div>`;
+    const gr = d.gruppo || {};
+    return `${testa}<div class="between"><span class="small muted">Aggiornate alle ${esc(d.letto.toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" }))}</span><div class="row"><button class="btn ghost small" data-act="stat-aggiorna">Aggiorna</button><button class="btn ghost small" data-act="stat-esci">Esci</button></div></div>
+      <div class="grid2">${kpi("Attivi oggi", att[oggiS] || 0, `ieri ${att[L.addDays(oggiS, -1)] || 0}`, true)}${kpi("Questa settimana", d.settimana, `telefoni diversi · scorsa ${d.settimana_prima}`)}${kpi("Nuovi in 7 giorni", d.nuovi7, "prima apertura")}${kpi("Con notifiche", d.iscritti, "iscrizioni attive")}</div>
+      <section class="card"><div class="between"><h2>Attivi al giorno</h2><div class="row" style="gap:4px">${chip(7)}${chip(30)}${chip(90)}</div></div>
+        <div class="stat-chart" role="img" aria-label="Attivi al giorno negli ultimi ${statPeriodo} giorni: massimo ${max}, oggi ${att[oggiS] || 0}">
+          <span class="stat-max">${max}</span>
+          ${giorni.map((g, i) => `<button class="stat-barra ${g === oggiS ? "oggi" : ""}" data-act="stat-giorno" data-t="${esc(L.fmtGiorno(g))}: ${valori[i]} attivi" title="${esc(L.fmtGiorno(g))}: ${valori[i]} attivi" aria-label="${esc(L.fmtGiorno(g))}: ${valori[i]} attivi"><span style="height:${Math.round((valori[i] / max) * 100)}%"></span></button>`).join("")}</div>
+        <div class="between small muted"><span>${esc(L.fmtBreve(giorni[0]))}</span><span>oggi</span></div>
+        <span class="small" id="stat-sel">Media ${media} al giorno · tocca una barra per il numero esatto</span>
+        <details><summary class="small">Vedi come tabella</summary><div class="stat-tab">${giorni.slice().reverse().map((g) => `<span>${esc(L.fmtGiorno(g))}</span><b>${att[g] || 0}</b>`).join("")}</div></details></section>
+      <section class="card"><div class="between"><h2>Notifiche inviate · 7 giorni</h2><b style="font:700 22px var(--display)">${totInv}</b></div>
+        ${invii.length ? barreOrizz(invii.map(([k, n]) => [INVIO_LABEL[k] || k, n, maxInv]), (n) => n) : `<span class="small">Nessuna notifica negli ultimi 7 giorni.</span>`}
+        ${(d.invii7 || {}).scadute ? `<span class="small muted">${d.invii7.scadute} iscrizioni scadute rimosse (telefono cambiato o notifiche tolte).</span>` : ""}</section>
+      <section class="card"><h2>Interruttori accesi · su ${esc(d.iscritti)}</h2>${d.iscritti ? barreOrizz(interr, (n) => `${Math.round((n / d.iscritti) * 100)}%`) : `<span class="small">Nessuno ha ancora attivato le notifiche.</span>`}</section>
+      <section class="card" style="gap:0"><div class="between" style="margin-bottom:4px"><h2>Gare più seguite</h2><span class="small muted">${esc(d.gare_totali)} gare in tutto</span></div>
+        ${(d.gare || []).map((g) => `<div class="post"><span style="flex:1;min-width:0"><b>${esc(titoloGara(g.nome))}</b><br><span class="small muted">${esc(L.fmtGiorno(g.data))} · ${esc(L.DIST_LABEL[g.distanza] || "")}</span></span><b style="font:700 20px var(--display)">${esc(g.n)}</b></div>`).join("") || `<span class="small">Nessuna gara seguita.</span>`}
+        <span class="small muted" style="padding-top:6px">Numero di telefoni che seguono la gara.</span></section>
+      <section class="card"><h2>Gruppo</h2><div class="grid2 stat-num">
+        <div><b>${esc(gr.membri)}</b><span class="small muted">membri</span></div><div><b>${esc(gr.attivi7)}</b><span class="small muted">attivi in 7 giorni</span></div>
+        <div><b>${esc(gr.risultati30)}</b><span class="small muted">risultati in bacheca · 30 g</span></div><div><b>${esc(gr.personali)}</b><span class="small muted">personali in classifica</span></div></div></section>
+      <p class="sub">Solo totali: nessun nome, nessuna gara dei singoli. Le aperture si contano senza riconoscere il telefono, dal ${esc(L.fmtBreve(Object.keys(att).sort()[0] || oggiS))}.</p>`;
+  }
+
   // ---------------------------------------------------------------- personali
   // Tempo in tre caselle (ore · min · sec) con la tastiera numerica: niente due punti da scrivere.
   function campoTempo(id, distanza, valore, etichetta, grande) {
@@ -1115,6 +1188,7 @@
       <details class="card"><summary>Strumenti di prova</summary>
         <form id="prova" style="display:flex;flex-direction:column;gap:10px"><div class="field"><label for="d-prova">Fai finta che oggi sia</label><input class="input" id="d-prova" type="date" value="${esc(S.prova)}"></div>
         <div class="grid2"><button class="btn" type="submit">Applica</button><button class="btn ghost" type="button" data-act="prova-off">Torna a oggi</button></div></form>
+        <a class="small" href="#/statistiche" style="align-self:flex-start">Statistiche ›</a>
         <div id="reset-box" style="display:flex;flex-direction:column;gap:8px"><button class="btn ghost" type="button" data-act="reset-ask">Cancella tutti i miei dati</button></div></details>
       <a class="btn ghost" href="#/benvenuto">Rivedi il tutorial</a>
       <p class="sub">Versione ${esc(window.RB_VERSION || "?")} · gare condivise: ${Object.keys(S.segnalate || {}).length} di ${S.gare.length}${S.erroreSegnala ? ` · ultimo errore: ${esc(S.erroreSegnala)}` : ""}</p>
@@ -1128,7 +1202,7 @@
     const parts = path.split("/").map(decodeURIComponent);
     const param = Object.fromEntries(new URLSearchParams(query || ""));
     const tab = parts[0] || "oggi";
-    document.querySelectorAll("nav.tabs a").forEach((a) => a.setAttribute("aria-current", a.dataset.tab === ({ aggiungi: "gare", gara: "gare", checklist: "gare", percorso: "gare", meteo: "oggi", pillole: "oggi", invito: "gruppo", risultato: "oggi", pb: "io" }[tab] || tab) ? "page" : "false"));
+    document.querySelectorAll("nav.tabs a").forEach((a) => a.setAttribute("aria-current", a.dataset.tab === ({ aggiungi: "gare", gara: "gare", checklist: "gare", percorso: "gare", meteo: "oggi", pillole: "oggi", invito: "gruppo", risultato: "oggi", pb: "io", statistiche: "io" }[tab] || tab) ? "page" : "false"));
     if (D.errore) { $app.innerHTML = `<section class="card"><span class="title">Qualcosa non va</span><span class="small">${esc(D.errore)}</span></section>`; return; }
     let html;
     const benvenuto = !S.benvenuto && !S.gare.length && (tab === "oggi" || tab === "benvenuto");
@@ -1144,6 +1218,7 @@
         break;
       case "invito": html = vistaInvito(parts[1]); break;
       case "pb": html = vistaPB(); break;
+      case "statistiche": html = vistaStatistiche(); break;
       case "risultato": html = vistaRisultato(parts[1]); break;
       case "io": if (parts[1] === "documenti") S.ioAperto = { ...(S.ioAperto || {}), documenti: true }; html = vistaIo(); break;
       case "gara": html = parts[2] === "novita" ? vistaNovitaGara(parts[1], param) : parts[2] === "preparazione" ? vistaPreparazione(parts[1]) : parts[2] === "info" ? vistaInfoGara(parts[1], param) : parts[2] === "borsa" ? vistaBorsa(parts[1]) : vistaGaraHome(parts[1], param); break;
@@ -1222,6 +1297,14 @@
       fotoTogli(t.dataset.k).catch(() => {}); doc(t.dataset.k).foto = false; salva(); toast("Foto tolta"); rerender();
     } else if (act === "gps") {
       usaGps(t);
+    } else if (act === "stat-periodo") {
+      statPeriodo = Number(t.dataset.n) || 30; rerender();
+    } else if (act === "stat-giorno") {
+      const el = document.getElementById("stat-sel"); if (el) el.textContent = t.dataset.t;
+    } else if (act === "stat-aggiorna") {
+      caricaStatistiche(parolaStat()).then(rerender).catch((e) => toast(e.message || "Non riuscito"));
+    } else if (act === "stat-esci") {
+      dimenticaStat(); rerender();
     } else if (act === "pb-togli") {
       delete (S.pb || {})[t.dataset.d]; salva(); toast("Personale tolto"); rerender();
     } else if (act === "letto") {
@@ -1394,6 +1477,10 @@
       document.activeElement && document.activeElement.blur();
     } else if (f.id === "scarpa") {
       S.scarpe.push({ id: "S" + Date.now().toString(36), nome: v("s-nome").trim(), tipo: v("s-tipo"), km: Number(v("s-km")) || 0, limite: Number(v("s-lim")) || 800 }); salva(); toast("Scarpa aggiunta"); rerender();
+    } else if (f.id === "stat-accesso") {
+      const btn = f.querySelector("button[type=submit]"); btn.disabled = true;
+      caricaStatistiche(v("stat-pw"), document.getElementById("stat-ricorda").checked).then(rerender)
+        .catch((e) => { btn.disabled = false; toast(/errata/.test(e.message || "") ? "Parola d'ordine errata" : e.message || "Non riuscito"); });
     } else if (f.dataset.form === "pb") {
       const d = f.dataset.d, lt = leggiCampoTempo(`pb-t-${d}`, d);
       if (lt.errore) { toast(lt.errore); return; }
@@ -1414,5 +1501,5 @@
   }, true);
   window.addEventListener("hashchange", () => { route(); window.scrollTo(0, 0); });
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
-  carica().then(() => { route(); S.gare.forEach((g) => segnalaGara(g, g.id.startsWith("M") ? "manuale" : "FIDAL")); if (S.push && S.push.attivo) sincronizzaPush(); if (S.gruppo && S.gruppo.dentro) { aggiornaGruppo(true).then(() => sincronizzaPBGruppo()); sincronizzaGareGruppo(); } });
+  carica().then(() => { route(); contaApertura(); S.gare.forEach((g) => segnalaGara(g, g.id.startsWith("M") ? "manuale" : "FIDAL")); if (S.push && S.push.attivo) sincronizzaPush(); if (S.gruppo && S.gruppo.dentro) { aggiornaGruppo(true).then(() => sincronizzaPBGruppo()); sincronizzaGareGruppo(); } });
 })();

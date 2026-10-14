@@ -184,6 +184,26 @@ body.onboarding .app { padding: 0; max-width: 480px; min-height: 100dvh; }
 .contenuto.grande .c-testo { padding: 4px 14px 14px; }
 .contenuto.grande .c-titolo { font-size: 18px; }
 .contenuto.letto { opacity: .6; }
+/* Statistiche (pagina riservata) */
+.stat-kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.stat-kpi b { font: 700 44px/1 var(--display); }
+.stat-kpi .small { color: var(--muted); }
+.stat-kpi.dark { background: var(--navy); border-color: transparent; color: #fff; }
+.stat-kpi.dark .eyebrow, .stat-kpi.dark .small { color: var(--navy-muted); }
+.stat-kpi.dark b { color: var(--accent-on-dark); }
+.stat-chart { position: relative; height: 140px; display: flex; align-items: stretch; gap: 2px; border-bottom: 1px solid var(--line); border-top: 1px dashed var(--line2); padding-top: 2px; }
+.stat-max { position: absolute; right: 0; top: -9px; font-size: 11px; color: var(--muted); background: var(--surface); padding-left: 4px; }
+.stat-barra { flex: 1; min-width: 0; padding: 0; border: 0; background: none; display: flex; align-items: flex-end; cursor: pointer; }
+.stat-barra span { display: block; width: 100%; min-height: 1px; background: var(--navy); border-radius: 4px 4px 0 0; }
+.stat-barra.oggi span { background: var(--accent); }
+.stat-barra:hover span, .stat-barra:focus-visible span { opacity: .75; }
+.stat-tab { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; font-size: 14px; padding-top: 8px; max-height: 220px; overflow-y: auto; }
+.hbar { display: grid; grid-template-columns: 110px minmax(0, 1fr) 40px; gap: 8px 10px; align-items: center; font-size: 14px; }
+.hbar b { text-align: right; }
+.hbar-t > div { height: 10px; background: var(--navy); border-radius: 0 4px 4px 0; }
+@media (prefers-color-scheme: dark) { .stat-barra span, .hbar-t > div { background: var(--navy-muted); } }
+.stat-num > div { display: flex; flex-direction: column; }
+.stat-num b { font: 700 28px/1 var(--display); }
 /* Novità ufficiali delle gare */
 .novita-top { position: relative; padding: 0; overflow: hidden; border: 2px solid var(--accent); text-decoration: none; color: inherit; font-weight: inherit; gap: 0; }
 .novita-top.vista { border: 1px solid var(--line); }

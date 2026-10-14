@@ -51,6 +51,8 @@ async function main() {
   if (!r.ok) { console.error("Lettura iscrizioni fallita", r.status, await r.text()); process.exit(1); }
   const iscritti = await r.json();
   let inviati = 0, scaduti = 0, valutati = 0;
+  const perTipo = {}; // totali per la pagina delle statistiche (nessun dato dell'utente)
+  const tipoInvio = (tag) => (String(tag).match(/^(mattino|meteo|novita|vigilia|gara|fase)-/) || [, "altro"])[1];
   for (const it of iscritti) {
     const d = it.dati || {};
     const gareVicine = (d.gare || []).filter((g) => { const n = L.diffDays(g.data, OGGI); return n >= 0 && n <= 7; });
@@ -62,7 +64,7 @@ async function main() {
     const sub = { endpoint: it.endpoint, keys: { p256dh: it.p256dh, auth: it.auth } };
     let stato = it.stato || {}, inviato = false, scaduta = false;
     const invia = async (msg) => {
-      try { await webpush.sendNotification(sub, JSON.stringify(msg), { TTL: 3 * 3600, urgency: "normal" }); inviati++; inviato = true; }
+      try { await webpush.sendNotification(sub, JSON.stringify(msg), { TTL: 3 * 3600, urgency: "normal" }); inviati++; inviato = true; if (!PROVA) perTipo[tipoInvio(msg.tag)] = (perTipo[tipoInvio(msg.tag)] || 0) + 1; }
       catch (e) {
         if (e.statusCode === 404 || e.statusCode === 410) { scaduta = true; scaduti++; await sb(`push_iscrizioni?endpoint=eq.${encodeURIComponent(it.endpoint)}`, { method: "DELETE" }); }
         else console.error("Invio fallito", e.statusCode || "", String(e.body || e.message || e).slice(0, 200));
@@ -90,6 +92,11 @@ async function main() {
       }
       if (!PROVA && !scaduta) await sb(`push_iscrizioni?endpoint=eq.${encodeURIComponent(it.endpoint)}`, { method: "PATCH", body: JSON.stringify({ stato, ...(inviato ? { ultimo_invio: OGGI } : {}) }) });
     } catch (e) { console.error("Errore", String(e.message || e).slice(0, 200)); }
+  }
+  if (scaduti) perTipo.scadute = scaduti;
+  if (Object.keys(perTipo).length) {
+    const c = await sb("rpc/conta_invii", { method: "POST", body: JSON.stringify({ p: perTipo }) }).catch(() => null);
+    if (!c || !c.ok) console.log("Statistiche degli invii non salvate (funzione conta_invii non ancora sul database?)");
   }
   console.log(`${OGGI} ore ${ORA}: iscritti ${iscritti.length}, valutati ${valutati}, inviati ${inviati}, iscrizioni scadute rimosse ${scaduti}`);
 }

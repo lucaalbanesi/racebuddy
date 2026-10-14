@@ -1,7 +1,7 @@
 name: Test database gruppo
 on:
   push:
-    paths: ["docs/supabase_gruppo.sql", "docs/supabase_gruppo_personali.sql", "tests/test_gruppo.sql", ".github/workflows/test-db.yml"]
+    paths: ["docs/supabase*.sql", "tests/test_gruppo.sql", "tests/test_statistiche.sql", ".github/workflows/test-db.yml"]
   workflow_dispatch:
 jobs:
   test:
@@ -30,6 +30,15 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f tests/test_gruppo.sql > esito.txt 2>&1 || true
           cat esito.txt
           if ! grep -q "permessi ok" esito.txt; then echo "::error::$(grep -iE 'error|errore|assert|context|line' esito.txt | head -6 | tr '\n' ' ')"; exit 1; fi
+      - name: Statistiche
+        run: |
+          psql -v ON_ERROR_STOP=1 -f docs/supabase.sql
+          psql -v ON_ERROR_STOP=1 -c "create table public.gare_aggiunte (id bigserial primary key, gara_id text not null, nome text, data date, luogo text, distanza text, fonte text, creato timestamptz not null default now());"
+          psql -v ON_ERROR_STOP=1 -f docs/supabase_statistiche.sql
+          psql -v ON_ERROR_STOP=1 -f docs/supabase_statistiche.sql   # ripetibile
+          psql -v ON_ERROR_STOP=1 -f tests/test_statistiche.sql > esito3.txt 2>&1 || true
+          cat esito3.txt
+          if ! grep -q "permessi statistiche ok" esito3.txt; then echo "::error::statistiche: $(grep -iE 'error|errore|assert|context|line' esito3.txt | head -6 | tr '\n' ' ')"; exit 1; fi
       # La migrazione dei personali, applicata allo schema in produzione prima dei personali (f287bf8), deve dare lo stesso risultato.
       - name: Migrazione personali sullo schema in produzione
         run: |
