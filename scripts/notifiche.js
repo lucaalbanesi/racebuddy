@@ -99,7 +99,7 @@ function pianifica(ctx) {
     if (s.partenza) righe.push(`Partenza alle ${fmtOra(s.partenza) || s.partenza}${s.luogoPartenza ? `, ${minuscola(primaFrase(s.luogoPartenza).replace(/^Partenza (da|in)\s*/i, "").replace(/\.$/, ""))}` : ""}.`);
     if (m) righe.push(`${icona(m)} ${Math.round(m.temp)}° previsti al via. ${primaFrase(L.vestizione(m, true))}`);
     segna(`vigilia:${garaDomani.id}`);
-    return { invio: { title: `Domani: ${titolo(garaDomani.nome)}`, body: righe.join("\n"), url: `./#/checklist/${encodeURIComponent(garaDomani.id)}`, tag: `vigilia-${garaDomani.id}` }, stato };
+    return { invio: { title: `Domani: ${titolo(garaDomani.nome)}`, body: righe.join("\n"), url: `./#/gara/${encodeURIComponent(garaDomani.id)}/borsa`, tag: `vigilia-${garaDomani.id}` }, stato };
   }
 
   // --- mattino

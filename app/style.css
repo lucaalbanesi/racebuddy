@@ -200,3 +200,17 @@ body.onboarding .app { padding: 0; max-width: 480px; min-height: 100dvh; }
 .chip[aria-pressed="true"] { color: #fff !important; }
 .post { flex-wrap: wrap; }
 .post select.input { max-width: 160px; }
+/* La gara: sezioni */
+.seg { display: flex; gap: 4px; background: var(--line2); border-radius: 12px; padding: 4px; overflow-x: auto; scrollbar-width: none; }
+.seg a { flex: 1 0 auto; text-align: center; padding: 8px 10px; border-radius: 9px; font-size: 14px; font-weight: 600; color: var(--muted); text-decoration: none; white-space: nowrap; }
+.seg a[aria-current="page"] { background: var(--surface); color: var(--fg); box-shadow: 0 1px 3px #0001; font-weight: 700; }
+.link-card { text-decoration: none; color: inherit; font-weight: inherit; }
+.link-card:active, .mia-gara:active { transform: scale(.99); }
+.riga-next { display: flex; gap: 12px; font-size: 15px; }
+.riga-next .when { flex: none; width: 58px; font-size: 14px; font-weight: 700; color: var(--muted); }
+.riga-next .when.hot { color: var(--accent); }
+.mini-percorso { display: flex; gap: 10px; align-items: center; }
+.mini-percorso img { width: 72px; height: 54px; object-fit: cover; border-radius: 8px; border: 1px solid var(--line); flex: none; }
+.mia-gara { flex-direction: row; align-items: center; text-decoration: none; color: inherit; font-weight: inherit; border-left: 4px solid var(--accent); }
+.mia-gara .race { flex: 1; min-width: 0; }
+.mia-gara .chev { font-size: 28px; color: var(--accent); font-weight: 700; padding-left: 4px; }

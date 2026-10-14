@@ -277,7 +277,7 @@
     const slides = [
       { k: "Ciao!", t: "Il tuo buddy per la gara", d: "Ti accompagno dal giorno dell'iscrizione fino al traguardo. 10 km, mezza o maratona.",
         ill: `<div class="ob-countdown"><span class="big">46</span><span>giorni alla tua gara</span></div>` },
-      { k: "1 · Il percorso", t: "Ogni giorno sai cosa fare", d: "Scegli la gara e il percorso si costruisce sulle date vere: cosa provare nei lunghi, cosa preparare e quando. Spunti e vai avanti.",
+      { k: "1 · La preparazione", t: "Ogni giorno sai cosa fare", d: "Scegli la gara e la preparazione si costruisce sulle date vere: cosa provare nei lunghi, cosa preparare e quando. Spunti e vai avanti.",
         ill: `<div class="card ob-mini">${barra}
           ${voce("Certificato medico e tessera", "Validi fino al giorno della gara", "fatto", true)}
           ${voce("Prima prova di rifornimento", "Nel lungo prova il gel che userai in gara", "oggi", false)}
@@ -329,7 +329,7 @@
         <span class="sub">${esc(L.fmtGiorno(obiettivo.data))} · ${esc(L.DIST_LABEL[obiettivo.distanza])} · ${esc(f.nome)}</span></div>
         <div style="text-align:right">${obiettivo.mancano > 0 ? `<div class="big">${obiettivo.mancano}</div><span class="sub">${obiettivo.mancano === 1 ? "giorno" : "giorni"}</span>` : `<span class="pill navy">${esc(mancano(obiettivo))}</span>`}</div></a>
       ${barraFasi(obiettivo, true)}
-      <div class="links-dark"><a href="#/gara/${encodeURIComponent(obiettivo.id)}">Scheda gara</a><a href="#/percorso/${encodeURIComponent(obiettivo.id)}">Percorso</a><a href="#/checklist/${encodeURIComponent(obiettivo.id)}">Borsa</a></div>
+      <div class="links-dark"><a href="${urlGara(obiettivo.id)}">La gara</a><a href="${urlGara(obiettivo.id, "preparazione")}">Preparazione</a><a href="${urlGara(obiettivo.id, "borsa")}">Borsa</a></div>
       ${tutte.filter((g) => g.id !== obiettivo.id).slice(0, 2).map((altra) => `<a class="between small" href="#/gara/${encodeURIComponent(altra.id)}" style="border-top:1px solid #FFFFFF26;padding-top:10px;color:inherit;text-decoration:none;font-weight:inherit"><span><b>${esc(titoloGara(altra.nome))}</b> · ${esc(L.RUOLO_LABEL[altra.ruolo].toLowerCase())}</span><span class="pill navy">${esc(mancano(altra))} ›</span></a>`).join("")}
     </section>`;
 
@@ -340,7 +340,7 @@
     const momenti = daFare.filter((v) => v.tipo === "momento" && !(S.letti || {})[v.chiave]);
     const recuperi = stO.daRecuperare.length;
     let blocco = "";
-    if (momenti.length) blocco += momenti.map((m) => `<section class="card soft"><div class="between"><span class="eyebrow" style="color:var(--accent-strong)">Momento del percorso</span><button class="btn ghost small" data-act="letto" data-k="${esc(m.chiave)}" aria-label="Chiudi: ${esc(m.titolo)}">Ok, chiudi</button></div><span class="title">${esc(m.titolo)}</span><span class="small">${esc(m.messaggio)}</span></section>`).join("");
+    if (momenti.length) blocco += momenti.map((m) => `<section class="card soft"><div class="between"><span class="eyebrow" style="color:var(--accent-strong)">Momento della preparazione</span><button class="btn ghost small" data-act="letto" data-k="${esc(m.chiave)}" aria-label="Chiudi: ${esc(m.titolo)}">Ok, chiudi</button></div><span class="title">${esc(m.titolo)}</span><span class="small">${esc(m.messaggio)}</span></section>`).join("");
     if (azioni.length) {
       blocco += `<section class="card" aria-label="Da fare oggi"><h2>Da fare oggi</h2>${azioni.map((v) => {
         const fatto = !!S.spunte[v.chiave];
@@ -352,8 +352,8 @@
     }
     const daRaccontare = garaDaRaccontare();
     if (daRaccontare) blocco = `<a class="card dark" href="#/risultato/${encodeURIComponent(daRaccontare.id)}" style="text-decoration:none;font-weight:inherit"><span class="eyebrow">Dopo la gara</span><span style="font:700 24px/1.1 var(--display)">Com'è andata la ${esc(titoloGara(daRaccontare.nome))}?</span><span class="sub">Segna il tuo tempo${S.gruppo && S.gruppo.dentro ? " e condividilo con il gruppo" : ""} ›</span></a>` + blocco;
-    if (recuperi) blocco += `<a class="card soft" href="#/percorso/${encodeURIComponent(obiettivo.id)}" style="text-decoration:none;color:inherit"><span class="between"><span class="title">Hai ${recuperi} ${recuperi === 1 ? "cosa" : "cose"} da recuperare</span><span aria-hidden="true">›</span></span><span class="small">Ti sei iscritto a preparazione iniziata.</span></a>`;
-    if (focus.mancano >= 0 && focus.mancano <= 2) blocco += `<a class="btn block" href="#/checklist/${encodeURIComponent(focus.id)}">Apri la checklist della borsa</a>`;
+    if (recuperi) blocco += `<a class="card soft" href="${urlGara(obiettivo.id, "preparazione")}" style="text-decoration:none;color:inherit"><span class="between"><span class="title">Hai ${recuperi} ${recuperi === 1 ? "cosa" : "cose"} da recuperare</span><span aria-hidden="true">›</span></span><span class="small">Ti sei iscritto a preparazione iniziata.</span></a>`;
+    if (focus.mancano >= 0 && focus.mancano <= 2) blocco += `<a class="btn block" href="${urlGara(focus.id, "borsa")}">Apri la checklist della borsa</a>`;
 
     const fp = L.fase(D.fasi, focus.distanza, focus.data, o);
     const pil = L.pillola(D.pillole, fp.id, focus.distanza, o, Number(o.slice(5, 7)));
@@ -388,7 +388,10 @@
     const ris = L.cercaGare(D.gare, q, dist, o);
     const chip = (v, l) => `<button class="chip" data-act="filtro" data-d="${v}" aria-pressed="${dist === v}">${l}</button>`;
     return `${bannerProva()}<header class="head"><h1>Gare</h1></header>
-      ${mie.length ? `<section class="card list" aria-label="Le mie gare" style="padding-top:12px;padding-bottom:6px"><h2>Le mie gare</h2>${mie.map((g) => `<div class="line" style="align-items:center"><div style="flex:1;min-width:0"><a href="#/gara/${encodeURIComponent(g.id)}" style="color:inherit;text-decoration:none"><b>${esc(titoloGara(g.nome))}</b><br><span class="small muted">${esc(L.fmtGiorno(g.data))} · ${esc(L.DIST_LABEL[g.distanza])} · ${esc(L.RUOLO_LABEL[g.ruolo])}</span></a></div><button class="btn ghost small" data-act="rimuovi" data-id="${esc(g.id)}" aria-label="Rimuovi ${esc(titoloGara(g.nome))}">Rimuovi</button></div>`).join("")}</section>` : ""}
+      ${mie.length ? `<section aria-label="Le mie gare" style="display:flex;flex-direction:column;gap:8px"><h2>Le mie gare</h2>${mie.map((g) => {
+        const n = L.diffDays(g.data, o), f = L.fase(D.fasi, g.distanza, g.data, o);
+        return `<a class="card mia-gara" href="${urlGara(g.id)}">${cardGara(g, `<span class="row" style="gap:6px;flex-wrap:wrap"><span class="pill ${n < 0 ? "ok" : ""}">${n > 1 ? `tra ${n} giorni` : n === 1 ? "domani" : n === 0 ? "oggi!" : "conclusa"}</span><span class="small muted">${esc(L.RUOLO_LABEL[g.ruolo])}${n >= 0 && !["prima", "conclusa"].includes(f.id) ? " · " + esc(f.nome) : ""}</span></span>`)}<span class="chev" aria-hidden="true">›</span></a>`;
+      }).join("")}</section><h2 style="margin-top:6px">Aggiungi una gara</h2>` : ""}
       <div class="field"><label for="cerca">Cerca una gara o una città</label><input class="input" id="cerca" type="search" value="${esc(q)}" placeholder="es. Firenze" autocomplete="off"></div>
       <div class="chips" role="group" aria-label="Distanza">${chip("", "Tutte")}${chip("10", "10 km")}${chip("21", "Mezza")}${chip("42", "Maratona")}</div>
       <div id="risultati">${risultati(ris)}</div>
@@ -425,66 +428,13 @@
       <div class="field">${bottoneGps("a-citta")}</div>
       <div class="grid2"><div class="field"><label for="a-citta">Dove corri di solito</label><input class="input" id="a-citta" placeholder="es. Roma"></div>
       <div class="field"><label for="a-ora">A che ora</label><input class="input" id="a-ora" type="time" step="900" value="07:00"></div></div>`}
-      <button class="btn block" type="submit">Crea il mio percorso</button></form>`;
+      <button class="btn block" type="submit">Crea la mia preparazione</button></form>`;
   }
 
-  function vistaPercorso(id) {
-    const o = oggi();
-    if (!S.gare.length) return vistaVuota();
-    const g = S.gare.find((x) => x.id === id) || L.gareAttive(S.gare, D.fasi, o).focus || S.gare[0];
-    const f = L.fase(D.fasi, g.distanza, g.data, o);
-    const st = L.stato(D.percorso, g, o, S.spunte, S.rinvii);
-    const scelta = S.gare.length > 1 ? `<div class="chips" role="group" aria-label="Gara">${S.gare.map((x) => `<a class="chip" href="#/percorso/${encodeURIComponent(x.id)}" aria-pressed="${x.id === g.id}" style="display:inline-flex;align-items:center;text-decoration:none;color:inherit">${esc(titoloGara(x.nome).slice(0, 22))}</a>`).join("")}</div>` : "";
-    const rec = st.daRecuperare.length ? `<section class="card soft" aria-label="Da recuperare"><div class="between"><span class="title" style="color:var(--accent-strong)">Ti sei iscritto a preparazione iniziata</span><span class="small"><b>${st.daRecuperare.length}</b></span></div>${st.daRecuperare.map((v) => voceCheck(v)).join("")}</section>` : "";
-    const sett = st.settimana.length ? `<section class="card" aria-label="Prossimi giorni"><h2>Nei prossimi 7 giorni</h2>${st.settimana.map((v) => voceCheck(v, { quando: L.fmtGiorno(v.data) })).join("")}</section>` : "";
-    const mom = st.momenti.length ? `<section class="card list" aria-label="Prossimi momenti" style="padding-top:12px;padding-bottom:6px"><h2>Prossimi momenti</h2>${st.momenti.map((v) => `<div class="line"><span class="when">${esc(L.fmtBreve(v.data))}</span><span>${esc(v.titolo)}</span></div>`).join("")}</section>` : "";
-    const altre = S.gare.filter((x) => x.id !== g.id && x.data <= g.data && x.data >= o);
-    const tappe = altre.length ? `<section class="card list" style="padding-top:12px;padding-bottom:6px"><h2>Altre gare prima di questa</h2>${altre.map((x) => `<div class="line"><span class="when hot">${esc(L.fmtBreve(x.data))}</span><a href="#/percorso/${encodeURIComponent(x.id)}">${esc(titoloGara(x.nome))} · ${esc(L.RUOLO_LABEL[x.ruolo].toLowerCase())}</a></div>`).join("")}</section>` : "";
-    // percorso completo per fase
-    const perFase = {};
-    st.voci.forEach((v) => { (perFase[v.fase] = perFase[v.fase] || []).push(v); });
-    const tutto = [...D.fasi].sort((a, b) => a.ordine - b.ordine).filter((x) => perFase[x.id]).map((x) =>
-      `<h2 style="margin-top:8px">${esc(x.nome)}</h2>${perFase[x.id].map((v) => v.tipo === "cosa da fare" ? voceCheck(v, { nodesc: true, quando: L.fmtGiorno(v.data) }) : `<div class="line" style="opacity:${v.data < o ? 0.55 : 1}"><span class="when">${esc(L.fmtBreve(v.data))}</span><span>${esc(v.titolo)}</span></div>`).join("")}`).join("");
-    const mancano = L.diffDays(g.data, o);
-    return `${bannerProva()}<header class="head"><div style="min-width:0"><span class="eyebrow">Il tuo percorso · ${esc(L.RUOLO_LABEL[g.ruolo].toLowerCase())}</span><h1>${esc(titoloGara(g.nome))}</h1></div><span style="font:700 22px var(--display);color:var(--accent);white-space:nowrap">${mancano > 0 ? "−" + mancano + " gg" : mancano === 0 ? "oggi" : "fatta"}</span></header>
-      ${scelta}<section aria-label="Fase attuale: ${esc(f.nome)}">${barraFasi(g)}</section>
-      ${f.id === "prima" ? `<section class="card"><span class="small">La preparazione per questa gara parte il <b>${esc(L.fmtGiorno(L.addDays(g.data, D.fasi.find((x) => x.ordine === 1).giorni[g.distanza].inizio)))}</b>. Ti avviso io.</span></section>` : ""}
-      ${rec}${sett}${tappe}${mom}
-      <div class="grid2"><a class="btn ghost" href="#/gara/${encodeURIComponent(g.id)}">Scheda gara</a><a class="btn ghost" href="#/checklist/${encodeURIComponent(g.id)}">Borsa</a></div>
-      <details class="card"><summary>Tutto il percorso</summary>${tutto}</details>
-      <a class="btn dashed" href="#/gare">+ Aggiungi una gara</a>`;
-  }
-
-  function vistaChecklist(id) {
-    const g = S.gare.find((x) => x.id === id);
-    if (!g) return `<p class="sub">Gara non trovata.</p><a class="btn" href="#/gare">Le mie gare</a>`;
-    const ck = L.checklist(D.percorso, g, S.personali);
-    const tutte = [...ck.borsa, ...ck.mattina];
-    const fatte = tutte.filter((v) => S.spunte[v.chiave]).length;
-    const pct = tutte.length ? Math.round((fatte / tutte.length) * 100) : 0;
-    const mancano = L.diffDays(g.data, oggi());
-    return `${bannerProva()}<header class="head-back">${back("#/percorso/" + encodeURIComponent(g.id))}<div><h1 style="font-size:28px">Borsa ${mancano === 1 ? "per domani" : mancano === 0 ? "per oggi" : "della gara"}</h1><span class="sub">${esc(titoloGara(g.nome))} · ${esc(L.fmtGiorno(g.data))}</span></div></header>
-      <div style="display:flex;flex-direction:column;gap:6px"><div class="between small"><b>${fatte} di ${tutte.length} pronte</b><span class="muted" id="meteo-gara">${mancano >= 0 && mancano <= 14 ? "Meteo della gara in arrivo…" : ""}</span></div>
-      <div class="meter acc" aria-hidden="true"><div style="width:${pct}%"></div></div></div>
-      <section class="card" style="gap:0;padding-top:4px;padding-bottom:4px" aria-label="Borsa">${ck.borsa.map((v) => voceCheck(v, { nodesc: !v.messaggio })).join("")}</section>
-      <form id="personale" class="row"><label class="sr" for="p-voce">Aggiungi una voce tua</label><input class="input" id="p-voce" placeholder="Aggiungi una voce tua" required><button class="btn" type="submit">Aggiungi</button></form>
-      ${S.personali.length ? `<p class="sub">Le tue voci restano salvate per le prossime gare. <button class="btn ghost small" data-act="svuota-personali">Svuota le mie voci</button></p>` : ""}
-      ${(() => { const i = Object.assign({}, (D.schede || {})[g.id] || {}, g.info || {}); const r = [["Partenza", i.partenza], ["Griglia", i.griglia], ["Deposito", i.deposito], ["Dove", i.luogoPartenza]].filter((x) => x[1]); return r.length ? `<section class="card list" style="padding-top:12px;padding-bottom:6px"><div class="between"><h2>Promemoria dalla scheda</h2><a class="small" href="#/gara/${encodeURIComponent(g.id)}">Scheda</a></div>${r.map(([l, t]) => `<div class="line"><span class="when" style="width:76px">${l}</span><span>${esc(t)}${l === "Dove" ? ` · <a href="${mappa(i, g)}" target="_blank" rel="noopener">Maps ↗</a>` : ""}</span></div>`).join("")}</section>` : `<a class="small" href="#/gara/${encodeURIComponent(g.id)}?modifica=1">+ Annota orario di partenza, griglia e deposito nella scheda gara</a>`; })()}
-      <section class="card" aria-label="Mattina della gara"><h2>La mattina della gara</h2>${ck.mattina.map((v) => voceCheck(v)).join("")}</section>`;
-  }
-  async function riempiMeteoGara(id) {
-    const el = document.getElementById("meteo-gara");
-    const g = S.gare.find((x) => x.id === id);
-    if (!el || !g || !el.textContent) return;
-    try {
-      const m = await meteoAlle(nomeLuogo(g.luogo) || S.profilo.citta || "", `${g.data}T${oraISO((g.info || {}).partenza || "9:00")}`);
-      el.textContent = m ? `alle ${(((g.info || {}).partenza || "9").match(/\d{1,2}([:.]\d{2})?/) || ["9"])[0]}: ${L.descriviMeteo(m)}` : "";
-      if (m) el.insertAdjacentHTML("afterend", ""), document.querySelector('[aria-label="Borsa"]').insertAdjacentHTML("beforebegin", `<section class="card soft"><span class="eyebrow" style="color:var(--accent-strong)">Vestizione per la gara · alle ${esc((g.info || {}).partenza || "9:00")}${(g.info || {}).partenza ? "" : " (orario indicativo)"}</span><span class="small">${esc(L.vestizione(m, true))}</span>${avvisi(m, true)}</section>`);
-    } catch (e) { el.textContent = ""; }
-  }
-
-
-  // ---------------------------------------------------------------- scheda gara
+  // ---------------------------------------------------------------- la gara: panoramica, preparazione, info gara, borsa
+  // Architettura: la Panoramica riassume (quanto manca, cosa fare adesso, info chiave, borsa, gruppo) e rimanda alle tre
+  // sezioni di dettaglio. Preparazione = cosa fare e quando. Info gara = logistica e percorso di gara (dal sito ufficiale).
+  // Borsa = cosa portare e la mattina della gara.
   const CAMPI = [
     ["partenza", "Orario di partenza", "es. 8:30"],
     ["luogoPartenza", "Partenza e arrivo", "es. Piazza Duomo / Stadio"],
@@ -496,62 +446,154 @@
     ["sito", "Sito ufficiale", "https://…"],
     ["note", "Altre note", ""],
   ];
+  const infoGara = (g) => Object.assign({}, (D.schede || {})[g.id] || {}, g.info || {});
+  const oraPartenza = (g) => { const m = String(infoGara(g).partenza || "").match(/\d{1,2}[:.]\d{2}/); return m ? m[0].replace(".", ":") : null; };
+  const urlGara = (id, sez = "") => `#/gara/${encodeURIComponent(id)}${sez ? "/" + sez : ""}`;
   // Link a Google Maps per la partenza: usa il campo "mappa" della scheda (indirizzo o "lat,lon"), altrimenti il testo + città.
   function mappa(info, g) {
     const q = info.mappa || `${String(info.luogoPartenza || "").split(/,|\barrivo\b/i)[0].replace(/^partenza (da|in)\s*/i, "")} ${nomeLuogo(g.luogo)}`;
     return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q.trim())}`;
   }
-  function vistaScheda(id, param) {
+  function testataGara(g, sez) {
+    const tab = (k, l) => `<a href="${urlGara(g.id, k)}" ${sez === k ? 'aria-current="page"' : ""}>${l}</a>`;
+    return `${bannerProva()}<header class="head-back">${back(sez ? urlGara(g.id) : "#/gare")}<div style="min-width:0"><span class="eyebrow">${esc(L.fmtGiorno(g.data))} · ${esc(L.DIST_LABEL[g.distanza])} · ${esc(L.RUOLO_LABEL[g.ruolo].toLowerCase())}</span><h1 style="font-size:28px">${esc(titoloGara(g.nome))}</h1></div></header>
+      <nav class="seg" aria-label="Sezioni della gara">${tab("", "Panoramica")}${tab("preparazione", "Preparazione")}${tab("info", "Info gara")}${tab("borsa", "Borsa")}</nav>`;
+  }
+  const garaMancante = () => `<p class="sub">Gara non trovata tra le tue.</p><a class="btn" href="#/gare">Le mie gare</a>`;
+  function boxMeteoGara(g, modo) {
+    const n = L.diffDays(g.data, oggi());
+    if (n < 0) return "";
+    if (n > 15) return modo === "info" ? `<section class="card"><h2>Meteo della gara</h2><span class="small muted">Le previsioni arrivano 15 giorni prima, dal ${esc(L.fmtGiorno(L.addDays(g.data, -15)))}.</span></section>` : "";
+    return `<section class="card ${modo === "borsa" ? "soft" : ""}" id="meteo-gara-box" data-id="${esc(g.id)}" data-modo="${modo}" aria-label="Meteo della gara"><h2>Meteo della gara</h2><span class="small muted">Previsioni in arrivo…</span></section>`;
+  }
+  async function riempiMeteoGaraBox() {
+    const box = document.getElementById("meteo-gara-box");
+    if (!box) return;
+    const g = S.gare.find((x) => x.id === box.dataset.id), modo = box.dataset.modo;
+    if (!g) return;
+    const ora = oraPartenza(g);
+    try {
+      const m = await meteoAlle(nomeLuogo(g.luogo) || S.profilo.citta || "", `${g.data}T${oraISO(ora || "9:00")}`);
+      if (!m) { box.innerHTML = `<h2>Meteo della gara</h2><span class="small">Previsioni non disponibili per questo luogo.</span>`; return; }
+      const titolo = `${modo === "borsa" ? "Come vestirti" : "Meteo della gara"} · ${esc(m.luogo)} alle ${esc(ora || "9:00")}${ora ? "" : " (indicativo)"}`;
+      box.innerHTML = modo === "home"
+        ? `<h2>${titolo}</h2><div class="meteo-top">${icona(m, 40)}<div style="flex:1"><b style="font:700 28px var(--display)">${Math.round(m.temp)}°</b> <span class="small muted">${esc(L.descriviMeteo(m).split(", ").slice(1).join(", "))}</span></div></div><span class="small">${esc(L.vestizione(m, true).split(". ")[0])}.</span>`
+        : `<h2>${titolo}</h2>${bloccoMeteo(m, true)}`;
+    } catch (e) { box.innerHTML = `<h2>Meteo della gara</h2><span class="small muted">Meteo non disponibile al momento.</span>`; }
+  }
+
+  function vistaGaraHome(id, param) {
     const g = S.gare.find((x) => x.id === id);
-    if (!g) return `<p class="sub">Gara non trovata.</p><a class="btn" href="#/gare">Le mie gare</a>`;
-    const info = Object.assign({}, (D.schede || {})[g.id] || {}, g.info || {});
-    const o = oggi(), mancano = L.diffDays(g.data, o);
+    if (!g) return garaMancante();
+    const o = oggi(), n = L.diffDays(g.data, o), f = L.fase(D.fasi, g.distanza, g.data, o), info = infoGara(g), ora = oraPartenza(g);
+    const st = L.stato(D.percorso, g, o, S.spunte, S.rinvii);
+    const prossime = [...st.oggi.filter((v) => v.tipo === "cosa da fare"), ...st.settimana].filter((v, i, a) => !S.spunte[v.chiave] && a.findIndex((x) => x.chiave === v.chiave) === i).slice(0, 3);
+    const momento = st.momenti[0];
+    const ck = L.checklist(D.percorso, g, S.personali), tot = ck.borsa.length + ck.mattina.length;
+    const fatte = [...ck.borsa, ...ck.mattina].filter((v) => S.spunte[v.chiave]).length;
+    const righeInfo = [["Partenza", [ora, info.luogoPartenza && String(info.luogoPartenza).split(/[,.]/)[0].replace(/^partenza (da|in)\s*/i, "")].filter(Boolean).join(" · ")], ["Pettorale", info.pettorale && String(info.pettorale).split(/[.:]/)[0]], ["Griglia", info.griglia && String(info.griglia).split(".")[0]]].filter((x) => x[1]);
+    const imgOk = /^https:\/\//i.test(info.percorsoImmagine || "");
+    const gr = S.gruppo && S.gruppo.dentro && GD() ? GD().gare.filter((x) => x.gara_id === g.id && x.membro_id !== GD().io.id).map((x) => x.membro) : [];
+    const ris = (S.risultati || {})[g.id];
+    return `${testataGara(g, "")}
+      <section class="card dark"><div class="between" style="align-items:flex-end"><div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+        <span style="font:700 20px/1.1 var(--display)">${esc(L.fmtGiorno(g.data))} ${esc(g.data.slice(0, 4))}${ora ? " · ore " + esc(ora) : ""}</span>
+        <span class="sub">${esc(nomeLuogo(g.luogo) || "Luogo da indicare")}${g.tempo ? " · obiettivo " + esc(g.tempo) : ""}</span></div>
+        <div style="text-align:right">${n > 0 ? `<div class="big" style="font-size:44px">${n}</div><span class="sub">${n === 1 ? "giorno" : "giorni"}</span>` : `<span class="pill navy">${n === 0 ? "oggi!" : "conclusa"}</span>`}</div></div>
+        ${n >= 0 ? `${barraFasi(g, true)}<span class="sub">${f.id === "prima" ? "Preparazione non ancora iniziata" : `Fase: <b style="color:#fff">${esc(f.nome)}</b>`}</span>` : ""}</section>
+      ${n < 0 ? `<a class="card soft" href="#/risultato/${encodeURIComponent(g.id)}" style="text-decoration:none;color:inherit;font-weight:inherit"><span class="title">${ris ? `Il tuo tempo: ${esc(ris.tempo)}${ris.pb ? " · personale!" : ""}` : "Com'è andata?"}</span><span class="small">${ris ? "Modifica o condividi ›" : "Segna il tuo tempo ›"}</span></a>` : ""}
+      ${n >= 0 ? `<a class="card link-card" href="${urlGara(g.id, "preparazione")}"><div class="between"><h2>Preparazione</h2><span class="small" style="color:var(--accent);font-weight:700">Tutta ›</span></div>
+        ${prossime.length ? prossime.map((v) => `<div class="riga-next"><span class="when ${v.data <= o ? "hot" : ""}">${v.data <= o ? "oggi" : esc(L.fmtBreve(v.data))}</span><span>${esc(v.titolo)}</span></div>`).join("") : `<span class="small">Niente da fare nei prossimi giorni.</span>`}
+        ${st.daRecuperare.length ? `<span class="small" style="color:var(--accent-strong);font-weight:700">${st.daRecuperare.length} da recuperare</span>` : ""}
+        ${momento ? `<span class="small muted">Prossimo momento: ${esc(momento.titolo)} · ${esc(L.fmtBreve(momento.data))}</span>` : ""}</a>` : ""}
+      ${boxMeteoGara(g, "home")}
+      <a class="card link-card" href="${urlGara(g.id, "info")}"><div class="between"><h2>Info gara</h2><span class="small" style="color:var(--accent);font-weight:700">Tutte ›</span></div>
+        ${righeInfo.length ? righeInfo.map(([l, t]) => `<div class="riga-next"><span class="when" style="width:84px">${l}</span><span>${esc(t)}</span></div>`).join("") : `<span class="small">Orari, pettorale, griglie e percorso di gara: arrivano dal sito ufficiale, oppure li annoti tu.</span>`}
+        ${imgOk || info.percorsoDescrizione ? `<div class="mini-percorso">${imgOk ? `<img src="${esc(info.percorsoImmagine)}" alt="" loading="lazy" onerror="this.remove()">` : ""}<span class="small">${esc(info.percorsoDescrizione ? info.percorsoDescrizione.split(".")[0] + "." : "Il percorso di gara")}</span></div>` : ""}</a>
+      ${n >= 0 ? `<a class="card link-card ${n <= 2 ? "soft" : ""}" href="${urlGara(g.id, "borsa")}"><div class="between"><h2>Borsa</h2><span class="small" style="color:var(--accent);font-weight:700">Apri ›</span></div>
+        <div class="between small"><span><b>${fatte} di ${tot}</b> pronte</span><span class="muted">${n <= 2 ? "è il momento di prepararla" : "da preparare la sera prima"}</span></div><div class="meter acc" aria-hidden="true"><div style="width:${tot ? Math.round((fatte / tot) * 100) : 0}%"></div></div></a>` : ""}
+      ${gr.length ? `<a class="card link-card" href="#/gruppo/gara/${encodeURIComponent(g.id)}"><div class="between"><h2>Il gruppo</h2><span class="small" style="color:var(--accent);font-weight:700">›</span></div><div class="row">${avatari(gr)}<span class="small">${gr.length} del gruppo ${gr.length === 1 ? "corre" : "corrono"} anche loro</span></div></a>` : ""}
+      <details class="card" ${param.modifica ? "open" : ""}><summary>Ruolo e tempo obiettivo</summary>
+        <form id="gara-imp" data-id="${esc(g.id)}" style="display:flex;flex-direction:column;gap:10px">
+        <div class="grid2"><div class="field"><label for="gi-ruolo">Ruolo</label><select class="input" id="gi-ruolo">${["obiettivo", "tappa", "divertimento"].map((r) => `<option value="${r}" ${g.ruolo === r ? "selected" : ""}>${L.RUOLO_LABEL[r]}</option>`).join("")}</select></div>
+        <div class="field"><label for="gi-tempo">Tempo obiettivo</label><input class="input" id="gi-tempo" value="${esc(g.tempo || "")}" placeholder="es. 3:45:00"></div></div>
+        <button class="btn" type="submit">Salva</button></form>
+        <div><button class="btn ghost small" data-act="rimuovi" data-id="${esc(g.id)}">Togli questa gara</button></div></details>`;
+  }
+
+  function vistaPreparazione(id) {
+    const o = oggi();
+    if (!S.gare.length) return vistaVuota();
+    const g = S.gare.find((x) => x.id === id);
+    if (!g) return garaMancante();
     const f = L.fase(D.fasi, g.distanza, g.data, o);
+    const st = L.stato(D.percorso, g, o, S.spunte, S.rinvii);
+    const rec = st.daRecuperare.length ? `<section class="card soft" aria-label="Da recuperare"><div class="between"><span class="title" style="color:var(--accent-strong)">Ti sei iscritto a preparazione iniziata</span><span class="small"><b>${st.daRecuperare.length}</b></span></div>${st.daRecuperare.map((v) => voceCheck(v)).join("")}</section>` : "";
+    const sett = st.settimana.length ? `<section class="card" aria-label="Prossimi giorni"><h2>Nei prossimi 7 giorni</h2>${st.settimana.map((v) => voceCheck(v, { quando: L.fmtGiorno(v.data) })).join("")}</section>` : "";
+    const mom = st.momenti.length ? `<section class="card list" aria-label="Prossimi momenti" style="padding-top:12px;padding-bottom:6px"><h2>Prossimi momenti</h2>${st.momenti.map((v) => `<div class="line"><span class="when">${esc(L.fmtBreve(v.data))}</span><span>${esc(v.titolo)}</span></div>`).join("")}</section>` : "";
+    const altre = S.gare.filter((x) => x.id !== g.id && x.data <= g.data && x.data >= o);
+    const tappe = altre.length ? `<section class="card list" style="padding-top:12px;padding-bottom:6px"><h2>Altre gare prima di questa</h2>${altre.map((x) => `<div class="line"><span class="when hot">${esc(L.fmtBreve(x.data))}</span><a href="${urlGara(x.id)}">${esc(titoloGara(x.nome))} · ${esc(L.RUOLO_LABEL[x.ruolo].toLowerCase())}</a></div>`).join("")}</section>` : "";
+    const perFase = {};
+    st.voci.forEach((v) => { (perFase[v.fase] = perFase[v.fase] || []).push(v); });
+    const tutto = [...D.fasi].sort((a, b) => a.ordine - b.ordine).filter((x) => perFase[x.id]).map((x) =>
+      `<h2 style="margin-top:8px">${esc(x.nome)}${x.id === f.id ? ' <span class="pill">ora</span>' : ""}</h2>${perFase[x.id].map((v) => v.tipo === "cosa da fare" ? voceCheck(v, { nodesc: true, quando: L.fmtGiorno(v.data) }) : `<div class="line" style="opacity:${v.data < o ? 0.55 : 1}"><span class="when">${esc(L.fmtBreve(v.data))}</span><span>${esc(v.titolo)}</span></div>`).join("")}`).join("");
+    return `${testataGara(g, "preparazione")}
+      <section aria-label="Fase attuale: ${esc(f.nome)}">${barraFasi(g)}</section>
+      ${f.id === "prima" ? `<section class="card"><span class="small">La preparazione per questa gara parte il <b>${esc(L.fmtGiorno(L.addDays(g.data, D.fasi.find((x) => x.ordine === 1).giorni[g.distanza].inizio)))}</b>. Ti avviso io.</span></section>` : ""}
+      ${rec}${sett}${tappe}${mom}
+      <details class="card"><summary>Tutta la preparazione, fase per fase</summary>${tutto}</details>`;
+  }
+
+  function vistaInfoGara(id, param) {
+    const g = S.gare.find((x) => x.id === id);
+    if (!g) return garaMancante();
+    const info = infoGara(g), n = L.diffDays(g.data, oggi());
     const compilati = CAMPI.filter(([k]) => info[k]);
     const cerca = `https://www.google.com/search?q=${encodeURIComponent(titoloGara(g.nome) + " " + g.data.slice(0, 4) + " sito ufficiale")}`;
     const sitoOk = /^https?:\/\//i.test(info.sito || "");
-    const testa = `${bannerProva()}<header class="head-back">${back("#/gare")}<div style="min-width:0"><span class="eyebrow">${esc(L.RUOLO_LABEL[g.ruolo])} · ${esc(f.nome)}</span><h1 style="font-size:28px">${esc(titoloGara(g.nome))}</h1></div></header>
-      <section class="card dark"><div class="between" style="align-items:flex-end"><div style="display:flex;flex-direction:column;gap:2px">
-        <span style="font:700 20px/1.1 var(--display)">${esc(L.fmtGiorno(g.data))} ${esc(g.data.slice(0, 4))}${info.partenza && /\d{1,2}[:.]\d{2}/.test(info.partenza) ? " · ore " + esc(info.partenza.match(/\d{1,2}[:.]\d{2}/)[0]) : ""}</span>
-        <span class="sub">${esc(nomeLuogo(g.luogo) || "Luogo da indicare")} · ${esc(L.DIST_LABEL[g.distanza])}${g.tempo ? " · obiettivo " + esc(g.tempo) : ""}</span></div>
-        <div style="text-align:right">${mancano > 0 ? `<div class="big" style="font-size:40px">${mancano}</div><span class="sub">${mancano === 1 ? "giorno" : "giorni"}</span>` : `<span class="pill navy">${mancano === 0 ? "oggi" : "conclusa"}</span>`}</div></div>
-        <div class="links-dark"><a href="#/percorso/${encodeURIComponent(g.id)}">Percorso</a><a href="#/checklist/${encodeURIComponent(g.id)}">Borsa</a>${info.luogoPartenza || info.mappa ? `<a href="${mappa(info, g)}" target="_blank" rel="noopener">Partenza in Maps ↗</a>` : ""}${sitoOk ? `<a href="${esc(info.sito)}" target="_blank" rel="noopener">Sito ufficiale ↗</a>` : ""}</div></section>
-      <section class="card" id="meteo-scheda" aria-label="Meteo della gara"><h2>Meteo della gara</h2><span class="small muted">${mancano >= 0 && mancano <= 15 ? "Previsioni in arrivo…" : mancano > 15 ? `Le previsioni arrivano 15 giorni prima della gara, dal ${esc(L.fmtGiorno(L.addDays(g.data, -15)))}.` : "Gara conclusa."}</span></section>`;
+    const testa = testataGara(g, "info");
     if (param.modifica) {
-      return `${testa}<form id="scheda" data-id="${esc(g.id)}" class="card"><h2>Informazioni pratiche</h2>
-        <div class="grid2"><div class="field"><label for="i-ruolo">Ruolo</label><select class="input" id="i-ruolo">${["obiettivo", "tappa", "divertimento"].map((r) => `<option value="${r}" ${g.ruolo === r ? "selected" : ""}>${L.RUOLO_LABEL[r]}</option>`).join("")}</select></div>
-        <div class="field"><label for="i-tempo">Tempo obiettivo</label><input class="input" id="i-tempo" value="${esc(g.tempo)}" placeholder="es. 3:45:00"></div></div>
+      return `${testa}<form id="scheda" data-id="${esc(g.id)}" class="card"><h2>Informazioni pratiche</h2><span class="small muted">Valgono solo per te e prevalgono su quelle dal sito ufficiale.</span>
         ${CAMPI.map(([k, l, ph]) => `<div class="field"><label for="i-${k}">${l}</label>${k === "note" ? `<textarea class="input" id="i-${k}">${esc(info[k])}</textarea>` : `<input class="input" id="i-${k}" value="${esc(info[k])}" placeholder="${esc(ph)}" ${k === "sito" ? 'type="url" inputmode="url"' : ""}>`}</div>`).join("")}
-        <div class="grid2"><button class="btn" type="submit">Salva</button><a class="btn ghost" href="#/gara/${encodeURIComponent(g.id)}">Annulla</a></div></form>`;
+        <div class="grid2"><button class="btn" type="submit">Salva</button><a class="btn ghost" href="${urlGara(g.id, "info")}">Annulla</a></div></form>`;
     }
+    const azioni = [info.luogoPartenza || info.mappa ? `<a class="btn ghost small" href="${mappa(info, g)}" target="_blank" rel="noopener">Partenza in Maps ↗</a>` : "", sitoOk ? `<a class="btn ghost small" href="${esc(info.sito)}" target="_blank" rel="noopener">Sito ufficiale ↗</a>` : ""].filter(Boolean).join("");
     const logistica = compilati.length
-      ? `<section class="card list" style="padding-top:12px;padding-bottom:6px" aria-label="Informazioni pratiche"><div class="between"><h2>Informazioni pratiche</h2><a class="small" href="#/gara/${encodeURIComponent(g.id)}?modifica=1">Modifica</a></div>
+      ? `<section class="card list" style="padding-top:12px;padding-bottom:6px" aria-label="Informazioni pratiche"><div class="between"><h2>Logistica</h2><a class="small" href="${urlGara(g.id, "info")}?modifica=1">Modifica</a></div>
         ${compilati.filter(([k]) => k !== "sito").map(([k, l]) => `<div class="line" style="flex-direction:column;gap:2px"><span class="small muted" style="font-weight:600">${l}</span><span style="white-space:pre-line">${esc(info[k])}</span>${k === "luogoPartenza" ? `<a class="small" href="${mappa(info, g)}" target="_blank" rel="noopener">Apri la partenza in Maps ↗</a>` : ""}</div>`).join("")}</section>`
-      : `<section class="card"><h2>Informazioni pratiche</h2><span class="small">Orario di partenza, ritiro pettorale, griglie, deposito borse, ristori: annotali qui una volta sola e li ritrovi quando servono, anche nella checklist.</span>
-        <div class="grid2"><a class="btn" href="#/gara/${encodeURIComponent(g.id)}?modifica=1">Compila</a><a class="btn ghost" href="${cerca}" target="_blank" rel="noopener">Cerca il sito ↗</a></div>
-        <span class="small muted">${mancano >= 0 ? "Le cerchiamo noi sul sito ufficiale: di solito compaiono qui entro un paio di giorni, quando l'organizzatore le ha pubblicate." : ""}</span></section>`;
+      : `<section class="card"><h2>Logistica</h2><span class="small">Orario di partenza, ritiro pettorale, griglie, deposito borse, ristori: annotali qui una volta sola e li ritrovi quando servono, anche nella borsa.</span>
+        <div class="grid2"><a class="btn" href="${urlGara(g.id, "info")}?modifica=1">Compila</a><a class="btn ghost" href="${cerca}" target="_blank" rel="noopener">Cerca il sito ↗</a></div>
+        <span class="small muted">${n >= 0 ? "Le cerchiamo noi sul sito ufficiale: di solito compaiono qui entro un paio di giorni, quando l'organizzatore le ha pubblicate." : ""}</span></section>`;
     const uff = (D.schede || {})[g.id];
     const prov = uff ? `<p class="sub">Informazioni dal sito ufficiale${uff.verificato ? `, verificate il ${esc(L.fmtGiorno(uff.verificato))}` : ""}${(uff.fonti || []).filter((u) => /^https?:\/\//.test(u)).slice(0, 2).map((u, i) => ` · <a href="${esc(u)}" target="_blank" rel="noopener">fonte${uff.fonti.length > 1 ? " " + (i + 1) : ""} ↗</a>`).join("")}.${g.info && Object.keys(g.info).length ? " I campi che hai modificato tu valgono solo per te." : ""}</p>` : "";
     const imgOk = /^https:\/\//i.test(info.percorsoImmagine || ""), linkOk = /^https?:\/\//i.test(info.percorsoLink || "");
-    const tracciato = imgOk || linkOk || info.percorsoDescrizione ? `<section class="card" aria-label="Il percorso di gara"><h2>Il percorso</h2>
+    const tracciato = imgOk || linkOk || info.percorsoDescrizione ? `<section class="card" aria-label="Il percorso di gara"><h2>Il percorso di gara</h2>
       ${imgOk ? `<a href="${esc(info.percorsoImmagine)}" target="_blank" rel="noopener" class="mappa-percorso"><img src="${esc(info.percorsoImmagine)}" alt="Mappa del percorso di ${esc(titoloGara(g.nome))}" loading="lazy" onerror="this.closest('a').remove()"></a><span class="small muted">Tocca la mappa per ingrandirla · immagine dal sito ufficiale</span>` : ""}
       ${info.percorsoDescrizione ? `<span class="small">${esc(info.percorsoDescrizione)}</span>` : ""}
       ${linkOk ? `<a class="small" href="${esc(info.percorsoLink)}" target="_blank" rel="noopener">Il percorso sul sito ufficiale ↗</a>` : ""}</section>` : "";
-    return `${testa}${tracciato}${logistica}${prov}
+    return `${testa}${azioni ? `<div class="row" style="flex-wrap:wrap">${azioni}</div>` : ""}${logistica}${tracciato}${boxMeteoGara(g, "info")}${prov}
       <p class="sub">Dati del calendario: ${g.fonte === "manuale" ? "inseriti da te" : "FIDAL"}. Fai sempre fede al regolamento ufficiale della gara.</p>`;
   }
-  async function riempiMeteoScheda(id) {
-    const box = document.getElementById("meteo-scheda");
+
+  function vistaBorsa(id) {
     const g = S.gare.find((x) => x.id === id);
-    if (!box || !g) return;
-    const mancano = L.diffDays(g.data, oggi());
-    if (mancano < 0 || mancano > 15) return;
-    const ora = (g.info || {}).partenza || "9:00";
-    try {
-      const m = await meteoAlle(nomeLuogo(g.luogo) || S.profilo.citta || "", `${g.data}T${oraISO(ora)}`);
-      box.innerHTML = m ? `<h2>Meteo della gara · ${esc(m.luogo)} alle ${esc((ora.match(/\d{1,2}[:.]\d{2}/) || [ora])[0])}</h2>${bloccoMeteo(m, true)}${(g.info || {}).partenza ? "" : `<span class="small muted">Orario indicativo: indica la partenza nelle informazioni pratiche.</span>`}`
-        : `<h2>Meteo della gara</h2><span class="small">Previsioni non disponibili per questo luogo.</span>`;
-    } catch (e) { box.innerHTML = `<h2>Meteo della gara</h2><span class="small muted">Meteo non disponibile al momento.</span>`; }
+    if (!g) return garaMancante();
+    const ck = L.checklist(D.percorso, g, S.personali);
+    const tutte = [...ck.borsa, ...ck.mattina];
+    const fatte = tutte.filter((v) => S.spunte[v.chiave]).length;
+    const pct = tutte.length ? Math.round((fatte / tutte.length) * 100) : 0;
+    const n = L.diffDays(g.data, oggi()), i = infoGara(g);
+    const prom = [["Partenza", oraPartenza(g)], ["Griglia", i.griglia], ["Deposito", i.deposito], ["Dove", i.luogoPartenza]].filter((x) => x[1]);
+    return `${testataGara(g, "borsa")}
+      <div style="display:flex;flex-direction:column;gap:6px"><div class="between small"><b>${fatte} di ${tutte.length} pronte</b><span class="muted">${n === 1 ? "la gara è domani" : n === 0 ? "la gara è oggi" : n > 1 ? "da preparare la sera prima" : ""}</span></div>
+      <div class="meter acc" aria-hidden="true"><div style="width:${pct}%"></div></div></div>
+      ${boxMeteoGara(g, "borsa")}
+      <section class="card" style="gap:0;padding-top:4px;padding-bottom:4px" aria-label="Borsa">${ck.borsa.map((v) => voceCheck(v, { nodesc: !v.messaggio })).join("")}</section>
+      <form id="personale" class="row"><label class="sr" for="p-voce">Aggiungi una voce tua</label><input class="input" id="p-voce" placeholder="Aggiungi una voce tua" required><button class="btn" type="submit">Aggiungi</button></form>
+      ${S.personali.length ? `<p class="sub">Le tue voci restano salvate per le prossime gare. <button class="btn ghost small" data-act="svuota-personali">Svuota le mie voci</button></p>` : ""}
+      <section class="card" aria-label="Mattina della gara"><h2>La mattina della gara</h2>
+        ${prom.length ? `<div class="list" style="display:flex;flex-direction:column;margin-bottom:6px">${prom.map(([l, t]) => `<div class="line"><span class="when" style="width:76px">${l}</span><span>${esc(t)}${l === "Dove" ? ` · <a href="${mappa(i, g)}" target="_blank" rel="noopener">Maps ↗</a>` : ""}</span></div>`).join("")}</div>` : `<a class="small" href="${urlGara(g.id, "info")}?modifica=1">+ Annota orario, griglia e deposito in Info gara</a>`}
+        ${ck.mattina.map((v) => voceCheck(v)).join("")}</section>`;
   }
 
   // ---------------------------------------------------------------- meteo dettaglio
@@ -904,8 +946,8 @@
     switch (tab) {
       case "gare": html = vistaGare(param); break;
       case "aggiungi": html = vistaAggiungi(parts[1]); break;
-      case "percorso": html = vistaPercorso(parts[1]); break;
-      case "checklist": html = vistaChecklist(parts[1]); break;
+      case "percorso": { const fid = parts[1] || (L.gareAttive(S.gare, D.fasi, oggi()).focus || S.gare[0] || {}).id; html = fid ? vistaPreparazione(fid) : vistaVuota(); break; }
+      case "checklist": html = vistaBorsa(parts[1]); break;
       case "gruppo":
         html = parts[1] === "gara" ? vistaGaraGruppo(parts[2]) : parts[1] === "ritrovo" ? (parts[2] === "nuovo" ? vistaNuovoRitrovo(param) : vistaRitrovo(parts[2]))
           : parts[1] === "classifica" ? vistaClassifica(param) : parts[1] === "admin" ? vistaAdmin() : vistaGruppo();
@@ -913,7 +955,7 @@
       case "invito": html = vistaInvito(parts[1]); break;
       case "risultato": html = vistaRisultato(parts[1]); break;
       case "io": html = vistaIo(); break;
-      case "gara": html = vistaScheda(parts[1], param); break;
+      case "gara": html = parts[2] === "preparazione" ? vistaPreparazione(parts[1]) : parts[2] === "info" ? vistaInfoGara(parts[1], param) : parts[2] === "borsa" ? vistaBorsa(parts[1]) : vistaGaraHome(parts[1], param); break;
       case "meteo": html = vistaMeteo(); break;
       case "pillole": html = vistaPillole(parts[1]); break;
       case "perte": html = vistaPerTe(param); break;
@@ -922,8 +964,7 @@
     $app.innerHTML = html;
     document.body.classList.toggle("onboarding", tab === "invito" && !(S.gruppo && S.gruppo.dentro));
     if (tab === "oggi" || !tab) riempiMeteo();
-    if (tab === "checklist") riempiMeteoGara(parts[1]);
-    if (tab === "gara") riempiMeteoScheda(parts[1]);
+    riempiMeteoGaraBox();
     if (tab === "meteo") riempiMeteoDettaglio();
     if (tab === "gare" && param.focus) { const c = document.getElementById("cerca"); if (c) { c.focus(); c.setSelectionRange(c.value.length, c.value.length); } }
   }
@@ -992,7 +1033,7 @@
       const q = document.getElementById("cerca").value;
       location.hash = `#/gare?q=${encodeURIComponent(q)}&d=${t.dataset.d}`;
     } else if (act === "rimuovi") {
-      S.gare = S.gare.filter((g) => g.id !== t.dataset.id); salva(); toast("Gara rimossa"); rerender();
+      confirmBox(t, "Togli questa gara e la sua preparazione?", () => { S.gare = S.gare.filter((g) => g.id !== t.dataset.id); salva(); toast("Gara tolta"); location.hash = "#/gare"; });
     } else if (act === "del-scarpa") {
       S.scarpe = S.scarpe.filter((s) => s.id !== t.dataset.id); salva(); rerender();
     } else if (act === "prova-off") {
@@ -1065,9 +1106,9 @@
       S.gare.push({ id, nome: base.nome, data: base.data, luogo: base.luogo || "", distanza: base.distanza, ruolo, tempo: v("a-tempo"), aggiunta: oggi() });
       if (v("a-citta")) S.profilo.citta = v("a-citta");
       if (v("a-ora")) S.profilo.ora = v("a-ora");
-      delete S._bozza; salva(); toast("Percorso creato");
+      delete S._bozza; salva(); toast("Preparazione creata");
       segnalaGara(S.gare[S.gare.length - 1], base.fonte);
-      location.hash = `#/percorso/${encodeURIComponent(id)}`;
+      location.hash = urlGara(id);
     } else if (f.id === "g-codice") {
       const c = (v("g-cod").match(/([A-Z2-9]{8})\s*$/i) || [])[1];
       if (c) location.hash = `#/invito/${c.toUpperCase()}`; else toast("Codice non valido: sono 8 caratteri");
@@ -1109,13 +1150,16 @@
         rpc("pubblica_risultato", { p_token: token(), p: { gara_id: id, gara_nome: g.nome, distanza: g.distanza, data_gara: g.data, tempo: tempo.split(":").length === 2 ? `0:${tempo}` : tempo, pb, in_classifica: document.getElementById("ris-class").checked, testo: v("ris-testo").trim() } })
           .then(() => aggiornaGruppo(true)).then(fine).catch((e) => { toast(e.message || "Salvato sul telefono, non condiviso"); });
       } else fine();
+    } else if (f.id === "gara-imp") {
+      const g = S.gare.find((x) => x.id === f.dataset.id);
+      if (g) { g.ruolo = v("gi-ruolo") || g.ruolo; g.tempo = v("gi-tempo").trim(); salva(); toast("Salvato"); location.hash = urlGara(g.id); }
     } else if (f.id === "scheda") {
       const g = S.gare.find((x) => x.id === f.dataset.id);
       if (g) {
         const uff = (D.schede || {})[g.id] || {};
         g.info = {}; CAMPI.forEach(([k]) => { const val = v("i-" + k).trim(); if (val && val !== uff[k]) g.info[k] = val; });
-        g.ruolo = v("i-ruolo") || g.ruolo; g.tempo = v("i-tempo").trim(); salva(); toast("Scheda salvata");
-        location.hash = `#/gara/${encodeURIComponent(g.id)}`;
+        salva(); toast("Info gara salvate");
+        location.hash = urlGara(g.id, "info");
       }
     } else if (f.id === "personale") {
       const t = v("p-voce").trim(); if (!t) return;
