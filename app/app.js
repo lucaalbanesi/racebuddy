@@ -192,7 +192,7 @@
 
     const fp = L.fase(D.fasi, focus.distanza, focus.data, o);
     const pil = L.pillola(D.pillole, fp.id, focus.distanza, o, Number(o.slice(5, 7)));
-    const pill = pil ? `<section class="card soft" aria-label="Pillola del giorno"><span class="eyebrow" style="color:var(--accent-strong)">Pillola · ${esc(fp.nome)}</span><span class="title">${esc(pil.titolo)}</span><span class="small">${esc(pil.testo)}</span></section>` : "";
+    const pill = pil ? `<section class="card soft" aria-label="Pillola del giorno"><span class="eyebrow" style="color:var(--accent-strong)">Pillola · ${esc(fp.nome)}</span><span class="title">${esc(pil.titolo)}</span><span class="small">${esc(pil.testo)}</span>${(() => { const n = L.pillolePool(D.pillole, fp.id, focus.distanza, Number(o.slice(5, 7))).length - 1; return n > 0 ? `<a class="small" href="#/pillole/${encodeURIComponent(focus.id)}">Vedi le altre ${n} di questa fase ›</a>` : ""; })()}</section>` : "";
 
     const meteo = S.profilo.citta ? `<a class="card" id="meteo" href="#/meteo" style="text-decoration:none;color:inherit;font-weight:inherit" aria-label="Meteo dell'uscita, apri il dettaglio"><span class="eyebrow">${esc(S.profilo.citta)} · uscita delle ${esc(S.profilo.ora || "7:00")}</span><span class="small muted">Meteo in arrivo…</span></a>`
       : `<a class="card" href="#/io" style="text-decoration:none;color:inherit"><span class="title">Meteo e vestizione</span><span class="small">Dimmi dove e a che ora corri di solito: ti dico come vestirti.</span></a>`;
@@ -414,6 +414,20 @@
     } catch (e) { box.innerHTML = `<p class="sub">Meteo non disponibile al momento.</p>`; }
   }
 
+  function vistaPillole(id) {
+    const o = oggi(), mese = Number(o.slice(5, 7));
+    const g = S.gare.find((x) => x.id === id) || L.gareAttive(S.gare, D.fasi, o).focus;
+    if (!g) return `<p class="sub">Nessuna gara attiva.</p><a class="btn" href="#/gare">Scegli una gara</a>`;
+    const f = L.fase(D.fasi, g.distanza, g.data, o);
+    const pool = L.pillolePool(D.pillole, f.id, g.distanza, mese);
+    const delGiorno = L.pillola(D.pillole, f.id, g.distanza, o, mese);
+    const ord = [...pool].sort((a, b) => (a === delGiorno ? -1 : b === delGiorno ? 1 : 0));
+    const fuori = f.id === "prima" || f.id === "conclusa" || !D.pillole.some((p) => p.fase === f.id);
+    return `${bannerProva()}<header class="head-back">${back("#/oggi")}<div><h1 style="font-size:28px">Pillole</h1><span class="sub">${fuori ? "Consigli di stagione" : `${esc(f.nome)} · ${esc(L.DIST_LABEL[g.distanza])}`} · ${pool.length} pillole</span></div></header>
+      ${ord.map((p) => `<section class="card ${p === delGiorno ? "soft" : ""}">${p === delGiorno ? `<span class="eyebrow" style="color:var(--accent-strong)">Pillola di oggi</span>` : `<span class="eyebrow">${esc(p.categoria || "")}</span>`}<span class="title">${esc(p.titolo)}</span><span class="small">${esc(p.testo)}</span></section>`).join("")}
+      <p class="sub">Cambiano con le fasi della preparazione: quando entri nella fase successiva qui trovi le nuove.</p>`;
+  }
+
   function vistaGruppo() {
     return `${bannerProva()}<header class="head"><h1>Gruppo</h1></header>
       <section class="card empty"><span class="title">Arriva con il collegamento a Telegram</span>
@@ -457,7 +471,7 @@
     const parts = path.split("/").map(decodeURIComponent);
     const param = Object.fromEntries(new URLSearchParams(query || ""));
     const tab = parts[0] || "oggi";
-    document.querySelectorAll("nav.tabs a").forEach((a) => a.setAttribute("aria-current", a.dataset.tab === ({ aggiungi: "gare", gara: "gare", checklist: "percorso", meteo: "oggi" }[tab] || tab) ? "page" : "false"));
+    document.querySelectorAll("nav.tabs a").forEach((a) => a.setAttribute("aria-current", a.dataset.tab === ({ aggiungi: "gare", gara: "gare", checklist: "percorso", meteo: "oggi", pillole: "oggi" }[tab] || tab) ? "page" : "false"));
     if (D.errore) { $app.innerHTML = `<section class="card"><span class="title">Qualcosa non va</span><span class="small">${esc(D.errore)}</span></section>`; return; }
     let html;
     switch (tab) {
@@ -469,6 +483,7 @@
       case "io": html = vistaIo(); break;
       case "gara": html = vistaScheda(parts[1], param); break;
       case "meteo": html = vistaMeteo(); break;
+      case "pillole": html = vistaPillole(parts[1]); break;
       default: html = vistaOggi();
     }
     $app.innerHTML = html;

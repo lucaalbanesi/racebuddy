@@ -81,12 +81,17 @@
   function hash(s) { let h = 2166136261; for (const c of s) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; }
 
   /** Pillola del giorno: stessa per tutto il giorno, diversa ogni giorno, legata a fase e distanza. */
-  function pillola(pillole, faseId, distanza, oggi, mese) {
+  /** Pillole coerenti con il momento: fase e distanza della gara, oppure quelle "senza gara" di stagione. */
+  function pillolePool(pillole, faseId, distanza, mese) {
     let pool = pillole.filter((p) => p.fase === faseId && p.distanze.includes(distanza));
     if (!pool.length) {
       const stagione = { 12: "Inverno", 1: "Inverno", 2: "Inverno", 3: "Primavera", 4: "Primavera", 5: "Primavera", 6: "Estate", 7: "Estate", 8: "Estate", 9: "Autunno", 10: "Autunno", 11: "Autunno" }[mese];
       pool = pillole.filter((p) => p.fase === "senza_gara" && (p.categoria !== "stagione" || p.titolo === stagione));
     }
+    return pool;
+  }
+  function pillola(pillole, faseId, distanza, oggi, mese) {
+    const pool = pillolePool(pillole, faseId, distanza, mese);
     return pool.length ? pool[hash(oggi + faseId + distanza) % pool.length] : null;
   }
 
@@ -173,7 +178,7 @@
     return { km, limite: lim, quota, etichetta, livello };
   }
 
-  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, gareAttive, pillola, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, prossimaUscita, cercaGare, statoScarpa };
+  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, prossimaUscita, cercaGare, statoScarpa };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);
