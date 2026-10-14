@@ -1,6 +1,20 @@
 {
- "aggiornato": "2026-10-14T15:07Z",
+ "aggiornato": "2026-10-14T19:44Z",
  "novita": [
+  {
+   "id": "n528aa5a8924",
+   "gara": "Hd9df59d4b1-21",
+   "tema": "pettorale",
+   "urgenza": "subito",
+   "titolo": "Da domani l’apertura dell’Expo della Wizz Air Rome Half Marathon by Brooks in programma domenica",
+   "link": "https://www.romehalfmarathon.it/da-domani-lapertura-dellexpo-della-wizz-air-rome-half-marathon-by-brooks-in-programma-domenica/",
+   "data": "2026-10-14",
+   "fonte": "Sito ufficiale",
+   "ufficiale": true,
+   "tipo": "articolo",
+   "immagine": null,
+   "trovato": "2026-10-14T19:44Z"
+  },
   {
    "id": "n26595d34e15",
    "gara": "Hd9df59d4b1-21",
@@ -307,20 +321,6 @@
    "ufficiale": true,
    "tipo": "articolo",
    "immagine": "https://s.w.org/images/core/emoji/17.0.2/72x72/1f4c5.png",
-   "trovato": "2026-10-14T15:07Z"
-  },
-  {
-   "id": "n47289d2319f",
-   "gara": "Hd9df59d4b1-21",
-   "tema": "iscrizioni",
-   "urgenza": "app",
-   "titolo": "26mila gli iscritti a oggi alla mezza maratona di Roma di ottobre",
-   "link": "https://www.romehalfmarathon.it/26mila-gli-iscritti-a-oggi-alla-mezza-maratona-di-roma-di-ottobre/",
-   "data": "2026-04-28",
-   "fonte": "Sito ufficiale",
-   "ufficiale": true,
-   "tipo": "articolo",
-   "immagine": null,
    "trovato": "2026-10-14T15:07Z"
   },
   {
