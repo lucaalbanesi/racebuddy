@@ -10,7 +10,11 @@
   const vuoto = () => ({ profilo: {}, gare: [], spunte: {}, rinvii: {}, personali: [], scarpe: [], prova: "" });
   let S = vuoto();
   try { S = Object.assign(vuoto(), JSON.parse(localStorage.getItem(KEY) || "{}")); } catch (e) { /* storage non disponibile */ }
-  const salva = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast("Non riesco a salvare sul telefono"); } };
+  let timerPush;
+  const salva = () => {
+    try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast("Non riesco a salvare sul telefono"); }
+    if (S.push && S.push.attivo) { clearTimeout(timerPush); timerPush = setTimeout(() => sincronizzaPush(), 2000); }
+  };
 
   const D = { fasi: [], percorso: [], pillole: [], gare: [], aggiornato: null, ok: false, errore: "" };
   const meteoCache = {};
@@ -88,6 +92,86 @@
       body: JSON.stringify(corpo),
     }).then((r) => { if (r.ok) { S.segnalate[g.id] = true; delete S.erroreSegnala; } else { S.erroreSegnala = `HTTP ${r.status}`; r.text().then((t) => { S.erroreSegnala += " " + t.slice(0, 120); salva(); }); } salva(); })
       .catch((e) => { S.erroreSegnala = String(e && e.message || e).slice(0, 120); salva(); });
+  }
+
+  // ---------------------------------------------------------------- notifiche push (messaggio del mattino)
+  // Online salviamo solo ciò che serve a comporre il messaggio: orario di uscita, zona (circa 1 km) o città,
+  // le gare (nome, data, distanza, ruolo) e le voci già spuntate. Niente nome.
+  const C = () => window.RB_CONFIG || {};
+  const iOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const standalone = () => window.matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+  function supportoPush() {
+    if (!C().vapidPublic) return "non-pronto";
+    if (iOS && !standalone()) return "ios-home";
+    if (!("serviceWorker" in navigator) || !("PushManager" in window) || !("Notification" in window)) return "no";
+    if (Notification.permission === "denied") return "negato";
+    return "ok";
+  }
+  const b64 = (s) => { const p = "=".repeat((4 - (s.length % 4)) % 4); const r = atob((s + p).replace(/-/g, "+").replace(/_/g, "/")); return Uint8Array.from(r, (c) => c.charCodeAt(0)); };
+  function datiPush() {
+    const o = oggi(), attive = S.gare.filter((g) => g.data >= L.addDays(o, -14));
+    const ids = new Set(attive.map((g) => g.id));
+    return {
+      v: 1, ora: S.profilo.ora || "07:00",
+      luogo: S.profilo.coord ? { lat: S.profilo.coord.lat, lon: S.profilo.coord.lon } : S.profilo.citta ? { citta: S.profilo.citta } : null,
+      gare: attive.map((g) => ({ id: g.id, nome: g.nome, data: g.data, distanza: g.distanza, ruolo: g.ruolo, aggiunta: g.aggiunta })),
+      spunte: Object.keys(S.spunte).filter((k) => ids.has(k.split(":")[0])),
+      rinvii: Object.fromEntries(Object.entries(S.rinvii).filter(([k, d]) => ids.has(k.split(":")[0]) && d >= o)),
+    };
+  }
+  async function rpc(nome, corpo) {
+    const r = await fetch(`${C().supabaseUrl}/rest/v1/rpc/${nome}`, { method: "POST", headers: { apikey: C().supabaseKey, "Content-Type": "application/json" }, body: JSON.stringify(corpo) });
+    if (!r.ok) throw new Error(`HTTP ${r.status} ${(await r.text()).slice(0, 120)}`);
+  }
+  async function inviaIscrizione(sub) {
+    const j = sub.toJSON();
+    await rpc("salva_iscrizione", { p_endpoint: j.endpoint, p_p256dh: j.keys.p256dh, p_auth: j.keys.auth, p_dati: datiPush() });
+  }
+  async function sincronizzaPush() {
+    try {
+      const reg = await navigator.serviceWorker.ready, sub = await reg.pushManager.getSubscription();
+      if (sub) { await inviaIscrizione(sub); delete S.erroreSegnala; }
+      else { S.push = null; localStorage.setItem(KEY, JSON.stringify(S)); }
+    } catch (e) { /* riprova al prossimo salvataggio */ }
+  }
+  async function attivaPush(btn) {
+    btn.disabled = true;
+    try {
+      const perm = await Notification.requestPermission();
+      if (perm !== "granted") { toast("Notifiche non permesse"); btn.disabled = false; rerender(); return; }
+      await navigator.serviceWorker.register("sw.js");
+      const reg = await navigator.serviceWorker.ready;
+      const sub = (await reg.pushManager.getSubscription()) || (await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64(C().vapidPublic) }));
+      await inviaIscrizione(sub);
+      S.push = { attivo: true, dal: oggi() }; salva();
+      toast("Fatto: ci sentiamo domattina"); rerender();
+    } catch (e) {
+      btn.disabled = false; toast("Non sono riuscito ad attivarle"); S.errorePush = String(e.message || e).slice(0, 140); salva(); rerender();
+    }
+  }
+  async function disattivaPush() {
+    try {
+      const reg = await navigator.serviceWorker.ready, sub = await reg.pushManager.getSubscription();
+      if (sub) { await rpc("cancella_iscrizione", { p_endpoint: sub.endpoint }).catch(() => {}); await sub.unsubscribe(); }
+    } catch (e) { /* va bene lo stesso */ }
+    S.push = null; salva(); toast("Notifiche disattivate"); rerender();
+  }
+  async function provaNotifica() {
+    const reg = await navigator.serviceWorker.ready;
+    reg.showNotification("RaceBuddy · prova", { body: "Così ti arriverà il messaggio del mattino: meteo, come vestirti e cosa fare oggi.", icon: "icon-192.png", badge: "badge-96.png", data: { url: "./#/oggi" } });
+  }
+  function cardPush(compatta) {
+    const st = supportoPush(), on = S.push && S.push.attivo;
+    if (st === "non-pronto") return compatta ? "" : `<section class="card"><h2>Messaggio del mattino</h2><span class="small">In arrivo a breve.</span></section>`;
+    if (compatta && (on || S.pushNonOra || st === "no" || st === "negato")) return "";
+    const ora = esc(S.profilo.ora || "7:00");
+    let corpo;
+    if (on) corpo = `<span class="small">Attivo: ogni mattina, circa un'ora prima della tua uscita delle <b>${ora}</b>, ti arrivano meteo, come vestirti e cosa fare oggi.</span><div class="grid2"><button class="btn ghost" data-act="push-prova">Prova</button><button class="btn ghost" data-act="push-off">Disattiva</button></div>`;
+    else if (st === "ios-home") corpo = `<span class="small">Su iPhone le notifiche arrivano solo se RaceBuddy è sulla schermata Home: in Safari tocca <b>Condividi</b> → <b>Aggiungi alla schermata Home</b>, poi apri l'app da lì e torna qui.</span>`;
+    else if (st === "negato") corpo = `<span class="small">Le notifiche sono bloccate per questa app: riattivale dalle impostazioni del telefono o del browser.</span>`;
+    else if (st === "no") corpo = `<span class="small">Questo browser non supporta le notifiche.</span>`;
+    else corpo = `<span class="small">Ogni mattina, prima della tua uscita delle <b>${ora}</b>: meteo, come vestirti e cosa fare oggi per la tua gara.</span><div class="${compatta ? "grid2" : ""}" style="display:${compatta ? "grid" : "flex"}"><button class="btn" data-act="push-on" style="${compatta ? "" : "width:100%"}">Attiva le notifiche</button>${compatta ? `<button class="btn ghost" data-act="push-nonora">Non ora</button>` : ""}</div>`;
+    return `<section class="card ${compatta ? "soft" : ""}" aria-label="Messaggio del mattino"><div class="between"><h2>Messaggio del mattino</h2>${on ? `<span class="pill ok">attivo</span>` : ""}</div>${corpo}${!compatta ? `<span class="small muted">Per mandarlo salviamo online orario, zona (circa 1 km) e le tue gare, senza il tuo nome.</span>` : ""}${S.errorePush && !on && !compatta ? `<span class="small muted">Ultimo errore: ${esc(S.errorePush)}</span>` : ""}</section>`;
   }
 
   // ---------------------------------------------------------------- posizione dal GPS
@@ -267,7 +351,7 @@
     const meteo = S.profilo.citta ? `<a class="card" id="meteo" href="#/meteo" style="text-decoration:none;color:inherit;font-weight:inherit" aria-label="Meteo dell'uscita, apri il dettaglio"><span class="eyebrow">${esc(S.profilo.citta)} · uscita delle ${esc(S.profilo.ora || "7:00")}</span><span class="small muted">Meteo in arrivo…</span></a>`
       : `<a class="card" href="#/io" style="text-decoration:none;color:inherit"><span class="title">Meteo e vestizione</span><span class="small">Dimmi dove e a che ora corri di solito: ti dico come vestirti.</span></a>`;
 
-    return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(o))}</span><h1>Buongiorno${S.profilo.nome ? ", " + esc(S.profilo.nome) : ""}</h1></div></header>${hero}${meteo}${blocco}${pill}`;
+    return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(o))}</span><h1>Buongiorno${S.profilo.nome ? ", " + esc(S.profilo.nome) : ""}</h1></div></header>${hero}${meteo}${blocco}${cardPush(true)}${pill}`;
   }
 
   async function riempiMeteo() {
@@ -520,6 +604,7 @@
         <div class="field"><label for="p-citta">Dove corri di solito</label><input class="input" id="p-citta" data-auto="citta" value="${esc(P.citta)}" placeholder="es. Roma">
           <div class="between">${bottoneGps("p-citta")}${P.coord ? `<span class="small muted">dal GPS</span>` : ""}</div></div>
         <div class="field"><label for="p-ora">A che ora esci di solito</label><input class="input" id="p-ora" data-auto="ora" type="time" step="900" value="${esc(oraInput(P.ora))}"></div></form>
+      ${cardPush(false)}
       <section style="display:flex;flex-direction:column;gap:10px" aria-label="Le mie scarpe"><div class="between"><h2>Le mie scarpe</h2><span class="small muted">km a mano · Strava in arrivo</span></div>${scarpe || `<p class="sub">Nessuna scarpa ancora.</p>`}
       <details class="card"><summary>+ Aggiungi una scarpa</summary><form id="scarpa" style="display:flex;flex-direction:column;gap:10px">
         <div class="field"><label for="s-nome">Modello</label><input class="input" id="s-nome" required placeholder="es. la mia scarpa da lento"></div>
@@ -584,6 +669,14 @@
     } else if (act === "ob-fine") {
       S.benvenuto = true; salva(); document.body.classList.remove("onboarding");
       if (t.dataset.vai) location.hash = t.dataset.vai; else if (location.hash === "#/benvenuto") location.hash = "#/oggi"; else route();
+    } else if (act === "push-on") {
+      attivaPush(t);
+    } else if (act === "push-off") {
+      disattivaPush();
+    } else if (act === "push-prova") {
+      provaNotifica();
+    } else if (act === "push-nonora") {
+      S.pushNonOra = true; salva(); rerender();
     } else if (act === "gps") {
       usaGps(t);
     } else if (act === "letto") {
@@ -680,5 +773,6 @@
   });
 
   window.addEventListener("hashchange", () => { route(); window.scrollTo(0, 0); });
-  carica().then(() => { route(); S.gare.forEach((g) => segnalaGara(g, g.id.startsWith("M") ? "manuale" : "FIDAL")); });
+  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+  carica().then(() => { route(); S.gare.forEach((g) => segnalaGara(g, g.id.startsWith("M") ? "manuale" : "FIDAL")); if (S.push && S.push.attivo) sincronizzaPush(); });
 })();

@@ -4,4 +4,6 @@
 window.RB_CONFIG = {
   supabaseUrl: "https://cjjtefepsyviazmimarz.supabase.co",
   supabaseKey: "sb_publishable_CgobJLAyW_dDIUAJxtaN-w_Yjr9vXoo",
+  // Chiave pubblica per le notifiche push (la privata è solo nei GitHub Secrets).
+  vapidPublic: "",
 };

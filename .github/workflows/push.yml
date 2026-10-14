@@ -1,0 +1,25 @@
+name: Messaggio del mattino
+on:
+  schedule:
+    - cron: "7 3-9 * * *"   # ogni ora dalle 5 alle 11 circa (ora di Roma), invia a chi esce tra un'ora
+  workflow_dispatch:
+    inputs:
+      prova:
+        description: "Invia subito a tutti gli iscritti (prova)"
+        type: boolean
+        default: false
+jobs:
+  invia:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm install --no-save web-push@3.6.7
+      - name: Invia
+        env:
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+          PROVA: ${{ inputs.prova && '1' || '0' }}
+        run: node scripts/invia_push.js
