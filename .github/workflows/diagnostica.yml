@@ -1,5 +1,5 @@
 name: Diagnostica FIDAL
-on: { workflow_dispatch: {} }
+on: { push: { branches: [diagnostica] } }
 permissions: { contents: write }
 jobs:
   d:
