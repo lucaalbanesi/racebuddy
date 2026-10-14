@@ -14,7 +14,9 @@ Il collegamento a Strava è legato al codice segreto del telefono, lo stesso del
    - **Authorization Callback Domain**: `cjjtefepsyviazmimarz.supabase.co`
    - icona: puoi usare `app/icon-512.png`.
    Annota **Client ID** e **Client Secret**.
-3. **Segreti della funzione**: Supabase → **Edge Functions → Secrets** → aggiungi `STRAVA_CLIENT_ID` e `STRAVA_CLIENT_SECRET`.
+3. **Segreti della funzione**: su GitHub (**Settings → Secrets and variables → Actions**) aggiungi `STRAVA_CLIENT_ID` e
+   `STRAVA_CLIENT_SECRET`: il workflow "Pubblica funzioni Supabase" li copia nel progetto Supabase giusto. (In alternativa:
+   Supabase → Edge Functions → Secrets del progetto `cjjtefepsyviazmimarz`.)
 4. **Pubblicazione della funzione**: Supabase → **Account → Access Tokens** → crea un token; su GitHub
    **Settings → Secrets and variables → Actions** aggiungi `SUPABASE_ACCESS_TOKEN`. Poi Actions →
    **"Pubblica funzioni Supabase"** → Run workflow.
