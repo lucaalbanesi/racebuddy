@@ -8,8 +8,8 @@ dell'atleta, PDF), e vale per tutti gli utenti che seguono quella gara.
 
 - Ingresso: `data/gare_seguite.json` (gare aggiunte dagli utenti, esportate ogni notte da Supabase).
 - Uscita: `content/schede.json`, un oggetto con chiave = id della gara.
-- Pubblicazione: **con approvazione**. Le modifiche vanno su un ramo `schede/AAAA-MM-GG` e in una pull request
-  verso `main`; vanno online solo quando Luca la approva. Mai committare direttamente su `main`.
+- Pubblicazione: **automatica** (scelta di Luca, 14/10/2026). Le modifiche si committano direttamente su `main`
+  (solo `content/schede.json`) e vanno online da sole; Luca riceve il riepilogo dell'esecuzione come notifica.
 
 ## Formato di una scheda
 
@@ -66,11 +66,11 @@ togliere.
 Ricontrollare significa riaprire le fonti: se nulla è cambiato si aggiorna solo `verificato`; se qualcosa è
 cambiato si aggiorna il campo e lo si segnala nella pull request.
 
-## Pull request
+## Commit e riepilogo
 
-Si apre con l'API REST (`gh api -X POST repos/lucaalbanesi/racebuddy/pulls -f base=main -f head=<ramo> -f title=… -F body=@file`): `gh pr create` non funziona da Claude perché usa GraphQL. Le pull request aperte si trovano con `gh api 'repos/lucaalbanesi/racebuddy/pulls?state=open'`.
+Commit su `main` con messaggio `Schede gara del AAAA-MM-GG: N nuove, M aggiornate` e, nel corpo, per ogni gara:
+nome, data, cosa è nuovo o cambiato (prima → dopo), campi non trovati. Prima del commit: `git pull --rebase`,
+controllare che `content/schede.json` sia JSON valido. Se non c'è nessuna modifica, non fare commit.
 
-
-Titolo: `Schede gara del AAAA-MM-GG: N nuove, M aggiornate`. Nel testo, per ogni gara: nome, data, cosa è
-nuovo o cambiato (prima → dopo), link alle fonti, campi non trovati. Se non c'è nessuna modifica (nemmeno di
-`verificato`), non aprire la pull request.
+Il riepilogo finale dell'esecuzione (che arriva a Luca come notifica) elenca le stesse cose, con i link alle fonti,
+e mette in evidenza: gare annullate o spostate, orari in contraddizione, cambi rispetto alla verifica precedente.
