@@ -1,0 +1,34 @@
+[
+  {"id": "runnersworld", "nome": "Runner's World Italia", "tipo": "sito", "categoria": "rivista", "url": "https://www.runnersworld.it"},
+  {"id": "correre", "nome": "Correre", "tipo": "sito", "categoria": "rivista", "url": "https://www.correre.it"},
+  {"id": "runlovers", "nome": "Runlovers", "tipo": "sito", "categoria": "rivista", "url": "https://www.runlovers.it"},
+  {"id": "podistinet", "nome": "Podisti.net", "tipo": "sito", "categoria": "notizie e gare", "url": "https://www.podisti.net"},
+  {"id": "podistidoc", "nome": "PodistiDoc", "tipo": "sito", "categoria": "rivista", "url": "https://www.podistidoc.it"},
+  {"id": "runningitalia", "nome": "Running Italia", "tipo": "sito", "categoria": "rivista", "url": "https://www.runningitalia.it"},
+  {"id": "sportoutdoor24", "nome": "SportOutdoor24 Running", "tipo": "sito", "categoria": "notizie e prodotti", "url": "https://www.sportoutdoor24.it/sport/running"},
+  {"id": "epodismo", "nome": "ePodismo", "tipo": "sito", "categoria": "notizie e gare", "url": "https://www.epodismo.com"},
+  {"id": "escoacorrere", "nome": "Esco a correre", "tipo": "sito", "categoria": "blog", "url": "https://www.escoacorrere.com"},
+  {"id": "missionecorrere", "nome": "Missione Correre", "tipo": "sito", "categoria": "blog", "url": "https://www.missionecorrere.it"},
+  {"id": "corsport_running", "nome": "Corriere dello Sport · Running", "tipo": "sito", "categoria": "notizie e gare", "url": "https://www.corrieredellosport.it/news/altri-sport/running"},
+  {"id": "gazzetta_running", "nome": "Gazzetta · Running", "tipo": "sito", "categoria": "notizie e gare", "url": "https://www.gazzetta.it/running"},
+
+  {"id": "enervit", "nome": "Enervit", "tipo": "sito", "categoria": "brand · alimentazione", "url": "https://www.enervit.com"},
+  {"id": "cisalfa", "nome": "Cisalfa Sport", "tipo": "sito", "categoria": "brand · negozio", "url": "https://www.cisalfasport.it"},
+  {"id": "decathlon", "nome": "Decathlon · consigli running", "tipo": "sito", "categoria": "brand · negozio", "url": "https://www.decathlon.it"},
+  {"id": "garmin_blog", "nome": "Garmin Blog Italia", "tipo": "sito", "categoria": "brand · orologi", "url": "https://www.garmin.com/it-IT/blog/"},
+  {"id": "brooks_blog", "nome": "Brooks Running Blog", "tipo": "sito", "categoria": "brand · scarpe", "url": "https://www.brooksrunning.com/it_it/blog"},
+  {"id": "on_stories", "nome": "On Stories", "tipo": "sito", "categoria": "brand · scarpe", "url": "https://www.on.com/it-it/stories"},
+
+  {"id": "yt_personalrunningcoach", "nome": "Personal Running Coach", "tipo": "youtube", "categoria": "allenamento", "url": "https://www.youtube.com/@Personalrunningcoach"},
+  {"id": "yt_crazyvigno", "nome": "Andrea Vignone", "tipo": "youtube", "categoria": "racconti e gare", "url": "https://www.youtube.com/@crazyvigno"},
+  {"id": "yt_sgari", "nome": "Sgari", "tipo": "youtube", "categoria": "racconti e gare", "url": "https://www.youtube.com/@Sgari"},
+  {"id": "yt_ricsvlog", "nome": "ricsvlog", "tipo": "youtube", "categoria": "racconti e gare", "url": "https://www.youtube.com/@ricsvlog"},
+  {"id": "yt_runningbug", "nome": "Riccardo Bugari · Running Bug", "tipo": "youtube", "categoria": "allenamento", "url": "https://www.youtube.com/@RiccardobugariRunningbug"},
+
+  {"id": "pod_da0a42", "nome": "Da 0 a 42", "tipo": "podcast", "categoria": "maratona", "cerca": "Da 0 a 42 il mio podcast sul running"},
+  {"id": "pod_correreperSempre", "nome": "Correre per sempre", "tipo": "podcast", "categoria": "allenamento", "cerca": "Correre per sempre podcast"},
+  {"id": "pod_correrenaturale", "nome": "Correre naturale", "tipo": "podcast", "categoria": "tecnica", "cerca": "Correre naturale podcast"},
+  {"id": "pod_shoottherunner", "nome": "Shoot the Runner (Running Club)", "tipo": "podcast", "categoria": "cultura running", "cerca": "Shoot the runner il podcast di running club"},
+  {"id": "pod_caffecorsa", "nome": "Caffè Corsa (Esco a correre)", "tipo": "podcast", "categoria": "cultura running", "cerca": "Caffè corsa show Esco a correre"},
+  {"id": "pod_runnerstales", "nome": "Runner's Tales", "tipo": "podcast", "categoria": "racconti", "cerca": "Runner's Tales"}
+]

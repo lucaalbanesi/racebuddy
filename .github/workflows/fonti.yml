@@ -1,0 +1,27 @@
+name: Verifica fonti contenuti
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  verifica:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verifica feed
+        run: python scripts/verifica_fonti.py
+      - name: Salva risultato
+        run: |
+          git config user.name "racebuddy-bot"
+          git config user.email "racebuddy-bot@users.noreply.github.com"
+          git add data/fonti_verificate.json
+          git diff --cached --quiet && exit 0
+          git commit -m "Verifica fonti $(date -u +%Y-%m-%d)"
+          git pull --rebase
+          git push
