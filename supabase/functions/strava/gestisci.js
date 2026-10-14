@@ -88,6 +88,7 @@ export function crea(env, fetchImpl = fetch) {
     let corpo = {};
     try { corpo = await req.json(); } catch (e) { /* vuoto */ }
     const az = corpo.azione;
+    if (!env.STRAVA_CLIENT_ID || !env.STRAVA_CLIENT_SECRET) return json({ errore: "non configurato" }, 503);
     if (az === "inizio") {
       // posti esauriti: si ferma qui, salvo chi dice di essere già tester (telefono nuovo); al ritorno si ricontrolla
       const gia = (await righe(`strava_atleti?proprietario=eq.${uid}&select=proprietario`)).length > 0;

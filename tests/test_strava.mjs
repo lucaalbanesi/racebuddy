@@ -48,6 +48,13 @@ const get = (q) => f(new Request(`https://sb.test/functions/v1/strava?${q}`));
 const statoDi = (r) => new URL(r.url).searchParams.get("state");
 const OK_SCOPE = "scope=read,activity:read,profile:read_all";
 
+// segreti di Strava mancanti: risposta chiara, nessun link rotto
+{
+  const f0 = crea({ ...env, STRAVA_CLIENT_ID: "" }, finto);
+  const r0 = await f0(new Request("https://sb.test/functions/v1/strava", { method: "POST", headers: { "x-racebuddy-token": TEL }, body: JSON.stringify({ azione: "inizio" }) }));
+  assert.strictEqual(r0.status, 503); assert.deepStrictEqual(await r0.json(), { errore: "non configurato" });
+}
+
 // senza codice del telefono (o troppo corto), OPTIONS
 assert.strictEqual((await post({ azione: "inizio" }, "")).status, 401);
 assert.strictEqual((await post({ azione: "inizio" }, "corto")).status, 401);

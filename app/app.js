@@ -170,7 +170,7 @@
   async function funzioneStrava(corpo) {
     const r = await fetch(`${C().supabaseUrl}/functions/v1/strava`, { method: "POST", headers: { apikey: C().supabaseKey, "x-racebuddy-token": token(), "Content-Type": "application/json" }, body: JSON.stringify(corpo || {}) });
     const j = await r.json().catch(() => ({}));
-    if (!r.ok) throw new Error(j.errore === "non collegato" ? "Strava non è collegato" : "Strava non risponde, riprova più tardi");
+    if (!r.ok) throw new Error(j.errore === "non collegato" ? "Strava non è collegato" : j.errore === "non configurato" ? "Strava non è ancora configurato" : "Strava non risponde, riprova più tardi");
     return j;
   }
   async function endpointPush() {
