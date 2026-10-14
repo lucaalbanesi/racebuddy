@@ -77,6 +77,27 @@ assert.strictEqual(N.pianifica(base({ oggi: "2026-11-29", ora: 6, schede: scheda
 r = N.pianifica(base({ oggi: "2026-10-21", stato: { meteo: { temp: 15, pioggia: 0, fascia: 2 } }, meteoUscita: freddo, dati: { ora: "07:00", gare: [], pref: { meteo: false } } }));
 assert.strictEqual(r.invio, null);
 
+// scadenze documenti: 30, 15, 2 giorni prima
+{
+  const dati = (sc) => ({ ora: "07:00", gare: [firenze], spunte: [], documenti: { certificato: { scadenza: sc }, tessera: { tipo: "FIDAL", scadenza: "2026-12-31" } } });
+  let r = N.pianifica(base({ oggi: "2026-10-16", dati: dati("2026-11-15") }));
+  assert.ok(r.invio && r.invio.title === "Certificato medico: scade tra 30 giorni" && /Firenze/.test(r.invio.body), r.invio);
+  r = N.pianifica(base({ oggi: "2026-10-17", dati: dati("2026-11-15"), stato: r.stato }));
+  assert.strictEqual(r.invio, null);
+  r = N.pianifica(base({ oggi: "2026-10-31", dati: dati("2026-11-15"), stato: r.stato }));
+  assert.ok(r.invio && /15 giorni/.test(r.invio.title), r.invio);
+  // salta un giorno: a 1 giorno recupera la soglia dei 2
+  r = N.pianifica(base({ oggi: "2026-11-14", dati: dati("2026-11-15"), stato: r.stato }));
+  assert.ok(r.invio && /domani/.test(r.invio.title), r.invio);
+  // aggiunto tardi (a 10 giorni): arriva una volta sola, non anche quella dei 30
+  r = N.pianifica(base({ oggi: "2026-11-05", dati: dati("2026-11-15") }));
+  assert.ok(r.invio && /10 giorni/.test(r.invio.title), r.invio);
+  r = N.pianifica(base({ oggi: "2026-11-06", dati: dati("2026-11-15"), stato: r.stato }));
+  assert.strictEqual(r.invio, null);
+  // preferenza spenta
+  assert.strictEqual(N.pianifica(base({ oggi: "2026-10-16", dati: { ...dati("2026-11-15"), pref: { documenti: false } } })).invio, null);
+}
+
 // gruppo: ritrovi
 {
   const rit = (o = {}) => ({ id: "r1", titolo: "Lungo della domenica", giorno: "2026-10-25", etichetta: "dom 25 ott alle 8:00", luogo: "Piazza", gara_id: null, autore_id: "m1", annullato: false, promemoria: true, si: ["m1"], ...o });

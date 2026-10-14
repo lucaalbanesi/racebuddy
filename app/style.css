@@ -226,3 +226,16 @@ details.acc[open] > summary::after { transform: translateY(-30%) rotate(-135deg)
 .acc-body { display: flex; flex-direction: column; gap: 10px; padding-bottom: 6px; }
 .acc-body > .card { background: var(--bg); }
 details.acc:not([open]) { gap: 0; padding-top: 6px; padding-bottom: 6px; }
+/* Documenti */
+.pill.doc-ok { background: var(--ok-soft); color: var(--ok); }
+.pill.doc-presto { background: var(--warn-soft); color: var(--warn); }
+.pill.doc-urgente, .pill.doc-scaduto { background: #FDE2E2; color: #B91C1C; }
+.pill.doc-manca { background: var(--line2); color: var(--muted); }
+@media (prefers-color-scheme: dark) { .pill.doc-urgente, .pill.doc-scaduto { background: #3B1414; color: #F87171; } }
+.card.doc { background: var(--bg); }
+.doc-foto { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.doc-foto img { width: 96px; height: 64px; object-fit: cover; border-radius: 8px; border: 1px solid var(--line); cursor: zoom-in; }
+.doc-avviso { background: var(--warn-soft); border-color: transparent; text-decoration: none; color: var(--fg); font-weight: inherit; }
+.doc-avviso .eyebrow { color: var(--warn); }
+.foto-ov { position: fixed; inset: 0; background: #000E; z-index: 50; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 16px; }
+.foto-ov img { max-width: 100%; max-height: 80vh; border-radius: 8px; }

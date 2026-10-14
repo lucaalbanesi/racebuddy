@@ -68,7 +68,7 @@ function cambioMeteo(m, prec, avvisiRecenti) {
  */
 function pianifica(ctx) {
   const { oggi, ora, dati = {}, fasi, percorso, schede = {} } = ctx;
-  const pref = { meteo: true, percorso: true, gara: true, ...(dati.pref || {}) };
+  const pref = { meteo: true, percorso: true, gara: true, documenti: true, ...(dati.pref || {}) };
   const stato = JSON.parse(JSON.stringify(ctx.stato || {}));
   stato.inviati = stato.inviati || {}; stato.schede = stato.schede || {}; stato.meteoGara = stato.meteoGara || {};
   const gia = (k) => !!stato.inviati[k];
@@ -118,6 +118,23 @@ function pianifica(ctx) {
     } else if (prima !== firma) {
       const ann = (s.note || "").match(/^(ANNULLATA|SPOSTATA[^.]*)/);
       candidati.push({ pri: 0, title: ann ? `${titolo(g.nome)}: ${ann[1].toLowerCase()}` : `Cambiato qualcosa: ${titolo(g.nome)}`, body: ann ? "Controlla la scheda gara e il sito ufficiale." : `Aggiornate le informazioni della gara.${s.partenza ? ` Partenza: ${s.partenza}.` : ""}`, url: `./#/gara/${encodeURIComponent(g.id)}` });
+    }
+  }
+  // 0. scadenze di tessera e certificato medico: 30, 15 e 2 giorni prima (se un giorno salta, recupera la soglia giusta)
+  if (pref.documenti) {
+    const DOC = { tessera: (d) => `Tessera ${d.tipo || ""}`.trim(), certificato: () => "Certificato medico" };
+    for (const [k, nome] of Object.entries(DOC)) {
+      const d = (dati.documenti || {})[k];
+      if (!d || !/^\d{4}-\d{2}-\d{2}$/.test(d.scadenza || "")) continue;
+      const n = L.diffDays(d.scadenza, oggi);
+      const soglia = [2, 15, 30].find((x) => n >= 0 && n <= x);
+      if (soglia == null || gia(`doc:${k}:${d.scadenza}:${soglia}`)) continue;
+      const gara = gare.filter((g) => g.data >= oggi && g.data > d.scadenza).sort((a, b) => (a.data < b.data ? -1 : 1))[0];
+      candidati.push({ pri: 0.5, title: `${nome(d)}: ${n === 0 ? "scade oggi" : n === 1 ? "scade domani" : `scade tra ${n} giorni`}`,
+        body: `Scadenza ${d.scadenza.split("-").reverse().join("/")}.${gara ? ` Ti serve valido per ${titolo(gara.nome)}.` : ""} ${k === "certificato" ? "Prenota per tempo la visita." : "Rinnovala con la tua società o online."}`,
+        url: "./#/io/documenti", chiave: `doc:${k}:${d.scadenza}:${soglia}` });
+      // segna anche le soglie più larghe, così non arrivano dopo
+      for (const x of [2, 15, 30]) if (x > soglia) stato.inviati[`doc:${k}:${d.scadenza}:${x}`] = stato.inviati[`doc:${k}:${d.scadenza}:${x}`] || oggi;
     }
   }
   // 2 e 3. cose rimandate e tappe chiave del percorso

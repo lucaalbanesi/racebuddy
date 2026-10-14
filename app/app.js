@@ -115,7 +115,8 @@
     const o = oggi(), attive = S.gare.filter((g) => g.data >= L.addDays(o, -14));
     const ids = new Set(attive.map((g) => g.id));
     return {
-      v: 1, membro: (S.gruppo && S.gruppo.dati && S.gruppo.dati.io && S.gruppo.dati.io.id) || null, ora: S.profilo.ora || "07:00", pref: { meteo: true, percorso: true, gara: true, gruppo: true, ...(S.prefPush || {}) },
+      v: 1, membro: (S.gruppo && S.gruppo.dati && S.gruppo.dati.io && S.gruppo.dati.io.id) || null, ora: S.profilo.ora || "07:00", pref: { meteo: true, percorso: true, gara: true, gruppo: true, documenti: true, ...(S.prefPush || {}) },
+      documenti: Object.fromEntries(Object.entries(S.documenti || {}).filter(([, d]) => d && d.scadenza).map(([k, d]) => [k, k === "tessera" ? { tipo: d.tipo || "", scadenza: d.scadenza } : { scadenza: d.scadenza }])),
       luogo: S.profilo.coord ? { lat: S.profilo.coord.lat, lon: S.profilo.coord.lon } : S.profilo.citta ? { citta: S.profilo.citta } : null,
       gare: attive.map((g) => ({ id: g.id, nome: g.nome, data: g.data, distanza: g.distanza, ruolo: g.ruolo, aggiunta: g.aggiunta })),
       spunte: Object.keys(S.spunte).filter((k) => ids.has(k.split(":")[0])),
@@ -171,10 +172,10 @@
     if (compatta && (on || S.pushNonOra || st === "no" || st === "negato")) return "";
     const ora = esc(S.profilo.ora || "7:00");
     let corpo;
-    const pr = { meteo: true, percorso: true, gara: true, gruppo: true, ...(S.prefPush || {}) };
+    const pr = { meteo: true, percorso: true, gara: true, gruppo: true, documenti: true, ...(S.prefPush || {}) };
     const sw = (k, t, d) => `<label class="check" style="cursor:pointer"><input type="checkbox" data-act="push-pref" data-k="${k}" ${pr[k] ? "checked" : ""}><span><span class="t">${t}</span><br><span class="d">${d}</span></span></label>`;
     if (on) corpo = `<span class="small">Ti scrivo solo quando c'è qualcosa di nuovo, al massimo una volta al giorno, un'ora prima della tua uscita delle <b>${ora}</b>. Mai di notte.</span>
-      <div>${sw("meteo", "Meteo che cambia", "Solo se cambia davvero rispetto a ieri: gelo, caldo, vento forte, pioggia, ±5°. Mai lo stesso avviso due volte.")}${sw("percorso", "Tappe del percorso", "Le cose importanti da fare e quelle che hai rimandato a oggi.")}${sw("gara", "La tua gara", "Scheda pronta o cambiata, prime previsioni, la vigilia alle 19 e la mattina della gara.")}${S.gruppo && S.gruppo.dentro ? sw("gruppo", "Il gruppo", "Nuovi ritrovi, il promemoria la sera prima se hai detto «ci sono», i ritrovi annullati. Mai la bacheca.") : ""}</div>
+      <div>${sw("meteo", "Meteo che cambia", "Solo se cambia davvero rispetto a ieri: gelo, caldo, vento forte, pioggia, ±5°. Mai lo stesso avviso due volte.")}${sw("percorso", "Tappe del percorso", "Le cose importanti da fare e quelle che hai rimandato a oggi.")}${sw("gara", "La tua gara", "Scheda pronta o cambiata, prime previsioni, la vigilia alle 19 e la mattina della gara.")}${sw("documenti", "Scadenze", "Tessera e certificato medico: 30, 15 e 2 giorni prima.")}${S.gruppo && S.gruppo.dentro ? sw("gruppo", "Il gruppo", "Nuovi ritrovi, il promemoria la sera prima se hai detto «ci sono», i ritrovi annullati. Mai la bacheca.") : ""}</div>
       <div class="grid2"><button class="btn ghost" data-act="push-prova">Prova</button><button class="btn ghost" data-act="push-off">Disattiva</button></div>`;
     else if (st === "ios-home") corpo = `<span class="small">Su iPhone le notifiche arrivano solo se RaceBuddy è sulla schermata Home: in Safari tocca <b>Condividi</b> → <b>Aggiungi alla schermata Home</b>, poi apri l'app da lì e torna qui.</span>`;
     else if (st === "negato") corpo = `<span class="small">Le notifiche sono bloccate per questa app: riattivale dalle impostazioni del telefono o del browser.</span>`;
@@ -182,6 +183,79 @@
     else corpo = `<span class="small">Solo quando serve: il meteo che cambia, le tappe importanti del percorso, la vigilia e la mattina della gara. Niente countdown, niente doppioni.</span><div class="${compatta ? "grid2" : ""}" style="display:${compatta ? "grid" : "flex"}"><button class="btn" data-act="push-on" style="${compatta ? "" : "width:100%"}">Attiva le notifiche</button>${compatta ? `<button class="btn ghost" data-act="push-nonora">Non ora</button>` : ""}</div>`;
     if (nudo) return `${corpo}<span class="small muted">Per mandarle salviamo online orario, zona (circa 1 km) e le tue gare, senza il tuo nome.</span>${S.errorePush && !on ? `<span class="small muted">Ultimo errore: ${esc(S.errorePush)}</span>` : ""}`;
     return `<section class="card ${compatta ? "soft" : ""}" aria-label="Messaggio del mattino"><div class="between"><h2>Notifiche</h2>${on ? `<span class="pill ok">attivo</span>` : ""}</div>${corpo}${!compatta ? `<span class="small muted">Per mandarlo salviamo online orario, zona (circa 1 km) e le tue gare, senza il tuo nome.</span>` : ""}${S.errorePush && !on && !compatta ? `<span class="small muted">Ultimo errore: ${esc(S.errorePush)}</span>` : ""}</section>`;
+  }
+
+  // ---------------------------------------------------------------- documenti: tessera e certificato medico
+  // Numero, scadenze e foto restano solo su questo telefono (le foto in IndexedDB). Online, solo per le notifiche,
+  // vanno le date di scadenza.
+  const DOCS = { tessera: "Tessera", certificato: "Certificato medico" };
+  const doc = (k) => ((S.documenti = S.documenti || {})[k] = S.documenti[k] || {});
+  function statoDoc(d, rif) {
+    if (!d || !d.scadenza) return { livello: "manca", etichetta: "scadenza da inserire" };
+    const n = L.diffDays(d.scadenza, rif || oggi());
+    if (n < 0) return { n, livello: "scaduto", etichetta: `scaduto il ${L.fmtBreve(d.scadenza)}` };
+    if (n <= 15) return { n, livello: "urgente", etichetta: n === 0 ? "scade oggi" : n === 1 ? "scade domani" : `scade tra ${n} giorni` };
+    if (n <= 30) return { n, livello: "presto", etichetta: `scade tra ${n} giorni` };
+    return { n, livello: "ok", etichetta: `valido fino al ${L.fmtBreve(d.scadenza)} ${d.scadenza.slice(0, 4)}` };
+  }
+  const pillDoc = (st) => `<span class="pill doc-${st.livello}">${esc(st.etichetta)}</span>`;
+  let dbDoc;
+  const idb = () => (dbDoc = dbDoc || new Promise((ok, ko) => { const r = indexedDB.open("racebuddy-documenti", 1); r.onupgradeneeded = () => r.result.createObjectStore("foto"); r.onsuccess = () => ok(r.result); r.onerror = () => ko(r.error); }));
+  const idbFai = async (modo, fn) => { const db = await idb(); return new Promise((ok, ko) => { const tx = db.transaction("foto", modo); const req = fn(tx.objectStore("foto")); tx.oncomplete = () => ok(req && req.result); tx.onerror = () => ko(tx.error); }); };
+  const fotoLeggi = (k) => idbFai("readonly", (st) => st.get(k));
+  const fotoSalva = (k, blob) => idbFai("readwrite", (st) => st.put(blob, k));
+  const fotoTogli = (k) => idbFai("readwrite", (st) => st.delete(k));
+  async function comprimi(file) {
+    const img = await createImageBitmap(file);
+    const lato = 1600, sc = Math.min(1, lato / Math.max(img.width, img.height));
+    const c = document.createElement("canvas"); c.width = Math.round(img.width * sc); c.height = Math.round(img.height * sc);
+    c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+    return new Promise((ok) => c.toBlob(ok, "image/jpeg", 0.82));
+  }
+  async function mostraFotoDoc() {
+    for (const el of document.querySelectorAll("[data-doc-thumb]")) {
+      try { const b = await fotoLeggi(el.dataset.docThumb); if (b) { el.src = URL.createObjectURL(b); el.hidden = false; } } catch (e) { /* niente foto */ }
+    }
+  }
+  function apriFoto(src) {
+    const ov = document.createElement("div");
+    ov.className = "foto-ov"; ov.setAttribute("role", "dialog"); ov.setAttribute("aria-label", "Foto del documento");
+    ov.innerHTML = `<img src="${src}" alt="Foto del documento"><button class="btn" type="button">Chiudi</button>`;
+    ov.addEventListener("click", () => ov.remove()); document.body.appendChild(ov);
+  }
+  function sezioneDocumenti() {
+    const t = doc("tessera"), c = doc("certificato");
+    const campo = (k, f, l, v, extra = "") => `<div class="field"><label for="doc-${k}-${f}">${l}</label><input class="input" id="doc-${k}-${f}" data-docf="${k}:${f}" value="${esc(v || "")}" ${extra}></div>`;
+    const foto = (k) => `<div class="doc-foto"><img data-doc-thumb="${k}" alt="Foto ${DOCS[k].toLowerCase()}" hidden data-act="doc-apri">
+      <label class="btn ghost small" style="cursor:pointer">📷 ${doc(k).foto ? "Cambia foto" : "Aggiungi foto"}<input type="file" accept="image/*" data-docfoto="${k}" hidden></label>
+      ${doc(k).foto ? `<button class="btn ghost small" type="button" data-act="doc-togli-foto" data-k="${k}">Togli foto</button>` : ""}</div>`;
+    return `<section class="card doc"><div class="between"><span class="title">Tessera</span>${pillDoc(statoDoc(t))}</div>
+        <div class="field"><label for="doc-tessera-tipo">Tipo</label><select class="input" id="doc-tessera-tipo" data-docf="tessera:tipo">${["", "FIDAL", "Runcard", "Runcard EPS"].map((x) => `<option value="${x}" ${t.tipo === x ? "selected" : ""}>${x || "Scegli…"}</option>`).join("")}</select></div>
+        <div class="field"><label for="doc-tessera-numero">Numero di tessera</label><div class="row"><input class="input" id="doc-tessera-numero" data-docf="tessera:numero" value="${esc(t.numero || "")}" inputmode="text" autocomplete="off"><button class="btn ghost" type="button" data-act="doc-copia" ${t.numero ? "" : "disabled"}>Copia</button></div></div>
+        ${t.tipo === "FIDAL" ? campo("tessera", "societa", "Società", t.societa) : ""}
+        ${campo("tessera", "scadenza", "Scadenza", t.scadenza, 'type="date"')}
+        ${foto("tessera")}</section>
+      <section class="card doc"><div class="between"><span class="title">Certificato medico</span>${pillDoc(statoDoc(c))}</div>
+        <div class="field"><label for="doc-certificato-tipo">Tipo</label><select class="input" id="doc-certificato-tipo" data-docf="certificato:tipo">${["agonistico (atletica leggera)", "non agonistico"].map((x) => `<option ${c.tipo === x ? "selected" : ""}>${x}</option>`).join("")}</select></div>
+        ${campo("certificato", "rilascio", "Data della visita", c.rilascio, 'type="date"')}
+        ${campo("certificato", "scadenza", "Scadenza", c.scadenza, 'type="date"')}
+        ${foto("certificato")}
+        <span class="small muted">Per le gare FIDAL e con Runcard serve il certificato agonistico per l'atletica leggera, valido il giorno della gara.</span></section>
+      <span class="small muted">Numero, date e foto restano solo su questo telefono. Se attivi le notifiche, online va solo la data di scadenza per avvisarti 30, 15 e 2 giorni prima.</span>`;
+  }
+  function avvisoDocumenti(perGara) {
+    const out = [];
+    for (const k of Object.keys(DOCS)) {
+      const d = (S.documenti || {})[k];
+      if (perGara) {
+        if (!d || !d.scadenza) continue;
+        if (d.scadenza < perGara.data) out.push(`${DOCS[k]} ${k === "tessera" ? "scade" : "scade"} il ${L.fmtGiorno(d.scadenza)}, prima della gara.`);
+      } else {
+        const st = statoDoc(d);
+        if (["scaduto", "urgente", "presto"].includes(st.livello)) out.push(`${DOCS[k]}: ${st.etichetta}.`);
+      }
+    }
+    return out.length ? `<a class="card doc-avviso" href="#/io/documenti"><span class="eyebrow">Documenti</span><span class="small"><b>${out.map(esc).join("<br>")}</b></span><span class="small">Aggiorna le date ›</span></a>` : "";
   }
 
   // ---------------------------------------------------------------- posizione dal GPS
@@ -372,7 +446,7 @@
 
     const meteo = cardMeteo();
 
-    return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(o))}</span><h1>Buongiorno${S.profilo.nome ? ", " + esc(S.profilo.nome) : ""}</h1></div></header>${hero}${meteo}${blocco}${cardPush(true)}${pill}${(() => {
+    return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(o))}</span><h1>Buongiorno${S.profilo.nome ? ", " + esc(S.profilo.nome) : ""}</h1></div></header>${hero}${avvisoDocumenti()}${meteo}${blocco}${cardPush(true)}${pill}${(() => {
       const cx = contesto(), letti = Object.fromEntries(Object.keys(S.letti || {}).filter((k) => k.startsWith("c:")).map((k) => [k.slice(2), true]));
       const top = L.perTe(D.contenuti || [], { fase: cx.fase, distanza: cx.distanza, oggi: cx.o, letti }).filter((c) => !letti[c.id]).slice(0, 2);
       return top.length ? `<section aria-label="Per te oggi"><div class="between" style="margin-bottom:8px"><h2>Per te oggi</h2><a class="small" href="#/perte">Altro ›</a></div><div class="lista-c">${top.map((c, i) => cardContenuto(c, i === 0)).join("")}</div></section>` : "";
@@ -512,6 +586,7 @@
         <div style="text-align:right">${n > 0 ? `<div class="big" style="font-size:44px">${n}</div><span class="sub">${n === 1 ? "giorno" : "giorni"}</span>` : `<span class="pill navy">${n === 0 ? "oggi!" : "conclusa"}</span>`}</div></div>
         ${n >= 0 ? `${barraFasi(g, true)}<span class="sub">${f.id === "prima" ? "Preparazione non ancora iniziata" : `Fase: <b style="color:#fff">${esc(f.nome)}</b>`}</span>` : ""}</section>
       ${n < 0 ? `<a class="card soft" href="#/risultato/${encodeURIComponent(g.id)}" style="text-decoration:none;color:inherit;font-weight:inherit"><span class="title">${ris ? `Il tuo tempo: ${esc(ris.tempo)}${ris.pb ? " · personale!" : ""}` : "Com'è andata?"}</span><span class="small">${ris ? "Modifica o condividi ›" : "Segna il tuo tempo ›"}</span></a>` : ""}
+      ${n >= 0 ? avvisoDocumenti(g) : ""}
       ${n >= 0 ? `<a class="card link-card" href="${urlGara(g.id, "preparazione")}"><div class="between"><h2>Preparazione</h2><span class="small" style="color:var(--accent);font-weight:700">Tutta ›</span></div>
         ${prossime.length ? prossime.map((v) => `<div class="riga-next"><span class="when ${v.data <= o ? "hot" : ""}">${v.data <= o ? "oggi" : esc(L.fmtBreve(v.data))}</span><span>${esc(v.titolo)}</span></div>`).join("") : `<span class="small">Niente da fare nei prossimi giorni.</span>`}
         ${st.daRecuperare.length ? `<span class="small" style="color:var(--accent-strong);font-weight:700">${st.daRecuperare.length} da recuperare</span>` : ""}
@@ -925,6 +1000,7 @@
           <div class="between">${bottoneGps("p-citta")}${P.coord ? `<span class="small muted">dal GPS</span>` : ""}</div></div>
         <div class="field"><label for="p-ora">A che ora esci di solito</label><input class="input" id="p-ora" data-auto="ora" type="time" step="900" value="${esc(oraInput(P.ora))}"></div>
         <span class="small muted">Si salva da solo.</span></form>`)}
+      ${acc("documenti", "Tessera e certificato", (() => { const a = statoDoc((S.documenti || {}).tessera), b = statoDoc((S.documenti || {}).certificato); const peggio = [a, b].find((x) => ["scaduto", "urgente", "presto"].includes(x.livello)); return peggio ? pillDoc(peggio) : a.livello === "ok" && b.livello === "ok" ? '<span class="pill ok">in regola</span>' : "da inserire"; })(), sezioneDocumenti())}
       ${acc("notifiche", "Notifiche", on ? '<span class="pill ok">attive</span>' : sp === "ok" ? "da attivare" : sp === "non-pronto" ? "in arrivo" : "non disponibili", cardPush(false, true))}
       ${acc("gruppo", "Gruppo", inG ? `${esc(GD().gruppo.nome)} · ${esc(RUOLI_G[GD().io.ruolo].toLowerCase())}` : "non sei in un gruppo", inG ? `<span class="small">Sei in <b>${esc(GD().gruppo.nome)}</b> come «${esc(GD().io.nome)}».</span>
         <label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="io-mostra" ${GD().io.mostra_gare ? "checked" : ""}><span><span class="t">Mostra al gruppo le mie gare</span><br><span class="d">Nome della gara, ruolo e tempo obiettivo.</span></span></label>
@@ -970,7 +1046,7 @@
         break;
       case "invito": html = vistaInvito(parts[1]); break;
       case "risultato": html = vistaRisultato(parts[1]); break;
-      case "io": html = vistaIo(); break;
+      case "io": if (parts[1] === "documenti") S.ioAperto = { ...(S.ioAperto || {}), documenti: true }; html = vistaIo(); break;
       case "gara": html = parts[2] === "preparazione" ? vistaPreparazione(parts[1]) : parts[2] === "info" ? vistaInfoGara(parts[1], param) : parts[2] === "borsa" ? vistaBorsa(parts[1]) : vistaGaraHome(parts[1], param); break;
       case "meteo": html = vistaMeteo(); break;
       case "pillole": html = vistaPillole(parts[1]); break;
@@ -981,6 +1057,7 @@
     document.body.classList.toggle("onboarding", tab === "invito" && !(S.gruppo && S.gruppo.dentro));
     if (tab === "oggi" || !tab) riempiMeteo();
     riempiMeteoGaraBox();
+    if (tab === "io") { mostraFotoDoc(); if (parts[1] === "documenti") { const el = document.querySelector('[data-acc="documenti"]'); if (el) setTimeout(() => el.scrollIntoView({ block: "start" }), 50); } }
     if (tab === "meteo") riempiMeteoDettaglio();
     if (tab === "gare" && param.focus) { const c = document.getElementById("cerca"); if (c) { c.focus(); c.setSelectionRange(c.value.length, c.value.length); } }
   }
@@ -1039,6 +1116,12 @@
       S.prefPush = { ...(S.prefPush || {}), [t.dataset.k]: t.checked }; salva(); toast("Preferenze salvate");
     } else if (act === "push-nonora") {
       S.pushNonOra = true; salva(); rerender();
+    } else if (act === "doc-copia") {
+      copia(doc("tessera").numero || "", "Numero di tessera");
+    } else if (act === "doc-apri") {
+      apriFoto(t.src);
+    } else if (act === "doc-togli-foto") {
+      fotoTogli(t.dataset.k).catch(() => {}); doc(t.dataset.k).foto = false; salva(); toast("Foto tolta"); rerender();
     } else if (act === "gps") {
       usaGps(t);
     } else if (act === "letto") {
@@ -1057,15 +1140,15 @@
     } else if (act === "svuota-personali") {
       if (confirmBox(t, "Cancellare le tue voci personali?", () => { S.personali = []; salva(); rerender(); })) return;
     } else if (act === "reset-ask") {
-      confirmBox(t, "Cancello gare, spunte e scarpe da questo telefono?", () => { S = vuoto(); salva(); location.hash = "#/oggi"; route(); });
+      confirmBox(t, "Cancello gare, spunte, scarpe e documenti da questo telefono?", () => { fotoTogli("tessera").catch(() => {}); fotoTogli("certificato").catch(() => {}); S = vuoto(); salva(); location.hash = "#/oggi"; route(); });
     }
   });
   async function azioneGruppo(fn, msg) {
     try { await fn(); if (msg) toast(msg); await aggiornaGruppo(true); rerender(); }
     catch (e) { toast(e.message || "Non riuscito"); rerender(); }
   }
-  function copia(testo) {
-    (navigator.clipboard ? navigator.clipboard.writeText(testo) : Promise.reject()).then(() => toast("Link copiato")).catch(() => toast("Tieni premuto sul link per copiarlo"));
+  function copia(testo, cosa = "Link") {
+    (navigator.clipboard ? navigator.clipboard.writeText(testo) : Promise.reject()).then(() => toast(`${cosa} copiato`)).catch(() => toast("Tieni premuto sul testo per copiarlo"));
   }
   function confirmBox(anchor, domanda, si) {
     const box = document.createElement("div");
@@ -1083,6 +1166,17 @@
       azioneGruppo(() => rpc("admin_ruolo", { p_token: token(), p_membro: e.target.dataset.id, p_ruolo: e.target.value }), "Ruolo aggiornato");
     } else if (e.target.id === "io-mostra") {
       azioneGruppo(async () => { await rpc("aggiorna_profilo", { p_token: token(), p_nome: null, p_mostra: e.target.checked }); if (e.target.checked) await sincronizzaGareGruppo(); }, e.target.checked ? "Il gruppo vede le tue gare" : "Le tue gare ora sono private");
+    }
+  });
+  // Documenti: salvataggio automatico dei campi e delle foto.
+  document.addEventListener("change", async (e) => {
+    const el = e.target;
+    if (el.dataset && el.dataset.docf) {
+      const [k, f] = el.dataset.docf.split(":"); doc(k)[f] = el.value.trim(); salva(); toast("Salvato");
+      if (f === "tipo" || f === "scadenza" || f === "numero") rerender();
+    } else if (el.dataset && el.dataset.docfoto && el.files && el.files[0]) {
+      try { await fotoSalva(el.dataset.docfoto, await comprimi(el.files[0])); doc(el.dataset.docfoto).foto = true; salva(); toast("Foto salvata sul telefono"); rerender(); }
+      catch (err) { toast("Non riesco a salvare la foto"); }
     }
   });
   // Profilo: salvataggio automatico quando lasci un campo.
