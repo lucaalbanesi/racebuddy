@@ -1,0 +1,401 @@
+{
+  "verificato": "2026-10-14",
+  "fonti": [
+    {
+      "id": "runnersworld",
+      "nome": "Runner's World Italia",
+      "tipo": "sito",
+      "categoria": "rivista",
+      "url": "https://www.runnersworld.it",
+      "feed": "https://www.runnersworld.com/it/rss/default.xml",
+      "stato": "attivo",
+      "ultimi_30_giorni": 50,
+      "ultimo": {
+        "data": "2026-10-14",
+        "titolo": "Tre atleti Brooks e la sfida dei 21K: il dietro le quinte della preparazione verso la Mezza Maratona di Roma"
+      },
+      "nota": ""
+    },
+    {
+      "id": "correre",
+      "nome": "Correre",
+      "tipo": "sito",
+      "categoria": "rivista",
+      "url": "https://www.correre.it",
+      "feed": "https://correre.it/feed/",
+      "stato": "attivo",
+      "ultimi_30_giorni": 6,
+      "ultimo": {
+        "data": "2026-10-14",
+        "titolo": "Jak zarejestrować konto w Mostbet i zacząć typować sport oraz grać w kasynie"
+      },
+      "nota": ""
+    },
+    {
+      "id": "runlovers",
+      "nome": "Runlovers",
+      "tipo": "sito",
+      "categoria": "rivista",
+      "url": "https://www.runlovers.it",
+      "feed": "https://runlovers.it/feed/",
+      "stato": "attivo",
+      "ultimi_30_giorni": 50,
+      "ultimo": {
+        "data": "2026-10-14",
+        "titolo": "Cento passi al minuto per una camminata che allena il cuore"
+      },
+      "nota": ""
+    },
+    {
+      "id": "podistinet",
+      "nome": "Podisti.net",
+      "tipo": "sito",
+      "categoria": "notizie e gare",
+      "url": "https://www.podisti.net",
+      "feed": "https://podisti.net/feed/",
+      "stato": "attivo",
+      "ultimi_30_giorni": 10,
+      "ultimo": {
+        "data": "2026-10-13",
+        "titolo": "Lessona (BI) – 1° Ecotrail, vincono Gazzetto e Giovando"
+      },
+      "nota": ""
+    },
+    {
+      "id": "podistidoc",
+      "nome": "PodistiDoc",
+      "tipo": "sito",
+      "categoria": "rivista",
+      "url": "https://www.podistidoc.it",
+      "feed": null,
+      "stato": "non trovato",
+      "ultimi_30_giorni": 0,
+      "ultimo": null,
+      "nota": ""
+    },
+    {
+      "id": "runningitalia",
+      "nome": "Running Italia",
+      "tipo": "sito",
+      "categoria": "rivista",
+      "url": "https://www.runningitalia.it",
+      "feed": null,
+      "stato": "non trovato",
+      "ultimi_30_giorni": 0,
+      "ultimo": null,
+      "nota": ""
+    },
+    {
+      "id": "sportoutdoor24",
+      "nome": "SportOutdoor24 Running",
+      "tipo": "sito",
+      "categoria": "notizie e prodotti",
+      "url": "https://www.sportoutdoor24.it/sport/running",
+      "feed": "https://www.sportoutdoor24.it/sport/running/feed/",
+      "stato": "fermo",
+      "ultimi_30_giorni": 0,
+      "ultimo": {
+        "data": "2026-09-02",
+        "titolo": "Scarpe da running per uomo: quale modello scegliere in base al terreno"
+      },
+      "nota": ""
+    },
+    {
+      "id": "epodismo",
+      "nome": "ePodismo",
+      "tipo": "sito",
+      "categoria": "notizie e gare",
+      "url": "https://www.epodismo.com",
+      "feed": null,
+      "stato": "non trovato",
+      "ultimi_30_giorni": 0,
+      "ultimo": null,
+      "nota": ""
+    },
+    {
+      "id": "escoacorrere",
+      "nome": "Esco a correre",
+      "tipo": "sito",
+      "categoria": "blog",
+      "url": "https://www.escoacorrere.com",
+      "feed": null,
+      "stato": "non trovato",
+      "ultimi_30_giorni": 0,
+      "ultimo": null,
+      "nota": ""
+    },
+    {
+      "id": "missionecorrere",
+      "nome": "Missione Correre",
+      "tipo": "sito",
+      "categoria": "blog",
+      "url": "https://www.missionecorrere.it",
+      "feed": null,
+      "stato": "non trovato",
+      "ultimi_30_giorni": 0,
+      "ultimo": null,
+      "nota": ""
+    },
+    {
+      "id": "corsport_running",
+      "nome": "Corriere dello Sport · Running",
+      "tipo": "sito",
+      "categoria": "notizie e gare",
+      "url": "https://www.corrieredellosport.it/news/altri-sport/running",
+      "feed": null,
+      "stato": "non trovato",
+      "ultimi_30_giorni": 0,
+      "ultimo": null,
+      "nota": ""
+    },
+    {
+      "id": "gazzetta_running",
+      "nome": "Gazzetta · Running",
+      "tipo": "sito",
+      "categoria": "notizie e gare",
+      "url": "https://www.gazzetta.it/running",
+      "feed": null,
+      "stato": "non trovato",
+      "ultimi_30_giorni": 0,
+      "ultimo": null,
+      "nota": ""
+    },
+    {
+      "id": "enervit",
+      "nome": "Enervit",
+      "tipo": "sito",
+      "categoria": "brand · alimentazione",
+      "url": "https://www.enervit.com",
+      "feed": null,
+      "stato": "non trovato",
+      "ultimi_30_giorni": 0,
+      "ultimo": null,
+      "nota": ""
+    },
+    {
+      "id": "cisalfa",
+      "nome": "Cisalfa Sport",
+      "tipo": "sito",
+      "categoria": "brand · negozio",
+      "url": "https://www.cisalfasport.it",
+      "feed": null,
+      "stato": "non trovato",
+      "ultimi_30_giorni": 0,
+      "ultimo": null,
+      "nota": ""
+    },
+    {
+      "id": "decathlon",
+      "nome": "Decathlon · consigli running",
+      "tipo": "sito",
+      "categoria": "brand · negozio",
+      "url": "https://www.decathlon.it",
+      "feed": null,
+      "stato": "non trovato",
+      "ultimi_30_giorni": 0,
+      "ultimo": null,
+      "nota": ""
+    },
+    {
+      "id": "garmin_blog",
+      "nome": "Garmin Blog Italia",
+      "tipo": "sito",
+      "categoria": "brand · orologi",
+      "url": "https://www.garmin.com/it-IT/blog/",
+      "feed": "https://www.garmin.com/it-IT/blog/feed/",
+      "stato": "attivo",
+      "ultimi_30_giorni": 8,
+      "ultimo": {
+        "data": "2026-10-12",
+        "titolo": "5 Trekking da fare in autunno"
+      },
+      "nota": ""
+    },
+    {
+      "id": "brooks_blog",
+      "nome": "Brooks Running Blog",
+      "tipo": "sito",
+      "categoria": "brand · scarpe",
+      "url": "https://www.brooksrunning.com/it_it/blog",
+      "feed": null,
+      "stato": "non trovato",
+      "ultimi_30_giorni": 0,
+      "ultimo": null,
+      "nota": ""
+    },
+    {
+      "id": "on_stories",
+      "nome": "On Stories",
+      "tipo": "sito",
+      "categoria": "brand · scarpe",
+      "url": "https://www.on.com/it-it/stories",
+      "feed": null,
+      "stato": "non trovato",
+      "ultimi_30_giorni": 0,
+      "ultimo": null,
+      "nota": ""
+    },
+    {
+      "id": "yt_personalrunningcoach",
+      "nome": "Personal Running Coach",
+      "tipo": "youtube",
+      "categoria": "allenamento",
+      "url": "https://www.youtube.com/@Personalrunningcoach",
+      "feed": "https://www.youtube.com/feeds/videos.xml?channel_id=UCsTwb5RvA6vhfHDjUhC78Vw",
+      "stato": "attivo",
+      "ultimi_30_giorni": 15,
+      "ultimo": {
+        "data": "2026-10-14",
+        "titolo": "Come capisci se stai correndo in modo poco economico?"
+      },
+      "nota": ""
+    },
+    {
+      "id": "yt_crazyvigno",
+      "nome": "Andrea Vignone",
+      "tipo": "youtube",
+      "categoria": "racconti e gare",
+      "url": "https://www.youtube.com/@crazyvigno",
+      "feed": "https://www.youtube.com/feeds/videos.xml?channel_id=UC4pGrBLnfV9xq0DF1fCrFAw",
+      "stato": "attivo",
+      "ultimi_30_giorni": 4,
+      "ultimo": {
+        "data": "2026-10-08",
+        "titolo": "ANDRÒ ALLA DAKAR?!? | Tutto sul nuovo WHIP 4.0 + SCONTO SPECIALE"
+      },
+      "nota": ""
+    },
+    {
+      "id": "yt_sgari",
+      "nome": "Sgari",
+      "tipo": "youtube",
+      "categoria": "racconti e gare",
+      "url": "https://www.youtube.com/@Sgari",
+      "feed": "https://www.youtube.com/feeds/videos.xml?channel_id=UC_P8xgjsPXRiEUiWyh88dbA",
+      "stato": "fermo",
+      "ultimi_30_giorni": 0,
+      "ultimo": {
+        "data": "2026-09-01",
+        "titolo": "Perché la pressione delle gomme da libretto è alta?"
+      },
+      "nota": ""
+    },
+    {
+      "id": "yt_ricsvlog",
+      "nome": "ricsvlog",
+      "tipo": "youtube",
+      "categoria": "racconti e gare",
+      "url": "https://www.youtube.com/@ricsvlog",
+      "feed": "https://www.youtube.com/feeds/videos.xml?channel_id=UCyZBgTbdGALJD6cqwCEcV9Q",
+      "stato": "attivo",
+      "ultimi_30_giorni": 15,
+      "ultimo": {
+        "data": "2026-10-13",
+        "titolo": "Navigare di notte in montagna: il mio orologio!"
+      },
+      "nota": ""
+    },
+    {
+      "id": "yt_runningbug",
+      "nome": "Riccardo Bugari · Running Bug",
+      "tipo": "youtube",
+      "categoria": "allenamento",
+      "url": "https://www.youtube.com/@RiccardobugariRunningbug",
+      "feed": "https://www.youtube.com/feeds/videos.xml?channel_id=UCVsA66Xy6lbXyMLdA5MLndg",
+      "stato": "attivo",
+      "ultimi_30_giorni": 1,
+      "ultimo": {
+        "data": "2026-09-21",
+        "titolo": "ALTRA VANISH CARBON 3."
+      },
+      "nota": ""
+    },
+    {
+      "id": "pod_da0a42",
+      "nome": "Da 0 a 42",
+      "tipo": "podcast",
+      "categoria": "maratona",
+      "cerca": "Da 0 a 42 il mio podcast sul running",
+      "feed": "https://www.spreaker.com/show/4063195/episodes/feed",
+      "stato": "feed non leggibile",
+      "ultimi_30_giorni": 0,
+      "ultimo": null,
+      "nota": "trovato come: Da 0 a 42 - Il mio podcast sul running"
+    },
+    {
+      "id": "pod_correreperSempre",
+      "nome": "Correre per sempre",
+      "tipo": "podcast",
+      "categoria": "allenamento",
+      "cerca": "Correre per sempre podcast",
+      "feed": "https://anchor.fm/s/ddcc910/podcast/rss",
+      "stato": "fermo",
+      "ultimi_30_giorni": 0,
+      "ultimo": {
+        "data": "2022-09-21",
+        "titolo": "Quanto tempo per preparare una maratona?"
+      },
+      "nota": "trovato come: Correre Per Sempre Podcast"
+    },
+    {
+      "id": "pod_correrenaturale",
+      "nome": "Correre naturale",
+      "tipo": "podcast",
+      "categoria": "tecnica",
+      "cerca": "Correre naturale podcast",
+      "feed": "https://www.spreaker.com/show/3347793/episodes/feed",
+      "stato": "fermo",
+      "ultimi_30_giorni": 0,
+      "ultimo": {
+        "data": "2021-11-23",
+        "titolo": "L'ERRORE da evitare quando compri una NUOVA SCARPA DA CORSA"
+      },
+      "nota": "trovato come: Correre Naturale Podcast"
+    },
+    {
+      "id": "pod_shoottherunner",
+      "nome": "Shoot the Runner (Running Club)",
+      "tipo": "podcast",
+      "categoria": "cultura running",
+      "cerca": "Shoot the runner il podcast di running club",
+      "feed": "https://media.rss.com/shoottherunner/feed.xml",
+      "stato": "fermo",
+      "ultimi_30_giorni": 0,
+      "ultimo": {
+        "data": "2026-06-22",
+        "titolo": "Me and my (I)Anna #3 Marathon Unchained"
+      },
+      "nota": "trovato come: Shoot the runner - Il Podcast di Running Club"
+    },
+    {
+      "id": "pod_caffecorsa",
+      "nome": "Caffè Corsa (Esco a correre)",
+      "tipo": "podcast",
+      "categoria": "cultura running",
+      "cerca": "Caffè corsa show Esco a correre",
+      "feed": "https://anchor.fm/s/10709e018/podcast/rss",
+      "stato": "attivo",
+      "ultimi_30_giorni": 1,
+      "ultimo": {
+        "data": "2026-10-05",
+        "titolo": "A tre settimane dalla maratona: stop forzato e scelte difficili"
+      },
+      "nota": "trovato come: Caffè & Corsa – Show live di Esco a Correre"
+    },
+    {
+      "id": "pod_runnerstales",
+      "nome": "Runner's Tales",
+      "tipo": "podcast",
+      "categoria": "racconti",
+      "cerca": "Runner's Tales",
+      "feed": "https://anchor.fm/s/51cd2fc0/podcast/rss",
+      "stato": "fermo",
+      "ultimi_30_giorni": 0,
+      "ultimo": {
+        "data": "2025-06-20",
+        "titolo": "Brescia Art Marathon"
+      },
+      "nota": "trovato come: Runner's Tales"
+    }
+  ]
+}
