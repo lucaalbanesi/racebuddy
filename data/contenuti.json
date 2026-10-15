@@ -1,6 +1,126 @@
 {
- "aggiornato": "2026-10-14",
+ "aggiornato": "2026-10-15",
  "contenuti": [
+  {
+   "id": "144974ed054a",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Intervista a Davide Cheraz, atleta, papà e lavoratore: \"Non avere solo lo sport è una cosa positiva\"",
+   "estratto": "Atleta, papà e lavoratore, Davide Cheraz racconta come ha trovato il suo equilibrio tra famiglia, lavoro e ultratrail. E ripercorre una stagione positiva, culminata con la CCC, la…",
+   "link": "https://www.runnersworld.com/it/vip/a74128089/intervista-davide-cheraz-atleta-papa-architetto/",
+   "data": "2026-10-15",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/294df4c3-8aef-4079-819f-e2d05f0843be.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "cd44e7fa89ee",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Due allenamenti di velocità a settimana per scendere sotto 1h30 nella mezza maratona",
+   "estratto": "Aggiungere una seconda seduta di qualità può migliorare la preparazione per la mezza maratona, ma solo se il runner è pronto a gestire un carico maggiore",
+   "link": "https://www.runnersworld.com/it/allenamento/mezza-maratona/a74127290/secondo-allenamento-velocita-mezza-maratona/",
+   "data": "2026-10-15",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/c774c936-c6db-4cda-a024-9d349e3d3c4c.jpeg",
+   "argomenti": [
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "6d1d3f48b5fe",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Carbo loading prima della maratona: quando iniziare e cosa mangiare",
+   "estratto": "Quando iniziare il carico di carboidrati per la maratona, quali alimenti scegliere e perché un chilo in più sulla bilancia non deve preoccupare. I consigli di Giorgio Tassone",
+   "link": "https://www.runnersworld.com/it/alimentazione/food-drink/a74131201/carbo-loading-prima-della-maratona-quando-iniziare-e-cosa-mangiare/",
+   "data": "2026-10-15",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/4ec1f820-e8ea-433b-9dba-b44700a24ff6.jpg",
+   "argomenti": [
+    "rifornimento",
+    "alimentazione",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico"
+   ]
+  },
+  {
+   "id": "60260e0ef754",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Cadenza di corsa: più passi, meno infortuni e più velocità?",
+   "estratto": "Cadenza di corsa: aumentare i passi al minuto rende davvero più veloci e riduce gli infortuni? Il mito dei 180 passi, le modifiche ai carichi articolari e ciò che gli studi…",
+   "link": "https://podisti.net/cadenza-di-corsa-piu-passi-meno-infortuni-e-piu-velocita/",
+   "data": "2026-10-15",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/ART.13-Cadenza-di-corsa_-la-scienza-dei-passi-300x200.png",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "4cbecd3336fe",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Backyard Ultra, i Campionati mondiali della gara di corsa senza limiti",
+   "estratto": "I Campionati mondiali di Backyard Ultra si disputano sabato 17 ottobre, in contemporanea 74 nazioni. Italiani impegnati nella gara di Monselice, in provincia di Padova",
+   "link": "https://www.runnersworld.com/it/eventi/a74140701/backyard-ultra-corsa-campionati-mondiali-gara-senza-limiti/",
+   "data": "2026-10-15",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/310d19e0-3f16-49c8-9c65-310882e0c19c.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "99e18a6512b5",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "ALIMENTAZIONE in GARA - Maratona - IronMan - UltraTrail",
+   "estratto": "In questo video scopriamo perché il famoso muro del trentesimo chilometro in maratona non è una fatalità, ma spesso il risultato di…",
+   "link": "https://www.youtube.com/watch?v=wsFTP0CZW8s",
+   "data": "2026-10-15",
+   "immagine": "https://i4.ytimg.com/vi/wsFTP0CZW8s/hqdefault.jpg",
+   "argomenti": [
+    "rifornimento",
+    "alimentazione",
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
   {
    "id": "54ce6a6660c0",
    "tipo": "articolo",
