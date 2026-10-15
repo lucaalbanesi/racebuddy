@@ -93,7 +93,7 @@ dei personali (solo per chi sceglie di comparire), gestione per admin e organizz
 
 <img src="img/ui/io.png" width="280" alt="Schermata Io">
 
-Sezioni a fisarmonica: Profilo, Tessera e certificato, Notifiche con preferenze, Gruppo, I miei personali, Strava,
+Sezioni a fisarmonica: Profilo, Tessera e certificato (con codice e nome squadra per la FIDAL), Notifiche con preferenze, Gruppo, I miei personali, Strava,
 Le mie scarpe. In fondo gli strumenti di prova (data simulata) e "Rivedi il tutorial".
 
 ## Aggiornare le schermate

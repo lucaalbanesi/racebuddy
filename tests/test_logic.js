@@ -198,6 +198,13 @@ assert.strictEqual(L.sezioneSwipe("novita", -120, 0, 300), null); // fuori dalla
   const fidalCert2 = "FIDAL\nTessera n. RM123456\nCert. medico valido fino al 30/06/2027\nTesserato dal 02/02/2026";
   const r2 = L.leggiDocumento(fidalCert2, "tessera", O);
   assert.strictEqual(r2.certificato.scadenza, "2027-06-30"); assert.strictEqual(r2.scadenza, "2026-12-31");
+  // squadra: codice FIDAL e nome, sulla stessa riga o separati
+  const conCodice = "FIDAL\nTessera n. 7654321\nSocietà: RM123 - A.S.D. Podistica Roma\nData tesseramento 14/01/2026";
+  const rc = L.leggiDocumento(conCodice, "tessera", O);
+  assert.deepStrictEqual([rc.codiceSocieta, rc.societa, rc.numero], ["RM123", "A.S.D. Podistica Roma", "7654321"]);
+  const separati = "FIDAL\nCodice società: LZ045\nSocietà A.S.D. Atletica Ostia\n14/01/2026";
+  const rs = L.leggiDocumento(separati, "tessera", O);
+  assert.deepStrictEqual([rs.codiceSocieta, rs.societa, rs.numero], ["LZ045", "A.S.D. Atletica Ostia", undefined]); // il codice non diventa il numero
   const eps = "RUNCARD EPS\nENTE DI PROMOZIONE SPORTIVA\nAB12C345\n2027-02-01";
   assert.strictEqual(L.leggiDocumento(eps, "tessera", O).tipo, "Runcard EPS");
   assert.strictEqual(L.leggiDocumento(eps, "tessera", O).numero, "AB12C345");

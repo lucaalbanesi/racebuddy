@@ -324,11 +324,24 @@
       let num = etichetta && pulisci(etichetta[1]);
       if (!valido(num)) {
         const cand = (T.replace(RE_DATA, " ").match(/\b(?=[A-Z0-9]*\d)(?=[A-Z0-9]*[A-Z]?)[A-Z0-9]{5,12}\b/g) || []).filter((x) => valido(x) && !/^\d{1,4}$/.test(x));
-        num = cand.sort((a, b) => b.length - a.length)[0];
+        const cod5 = new Set((T.match(/\b[A-Z]{2}\s?\d{3}\b/g) || []).map((x) => x.replace(/\s/g, "")));
+        num = cand.filter((x) => !cod5.has(x)).sort((a, b) => b.length - a.length)[0];
       }
-      if (valido(num)) out.numero = num;
-      const soc = t.match(/societ[aà]\s*[:\-]?\s*([^\n]{3,60})/i);
-      if (soc) out.societa = soc[1].trim().replace(/\s{2,}/g, " ");
+      const codici = new Set((T.match(/\b[A-Z]{2}\s?\d{3}\b/g) || []).map((x) => x.replace(/\s/g, "")));
+      if (valido(num) && !codici.has(num)) out.numero = num;
+      // Squadra (società): codice FIDAL (sigla della provincia + 3 cifre, es. RM123) e nome, sulla stessa riga o separati.
+      const RE_COD = /\b([A-Z]{2}\s?\d{3})\b/;
+      const rigaCod = righe.find((r) => /cod(?:ice)?\.?\s*(?:societ|squadr|soc\b)/i.test(r) && RE_COD.test(r.toUpperCase()));
+      const STRIP = /^.*?(?:societ[aà]|squadra)\s*[:\-]?\s*/i;
+      let cod = rigaCod ? rigaCod.toUpperCase().match(RE_COD)[1] : "", nome = "";
+      for (const r of righe.filter((x) => /societ[aà]|squadra/i.test(x))) {
+        const resto = r.replace(STRIP, "").trim();
+        const m = resto.match(/^([A-Z]{2}\s?\d{3})\s*[-–:]?\s*(.*)$/i);
+        if (m) { cod = cod || m[1].toUpperCase(); if (m[2].trim().length >= 3) { nome = m[2].trim(); break; } }
+        else if (resto.length >= 3 && r !== rigaCod) { nome = resto; break; }
+      }
+      if (cod) out.codiceSocieta = cod.replace(/\s/g, "");
+      if (nome) out.societa = nome.replace(/\s{2,}/g, " ").slice(0, 70);
       // Sulla tessera FIDAL c'è la data di tesseramento, non la scadenza: vale per l'anno solare (31/12).
       // La Runcard vale 12 mesi dall'emissione. Una scadenza scritta, se c'è, vince sempre.
       // La tessera FIDAL riporta anche la scadenza del certificato medico: le righe che parlano di certificato o visita

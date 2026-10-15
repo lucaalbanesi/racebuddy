@@ -294,7 +294,7 @@
   }
   const bottoneScan = (k) => `<div class="scan"><label class="btn ghost block" style="cursor:pointer">📷 Scansiona ${k === "tessera" ? "la tessera" : "il certificato"}<input type="file" accept="image/*" capture="environment" data-scan="${k}" hidden></label>
     <span class="small muted" data-scan-stato="${k}" aria-live="polite">Leggo numero e date dalla foto qui sul telefono: la foto non viene inviata.</span></div>`;
-  const descriviLetti = (r, k) => [r.tipo && `tipo ${r.tipo}`, r.numero && `numero ${r.numero}`, r.societa && `società ${r.societa}`, r.tesseramento && `tesserata il ${L.fmtBreve(r.tesseramento)} ${r.tesseramento.slice(0, 4)}`, r.rilascio && `visita del ${L.fmtBreve(r.rilascio)} ${r.rilascio.slice(0, 4)}`, r.scadenza && `scadenza ${k === "tessera" ? "tessera " : ""}${L.fmtBreve(r.scadenza)} ${r.scadenza.slice(0, 4)}`, r.certificato && r.certificato.scadenza && `scadenza certificato ${L.fmtBreve(r.certificato.scadenza)} ${r.certificato.scadenza.slice(0, 4)}`].filter(Boolean).join(", ");
+  const descriviLetti = (r, k) => [r.tipo && `tipo ${r.tipo}`, r.numero && `numero ${r.numero}`, (r.codiceSocieta || r.societa) && `squadra ${[r.codiceSocieta, r.societa].filter(Boolean).join(" ")}`, r.tesseramento && `tesserata il ${L.fmtBreve(r.tesseramento)} ${r.tesseramento.slice(0, 4)}`, r.rilascio && `visita del ${L.fmtBreve(r.rilascio)} ${r.rilascio.slice(0, 4)}`, r.scadenza && `scadenza ${k === "tessera" ? "tessera " : ""}${L.fmtBreve(r.scadenza)} ${r.scadenza.slice(0, 4)}`, r.certificato && r.certificato.scadenza && `scadenza certificato ${L.fmtBreve(r.certificato.scadenza)} ${r.certificato.scadenza.slice(0, 4)}`].filter(Boolean).join(", ");
 
   function sezioneDocumenti() {
     const t = doc("tessera"), c = doc("certificato");
@@ -306,7 +306,7 @@
         ${bottoneScan("tessera")}
         <div class="field"><label for="doc-tessera-tipo">Tipo</label><select class="input" id="doc-tessera-tipo" data-docf="tessera:tipo">${["", "FIDAL", "Runcard", "Runcard EPS"].map((x) => `<option value="${x}" ${t.tipo === x ? "selected" : ""}>${x || "Scegli…"}</option>`).join("")}</select></div>
         <div class="field"><label for="doc-tessera-numero">Numero di tessera</label><div class="row"><input class="input" id="doc-tessera-numero" data-docf="tessera:numero" value="${esc(t.numero || "")}" inputmode="text" autocomplete="off"><button class="btn ghost" type="button" data-act="doc-copia" ${t.numero ? "" : "disabled"}>Copia</button></div></div>
-        ${t.tipo === "FIDAL" ? campo("tessera", "societa", "Società", t.societa) : ""}
+        ${t.tipo === "FIDAL" ? `<div class="grid2 societa">${campo("tessera", "codiceSocieta", "Codice squadra", t.codiceSocieta, 'autocapitalize="characters" placeholder="es. RM123"')}${campo("tessera", "societa", "Nome squadra", t.societa)}</div>` : ""}
         ${campo("tessera", "scadenza", "Scadenza", t.scadenza, 'type="date"')}
         ${foto("tessera")}</section>
       <section class="card doc"><div class="between"><span class="title">Certificato medico</span>${pillDoc(statoDoc(c))}</div>
@@ -1811,7 +1811,7 @@
   document.addEventListener("change", async (e) => {
     const el = e.target;
     if (el.dataset && el.dataset.docf) {
-      const [k, f] = el.dataset.docf.split(":"); doc(k)[f] = el.value.trim(); salva(); toast("Salvato");
+      const [k, f] = el.dataset.docf.split(":"); doc(k)[f] = f === "codiceSocieta" || f === "numero" ? el.value.trim().toUpperCase() : el.value.trim(); salva(); toast("Salvato");
       if (f === "tipo" || f === "scadenza" || f === "numero") rerender();
     } else if (el.dataset && el.dataset.scan && el.files && el.files[0]) {
       const k = el.dataset.scan, nelFunnel = !!document.getElementById("prepara-form");
@@ -1826,7 +1826,8 @@
         if (r.rilascio) d.rilascio = r.rilascio;
         if (r.tesseramento) d.tesseramento = r.tesseramento;
         if (r.certificato) { const c = doc("certificato"); if (r.certificato.tipo) c.tipo = r.certificato.tipo; if (!nelFunnel && r.certificato.scadenza) c.scadenza = r.certificato.scadenza; }
-        if (nelFunnel && r.societa && !d.societa) d.societa = r.societa;
+        if (nelFunnel && r.societa) d.societa = r.societa;
+        if (nelFunnel && r.codiceSocieta) d.codiceSocieta = r.codiceSocieta;
         if (nelFunnel) { // campi da confermare con "Avanti"
           const metti = (id, val) => { const f = document.getElementById(id); if (f && val) f.value = val; };
           if (k === "tessera") { metti("pf-tipo", r.tipo); metti("pf-numero", r.numero); metti("pf-tess-scadenza", r.scadenza); metti("pf-cert-scadenza", r.certificato && r.certificato.scadenza); }
@@ -1836,7 +1837,8 @@
         } else {
           if (r.numero) d.numero = r.numero;
           if (r.scadenza) d.scadenza = r.scadenza;
-          if (r.societa && !d.societa) d.societa = r.societa;
+          if (r.societa) d.societa = r.societa;
+          if (r.codiceSocieta) d.codiceSocieta = r.codiceSocieta;
           salva(); rerender(); mostraFotoDoc();
           toast(`Letti dalla foto: ${letti}. Controllali${r.calcolata ? " (scadenza calcolata)" : ""}`);
         }
