@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-10-14T19:44Z",
+ "aggiornato": "2026-10-15T08:36Z",
  "novita": [
   {
    "id": "n528aa5a8924",
@@ -16,6 +16,20 @@
    "trovato": "2026-10-14T19:44Z"
   },
   {
+   "id": "n32a30ae3033",
+   "gara": "P8cb521dda8-42",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Tre atleti Brooks e la sfida dei 21K: il dietro le quinte della preparazione verso la Mezza Maratona di Roma",
+   "link": "https://www.runnersworld.com/it/vip/a74092748/tre-atleti-brooks-e-la-sfida-dei-21k-il-dietro-le-quinte-della-preparazione-verso-la-mezza-maratona-di-roma/",
+   "data": "2026-10-14",
+   "fonte": "Runner's World Italia",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://hips.hearstapps.com/vidthumb/d27686f7-a310-4c02-8c0e-9212d27ed1bb/thumb_1920x1080.0000001.jpg",
+   "trovato": "2026-10-15T08:36Z"
+  },
+  {
    "id": "n26595d34e15",
    "gara": "Hd9df59d4b1-21",
    "tema": "notizia",
@@ -28,6 +42,20 @@
    "tipo": "articolo",
    "immagine": "https://hips.hearstapps.com/vidthumb/d27686f7-a310-4c02-8c0e-9212d27ed1bb/thumb_1920x1080.0000001.jpg",
    "trovato": "2026-10-14T15:07Z"
+  },
+  {
+   "id": "naff58db4da3",
+   "gara": "H980534b2f8-42",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Neapolis Marathon, a Napoli i runner di 95 nazioni",
+   "link": "https://www.runnersworld.com/it/eventi/a74124560/neapolis-marathon-corsa-maratona-napoli-runner/",
+   "data": "2026-10-13",
+   "fonte": "Runner's World Italia",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/2ed9f170-cc59-4f71-9cb2-255fff03e3d6.jpeg",
+   "trovato": "2026-10-15T08:36Z"
   },
   {
    "id": "n82a8cc36a02",
