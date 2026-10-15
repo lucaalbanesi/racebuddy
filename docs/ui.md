@@ -2,7 +2,8 @@
 
 Le schermate principali dell'app a larghezza telefono (390 px), tema chiaro.
 Dati di esempio: Luca, Roma, uscita alle 7:00; obiettivo Firenze Marathon (29/11), tappa Rome Half Marathon (18/10);
-meteo simulato. Le foto degli articoli non sono caricate. Le schermate sono state prese il 15 ottobre 2026.
+meteo simulato. Le foto degli articoli non sono caricate e i campi di ora e data hanno il formato del browser di prova
+(su un telefono italiano: 07:00 e gg/mm/aaaa). Le schermate sono state prese il 15 ottobre 2026.
 
 Come è fatta dietro: [architettura.md](architettura.md).
 
@@ -18,6 +19,25 @@ blu notte per i riquadri in evidenza; tema chiaro e scuro automatici.
 
 Al primo avvio, rivedibile da Io: cinque schermate dimostrative (La preparazione, Meteo e avvisi, La gara, Il gruppo,
 Partiamo). Si scorrono con il dito o con "Avanti"; "Salta" porta all'app.
+
+## Prepara RaceBuddy
+
+| Scheda in Oggi | Un passo del funnel | Traguardo: notifiche |
+|---|---|---|
+| <img src="img/ui/prepara-card.png" width="220" alt="Scheda Prepara RaceBuddy in Oggi"> | <img src="img/ui/prepara-ora.png" width="220" alt="Funnel: ora di uscita"> | <img src="img/ui/prepara-notifiche.png" width="220" alt="Funnel: attiva le notifiche"> |
+
+In cima a Oggi, finché manca qualcosa: spiega cosa ti arriva con le notifiche e conta i passi (**x di 4**).
+"Inizia" apre il funnel `#/prepara`, un passo per schermata senza barra in basso:
+
+1. A che ora esci a correre (decide l'ora del messaggio del mattino)
+2. Dove corri di solito (GPS o città: serve per il meteo dell'uscita)
+3. Tessera: tipo e scadenza
+4. Certificato medico: scadenza
+5. Notifiche: il traguardo, con i vantaggi concreti (su iPhone fuori dalla Home, le istruzioni per aggiungerla)
+6. La tua prossima gara: facoltativa
+
+I passi già fatti si saltano. "Più tardi" nasconde la scheda per 3 giorni. Con i quattro passi fatti e le notifiche
+spente resta una scheda più piccola: "ultimo passo, attiva le notifiche". Numero e foto dei documenti restano in Io.
 
 ## Oggi
 
