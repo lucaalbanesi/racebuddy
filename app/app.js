@@ -372,12 +372,23 @@
   }
   const bottoneScan = (k) => `<div class="scan"><label class="btn ghost block" style="cursor:pointer">📷 ${k === "tessera" ? "Scansiona la tessera o carica il PDF" : "Scansiona il certificato o carica il PDF"}<input type="file" accept="image/*,application/pdf" data-scan="${k}" hidden></label>
     <span class="small muted" data-scan-stato="${k}" aria-live="polite">${k === "tessera" ? "Foto o PDF del tesserino (quello che scarichi dalla FIDAL): " : "Foto o PDF: "}leggo i dati qui sul telefono, il file non viene inviato.</span></div>`;
+  // Certificato: solo caricamento del file (foto o PDF), niente lettura: la scadenza si scrive a mano o arriva dal tesserino FIDAL.
+  const bottoneCarica = (k) => `<div class="scan"><label class="btn ghost block" style="cursor:pointer">📎 ${doc(k).file ? "Sostituisci" : "Carica"} il certificato (foto o PDF)<input type="file" accept="image/*,application/pdf" data-carica="${k}" hidden></label>
+    <span class="small muted">Resta sul telefono: lo scarichi da Io quando un portale di iscrizione lo chiede.</span></div>`;
+  async function caricaFile(k, file) {
+    if (file.type === "application/pdf" || /\.pdf$/i.test(file.name || "")) {
+      await fotoTogli(k).catch(() => {}); await fileSalva(k, file, "pdf"); doc(k).foto = false; doc(k).file = "pdf";
+    } else {
+      const blob = await comprimi(file); await fotoSalva(k, blob); await fileSalva(k, blob, "jpg"); doc(k).foto = true; doc(k).file = "jpg";
+    }
+    salva();
+  }
   const descriviLetti = (r, k) => [r.tipo && `tipo ${r.tipo}`, r.numero && `numero ${r.numero}`, (r.codiceSocieta || r.societa) && `società ${[r.codiceSocieta, r.societa].filter(Boolean).join(" ")}`, r.scadenza && `scadenza ${k === "tessera" ? "tessera " : ""}${L.fmtBreve(r.scadenza)} ${r.scadenza.slice(0, 4)}`, r.certificato && r.certificato.scadenza && `scadenza certificato ${L.fmtBreve(r.certificato.scadenza)} ${r.certificato.scadenza.slice(0, 4)}`].filter(Boolean).join(", ");
 
   function sezioneDocumenti() {
     const t = doc("tessera"), c = doc("certificato");
     const campo = (k, f, l, v, extra = "") => `<div class="field"><label for="doc-${k}-${f}">${l}</label><input class="input" id="doc-${k}-${f}" data-docf="${k}:${f}" value="${esc(v || "")}" ${extra}></div>`;
-    const file = (k) => doc(k).foto ? `<div class="doc-foto"><img data-doc-thumb="${k}" alt="${DOCS[k]}" hidden data-act="doc-apri">
+    const file = (k) => doc(k).foto || doc(k).file ? `<div class="doc-foto">${doc(k).foto ? `<img data-doc-thumb="${k}" alt="${DOCS[k]}" hidden data-act="doc-apri">` : `<span class="pill">📄 PDF salvato</span>`}
       <div class="doc-azioni">${doc(k).file ? `<button class="btn ghost small" type="button" data-act="doc-scarica" data-k="${k}">⬇︎ Scarica ${doc(k).file === "pdf" ? "il PDF" : "la foto"}</button>` : ""}<button class="btn ghost small" type="button" data-act="doc-togli-foto" data-k="${k}">Togli il file</button></div></div>` : "";
     return `<section class="card doc"><div class="between"><span class="title">Tessera</span>${pillDoc(statoDoc(t))}</div>
         ${bottoneScan("tessera")}
@@ -388,11 +399,11 @@
         ${campo("tessera", "societa", "Nome società", t.societa)}
         ${file("tessera")}</section>
       <section class="card doc"><div class="between"><span class="title">Certificato medico</span>${pillDoc(statoDoc(c))}</div>
-        ${bottoneScan("certificato")}
+        ${bottoneCarica("certificato")}
         <div class="field"><label for="doc-certificato-tipo">Tipo</label><select class="input" id="doc-certificato-tipo" data-docf="certificato:tipo">${["agonistico (atletica leggera)", "non agonistico"].map((x) => `<option ${c.tipo === x ? "selected" : ""}>${x}</option>`).join("")}</select></div>
         ${campo("certificato", "scadenza", "Scadenza del certificato", c.scadenza, 'type="date"')}
         ${file("certificato")}
-        <span class="small muted">${c.file ? "" : "Per iscriverti a una gara di solito serve caricare il certificato: scansionalo o carica il PDF, così lo scarichi da qui quando serve. "}Per le gare FIDAL e con Runcard serve il certificato agonistico per l'atletica leggera, valido il giorno della gara.</span></section>
+        <span class="small muted">${c.file ? "" : "Per iscriverti a una gara di solito serve caricare il certificato: caricalo qui una volta e lo scarichi quando serve. "}Per le gare FIDAL e con Runcard serve il certificato agonistico per l'atletica leggera, valido il giorno della gara.</span></section>
       <span class="small muted">Numeri, date e file restano solo su questo telefono. Se attivi le notifiche, online va solo la data di scadenza per avvisarti 30, 15 e 2 giorni prima.</span>`;
   }
   function avvisoDocumenti(perGara) {
@@ -466,7 +477,7 @@
         <div class="field"><label for="pf-societa">Nome società</label><input class="input" id="pf-societa" autocomplete="off" value="${esc(tessera.societa || "")}"></div>
         <span class="title">Certificato medico agonistico</span>
         <div class="field"><label for="pf-cert-scadenza">Scadenza del certificato</label><input class="input" id="pf-cert-scadenza" type="date" required value="${esc(cert.scadenza || "")}"><span class="small muted">Sulla tessera FIDAL la trovi stampata: la scansione la legge da sola. Serve il certificato agonistico per l'atletica leggera, valido il giorno della gara.</span></div>`,
-        `<details class="scan-cert"><summary class="small">Il certificato non è sulla tessera? Scansiona il certificato</summary>${bottoneScan("certificato")}</details>`)}`;
+        `<details class="scan-cert"><summary class="small">Carica anche il file del certificato (foto o PDF), per le iscrizioni</summary>${bottoneCarica("certificato")}</details>`)}`;
     else if (k === "notifiche") {
       const sp = supportoPush(), on = S.push && S.push.attivo;
       const cosa = `<ul class="vantaggi"><li>Scadenze di tessera e certificato</li><li>Il meteo della tua uscita, solo quando cambia davvero</li>${S.gare.length ? "<li>Le tue gare: scheda pronta, vigilia alle 19, mattina di gara, novità ufficiali</li>" : ""}</ul>`;
@@ -1894,6 +1905,11 @@
     if (el.dataset && el.dataset.docf) {
       const [k, f] = el.dataset.docf.split(":"); doc(k)[f] = f === "codiceSocieta" || f === "numero" ? el.value.trim().toUpperCase() : el.value.trim(); salva(); toast("Salvato");
       if (f === "tipo" || f === "scadenza" || f === "numero") rerender();
+    } else if (el.dataset && el.dataset.carica && el.files && el.files[0]) {
+      const k = el.dataset.carica;
+      try { await caricaFile(k, el.files[0]); toast(`${DOCS[k]} salvato sul telefono`); if (!document.getElementById("prepara-form")) { rerender(); mostraFotoDoc(); } else { const lab = el.closest("label"); if (lab) lab.firstChild.textContent = "📎 Sostituisci il certificato (foto o PDF)"; } }
+      catch (err) { toast("Non riesco a salvare il file"); }
+      el.value = "";
     } else if (el.dataset && el.dataset.scan && el.files && el.files[0]) {
       const k = el.dataset.scan, nelFunnel = !!document.getElementById("prepara-form"), pdf = /pdf/i.test(el.files[0].type) || /\.pdf$/i.test(el.files[0].name || "");
       const stato = (t) => { const x = document.querySelector(`[data-scan-stato="${k}"]`); if (x) x.textContent = t; };
