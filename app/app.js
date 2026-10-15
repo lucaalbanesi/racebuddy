@@ -274,6 +274,28 @@
     ov.innerHTML = `<img src="${src}" alt="Foto del documento"><button class="btn" type="button">Chiudi</button>`;
     ov.addEventListener("click", () => ov.remove()); document.body.appendChild(ov);
   }
+  // Scansione dei documenti: OCR sul telefono (Tesseract.js, caricato solo alla prima scansione). La foto non lascia
+  // il telefono: si salva in IndexedDB come quella di Io, il testo letto propone numero, tipo e date da controllare.
+  let motoreOcr;
+  const caricaOcr = () => (motoreOcr = motoreOcr || new Promise((ok, ko) => {
+    const sc = document.createElement("script");
+    sc.src = "https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js";
+    sc.onload = () => (window.Tesseract ? ok(window.Tesseract) : ko(new Error("OCR non caricato")));
+    sc.onerror = () => { motoreOcr = null; ko(new Error("OCR non raggiungibile")); };
+    document.head.appendChild(sc);
+  }));
+  async function scansiona(k, file, stato) {
+    const blob = await comprimi(file);
+    await fotoSalva(k, blob); doc(k).foto = true; salva();
+    stato("Leggo il documento…");
+    const T = await caricaOcr();
+    const w = await T.createWorker("ita", 1, { logger: (m) => { if (m.status === "recognizing text") stato(`Leggo il documento… ${Math.round((m.progress || 0) * 100)}%`); } });
+    try { const { data } = await w.recognize(blob); return L.leggiDocumento(data.text, k, oggi()); } finally { w.terminate(); }
+  }
+  const bottoneScan = (k) => `<div class="scan"><label class="btn ghost block" style="cursor:pointer">📷 Scansiona ${k === "tessera" ? "la tessera" : "il certificato"}<input type="file" accept="image/*" capture="environment" data-scan="${k}" hidden></label>
+    <span class="small muted" data-scan-stato="${k}" aria-live="polite">Leggo numero e date dalla foto qui sul telefono: la foto non viene inviata.</span></div>`;
+  const descriviLetti = (r) => [r.tipo && `tipo ${r.tipo}`, r.numero && `numero ${r.numero}`, r.societa && `società ${r.societa}`, r.rilascio && `visita del ${L.fmtBreve(r.rilascio)} ${r.rilascio.slice(0, 4)}`, r.scadenza && `scadenza ${L.fmtBreve(r.scadenza)} ${r.scadenza.slice(0, 4)}`].filter(Boolean).join(", ");
+
   function sezioneDocumenti() {
     const t = doc("tessera"), c = doc("certificato");
     const campo = (k, f, l, v, extra = "") => `<div class="field"><label for="doc-${k}-${f}">${l}</label><input class="input" id="doc-${k}-${f}" data-docf="${k}:${f}" value="${esc(v || "")}" ${extra}></div>`;
@@ -281,12 +303,14 @@
       <label class="btn ghost small" style="cursor:pointer">📷 ${doc(k).foto ? "Cambia foto" : "Aggiungi foto"}<input type="file" accept="image/*" data-docfoto="${k}" hidden></label>
       ${doc(k).foto ? `<button class="btn ghost small" type="button" data-act="doc-togli-foto" data-k="${k}">Togli foto</button>` : ""}</div>`;
     return `<section class="card doc"><div class="between"><span class="title">Tessera</span>${pillDoc(statoDoc(t))}</div>
+        ${bottoneScan("tessera")}
         <div class="field"><label for="doc-tessera-tipo">Tipo</label><select class="input" id="doc-tessera-tipo" data-docf="tessera:tipo">${["", "FIDAL", "Runcard", "Runcard EPS"].map((x) => `<option value="${x}" ${t.tipo === x ? "selected" : ""}>${x || "Scegli…"}</option>`).join("")}</select></div>
         <div class="field"><label for="doc-tessera-numero">Numero di tessera</label><div class="row"><input class="input" id="doc-tessera-numero" data-docf="tessera:numero" value="${esc(t.numero || "")}" inputmode="text" autocomplete="off"><button class="btn ghost" type="button" data-act="doc-copia" ${t.numero ? "" : "disabled"}>Copia</button></div></div>
         ${t.tipo === "FIDAL" ? campo("tessera", "societa", "Società", t.societa) : ""}
         ${campo("tessera", "scadenza", "Scadenza", t.scadenza, 'type="date"')}
         ${foto("tessera")}</section>
       <section class="card doc"><div class="between"><span class="title">Certificato medico</span>${pillDoc(statoDoc(c))}</div>
+        ${bottoneScan("certificato")}
         <div class="field"><label for="doc-certificato-tipo">Tipo</label><select class="input" id="doc-certificato-tipo" data-docf="certificato:tipo">${["agonistico (atletica leggera)", "non agonistico"].map((x) => `<option ${c.tipo === x ? "selected" : ""}>${x}</option>`).join("")}</select></div>
         ${campo("certificato", "rilascio", "Data della visita", c.rilascio, 'type="date"')}
         ${campo("certificato", "scadenza", "Scadenza", c.scadenza, 'type="date"')}
@@ -355,10 +379,13 @@
       ${form(`<div class="field"><label for="pf-ora">Ora dell'uscita</label><input class="input" id="pf-ora" type="time" step="900" required value="${esc(oraInput(S.profilo.ora) || "07:00")}"></div>`)}`;
     else if (k === "zona") corpo = `<h1>Dove corri di solito?</h1><p class="sub">Serve per il meteo della tua uscita: ti avviso solo se cambia davvero. La posizione resta sul telefono, arrotondata a circa 1 km.</p>
       ${form(`<div class="field">${bottoneGps("pf-citta")}</div><div class="field"><label for="pf-citta">Città o quartiere</label><input class="input" id="pf-citta" required placeholder="es. Roma" value="${esc(S.profilo.citta || "")}" autocomplete="address-level2"></div>`)}`;
-    else if (k === "tessera") corpo = `<h1>La tua tessera</h1><p class="sub">Ti avviso 30, 15 e 2 giorni prima che scada. Numero e foto puoi aggiungerli quando vuoi in Io.</p>
+    else if (k === "tessera") corpo = `<h1>La tua tessera</h1><p class="sub">Ti avviso 30, 15 e 2 giorni prima che scada, e il numero è sempre a portata di mano quando ti iscrivi a una gara.</p>
+      ${bottoneScan("tessera")}
       ${form(`<div class="field"><label for="pf-tipo">Tipo</label><select class="input" id="pf-tipo" required>${["", "FIDAL", "Runcard", "Runcard EPS"].map((x) => `<option value="${x}" ${tessera.tipo === x ? "selected" : ""}>${x || "Scegli…"}</option>`).join("")}</select></div>
+        <div class="field"><label for="pf-numero">Numero di tessera</label><input class="input" id="pf-numero" required minlength="3" autocomplete="off" autocapitalize="characters" value="${esc(tessera.numero || "")}"></div>
         <div class="field"><label for="pf-scadenza">Scadenza</label><input class="input" id="pf-scadenza" type="date" required value="${esc(tessera.scadenza || "")}"></div>`)}`;
     else if (k === "certificato") corpo = `<h1>Il certificato medico</h1><p class="sub">Per le gare FIDAL e con Runcard serve il certificato agonistico per l'atletica leggera, valido il giorno della gara. Ti avviso prima che scada.</p>
+      ${bottoneScan("certificato")}
       ${form(`<div class="field"><label for="pf-scadenza">Scadenza</label><input class="input" id="pf-scadenza" type="date" required value="${esc(cert.scadenza || "")}"></div>`)}`;
     else if (k === "notifiche") {
       const sp = supportoPush(), on = S.push && S.push.attivo;
@@ -1785,6 +1812,33 @@
     if (el.dataset && el.dataset.docf) {
       const [k, f] = el.dataset.docf.split(":"); doc(k)[f] = el.value.trim(); salva(); toast("Salvato");
       if (f === "tipo" || f === "scadenza" || f === "numero") rerender();
+    } else if (el.dataset && el.dataset.scan && el.files && el.files[0]) {
+      const k = el.dataset.scan, nelFunnel = !!document.getElementById("prepara-form");
+      const stato = (t) => { const x = document.querySelector(`[data-scan-stato="${k}"]`); if (x) x.textContent = t; };
+      el.closest("label").classList.add("disabled");
+      try {
+        const r = await scansiona(k, el.files[0], stato);
+        const letti = descriviLetti(r);
+        if (!letti) { stato("Non sono riuscito a leggere i dati: inseriscili a mano. La foto è salvata."); return; }
+        const d = doc(k);
+        if (r.tipo) d.tipo = r.tipo;
+        if (r.rilascio) d.rilascio = r.rilascio;
+        if (nelFunnel && r.societa && !d.societa) d.societa = r.societa;
+        if (nelFunnel) { // campi da confermare con "Avanti"
+          const metti = (id, val) => { const f = document.getElementById(id); if (f && val) f.value = val; };
+          metti("pf-tipo", k === "tessera" && r.tipo); metti("pf-numero", r.numero); metti("pf-scadenza", r.scadenza);
+          salva();
+          stato(`Letti dalla foto: ${letti}. Controlla e correggi se serve.${r.calcolata ? " La scadenza è calcolata: un anno dalla visita." : ""}`);
+        } else {
+          if (r.numero) d.numero = r.numero;
+          if (r.scadenza) d.scadenza = r.scadenza;
+          if (r.societa && !d.societa) d.societa = r.societa;
+          salva(); rerender(); mostraFotoDoc();
+          toast(`Letti dalla foto: ${letti}. Controllali${r.calcolata ? " (scadenza calcolata dalla visita)" : ""}`);
+        }
+      } catch (err) {
+        stato("Non riesco a leggere la foto adesso: inserisci i dati a mano. La foto è salvata.");
+      } finally { const lab = el.closest("label"); if (lab) lab.classList.remove("disabled"); el.value = ""; }
     } else if (el.dataset && el.dataset.docfoto && el.files && el.files[0]) {
       try { await fotoSalva(el.dataset.docfoto, await comprimi(el.files[0])); doc(el.dataset.docfoto).foto = true; salva(); toast("Foto salvata sul telefono"); rerender(); }
       catch (err) { toast("Non riesco a salvare la foto"); }
@@ -1837,7 +1891,7 @@
       const passo = f.dataset.passo;
       if (passo === "ora") S.profilo = { ...S.profilo, ora: v("pf-ora") };
       else if (passo === "zona") { const c = v("pf-citta").trim(); if (c !== (S.profilo.citta || "")) { S.profilo = { ...S.profilo, citta: c }; delete S.profilo.coord; } }
-      else if (passo === "tessera") { const t = doc("tessera"); t.tipo = v("pf-tipo"); t.scadenza = v("pf-scadenza"); }
+      else if (passo === "tessera") { const t = doc("tessera"); t.tipo = v("pf-tipo"); t.numero = v("pf-numero").trim().toUpperCase(); t.scadenza = v("pf-scadenza"); }
       else if (passo === "certificato") { const c = doc("certificato"); c.scadenza = v("pf-scadenza"); c.tipo = c.tipo || "agonistico (atletica leggera)"; }
       salva(); vaiPasso(passo); return;
     }

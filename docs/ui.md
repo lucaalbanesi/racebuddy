@@ -31,13 +31,17 @@ In cima a Oggi, finché manca qualcosa: spiega cosa ti arriva con le notifiche e
 
 1. A che ora esci a correre (decide l'ora del messaggio del mattino)
 2. Dove corri di solito (GPS o città: serve per il meteo dell'uscita)
-3. Tessera: tipo e scadenza
+3. Tessera: tipo, numero e scadenza
 4. Certificato medico: scadenza
+
+In tessera e certificato "Scansiona" fa una foto e legge i dati sul telefono (OCR): i campi si riempiono e si
+controllano prima di andare avanti. La stessa scansione c'è in Io → Tessera e certificato.
 5. Notifiche: il traguardo, con i vantaggi concreti (su iPhone fuori dalla Home, le istruzioni per aggiungerla)
 6. La tua prossima gara: facoltativa
 
 I passi già fatti si saltano. "Più tardi" nasconde la scheda per 3 giorni. Con i quattro passi fatti e le notifiche
-spente resta una scheda più piccola: "ultimo passo, attiva le notifiche". Numero e foto dei documenti restano in Io.
+spente resta una scheda più piccola: "ultimo passo, attiva le notifiche". Foto e altri dettagli dei documenti restano in Io. Per ora l'app è per chi fa gare: tessera e certificato sono
+obbligatori.
 
 ## Oggi
 

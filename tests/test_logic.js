@@ -172,13 +172,34 @@ assert.strictEqual(L.sezioneSwipe("novita", -120, 0, 300), null); // fuori dalla
 {
   const vuoto = L.passiPrepara({}, "2026-10-15");
   assert.deepStrictEqual([vuoto.fatti, vuoto.totale, vuoto.completo], [0, 4, false]);
-  const p = L.passiPrepara({ profilo: { ora: "07:00", citta: "Roma" }, documenti: { tessera: { tipo: "FIDAL", scadenza: "2027-03-12" }, certificato: { scadenza: "" } }, gare: [] }, "2026-10-15");
+  const p = L.passiPrepara({ profilo: { ora: "07:00", citta: "Roma" }, documenti: { tessera: { tipo: "FIDAL", numero: "AB123456", scadenza: "2027-03-12" }, certificato: { scadenza: "" } }, gare: [] }, "2026-10-15");
   assert.deepStrictEqual([p.fatti, p.completo], [3, false]);
+  assert.strictEqual(L.passiPrepara({ documenti: { tessera: { scadenza: "2027-03-12" } } }, "2026-10-15").passi.find((x) => x.k === "tessera").fatto, false); // senza numero non basta
   assert.strictEqual(p.passi.find((x) => x.k === "certificato").fatto, false);
-  const gps = L.passiPrepara({ profilo: { ora: "6:30", coord: { lat: 41.9, lon: 12.5 } }, documenti: { tessera: { scadenza: "2027-01-01" }, certificato: { scadenza: "2027-05-01" } } }, "2026-10-15");
+  const gps = L.passiPrepara({ profilo: { ora: "6:30", coord: { lat: 41.9, lon: 12.5 } }, documenti: { tessera: { numero: "RC00123", scadenza: "2027-01-01" }, certificato: { scadenza: "2027-05-01" } } }, "2026-10-15");
   assert.deepStrictEqual([gps.fatti, gps.completo], [4, true]);
   assert.strictEqual(gps.passi.find((x) => x.k === "gara").fatto, false); // facoltativa, non conta
   assert.strictEqual(L.passiPrepara({ gare: [{ data: "2026-10-18" }] }, "2026-10-15").passi.find((x) => x.k === "gara").fatto, true);
   assert.strictEqual(L.passiPrepara({ gare: [{ data: "2026-10-01" }] }, "2026-10-15").passi.find((x) => x.k === "gara").fatto, false); // gara passata
+}
+// lettura delle foto dei documenti (testo OCR)
+{
+  const O = "2026-10-15";
+  const fidal = "FEDERAZIONE ITALIANA DI ATLETICA LEGGERA\nFIDAL\nTessera n. RM 123456\nROSSI MARIO\nSocietà: A.S.D. Podistica Roma\nValida fino al 31/12/2026";
+  assert.deepStrictEqual(L.leggiDocumento(fidal, "tessera", O), { tipo: "FIDAL", numero: "RM123456", societa: "A.S.D. Podistica Roma", scadenza: "2026-12-31" });
+  const runcard = "RUNCARD\nCard n° RC-0045821\nScadenza 03.05.2027\nNato il 22/08/1988";
+  assert.deepStrictEqual(L.leggiDocumento(runcard, "tessera", O), { tipo: "Runcard", numero: "RC0045821", scadenza: "2027-05-03" });
+  const eps = "RUNCARD EPS\nENTE DI PROMOZIONE SPORTIVA\nAB12C345\n2027-02-01";
+  assert.strictEqual(L.leggiDocumento(eps, "tessera", O).tipo, "Runcard EPS");
+  assert.strictEqual(L.leggiDocumento(eps, "tessera", O).numero, "AB12C345");
+  const cert = "CERTIFICATO DI IDONEITÀ ALLA PRATICA\nDI ATTIVITÀ SPORTIVA AGONISTICA\nSport: ATLETICA LEGGERA\nData della visita: 12/03/2026\nIl presente certificato ha validità annuale\nScadenza: 12/03/2027";
+  assert.deepStrictEqual(L.leggiDocumento(cert, "certificato", O), { tipo: "agonistico (atletica leggera)", rilascio: "2026-03-12", scadenza: "2027-03-12" });
+  const soloVisita = "Certificato medico agonistico\nRoma, 05/11/2025\nIl medico";
+  assert.deepStrictEqual(L.leggiDocumento(soloVisita, "certificato", O), { tipo: "agonistico (atletica leggera)", scadenza: "2026-11-04", rilascio: "2025-11-05", calcolata: true });
+  const certLungo = "Si certifica che il Sig. Luca, nato a Roma il 22/08/1988, sottoposto a visita medica,\nè risultato idoneo\nATLETICA LEGGERA\nData della visita: 12/03/2026\nScadenza: 12/03/2027";
+  assert.strictEqual(L.leggiDocumento(certLungo, "certificato", O).rilascio, "2026-03-12"); // la prima riga con "visita" non ha date utili
+  assert.deepStrictEqual(L.leggiDocumento("testo illeggibile ~~", "certificato", O), {});
+  assert.deepStrictEqual(L.leggiDocumento("NON AGONISTICA\nvalido sino al 31-01-27", "certificato", O), { tipo: "non agonistico", scadenza: "2027-01-31" });
+  assert.strictEqual(L.leggiDocumento("Valida fino al 31/02/2027", "tessera", O).scadenza, undefined); // data impossibile
 }
 console.log("ok");

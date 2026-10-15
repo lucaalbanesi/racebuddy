@@ -281,7 +281,7 @@
     const fatto = {
       ora: /^\d{1,2}[:.]\d{2}$/.test(String(profilo.ora || "")),
       zona: !!(profilo.coord || String(profilo.citta || "").trim()),
-      tessera: data(documenti.tessera),
+      tessera: data(documenti.tessera) && String((documenti.tessera || {}).numero || "").trim().length >= 3,
       certificato: data(documenti.certificato),
       gara: (gare || []).some((g) => g && g.data >= (oggi || todayISO())),
     };
@@ -290,7 +290,74 @@
     return { passi, fatti: obb.filter((p) => p.fatto).length, totale: obb.length, completo: obb.every((p) => p.fatto) };
   }
 
-  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, sorriso, prossimaUscita, cercaGare, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara };
+  /** Legge il testo di una foto di tessera o certificato (OCR fatto sul telefono) e propone i campi.
+   *  k = "tessera" | "certificato". Restituisce solo ciò che trova: { tipo, numero, scadenza, rilascio, calcolata }.
+   *  I valori sono proposte: l'utente li controlla prima di salvare. */
+  function leggiDocumento(testo, k, oggi) {
+    const t = String(testo || "").replace(/\r/g, "");
+    const T = t.toUpperCase();
+    const out = {};
+    const iso = (g, m, a) => {
+      let y = Number(a); if (a.length === 2) y += 2000;
+      const d = Number(g), mo = Number(m);
+      if (!(d >= 1 && d <= 31 && mo >= 1 && mo <= 12 && y >= 2000 && y <= 2100)) return null;
+      const s = `${y}-${String(mo).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+      return addDays(s, 0) === s ? s : null; // scarta date impossibili (31/02)
+    };
+    const righe = t.split("\n").map((r) => r.trim()).filter(Boolean);
+    const RE_DATA = /(\d{1,2})\s*[\/.\-]\s*(\d{1,2})\s*[\/.\-]\s*(\d{4}|\d{2})(?!\d)/g;
+    const date = []; // { data, riga, testoRiga }
+    righe.forEach((r, i) => { for (const m of r.matchAll(RE_DATA)) { const d = iso(m[1], m[2], m[3]); if (d) date.push({ data: d, i }); } });
+    const vicino = (re) => { // data sulla stessa riga di una parola chiave o sulla successiva (prima riga che ne ha una)
+      for (let i = 0; i < righe.length; i++) {
+        if (!re.test(righe[i])) continue;
+        const d = date.find((x) => x.i === i) || date.find((x) => x.i === i + 1);
+        if (d) return d.data;
+      }
+      return null;
+    };
+    const rif = oggi || todayISO();
+    if (k === "tessera") {
+      if (/RUNCARD/.test(T)) out.tipo = /\bEPS\b|ENTE DI PROMOZIONE/.test(T) ? "Runcard EPS" : "Runcard";
+      else if (/FIDAL|FEDERAZIONE ITALIANA DI ATLETICA/.test(T)) out.tipo = "FIDAL";
+      const etichetta = t.match(/(?:\b(?:tessera|card|numero|matricola|codice)\b(?:\s*(?:n[°º.]|numero))?|\bn[°º.])[ \t]*[:#]?[ \t]*([A-Z0-9][A-Z0-9 \-]{3,14}[A-Z0-9])/i);
+      const pulisci = (x) => x.replace(/[\s\-]/g, "").toUpperCase();
+      const valido = (x) => x && /\d/.test(x) && x.length >= 5 && x.length <= 12 && !/^(19|20)\d\d$/.test(x);
+      let num = etichetta && pulisci(etichetta[1]);
+      if (!valido(num)) {
+        const cand = (T.replace(RE_DATA, " ").match(/\b(?=[A-Z0-9]*\d)(?=[A-Z0-9]*[A-Z]?)[A-Z0-9]{5,12}\b/g) || []).filter((x) => valido(x) && !/^\d{1,4}$/.test(x));
+        num = cand.sort((a, b) => b.length - a.length)[0];
+      }
+      if (valido(num)) out.numero = num;
+      const soc = t.match(/societ[aà]\s*[:\-]?\s*([^\n]{3,60})/i);
+      if (soc) out.societa = soc[1].trim().replace(/\s{2,}/g, " ");
+      const sc = vicino(/scad|valid|fino al|expir/i);
+      const future = date.map((x) => x.data).filter((d) => d >= rif).sort();
+      if (sc) out.scadenza = sc; else if (future.length) out.scadenza = future[future.length - 1];
+    } else {
+      const sc = vicino(/scad|valid[oa]?\s*(fino|sino)|fino al|sino al/i);
+      const ril = vicino(/rilasci|visita|data\s*:|emess|in data/i);
+      if (/AGONISTIC/.test(T) && !/NON\s*AGONISTIC/.test(T)) out.tipo = "agonistico (atletica leggera)";
+      else if (/NON\s*AGONISTIC/.test(T)) out.tipo = "non agonistico";
+      if (ril) out.rilascio = ril;
+      if (sc) out.scadenza = sc;
+      else {
+        const future = date.map((x) => x.data).filter((d) => d >= rif).sort();
+        if (future.length) out.scadenza = future[future.length - 1];
+        else {
+          const base = out.rilascio || date.map((x) => x.data).filter((d) => d <= rif).sort().pop();
+          if (base) { // certificato agonistico: vale un anno dalla visita
+            const [y, m, d] = base.split("-").map(Number);
+            out.scadenza = addDays(`${y + 1}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`, -1);
+            out.rilascio = out.rilascio || base; out.calcolata = true;
+          }
+        }
+      }
+    }
+    return out;
+  }
+
+  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, sorriso, prossimaUscita, cercaGare, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);

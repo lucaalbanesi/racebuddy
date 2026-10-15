@@ -342,3 +342,5 @@ details.acc:not([open]) { gap: 0; padding-top: 6px; padding-bottom: 6px; }
 .funnel h1 { font: 700 32px/1.05 var(--display); margin: 0; text-wrap: balance; }
 .funnel-form { display: flex; flex-direction: column; gap: 14px; }
 body.funnel-on nav.tabs { display: none; }
+.scan { display: flex; flex-direction: column; gap: 6px; }
+label.btn.disabled { opacity: .6; pointer-events: none; }
