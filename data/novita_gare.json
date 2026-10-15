@@ -1,6 +1,20 @@
 {
- "aggiornato": "2026-10-15T08:36Z",
+ "aggiornato": "2026-10-15T12:50Z",
  "novita": [
+  {
+   "id": "n571a21e4148",
+   "gara": "H88b48310e5-42",
+   "tema": "altro",
+   "urgenza": "app",
+   "titolo": "San Benedetto Ginky Family Run – iscrizioni aperte",
+   "link": "https://www.firenzemarathon.it/san-benedetto-ginky-family-run-iscrizioni-aperte/",
+   "data": "2026-10-15",
+   "fonte": "Sito ufficiale",
+   "ufficiale": true,
+   "tipo": "articolo",
+   "immagine": "https://s.w.org/images/core/emoji/17.0.2/72x72/1f45f.png",
+   "trovato": "2026-10-15T12:50Z"
+  },
   {
    "id": "n528aa5a8924",
    "gara": "Hd9df59d4b1-21",
@@ -349,20 +363,6 @@
    "ufficiale": true,
    "tipo": "articolo",
    "immagine": "https://s.w.org/images/core/emoji/17.0.2/72x72/1f4c5.png",
-   "trovato": "2026-10-14T15:07Z"
-  },
-  {
-   "id": "n998ec883ae4",
-   "gara": "H88b48310e5-42",
-   "tema": "altro",
-   "urgenza": "app",
-   "titolo": "CONAD nuovo title sponsor della Notturna di San Giovanni ⚜",
-   "link": "https://www.firenzemarathon.it/conad-nuovo-title-sponsor-della-notturna-di-san-giovanni-di-firenze/",
-   "data": "2026-04-22",
-   "fonte": "Sito ufficiale",
-   "ufficiale": true,
-   "tipo": "articolo",
-   "immagine": null,
    "trovato": "2026-10-14T15:07Z"
   }
  ]
