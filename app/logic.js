@@ -289,7 +289,7 @@
   }
 
   /** Legge il testo di una foto di tessera o certificato (OCR fatto sul telefono) e propone i campi.
-   *  k = "tessera" | "certificato". Restituisce solo ciò che trova: { tipo, numero, scadenza, rilascio, calcolata }.
+   *  k = "tessera" | "certificato". Restituisce solo ciò che trova: { tipo, numero, codiceSocieta, societa, scadenza, certificato, calcolata }.
    *  I valori sono proposte: l'utente li controlla prima di salvare. */
   function leggiDocumento(testo, k, oggi) {
     const t = String(testo || "").replace(/\r/g, "");
@@ -371,17 +371,16 @@
       const ril = vicino(/rilasci|visita|data\s*:|emess|in data/i);
       if (/AGONISTIC/.test(T) && !/NON\s*AGONISTIC/.test(T)) out.tipo = "agonistico (atletica leggera)";
       else if (/NON\s*AGONISTIC/.test(T)) out.tipo = "non agonistico";
-      if (ril) out.rilascio = ril;
       if (sc) out.scadenza = sc;
       else {
         const future = date.map((x) => x.data).filter((d) => d >= rif).sort();
         if (future.length) out.scadenza = future[future.length - 1];
         else {
-          const base = out.rilascio || date.map((x) => x.data).filter((d) => d <= rif).sort().pop();
+          const base = ril || date.map((x) => x.data).filter((d) => d <= rif).sort().pop();
           if (base) { // certificato agonistico: vale un anno dalla visita
             const [y, m, d] = base.split("-").map(Number);
             out.scadenza = addDays(`${y + 1}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`, -1);
-            out.rilascio = out.rilascio || base; out.calcolata = true;
+            out.calcolata = true; // la data della visita serve solo a calcolare, non si conserva
           }
         }
       }

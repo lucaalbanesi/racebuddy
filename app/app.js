@@ -255,7 +255,20 @@
   const idbFai = async (modo, fn) => { const db = await idb(); return new Promise((ok, ko) => { const tx = db.transaction("foto", modo); const req = fn(tx.objectStore("foto")); tx.oncomplete = () => ok(req && req.result); tx.onerror = () => ko(tx.error); }); };
   const fotoLeggi = (k) => idbFai("readonly", (st) => st.get(k));
   const fotoSalva = (k, blob) => idbFai("readwrite", (st) => st.put(blob, k));
-  const fotoTogli = (k) => idbFai("readwrite", (st) => st.delete(k));
+  const fotoTogli = (k) => idbFai("readwrite", (st) => { st.delete(k + ":file"); return st.delete(k); });
+  // File originale (PDF o foto) da scaricare o condividere per i portali di iscrizione.
+  const fileSalva = (k, blob, ext) => idbFai("readwrite", (st) => st.put({ blob, nome: `${k === "tessera" ? "tessera" : "certificato-medico"}.${ext}` }, k + ":file"));
+  const fileLeggi = (k) => idbFai("readonly", (st) => st.get(k + ":file"));
+  async function scaricaDoc(k) {
+    const f = await fileLeggi(k).catch(() => null);
+    if (!f || !f.blob) { toast("Nessun file salvato: usa Scansiona"); return; }
+    const file = new File([f.blob], f.nome, { type: f.blob.type || "application/octet-stream" });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try { await navigator.share({ files: [file], title: DOCS[k] }); return; } catch (e) { if (e && e.name === "AbortError") return; }
+    }
+    const a = document.createElement("a"); a.href = URL.createObjectURL(file); a.download = f.nome;
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 10000);
+  }
   async function comprimi(file) {
     const img = await createImageBitmap(file);
     const lato = 1600, sc = Math.min(1, lato / Math.max(img.width, img.height));
@@ -309,15 +322,18 @@
     return { testo, blob };
   }
   async function scansiona(k, file, stato) {
+    let daPdf = false;
     if (file.type === "application/pdf" || /\.pdf$/i.test(file.name || "")) {
       stato("Leggo il PDF…");
       const { testo, blob } = await leggiPdf(file);
-      await fotoSalva(k, blob); doc(k).foto = true; salva();
+      await fotoSalva(k, blob); await fileSalva(k, file, "pdf"); doc(k).foto = true; doc(k).file = "pdf"; salva(); daPdf = true;
       if (testo.replace(/\s/g, "").length >= 20) return L.leggiDocumento(testo, k, oggi());
-      file = blob; // PDF senza testo (scansione): si passa all'OCR
+      file = blob; // PDF senza testo (scansione): si passa all'OCR, il PDF resta come file da scaricare
     }
     const blob = await comprimi(file);
-    await fotoSalva(k, blob); doc(k).foto = true; salva();
+    await fotoSalva(k, blob); doc(k).foto = true;
+    if (!daPdf) { await fileSalva(k, blob, "jpg"); doc(k).file = "jpg"; }
+    salva();
     stato("Leggo il documento…");
     const T = await caricaOcr();
     const w = await T.createWorker("ita", 1, { logger: (m) => { if (m.status === "recognizing text") stato(`Leggo il documento… ${Math.round((m.progress || 0) * 100)}%`); } });
@@ -325,29 +341,28 @@
   }
   const bottoneScan = (k) => `<div class="scan"><label class="btn ghost block" style="cursor:pointer">📷 ${k === "tessera" ? "Scansiona la tessera o carica il PDF" : "Scansiona il certificato o carica il PDF"}<input type="file" accept="image/*,application/pdf" data-scan="${k}" hidden></label>
     <span class="small muted" data-scan-stato="${k}" aria-live="polite">${k === "tessera" ? "Foto o PDF del tesserino (quello che scarichi dalla FIDAL): " : "Foto o PDF: "}leggo i dati qui sul telefono, il file non viene inviato.</span></div>`;
-  const descriviLetti = (r, k) => [r.tipo && `tipo ${r.tipo}`, r.numero && `numero ${r.numero}`, (r.codiceSocieta || r.societa) && `squadra ${[r.codiceSocieta, r.societa].filter(Boolean).join(" ")}`, r.tesseramento && `tesserata il ${L.fmtBreve(r.tesseramento)} ${r.tesseramento.slice(0, 4)}`, r.rilascio && `visita del ${L.fmtBreve(r.rilascio)} ${r.rilascio.slice(0, 4)}`, r.scadenza && `scadenza ${k === "tessera" ? "tessera " : ""}${L.fmtBreve(r.scadenza)} ${r.scadenza.slice(0, 4)}`, r.certificato && r.certificato.scadenza && `scadenza certificato ${L.fmtBreve(r.certificato.scadenza)} ${r.certificato.scadenza.slice(0, 4)}`].filter(Boolean).join(", ");
+  const descriviLetti = (r, k) => [r.tipo && `tipo ${r.tipo}`, r.numero && `numero ${r.numero}`, (r.codiceSocieta || r.societa) && `società ${[r.codiceSocieta, r.societa].filter(Boolean).join(" ")}`, r.scadenza && `scadenza ${k === "tessera" ? "tessera " : ""}${L.fmtBreve(r.scadenza)} ${r.scadenza.slice(0, 4)}`, r.certificato && r.certificato.scadenza && `scadenza certificato ${L.fmtBreve(r.certificato.scadenza)} ${r.certificato.scadenza.slice(0, 4)}`].filter(Boolean).join(", ");
 
   function sezioneDocumenti() {
     const t = doc("tessera"), c = doc("certificato");
     const campo = (k, f, l, v, extra = "") => `<div class="field"><label for="doc-${k}-${f}">${l}</label><input class="input" id="doc-${k}-${f}" data-docf="${k}:${f}" value="${esc(v || "")}" ${extra}></div>`;
-    const foto = (k) => `<div class="doc-foto"><img data-doc-thumb="${k}" alt="Foto ${DOCS[k].toLowerCase()}" hidden data-act="doc-apri">
-      <label class="btn ghost small" style="cursor:pointer">📷 ${doc(k).foto ? "Cambia foto" : "Aggiungi foto"}<input type="file" accept="image/*" data-docfoto="${k}" hidden></label>
-      ${doc(k).foto ? `<button class="btn ghost small" type="button" data-act="doc-togli-foto" data-k="${k}">Togli foto</button>` : ""}</div>`;
+    const file = (k) => doc(k).foto ? `<div class="doc-foto"><img data-doc-thumb="${k}" alt="${DOCS[k]}" hidden data-act="doc-apri">
+      <div class="doc-azioni">${doc(k).file ? `<button class="btn ghost small" type="button" data-act="doc-scarica" data-k="${k}">⬇︎ Scarica ${doc(k).file === "pdf" ? "il PDF" : "la foto"}</button>` : ""}<button class="btn ghost small" type="button" data-act="doc-togli-foto" data-k="${k}">Togli il file</button></div></div>` : "";
     return `<section class="card doc"><div class="between"><span class="title">Tessera</span>${pillDoc(statoDoc(t))}</div>
         ${bottoneScan("tessera")}
-        <div class="field"><label for="doc-tessera-tipo">Tipo</label><select class="input" id="doc-tessera-tipo" data-docf="tessera:tipo">${["", "FIDAL", "Runcard", "Runcard EPS"].map((x) => `<option value="${x}" ${t.tipo === x ? "selected" : ""}>${x || "Scegli…"}</option>`).join("")}</select></div>
-        <div class="field"><label for="doc-tessera-numero">Numero di tessera</label><div class="row"><input class="input" id="doc-tessera-numero" data-docf="tessera:numero" value="${esc(t.numero || "")}" inputmode="text" autocomplete="off"><button class="btn ghost" type="button" data-act="doc-copia" ${t.numero ? "" : "disabled"}>Copia</button></div></div>
-        ${t.tipo === "FIDAL" ? `<div class="grid2 societa">${campo("tessera", "codiceSocieta", "Codice squadra", t.codiceSocieta, 'autocapitalize="characters" placeholder="es. RM123"')}${campo("tessera", "societa", "Nome squadra", t.societa)}</div>` : ""}
-        ${campo("tessera", "scadenza", "Scadenza", t.scadenza, 'type="date"')}
-        ${foto("tessera")}</section>
+        <div class="field"><label for="doc-tessera-tipo">Tipo di tessera</label><select class="input" id="doc-tessera-tipo" data-docf="tessera:tipo">${["", "FIDAL", "Runcard", "Runcard EPS"].map((x) => `<option value="${x}" ${t.tipo === x ? "selected" : ""}>${x || "Scegli…"}</option>`).join("")}</select></div>
+        <div class="field"><label for="doc-tessera-numero">Numero di tessera</label><div class="row"><input class="input" id="doc-tessera-numero" data-docf="tessera:numero" value="${esc(t.numero || "")}" inputmode="text" autocomplete="off" autocapitalize="characters"><button class="btn ghost" type="button" data-act="doc-copia" ${t.numero ? "" : "disabled"}>Copia</button></div></div>
+        ${campo("tessera", "scadenza", "Scadenza della tessera", t.scadenza, 'type="date"')}
+        ${campo("tessera", "codiceSocieta", "Codice società", t.codiceSocieta, 'autocapitalize="characters" placeholder="es. RM123"')}
+        ${campo("tessera", "societa", "Nome società", t.societa)}
+        ${file("tessera")}</section>
       <section class="card doc"><div class="between"><span class="title">Certificato medico</span>${pillDoc(statoDoc(c))}</div>
         ${bottoneScan("certificato")}
         <div class="field"><label for="doc-certificato-tipo">Tipo</label><select class="input" id="doc-certificato-tipo" data-docf="certificato:tipo">${["agonistico (atletica leggera)", "non agonistico"].map((x) => `<option ${c.tipo === x ? "selected" : ""}>${x}</option>`).join("")}</select></div>
-        ${campo("certificato", "rilascio", "Data della visita", c.rilascio, 'type="date"')}
-        ${campo("certificato", "scadenza", "Scadenza", c.scadenza, 'type="date"')}
-        ${foto("certificato")}
-        <span class="small muted">Per le gare FIDAL e con Runcard serve il certificato agonistico per l'atletica leggera, valido il giorno della gara.</span></section>
-      <span class="small muted">Numero, date e foto restano solo su questo telefono. Se attivi le notifiche, online va solo la data di scadenza per avvisarti 30, 15 e 2 giorni prima.</span>`;
+        ${campo("certificato", "scadenza", "Scadenza del certificato", c.scadenza, 'type="date"')}
+        ${file("certificato")}
+        <span class="small muted">${c.file ? "" : "Per iscriverti a una gara di solito serve caricare il certificato: scansionalo o carica il PDF, così lo scarichi da qui quando serve. "}Per le gare FIDAL e con Runcard serve il certificato agonistico per l'atletica leggera, valido il giorno della gara.</span></section>
+      <span class="small muted">Numeri, date e file restano solo su questo telefono. Se attivi le notifiche, online va solo la data di scadenza per avvisarti 30, 15 e 2 giorni prima.</span>`;
   }
   function avvisoDocumenti(perGara) {
     const out = [];
@@ -413,9 +428,11 @@
     else if (k === "documenti") corpo = `<h1>Tessera e certificato medico</h1><p class="sub">Senza non si corre: ti avviso 30, 15 e 2 giorni prima che scadano, e il numero di tessera è sempre a portata di mano quando ti iscrivi a una gara.</p>
       ${bottoneScan("tessera")}
       ${form(`<span class="title">Tessera</span>
-        <div class="field"><label for="pf-tipo">Tipo</label><select class="input" id="pf-tipo" required>${["", "FIDAL", "Runcard", "Runcard EPS"].map((x) => `<option value="${x}" ${tessera.tipo === x ? "selected" : ""}>${x || "Scegli…"}</option>`).join("")}</select></div>
+        <div class="field"><label for="pf-tipo">Tipo di tessera</label><select class="input" id="pf-tipo" required>${["", "FIDAL", "Runcard", "Runcard EPS"].map((x) => `<option value="${x}" ${tessera.tipo === x ? "selected" : ""}>${x || "Scegli…"}</option>`).join("")}</select></div>
         <div class="field"><label for="pf-numero">Numero di tessera</label><input class="input" id="pf-numero" required minlength="3" autocomplete="off" autocapitalize="characters" value="${esc(tessera.numero || "")}"></div>
-        <div class="field"><label for="pf-tess-scadenza">Scadenza della tessera</label><input class="input" id="pf-tess-scadenza" type="date" required value="${esc(tessera.scadenza || "")}"><span class="small muted">FIDAL: vale fino al 31 dicembre dell'anno stampato sul tesserino (il rinnovo di dicembre vale per l'anno dopo). Runcard: 12 mesi dall'emissione.</span></div>
+        <div class="field"><label for="pf-tess-scadenza">Scadenza della tessera</label><input class="input" id="pf-tess-scadenza" type="date" required value="${esc(tessera.scadenza || "")}"><span class="small muted">FIDAL: 31 dicembre dell'anno stampato in basso a sinistra sul tesserino. Runcard: 12 mesi dall'emissione.</span></div>
+        <div class="field"><label for="pf-codice">Codice società</label><input class="input" id="pf-codice" autocomplete="off" autocapitalize="characters" placeholder="es. RM123" value="${esc(tessera.codiceSocieta || "")}"></div>
+        <div class="field"><label for="pf-societa">Nome società</label><input class="input" id="pf-societa" autocomplete="off" value="${esc(tessera.societa || "")}"></div>
         <span class="title">Certificato medico agonistico</span>
         <div class="field"><label for="pf-cert-scadenza">Scadenza del certificato</label><input class="input" id="pf-cert-scadenza" type="date" required value="${esc(cert.scadenza || "")}"><span class="small muted">Sulla tessera FIDAL la trovi stampata: la scansione la legge da sola. Serve il certificato agonistico per l'atletica leggera, valido il giorno della gara.</span></div>`,
         `<details class="scan-cert"><summary class="small">Il certificato non è sulla tessera? Scansiona il certificato</summary>${bottoneScan("certificato")}</details>`)}`;
@@ -1710,8 +1727,10 @@
       copia(doc("tessera").numero || "", "Numero di tessera");
     } else if (act === "doc-apri") {
       apriFoto(t.src);
+    } else if (act === "doc-scarica") {
+      scaricaDoc(t.dataset.k);
     } else if (act === "doc-togli-foto") {
-      fotoTogli(t.dataset.k).catch(() => {}); doc(t.dataset.k).foto = false; salva(); toast("Foto tolta"); rerender();
+      fotoTogli(t.dataset.k).catch(() => {}); doc(t.dataset.k).foto = false; doc(t.dataset.k).file = null; salva(); toast("File tolto"); rerender();
     } else if (act === "gps") {
       usaGps(t);
     } else if (act === "cnd") {
@@ -1854,14 +1873,10 @@
         if (!letti) { stato("Non sono riuscito a leggere i dati: inseriscili a mano. La foto è salvata."); return; }
         const d = doc(k);
         if (r.tipo) d.tipo = r.tipo;
-        if (r.rilascio) d.rilascio = r.rilascio;
-        if (r.tesseramento) d.tesseramento = r.tesseramento;
         if (r.certificato) { const c = doc("certificato"); if (r.certificato.tipo) c.tipo = r.certificato.tipo; if (!nelFunnel && r.certificato.scadenza) c.scadenza = r.certificato.scadenza; }
-        if (nelFunnel && r.societa) d.societa = r.societa;
-        if (nelFunnel && r.codiceSocieta) d.codiceSocieta = r.codiceSocieta;
         if (nelFunnel) { // campi da confermare con "Avanti"
           const metti = (id, val) => { const f = document.getElementById(id); if (f && val) f.value = val; };
-          if (k === "tessera") { metti("pf-tipo", r.tipo); metti("pf-numero", r.numero); metti("pf-tess-scadenza", r.scadenza); metti("pf-cert-scadenza", r.certificato && r.certificato.scadenza); }
+          if (k === "tessera") { metti("pf-tipo", r.tipo); metti("pf-numero", r.numero); metti("pf-tess-scadenza", r.scadenza); metti("pf-codice", r.codiceSocieta); metti("pf-societa", r.societa); metti("pf-cert-scadenza", r.certificato && r.certificato.scadenza); }
           else metti("pf-cert-scadenza", r.scadenza);
           salva();
           stato(`Letti ${pdf ? "dal PDF" : "dalla foto"}: ${letti}. Controlla e correggi se serve.${r.calcolata ? (k === "tessera" ? (r.tipo === "FIDAL" ? " La scadenza della tessera è calcolata: la FIDAL vale fino al 31 dicembre dell'anno stampato sul tesserino." : " La scadenza è calcolata: 12 mesi dall'emissione.") : " La scadenza è calcolata: un anno dalla visita.") : ""}`);
@@ -1930,6 +1945,7 @@
       else if (passo === "zona") { const c = v("pf-citta").trim(); if (c !== (S.profilo.citta || "")) { S.profilo = { ...S.profilo, citta: c }; delete S.profilo.coord; } }
       else if (passo === "documenti") {
         const t = doc("tessera"); t.tipo = v("pf-tipo"); t.numero = v("pf-numero").trim().toUpperCase(); t.scadenza = v("pf-tess-scadenza");
+        t.codiceSocieta = v("pf-codice").trim().toUpperCase(); t.societa = v("pf-societa").trim();
         const c = doc("certificato"); c.scadenza = v("pf-cert-scadenza"); c.tipo = c.tipo || "agonistico (atletica leggera)";
       }
       salva(); vaiPasso(passo); return;

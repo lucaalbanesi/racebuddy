@@ -31,7 +31,8 @@ In cima a Oggi, finché manca qualcosa: spiega cosa ti arriva con le notifiche e
 
 1. A che ora esci a correre (decide l'ora del messaggio del mattino)
 2. Dove corri di solito (GPS o città: serve per il meteo dell'uscita)
-3. Tessera e certificato medico, in un solo passo: tipo, numero e scadenza della tessera, scadenza del certificato
+3. Tessera e certificato medico, in un solo passo: tipo, numero, scadenza, codice e nome società della tessera;
+   scadenza del certificato
 4. Notifiche: il traguardo, con i vantaggi concreti (su iPhone fuori dalla Home, le istruzioni per aggiungerla)
 5. La tua prossima gara: facoltativa
 
@@ -93,7 +94,8 @@ dei personali (solo per chi sceglie di comparire), gestione per admin e organizz
 
 <img src="img/ui/io.png" width="280" alt="Schermata Io">
 
-Sezioni a fisarmonica: Profilo, Tessera e certificato (con codice e nome squadra per la FIDAL), Notifiche con preferenze, Gruppo, I miei personali, Strava,
+Sezioni a fisarmonica: Profilo, Tessera e certificato (gli stessi campi del funnel, più "Scarica" del PDF o della
+foto da caricare nei portali di iscrizione), Notifiche con preferenze, Gruppo, I miei personali, Strava,
 Le mie scarpe. In fondo gli strumenti di prova (data simulata) e "Rivedi il tutorial".
 
 ## Aggiornare le schermate

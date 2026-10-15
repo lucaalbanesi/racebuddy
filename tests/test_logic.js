@@ -222,11 +222,11 @@ assert.strictEqual(L.sezioneSwipe("novita", -120, 0, 300), null); // fuori dalla
   assert.strictEqual(L.leggiDocumento(eps, "tessera", O).tipo, "Runcard EPS");
   assert.strictEqual(L.leggiDocumento(eps, "tessera", O).numero, "AB12C345");
   const cert = "CERTIFICATO DI IDONEITÀ ALLA PRATICA\nDI ATTIVITÀ SPORTIVA AGONISTICA\nSport: ATLETICA LEGGERA\nData della visita: 12/03/2026\nIl presente certificato ha validità annuale\nScadenza: 12/03/2027";
-  assert.deepStrictEqual(L.leggiDocumento(cert, "certificato", O), { tipo: "agonistico (atletica leggera)", rilascio: "2026-03-12", scadenza: "2027-03-12" });
+  assert.deepStrictEqual(L.leggiDocumento(cert, "certificato", O), { tipo: "agonistico (atletica leggera)", scadenza: "2027-03-12" });
   const soloVisita = "Certificato medico agonistico\nRoma, 05/11/2025\nIl medico";
-  assert.deepStrictEqual(L.leggiDocumento(soloVisita, "certificato", O), { tipo: "agonistico (atletica leggera)", scadenza: "2026-11-04", rilascio: "2025-11-05", calcolata: true });
+  assert.deepStrictEqual(L.leggiDocumento(soloVisita, "certificato", O), { tipo: "agonistico (atletica leggera)", scadenza: "2026-11-04", calcolata: true });
   const certLungo = "Si certifica che il Sig. Luca, nato a Roma il 22/08/1988, sottoposto a visita medica,\nè risultato idoneo\nATLETICA LEGGERA\nData della visita: 12/03/2026\nScadenza: 12/03/2027";
-  assert.strictEqual(L.leggiDocumento(certLungo, "certificato", O).rilascio, "2026-03-12"); // la prima riga con "visita" non ha date utili
+  assert.deepStrictEqual(L.leggiDocumento(certLungo, "certificato", O), { scadenza: "2027-03-12" }); // nessuna data della visita conservata
   assert.deepStrictEqual(L.leggiDocumento("testo illeggibile ~~", "certificato", O), {});
   assert.deepStrictEqual(L.leggiDocumento("NON AGONISTICA\nvalido sino al 31-01-27", "certificato", O), { tipo: "non agonistico", scadenza: "2027-01-31" });
   assert.strictEqual(L.leggiDocumento("Valida fino al 31/02/2027", "tessera", O).scadenza, undefined); // data impossibile
