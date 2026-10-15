@@ -2,6 +2,80 @@
  "aggiornato": "2026-10-15",
  "contenuti": [
   {
+   "id": "7d1f2aaa677a",
+   "tipo": "video",
+   "fonte": "Andrea Vignone",
+   "fonteId": "yt_crazyvigno",
+   "titolo": "QUESTO CRASH IN ONBOARD NON ME L'ASPETTAVO! 😱 | Enduro Estremo PROPARK + TALENT 700%",
+   "estratto": "QUESTO CRASH IN ONBOARD NON ME L'ASPETTAVO! 😱 | Enduro Estremo PROPARK + TALENT 700% Cosa ho vinto? 💥 QUESTO CRASH IN ONBOARD NON ME…",
+   "link": "https://www.youtube.com/watch?v=yaJ_0H9c9bI",
+   "data": "2026-10-15",
+   "immagine": "https://i2.ytimg.com/vi/yaJ_0H9c9bI/hqdefault.jpg",
+   "argomenti": [
+    "allenamento",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "1413d652e0bb",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Preparazione epica per i 100km: svelerò tutto!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/aUWpEz3AzZU",
+   "data": "2026-10-15",
+   "immagine": "https://i2.ytimg.com/vi/aUWpEz3AzZU/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
+   "id": "772082d22f5e",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "La lana merino rientra nell’abbigliamento da corsa e costa sempre di più",
+   "estratto": "La fibra animale sostituisce i derivati fossili sul corpo di chi corre, trasformando la maglietta tecnica in una complessa questione di classe e durata. Il dominio trentennale di…",
+   "link": "https://runlovers.it/2026/lana-merino-abbigliamento-corsa-prezzi/",
+   "data": "2026-10-15",
+   "immagine": null,
+   "argomenti": [
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "d78e39da16a1",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Kailas FUGA DU MONSTER, la recensione della scarpa mostruosamente stabile",
+   "estratto": "Kailas FUGA ha creato un modello senza precedenti in grado di non perdere mai aderenza e stabilità anche nelle condizione più estreme",
+   "link": "https://www.runnersworld.com/it/scarpe/scarpe-trail/a74092315/kailas-fuga-du-monster-recensione-della-scarpa-mostruosamente-stabile/",
+   "data": "2026-10-15",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/ee1b6745-b6cd-43f1-9d7c-06b29123b7d2.png",
+   "argomenti": [
+    "scarpe"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
    "id": "144974ed054a",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -15,6 +89,24 @@
     "gara"
    ],
    "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "eb975fa67ef9",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Influencer di running muore a pochi metri dal traguardo di una mezza maratona",
+   "estratto": "La tragedia ha colpito una ragazza che vantava un pb in maratona inferiore alle 3 ore aveva",
+   "link": "https://www.runnersworld.com/it/news/a74141631/influencer-running-muore-mezza-maratona/",
+   "data": "2026-10-15",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/2d3d4af5-16a6-4d4a-a8ae-edbedc71535e.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "21"
+   ],
    "fasi": []
   },
   {
@@ -120,6 +212,22 @@
     "scarico",
     "gara"
    ]
+  },
+  {
+   "id": "b798ab6b4265",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "10 giacche per correre con la pioggia da acquistare online",
+   "estratto": "«Non esistono condizioni meteo sfavorevoli ma solo uomini arrendevoli», aveva detto Bill Bowerman. E se non vuoi fermarti mai, ecco una selezione di capi per correre anche quando…",
+   "link": "https://www.runnersworld.com/it/equipment/abbigliamento/g42747481/10-giacche-corsa-pioggia/",
+   "data": "2026-10-15",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/man-and-woman-jogging-in-city-royalty-free-image-1675856041.jpg",
+   "argomenti": [
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": []
   },
   {
    "id": "54ce6a6660c0",
