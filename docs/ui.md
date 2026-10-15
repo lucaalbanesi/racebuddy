@@ -41,7 +41,8 @@ una foto passa dall'OCR. Il tesserino FIDAL riporta l'anno di validità (la tess
 numero, la squadra e la scadenza del certificato medico: una sola scansione compila tutto, da controllare prima di andare avanti. Il file del certificato si carica e basta (foto o PDF, senza
 lettura): serve da scaricare per i portali di iscrizione. La stessa scansione c'è in Io → Tessera e certificato.
 
-I passi già fatti si saltano. "Più tardi" nasconde la scheda per 3 giorni. Con i tre passi fatti e le notifiche
+I passi già fatti si saltano. "Più tardi" nasconde la scheda per 3 giorni. "Non sono tesserato" chiude la scheda per sempre (o salta il
+passo dei documenti nel funnel): tessera e certificato si possono aggiungere più avanti da Io. Con i tre passi fatti e le notifiche
 spente resta una scheda più piccola: "ultimo passo, attiva le notifiche". Foto e altri dettagli dei documenti restano in Io. Per ora l'app è per chi fa gare: tessera e certificato sono
 obbligatori.
 

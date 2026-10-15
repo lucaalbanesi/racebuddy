@@ -425,11 +425,12 @@
   // Quattro passi obbligatori (ora, zona, tessera, certificato: bastano per le notifiche anche senza gare), la gara facoltativa.
   // Il funnel finisce con l'attivazione delle notifiche. Regole dei passi in L.passiPrepara (testate).
   const ORDINE_FUNNEL = ["ora", "zona", "documenti", "notifiche", "gara"];
-  const statoPrepara = () => L.passiPrepara({ profilo: S.profilo, documenti: S.documenti || {}, gare: S.gare }, oggi());
+  const statoPrepara = () => L.passiPrepara({ profilo: S.profilo, documenti: S.documenti || {}, gare: S.gare, nonTesserato: !!S.nonTesserato }, oggi());
   const pushChiusa = () => !!(S.push && S.push.attivo) || ["no", "negato", "non-pronto"].includes(supportoPush());
   function prossimoPasso(dopo) {
     const st = statoPrepara(), fatto = Object.fromEntries(st.passi.map((x) => [x.k, x.fatto]));
     fatto.notifiche = pushChiusa();
+    if (S.nonTesserato) fatto.documenti = true;
     const i = dopo ? ORDINE_FUNNEL.indexOf(dopo) + 1 : 0;
     const obbligatori = new Set(st.passi.filter((x) => x.obbligatorio).map((x) => x.k));
     // prima i passi che vengono dopo, poi gli obbligatori rimasti indietro
@@ -439,6 +440,7 @@
   const vaiPasso = (dopo) => { location.hash = `#/prepara/${prossimoPasso(dopo) || "fine"}`; };
   const oraMessaggio = () => { const m = String(S.profilo.ora || "07:00").match(/(\d{1,2})[:.](\d{2})/); if (!m) return "6:30"; const h = Number(m[1]), mi = Number(m[2]); if (h >= 12) return "7:00"; const t = Math.max(5 * 60, (h * 60 + mi - 30) - ((h * 60 + mi - 30) % 30)); return `${Math.floor(t / 60)}:${String(t % 60).padStart(2, "0")}`; };
   function cardPrepara() {
+    if (S.nonTesserato) return ""; // chi non è tesserato ha chiuso la scheda per sempre
     const st = statoPrepara();
     if (st.completo && pushChiusa()) return "";
     if (S.preparaDopo && L.diffDays(oggi(), S.preparaDopo) < 3) return "";
@@ -452,7 +454,8 @@
       <ul class="vantaggi"><li>Tessera e certificato: 30, 15 e 2 giorni prima che scadano</li><li>Il meteo della tua uscita, solo quando cambia davvero</li><li>Con una gara: vigilia, mattina di gara e novità ufficiali</li></ul>
       <div class="meter acc" aria-hidden="true"><div style="width:${Math.round((st.fatti / st.totale) * 100)}%"></div></div>
       <ul class="passi">${righe}</ul>
-      <div class="grid2"><a class="btn" href="#/prepara">${st.fatti ? "Continua" : "Inizia"} · 2 minuti</a><button class="btn ghost" type="button" data-act="prepara-dopo">Più tardi</button></div></section>`;
+      <div class="grid2"><a class="btn" href="#/prepara">${st.fatti ? "Continua" : "Inizia"} · 2 minuti</a><button class="btn ghost" type="button" data-act="prepara-dopo">Più tardi</button></div>
+      <button class="link-btn small" type="button" data-act="non-tesserato">Non sono tesserato: chiudi</button></section>`;
   }
   function vistaPrepara(passo) {
     const k = passo === "fine" || ORDINE_FUNNEL.includes(passo) ? passo : prossimoPasso() || "fine";
@@ -468,6 +471,7 @@
     else if (k === "zona") corpo = `<h1>Dove corri di solito?</h1><p class="sub">Serve per il meteo della tua uscita: ti avviso solo se cambia davvero. La posizione resta sul telefono, arrotondata a circa 1 km.</p>
       ${form(`<div class="field">${bottoneGps("pf-citta")}</div><div class="field"><label for="pf-citta">Città o quartiere</label><input class="input" id="pf-citta" required placeholder="es. Roma" value="${esc(S.profilo.citta || "")}" autocomplete="address-level2"></div>`)}`;
     else if (k === "documenti") corpo = `<h1>Tessera e certificato medico</h1><p class="sub">Senza non si corre: ti avviso 30, 15 e 2 giorni prima che scadano, e il numero di tessera è sempre a portata di mano quando ti iscrivi a una gara.</p>
+      <button class="link-btn small" type="button" data-act="non-tesserato" data-dal-funnel="1">Non sono tesserato: salta questo passo</button>
       ${bottoneScan("tessera")}
       ${form(`<span class="title">Tessera</span>
         <div class="field"><label for="pf-tipo">Tipo di tessera</label><select class="input" id="pf-tipo" required>${["", "FIDAL", "Runcard", "Runcard EPS"].map((x) => `<option value="${x}" ${tessera.tipo === x ? "selected" : ""}>${x || "Scegli…"}</option>`).join("")}</select></div>
@@ -1751,6 +1755,10 @@
     } else if (act === "apri-contenuto") {
       S.letti = S.letti || {}; S.letti["c:" + t.dataset.id] = oggi(); salva(); // il link si apre comunque
       return;
+    } else if (act === "non-tesserato") {
+      S.nonTesserato = true; salva();
+      toast("Ok: tessera e certificato li puoi aggiungere quando vuoi da Io");
+      if (t.dataset.dalFunnel) vaiPasso("documenti"); else rerender();
     } else if (act === "prepara-dopo") {
       S.preparaDopo = oggi(); salva(); toast("Te lo ricordo tra qualche giorno"); rerender();
     } else if (act === "prepara-push") {

@@ -275,7 +275,7 @@
     { k: "documenti", titolo: "Tessera e certificato medico", obbligatorio: true },
     { k: "gara", titolo: "La tua prossima gara", obbligatorio: false },
   ];
-  function passiPrepara({ profilo = {}, documenti = {}, gare = [] } = {}, oggi) {
+  function passiPrepara({ profilo = {}, documenti = {}, gare = [], nonTesserato = false } = {}, oggi) {
     const data = (d) => !!(d && /^\d{4}-\d{2}-\d{2}$/.test(d.scadenza || ""));
     const fatto = {
       ora: /^\d{1,2}[:.]\d{2}$/.test(String(profilo.ora || "")),
@@ -283,7 +283,8 @@
       documenti: data(documenti.tessera) && String((documenti.tessera || {}).numero || "").trim().length >= 3 && data(documenti.certificato),
       gara: (gare || []).some((g) => g && g.data >= (oggi || todayISO())),
     };
-    const passi = PASSI_PREPARA.map((p) => ({ ...p, fatto: fatto[p.k] }));
+    // chi non è tesserato esce dal passo dei documenti: non conta e non blocca
+    const passi = PASSI_PREPARA.filter((p) => !(nonTesserato && p.k === "documenti")).map((p) => ({ ...p, fatto: fatto[p.k] }));
     const obb = passi.filter((p) => p.obbligatorio);
     return { passi, fatti: obb.filter((p) => p.fatto).length, totale: obb.length, completo: obb.every((p) => p.fatto) };
   }

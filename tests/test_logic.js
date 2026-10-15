@@ -178,6 +178,8 @@ assert.strictEqual(L.sezioneSwipe("novita", -120, 0, 300), null); // fuori dalla
   const gps = L.passiPrepara({ profilo: { ora: "6:30", coord: { lat: 41.9, lon: 12.5 } }, documenti: { tessera: { numero: "RC00123", scadenza: "2027-01-01" }, certificato: { scadenza: "2027-05-01" } } }, "2026-10-15");
   assert.deepStrictEqual([gps.fatti, gps.completo], [3, true]);
   assert.strictEqual(gps.passi.find((x) => x.k === "gara").fatto, false); // facoltativa, non conta
+  const nt = L.passiPrepara({ profilo: { ora: "07:00", citta: "Roma" }, nonTesserato: true }, "2026-10-15");
+  assert.deepStrictEqual([nt.fatti, nt.totale, nt.completo, nt.passi.some((x) => x.k === "documenti")], [2, 2, true, false]);
   assert.strictEqual(L.passiPrepara({ gare: [{ data: "2026-10-18" }] }, "2026-10-15").passi.find((x) => x.k === "gara").fatto, true);
   assert.strictEqual(L.passiPrepara({ gare: [{ data: "2026-10-01" }] }, "2026-10-15").passi.find((x) => x.k === "gara").fatto, false); // gara passata
 }

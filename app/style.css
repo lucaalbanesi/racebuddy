@@ -345,3 +345,5 @@ body.funnel-on nav.tabs { display: none; }
 .scan { display: flex; flex-direction: column; gap: 6px; }
 label.btn.disabled { opacity: .6; pointer-events: none; }
 .doc-azioni { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.link-btn { background: none; border: 0; padding: 6px 0; min-height: 36px; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; font: inherit; text-align: left; align-self: flex-start; }
+.link-btn:hover { color: var(--fg); }
