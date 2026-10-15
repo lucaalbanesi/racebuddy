@@ -43,6 +43,8 @@ Le schede gara girano con **Claude Code in GitHub Actions**, con il tuo abboname
    ```
    Si apre il browser: entra con il tuo account Claude e autorizza. Nel terminale compare il token
    (una lunga stringa che inizia con `sk-ant-oat`). Copialo.
+   Attenzione: il terminale lo mostra spezzato su due righe. Incollalo prima in un editor (es. VS Code), unisci
+   le righe togliendo l'a capo e controlla che non ci siano spazi: deve essere **una riga sola**.
 2. **Salvalo su GitHub**: repo racebuddy → **Settings → Secrets and variables → Actions → New repository secret**
    - Name: `CLAUDE_CODE_OAUTH_TOKEN`
    - Secret: il token copiato → **Add secret**

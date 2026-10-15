@@ -29,7 +29,9 @@ jobs:
       - name: Controllo del token
         env:
           T: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-        run: if [ -z "$T" ]; then echo "::error::Manca il secret CLAUDE_CODE_OAUTH_TOKEN (vedi l'intestazione di questo file)"; exit 1; fi
+        run: |
+          if [ -z "$T" ]; then echo "::error::Manca il secret CLAUDE_CODE_OAUTH_TOKEN (vedi l'intestazione di questo file)"; exit 1; fi
+          case "$T" in *$'\n'*|*$'\r'*|*" "*) echo "::error::Il secret CLAUDE_CODE_OAUTH_TOKEN contiene un a capo o uno spazio: reincollalo su una riga sola (vedi docs/job-programmati.md)"; exit 1;; esac
       - name: Claude compila le schede
         id: claude
         uses: anthropics/claude-code-action@v1
