@@ -40,6 +40,27 @@
    ]
   },
   {
+   "id": "cea835d92dae",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Mantenere impermeabile il guscio da trail senza PFAS",
+   "estratto": "Il guscio che si bagna dopo poche uscite quasi sempre chiede un lavaggio e un po’ di calore: i trattamenti idrorepellenti senza PFAS funzionano, ma bisogna tenerli puliti. Cosa…",
+   "link": "https://runlovers.it/2026/guscio-trail-senza-pfas-impermeabilita-manutenzione/",
+   "data": "2026-10-15",
+   "immagine": null,
+   "argomenti": [
+    "rifornimento",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico"
+   ]
+  },
+  {
    "id": "772082d22f5e",
    "tipo": "articolo",
    "fonte": "Runlovers",
@@ -130,6 +151,22 @@
     "si_parte",
     "costruzione"
    ]
+  },
+  {
+   "id": "3ac9a0b8582f",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Corsa dei Castelli, torna Nadia Battocletti: è la stella della decima edizione",
+   "estratto": "Nadia torna alla Corsa dei Castelli dopo il successo dello scorso anno. A Trieste presente un cast di alto livello anche nella gara maschile",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74130923/corsa-dei-castelli-nadia-battocletti/",
+   "data": "2026-10-15",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/ac5cea17-7dd2-4fc9-9554-720a98e2585f.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": []
   },
   {
    "id": "6d1d3f48b5fe",
@@ -687,6 +724,30 @@
    ]
   },
   {
+   "id": "a4cb603a5ce9",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "Chicago Marathon 2026 senza record: vincono Amos Kipruto e Hawi Feysa",
+   "estratto": "Due maratoneti velocissimi, Amos Kipruto (Kenya) e Jacob Kiplimo (Uganda), domenica 11 ottobre, a Chicago, hanno provato a migliorare il record del mondo della maratona (1:59’30”…",
+   "link": "https://correre.it/chicago-marathon-2026-2/",
+   "data": "2026-10-13",
+   "immagine": "https://correre.it/wp-content/uploads/2026/10/Chigago_Marathon_2026_Kipruto_Amos.jpg",
+   "argomenti": [
+    "allenamento",
+    "gara",
+    "mente",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
    "id": "0ab001123bcf",
    "tipo": "articolo",
    "fonte": "Podisti.net",
@@ -819,6 +880,30 @@
    ]
   },
   {
+   "id": "3e78fc704f63",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "Joma dedica una RS-9000 Special Edition alla Wizz Air Venicemarathon",
+   "estratto": "Dopo il tributo all’ Acea Run Rome The Marathon , Joma porta la sua leggerissima RS-9000 anche alla Wizz Air Venicemarathon 2026 , tra le maratone più veloci e storiche in Italia…",
+   "link": "https://correre.it/joma_rs9000-venicemarathon-2026/",
+   "data": "2026-10-12",
+   "immagine": "https://correre.it/wp-content/uploads/2026/10/joma_rs_9000_venicemarathon_2026_cover.jpg",
+   "argomenti": [
+    "scarpe",
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
    "id": "83f37046acd5",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -835,6 +920,28 @@
    "fasi": [
     "si_parte",
     "costruzione"
+   ]
+  },
+  {
+   "id": "2e08691286d9",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "Garmin presenta il nuovo Enduro 4",
+   "estratto": "Il nuovo Garmin Enduro 4, è lo smartwatch ideale per le ultra-performance. Grazie a una maggiore durata della batteria, a un design leggero e funzioni di allenamento ancora più…",
+   "link": "https://correre.it/garmin-enduro-4/",
+   "data": "2026-10-12",
+   "immagine": "https://correre.it/wp-content/uploads/2026/10/Garmin_Enduro_4_smartwatch-1.jpg",
+   "argomenti": [
+    "rifornimento",
+    "allenamento",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico"
    ]
   },
   {
@@ -1588,6 +1695,28 @@
    "fasi": []
   },
   {
+   "id": "b87bc2fd66a0",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "Fast Shoes Tour, New Balance in giro per l’Italia con Orlando Pizzolato",
+   "estratto": "Nell’epoca in cui le connessioni digitali sembrano aver surclassato quelle umane, New Balance sceglie di recuperare il contatto vis-à-vis con la sua community italiana con il Fast…",
+   "link": "https://correre.it/fast-shoes-tour-new-balance-orlando-pizzolato/",
+   "data": "2026-10-09",
+   "immagine": "https://correre.it/wp-content/uploads/2026/10/fast_tour_shoes_new_balance_rebel_v1_elite_v6.jpg",
+   "argomenti": [
+    "recupero",
+    "abbigliamento",
+    "racconti"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "dopo"
+   ]
+  },
+  {
    "id": "96c874d45237",
    "tipo": "articolo",
    "fonte": "Runlovers",
@@ -1630,6 +1759,28 @@
     "picco",
     "scarico",
     "gara"
+   ]
+  },
+  {
+   "id": "4d39fe3b222a",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "Chicago Marathon 2026: la rivincita di Kiplimo?",
+   "estratto": "Inutile negarlo: fino alla vigilia della London Marathon del 26 aprile scorso i pronostici su chi sarebbe potuto diventare il primo maratoneta a scendere sotto le due ore erano in…",
+   "link": "https://correre.it/chicago-marathon-2026/",
+   "data": "2026-10-09",
+   "immagine": "https://correre.it/wp-content/uploads/2026/10/Feysa_Hawi_Chicago_2026.jpg",
+   "argomenti": [
+    "allenamento",
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "scarico"
    ]
   },
   {
@@ -1866,6 +2017,27 @@
    "argomenti": [],
    "distanze": [],
    "fasi": []
+  },
+  {
+   "id": "4090351e830c",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "Mizuno Hyperwarp 96, prestazione al top in 96 grammi",
+   "estratto": "Mizuno ha presentato la nuova Hyperwarp 96 . Una scarpa pensata per gli atleti élite che ricercano leggerezza e reattività. Realizzata secondo la filosofia “ Beyond Light ” la…",
+   "link": "https://correre.it/mizuno-hyperwarp-96/",
+   "data": "2026-10-07",
+   "immagine": "https://correre.it/wp-content/uploads/2026/10/Mizuno_Hyperwarp_96_3D_PLATE.jpg",
+   "argomenti": [
+    "scarpe",
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
   },
   {
    "id": "3fa50b0ebc0a",
