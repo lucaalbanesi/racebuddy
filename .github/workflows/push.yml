@@ -1,6 +1,8 @@
 name: Notifiche push
 on:
   schedule:
+    # Innesco principale: pg_cron di Supabase via workflow_dispatch (docs/supabase_cron.sql), puntuale.
+    # Questo cron di GitHub resta come riserva: spesso salta o ritarda, ma i doppioni sono esclusi dallo stato.
     - cron: "7,37 3-20 * * *"   # ogni mezz'ora dalle 5 alle 22 circa (ora di Roma): mattino (mezz'ora prima dell'uscita), vigilia alle 19, mattina di gara
   workflow_dispatch:
     inputs:
@@ -8,6 +10,10 @@ on:
         description: "Invia subito a tutti gli iscritti (prova)"
         type: boolean
         default: false
+# Un giro alla volta: due giri insieme leggerebbero lo stesso stato e potrebbero mandare doppioni
+concurrency:
+  group: notifiche-push
+  cancel-in-progress: false
 jobs:
   invia:
     runs-on: ubuntu-latest

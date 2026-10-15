@@ -1,0 +1,73 @@
+name: Innesco notifiche (Supabase)
+# Installa su Supabase il cron puntuale che lancia "Notifiche push" ogni mezz'ora (docs/supabase_cron.sql)
+# e mette nel Vault il token GitHub. Servono i secret SUPABASE_ACCESS_TOKEN (c'è già) e DISPATCH_TOKEN
+# (token GitHub "fine-grained" solo per questo repo, permesso Actions: Read and write).
+# Ripetibile: rilancialo anche quando rinnovi il token.
+# Si lancia a mano (Actions → "Innesco notifiche (Supabase)" → Run workflow), anche dopo modifiche a docs/supabase_cron.sql.
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  innesco:
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      DISPATCH_TOKEN: ${{ secrets.DISPATCH_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Controllo dei secret
+        run: |
+          if [ -z "$SUPABASE_ACCESS_TOKEN" ]; then echo "::error::Manca il secret SUPABASE_ACCESS_TOKEN"; exit 1; fi
+          if [ -z "$DISPATCH_TOKEN" ]; then echo "::error::Manca il secret DISPATCH_TOKEN (token GitHub per lanciare il workflow): vedi l'intestazione di questo file"; exit 1; fi
+          echo "REF=$(grep -o 'https://[a-z0-9]*\.supabase\.co' app/config.js | sed 's#https://##; s#\.supabase\.co##')" >> $GITHUB_ENV
+      - name: Il token può lanciare il workflow?
+        run: |
+          code=$(curl -s -o risposta.json -w '%{http_code}' -H "Authorization: Bearer $DISPATCH_TOKEN" -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/workflows/push.yml")
+          if [ "$code" != "200" ]; then echo "::error::Il token DISPATCH_TOKEN non vede il workflow push.yml (HTTP $code): controlla repository e permessi"; exit 1; fi
+          echo "Token valido per ${{ github.repository }}"
+      - name: Funzioni di query
+        run: |
+          cat > q.sh <<'EOF'
+          # uso: q.sh FILE_SQL  → esegue la query sul progetto e stampa il JSON del risultato
+          body=$(jq -Rs '{query: .}' < "$1")
+          code=$(curl -s -o out.json -w '%{http_code}' -X POST "https://api.supabase.com/v1/projects/$REF/database/query" \
+            -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" -H "Content-Type: application/json" --data "$body")
+          if [ "${code:0:1}" != "2" ]; then echo "::error::Query fallita (HTTP $code): $(head -c 400 out.json)"; exit 1; fi
+          cat out.json; echo
+          EOF
+          chmod +x q.sh
+      - name: Installa funzione e cron
+        run: ./q.sh docs/supabase_cron.sql
+      - name: Token nel Vault di Supabase
+        run: |
+          # il valore passa solo nel corpo della richiesta, mai nei log
+          python3 - <<'EOF' > vault.sql
+          import os
+          t = os.environ["DISPATCH_TOKEN"].replace("'", "''")
+          print(f"""do $$ declare sid uuid; begin
+            select id into sid from vault.secrets where name = 'github_dispatch_token';
+            if sid is null then perform vault.create_secret('{t}', 'github_dispatch_token', 'Token GitHub per lanciare Notifiche push');
+            else perform vault.update_secret(sid, '{t}'); end if;
+          end $$; select 'ok' as vault;""")
+          EOF
+          ./q.sh vault.sql > /dev/null && echo "Token salvato nel Vault"; rm -f vault.sql
+      - name: Prova della chiamata a GitHub (lancia una volta "Notifiche push")
+        run: |
+          echo "select public.racebuddy_lancia_push() as id;" > lancia.sql
+          id=$(./q.sh lancia.sql | jq -r '.[0].id')
+          if [ -z "$id" ] || [ "$id" = "null" ]; then echo "::error::La funzione non ha trovato il token nel Vault"; exit 1; fi
+          for i in 1 2 3 4 5 6; do
+            sleep 5
+            echo "select status_code, left(coalesce(content,error_msg,''),300) as dettaglio from net._http_response where id = $id;" > esito.sql
+            r=$(./q.sh esito.sql); st=$(echo "$r" | jq -r '.[0].status_code // empty')
+            if [ -n "$st" ]; then break; fi
+          done
+          echo "Risposta di GitHub: ${st:-nessuna}"
+          if [ "$st" != "204" ]; then echo "::error::GitHub non ha accettato la chiamata da Supabase: $(echo "$r" | jq -r '.[0].dettaglio // "nessuna risposta"')"; exit 1; fi
+          echo "::notice::Innesco attivo: Supabase lancia 'Notifiche push' ai minuti 7 e 37 (3-20 UTC)"
+      - name: Cron registrato
+        run: |
+          echo "select jobname, schedule, active from cron.job where jobname = 'racebuddy-push';" > cron.sql
+          ./q.sh cron.sql
