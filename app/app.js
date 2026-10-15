@@ -647,8 +647,8 @@
     const st = L.stato(D.percorso, g, o, S.spunte, S.rinvii);
     const prossime = [...st.oggi.filter((v) => v.tipo === "cosa da fare"), ...st.settimana].filter((v, i, a) => !S.spunte[v.chiave] && a.findIndex((x) => x.chiave === v.chiave) === i).slice(0, 3);
     const momento = st.momenti[0];
-    const ck = L.checklist(D.percorso, g, S.personali), tot = ck.borsa.length + ck.mattina.length;
-    const fatte = [...ck.borsa, ...ck.mattina].filter((v) => S.spunte[v.chiave]).length;
+    const ck = L.checklist(D.percorso, g, S.personali), tot = ck.borsa.length; // la mattina della gara è una lista da leggere, non si spunta
+    const fatte = ck.borsa.filter((v) => S.spunte[v.chiave]).length;
     const righeInfo = [["Partenza", [ora, info.luogoPartenza && String(info.luogoPartenza).split(/[,.]/)[0].replace(/^partenza (da|in)\s*/i, "")].filter(Boolean).join(" · ")], ["Pettorale", info.pettorale && String(info.pettorale).split(/[.:]/)[0]], ["Griglia", info.griglia && String(info.griglia).split(".")[0]]].filter((x) => x[1]);
     const imgOk = /^https:\/\//i.test(info.percorsoImmagine || "");
     const gr = S.gruppo && S.gruppo.dentro && GD() ? GD().gare.filter((x) => x.gara_id === g.id && x.membro_id !== GD().io.id).map((x) => x.membro) : [];
@@ -739,7 +739,7 @@
     const g = S.gare.find((x) => x.id === id);
     if (!g) return garaMancante();
     const ck = L.checklist(D.percorso, g, S.personali);
-    const tutte = [...ck.borsa, ...ck.mattina];
+    const tutte = ck.borsa; // la mattina della gara si legge e basta: niente caselle, non conta nelle pronte
     const fatte = tutte.filter((v) => S.spunte[v.chiave]).length;
     const pct = tutte.length ? Math.round((fatte / tutte.length) * 100) : 0;
     const n = L.diffDays(g.data, oggi()), i = infoGara(g);
@@ -753,7 +753,7 @@
       ${S.personali.length ? `<p class="sub">Le tue voci restano salvate per le prossime gare. <button class="btn ghost small" data-act="svuota-personali">Svuota le mie voci</button></p>` : ""}
       <section class="card" aria-label="Mattina della gara"><h2>La mattina della gara</h2>
         ${prom.length ? `<div class="list" style="display:flex;flex-direction:column;margin-bottom:6px">${prom.map(([l, t]) => `<div class="line"><span class="when" style="width:76px">${l}</span><span>${esc(t)}${l === "Dove" ? ` · <a href="${mappa(i, g)}" target="_blank" rel="noopener">Maps ↗</a>` : ""}</span></div>`).join("")}</div>` : `<a class="small" href="${urlGara(g.id, "info")}?modifica=1">+ Annota orario, griglia e deposito in Info gara</a>`}
-        ${ck.mattina.map((v) => voceCheck(v)).join("")}</section>`;
+        ${ck.mattina.length ? `<ol class="lista-mattina">${ck.mattina.map((v) => `<li><span class="t">${esc(v.titolo)}</span><span class="d">${esc(v.messaggio)}</span></li>`).join("")}</ol>` : ""}</section>`;
   }
 
   // ---------------------------------------------------------------- meteo dettaglio

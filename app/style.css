@@ -318,3 +318,11 @@ details.acc:not([open]) { gap: 0; padding-top: 6px; padding-bottom: 6px; }
 .doc-avviso .eyebrow { color: var(--warn); }
 .foto-ov { position: fixed; inset: 0; background: #000E; z-index: 50; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 16px; }
 .foto-ov img { max-width: 100%; max-height: 80vh; border-radius: 8px; }
+
+/* La mattina della gara: lista numerata da leggere al volo, senza caselle */
+.lista-mattina { list-style: none; counter-reset: passo; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; }
+.lista-mattina li { counter-increment: passo; display: grid; grid-template-columns: 28px 1fr; column-gap: 10px; padding: 10px 0; border-top: 1px solid var(--line2); }
+.lista-mattina li:first-child { border-top: 0; }
+.lista-mattina li::before { content: counter(passo); grid-row: span 2; width: 24px; height: 24px; border-radius: 50%; background: var(--line2); color: var(--fg); font-weight: 700; font-size: 13px; display: grid; place-items: center; }
+.lista-mattina .t { font-weight: 700; }
+.lista-mattina .d { font-size: 14px; color: var(--muted); }
