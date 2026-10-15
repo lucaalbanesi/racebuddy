@@ -309,7 +309,7 @@
     const vicino = (re, escludi) => { // data sulla stessa riga di una parola chiave o sulla successiva (prima riga che ne ha una)
       for (let i = 0; i < righe.length; i++) {
         if (!re.test(righe[i]) || (escludi && escludi.test(righe[i]))) continue;
-        const d = date.find((x) => x.i === i) || date.find((x) => x.i === i + 1);
+        const d = date.find((x) => x.i === i) || (escludi && escludi.test(righe[i + 1] || "") ? null : date.find((x) => x.i === i + 1));
         if (d) return d.data;
       }
       return null;
@@ -317,7 +317,7 @@
     const rif = oggi || todayISO();
     if (k === "tessera") {
       if (/RUNCARD/.test(T)) out.tipo = /\bEPS\b|ENTE DI PROMOZIONE/.test(T) ? "Runcard EPS" : "Runcard";
-      else if (/FIDAL|FEDERAZIONE ITALIANA DI ATLETICA/.test(T)) out.tipo = "FIDAL";
+      else if (/FIDAL|FEDERAZIONE|ATLETICA\s*IT|DATA\s*TESSERAMENTO|^\s*\W*ATLETA\b/m.test(T)) out.tipo = "FIDAL";
       const etichetta = t.match(/(?:\b(?:tessera|card|numero|matricola|codice)\b(?:\s*(?:n[°º.]|numero))?|\bn[°º.])[ \t]*[:#]?[ \t]*([A-Z0-9][A-Z0-9 \-]{3,14}[A-Z0-9])/i);
       const pulisci = (x) => x.replace(/[\s\-]/g, "").toUpperCase();
       const valido = (x) => x && /\d/.test(x) && x.length >= 5 && x.length <= 12 && !/^(19|20)\d\d$/.test(x);
@@ -340,22 +340,32 @@
         if (m) { cod = cod || m[1].toUpperCase(); if (m[2].trim().length >= 3) { nome = m[2].trim(); break; } }
         else if (resto.length >= 3 && r !== rigaCod) { nome = resto; break; }
       }
+      if (!nome) { // sul tesserino FIDAL la squadra è una riga "RM368 - A.S.D. NOME", senza etichetta
+        const r = righe.map((x) => x.match(/^\W*([A-Z]{2}\s?\d{3,4})\s*[-–—~:.,]?\s+(.{3,})$/)).find((m) => m && /[A-Z]{3}/i.test(m[2])); // 4 cifre: l'OCR a volte ne aggiunge una
+        if (r) { cod = cod || r[1].toUpperCase(); nome = r[2].trim(); }
+      }
       if (cod) out.codiceSocieta = cod.replace(/\s/g, "");
       if (nome) out.societa = nome.replace(/\s{2,}/g, " ").slice(0, 70);
       // Sulla tessera FIDAL c'è la data di tesseramento, non la scadenza: vale per l'anno solare (31/12).
       // La Runcard vale 12 mesi dall'emissione. Una scadenza scritta, se c'è, vince sempre.
-      // La tessera FIDAL riporta anche la scadenza del certificato medico: le righe che parlano di certificato o visita
-      // medica vanno al certificato (out.certificato), mai alla tessera.
-      const MED = /certific|medic|idonei|visita/i;
+      // Tesserino FIDAL: l'anno stampato da solo (es. "2026  LE060029") è l'anno di validità, quindi scade il 31/12.
+      // La data di tesseramento può essere dell'anno prima (rinnovo a dicembre). L'unica "Scadenza" stampata è quella del
+      // certificato medico: sulla FIDAL ogni riga con "scad" va al certificato, anche se l'OCR storpia "Certificato Medico".
+      // Runcard: 12 mesi dall'emissione. Una scadenza esplicita della tessera (non FIDAL) vince sempre.
+      const FIDAL = out.tipo === "FIDAL";
+      const MED = FIDAL ? /certif|medic|edico|idonei|visita|scad/i : /certif|medic|edico|idonei|visita/i;
       const scCert = vicino(MED);
       if (scCert) out.certificato = { scadenza: scCert, ...(/AGONISTIC/.test(T) && !/NON\s*AGONISTIC/.test(T) ? { tipo: "agonistico (atletica leggera)" } : {}) };
-      const sc = vicino(/scad|valid|fino al|expir/i, MED);
-      const tess = vicino(/tesserament|rilasci|emission|emess|iscrizion|attivazion|dal\b/i, MED);
+      const sc = FIDAL ? vicino(/valid|fino al/i, MED) : vicino(/scad|valid|fino al|expir/i, MED);
+      const tess = vicino(/tesserament|tesserat|rilasci|emission|emess|iscrizion|attivazion|dal\b|\bdata\b\s*:?/i, MED);
       if (tess) out.tesseramento = tess;
+      const anno = (righe.map((r) => r.match(/^\W*(20\d\d)(?:\s|$)/)).find(Boolean) || [])[1];
+      const daAnno = (y) => { out.scadenza = `${y}-12-31`; out.calcolata = true; };
       if (sc) out.scadenza = sc;
-      else if (tess && out.tipo === "FIDAL") { out.scadenza = `${tess.slice(0, 4)}-12-31`; out.calcolata = true; }
+      else if (FIDAL && anno) daAnno(anno);
+      else if (FIDAL && tess) daAnno(Number(tess.slice(5, 7)) >= 11 ? Number(tess.slice(0, 4)) + 1 : tess.slice(0, 4));
       else if (tess && out.tipo) { const [y, m, d] = tess.split("-").map(Number); out.scadenza = addDays(`${y + 1}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`, -1); out.calcolata = true; }
-      else { const future = date.map((x) => x.data).filter((d) => d >= rif && d !== scCert).sort(); if (future.length) out.scadenza = future[future.length - 1]; }
+      else if (!FIDAL) { const future = date.map((x) => x.data).filter((d) => d >= rif && d !== scCert).sort(); if (future.length) out.scadenza = future[future.length - 1]; }
     } else {
       const sc = vicino(/scad|valid[oa]?\s*(fino|sino)|fino al|sino al/i);
       const ril = vicino(/rilasci|visita|data\s*:|emess|in data/i);

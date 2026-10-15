@@ -284,7 +284,38 @@
     sc.onerror = () => { motoreOcr = null; ko(new Error("OCR non raggiungibile")); };
     document.head.appendChild(sc);
   }));
+  // PDF (il tesserino FIDAL si scarica in PDF): pdf.js estrae il testo esatto e disegna la prima pagina per la foto.
+  let motorePdf;
+  const PDFJS = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/";
+  const caricaPdf = () => (motorePdf = motorePdf || new Promise((ok, ko) => {
+    const sc = document.createElement("script");
+    sc.src = PDFJS + "pdf.min.js";
+    sc.onload = () => { const lib = window.pdfjsLib; if (!lib) return ko(new Error("PDF non caricato")); lib.GlobalWorkerOptions.workerSrc = PDFJS + "pdf.worker.min.js"; ok(lib); };
+    sc.onerror = () => { motorePdf = null; ko(new Error("PDF non raggiungibile")); };
+    document.head.appendChild(sc);
+  }));
+  async function leggiPdf(file) {
+    const lib = await caricaPdf();
+    const pdf = await lib.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
+    const pag = await pdf.getPage(1);
+    const tc = await pag.getTextContent();
+    const righe = new Map(); // testo per riga: stessa altezza sulla pagina, da sinistra a destra
+    for (const it of tc.items) { if (!it.str || !it.str.trim()) continue; const y = Math.round(it.transform[5] / 3) * 3; (righe.get(y) || righe.set(y, []).get(y)).push(it); }
+    const testo = [...righe.entries()].sort((a, b) => b[0] - a[0]).map(([, its]) => its.sort((a, b) => a.transform[4] - b.transform[4]).map((x) => x.str.trim()).join("  ")).join("\n");
+    const vp = pag.getViewport({ scale: 2 }), c = document.createElement("canvas");
+    c.width = Math.round(vp.width); c.height = Math.round(vp.height);
+    await pag.render({ canvasContext: c.getContext("2d"), viewport: vp }).promise;
+    const blob = await new Promise((ok) => c.toBlob(ok, "image/jpeg", 0.85));
+    return { testo, blob };
+  }
   async function scansiona(k, file, stato) {
+    if (file.type === "application/pdf" || /\.pdf$/i.test(file.name || "")) {
+      stato("Leggo il PDF…");
+      const { testo, blob } = await leggiPdf(file);
+      await fotoSalva(k, blob); doc(k).foto = true; salva();
+      if (testo.replace(/\s/g, "").length >= 20) return L.leggiDocumento(testo, k, oggi());
+      file = blob; // PDF senza testo (scansione): si passa all'OCR
+    }
     const blob = await comprimi(file);
     await fotoSalva(k, blob); doc(k).foto = true; salva();
     stato("Leggo il documento…");
@@ -292,8 +323,8 @@
     const w = await T.createWorker("ita", 1, { logger: (m) => { if (m.status === "recognizing text") stato(`Leggo il documento… ${Math.round((m.progress || 0) * 100)}%`); } });
     try { const { data } = await w.recognize(blob); return L.leggiDocumento(data.text, k, oggi()); } finally { w.terminate(); }
   }
-  const bottoneScan = (k) => `<div class="scan"><label class="btn ghost block" style="cursor:pointer">📷 Scansiona ${k === "tessera" ? "la tessera" : "il certificato"}<input type="file" accept="image/*" capture="environment" data-scan="${k}" hidden></label>
-    <span class="small muted" data-scan-stato="${k}" aria-live="polite">Leggo numero e date dalla foto qui sul telefono: la foto non viene inviata.</span></div>`;
+  const bottoneScan = (k) => `<div class="scan"><label class="btn ghost block" style="cursor:pointer">📷 ${k === "tessera" ? "Scansiona la tessera o carica il PDF" : "Scansiona il certificato o carica il PDF"}<input type="file" accept="image/*,application/pdf" data-scan="${k}" hidden></label>
+    <span class="small muted" data-scan-stato="${k}" aria-live="polite">${k === "tessera" ? "Foto o PDF del tesserino (quello che scarichi dalla FIDAL): " : "Foto o PDF: "}leggo i dati qui sul telefono, il file non viene inviato.</span></div>`;
   const descriviLetti = (r, k) => [r.tipo && `tipo ${r.tipo}`, r.numero && `numero ${r.numero}`, (r.codiceSocieta || r.societa) && `squadra ${[r.codiceSocieta, r.societa].filter(Boolean).join(" ")}`, r.tesseramento && `tesserata il ${L.fmtBreve(r.tesseramento)} ${r.tesseramento.slice(0, 4)}`, r.rilascio && `visita del ${L.fmtBreve(r.rilascio)} ${r.rilascio.slice(0, 4)}`, r.scadenza && `scadenza ${k === "tessera" ? "tessera " : ""}${L.fmtBreve(r.scadenza)} ${r.scadenza.slice(0, 4)}`, r.certificato && r.certificato.scadenza && `scadenza certificato ${L.fmtBreve(r.certificato.scadenza)} ${r.certificato.scadenza.slice(0, 4)}`].filter(Boolean).join(", ");
 
   function sezioneDocumenti() {
@@ -384,7 +415,7 @@
       ${form(`<span class="title">Tessera</span>
         <div class="field"><label for="pf-tipo">Tipo</label><select class="input" id="pf-tipo" required>${["", "FIDAL", "Runcard", "Runcard EPS"].map((x) => `<option value="${x}" ${tessera.tipo === x ? "selected" : ""}>${x || "Scegli…"}</option>`).join("")}</select></div>
         <div class="field"><label for="pf-numero">Numero di tessera</label><input class="input" id="pf-numero" required minlength="3" autocomplete="off" autocapitalize="characters" value="${esc(tessera.numero || "")}"></div>
-        <div class="field"><label for="pf-tess-scadenza">Scadenza della tessera</label><input class="input" id="pf-tess-scadenza" type="date" required value="${esc(tessera.scadenza || "")}"><span class="small muted">FIDAL: vale fino al 31 dicembre dell'anno di tesseramento. Runcard: 12 mesi dall'emissione.</span></div>
+        <div class="field"><label for="pf-tess-scadenza">Scadenza della tessera</label><input class="input" id="pf-tess-scadenza" type="date" required value="${esc(tessera.scadenza || "")}"><span class="small muted">FIDAL: vale fino al 31 dicembre dell'anno stampato sul tesserino (il rinnovo di dicembre vale per l'anno dopo). Runcard: 12 mesi dall'emissione.</span></div>
         <span class="title">Certificato medico agonistico</span>
         <div class="field"><label for="pf-cert-scadenza">Scadenza del certificato</label><input class="input" id="pf-cert-scadenza" type="date" required value="${esc(cert.scadenza || "")}"><span class="small muted">Sulla tessera FIDAL la trovi stampata: la scansione la legge da sola. Serve il certificato agonistico per l'atletica leggera, valido il giorno della gara.</span></div>`,
         `<details class="scan-cert"><summary class="small">Il certificato non è sulla tessera? Scansiona il certificato</summary>${bottoneScan("certificato")}</details>`)}`;
@@ -1814,7 +1845,7 @@
       const [k, f] = el.dataset.docf.split(":"); doc(k)[f] = f === "codiceSocieta" || f === "numero" ? el.value.trim().toUpperCase() : el.value.trim(); salva(); toast("Salvato");
       if (f === "tipo" || f === "scadenza" || f === "numero") rerender();
     } else if (el.dataset && el.dataset.scan && el.files && el.files[0]) {
-      const k = el.dataset.scan, nelFunnel = !!document.getElementById("prepara-form");
+      const k = el.dataset.scan, nelFunnel = !!document.getElementById("prepara-form"), pdf = /pdf/i.test(el.files[0].type) || /\.pdf$/i.test(el.files[0].name || "");
       const stato = (t) => { const x = document.querySelector(`[data-scan-stato="${k}"]`); if (x) x.textContent = t; };
       el.closest("label").classList.add("disabled");
       try {
@@ -1833,14 +1864,14 @@
           if (k === "tessera") { metti("pf-tipo", r.tipo); metti("pf-numero", r.numero); metti("pf-tess-scadenza", r.scadenza); metti("pf-cert-scadenza", r.certificato && r.certificato.scadenza); }
           else metti("pf-cert-scadenza", r.scadenza);
           salva();
-          stato(`Letti dalla foto: ${letti}. Controlla e correggi se serve.${r.calcolata ? (k === "tessera" ? (r.tipo === "FIDAL" ? " La scadenza è calcolata: la tessera FIDAL vale fino al 31 dicembre dell'anno di tesseramento." : " La scadenza è calcolata: 12 mesi dall'emissione.") : " La scadenza è calcolata: un anno dalla visita.") : ""}`);
+          stato(`Letti ${pdf ? "dal PDF" : "dalla foto"}: ${letti}. Controlla e correggi se serve.${r.calcolata ? (k === "tessera" ? (r.tipo === "FIDAL" ? " La scadenza della tessera è calcolata: la FIDAL vale fino al 31 dicembre dell'anno stampato sul tesserino." : " La scadenza è calcolata: 12 mesi dall'emissione.") : " La scadenza è calcolata: un anno dalla visita.") : ""}`);
         } else {
           if (r.numero) d.numero = r.numero;
           if (r.scadenza) d.scadenza = r.scadenza;
           if (r.societa) d.societa = r.societa;
           if (r.codiceSocieta) d.codiceSocieta = r.codiceSocieta;
           salva(); rerender(); mostraFotoDoc();
-          toast(`Letti dalla foto: ${letti}. Controllali${r.calcolata ? " (scadenza calcolata)" : ""}`);
+          toast(`Letti ${pdf ? "dal PDF" : "dalla foto"}: ${letti}. Controllali${r.calcolata ? " (scadenza calcolata)" : ""}`);
         }
       } catch (err) {
         stato("Non riesco a leggere la foto adesso: inserisci i dati a mano. La foto è salvata.");

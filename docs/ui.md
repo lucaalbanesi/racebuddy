@@ -35,9 +35,9 @@ In cima a Oggi, finché manca qualcosa: spiega cosa ti arriva con le notifiche e
 4. Notifiche: il traguardo, con i vantaggi concreti (su iPhone fuori dalla Home, le istruzioni per aggiungerla)
 5. La tua prossima gara: facoltativa
 
-"Scansiona la tessera" fa una foto e legge i dati sul telefono (OCR). Sulla tessera FIDAL ci sono anche la data di
-tesseramento (la tessera vale fino al 31 dicembre di quell'anno) e la scadenza del certificato medico: una sola
-scansione compila tutto, da controllare prima di andare avanti. Chi ha il certificato separato può scansionare anche
+"Scansiona la tessera o carica il PDF" legge i dati sul telefono: dal PDF del tesserino FIDAL il testo è esatto, da
+una foto passa dall'OCR. Il tesserino FIDAL riporta l'anno di validità (la tessera vale fino al 31 dicembre), il
+numero, la squadra e la scadenza del certificato medico: una sola scansione compila tutto, da controllare prima di andare avanti. Chi ha il certificato separato può scansionare anche
 quello. La stessa scansione c'è in Io → Tessera e certificato.
 
 I passi già fatti si saltano. "Più tardi" nasconde la scheda per 3 giorni. Con i tre passi fatti e le notifiche

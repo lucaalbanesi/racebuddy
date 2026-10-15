@@ -205,6 +205,19 @@ assert.strictEqual(L.sezioneSwipe("novita", -120, 0, 300), null); // fuori dalla
   const separati = "FIDAL\nCodice società: LZ045\nSocietà A.S.D. Atletica Ostia\n14/01/2026";
   const rs = L.leggiDocumento(separati, "tessera", O);
   assert.deepStrictEqual([rs.codiceSocieta, rs.societa, rs.numero], ["LZ045", "A.S.D. Atletica Ostia", undefined]); // il codice non diventa il numero
+  // tesserino FIDAL reale (dati inventati, stessa struttura): anno di validità stampato, tesseramento a dicembre dell'anno
+  // prima, unica "Scadenza" = certificato, numero senza etichetta, squadra "RM000 - NOME" senza la parola società
+  const tesserino = "FEDERAZIONE ITALIANA\nDI ATLETICA LEGGERA\natletica italiana\nATLETA\nRossi Mario\n01/01/1980 SM45 Italiano\nData Tesseramento: 09/12/2025\nScadenza Certificato Medico: 11/02/2027\n2026 XY012345\nRM999 - A.S.D. CORRERE INSIEME";
+  assert.deepStrictEqual(L.leggiDocumento(tesserino, "tessera", O), { tipo: "FIDAL", numero: "XY012345", codiceSocieta: "RM999", societa: "A.S.D. CORRERE INSIEME", certificato: { scadenza: "2027-02-11" }, tesseramento: "2025-12-09", scadenza: "2026-12-31", calcolata: true });
+  // lo stesso letto male dall'OCR di una foto
+  const tesserinoOcr = "4. | atletica\na ze | Itallana\n© ATLETA\nRossi\nLi r\n2 i Data : 09/12/2025\nA è | Scadenza ledico: 11/02/2027\n2026 XY012345\nRM999 - A.S.D. CORRERE INSIEME";
+  const ro = L.leggiDocumento(tesserinoOcr, "tessera", O);
+  assert.deepStrictEqual([ro.tipo, ro.numero, ro.codiceSocieta, ro.scadenza, ro.certificato.scadenza, ro.tesseramento], ["FIDAL", "XY012345", "RM999", "2026-12-31", "2027-02-11", "2025-12-09"]);
+  assert.strictEqual(L.leggiDocumento("ATLETA\n2026 XY012345\nRM999 — A.S.D. CORRERE INSIEME", "tessera", O).codiceSocieta, "RM999"); // trattino letto male
+  assert.strictEqual(L.leggiDocumento("ATLETA\n2026 XY012345\nRM999 A.S.D. CORRERE INSIEME", "tessera", O).societa, "A.S.D. CORRERE INSIEME"); // trattino perso
+  assert.strictEqual(L.leggiDocumento("ATLETA\n2026 XY012345\nRM8999 - A.S.D. CORRERE INSIEME", "tessera", O).codiceSocieta, "RM8999"); // cifra in più letta dall'OCR: si tiene, l'utente corregge
+  // senza anno stampato: tesseramento di dicembre vale per l'anno dopo
+  assert.strictEqual(L.leggiDocumento("FIDAL\nData Tesseramento: 15/11/2025\nTessera n. AB12345", "tessera", O).scadenza, "2026-12-31");
   const eps = "RUNCARD EPS\nENTE DI PROMOZIONE SPORTIVA\nAB12C345\n2027-02-01";
   assert.strictEqual(L.leggiDocumento(eps, "tessera", O).tipo, "Runcard EPS");
   assert.strictEqual(L.leggiDocumento(eps, "tessera", O).numero, "AB12C345");
