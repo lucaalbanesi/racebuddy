@@ -1,13 +1,16 @@
 name: Aggiorna calendario gare
 
 on:
-  schedule:
-    - cron: "17 4 * * 1"   # ogni lunedì alle 04:17 UTC
-  workflow_dispatch:        # avvio manuale dalla scheda Actions
+  workflow_dispatch:
+    # Innesco: pg_cron di Supabase (docs/supabase_cron.sql) con workflow_dispatch. Niente cron di GitHub: salta o ritarda i giri.
 
 permissions:
   contents: write
 
+# Un giro alla volta (salvano su main)
+concurrency:
+  group: calendario
+  cancel-in-progress: false
 jobs:
   aggiorna:
     runs-on: ubuntu-latest

@@ -1,8 +1,7 @@
 name: Novità delle gare
 on:
-  schedule:
-    - cron: "50 3-19 * * *"   # ogni ora (circa 5-22 ora di Roma), qualche minuto prima del giro delle notifiche
   workflow_dispatch:
+    # Innesco: pg_cron di Supabase (docs/supabase_cron.sql) con workflow_dispatch. Niente cron di GitHub: salta o ritarda i giri.
 permissions:
   contents: write
   actions: write

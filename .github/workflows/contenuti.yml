@@ -1,10 +1,13 @@
 name: Aggiorna contenuti
 on:
-  schedule:
-    - cron: "41 4,15 * * *"   # due volte al giorno
   workflow_dispatch:
+    # Innesco: pg_cron di Supabase (docs/supabase_cron.sql) con workflow_dispatch. Niente cron di GitHub: salta o ritarda i giri.
 permissions:
   contents: write
+# Un giro alla volta (salvano su main)
+concurrency:
+  group: contenuti
+  cancel-in-progress: false
 jobs:
   contenuti:
     runs-on: ubuntu-latest

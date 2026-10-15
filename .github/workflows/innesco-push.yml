@@ -1,9 +1,9 @@
-name: Innesco notifiche (Supabase)
-# Installa su Supabase il cron puntuale che lancia "Notifiche push" ogni mezz'ora (docs/supabase_cron.sql)
+name: Innesco job (Supabase)
+# Installa su Supabase il cron puntuale che lancia i job programmati (gare seguite, novità, notifiche, contenuti, calendario) (docs/supabase_cron.sql)
 # e mette nel Vault il token GitHub. Servono i secret SUPABASE_ACCESS_TOKEN (c'è già) e DISPATCH_TOKEN
 # (token GitHub "fine-grained" solo per questo repo, permesso Actions: Read and write).
 # Ripetibile: rilancialo anche quando rinnovi il token.
-# Si lancia a mano (Actions → "Innesco notifiche (Supabase)" → Run workflow), anche dopo modifiche a docs/supabase_cron.sql.
+# Si lancia a mano (Actions → "Innesco job (Supabase)" → Run workflow), anche dopo modifiche a docs/supabase_cron.sql.
 on:
   workflow_dispatch:
 permissions:
@@ -55,7 +55,7 @@ jobs:
           ./q.sh vault.sql > /dev/null && echo "Token salvato nel Vault"; rm -f vault.sql
       - name: Prova della chiamata a GitHub (lancia una volta "Notifiche push")
         run: |
-          echo "select public.racebuddy_lancia_push() as id;" > lancia.sql
+          echo "select public.racebuddy_lancia('push.yml') as id;" > lancia.sql
           id=$(./q.sh lancia.sql | jq -r '.[0].id')
           if [ -z "$id" ] || [ "$id" = "null" ]; then echo "::error::La funzione non ha trovato il token nel Vault"; exit 1; fi
           for i in 1 2 3 4 5 6; do
@@ -66,8 +66,8 @@ jobs:
           done
           echo "Risposta di GitHub: ${st:-nessuna}"
           if [ "$st" != "204" ]; then echo "::error::GitHub non ha accettato la chiamata da Supabase: $(echo "$r" | jq -r '.[0].dettaglio // "nessuna risposta"')"; exit 1; fi
-          echo "::notice::Innesco attivo: Supabase lancia 'Notifiche push' ai minuti 7 e 37 (3-20 UTC)"
-      - name: Cron registrato
+          echo "::notice::Innesco attivo: Supabase lancia tutti i job programmati (vedi 'Cron registrati')"
+      - name: Cron registrati
         run: |
-          echo "select jobname, schedule, active from cron.job where jobname = 'racebuddy-push';" > cron.sql
+          echo "select jobname, schedule, active from cron.job where jobname like 'racebuddy-%' order by jobname;" > cron.sql
           ./q.sh cron.sql
