@@ -331,9 +331,15 @@
       if (valido(num)) out.numero = num;
       const soc = t.match(/societ[aà]\s*[:\-]?\s*([^\n]{3,60})/i);
       if (soc) out.societa = soc[1].trim().replace(/\s{2,}/g, " ");
+      // Sulla tessera FIDAL c'è la data di tesseramento, non la scadenza: vale per l'anno solare (31/12).
+      // La Runcard vale 12 mesi dall'emissione. Una scadenza scritta, se c'è, vince sempre.
       const sc = vicino(/scad|valid|fino al|expir/i);
-      const future = date.map((x) => x.data).filter((d) => d >= rif).sort();
-      if (sc) out.scadenza = sc; else if (future.length) out.scadenza = future[future.length - 1];
+      const tess = vicino(/tesserament|rilasci|emission|emess|iscrizion|attivazion|dal\b/i);
+      if (tess) out.tesseramento = tess;
+      if (sc) out.scadenza = sc;
+      else if (tess && out.tipo === "FIDAL") { out.scadenza = `${tess.slice(0, 4)}-12-31`; out.calcolata = true; }
+      else if (tess && out.tipo) { const [y, m, d] = tess.split("-").map(Number); out.scadenza = addDays(`${y + 1}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`, -1); out.calcolata = true; }
+      else { const future = date.map((x) => x.data).filter((d) => d >= rif).sort(); if (future.length) out.scadenza = future[future.length - 1]; }
     } else {
       const sc = vicino(/scad|valid[oa]?\s*(fino|sino)|fino al|sino al/i);
       const ril = vicino(/rilasci|visita|data\s*:|emess|in data/i);

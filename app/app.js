@@ -294,7 +294,7 @@
   }
   const bottoneScan = (k) => `<div class="scan"><label class="btn ghost block" style="cursor:pointer">📷 Scansiona ${k === "tessera" ? "la tessera" : "il certificato"}<input type="file" accept="image/*" capture="environment" data-scan="${k}" hidden></label>
     <span class="small muted" data-scan-stato="${k}" aria-live="polite">Leggo numero e date dalla foto qui sul telefono: la foto non viene inviata.</span></div>`;
-  const descriviLetti = (r) => [r.tipo && `tipo ${r.tipo}`, r.numero && `numero ${r.numero}`, r.societa && `società ${r.societa}`, r.rilascio && `visita del ${L.fmtBreve(r.rilascio)} ${r.rilascio.slice(0, 4)}`, r.scadenza && `scadenza ${L.fmtBreve(r.scadenza)} ${r.scadenza.slice(0, 4)}`].filter(Boolean).join(", ");
+  const descriviLetti = (r) => [r.tipo && `tipo ${r.tipo}`, r.numero && `numero ${r.numero}`, r.societa && `società ${r.societa}`, r.tesseramento && `tesserata il ${L.fmtBreve(r.tesseramento)} ${r.tesseramento.slice(0, 4)}`, r.rilascio && `visita del ${L.fmtBreve(r.rilascio)} ${r.rilascio.slice(0, 4)}`, r.scadenza && `scadenza ${L.fmtBreve(r.scadenza)} ${r.scadenza.slice(0, 4)}`].filter(Boolean).join(", ");
 
   function sezioneDocumenti() {
     const t = doc("tessera"), c = doc("certificato");
@@ -383,7 +383,7 @@
       ${bottoneScan("tessera")}
       ${form(`<div class="field"><label for="pf-tipo">Tipo</label><select class="input" id="pf-tipo" required>${["", "FIDAL", "Runcard", "Runcard EPS"].map((x) => `<option value="${x}" ${tessera.tipo === x ? "selected" : ""}>${x || "Scegli…"}</option>`).join("")}</select></div>
         <div class="field"><label for="pf-numero">Numero di tessera</label><input class="input" id="pf-numero" required minlength="3" autocomplete="off" autocapitalize="characters" value="${esc(tessera.numero || "")}"></div>
-        <div class="field"><label for="pf-scadenza">Scadenza</label><input class="input" id="pf-scadenza" type="date" required value="${esc(tessera.scadenza || "")}"></div>`)}`;
+        <div class="field"><label for="pf-scadenza">Scadenza</label><input class="input" id="pf-scadenza" type="date" required value="${esc(tessera.scadenza || "")}"><span class="small muted">FIDAL: vale fino al 31 dicembre dell'anno di tesseramento. Runcard: 12 mesi dall'emissione.</span></div>`)}`;
     else if (k === "certificato") corpo = `<h1>Il certificato medico</h1><p class="sub">Per le gare FIDAL e con Runcard serve il certificato agonistico per l'atletica leggera, valido il giorno della gara. Ti avviso prima che scada.</p>
       ${bottoneScan("certificato")}
       ${form(`<div class="field"><label for="pf-scadenza">Scadenza</label><input class="input" id="pf-scadenza" type="date" required value="${esc(cert.scadenza || "")}"></div>`)}`;
@@ -1823,18 +1823,19 @@
         const d = doc(k);
         if (r.tipo) d.tipo = r.tipo;
         if (r.rilascio) d.rilascio = r.rilascio;
+        if (r.tesseramento) d.tesseramento = r.tesseramento;
         if (nelFunnel && r.societa && !d.societa) d.societa = r.societa;
         if (nelFunnel) { // campi da confermare con "Avanti"
           const metti = (id, val) => { const f = document.getElementById(id); if (f && val) f.value = val; };
           metti("pf-tipo", k === "tessera" && r.tipo); metti("pf-numero", r.numero); metti("pf-scadenza", r.scadenza);
           salva();
-          stato(`Letti dalla foto: ${letti}. Controlla e correggi se serve.${r.calcolata ? " La scadenza è calcolata: un anno dalla visita." : ""}`);
+          stato(`Letti dalla foto: ${letti}. Controlla e correggi se serve.${r.calcolata ? (k === "tessera" ? (r.tipo === "FIDAL" ? " La scadenza è calcolata: la tessera FIDAL vale fino al 31 dicembre dell'anno di tesseramento." : " La scadenza è calcolata: 12 mesi dall'emissione.") : " La scadenza è calcolata: un anno dalla visita.") : ""}`);
         } else {
           if (r.numero) d.numero = r.numero;
           if (r.scadenza) d.scadenza = r.scadenza;
           if (r.societa && !d.societa) d.societa = r.societa;
           salva(); rerender(); mostraFotoDoc();
-          toast(`Letti dalla foto: ${letti}. Controllali${r.calcolata ? " (scadenza calcolata dalla visita)" : ""}`);
+          toast(`Letti dalla foto: ${letti}. Controllali${r.calcolata ? " (scadenza calcolata)" : ""}`);
         }
       } catch (err) {
         stato("Non riesco a leggere la foto adesso: inserisci i dati a mano. La foto è salvata.");

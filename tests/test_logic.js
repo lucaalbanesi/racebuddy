@@ -189,6 +189,10 @@ assert.strictEqual(L.sezioneSwipe("novita", -120, 0, 300), null); // fuori dalla
   assert.deepStrictEqual(L.leggiDocumento(fidal, "tessera", O), { tipo: "FIDAL", numero: "RM123456", societa: "A.S.D. Podistica Roma", scadenza: "2026-12-31" });
   const runcard = "RUNCARD\nCard n° RC-0045821\nScadenza 03.05.2027\nNato il 22/08/1988";
   assert.deepStrictEqual(L.leggiDocumento(runcard, "tessera", O), { tipo: "Runcard", numero: "RC0045821", scadenza: "2027-05-03" });
+  const fidalVera = "FIDAL\nFederazione Italiana di Atletica Leggera\nTessera n. RM123456\nData tesseramento: 14/01/2026\nNato il 22/08/1988";
+  assert.deepStrictEqual(L.leggiDocumento(fidalVera, "tessera", O), { tipo: "FIDAL", numero: "RM123456", tesseramento: "2026-01-14", scadenza: "2026-12-31", calcolata: true });
+  const runcardEmessa = "RUNCARD\nCard n° RC-0045821\nData emissione 10/05/2026";
+  assert.deepStrictEqual(L.leggiDocumento(runcardEmessa, "tessera", O), { tipo: "Runcard", numero: "RC0045821", tesseramento: "2026-05-10", scadenza: "2027-05-09", calcolata: true });
   const eps = "RUNCARD EPS\nENTE DI PROMOZIONE SPORTIVA\nAB12C345\n2027-02-01";
   assert.strictEqual(L.leggiDocumento(eps, "tessera", O).tipo, "Runcard EPS");
   assert.strictEqual(L.leggiDocumento(eps, "tessera", O).numero, "AB12C345");
