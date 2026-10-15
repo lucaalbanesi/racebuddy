@@ -1,22 +1,24 @@
 {
  "Hd9df59d4b1-21": {
-  "partenza": "8:30 da confermare",
-  "luogoPartenza": "Partenza da Porta Ardeatina, arrivo al Colosseo (via degli Annibaldi)",
-  "pettorale": "Expo a Eataly Ostiense (Piazzale XII Ottobre 1492): gio 15 ottobre 15-20, ven 16 9-19, sab 17 9-20. Servono documento e Lettera di Conferma (da 'Verifica iscrizione'). Domenica nessun ritiro.",
-  "griglia": "Tre onde a distanza di almeno 5 minuti, griglia in base al colore del pettorale. Orari di accesso non ancora comunicati.",
-  "deposito": "Camion con il numero indicato sul pettorale, usando la sacca fornita dall'organizzazione. Orari non ancora comunicati.",
-  "ristori": "Ristori lungo il percorso come da regolamento FIDAL; all'arrivo sacchetto con acqua e sali.",
+  "partenza": "8:00",
+  "luogoPartenza": "Partenza da Viale di Porta Ardeatina (incrocio con via Cristoforo Colombo), arrivo al Colosseo (via degli Annibaldi)",
+  "pettorale": "Expo a Eataly Ostiense (Piazzale XII Ottobre 1492): gio 15 ottobre 15-20 (il comunicato del 14/10 dice 15-19: da confermare), ven 16 9-19, sab 17 9-20. Servono documento e Lettera di Conferma. Domenica nessun ritiro.",
+  "griglia": "8 onde, la prima alle 8:00 e le altre ogni 12 minuti almeno. Accesso da Piazza di Porta Capena dai varchi A-D: il colore del pettorale indica onda e varco.",
+  "deposito": "Camion in Viale delle Terme di Caracalla (tra Piazza Numa Pompilio e Porta Capena), numero sul pettorale, dalle 6:30; sacca dell'organizzazione con etichetta. I camion ripartono alle 14:00.",
+  "ristori": "Ristori lungo il percorso come da regolamento tecnico; all'arrivo sacchetto con acqua e sali.",
   "arrivare": "Expo: metro B Piramide (5 min a piedi), treno FL Ostiense, bus 715, 716, 769, 23.",
   "sito": "https://www.romehalfmarathon.it/",
-  "note": "Orario: il regolamento indica la prima onda alle 8:30, la home del sito le 8:00. Tempo massimo 3h30, cancelli al km 10 (1h40) e al km 15 (2h30). Ritiro con delega solo compilando la sezione DELEGA della Lettera di Conferma.",
+  "note": "Tempo massimo 3h30. Cancelli: km 7,7 (San Pietro) alle 10:40, km 10 alle 11:10, km 15 alle 11:50, arrivo entro le 13:00. Ritiro con delega solo compilando la sezione DELEGA della Lettera di Conferma.",
   "fonti": [
    "https://www.romehalfmarathon.it/regolamento/",
    "https://www.romehalfmarathon.it/expo-wizz-air-rome-half-marathon-by-brooks-2026-it/",
    "https://www.romehalfmarathon.it/faq/",
    "https://www.romehalfmarathon.it/",
-   "https://www.romehalfmarathon.it/percorso/"
+   "https://www.romehalfmarathon.it/percorso/",
+   "https://www.romehalfmarathon.it/en/the-expo-of-the-wizz-air-rome-half-marathon-by-brooks-scheduled-for-sunday-opens-tomorrow/",
+   "https://www.romehalfmarathon.it/en/start-revealed-for-the-wizz-air-rome-half-marathon-by-brooks/"
   ],
-  "verificato": "2026-10-14",
+  "verificato": "2026-10-15",
   "edizione": "2026",
   "mappa": "Viale di Porta Ardeatina, Roma",
   "percorsoImmagine": "https://www.romehalfmarathon.it/wp-content/uploads/2026/09/Il-PERCORSO_RHM2026_invio-scaled.jpg",
