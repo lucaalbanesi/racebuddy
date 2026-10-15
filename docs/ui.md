@@ -1,0 +1,77 @@
+# L'interfaccia di RaceBuddy
+
+Le schermate principali dell'app a larghezza telefono (390 px), tema chiaro.
+Dati di esempio: Luca, Roma, uscita alle 7:00; obiettivo Firenze Marathon (29/11), tappa Rome Half Marathon (18/10);
+meteo simulato. Le foto degli articoli non sono caricate. Le schermate sono state prese il 15 ottobre 2026.
+
+Come è fatta dietro: [architettura.md](architettura.md).
+
+## Struttura
+
+Una colonna da telefono (massimo 480 px) con la barra fissa in basso: **Oggi · Gare · Per te · Gruppo · Io**.
+Navigazione a hash (`#/oggi`, `#/gara/:id/borsa`, …). Caratteri Barlow e Barlow Condensed; arancio per le azioni e
+blu notte per i riquadri in evidenza; tema chiaro e scuro automatici.
+
+## Benvenuto
+
+<img src="img/ui/benvenuto.png" width="280" alt="Prima schermata del benvenuto">
+
+Al primo avvio, rivedibile da Io: cinque schermate dimostrative (La preparazione, Meteo e avvisi, La gara, Il gruppo,
+Partiamo). Si scorrono con il dito o con "Avanti"; "Salta" porta all'app.
+
+## Oggi
+
+<img src="img/ui/oggi.png" width="280" alt="Schermata Oggi">
+
+- gara in evidenza: giorni mancanti, fase della preparazione, link a La gara, Preparazione e Borsa; le altre gare sotto
+- meteo dell'uscita di domani con la vestizione
+- "Dalla tua gara": la novità ufficiale più recente, finché non è vista
+- poi avvisi dei documenti, momenti, cose da fare oggi, pillola e contenuti Per te
+
+## Gare
+
+<img src="img/ui/gare.png" width="280" alt="Schermata Gare">
+
+Le mie gare (data, distanza, ruolo, fase, giorni mancanti) e la ricerca nel calendario FIDAL per aggiungerne una,
+con filtri per distanza.
+
+## La gara
+
+Quattro sezioni nella barra a segmenti in alto, anche con lo swipe orizzontale: **Panoramica · Preparazione · Info gara · Borsa**.
+La freccia indietro porta alla Panoramica.
+
+| Panoramica | Preparazione |
+|---|---|
+| <img src="img/ui/gara-panoramica.png" width="260" alt="La gara: Panoramica"> | <img src="img/ui/gara-preparazione.png" width="260" alt="La gara: Preparazione"> |
+| Quanto manca, fase, novità ufficiali della gara, prossime cose della preparazione, info chiave, borsa, gruppo. Ogni riquadro rimanda alla sua sezione. | Il percorso di avvicinamento: fasi, cose dei prossimi 7 giorni da spuntare, altre gare prima di questa, prossimi momenti, tutta la preparazione fase per fase. |
+
+| Info gara | Borsa |
+|---|---|
+| <img src="img/ui/gara-info.png" width="260" alt="La gara: Info gara"> | <img src="img/ui/gara-borsa.png" width="260" alt="La gara: Borsa"> |
+| Logistica dal sito ufficiale (partenza, ritiro pettorale, griglia, deposito, ristori, come arrivare), percorso di gara, meteo, fonti. Modificabile a mano. | Contatore "pronte", vestizione con il meteo della gara, checklist da spuntare, voci personali. In fondo la mattina della gara come lista numerata da leggere, senza caselle. |
+
+## Per te
+
+<img src="img/ui/perte.png" width="280" alt="Schermata Per te">
+
+In cima "Dalle tue gare": novità ufficiali e articoli sulle gare seguite, con il filtro "Le mie gare". Sotto articoli,
+video e podcast scelti per fase e distanza, e i sorrisi.
+
+## Gruppo
+
+<img src="img/ui/gruppo.png" width="280" alt="Schermata Gruppo, prima di entrare">
+
+Senza gruppo: entrare con il codice d'invito o crearne uno. Dentro: gare in comune, bacheca con applausi, classifica
+dei personali (solo per chi sceglie di comparire), gestione per admin e organizzatori.
+
+## Io
+
+<img src="img/ui/io.png" width="280" alt="Schermata Io">
+
+Sezioni a fisarmonica: Profilo, Tessera e certificato, Notifiche con preferenze, Gruppo, I miei personali, Strava,
+Le mie scarpe. In fondo gli strumenti di prova (data simulata) e "Rivedi il tutorial".
+
+## Aggiornare le schermate
+
+Le schermate si rifanno con Playwright, servendo localmente `app/`, `content/` e `data/` (come fa "Pubblica web app")
+e caricando lo stato di esempio in `localStorage` (`racebuddy.v1`). Chiedilo a Claude: "aggiorna le schermate di docs/ui.md".

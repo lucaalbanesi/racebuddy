@@ -14,6 +14,14 @@ Nasce per un gruppo di amici che corrono insieme ed è pensato per crescere.
 | `tests/` | Test dell'importatore |
 | `.github/workflows/calendario.yml` | Aggiornamento automatico del calendario, ogni lunedì |
 
+## Documentazione
+
+- [Architettura](docs/architettura.md): componenti, flussi e ciclo automatico dei job, con i disegni
+- [Interfaccia](docs/ui.md): le schermate dell'app a larghezza telefono
+- [Job programmati](docs/job-programmati.md): orari, innesco da Supabase, token e operazioni manuali
+- [Schede gara](docs/schede-gara.md): la procedura con cui Claude compila le info gara
+- [Strava e login](docs/login-strava.md): operazioni manuali per accenderli
+
 ## Come si leggono i giorni
 
 Nel percorso ogni voce ha un giorno per distanza (`10`, `21`, `42`), contato rispetto alla gara: `0` è il giorno gara, `-7` una settimana prima, `+3` tre giorni dopo. `null` vuol dire che la voce non vale per quella distanza.

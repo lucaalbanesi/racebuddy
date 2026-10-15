@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560" role="img" aria-label="L'app sul telefono scarica app e dati da GitHub Pages, chiede il meteo a Open-Meteo, salva gare seguite, iscrizioni e gruppo su Supabase tramite funzioni, e passa da una Edge Function per parlare con Strava.">
+          <defs><style>
+:root{--bg:#FFFFFF;--surface:#FFFFFF;--fg:#10161F;--fg2:#2C3542;--muted:#5A6472;--line:#DDE2E8;--accent:#C2410C;--accent-soft:#FDEDE5;--navy:#1E2B4A;--navy-soft:#E6EAF3;--ok:#1F7A4D;--ok-soft:#E3F3EA;--ext-soft:#F1F2F4}
+@media (prefers-color-scheme: dark){:root{--bg:#0F141B;--surface:#18202A;--fg:#E8EDF3;--fg2:#C9D2DD;--muted:#9AA6B6;--line:#2A3542;--accent:#F0743F;--accent-soft:#3A2116;--navy:#9DB2E0;--navy-soft:#1C2740;--ok:#6FCF9B;--ok-soft:#173226;--ext-soft:#1A212B}}
+.sfondo{fill:var(--bg)}
+.z-tel{fill:var(--accent-soft);stroke:var(--accent)}.z-gh{fill:var(--navy-soft);stroke:var(--navy)}.z-sb{fill:var(--ok-soft);stroke:var(--ok)}.z-ext{fill:var(--ext-soft);stroke:var(--muted);stroke-dasharray:5 4}
+.z-tel,.z-gh,.z-sb,.z-ext{stroke-width:1.5}
+.box{fill:var(--surface);stroke:var(--line);stroke-width:1.2}
+text{font-family:Barlow,"Helvetica Neue",Arial,sans-serif}
+.zt{font:700 17px "Barlow Condensed","Arial Narrow",sans-serif;letter-spacing:.06em;text-transform:uppercase}
+.zt.tel{fill:var(--accent)}.zt.gh{fill:var(--navy)}.zt.sb{fill:var(--ok)}.zt.ext{fill:var(--muted)}
+.bt{font-weight:600;font-size:13.5px;fill:var(--fg)}.bs{font-size:12px;fill:var(--muted)}
+.lb{font-weight:500;font-size:11.5px;fill:var(--fg2)}.lb.acc{fill:var(--accent);font-weight:600}
+.ar{stroke:var(--fg2);stroke-width:1.4;fill:none}.ar.acc{stroke:var(--accent);stroke-width:2}.ar.dash{stroke-dasharray:4 3}
+.mk{fill:var(--fg2)}.mk.acc{fill:var(--accent)}
+</style>
+            <marker id="m1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0,0 L10,5 L0,10 z"/></marker>
+          </defs><rect class="sfondo" x="0" y="0" width="960" height="560" rx="12"/>
+          <!-- Telefono -->
+          <rect class="z-tel" x="20" y="20" width="260" height="520" rx="14"/>
+          <text class="zt tel" x="38" y="46">Telefono</text>
+          <rect class="box" x="38" y="60" width="222" height="340" rx="10"/>
+          <text class="bt" x="54" y="86">App RaceBuddy (PWA)</text>
+          <text class="bs" x="54" y="106">HTML e JS statici, nessuna build</text>
+          <text class="bs" x="54" y="124">viste e navigazione (app.js)</text>
+          <text class="bs" x="54" y="142">regole e calcoli (logic.js)</text>
+          <text class="bs" x="54" y="160">immagine del risultato</text>
+          <text class="bs" x="54" y="190">Oggi · Gare · Per te · Gruppo · Io</text>
+          <rect class="box" x="38" y="414" width="222" height="62" rx="10"/>
+          <text class="bt" x="54" y="438">Archivio del telefono</text>
+          <text class="bs" x="54" y="457">profilo, spunte, scarpe, personali,</text>
+          <text class="bs" x="54" y="472">documenti, codice del gruppo</text>
+          <line class="ar" x1="149" y1="401" x2="149" y2="412" marker-end="url(#m1)"/>
+          <rect class="box" x="38" y="488" width="222" height="40" rx="10"/>
+          <text class="bt" x="54" y="508">Service worker</text>
+          <text class="bs" x="166" y="508">mostra le notifiche</text>
+
+          <!-- GitHub Pages -->
+          <rect class="z-gh" x="360" y="20" width="240" height="100" rx="14"/>
+          <text class="zt gh" x="376" y="46">GitHub Pages</text>
+          <text class="bt" x="376" y="70">sito statico</text>
+          <text class="bs" x="376" y="88">app/ · content/ · data/</text>
+          <text class="bs" x="376" y="106">lucaalbanesi.github.io/racebuddy</text>
+          <line class="ar" x1="358" y1="80" x2="262" y2="80" marker-end="url(#m1)"/>
+          <text class="lb" x="311" y="72" text-anchor="middle">app e dati</text>
+
+          <!-- Servizi esterni -->
+          <rect class="z-ext" x="360" y="190" width="240" height="160" rx="14"/>
+          <text class="zt ext" x="376" y="214">Servizi esterni</text>
+          <rect class="box" x="376" y="226" width="208" height="38" rx="8"/>
+          <text class="bt" x="390" y="250">Open-Meteo</text><text class="bs" x="476" y="250">meteo e luoghi</text>
+          <rect class="box" x="376" y="272" width="208" height="30" rx="8"/>
+          <text class="bs" x="390" y="292">BigDataCloud · posizione → città</text>
+          <rect class="box" x="376" y="310" width="208" height="30" rx="8"/>
+          <text class="bs" x="390" y="330">Google Maps · link alla partenza</text>
+          <line class="ar" x1="262" y1="245" x2="374" y2="245" marker-end="url(#m1)"/>
+          <text class="lb" x="318" y="237" text-anchor="middle">previsioni</text>
+
+          <!-- App → Supabase -->
+          <line class="ar" x1="262" y1="150" x2="698" y2="150" marker-end="url(#m1)"/>
+          <text class="lb" x="480" y="143" text-anchor="middle">gare seguite · iscrizione notifiche · gruppo · contatori anonimi</text>
+          <line class="ar" x1="262" y1="385" x2="698" y2="385" marker-end="url(#m1)"/>
+          <text class="lb" x="480" y="378" text-anchor="middle">Strava: collega, scarpe, personali (10 tester)</text>
+
+          <!-- Strava -->
+          <rect class="z-ext" x="360" y="440" width="240" height="70" rx="14"/>
+          <text class="zt ext" x="376" y="466">Strava API</text>
+          <text class="bs" x="376" y="490">attività, scarpe, gare</text>
+          <line class="ar" x1="698" y1="412" x2="602" y2="462" marker-end="url(#m1)"/>
+          <text class="lb" x="672" y="482" text-anchor="end">token OAuth</text>
+
+          <!-- Supabase -->
+          <rect class="z-sb" x="680" y="20" width="260" height="520" rx="14"/>
+          <text class="zt sb" x="698" y="46">Supabase</text>
+          <rect class="box" x="700" y="60" width="220" height="104" rx="10"/>
+          <text class="bt" x="716" y="86">Funzioni del database</text>
+          <text class="bs" x="716" y="106">accesso solo con il codice segreto</text>
+          <text class="bs" x="716" y="124">(online solo la sua impronta)</text>
+          <text class="bs" x="716" y="148">gruppo, iscrizioni, contatori</text>
+          <line class="ar" x1="810" y1="166" x2="810" y2="190" marker-end="url(#m1)"/>
+          <text class="lb" x="818" y="182">leggono e scrivono</text>
+          <rect class="box" x="700" y="192" width="220" height="146" rx="10"/>
+          <text class="bt" x="716" y="216">Database</text>
+          <text class="bs" x="716" y="236">gare_aggiunte</text>
+          <text class="bs" x="716" y="254">push_iscrizioni (+ stato)</text>
+          <text class="bs" x="716" y="272">gruppo · pb_membri</text>
+          <text class="bs" x="716" y="290">aperture · invii</text>
+          <text class="bs" x="716" y="308">strava_atleti</text>
+          <text class="bs" x="716" y="326">login con email: spento</text>
+          <rect class="box" x="700" y="356" width="220" height="64" rx="10"/>
+          <text class="bt" x="716" y="380">Edge Function strava</text>
+          <text class="bs" x="716" y="400">token Strava solo qui</text>
+          <line class="ar" x1="810" y1="354" x2="810" y2="340" marker-end="url(#m1)"/>
+          <rect class="box" x="700" y="438" width="220" height="86" rx="10"/>
+          <text class="bt" x="716" y="462">pg_cron + Vault</text>
+          <text class="bs" x="716" y="482">orologio di tutti i job</text>
+          <text class="bs" x="716" y="500">token GitHub nel Vault</text>
+          <text class="bs" x="716" y="516">vedi il disegno 2</text>
+        </svg>
