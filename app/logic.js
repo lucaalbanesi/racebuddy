@@ -266,7 +266,31 @@
     return j >= 0 && j < SEZIONI_GARA.length ? SEZIONI_GARA[j] : null;
   }
 
-  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, sorriso, prossimaUscita, cercaGare, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe };
+  /** Passi di "Prepara RaceBuddy" (scheda in Oggi + funnel #/prepara). Obbligatori: ora di uscita, zona, scadenze di
+   *  tessera e certificato (servono alle notifiche anche senza gare). Facoltativo: seguire una gara futura.
+   *  Le notifiche sono il traguardo del funnel, non un passo contato. */
+  const PASSI_PREPARA = [
+    { k: "ora", titolo: "Quando esci a correre", obbligatorio: true },
+    { k: "zona", titolo: "Dove corri di solito", obbligatorio: true },
+    { k: "tessera", titolo: "Tessera", obbligatorio: true },
+    { k: "certificato", titolo: "Certificato medico", obbligatorio: true },
+    { k: "gara", titolo: "La tua prossima gara", obbligatorio: false },
+  ];
+  function passiPrepara({ profilo = {}, documenti = {}, gare = [] } = {}, oggi) {
+    const data = (d) => !!(d && /^\d{4}-\d{2}-\d{2}$/.test(d.scadenza || ""));
+    const fatto = {
+      ora: /^\d{1,2}[:.]\d{2}$/.test(String(profilo.ora || "")),
+      zona: !!(profilo.coord || String(profilo.citta || "").trim()),
+      tessera: data(documenti.tessera),
+      certificato: data(documenti.certificato),
+      gara: (gare || []).some((g) => g && g.data >= (oggi || todayISO())),
+    };
+    const passi = PASSI_PREPARA.map((p) => ({ ...p, fatto: fatto[p.k] }));
+    const obb = passi.filter((p) => p.obbligatorio);
+    return { passi, fatti: obb.filter((p) => p.fatto).length, totale: obb.length, completo: obb.every((p) => p.fatto) };
+  }
+
+  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, sorriso, prossimaUscita, cercaGare, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);

@@ -309,6 +309,78 @@
     return out.length ? `<a class="card doc-avviso" href="#/io/documenti"><span class="eyebrow">Documenti</span><span class="small"><b>${out.map(esc).join("<br>")}</b></span><span class="small">Aggiorna le date ›</span></a>` : "";
   }
 
+  // ---------------------------------------------------------------- Prepara RaceBuddy: scheda in Oggi + funnel #/prepara/:passo
+  // Quattro passi obbligatori (ora, zona, tessera, certificato: bastano per le notifiche anche senza gare), la gara facoltativa.
+  // Il funnel finisce con l'attivazione delle notifiche. Regole dei passi in L.passiPrepara (testate).
+  const ORDINE_FUNNEL = ["ora", "zona", "tessera", "certificato", "notifiche", "gara"];
+  const statoPrepara = () => L.passiPrepara({ profilo: S.profilo, documenti: S.documenti || {}, gare: S.gare }, oggi());
+  const pushChiusa = () => !!(S.push && S.push.attivo) || ["no", "negato", "non-pronto"].includes(supportoPush());
+  function prossimoPasso(dopo) {
+    const st = statoPrepara(), fatto = Object.fromEntries(st.passi.map((x) => [x.k, x.fatto]));
+    fatto.notifiche = pushChiusa();
+    const i = dopo ? ORDINE_FUNNEL.indexOf(dopo) + 1 : 0;
+    const obbligatori = new Set(st.passi.filter((x) => x.obbligatorio).map((x) => x.k));
+    // prima i passi che vengono dopo, poi gli obbligatori rimasti indietro
+    const giro = [...ORDINE_FUNNEL.slice(i), ...ORDINE_FUNNEL.slice(0, Math.max(0, i - 1)).filter((k) => obbligatori.has(k))];
+    return giro.find((k) => !fatto[k]) || null;
+  }
+  const vaiPasso = (dopo) => { location.hash = `#/prepara/${prossimoPasso(dopo) || "fine"}`; };
+  const oraMessaggio = () => { const m = String(S.profilo.ora || "07:00").match(/(\d{1,2})[:.](\d{2})/); if (!m) return "6:30"; const h = Number(m[1]), mi = Number(m[2]); if (h >= 12) return "7:00"; const t = Math.max(5 * 60, (h * 60 + mi - 30) - ((h * 60 + mi - 30) % 30)); return `${Math.floor(t / 60)}:${String(t % 60).padStart(2, "0")}`; };
+  function cardPrepara() {
+    const st = statoPrepara();
+    if (st.completo && pushChiusa()) return "";
+    if (S.preparaDopo && L.diffDays(oggi(), S.preparaDopo) < 3) return "";
+    if (st.completo) return `<section class="card prepara" aria-label="Prepara RaceBuddy"><div class="between"><span class="eyebrow">Prepara RaceBuddy · ultimo passo</span><span class="pill ok">4 di 4</span></div>
+      <span class="title">Attiva le notifiche</span><span class="small">Ti avviso prima che scadano tessera e certificato e quando cambia il meteo della tua uscita. Al massimo una al giorno, mai di notte.</span>
+      <div class="grid2"><a class="btn" href="#/prepara/notifiche">Attiva</a><button class="btn ghost" type="button" data-act="prepara-dopo">Più tardi</button></div></section>`;
+    const righe = st.passi.map((x) => `<li class="${x.fatto ? "ok" : ""}"><span class="pallino" aria-hidden="true">${x.fatto ? "✓" : ""}</span><span>${esc(x.titolo)}${x.obbligatorio ? "" : ' <span class="muted">· facoltativa</span>'}</span><span class="sr">${x.fatto ? "fatto" : "da fare"}</span></li>`).join("");
+    return `<section class="card prepara" aria-label="Prepara RaceBuddy">
+      <div class="between"><span class="eyebrow">Prepara RaceBuddy</span><span class="small"><b>${st.fatti} di ${st.totale}</b></span></div>
+      <span class="title">Ti avviso io, solo quando serve</span>
+      <ul class="vantaggi"><li>Tessera e certificato: 30, 15 e 2 giorni prima che scadano</li><li>Il meteo della tua uscita, solo quando cambia davvero</li><li>Con una gara: vigilia, mattina di gara e novità ufficiali</li></ul>
+      <div class="meter acc" aria-hidden="true"><div style="width:${Math.round((st.fatti / st.totale) * 100)}%"></div></div>
+      <ul class="passi">${righe}</ul>
+      <div class="grid2"><a class="btn" href="#/prepara">${st.fatti ? "Continua" : "Inizia"} · 2 minuti</a><button class="btn ghost" type="button" data-act="prepara-dopo">Più tardi</button></div></section>`;
+  }
+  function vistaPrepara(passo) {
+    const k = passo === "fine" || ORDINE_FUNNEL.includes(passo) ? passo : prossimoPasso() || "fine";
+    const i = ORDINE_FUNNEL.indexOf(k);
+    const barra = `<div class="funnel-barra" aria-hidden="true">${ORDINE_FUNNEL.map((x, j) => `<span class="${k === "fine" || j < i ? "ok" : j === i ? "ora" : ""}"></span>`).join("")}</div>`;
+    const testa = (eyebrow) => `<header class="head-back">${back("#/oggi")}<div style="min-width:0;flex:1"><span class="eyebrow">${eyebrow}</span>${barra}</div></header>`;
+    const passoN = `Prepara RaceBuddy · ${i + 1} di ${ORDINE_FUNNEL.length}`;
+    const form = (campi, nota = "") => `<form id="prepara-form" data-passo="${k}" class="funnel-form">${campi}<button class="btn block" type="submit">Avanti</button>${nota}</form>`;
+    const tessera = doc("tessera"), cert = doc("certificato");
+    let corpo;
+    if (k === "ora") corpo = `<h1>A che ora esci di solito a correre?</h1><p class="sub">Il messaggio del mattino arriva mezz'ora prima della tua uscita. Al massimo uno al giorno, mai di notte.</p>
+      ${form(`<div class="field"><label for="pf-ora">Ora dell'uscita</label><input class="input" id="pf-ora" type="time" step="900" required value="${esc(oraInput(S.profilo.ora) || "07:00")}"></div>`)}`;
+    else if (k === "zona") corpo = `<h1>Dove corri di solito?</h1><p class="sub">Serve per il meteo della tua uscita: ti avviso solo se cambia davvero. La posizione resta sul telefono, arrotondata a circa 1 km.</p>
+      ${form(`<div class="field">${bottoneGps("pf-citta")}</div><div class="field"><label for="pf-citta">Città o quartiere</label><input class="input" id="pf-citta" required placeholder="es. Roma" value="${esc(S.profilo.citta || "")}" autocomplete="address-level2"></div>`)}`;
+    else if (k === "tessera") corpo = `<h1>La tua tessera</h1><p class="sub">Ti avviso 30, 15 e 2 giorni prima che scada. Numero e foto puoi aggiungerli quando vuoi in Io.</p>
+      ${form(`<div class="field"><label for="pf-tipo">Tipo</label><select class="input" id="pf-tipo" required>${["", "FIDAL", "Runcard", "Runcard EPS"].map((x) => `<option value="${x}" ${tessera.tipo === x ? "selected" : ""}>${x || "Scegli…"}</option>`).join("")}</select></div>
+        <div class="field"><label for="pf-scadenza">Scadenza</label><input class="input" id="pf-scadenza" type="date" required value="${esc(tessera.scadenza || "")}"></div>`)}`;
+    else if (k === "certificato") corpo = `<h1>Il certificato medico</h1><p class="sub">Per le gare FIDAL e con Runcard serve il certificato agonistico per l'atletica leggera, valido il giorno della gara. Ti avviso prima che scada.</p>
+      ${form(`<div class="field"><label for="pf-scadenza">Scadenza</label><input class="input" id="pf-scadenza" type="date" required value="${esc(cert.scadenza || "")}"></div>`)}`;
+    else if (k === "notifiche") {
+      const sp = supportoPush(), on = S.push && S.push.attivo;
+      const cosa = `<ul class="vantaggi"><li>Scadenze di tessera e certificato</li><li>Il meteo della tua uscita, solo quando cambia davvero</li>${S.gare.length ? "<li>Le tue gare: scheda pronta, vigilia alle 19, mattina di gara, novità ufficiali</li>" : ""}</ul>`;
+      let azione;
+      if (on) azione = `<p class="sub"><span class="pill ok">attive</span> Ti scrivo al massimo una volta al giorno, verso le ${oraMessaggio()}.</p><a class="btn block" href="#/prepara/${prossimoPasso("notifiche") || "fine"}">Avanti</a>`;
+      else if (sp === "ios-home") azione = `<section class="card soft"><span class="title">Su iPhone serve un passo in più</span><span class="small">Le notifiche arrivano solo se RaceBuddy è sulla schermata Home. In Safari tocca <b>Condividi</b> → <b>Aggiungi alla schermata Home</b>, poi apri l'app dall'icona: ritrovi questo passo.</span></section><a class="btn ghost block" href="#/prepara/${prossimoPasso("notifiche") || "fine"}">Lo faccio dopo</a>`;
+      else if (sp === "ok") azione = `<button class="btn block" type="button" data-act="prepara-push">Attiva le notifiche</button><a class="btn ghost block" href="#/prepara/${prossimoPasso("notifiche") || "fine"}">Non ora</a>`;
+      else azione = `<p class="sub">${sp === "negato" ? "Le notifiche sono bloccate per questa app: puoi riattivarle dalle impostazioni del telefono o del browser." : "Su questo telefono le notifiche non sono disponibili."}</p><a class="btn block" href="#/prepara/${prossimoPasso("notifiche") || "fine"}">Avanti</a>`;
+      corpo = `<h1>Attiva le notifiche</h1><p class="sub">Ti scrivo solo quando c'è qualcosa di nuovo, al massimo una volta al giorno verso le ${oraMessaggio()}. Mai di notte, niente countdown.</p>${cosa}${azione}
+        <span class="small muted">Per mandarle salviamo online orario, zona (circa 1 km), scadenze e le tue gare, senza il tuo nome.</span>`;
+    } else if (k === "gara") corpo = `<h1>Segui la tua prossima gara</h1><p class="sub">Facoltativo. Con una gara arrivano la preparazione settimana per settimana, la scheda con orari e logistica dal sito ufficiale, la vigilia e la mattina di gara.</p>
+      <a class="btn block" href="#/gare?focus=1">Scegli la gara</a><a class="btn ghost block" href="#/prepara/fine">Lo faccio dopo</a>`;
+    else {
+      const st = statoPrepara(), on = S.push && S.push.attivo;
+      corpo = `<h1>${st.completo ? "Tutto pronto" : "Quasi pronto"}</h1><p class="sub">${st.completo ? (on ? `Da domani ti scrivo solo quando serve, verso le ${oraMessaggio()}.` : "Puoi attivare le notifiche quando vuoi da Io.") : `Mancano ${st.totale - st.fatti} ${st.totale - st.fatti === 1 ? "passo" : "passi"}: li ritrovi in Oggi.`}</p>
+        <ul class="passi">${st.passi.map((x) => `<li class="${x.fatto ? "ok" : ""}"><span class="pallino" aria-hidden="true">${x.fatto ? "✓" : ""}</span><span>${esc(x.titolo)}${x.obbligatorio ? "" : ' <span class="muted">· facoltativa</span>'}</span></li>`).join("")}<li class="${on ? "ok" : ""}"><span class="pallino" aria-hidden="true">${on ? "✓" : ""}</span><span>Notifiche</span></li></ul>
+        <a class="btn block" href="#/oggi">Vai a Oggi</a>`;
+    }
+    return `${testa(k === "fine" ? "Prepara RaceBuddy" : passoN)}<div class="funnel">${corpo}</div>`;
+  }
+
   // ---------------------------------------------------------------- posizione dal GPS
   // Le coordinate restano sul telefono, arrotondate a circa 1 km. Il nome della città arriva da BigDataCloud (gratuito, senza chiave).
   const ICO_PIN = `<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg>`;
@@ -463,6 +535,7 @@
   function vistaVuota(concluse) {
     const o = oggi(), pil = L.pillola(D.pillole, "nessuna", "21", o, Number(o.slice(5, 7)));
     return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(o))}</span><h1>${S.profilo.nome ? "Ciao, " + esc(S.profilo.nome) : "Buongiorno"}</h1></div></header>
+      ${cardPrepara()}
       <a class="card dark" href="#/gare" style="text-decoration:none;font-weight:inherit"><span class="eyebrow">${concluse ? "Tutte le tue gare sono concluse" : "Nessuna gara in vista"}</span><span style="font:700 24px/1.1 var(--display)">${concluse ? "Qual è la prossima?" : "Scegli la tua prossima gara"}</span><span class="sub">Ti preparo la strada fino al via: cosa fare e quando, info gara, borsa ›</span></a>
       ${cardMeteo()}
       ${cardInvitoPB()}
@@ -520,7 +593,7 @@
 
     const meteo = cardMeteo();
 
-    return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(o))}</span><h1>Buongiorno${S.profilo.nome ? ", " + esc(S.profilo.nome) : ""}</h1></div></header>${hero}${avvisoDocumenti()}${meteo}${blocco}${cardPush(true)}${pill}${(() => {
+    return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(o))}</span><h1>Buongiorno${S.profilo.nome ? ", " + esc(S.profilo.nome) : ""}</h1></div></header>${cardPrepara()}${hero}${avvisoDocumenti()}${meteo}${blocco}${statoPrepara().completo ? cardPush(true) : ""}${pill}${(() => {
       const cx = contesto(), letti = Object.fromEntries(Object.keys(S.letti || {}).filter((k) => k.startsWith("c:")).map((k) => [k.slice(2), true]));
       const top = L.perTe(D.contenuti || [], { fase: cx.fase, distanza: cx.distanza, oggi: cx.o, letti }).filter((c) => !letti[c.id]).slice(0, 2);
       return top.length ? `<section aria-label="Per te oggi"><div class="between" style="margin-bottom:8px"><h2>Per te oggi</h2><a class="small" href="#/perte">Altro ›</a></div><div class="lista-c">${top.map((c, i) => cardContenuto(c, i === 0)).join("")}</div></section>` : "";
@@ -1474,7 +1547,7 @@
     const parts = path.split("/").map(decodeURIComponent);
     const param = Object.fromEntries(new URLSearchParams(query || ""));
     const tab = parts[0] || "oggi";
-    document.querySelectorAll("nav.tabs a").forEach((a) => a.setAttribute("aria-current", a.dataset.tab === ({ aggiungi: "gare", gara: "gare", checklist: "gare", percorso: "gare", meteo: "oggi", pillole: "oggi", invito: "gruppo", risultato: "oggi", pb: "io", statistiche: "io", condividi: "gare" }[tab] || tab) ? "page" : "false"));
+    document.querySelectorAll("nav.tabs a").forEach((a) => a.setAttribute("aria-current", a.dataset.tab === ({ prepara: "oggi", aggiungi: "gare", gara: "gare", checklist: "gare", percorso: "gare", meteo: "oggi", pillole: "oggi", invito: "gruppo", risultato: "oggi", pb: "io", statistiche: "io", condividi: "gare" }[tab] || tab) ? "page" : "false"));
     if (D.errore) { $app.innerHTML = `<section class="card"><span class="title">Qualcosa non va</span><span class="small">${esc(D.errore)}</span></section>`; return; }
     let html;
     const benvenuto = !S.benvenuto && !S.gare.length && (tab === "oggi" || tab === "benvenuto");
@@ -1496,6 +1569,7 @@
       case "io": if (param.strava) { ritornoStrava(param.strava); history.replaceState(null, "", "#/io"); }
         if (parts[1] === "documenti") S.ioAperto = { ...(S.ioAperto || {}), documenti: true }; html = vistaIo(); break;
       case "gara": html = parts[2] === "novita" ? vistaNovitaGara(parts[1], param) : parts[2] === "preparazione" ? vistaPreparazione(parts[1]) : parts[2] === "info" ? vistaInfoGara(parts[1], param) : parts[2] === "borsa" ? vistaBorsa(parts[1]) : vistaGaraHome(parts[1], param); break;
+      case "prepara": html = vistaPrepara(parts[1]); break;
       case "meteo": html = vistaMeteo(); break;
       case "pillole": html = vistaPillole(parts[1]); break;
       case "perte": html = vistaPerTe(param); break;
@@ -1508,6 +1582,7 @@
     const seg = $app.querySelector('nav.seg[aria-label="Sezioni della gara"]'), att = seg && seg.querySelector('[aria-current="page"]');
     if (att) seg.scrollLeft = att.offsetLeft - (seg.clientWidth - att.offsetWidth) / 2;
     document.body.classList.toggle("onboarding", tab === "invito" && !(S.gruppo && S.gruppo.dentro));
+    document.body.classList.toggle("funnel-on", tab === "prepara");
     if (tab === "oggi" || !tab) riempiMeteo();
     riempiMeteoGaraBox();
     if (tab === "io") { mostraFotoDoc(); if (parts[1] === "documenti") { const el = document.querySelector('[data-acc="documenti"]'); if (el) setTimeout(() => el.scrollIntoView({ block: "start" }), 50); } }
@@ -1558,6 +1633,10 @@
     } else if (act === "apri-contenuto") {
       S.letti = S.letti || {}; S.letti["c:" + t.dataset.id] = oggi(); salva(); // il link si apre comunque
       return;
+    } else if (act === "prepara-dopo") {
+      S.preparaDopo = oggi(); salva(); toast("Te lo ricordo tra qualche giorno"); rerender();
+    } else if (act === "prepara-push") {
+      attivaPush(t).then(() => { if (S.push && S.push.attivo) vaiPasso("notifiche"); });
     } else if (act === "push-on") {
       attivaPush(t);
     } else if (act === "push-off") {
@@ -1754,6 +1833,14 @@
   document.addEventListener("submit", (e) => {
     const f = e.target; e.preventDefault();
     const v = (id) => (document.getElementById(id) || {}).value || "";
+    if (f.id === "prepara-form") {
+      const passo = f.dataset.passo;
+      if (passo === "ora") S.profilo = { ...S.profilo, ora: v("pf-ora") };
+      else if (passo === "zona") { const c = v("pf-citta").trim(); if (c !== (S.profilo.citta || "")) { S.profilo = { ...S.profilo, citta: c }; delete S.profilo.coord; } }
+      else if (passo === "tessera") { const t = doc("tessera"); t.tipo = v("pf-tipo"); t.scadenza = v("pf-scadenza"); }
+      else if (passo === "certificato") { const c = doc("certificato"); c.scadenza = v("pf-scadenza"); c.tipo = c.tipo || "agonistico (atletica leggera)"; }
+      salva(); vaiPasso(passo); return;
+    }
     if (f.id === "manuale") {
       const id = "M" + Date.now().toString(36);
       S._bozza = { id, nome: v("m-nome"), data: v("m-data"), distanza: v("m-dist"), luogo: v("m-luogo"), fonte: "manuale" };

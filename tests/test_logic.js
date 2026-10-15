@@ -168,4 +168,17 @@ assert.strictEqual(L.sezioneSwipe("", -40, 0, 300), null); // troppo corto
 assert.strictEqual(L.sezioneSwipe("", -100, 80, 300), null); // in diagonale: è uno scroll
 assert.strictEqual(L.sezioneSwipe("", -100, 0, 1200), null); // troppo lento
 assert.strictEqual(L.sezioneSwipe("novita", -120, 0, 300), null); // fuori dalla barra
+// passi di "Prepara RaceBuddy"
+{
+  const vuoto = L.passiPrepara({}, "2026-10-15");
+  assert.deepStrictEqual([vuoto.fatti, vuoto.totale, vuoto.completo], [0, 4, false]);
+  const p = L.passiPrepara({ profilo: { ora: "07:00", citta: "Roma" }, documenti: { tessera: { tipo: "FIDAL", scadenza: "2027-03-12" }, certificato: { scadenza: "" } }, gare: [] }, "2026-10-15");
+  assert.deepStrictEqual([p.fatti, p.completo], [3, false]);
+  assert.strictEqual(p.passi.find((x) => x.k === "certificato").fatto, false);
+  const gps = L.passiPrepara({ profilo: { ora: "6:30", coord: { lat: 41.9, lon: 12.5 } }, documenti: { tessera: { scadenza: "2027-01-01" }, certificato: { scadenza: "2027-05-01" } } }, "2026-10-15");
+  assert.deepStrictEqual([gps.fatti, gps.completo], [4, true]);
+  assert.strictEqual(gps.passi.find((x) => x.k === "gara").fatto, false); // facoltativa, non conta
+  assert.strictEqual(L.passiPrepara({ gare: [{ data: "2026-10-18" }] }, "2026-10-15").passi.find((x) => x.k === "gara").fatto, true);
+  assert.strictEqual(L.passiPrepara({ gare: [{ data: "2026-10-01" }] }, "2026-10-15").passi.find((x) => x.k === "gara").fatto, false); // gara passata
+}
 console.log("ok");

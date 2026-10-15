@@ -326,3 +326,19 @@ details.acc:not([open]) { gap: 0; padding-top: 6px; padding-bottom: 6px; }
 .lista-mattina li::before { content: counter(passo); grid-row: span 2; width: 24px; height: 24px; border-radius: 50%; background: var(--line2); color: var(--fg); font-weight: 700; font-size: 13px; display: grid; place-items: center; }
 .lista-mattina .t { font-weight: 700; }
 .lista-mattina .d { font-size: 14px; color: var(--muted); }
+
+/* Prepara RaceBuddy: scheda in Oggi e funnel #/prepara */
+.prepara .vantaggi, .funnel .vantaggi { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; font-size: 15px; color: var(--fg2); }
+.passi { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.passi li { display: flex; gap: 10px; align-items: center; font-size: 15px; font-weight: 600; }
+.passi li.ok { color: var(--muted); font-weight: 500; }
+.passi .pallino { flex: none; width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--line); display: grid; place-items: center; font-size: 12px; font-weight: 700; color: var(--surface); }
+.passi li.ok .pallino { background: var(--ok); border-color: var(--ok); }
+.funnel-barra { display: flex; gap: 5px; margin-top: 8px; }
+.funnel-barra span { flex: 1; height: 4px; border-radius: 2px; background: var(--line); }
+.funnel-barra span.ok { background: var(--ok); }
+.funnel-barra span.ora { background: var(--accent); }
+.funnel { display: flex; flex-direction: column; gap: 16px; }
+.funnel h1 { font: 700 32px/1.05 var(--display); margin: 0; text-wrap: balance; }
+.funnel-form { display: flex; flex-direction: column; gap: 14px; }
+body.funnel-on nav.tabs { display: none; }
