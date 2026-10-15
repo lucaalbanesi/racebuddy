@@ -64,5 +64,117 @@
    "Firenze Marathon",
    "Maratona di Firenze"
   ]
+ },
+ "Ha7c4f82f69-10": {
+  "partenza": "16:00",
+  "luogoPartenza": "Lungomare Amerigo Vespucci a Levanto (lato Bonassola); ritrovo alle 15:00",
+  "pettorale": "In Piazza del Comune a Levanto: venerdì 16/10 10-18 e sabato 17/10 9-12. Per ritirarlo per un altro servono delega scritta e documento.",
+  "ristori": "Acqua al giro di boa e ristoro all'arrivo",
+  "mappa": "Lungomare Amerigo Vespucci, Levanto",
+  "percorsoLink": "https://www.stralevanto2000.it/regolamento#i-tre-borghi",
+  "percorsoDescrizione": "Da Levanto lungo la passeggiata della ex ferrovia fino a Bonassola e ritorno. Percorso misurato FIDAL.",
+  "sito": "https://www.stralevanto2000.it/",
+  "canali": {
+   "facebook": "https://www.facebook.com/Stralevanto/"
+  },
+  "nomi": [
+   "10k I Tre Borghi",
+   "10K dei Tre Borghi"
+  ],
+  "note": "Tempo limite 2 ore, classifica sul tempo ufficiale (gun time). Vale come Campionato Regionale Master. Iscrizioni su Endu fino al 17/10 o ai 600 iscritti.",
+  "fonti": [
+   "https://www.stralevanto2000.it/",
+   "https://www.stralevanto2000.it/regolamento"
+  ],
+  "verificato": "2026-10-15",
+  "edizione": "2026"
+ },
+ "H980534b2f8-42": {
+  "partenza": "8:00",
+  "luogoPartenza": "Partenza e arrivo in Piazza del Plebiscito; ritrovo alle 7:00",
+  "pettorale": "Village in Piazza del Plebiscito: ven 16 e sab 17 ottobre 10-19, con documento (lettera di conferma anche sul telefono); delega scritta con copia dei documenti. Domenica: il regolamento dice 6:30-7:30, le FAQ solo per motivi straordinari su richiesta (da confermare).",
+  "griglia": "Per tempo in maratona degli ultimi 2 anni: Elite, A sotto 3h, B 3h-3h30, C 3h30-4h, D 4h-5h, E oltre 5h. Chiusura alle 7:50.",
+  "deposito": "Al Village in Piazza del Plebiscito, con il pettorale; solo borse piccole con l'adesivo del numero. Spogliatoi scoperti, niente docce.",
+  "ristori": "11 ristori (km 4, 8, 12, 16, 19,5, 22,5, 25, 29, 33, 37, 40,5) con acqua e sali, in alcuni banane o mix di frutta secca; ristoro all'arrivo.",
+  "arrivare": "Centro chiuso al traffico: metro fino a Municipio o Toledo, auto nei parcheggi ANM delle stazioni periferiche o a Garibaldi.",
+  "mappa": "Piazza del Plebiscito, Napoli",
+  "percorsoImmagine": "https://www.neapolismarathon.it/wp-content/uploads/2026/10/PERCORSO-NM26.jpg",
+  "percorsoLink": "https://www.neapolismarathon.it/downloads/COURSE_411147883.gpx",
+  "percorsoDescrizione": "Due giri da 21,097 km nel centro: Castel dell'Ovo, Plebiscito, Maschio Angioino, Lungomare, Molo Beverello, Corso Umberto. Dislivello 38 m a giro.",
+  "sito": "https://www.neapolismarathon.it/",
+  "canali": {
+   "instagram": "https://www.instagram.com/neapolismarathon/",
+   "facebook": "https://www.facebook.com/neapolismarathon/"
+  },
+  "nomi": [
+   "Neapolis Marathon",
+   "Maratona di Napoli"
+  ],
+  "note": "Gara sold out. Tempo limite 6 ore; cancelli: mezza entro 3h15, km 30 entro 4h25, km 38 entro 5h30.",
+  "fonti": [
+   "https://www.neapolismarathon.it/marathon/",
+   "https://www.neapolismarathon.it/percorso-marathon/",
+   "https://www.neapolismarathon.it/regolamento-marathon/",
+   "https://www.neapolismarathon.it/faq/",
+   "https://www.neapolismarathon.it/village/",
+   "https://www.neapolismarathon.it/wp-content/uploads/2026/10/WEB.MAGAZINE.NEAPOLIS.MARATHON.2026.pdf",
+   "https://www.neapolismarathon.it/wp-content/uploads/2026/10/NEAPOLIS-MARATHON-2026-RISTORI-E-LIVE-MUSIC.pdf"
+  ],
+  "verificato": "2026-10-15",
+  "edizione": "2026"
+ },
+ "H0e7dc2579e-21": {
+  "partenza": "8:45",
+  "luogoPartenza": "Partenza in Viale Eginardo (zona CityLife/Portello)",
+  "pettorale": "Village all'Allianz MiCo (Gate 7, viale Scarampo): ven 20/11 10-19, sab 21/11 9:30-19; domenica no. Delega firmata con copia del documento.",
+  "griglia": "Griglie per tempo dichiarato all'iscrizione (colore del pettorale), aperte dalle 8:20.",
+  "deposito": "Domenica dalle 7:15, consegna entro le 8:30, ritiro entro le 13:00; solo con la sacca a rete del pacco gara.",
+  "ristori": "Circa ai km 5, 10, 15 e 20, più ristoro all'arrivo.",
+  "arrivare": "Metro M4 Portello (da Centrale M3 e cambio a Zara). In auto parcheggi sotterranei CityLife o di corrispondenza; il Village è fuori dall'Area C.",
+  "mappa": "Viale Eginardo, Milano",
+  "percorsoLink": "https://followyourpassion.it/en/percorso-21km-milanohalfmarathon/",
+  "percorsoDescrizione": "Nel centro: CityLife, Parco Sempione, Castello Sforzesco, Duomo, Darsena. Dislivello 40 m. Tracciato ancora provvisorio.",
+  "sito": "https://followyourpassion.it/en/powerademilanohalfmarathon/",
+  "nomi": [
+   "Milano21",
+   "Milano Half Marathon",
+   "Mezza maratona di Milano"
+  ],
+  "note": "Nel 2026 si chiama Powerade Milano Half Marathon. Tempo massimo 2h45. Pacer da 1h25 a 2h10 ogni 5 minuti.",
+  "fonti": [
+   "https://followyourpassion.it/en/powerademilanohalfmarathon/",
+   "https://followyourpassion.it/wp-content/uploads/2026/10/Reg-Powerade-Milano-HM-competitive-ENG-2026_v4.pdf",
+   "https://followyourpassion.it/wp-content/uploads/2026/05/Reg-Milano-HM-competitiva-ITA-2026_v2.pdf",
+   "https://followyourpassion.it/en/percorso-21km-milanohalfmarathon/"
+  ],
+  "verificato": "2026-10-15",
+  "edizione": "2026"
+ },
+ "P8cb521dda8-42": {
+  "partenza": "8:30",
+  "luogoPartenza": "Via dei Fori Imperiali, con il Colosseo alle spalle",
+  "pettorale": "Solo di persona all'Expo Village (date, luogo e orari 2027 da comunicare); niente spedizione né ritiro il giorno della gara.",
+  "griglia": "Per personale in maratona (o mezza) degli ultimi 4 anni, da dichiarare entro il 17/02/2027; l'area è sul pettorale.",
+  "deposito": "Compreso nella quota; luoghi e orari 2027 non ancora pubblicati.",
+  "mappa": "Via dei Fori Imperiali, Roma",
+  "percorsoLink": "https://www.runromethemarathon.com/home-2025/maratona/",
+  "sito": "https://www.runromethemarathon.com/",
+  "canali": {
+   "instagram": "https://www.instagram.com/runrome_themarathon/",
+   "facebook": "https://www.facebook.com/runromethemarathon/"
+  },
+  "nomi": [
+   "Maratona di Roma",
+   "Run Rome The Marathon"
+  ],
+  "note": "Orario \"intorno alle 8:30\". Arrivo 2027 da confermare (Circo Massimo o Colosseo). Tempo limite 7 ore. Iscrizioni aperte su rrtm.endu.net; certificato agonistico da caricare entro 10 giorni dalla gara. Mappa, Expo, ristori 2027 non ancora pubblicati.",
+  "fonti": [
+   "https://www.runromethemarathon.com/wp-content/uploads/2026/04/RRTM27-regolamento-italiano-23-4-2026.pdf",
+   "https://www.runromethemarathon.com/home-2025/maratona/",
+   "https://www.runromethemarathon.com/en/home-2025-en-2/faq-maratona/",
+   "https://www.runromethemarathon.com/"
+  ],
+  "verificato": "2026-10-15",
+  "edizione": "2027"
  }
 }
