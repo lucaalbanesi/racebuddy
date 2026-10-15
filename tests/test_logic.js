@@ -171,13 +171,12 @@ assert.strictEqual(L.sezioneSwipe("novita", -120, 0, 300), null); // fuori dalla
 // passi di "Prepara RaceBuddy"
 {
   const vuoto = L.passiPrepara({}, "2026-10-15");
-  assert.deepStrictEqual([vuoto.fatti, vuoto.totale, vuoto.completo], [0, 4, false]);
+  assert.deepStrictEqual([vuoto.fatti, vuoto.totale, vuoto.completo], [0, 3, false]);
   const p = L.passiPrepara({ profilo: { ora: "07:00", citta: "Roma" }, documenti: { tessera: { tipo: "FIDAL", numero: "AB123456", scadenza: "2027-03-12" }, certificato: { scadenza: "" } }, gare: [] }, "2026-10-15");
-  assert.deepStrictEqual([p.fatti, p.completo], [3, false]);
-  assert.strictEqual(L.passiPrepara({ documenti: { tessera: { scadenza: "2027-03-12" } } }, "2026-10-15").passi.find((x) => x.k === "tessera").fatto, false); // senza numero non basta
-  assert.strictEqual(p.passi.find((x) => x.k === "certificato").fatto, false);
+  assert.deepStrictEqual([p.fatti, p.completo], [2, false]); // documenti incompleti: manca il certificato
+  assert.strictEqual(L.passiPrepara({ documenti: { tessera: { scadenza: "2027-03-12" }, certificato: { scadenza: "2027-05-01" } } }, "2026-10-15").passi.find((x) => x.k === "documenti").fatto, false); // senza numero non basta
   const gps = L.passiPrepara({ profilo: { ora: "6:30", coord: { lat: 41.9, lon: 12.5 } }, documenti: { tessera: { numero: "RC00123", scadenza: "2027-01-01" }, certificato: { scadenza: "2027-05-01" } } }, "2026-10-15");
-  assert.deepStrictEqual([gps.fatti, gps.completo], [4, true]);
+  assert.deepStrictEqual([gps.fatti, gps.completo], [3, true]);
   assert.strictEqual(gps.passi.find((x) => x.k === "gara").fatto, false); // facoltativa, non conta
   assert.strictEqual(L.passiPrepara({ gare: [{ data: "2026-10-18" }] }, "2026-10-15").passi.find((x) => x.k === "gara").fatto, true);
   assert.strictEqual(L.passiPrepara({ gare: [{ data: "2026-10-01" }] }, "2026-10-15").passi.find((x) => x.k === "gara").fatto, false); // gara passata
@@ -193,6 +192,12 @@ assert.strictEqual(L.sezioneSwipe("novita", -120, 0, 300), null); // fuori dalla
   assert.deepStrictEqual(L.leggiDocumento(fidalVera, "tessera", O), { tipo: "FIDAL", numero: "RM123456", tesseramento: "2026-01-14", scadenza: "2026-12-31", calcolata: true });
   const runcardEmessa = "RUNCARD\nCard n° RC-0045821\nData emissione 10/05/2026";
   assert.deepStrictEqual(L.leggiDocumento(runcardEmessa, "tessera", O), { tipo: "Runcard", numero: "RC0045821", tesseramento: "2026-05-10", scadenza: "2027-05-09", calcolata: true });
+  // tessera FIDAL con la scadenza del certificato medico stampata sopra: non va confusa con quella della tessera
+  const fidalCert = "FIDAL\nTessera n. RM123456\nData tesseramento 14/01/2026\nScadenza certificato medico 12/03/2027\nAGONISTICO";
+  assert.deepStrictEqual(L.leggiDocumento(fidalCert, "tessera", O), { tipo: "FIDAL", numero: "RM123456", certificato: { scadenza: "2027-03-12", tipo: "agonistico (atletica leggera)" }, tesseramento: "2026-01-14", scadenza: "2026-12-31", calcolata: true });
+  const fidalCert2 = "FIDAL\nTessera n. RM123456\nCert. medico valido fino al 30/06/2027\nTesserato dal 02/02/2026";
+  const r2 = L.leggiDocumento(fidalCert2, "tessera", O);
+  assert.strictEqual(r2.certificato.scadenza, "2027-06-30"); assert.strictEqual(r2.scadenza, "2026-12-31");
   const eps = "RUNCARD EPS\nENTE DI PROMOZIONE SPORTIVA\nAB12C345\n2027-02-01";
   assert.strictEqual(L.leggiDocumento(eps, "tessera", O).tipo, "Runcard EPS");
   assert.strictEqual(L.leggiDocumento(eps, "tessera", O).numero, "AB12C345");

@@ -22,24 +22,25 @@ Partiamo). Si scorrono con il dito o con "Avanti"; "Salta" porta all'app.
 
 ## Prepara RaceBuddy
 
-| Scheda in Oggi | Un passo del funnel | Traguardo: notifiche |
+| Scheda in Oggi | Tessera e certificato | Traguardo: notifiche |
 |---|---|---|
-| <img src="img/ui/prepara-card.png" width="220" alt="Scheda Prepara RaceBuddy in Oggi"> | <img src="img/ui/prepara-ora.png" width="220" alt="Funnel: ora di uscita"> | <img src="img/ui/prepara-notifiche.png" width="220" alt="Funnel: attiva le notifiche"> |
+| <img src="img/ui/prepara-card.png" width="220" alt="Scheda Prepara RaceBuddy in Oggi"> | <img src="img/ui/prepara-documenti.png" width="220" alt="Funnel: tessera e certificato letti dalla foto"> | <img src="img/ui/prepara-notifiche.png" width="220" alt="Funnel: attiva le notifiche"> |
 
-In cima a Oggi, finché manca qualcosa: spiega cosa ti arriva con le notifiche e conta i passi (**x di 4**).
+In cima a Oggi, finché manca qualcosa: spiega cosa ti arriva con le notifiche e conta i passi (**x di 3**).
 "Inizia" apre il funnel `#/prepara`, un passo per schermata senza barra in basso:
 
 1. A che ora esci a correre (decide l'ora del messaggio del mattino)
 2. Dove corri di solito (GPS o città: serve per il meteo dell'uscita)
-3. Tessera: tipo, numero e scadenza
-4. Certificato medico: scadenza
+3. Tessera e certificato medico, in un solo passo: tipo, numero e scadenza della tessera, scadenza del certificato
+4. Notifiche: il traguardo, con i vantaggi concreti (su iPhone fuori dalla Home, le istruzioni per aggiungerla)
+5. La tua prossima gara: facoltativa
 
-In tessera e certificato "Scansiona" fa una foto e legge i dati sul telefono (OCR): i campi si riempiono e si
-controllano prima di andare avanti. La stessa scansione c'è in Io → Tessera e certificato.
-5. Notifiche: il traguardo, con i vantaggi concreti (su iPhone fuori dalla Home, le istruzioni per aggiungerla)
-6. La tua prossima gara: facoltativa
+"Scansiona la tessera" fa una foto e legge i dati sul telefono (OCR). Sulla tessera FIDAL ci sono anche la data di
+tesseramento (la tessera vale fino al 31 dicembre di quell'anno) e la scadenza del certificato medico: una sola
+scansione compila tutto, da controllare prima di andare avanti. Chi ha il certificato separato può scansionare anche
+quello. La stessa scansione c'è in Io → Tessera e certificato.
 
-I passi già fatti si saltano. "Più tardi" nasconde la scheda per 3 giorni. Con i quattro passi fatti e le notifiche
+I passi già fatti si saltano. "Più tardi" nasconde la scheda per 3 giorni. Con i tre passi fatti e le notifiche
 spente resta una scheda più piccola: "ultimo passo, attiva le notifiche". Foto e altri dettagli dei documenti restano in Io. Per ora l'app è per chi fa gare: tessera e certificato sono
 obbligatori.
 

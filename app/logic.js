@@ -266,14 +266,13 @@
     return j >= 0 && j < SEZIONI_GARA.length ? SEZIONI_GARA[j] : null;
   }
 
-  /** Passi di "Prepara RaceBuddy" (scheda in Oggi + funnel #/prepara). Obbligatori: ora di uscita, zona, scadenze di
-   *  tessera e certificato (servono alle notifiche anche senza gare). Facoltativo: seguire una gara futura.
+  /** Passi di "Prepara RaceBuddy" (scheda in Oggi + funnel #/prepara). Obbligatori: ora di uscita, zona, tessera (numero e
+   *  scadenza) e certificato in un solo passo (servono alle notifiche anche senza gare). Facoltativo: seguire una gara futura.
    *  Le notifiche sono il traguardo del funnel, non un passo contato. */
   const PASSI_PREPARA = [
     { k: "ora", titolo: "Quando esci a correre", obbligatorio: true },
     { k: "zona", titolo: "Dove corri di solito", obbligatorio: true },
-    { k: "tessera", titolo: "Tessera", obbligatorio: true },
-    { k: "certificato", titolo: "Certificato medico", obbligatorio: true },
+    { k: "documenti", titolo: "Tessera e certificato medico", obbligatorio: true },
     { k: "gara", titolo: "La tua prossima gara", obbligatorio: false },
   ];
   function passiPrepara({ profilo = {}, documenti = {}, gare = [] } = {}, oggi) {
@@ -281,8 +280,7 @@
     const fatto = {
       ora: /^\d{1,2}[:.]\d{2}$/.test(String(profilo.ora || "")),
       zona: !!(profilo.coord || String(profilo.citta || "").trim()),
-      tessera: data(documenti.tessera) && String((documenti.tessera || {}).numero || "").trim().length >= 3,
-      certificato: data(documenti.certificato),
+      documenti: data(documenti.tessera) && String((documenti.tessera || {}).numero || "").trim().length >= 3 && data(documenti.certificato),
       gara: (gare || []).some((g) => g && g.data >= (oggi || todayISO())),
     };
     const passi = PASSI_PREPARA.map((p) => ({ ...p, fatto: fatto[p.k] }));
@@ -308,9 +306,9 @@
     const RE_DATA = /(\d{1,2})\s*[\/.\-]\s*(\d{1,2})\s*[\/.\-]\s*(\d{4}|\d{2})(?!\d)/g;
     const date = []; // { data, riga, testoRiga }
     righe.forEach((r, i) => { for (const m of r.matchAll(RE_DATA)) { const d = iso(m[1], m[2], m[3]); if (d) date.push({ data: d, i }); } });
-    const vicino = (re) => { // data sulla stessa riga di una parola chiave o sulla successiva (prima riga che ne ha una)
+    const vicino = (re, escludi) => { // data sulla stessa riga di una parola chiave o sulla successiva (prima riga che ne ha una)
       for (let i = 0; i < righe.length; i++) {
-        if (!re.test(righe[i])) continue;
+        if (!re.test(righe[i]) || (escludi && escludi.test(righe[i]))) continue;
         const d = date.find((x) => x.i === i) || date.find((x) => x.i === i + 1);
         if (d) return d.data;
       }
@@ -333,13 +331,18 @@
       if (soc) out.societa = soc[1].trim().replace(/\s{2,}/g, " ");
       // Sulla tessera FIDAL c'è la data di tesseramento, non la scadenza: vale per l'anno solare (31/12).
       // La Runcard vale 12 mesi dall'emissione. Una scadenza scritta, se c'è, vince sempre.
-      const sc = vicino(/scad|valid|fino al|expir/i);
-      const tess = vicino(/tesserament|rilasci|emission|emess|iscrizion|attivazion|dal\b/i);
+      // La tessera FIDAL riporta anche la scadenza del certificato medico: le righe che parlano di certificato o visita
+      // medica vanno al certificato (out.certificato), mai alla tessera.
+      const MED = /certific|medic|idonei|visita/i;
+      const scCert = vicino(MED);
+      if (scCert) out.certificato = { scadenza: scCert, ...(/AGONISTIC/.test(T) && !/NON\s*AGONISTIC/.test(T) ? { tipo: "agonistico (atletica leggera)" } : {}) };
+      const sc = vicino(/scad|valid|fino al|expir/i, MED);
+      const tess = vicino(/tesserament|rilasci|emission|emess|iscrizion|attivazion|dal\b/i, MED);
       if (tess) out.tesseramento = tess;
       if (sc) out.scadenza = sc;
       else if (tess && out.tipo === "FIDAL") { out.scadenza = `${tess.slice(0, 4)}-12-31`; out.calcolata = true; }
       else if (tess && out.tipo) { const [y, m, d] = tess.split("-").map(Number); out.scadenza = addDays(`${y + 1}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`, -1); out.calcolata = true; }
-      else { const future = date.map((x) => x.data).filter((d) => d >= rif).sort(); if (future.length) out.scadenza = future[future.length - 1]; }
+      else { const future = date.map((x) => x.data).filter((d) => d >= rif && d !== scCert).sort(); if (future.length) out.scadenza = future[future.length - 1]; }
     } else {
       const sc = vicino(/scad|valid[oa]?\s*(fino|sino)|fino al|sino al/i);
       const ril = vicino(/rilasci|visita|data\s*:|emess|in data/i);
