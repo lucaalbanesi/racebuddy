@@ -321,6 +321,28 @@
     const blob = await new Promise((ok) => c.toBlob(ok, "image/jpeg", 0.85));
     return { testo, blob };
   }
+  // Prima dell'OCR: scala di grigi, contrasto, larghezza 2200 px e soglia adattiva (bianco e nero rispetto alla media
+  // dei dintorni). Sulle foto del tesserino, col fondo sfumato, è la differenza tra leggere le date e perderle.
+  async function preparaPerOcr(blob) {
+    const img = await createImageBitmap(blob);
+    const W = 2200, H = Math.round(img.height * (W / img.width));
+    const c = document.createElement("canvas"); c.width = W; c.height = H;
+    const x = c.getContext("2d"); x.drawImage(img, 0, 0, W, H);
+    const d = x.getImageData(0, 0, W, H), p = d.data, n = W * H, g = new Float32Array(n), ist = new Uint32Array(256);
+    for (let i = 0; i < n; i++) { const v = 0.299 * p[i * 4] + 0.587 * p[i * 4 + 1] + 0.114 * p[i * 4 + 2]; g[i] = v; ist[v | 0]++; }
+    let lo = 0, hi = 255, acc = 0; for (; lo < 255 && (acc += ist[lo]) < n * 0.02; lo++); acc = 0; for (; hi > 0 && (acc += ist[hi]) < n * 0.02; hi--);
+    const sc = 255 / Math.max(1, hi - lo);
+    const I = new Float64Array((W + 1) * (H + 1)); // immagine integrale per la media locale
+    for (let y = 0; y < H; y++) { let riga = 0; for (let xx = 0; xx < W; xx++) { const v = Math.min(255, Math.max(0, (g[y * W + xx] - lo) * sc)); g[y * W + xx] = v; riga += v; I[(y + 1) * (W + 1) + xx + 1] = I[y * (W + 1) + xx + 1] + riga; } }
+    const r = 25;
+    for (let y = 0; y < H; y++) for (let xx = 0; xx < W; xx++) {
+      const x0 = Math.max(0, xx - r), x1 = Math.min(W, xx + r + 1), y0 = Math.max(0, y - r), y1 = Math.min(H, y + r + 1);
+      const m = (I[y1 * (W + 1) + x1] - I[y0 * (W + 1) + x1] - I[y1 * (W + 1) + x0] + I[y0 * (W + 1) + x0]) / ((x1 - x0) * (y1 - y0));
+      const o = g[y * W + xx] < m - 12 ? 0 : 255, j = (y * W + xx) * 4; p[j] = p[j + 1] = p[j + 2] = o; p[j + 3] = 255;
+    }
+    x.putImageData(d, 0, 0);
+    return new Promise((ok) => c.toBlob(ok, "image/png"));
+  }
   async function scansiona(k, file, stato) {
     let daPdf = false;
     if (file.type === "application/pdf" || /\.pdf$/i.test(file.name || "")) {
@@ -336,8 +358,17 @@
     salva();
     stato("Leggo il documento…");
     const T = await caricaOcr();
-    const w = await T.createWorker("ita", 1, { logger: (m) => { if (m.status === "recognizing text") stato(`Leggo il documento… ${Math.round((m.progress || 0) * 100)}%`); } });
-    try { const { data } = await w.recognize(blob); return L.leggiDocumento(data.text, k, oggi()); } finally { w.terminate(); }
+    const pronta = await preparaPerOcr(blob);
+    let giro = 0;
+    const w = await T.createWorker("ita", 1, { logger: (m) => { if (m.status === "recognizing text") stato(`Leggo il documento… ${Math.round(((m.progress || 0) + giro) * 50)}%`); } });
+    try {
+      // due letture: pagina intera e "testo sparso" (trova le scritte piccole sul fondo colorato del tesserino)
+      await w.setParameters({ tessedit_pageseg_mode: "11" });
+      const a = (await w.recognize(pronta)).data.text;
+      giro = 1; await w.setParameters({ tessedit_pageseg_mode: "3" });
+      const b = (await w.recognize(pronta)).data.text;
+      return L.leggiDocumento(`${a}\n${b}`, k, oggi());
+    } finally { w.terminate(); }
   }
   const bottoneScan = (k) => `<div class="scan"><label class="btn ghost block" style="cursor:pointer">📷 ${k === "tessera" ? "Scansiona la tessera o carica il PDF" : "Scansiona il certificato o carica il PDF"}<input type="file" accept="image/*,application/pdf" data-scan="${k}" hidden></label>
     <span class="small muted" data-scan-stato="${k}" aria-live="polite">${k === "tessera" ? "Foto o PDF del tesserino (quello che scarichi dalla FIDAL): " : "Foto o PDF: "}leggo i dati qui sul telefono, il file non viene inviato.</span></div>`;
@@ -1879,7 +1910,8 @@
           if (k === "tessera") { metti("pf-tipo", r.tipo); metti("pf-numero", r.numero); metti("pf-tess-scadenza", r.scadenza); metti("pf-codice", r.codiceSocieta); metti("pf-societa", r.societa); metti("pf-cert-scadenza", r.certificato && r.certificato.scadenza); }
           else metti("pf-cert-scadenza", r.scadenza);
           salva();
-          stato(`Letti ${pdf ? "dal PDF" : "dalla foto"}: ${letti}. Controlla e correggi se serve.${r.calcolata ? (k === "tessera" ? (r.tipo === "FIDAL" ? " La scadenza della tessera è calcolata: la FIDAL vale fino al 31 dicembre dell'anno stampato sul tesserino." : " La scadenza è calcolata: 12 mesi dall'emissione.") : " La scadenza è calcolata: un anno dalla visita.") : ""}`);
+          const manca = k === "tessera" && !(r.certificato && r.certificato.scadenza) ? " La scadenza del certificato non si legge: inseriscila a mano (con il PDF del tesserino la lettura è esatta)." : "";
+          stato(`Letti ${pdf ? "dal PDF" : "dalla foto"}: ${letti}. Controlla e correggi se serve.${manca}${r.calcolata ? (k === "tessera" ? (r.tipo === "FIDAL" ? " La scadenza della tessera è calcolata: la FIDAL vale fino al 31 dicembre dell'anno stampato sul tesserino." : " La scadenza è calcolata: 12 mesi dall'emissione.") : " La scadenza è calcolata: un anno dalla visita.") : ""}`);
         } else {
           if (r.numero) d.numero = r.numero;
           if (r.scadenza) d.scadenza = r.scadenza;

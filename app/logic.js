@@ -292,7 +292,8 @@
    *  k = "tessera" | "certificato". Restituisce solo ciò che trova: { tipo, numero, codiceSocieta, societa, scadenza, certificato, calcolata }.
    *  I valori sono proposte: l'utente li controlla prima di salvare. */
   function leggiDocumento(testo, k, oggi) {
-    const t = String(testo || "").replace(/\r/g, "");
+    // l'OCR spezza a volte le cifre di una data ("1 1/02/2027"): si ricompongono prima di tutto
+    const t = String(testo || "").replace(/\r/g, "").replace(/(\d)\s+(?=\d\s*[\/.\-]\s*\d{1,2}\s*[\/.\-]\s*\d{2,4})/g, "$1");
     const T = t.toUpperCase();
     const out = {};
     const iso = (g, m, a) => {
@@ -317,7 +318,9 @@
     const rif = oggi || todayISO();
     if (k === "tessera") {
       if (/RUNCARD/.test(T)) out.tipo = /\bEPS\b|ENTE DI PROMOZIONE/.test(T) ? "Runcard EPS" : "Runcard";
-      else if (/FIDAL|FEDERAZIONE|ATLETICA\s*IT|DATA\s*TESSERAMENTO|^\s*\W*ATLETA\b/m.test(T)) out.tipo = "FIDAL";
+      // anno di validità stampato da solo (es. "2026" in basso a sinistra sul tesserino FIDAL), in una riga senza date
+      var annoTess = (righe.map((r) => (/\d{1,2}\s*[\/.\-]\s*\d{1,2}\s*[\/.\-]\s*\d{2,4}/.test(r) ? null : r.match(/(?:^|[^\d\/.\-])(20[2-4]\d)(?![\d\/.\-])/))).find(Boolean) || [])[1];
+      if (!out.tipo && (/FIDAL|FEDERAZIONE|ATLETICA\s*IT|TESSERAMENT|^\s*\W*ATLETA\b/m.test(T) || annoTess)) out.tipo = "FIDAL";
       const etichetta = t.match(/(?:\b(?:tessera|card|numero|matricola|codice)\b(?:\s*(?:n[°º.]|numero))?|\bn[°º.])[ \t]*[:#]?[ \t]*([A-Z0-9][A-Z0-9 \-]{3,14}[A-Z0-9])/i);
       const pulisci = (x) => x.replace(/[\s\-]/g, "").toUpperCase();
       const valido = (x) => x && /\d/.test(x) && x.length >= 5 && x.length <= 12 && !/^(19|20)\d\d$/.test(x);
@@ -353,13 +356,13 @@
       // certificato medico: sulla FIDAL ogni riga con "scad" va al certificato, anche se l'OCR storpia "Certificato Medico".
       // Runcard: 12 mesi dall'emissione. Una scadenza esplicita della tessera (non FIDAL) vince sempre.
       const FIDAL = out.tipo === "FIDAL";
-      const MED = FIDAL ? /certif|medic|edico|idonei|visita|scad/i : /certif|medic|edico|idonei|visita/i;
+      const MED = FIDAL ? /cert|medi|edico|idone|visit|scad/i : /cert|medi|edico|idone|visit/i;
       const scCert = vicino(MED);
       if (scCert) out.certificato = { scadenza: scCert, ...(/AGONISTIC/.test(T) && !/NON\s*AGONISTIC/.test(T) ? { tipo: "agonistico (atletica leggera)" } : {}) };
       const sc = FIDAL ? vicino(/valid|fino al/i, MED) : vicino(/scad|valid|fino al|expir/i, MED);
       const tess = vicino(/tesserament|tesserat|rilasci|emission|emess|iscrizion|attivazion|dal\b|\bdata\b\s*:?/i, MED);
       if (tess) out.tesseramento = tess;
-      const anno = (righe.map((r) => r.match(/^\W*(20\d\d)(?:\s|$)/)).find(Boolean) || [])[1];
+      const anno = annoTess;
       const daAnno = (y) => { out.scadenza = `${y}-12-31`; out.calcolata = true; };
       if (sc) out.scadenza = sc;
       else if (FIDAL && anno) daAnno(anno);

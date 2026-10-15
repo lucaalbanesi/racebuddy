@@ -216,6 +216,16 @@ assert.strictEqual(L.sezioneSwipe("novita", -120, 0, 300), null); // fuori dalla
   assert.strictEqual(L.leggiDocumento("ATLETA\n2026 XY012345\nRM999 — A.S.D. CORRERE INSIEME", "tessera", O).codiceSocieta, "RM999"); // trattino letto male
   assert.strictEqual(L.leggiDocumento("ATLETA\n2026 XY012345\nRM999 A.S.D. CORRERE INSIEME", "tessera", O).societa, "A.S.D. CORRERE INSIEME"); // trattino perso
   assert.strictEqual(L.leggiDocumento("ATLETA\n2026 XY012345\nRM8999 - A.S.D. CORRERE INSIEME", "tessera", O).codiceSocieta, "RM8999"); // cifra in più letta dall'OCR: si tiene, l'utente corregge
+  // foto vera letta con soglia adattiva: righe spezzate, cifre separate, "FIDAL" mai letto, solo l'anno in basso
+  const fotoA = "atletica.\n“4 ATLETA.\nData Tesseramento:\n09/12/2025 «.\nscadenza Certificato\nMedico 11/02/2027\nXY012345\n2026\nRM999 - - A.S.D. CORRERE INSIEME";
+  const fa = L.leggiDocumento(fotoA, "tessera", O);
+  assert.deepStrictEqual([fa.tipo, fa.numero, fa.scadenza, fa.certificato && fa.certificato.scadenza, fa.codiceSocieta], ["FIDAL", "XY012345", "2026-12-31", "2027-02-11", "RM999"]);
+  const fotoB = "Scadenza ( Certificato Medico: 1 1/02/2027 ©\nXY012345\n2026";
+  const fb = L.leggiDocumento(fotoB, "tessera", O);
+  assert.deepStrictEqual([fb.tipo, fb.scadenza, fb.certificato.scadenza], ["FIDAL", "2026-12-31", "2027-02-11"]);
+  const fotoC = "‘Scadenza Certificato Medico: 11/02/2027.\nXY012345"; // né anno né FIDAL letti: la scadenza resta al certificato
+  const fc = L.leggiDocumento(fotoC, "tessera", O);
+  assert.deepStrictEqual([fc.scadenza, fc.certificato.scadenza], [undefined, "2027-02-11"]);
   // senza anno stampato: tesseramento di dicembre vale per l'anno dopo
   assert.strictEqual(L.leggiDocumento("FIDAL\nData Tesseramento: 15/11/2025\nTessera n. AB12345", "tessera", O).scadenza, "2026-12-31");
   const eps = "RUNCARD EPS\nENTE DI PROMOZIONE SPORTIVA\nAB12C345\n2027-02-01";
