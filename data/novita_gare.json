@@ -1,6 +1,20 @@
 {
- "aggiornato": "2026-10-15T12:50Z",
+ "aggiornato": "2026-10-15T15:50Z",
  "novita": [
+  {
+   "id": "nf85fad184fd",
+   "gara": "H3e98ac2d78-10",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Corsa dei Castelli, torna Nadia Battocletti: è la stella della decima edizione",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74130923/corsa-dei-castelli-nadia-battocletti/",
+   "data": "2026-10-15",
+   "fonte": "Runner's World Italia",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/ac5cea17-7dd2-4fc9-9554-720a98e2585f.jpeg",
+   "trovato": "2026-10-15T15:50Z"
+  },
   {
    "id": "n571a21e4148",
    "gara": "H88b48310e5-42",
