@@ -10,6 +10,9 @@ dell'atleta, PDF), e vale per tutti gli utenti che seguono quella gara.
 - Uscita: `content/schede.json`, un oggetto con chiave = id della gara.
 - Pubblicazione: **automatica** (scelta di Luca, 14/10/2026). Le modifiche si committano direttamente su `main`
   (solo `content/schede.json`) e vanno online da sole; Luca riceve il riepilogo dell'esecuzione come notifica.
+- Esecuzione: workflow "Schede gara" (Claude Code in GitHub Actions), lanciato ogni mattina da Supabase dopo l'export
+  delle gare seguite. Claude modifica solo `content/schede.json` e scrive `messaggio_commit.txt` e `riepilogo.md`;
+  commit e notifica (commento sull'issue "Riepilogo schede gara") li fa il workflow.
 
 ## Formato di una scheda
 
@@ -101,9 +104,10 @@ cambiato si aggiorna il campo e lo si segnala nel commit e nel riepilogo.
 
 ## Commit e riepilogo
 
-Commit su `main` con messaggio `Schede gara del AAAA-MM-GG: N nuove, M aggiornate` e, nel corpo, per ogni gara:
-nome, data, cosa è nuovo o cambiato (prima → dopo), campi non trovati. Prima del commit: `git pull --rebase`,
-controllare che `content/schede.json` sia JSON valido. Se non c'è nessuna modifica, non fare commit.
+Messaggio di commit (in `messaggio_commit.txt`) `Schede gara del AAAA-MM-GG: N nuove, M aggiornate` e, nel corpo,
+per ogni gara: nome, data, cosa è nuovo o cambiato (prima → dopo), campi non trovati. Il workflow controlla che
+`content/schede.json` sia JSON valido, fa `git pull --rebase` e il commit su `main`. Se non c'è nessuna modifica,
+nessun commit.
 
-Il riepilogo finale dell'esecuzione (che arriva a Luca come notifica) elenca le stesse cose, con i link alle fonti,
+Il riepilogo dell'esecuzione (in `riepilogo.md`, arriva a Luca come notifica GitHub) elenca le stesse cose, con i link alle fonti,
 e mette in evidenza: gare annullate o spostate, orari in contraddizione, cambi rispetto alla verifica precedente.

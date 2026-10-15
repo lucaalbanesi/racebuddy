@@ -46,8 +46,10 @@ revoke all on function public.racebuddy_lancia(text) from public, anon, authenti
 
 -- Calendario dei job (stessi orari dei vecchi cron di GitHub). Si ricrea tutto da zero a ogni esecuzione.
 select cron.unschedule(jobid) from cron.job where jobname like 'racebuddy-%';
--- Gare seguite (export notturno): deve finire prima delle schede gara di Claude (5:53 ora di Roma).
+-- Gare seguite (export notturno): deve finire prima delle schede gara.
 select cron.schedule('racebuddy-seguite',    '23 3 * * *',       $$select public.racebuddy_lancia('seguite.yml')$$);
+-- Schede gara (Claude Code nel workflow "Schede gara"): mezz'ora dopo l'export delle gare seguite.
+select cron.schedule('racebuddy-schede',     '53 3 * * *',       $$select public.racebuddy_lancia('schede.yml')$$);
 -- Novità ufficiali delle gare: ogni ora, qualche minuto prima del giro delle notifiche.
 select cron.schedule('racebuddy-novita',     '50 3-19 * * *',    $$select public.racebuddy_lancia('novita.yml')$$);
 -- Notifiche push: ogni mezz'ora (mattino mezz'ora prima dell'uscita, vigilia alle 19, mattina di gara).

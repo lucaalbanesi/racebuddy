@@ -1,0 +1,95 @@
+name: Schede gara
+# Claude Code compila e ricontrolla le schede gara (docs/schede-gara.md) con l'abbonamento Claude di Luca.
+# Innesco: pg_cron di Supabase (docs/supabase_cron.sql), come tutti gli altri job. Si può lanciare anche a mano.
+# Serve il secret CLAUDE_CODE_OAUTH_TOKEN (da `claude setup-token` sul computer di Luca).
+# Claude modifica solo content/schede.json e scrive messaggio di commit e riepilogo; commit, controllo del JSON
+# e riepilogo li fa il workflow. Il riepilogo arriva come commento sull'issue "Riepilogo schede gara" (notifica GitHub).
+on:
+  workflow_dispatch:
+    inputs:
+      nota:
+        description: "Indicazione in più per questo giro (facoltativa)"
+        required: false
+        default: ""
+permissions:
+  contents: write
+  issues: write
+  id-token: write
+concurrency:
+  group: schede
+  cancel-in-progress: false
+jobs:
+  schede:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Controllo del token
+        env:
+          T: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: if [ -z "$T" ]; then echo "::error::Manca il secret CLAUDE_CODE_OAUTH_TOKEN (vedi l'intestazione di questo file)"; exit 1; fi
+      - name: Claude compila le schede
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ github.token }}
+          prompt: |
+            Compila e aggiorna le schede gara di RaceBuddy (progetto personale di Luca Albanesi, app per runner in italiano).
+            Oggi è il giorno indicato dal comando `TZ=Europe/Rome date +%F`.
+
+            1. Leggi CLAUDE.md e docs/schede-gara.md e segui la procedura alla lettera: ingresso data/gare_seguite.json,
+               uscita content/schede.json, solo informazioni dal sito ufficiale dell'organizzatore per l'edizione in corso,
+               mai inventare, campi assenti se non trovati, al massimo 8 gare per esecuzione dalle più vicine.
+               Ignora la gara con id "TEST". Per cercare usa WebSearch e WebFetch.
+            2. Modifica SOLO content/schede.json (JSON valido, indentato, chiavi = id gara). Non fare commit né push:
+               li fa il workflow dopo di te.
+            3. Scrivi due file nella cartella principale del repository:
+               - `messaggio_commit.txt`: il messaggio di commit come indicato in docs/schede-gara.md
+                 (titolo "Schede gara del AAAA-MM-GG: N nuove, M aggiornate" e, nel corpo, per ogni gara cosa è
+                 nuovo o cambiato e i campi non trovati). Scrivilo solo se hai modificato content/schede.json.
+               - `riepilogo.md`: riepilogo breve in italiano per Luca: gare compilate e aggiornate, cosa è cambiato,
+                 informazioni non trovate, link alle fonti; in evidenza gare annullate o spostate e orari in
+                 contraddizione. Se non c'è nessuna gara da compilare o ricontrollare, scrivi solo
+                 "Nessuna scheda da aggiornare oggi" e non toccare content/schede.json.
+            ${{ inputs.nota && format('Indicazione di Luca per questo giro: {0}', inputs.nota) || '' }}
+          claude_args: |
+            --model claude-opus-5-5
+            --max-turns 120
+            --allowedTools "Read,Write,Edit,Glob,Grep,WebSearch,WebFetch,Bash(date:*),Bash(python3:*),Bash(jq:*),Bash(git status:*),Bash(git diff:*),Bash(ls:*)"
+      - name: Controlla e pubblica
+        id: pubblica
+        run: |
+          if ! git diff --quiet -- content/schede.json; then
+            python3 -c "import json; json.load(open('content/schede.json'))" || { echo "::error::content/schede.json non è JSON valido: niente pubblicato"; exit 1; }
+            altri=$(git status --porcelain | grep -v -e ' content/schede.json$' -e ' messaggio_commit.txt$' -e ' riepilogo.md$' || true)
+            if [ -n "$altri" ]; then echo "::warning::Claude ha toccato altri file, ignorati: $altri"; fi
+            [ -s messaggio_commit.txt ] || echo "Schede gara del $(TZ=Europe/Rome date +%F)" > messaggio_commit.txt
+            printf '\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\n' >> messaggio_commit.txt
+            git config user.name "Luca Albanesi"; git config user.email "luca.alba8@gmail.com"
+            git add content/schede.json
+            git commit -q -F messaggio_commit.txt
+            for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 5; done
+            echo "commit=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+            echo "$(head -1 messaggio_commit.txt) (commit $(git rev-parse --short HEAD))"
+          else
+            echo "Nessuna modifica a content/schede.json"
+          fi
+      - name: Riepilogo per Luca
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ESITO: ${{ job.status }}
+          COMMIT: ${{ steps.pubblica.outputs.commit }}
+        run: |
+          giorno=$(TZ=Europe/Rome date +%F)
+          { echo "### Schede gara del $giorno"; echo;
+            if [ "$ESITO" != "success" ]; then echo "⚠️ Il giro non è andato a buon fine: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"; echo; fi
+            if [ -s riepilogo.md ]; then cat riepilogo.md; else echo "(nessun riepilogo scritto da Claude)"; fi
+            if [ -n "$COMMIT" ]; then echo; echo "Pubblicato con il commit $COMMIT."; fi; } > corpo.md
+          cat corpo.md >> $GITHUB_STEP_SUMMARY
+          echo "::notice title=Schede gara::$(head -c 900 corpo.md | tr '\n' ' ')"
+          n=$(gh issue list -R ${{ github.repository }} --state open --search 'in:title "Riepilogo schede gara"' --json number --jq '.[0].number')
+          if [ -z "$n" ]; then n=$(gh issue create -R ${{ github.repository }} --title "Riepilogo schede gara" --body "Qui arriva il riepilogo di ogni giro delle schede gara (workflow \"Schede gara\"). Lascia l'issue aperta: ogni commento ti arriva come notifica." | grep -o '[0-9]*$'); fi
+          gh issue comment "$n" -R ${{ github.repository }} --body-file corpo.md
