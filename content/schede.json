@@ -211,6 +211,11 @@
   "mappa": "Viale dell'Industria, Roma",
   "percorsoDescrizione": "10 km sulle strade del quartiere Eur.",
   "sito": "https://www.romaurbsmundi.it/",
+  "canali": {
+   "notizie": "https://www.romaurbsmundi.it/feed/",
+   "instagram": "https://www.instagram.com/romaurbsmundi",
+   "facebook": "https://www.facebook.com/romaurbsmundi"
+  },
   "nomi": [
    "Roma Urbs Mundi",
    "Urbs Mundi"
