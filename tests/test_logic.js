@@ -156,4 +156,16 @@ assert.ok(L.leggiTempo("21", L.tempoDaParti("1", "75", "00")).errore);
   assert.deepStrictEqual(I.aCapo(ctx, "", 100, 2), []);
   assert.deepStrictEqual(I.FORMATI.storia, [1080, 1920]);
 }
+// swipe tra le sezioni della gara
+assert.strictEqual(L.sezioneSwipe("", -120, 10, 300), "preparazione");
+assert.strictEqual(L.sezioneSwipe("preparazione", -120, 10, 300), "info");
+assert.strictEqual(L.sezioneSwipe("info", -120, 10, 300), "borsa");
+assert.strictEqual(L.sezioneSwipe("borsa", -120, 10, 300), null); // ultima
+assert.strictEqual(L.sezioneSwipe("info", 120, 10, 300), "preparazione");
+assert.strictEqual(L.sezioneSwipe("preparazione", 120, 0, 300), "");
+assert.strictEqual(L.sezioneSwipe("", 120, 0, 300), null); // prima
+assert.strictEqual(L.sezioneSwipe("", -40, 0, 300), null); // troppo corto
+assert.strictEqual(L.sezioneSwipe("", -100, 80, 300), null); // in diagonale: è uno scroll
+assert.strictEqual(L.sezioneSwipe("", -100, 0, 1200), null); // troppo lento
+assert.strictEqual(L.sezioneSwipe("novita", -120, 0, 300), null); // fuori dalla barra
 console.log("ok");

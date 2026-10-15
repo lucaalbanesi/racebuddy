@@ -278,6 +278,10 @@ body.onboarding .app { padding: 0; max-width: 480px; min-height: 100dvh; }
 /* La gara: sezioni */
 .seg { display: flex; gap: 4px; background: var(--line2); border-radius: 12px; padding: 4px; overflow-x: auto; scrollbar-width: none; }
 .seg a { flex: 1 0 auto; text-align: center; padding: 8px 10px; border-radius: 9px; font-size: 14px; font-weight: 600; color: var(--muted); text-decoration: none; white-space: nowrap; }
+@keyframes entra-da-destra { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: none; } }
+@keyframes entra-da-sinistra { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: none; } }
+#app.da-destra { animation: entra-da-destra .22s ease-out; }
+#app.da-sinistra { animation: entra-da-sinistra .22s ease-out; }
 .seg a[aria-current="page"] { background: var(--surface); color: var(--fg); box-shadow: 0 1px 3px #0001; font-weight: 700; }
 .link-card { text-decoration: none; color: inherit; font-weight: inherit; }
 .link-card:active, .mia-gara:active { transform: scale(.99); }

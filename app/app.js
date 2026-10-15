@@ -5,6 +5,7 @@
   const L = window.RBLogic;
   const KEY = "racebuddy.v1";
   const $app = document.getElementById("app");
+  let entrata = null; // "da-destra" / "da-sinistra" dopo uno swipe tra le sezioni della gara
 
   // ------------------------------------------------------------------ stato
   const vuoto = () => ({ profilo: {}, gare: [], spunte: {}, rinvii: {}, personali: [], scarpe: [], prova: "" });
@@ -1501,6 +1502,11 @@
       default: html = vistaOggi();
     }
     $app.innerHTML = html;
+    // dopo uno swipe: la nuova sezione entra dal lato giusto; la voce attiva della barra resta in vista
+    $app.classList.remove("da-destra", "da-sinistra");
+    if (entrata) { void $app.offsetWidth; $app.classList.add(entrata); entrata = null; }
+    const seg = $app.querySelector('nav.seg[aria-label="Sezioni della gara"]'), att = seg && seg.querySelector('[aria-current="page"]');
+    if (att) seg.scrollLeft = att.offsetLeft - (seg.clientWidth - att.offsetWidth) / 2;
     document.body.classList.toggle("onboarding", tab === "invito" && !(S.gruppo && S.gruppo.dentro));
     if (tab === "oggi" || !tab) riempiMeteo();
     riempiMeteoGaraBox();
@@ -1853,6 +1859,35 @@
     if (k) { S.ioAperto = { ...(S.ioAperto || {}), [k]: e.target.open }; try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (err) { /* niente */ } }
   }, true);
   window.addEventListener("hashchange", () => { route(); window.scrollTo(0, 0); });
+
+  // Swipe tra le sezioni della gara (Panoramica · Preparazione · Info gara · Borsa), come toccare la barra a segmenti.
+  // Non parte da campi, dalla barra stessa o da elementi che scorrono in orizzontale. Regole in L.sezioneSwipe (testate).
+  let tocco = null;
+  const scorreInOrizzontale = (el) => {
+    for (; el && el !== $app; el = el.parentElement) {
+      if (el.scrollWidth > el.clientWidth + 2 && /(auto|scroll)/.test(getComputedStyle(el).overflowX)) return true;
+    }
+    return false;
+  };
+  $app.addEventListener("touchstart", (e) => {
+    tocco = null;
+    if (e.touches.length !== 1 || !$app.querySelector('nav.seg[aria-label="Sezioni della gara"]')) return;
+    if (e.target.closest('input:not([type="checkbox"]):not([type="radio"]), textarea, select, .seg, [data-noswipe]') || scorreInOrizzontale(e.target)) return;
+    const p = e.touches[0];
+    tocco = { x: p.clientX, y: p.clientY, t: Date.now() };
+  }, { passive: true });
+  $app.addEventListener("touchend", (e) => {
+    if (!tocco || !e.changedTouches.length) return;
+    const p = e.changedTouches[0], dx = p.clientX - tocco.x, dy = p.clientY - tocco.y, ms = Date.now() - tocco.t;
+    tocco = null;
+    const m = location.hash.match(/^#\/gara\/([^/?]+)(?:\/([^/?]*))?/);
+    if (!m) return;
+    const dove = L.sezioneSwipe(m[2] || "", dx, dy, ms);
+    if (dove === null) return;
+    entrata = dx < 0 ? "da-destra" : "da-sinistra";
+    location.replace(urlGara(decodeURIComponent(m[1]), dove)); // replace: la freccia indietro resta quella della barra
+  }, { passive: true });
+  $app.addEventListener("touchcancel", () => { tocco = null; }, { passive: true });
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
   carica().then(() => { route(); contaApertura(); if (C().strava) aggiornaScarpeStrava(); S.gare.forEach((g) => segnalaGara(g, g.id.startsWith("M") ? "manuale" : "FIDAL")); if (S.push && S.push.attivo) sincronizzaPush(); if (S.gruppo && S.gruppo.dentro) { aggiornaGruppo(true).then(() => sincronizzaPBGruppo()); sincronizzaGareGruppo(); } });
 })();

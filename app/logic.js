@@ -254,7 +254,19 @@
     return { scelta: scelta ? { ...scelta, tempo: leggiTempo(distanza, hms(scelta.secondi)).tempo } : null, altre: (corse || []).filter((a) => a !== scelta && a.secondi > 0) };
   }
 
-  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, sorriso, prossimaUscita, cercaGare, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara };
+  /** Swipe tra le sezioni della gara. SEZIONI_GARA è l'ordine della barra a segmenti ("" = Panoramica).
+   *  sezioneSwipe(sez, dx, dy, ms): sezione di arrivo, o null se il gesto non è uno swipe orizzontale deciso
+   *  (almeno 60px, nettamente più orizzontale che verticale, entro 700ms) o se si è già alla prima/ultima. */
+  const SEZIONI_GARA = ["", "preparazione", "info", "borsa"];
+  function sezioneSwipe(sez, dx, dy, ms) {
+    if (!(Math.abs(dx) >= 60 && Math.abs(dx) > 1.8 * Math.abs(dy) && ms <= 700)) return null;
+    const i = SEZIONI_GARA.indexOf(sez || "");
+    if (i < 0) return null;
+    const j = i + (dx < 0 ? 1 : -1); // dito verso sinistra = sezione successiva
+    return j >= 0 && j < SEZIONI_GARA.length ? SEZIONI_GARA[j] : null;
+  }
+
+  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, sorriso, prossimaUscita, cercaGare, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);
