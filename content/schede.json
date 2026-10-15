@@ -176,5 +176,51 @@
   ],
   "verificato": "2026-10-15",
   "edizione": "2027"
+ },
+ "H3e98ac2d78-10": {
+  "luogoPartenza": "Partenza dal Castello di Miramare, arrivo in Piazza Unità d'Italia",
+  "pettorale": "In Piazza Unità d'Italia: ven 16 e sab 17 ottobre 10-19; domenica 7-8 solo per chi non risiede in provincia di Trieste. Delega: modulo di delega e privacy firmati, conferma d'iscrizione e documento del titolare.",
+  "deposito": "Nella zona di partenza al Castello di Miramare, consegna entro le 9:30 con l'adesivo del pettorale; ritiro dopo la gara in Piazza Unità, al centro iscrizioni.",
+  "ristori": "Al km 5 e in zona arrivo",
+  "arrivare": "Navetta gratuita per la partenza dalla stazione Trieste Centrale (lato parcheggio Saba Silos) alle 7:30-8:45; nessuna navetta di ritorno. Parcheggio consigliato vicino alla stazione o a Piazza Unità.",
+  "mappa": "Castello di Miramare, Trieste",
+  "percorsoDescrizione": "Da Miramare lungo Viale Miramare verso il centro, attraverso Porto Vecchio fino a Piazza Unità. Percorso omologato FIDAL.",
+  "sito": "https://www.promorun.it/corsa-dei-castelli-2/",
+  "canali": {
+   "instagram": "https://www.instagram.com/corsadeicastelli/",
+   "facebook": "https://www.facebook.com/CORSADEICASTELLI/"
+  },
+  "nomi": [
+   "Corsa dei Castelli",
+   "Corsa dei Castelli di Trieste"
+  ],
+  "note": "Orario di partenza non indicato sulle pagine del sito (è nel regolamento PDF, non leggibile oggi). Poco prima parte la International Road Race U23 10k. Serve tessera FIDAL o Runcard con certificato medico.",
+  "fonti": [
+   "https://www.promorun.it/corsa-dei-castelli-2/",
+   "https://www.promorun.it/presentata-la-10-corsa-dei-castelli-di-domenica-18-ottobre/",
+   "https://www.promorun.it/faqs-domande-frequenti-2/",
+   "https://www.promorun.it/regolamento-corsa-dei-castelli-2/"
+  ],
+  "verificato": "2026-10-15",
+  "edizione": "2026"
+ },
+ "H90a44ed91b-10": {
+  "luogoPartenza": "Partenza e arrivo in Viale dell'Industria (Eur)",
+  "deposito": "Area deposito borse prevista; luogo e orari non ancora pubblicati.",
+  "ristori": "Un ristoro intermedio e uno all'arrivo",
+  "mappa": "Viale dell'Industria, Roma",
+  "percorsoDescrizione": "10 km sulle strade del quartiere Eur.",
+  "sito": "https://www.romaurbsmundi.it/",
+  "nomi": [
+   "Roma Urbs Mundi",
+   "Urbs Mundi"
+  ],
+  "note": "Tempo massimo 1h40. Orario della competitiva non ancora indicato (il regolamento della non competitiva dice 8:30). Ritiro pettorali e griglie: informazioni non ancora pubblicate.",
+  "fonti": [
+   "https://www.romaurbsmundi.it/regolamento-2026/",
+   "https://www.romaurbsmundi.it/regolamento-2/"
+  ],
+  "verificato": "2026-10-15",
+  "edizione": "2026"
  }
 }
