@@ -1,11 +1,55 @@
 {
- "aggiornato": "2026-10-14",
+ "aggiornato": "2026-10-15",
  "gare": [
+  {
+   "id": "Ha7c4f82f69-10",
+   "nome": "V^ 10k I Tre Borghi",
+   "data": "2026-10-17",
+   "luogo": "LEVANTO",
+   "distanza": "10",
+   "fonte": "FIDAL",
+   "prima_aggiunta": "2026-10-14",
+   "aggiunte": 2,
+   "ultima_aggiunta": "2026-10-14"
+  },
   {
    "id": "Hd9df59d4b1-21",
    "nome": "III^ Rome Half Marathon",
    "data": "2026-10-18",
    "luogo": "ROMA",
+   "distanza": "21",
+   "fonte": "FIDAL",
+   "prima_aggiunta": "2026-10-14",
+   "aggiunte": 2,
+   "ultima_aggiunta": "2026-10-14"
+  },
+  {
+   "id": "H980534b2f8-42",
+   "nome": "VI^ Neapolis Marathon",
+   "data": "2026-10-18",
+   "luogo": "NAPOLI",
+   "distanza": "42",
+   "fonte": "FIDAL",
+   "prima_aggiunta": "2026-10-14",
+   "aggiunte": 1,
+   "ultima_aggiunta": "2026-10-14"
+  },
+  {
+   "id": "H3e98ac2d78-10",
+   "nome": "X^ Corsa dei Castelli",
+   "data": "2026-10-18",
+   "luogo": "TRIESTE",
+   "distanza": "10",
+   "fonte": "FIDAL",
+   "prima_aggiunta": "2026-10-14",
+   "aggiunte": 1,
+   "ultima_aggiunta": "2026-10-14"
+  },
+  {
+   "id": "H0e7dc2579e-21",
+   "nome": "IX^ Milano21",
+   "data": "2026-11-22",
+   "luogo": "MILANO",
    "distanza": "21",
    "fonte": "FIDAL",
    "prima_aggiunta": "2026-10-14",
@@ -17,6 +61,28 @@
    "nome": "XLII^ ESTRA Firenze Marathon",
    "data": "2026-11-29",
    "luogo": "FIRENZE",
+   "distanza": "42",
+   "fonte": "FIDAL",
+   "prima_aggiunta": "2026-10-14",
+   "aggiunte": 1,
+   "ultima_aggiunta": "2026-10-14"
+  },
+  {
+   "id": "H90a44ed91b-10",
+   "nome": "XXIV^ Roma Urbs Mundi",
+   "data": "2026-12-13",
+   "luogo": "ROMA",
+   "distanza": "10",
+   "fonte": "FIDAL",
+   "prima_aggiunta": "2026-10-14",
+   "aggiunte": 1,
+   "ultima_aggiunta": "2026-10-14"
+  },
+  {
+   "id": "P8cb521dda8-42",
+   "nome": "XXXII^ Run Rome The Marathon",
+   "data": "2027-03-14",
+   "luogo": "ROMA",
    "distanza": "42",
    "fonte": "FIDAL",
    "prima_aggiunta": "2026-10-14",
