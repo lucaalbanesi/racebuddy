@@ -1,6 +1,34 @@
 {
- "aggiornato": "2026-10-15T15:50Z",
+ "aggiornato": "2026-10-16T15:50Z",
  "novita": [
+  {
+   "id": "n9d9a31bd11e",
+   "gara": "Hd9df59d4b1-21",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Rome Half Marathon, strade chiuse e viabilità: cosa cambia nel weekend della gara",
+   "link": "https://www.runnersworld.com/it/news/a74144797/rome-half-marathon-strade-chiuse/",
+   "data": "2026-10-16",
+   "fonte": "Runner's World Italia",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/ebadf1ff-c7a8-4e5e-9788-ade08f20594b.jpeg",
+   "trovato": "2026-10-16T15:50Z"
+  },
+  {
+   "id": "n42a2948ae39",
+   "gara": "Hd9df59d4b1-21",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Rome Half Marathon 2026, dove vederla in tv e streaming",
+   "link": "https://www.runnersworld.com/it/news/a74115056/rome-half-marathon-dove-vederla-tv-streaming/",
+   "data": "2026-10-16",
+   "fonte": "Runner's World Italia",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/1ed2a530-a2eb-44cb-a9bc-21d934ef5e86.jpg",
+   "trovato": "2026-10-16T15:50Z"
+  },
   {
    "id": "nf85fad184fd",
    "gara": "H3e98ac2d78-10",
