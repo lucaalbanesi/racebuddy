@@ -2,6 +2,305 @@
  "aggiornato": "2026-10-16",
  "contenuti": [
   {
+   "id": "6ed26e9486f3",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Un italiano ha vinto la gara più lunga del mondo, correndo sempre gli stessi 900 metri",
+   "estratto": "La corsa è lunga quasi 4.990 chilometri, ma il percorso da compiere più volte è cortissimo",
+   "link": "https://www.runnersworld.com/it/news/a74154530/andrea-marcato-self-transcendence-race-2026/",
+   "data": "2026-10-16",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/36206e60-1f17-4436-9129-b0481989c7c1.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "ae1464df73a5",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Trataka, meditare fissando la fiamma di una candela",
+   "estratto": "Fissare una sorgente luminosa circoscritta riduce le oscillazioni dell’attenzione, trasformando la percezione visiva in uno strumento di disciplina cognitiva quotidiana. Gli occhi…",
+   "link": "https://runlovers.it/2026/trataka-meditazione-fiamma-candela/",
+   "data": "2026-10-16",
+   "immagine": null,
+   "argomenti": [
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "e57c06015a56",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "The Long Way to Venice: Luca Masoero, 350 km di corsa da Milano a Venezia",
+   "estratto": "Da Milano a Venezia, circa 350 chilometri in autosufficienza e senza pettorale: Luca Masoero affronta la sfida di The Long Way to Venice , tra scoperta, incontri e fatica.",
+   "link": "https://www.runnersworld.com/it/vip/a74153388/the-long-way-to-venice-luca-masoero-milano-venezia/",
+   "data": "2026-10-16",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/915585bf-4390-4525-b25e-7be676aec8c6.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "scarico"
+   ]
+  },
+  {
+   "id": "3556c7f7ee48",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Test frontali in montagna di notte: che fatica!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/BWtq27_9LVU",
+   "data": "2026-10-16",
+   "immagine": "https://i3.ytimg.com/vi/BWtq27_9LVU/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "32008c8d1275",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "Suunto Race 3S, l’intelligenza artificiale al servizio del trail",
+   "estratto": "Pensato per il trail running, il Suunto Race 3S unisce fino a 38 ore di autonomia in GPS e un set completo di strumenti basati sull’intelligenza artificiale, in soli 56 g. « Oggi…",
+   "link": "https://correre.it/suunto-race-3s/",
+   "data": "2026-10-16",
+   "immagine": "https://correre.it/wp-content/uploads/2026/10/Suunto_race_3s_braccio.jpg",
+   "argomenti": [
+    "allenamento",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "656c130c92bf",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Rome Half Marathon, strade chiuse e viabilità: cosa cambia nel weekend della gara",
+   "estratto": "In vista della Wizz Air Rome Half Marathon di domenica 18 ottobre, cambiano viabilità e trasporti nella Capitale. Ecco le strade chiuse e le linee bus deviate o sospese",
+   "link": "https://www.runnersworld.com/it/news/a74144797/rome-half-marathon-strade-chiuse/",
+   "data": "2026-10-16",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/ebadf1ff-c7a8-4e5e-9788-ade08f20594b.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "79dfc1d115e2",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Rome Half Marathon 2026, dove vederla in tv e streaming",
+   "estratto": "Una terza edizione da record arriva per le strade della Capitale: 40.000 al via in una domenica di fuoco",
+   "link": "https://www.runnersworld.com/it/news/a74115056/rome-half-marathon-dove-vederla-tv-streaming/",
+   "data": "2026-10-16",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/1ed2a530-a2eb-44cb-a9bc-21d934ef5e86.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "5c38d3149287",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "New Balance SC Rebel V1, la scarpa veloce da usare tutti i giorni",
+   "estratto": "New Balance ha dato vita a una scarpa da allenamento veloce per chi ama reattività e fluidità. La nuova SC Rebel V1 unisce le caratteristiche di una super scarpa in un pacchetto…",
+   "link": "https://www.runnersworld.com/it/scarpe/scarpe-running/a74147839/new-balance-sc-rebel-v1-corsa-scarpe-veloce/",
+   "data": "2026-10-16",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/d357fc88-7071-4885-a6e6-e432cda78782.png",
+   "argomenti": [
+    "scarpe",
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "67d1e73dcb62",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona di Amsterdam 2026: 30mila runner su uno dei percorsi più veloci al mondo",
+   "estratto": "La Maratona di Amsterdam 2026 porta al via oltre 30mila runner: percorso velocissimo, grandi nomi e arrivo nello storico Stadio Olimpico",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74141987/maratona-amsterdam-2026/",
+   "data": "2026-10-16",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/328e7ad2-d713-4fb4-ace3-7cf9faa73ff5.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "ac7ab7f96e83",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Lodi, 25 ottobre: al via l’11^ edizione della Laus Half Marathon",
+   "estratto": "Corsa, solidarietà, una medaglia dai fini riferimenti storici…e tanto altro. 16 ottobre 2026. La Laus Half Marathon numero 11, in programma domenica 25 ottobre (start alle ore…",
+   "link": "https://podisti.net/lodi-25-ottobre-al-via-l11-edizione-della-laus-half-marathon/",
+   "data": "2026-10-16",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/Lodi-2026-presentazione-300x182.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "fc12beda5cbf",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Grandi spazi e donne che non chiedono permesso, le serie di Taylor Sheridan",
+   "estratto": "La sera in cui non ci si allena Il giovedì è il giorno vuoto della mia settimana. Sul foglio del programma c’è scritto riposo, una parola sola in una colonna dove negli altri…",
+   "link": "https://runlovers.it/2026/taylor-sheridan-serie-paesaggi-personaggi-femminili/",
+   "data": "2026-10-16",
+   "immagine": null,
+   "argomenti": [
+    "scarpe",
+    "allenamento",
+    "recupero",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara",
+    "dopo"
+   ]
+  },
+  {
+   "id": "923a90c200cf",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Foliage in Umbria: i colori dell'autunno nel cuore verde d'Italia",
+   "estratto": "Vivi l'incanto dei paesaggi umbri che si trasformano con colori caldi e atmosfere avvolgenti tra storia e natura",
+   "link": "https://www.runnersworld.com/it/travel/a65979524/foliage-umbria-cammini-autunno/",
+   "data": "2026-10-16",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/de4bffa8-cbf6-4988-ac95-07ea19a76001.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "efd511973d99",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Foliage in Emilia-Romagna: dove vedere l'autunno tra Appennino e Foreste Casentinesi",
+   "estratto": "Viaggio tra sentieri e borghi nascosti per ammirare le tinte autunnali che vestono le colline e i boschi dell’Appennino",
+   "link": "https://www.runnersworld.com/it/travel/a65979465/foliage-emilia-romagna-cammini-autunno/",
+   "data": "2026-10-16",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/d1e0e903-1e6f-4579-aaa4-984972a41663.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "375b4e1ae8e4",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Doppia soglia: come inserire l'allenamento dei campioni norvegesi al tuo programma di allenamento",
+   "estratto": "Tutto quello che c'è da sapere sull'allenamento che sta spopolando tra i campioni del mezzofondo e come poterlo adattare alle tue tabelle",
+   "link": "https://www.runnersworld.com/it/allenamento/a74141444/doppia-soglia-allenamento-come-farlo/",
+   "data": "2026-10-16",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/f39af878-647d-4057-b8e9-df70f3104b91.jpg",
+   "argomenti": [
+    "allenamento",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "60e4d57b8135",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Carbmaxxing: allenare lo stomaco ai carboidrati prima della maratona",
+   "estratto": "In maratona conta la quantità di carboidrati che il tuo intestino riesce ad assorbire, e quella quantità cresce se la alleni lungo dopo lungo, nelle settimane che precedono la…",
+   "link": "https://runlovers.it/2026/carbmaxxing-allenare-stomaco-carboidrati-maratona/",
+   "data": "2026-10-16",
+   "immagine": null,
+   "argomenti": [
+    "rifornimento",
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "ed9b0ad10a1a",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Abbiamo realizzato un video su Youtube che parla di alimentazione prima e durante una competizione e",
+   "estratto": "Abbiamo realizzato un video su Youtube che parla di alimentazione prima e durante una competizione e oggi ci sofferiamo sul famoso \"MURO\"…",
+   "link": "https://www.youtube.com/shorts/dlUmbSWTmYI",
+   "data": "2026-10-16",
+   "immagine": "https://i1.ytimg.com/vi/dlUmbSWTmYI/hqdefault.jpg",
+   "argomenti": [
+    "alimentazione",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
    "id": "f3cf9fc33e0c",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -502,6 +801,24 @@
     "costruzione",
     "dopo"
    ]
+  },
+  {
+   "id": "ef2c8aef17d8",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Brian Reynolds, due protesi al traguardo della Leadville 100 Mile",
+   "estratto": "Nel 2023 si era fermato dopo 50 miglia. Tre anni dopo ha completato l’ultramaratona del Colorado in 28h55’43”, affrontando anche i crampi nel finale. Leadville (USA) – Nel trail…",
+   "link": "https://podisti.net/brian-reynolds-due-protesi-al-traguardo-della-leadville-100-mile/",
+   "data": "2026-10-14",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/Brian-Reynolds-2026-Leadville-100-Mile-finish-300x200.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
   },
   {
    "id": "48f6e0b57a46",
