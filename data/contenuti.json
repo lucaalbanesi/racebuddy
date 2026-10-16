@@ -1,6 +1,20 @@
 {
- "aggiornato": "2026-10-15",
+ "aggiornato": "2026-10-16",
  "contenuti": [
+  {
+   "id": "f3cf9fc33e0c",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Wellness gap: quando la vita da runner crea tensioni nella coppia",
+   "estratto": "Quando uno dei due nella coppia è super salutista e l'altro molto meno",
+   "link": "https://www.runnersworld.com/it/news/a74145699/wellness-gap-benessere-coppia-runner/",
+   "data": "2026-10-15",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/816acaec-7a48-4723-81e1-11467cb57163.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
   {
    "id": "7d1f2aaa677a",
    "tipo": "video",
