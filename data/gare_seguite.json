@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-10-15",
+ "aggiornato": "2026-10-16",
  "gare": [
   {
    "id": "Ha7c4f82f69-10",
@@ -20,8 +20,8 @@
    "distanza": "21",
    "fonte": "FIDAL",
    "prima_aggiunta": "2026-10-14",
-   "aggiunte": 2,
-   "ultima_aggiunta": "2026-10-14"
+   "aggiunte": 3,
+   "ultima_aggiunta": "2026-10-15"
   },
   {
    "id": "H980534b2f8-42",
@@ -64,8 +64,8 @@
    "distanza": "42",
    "fonte": "FIDAL",
    "prima_aggiunta": "2026-10-14",
-   "aggiunte": 1,
-   "ultima_aggiunta": "2026-10-14"
+   "aggiunte": 2,
+   "ultima_aggiunta": "2026-10-15"
   },
   {
    "id": "H90a44ed91b-10",
