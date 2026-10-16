@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-10-16T15:50Z",
+ "aggiornato": "2026-10-16T16:50Z",
  "novita": [
   {
    "id": "n9d9a31bd11e",
@@ -14,6 +14,20 @@
    "tipo": "articolo",
    "immagine": "https://hips.hearstapps.com/hmg-prod/images/ebadf1ff-c7a8-4e5e-9788-ade08f20594b.jpeg",
    "trovato": "2026-10-16T15:50Z"
+  },
+  {
+   "id": "n8c1522960bc",
+   "gara": "Hd9df59d4b1-21",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Gli atleti élite della terza edizione e le due corse di sabato",
+   "link": "https://www.romehalfmarathon.it/gli-atleti-elite-della-terza-edizione-e-le-due-corse-di-sabato/",
+   "data": "2026-10-16",
+   "fonte": "Sito ufficiale",
+   "ufficiale": true,
+   "tipo": "articolo",
+   "immagine": null,
+   "trovato": "2026-10-16T16:50Z"
   },
   {
    "id": "n42a2948ae39",
@@ -377,20 +391,6 @@
    "ufficiale": true,
    "tipo": "articolo",
    "immagine": "https://s.w.org/images/core/emoji/17.0.2/72x72/1f318.png",
-   "trovato": "2026-10-14T15:07Z"
-  },
-  {
-   "id": "n54d0bcf2d9b",
-   "gara": "Hd9df59d4b1-21",
-   "tema": "promo",
-   "urgenza": "app",
-   "titolo": "Wizz Air Rome Half Marathon by Brooks si corre per la solidarietà",
-   "link": "https://www.romehalfmarathon.it/wizz-air-rome-half-marathon-by-brooks-si-corre-per-la-solidarieta/",
-   "data": "2026-06-10",
-   "fonte": "Sito ufficiale",
-   "ufficiale": true,
-   "tipo": "articolo",
-   "immagine": null,
    "trovato": "2026-10-14T15:07Z"
   },
   {
