@@ -118,27 +118,61 @@
     return `${Math.round(temp)}°C, ${v}${p}`;
   }
 
-  /** Contenuti "per te": punteggio in base a fase e distanza della gara, freschezza e già letti.
-      Tutto calcolato sul telefono: online non va nulla di personale. */
+  /** Contenuti "per te": punteggio in base a fase e distanza della gara, freschezza, già letti e già visti.
+      Tutto calcolato sul telefono: online non va nulla di personale.
+      Rotazione: un contenuto mostrato in cima nei giorni scorsi e non aperto scende (VISTO_PENALITA per giorno),
+      un piccolo rimescolamento quotidiano (stabile nella giornata) varia i quasi pari merito,
+      e la freschezza dimezza ogni settimana, così le novità salgono davvero. */
   const ARG_FASE = { si_parte: ["scarpe", "forza", "allenamento"], costruzione: ["allenamento", "rifornimento", "forza", "scarpe"],
     picco: ["allenamento", "rifornimento", "scarpe"], scarico: ["gara", "rifornimento", "mente", "alimentazione", "abbigliamento"],
     gara: ["gara", "mente", "abbigliamento"], dopo: ["recupero", "racconti"] };
-  function punteggio(c, fase, distanza, oggi, letti = {}) {
+  const VISTO_PENALITA = 2.5, VISTI_GIORNI = 60, ROTAZIONE = 1.2;
+  function giorniVisto(v, oggi) {
+    // Giorni (prima di oggi) in cui il contenuto è stato mostrato in cima: oggi non conta, così la lista non cambia mentre navighi.
+    if (!v) return 0;
+    return Math.max(0, (v.giorni || 0) - (v.ultimo === oggi ? 1 : 0));
+  }
+  function punteggio(c, fase, distanza, oggi, letti = {}, visti = {}) {
     const giorni = Math.max(0, diffDays(oggi, c.data));
-    let p = Math.max(0, 30 - giorni) / 10;
+    let p = 4 * Math.pow(0.5, giorni / 7);
     if (fase && (c.fasi || []).includes(fase)) p += 3;
     if (distanza && (c.distanze || []).includes(distanza)) p += 2;
     else if (distanza && (c.distanze || []).length) p -= 1.5;
     p += (c.argomenti || []).filter((a) => (ARG_FASE[fase] || []).includes(a)).length * 0.7;
     if (letti[c.id]) p -= 6;
+    p -= giorniVisto(visti[c.id], oggi) * VISTO_PENALITA;
+    p += (hash(String(c.id) + oggi) % 100) / 100 * ROTAZIONE;
     return p;
   }
-  function perTe(contenuti, { fase, distanza, oggi, letti = {}, tipo = "" }) {
+  function perTe(contenuti, { fase, distanza, oggi, letti = {}, visti = {}, tipo = "" }) {
     return contenuti
       .filter((c) => !tipo || c.tipo === tipo)
-      .map((c) => ({ c, p: punteggio(c, fase, distanza, oggi, letti) }))
+      .map((c) => ({ c, p: punteggio(c, fase, distanza, oggi, letti, visti) }))
       .sort((a, b) => b.p - a.p || (a.c.data < b.c.data ? 1 : -1))
       .map((x) => ({ ...x.c, punteggio: Math.round(x.p * 10) / 10, perLaFase: !!fase && (x.c.fasi || []).includes(fase) }));
+  }
+  /** I primi n di una lista ordinata, al massimo maxPerFonte per fonte (se non bastano, completa con gli altri). */
+  function varieta(lista, n, maxPerFonte = 1) {
+    const out = [], conta = {};
+    for (const c of lista) {
+      if (out.length >= n) break;
+      const f = c.fonteId || c.fonte || "";
+      if ((conta[f] || 0) >= maxPerFonte) continue;
+      out.push(c); conta[f] = (conta[f] || 0) + 1;
+    }
+    for (const c of lista) { if (out.length >= n) break; if (!out.includes(c)) out.push(c); }
+    return out;
+  }
+  /** Registra i contenuti mostrati in cima oggi: { id: { giorni, ultimo } }. Ritorna una mappa nuova, senza voci vecchie. */
+  function segnaVisti(visti = {}, ids = [], oggi) {
+    const out = {};
+    for (const [id, v] of Object.entries(visti || {})) if (v && v.ultimo && diffDays(oggi, v.ultimo) <= VISTI_GIORNI) out[id] = v;
+    for (const id of ids) {
+      const v = out[id];
+      if (!v) out[id] = { giorni: 1, ultimo: oggi };
+      else if (v.ultimo !== oggi) out[id] = { giorni: (v.giorni || 0) + 1, ultimo: oggi };
+    }
+    return out;
   }
   /** Sorriso del giorno: stesso per tutto il giorno, coerente con la fase. */
   function sorriso(sorrisi, fase, oggi) {
@@ -392,7 +426,7 @@
     return out;
   }
 
-  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, sorriso, prossimaUscita, cercaGare, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento };
+  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, sorriso, prossimaUscita, cercaGare, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);

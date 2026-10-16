@@ -100,6 +100,19 @@ assert.strictEqual(L.statoScarpa({ km: 40, limite: 400, tipo: "gara" }).etichett
   assert.ok(r[0].perLaFase && !r[2].perLaFase);
   assert.strictEqual(L.perTe(cont, { fase: "scarico", distanza: "42", oggi: "2026-10-14", letti: { a: true } })[0].id, "c");
   assert.deepStrictEqual(L.perTe(cont, { fase: "scarico", oggi: "2026-10-14", tipo: "video" }).map((x) => x.id), ["b"]);
+  // Rotazione: un contenuto rimasto in cima nei giorni scorsi senza essere aperto scende.
+  const visti = L.segnaVisti(L.segnaVisti({}, ["a"], "2026-10-12"), ["a"], "2026-10-13");
+  assert.deepStrictEqual(visti.a, { giorni: 2, ultimo: "2026-10-13" });
+  assert.strictEqual(L.segnaVisti(visti, ["a"], "2026-10-13").a.giorni, 2); // stesso giorno: non conta due volte
+  assert.strictEqual(L.perTe(cont, { fase: "scarico", distanza: "42", oggi: "2026-10-14", visti: { a: { giorni: 3, ultimo: "2026-10-13" } } })[0].id, "c");
+  // Oggi stesso non penalizza: la lista non cambia mentre navighi.
+  assert.strictEqual(L.perTe(cont, { fase: "scarico", distanza: "42", oggi: "2026-10-14", visti: { a: { giorni: 1, ultimo: "2026-10-14" } } })[0].id, "a");
+  // Le voci vecchie si dimenticano.
+  assert.ok(!L.segnaVisti({ z: { giorni: 3, ultimo: "2026-01-01" } }, [], "2026-10-14").z);
+  // Varietà: una fonte per volta, poi completa.
+  const fv = [{ id: 1, fonte: "A" }, { id: 2, fonte: "A" }, { id: 3, fonte: "B" }];
+  assert.deepStrictEqual(L.varieta(fv, 2).map((x) => x.id), [1, 3]);
+  assert.deepStrictEqual(L.varieta(fv, 3).map((x) => x.id), [1, 3, 2]);
   const sr = [{ id: "1", fase: "scarico", testo: "x" }, { id: "2", fase: "senza_gara", testo: "y" }];
   assert.strictEqual(L.sorriso(sr, "scarico", "2026-10-14").id, "1");
   assert.strictEqual(L.sorriso(sr, "picco", "2026-10-14").id, "2");

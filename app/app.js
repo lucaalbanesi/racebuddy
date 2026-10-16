@@ -649,9 +649,22 @@
 
   const cardMeteo = () => (S.profilo.citta ? `<a class="card" id="meteo" href="#/meteo" style="text-decoration:none;color:inherit;font-weight:inherit" aria-label="Meteo dell'uscita, apri il dettaglio"><span class="eyebrow">${esc(S.profilo.citta)} · uscita delle ${esc(S.profilo.ora || "7:00")}</span><span class="small muted">Meteo in arrivo…</span></a>`
     : `<a class="card" href="#/io" style="text-decoration:none;color:inherit"><span class="title">Meteo e vestizione</span><span class="small">Dimmi dove e a che ora corri di solito: ti dico come vestirti.</span></a>`);
+  const contenutiLetti = () => Object.fromEntries(Object.keys(S.letti || {}).filter((k) => k.startsWith("c:")).map((k) => [k.slice(2), true]));
+  // Ricorda (solo sul telefono) quali contenuti sono stati mostrati in cima: dal giorno dopo scendono e lasciano posto ad altri.
+  function segnaContenutiVisti(lista, o) {
+    const nuovo = L.segnaVisti(S.visti, lista.map((c) => c.id), o);
+    if (JSON.stringify(nuovo) !== JSON.stringify(S.visti || {})) { S.visti = nuovo; salva(); }
+  }
+  /** I migliori n contenuti non ancora letti, una sola fonte per volta, registrati come visti oggi. */
+  function topPerTe(n) {
+    const cx = contesto(), letti = contenutiLetti();
+    const lista = L.perTe(D.contenuti || [], { fase: cx.fase, distanza: cx.distanza, oggi: cx.o, letti, visti: S.visti || {} }).filter((c) => !letti[c.id]);
+    const top = L.varieta(lista, n, 1);
+    segnaContenutiVisti(top, cx.o);
+    return top;
+  }
   function cardPerTe(titolo) {
-    const cx = contesto(), letti = Object.fromEntries(Object.keys(S.letti || {}).filter((k) => k.startsWith("c:")).map((k) => [k.slice(2), true]));
-    const top = L.perTe(D.contenuti || [], { fase: cx.fase, distanza: cx.distanza, oggi: cx.o, letti }).filter((c) => !letti[c.id]).slice(0, 3);
+    const top = topPerTe(3);
     return top.length ? `<section aria-label="${titolo}"><div class="between" style="margin-bottom:8px"><h2>${titolo}</h2><a class="small" href="#/perte">Altro ›</a></div><div class="lista-c">${top.map((c, i) => cardContenuto(c, i === 0)).join("")}</div></section>` : "";
   }
   function vistaVuota(concluse) {
@@ -716,8 +729,7 @@
     const meteo = cardMeteo();
 
     return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(o))}</span><h1>Buongiorno${S.profilo.nome ? ", " + esc(S.profilo.nome) : ""}</h1></div></header>${cardPrepara()}${hero}${avvisoDocumenti()}${meteo}${blocco}${statoPrepara().completo ? cardPush(true) : ""}${pill}${(() => {
-      const cx = contesto(), letti = Object.fromEntries(Object.keys(S.letti || {}).filter((k) => k.startsWith("c:")).map((k) => [k.slice(2), true]));
-      const top = L.perTe(D.contenuti || [], { fase: cx.fase, distanza: cx.distanza, oggi: cx.o, letti }).filter((c) => !letti[c.id]).slice(0, 2);
+      const top = topPerTe(2);
       return top.length ? `<section aria-label="Per te oggi"><div class="between" style="margin-bottom:8px"><h2>Per te oggi</h2><a class="small" href="#/perte">Altro ›</a></div><div class="lista-c">${top.map((c, i) => cardContenuto(c, i === 0)).join("")}</div></section>` : "";
     })()}`;
   }
@@ -1076,7 +1088,7 @@
   function vistaPerTe(param) {
     const { o, fase, nomeFase, distanza } = contesto();
     const mieGare = novitaMieGare();
-    const tipo = param.t || "", letti = Object.fromEntries(Object.keys(S.letti || {}).filter((k) => k.startsWith("c:")).map((k) => [k.slice(2), true]));
+    const tipo = param.t || "", letti = contenutiLetti();
     const chip = (v, l) => `<button class="chip" data-act="perte-tipo" data-t="${v}" aria-pressed="${tipo === v}">${l}</button>`;
     const testa = `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(nomeFase)}</span><h1>Per te</h1></div></header>
       <div class="chips" role="group" aria-label="Tipo di contenuto">${chip("", "Tutto")}${mieGare.length ? chip("gare", `Le mie gare · ${mieGare.length}`) : ""}${chip("articolo", "Articoli")}${chip("video", "Video")}${chip("podcast", "Podcast")}${chip("sorrisi", "Sorrisi")}</div>`;
@@ -1085,9 +1097,10 @@
       return `${testa}${lista.map((x) => `<section class="card sorriso"><p>${esc(x.testo)}</p></section>`).join("")}<p class="sub">Battute originali di RaceBuddy.</p>`;
     }
     if (tipo === "gare") return `${testa}<div class="lista-c">${mieGare.map(cardNovitaPerTe).join("")}</div><p class="sub">Novità ufficiali e articoli delle riviste sulle gare che segui. Tocca per aprirli alla fonte.</p>`;
-    const lista = L.perTe(D.contenuti || [], { fase, distanza, oggi: o, letti, tipo });
+    const lista = L.perTe(D.contenuti || [], { fase, distanza, oggi: o, letti, visti: S.visti || {}, tipo });
     if (!lista.length) return `${testa}<p class="sub">Nessun contenuto per ora: le fonti si aggiornano due volte al giorno.</p>`;
-    const perFase = fase ? lista.filter((c) => c.perLaFase && !letti[c.id]).slice(0, 6) : [];
+    const perFase = fase ? L.varieta(lista.filter((c) => c.perLaFase && !letti[c.id]), 6, 2) : [];
+    segnaContenutiVisti(perFase, o);
     const usati = new Set(perFase.map((c) => c.id));
     const novita = lista.filter((c) => !usati.has(c.id)).sort((a, b) => (a.data < b.data ? 1 : a.data > b.data ? -1 : 0));
     const n = Number(param.n || 20);
