@@ -3,7 +3,8 @@
 // GET  ?code=…&state=…        ritorno da Strava dopo l'autorizzazione → reindirizza all'app (#/io?strava=…)
 // POST {azione:"inizio"}      link per autorizzare su Strava (o {pieno:true} se i 10 posti di tester sono occupati)
 // POST {azione:"scarpe"}      scarpe dell'atleta con i km
-// POST {azione:"gare"}        corse segnate come gara + corse sulle distanze di gara anche se non segnate (per i personali)
+// POST {azione:"gare"[, pagina]}  corse segnate come gara + corse sulle distanze di gara anche se non segnate (per i personali);
+//                               con pagina (1-10) una pagina da 200 attività alla volta, per mostrare l'avanzamento
 // POST {azione:"giorno", data:"AAAA-MM-GG"}  corse di quel giorno (per il tempo a fine gara)
 // POST {azione:"scollega"}    revoca l'autorizzazione e cancella i token
 //
@@ -118,6 +119,14 @@ export function crea(env, fetchImpl = fetch) {
       if (!r.ok) return json({ errore: "strava", stato: r.status }, 502);
       const a = await r.json();
       return json({ scarpe: (a.shoes || []).map((s) => ({ id: String(s.id), nome: s.name || s.nickname || "Scarpa", km: Math.round((s.distance || 0) / 100) / 10, ritirata: !!s.retired, principale: !!s.primary })) });
+    }
+    if (az === "gare" && corpo.pagina) {
+      const p = Math.min(10, Math.max(1, Number(corpo.pagina) || 1));
+      const r = await api(tk, `athlete/activities?per_page=200&page=${p}`);
+      if (!r.ok) return json({ errore: "strava", stato: r.status }, 502);
+      const lista = await r.json();
+      const ultima = lista.length ? String(lista[lista.length - 1].start_date_local || lista[lista.length - 1].start_date || "").slice(0, 10) : "";
+      return json({ gare: lista.filter((a) => corsa(a) && (a.workout_type === 1 || suDistanzaGara(a))).map(voce), lette: lista.length, finoA: ultima, fine: lista.length < 200 || p >= 10 });
     }
     if (az === "gare") {
       const out = [];

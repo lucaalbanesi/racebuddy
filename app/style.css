@@ -349,3 +349,8 @@ label.btn.disabled { opacity: .6; pointer-events: none; }
 .link-btn:hover { color: var(--fg); }
 .chip:disabled { opacity: .4; cursor: default; }
 .gara-meteo { border: 2px solid var(--accent); }
+.spinner { width: 20px; height: 20px; border-radius: 50%; border: 3px solid var(--line2); border-top-color: var(--accent); animation: gira .8s linear infinite; flex: none; }
+@keyframes gira { to { transform: rotate(360deg); } }
+.meter.attesa div { width: 35%; background: var(--accent); animation: scorre 1.2s ease-in-out infinite; }
+@keyframes scorre { from { margin-left: -35%; } to { margin-left: 100%; } }
+@media (prefers-reduced-motion: reduce) { .spinner, .meter.attesa div { animation: none; } }

@@ -1591,14 +1591,35 @@
     STRAVA_STATO = null;
   }
   // Personali da Strava: le corse sulle distanze di gara (segnate come gara o no), la migliore per distanza, da confermare una per una.
-  function caricaPBStrava() {
-    STRAVA_PB = "carico";
-    funzioneStrava({ azione: "gare" }).then((r) => { STRAVA_PB = { ...L.candidatiPersonali(r.gare), totale: (r.gare || []).length }; }).catch((e) => { STRAVA_PB = { errore: e.message }; })
-      .then(() => { if (/^#\/pb/.test(location.hash)) rerender(); });
+  // A pagine da 200 attività: l'avanzamento (attività lette, fino a quando, corse trovate) si aggiorna nel riquadro.
+  async function caricaPBStrava() {
+    const gare = [];
+    STRAVA_PB = { carico: true, lette: 0, trovate: 0, finoA: "" };
+    try {
+      for (let p = 1; p <= 10; p++) {
+        const r = await funzioneStrava({ azione: "gare", pagina: p });
+        gare.push(...(r.gare || []));
+        STRAVA_PB = { carico: true, lette: STRAVA_PB.lette + (r.lette || 0), trovate: gare.length, finoA: r.finoA || STRAVA_PB.finoA };
+        aggiornaAvanzamentoPB();
+        if (r.fine || r.lette == null) break;
+      }
+      STRAVA_PB = { ...L.candidatiPersonali(gare), totale: gare.length, lette: STRAVA_PB.lette };
+    } catch (e) { STRAVA_PB = { errore: e.message }; }
+    if (/^#\/pb/.test(location.hash)) rerender();
   }
+  const meseAnno = (d) => (d ? new Date(d + "T12:00:00").toLocaleDateString("it-IT", { month: "long", year: "numeric" }) : "");
+  function avanzamentoPB() {
+    const a = STRAVA_PB || {};
+    return a.lette
+      ? `Lette <b>${a.lette}</b> attività${a.finoA ? `, fino a ${esc(meseAnno(a.finoA))}` : ""}.<br>Trovate <b>${a.trovate}</b> corse sulle distanze di gara (10 km, mezza, maratona).`
+      : "Mi collego a Strava…";
+  }
+  function aggiornaAvanzamentoPB() { const el = document.getElementById("strava-pb-avanz"); if (el) el.innerHTML = avanzamentoPB(); }
   function sezioneStravaPB() {
     if (!STRAVA_PB) return "";
-    if (STRAVA_PB === "carico") return `<section class="card"><span class="small">Leggo le tue gare su Strava…</span></section>`;
+    if (STRAVA_PB.carico) return `<section class="card" aria-live="polite" aria-busy="true"><div class="row" style="gap:10px"><span class="spinner" aria-hidden="true"></span><span class="title">Cerco i tuoi personali su Strava</span></div>
+      <span class="small" id="strava-pb-avanz">${avanzamentoPB()}</span><div class="meter attesa" aria-hidden="true"><div></div></div>
+      <span class="small muted">Leggo tutte le tue attività, dalla più recente: con qualche anno di corse ci vuole fino a mezzo minuto. Poi scelgo la migliore per distanza e te la faccio confermare.</span></section>`;
     if (STRAVA_PB.errore) return `<section class="card"><span class="small">${esc(STRAVA_PB.errore)}</span><button class="btn ghost small" data-act="strava-pb" style="align-self:flex-start">Riprova</button></section>`;
     const voce = (d) => {
       const lista = STRAVA_PB[d] || [], c = lista[0], att = (S.pb || {})[d];
@@ -1612,7 +1633,7 @@
           : `<span class="small muted">${c.secondi === att.secondi ? "È già il tuo personale." : `Più lento di quello che hai: resta ${esc(L.leggiTempo(d, att.tempo).tempo || att.tempo)}.`}</span>`}
         ${altre.length ? `<details><summary class="small">Altre ${altre.length} trovate</summary>${altre.map((x) => `<div class="between small" style="padding:6px 0"><span>${esc(x.nome)} · ${esc(L.fmtBreve(x.data))}</span><span class="row"><b>${esc(x.tempo)}</b><button class="linkbtn" data-act="strava-pb-salva" data-d="${d}" data-id="${esc(x.id)}">Usa questa</button></span></div>`).join("")}</details>` : ""}</section>`;
     };
-    return `<p class="sub">Abbiamo cercato su Strava le tue corse sulle distanze di gara, segnate come gara o no: ${STRAVA_PB.totale}. Conferma il tempo ufficiale (quello del chip), che può differire da quello del GPS.</p>${DISTANZE.map(voce).join("")}
+    return `<p class="sub">Ho letto ${STRAVA_PB.lette || "le tue"} attività su Strava e trovato ${STRAVA_PB.totale} corse sulle distanze di gara, segnate come gara o no. Conferma il tempo ufficiale (quello del chip), che può differire da quello del GPS.</p>${DISTANZE.map(voce).join("")}
       <p class="sub">I tempi da Strava restano sul telefono. Entrano nella classifica del gruppo solo quelli che salvi, e solo se hai scelto di comparire.</p>`;
   }
   // "Com'è andata?": il tempo della corsa su Strava, da confermare (vale il chip).

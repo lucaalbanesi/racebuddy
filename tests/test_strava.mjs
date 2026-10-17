@@ -102,6 +102,11 @@ assert.ok(r.gare.some((x) => x.gara) && r.gare.some((x) => !x.gara), "segnate e 
 assert.ok(r.gare.every((x) => x.gara || x.metri === 21200 || x.metri === 42653), "le non segnate solo sulle distanze di gara");
 assert.ok(r.gare.some((x) => x.id === "999"), "maratona non segnata trovata");
 assert.ok(r.gare.some((x) => Number(x.id) > 200), "seconda pagina letta");
+// a pagine, per l'avanzamento nell'app
+let p1 = await (await post({ azione: "gare", pagina: 1 })).json(), p2 = await (await post({ azione: "gare", pagina: 2 })).json();
+assert.strictEqual(p1.lette, 200); assert.strictEqual(p1.fine, false); assert.strictEqual(p1.finoA, "2026-03-01");
+assert.strictEqual(p2.lette, 31); assert.strictEqual(p2.fine, true);
+assert.strictEqual(p1.gare.length + p2.gare.length, r.gare.length, "a pagine trova le stesse corse");
 
 // giorno: solo le corse di quel giorno
 attivita = [{ id: 1, name: "Firenze Marathon", sport_type: "Run", workout_type: 1, distance: 42400, elapsed_time: 13325, moving_time: 13200, start_date_local: "2026-11-29T08:30:00Z" },
