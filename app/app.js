@@ -967,8 +967,7 @@
     const tutte = ck.borsa; // la mattina della gara si legge e basta: niente caselle, non conta nelle pronte
     const fatte = tutte.filter((v) => S.spunte[v.chiave]).length;
     const pct = tutte.length ? Math.round((fatte / tutte.length) * 100) : 0;
-    const n = L.diffDays(g.data, oggi()), i = infoGara(g);
-    const prom = [["Partenza", oraPartenza(g)], ["Griglia", i.griglia], ["Deposito", i.deposito], ["Dove", i.luogoPartenza]].filter((x) => x[1]);
+    const n = L.diffDays(g.data, oggi());
     return `${testataGara(g, "borsa")}
       <div style="display:flex;flex-direction:column;gap:6px"><div class="between small"><b>${fatte} di ${tutte.length} pronte</b><span class="muted">${n === 1 ? "la gara è domani" : n === 0 ? "la gara è oggi" : n > 1 ? "da preparare la sera prima" : ""}</span></div>
       <div class="meter acc" aria-hidden="true"><div style="width:${pct}%"></div></div></div>
@@ -977,7 +976,7 @@
       <form id="personale" class="row"><label class="sr" for="p-voce">Aggiungi una voce tua</label><input class="input" id="p-voce" placeholder="Aggiungi una voce tua" required><button class="btn" type="submit">Aggiungi</button></form>
       ${S.personali.length ? `<p class="sub">Le tue voci restano salvate per le prossime gare. <button class="btn ghost small" data-act="svuota-personali">Svuota le mie voci</button></p>` : ""}
       <section class="card" aria-label="Mattina della gara"><h2>La mattina della gara</h2>
-        ${prom.length ? `<div class="list" style="display:flex;flex-direction:column;margin-bottom:6px">${prom.map(([l, t]) => `<div class="line"><span class="when" style="width:76px">${l}</span><span>${esc(t)}${l === "Dove" ? ` · <a href="${mappa(i, g)}" target="_blank" rel="noopener">Maps ↗</a>` : ""}</span></div>`).join("")}</div>` : `<a class="small" href="${urlGara(g.id, "info")}?modifica=1">+ Annota orario, griglia e deposito in Info gara</a>`}
+        <a class="small" href="${urlGara(g.id, "info")}" style="font-weight:700">Orario, griglia, deposito e partenza: in Info gara ›</a>
         ${ck.mattina.length ? `<ol class="lista-mattina">${ck.mattina.map((v) => `<li><span class="t">${esc(v.titolo)}</span><span class="d">${esc(v.messaggio)}</span></li>`).join("")}</ol>` : ""}</section>`;
   }
 
