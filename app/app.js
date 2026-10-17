@@ -805,7 +805,7 @@
         ${r("obiettivo", "Obiettivo", "Costruisco la preparazione su questa gara", !ha)}
         ${r("tappa", "Tappa", "Una gara di passaggio verso l'obiettivo", ha)}
         ${r("divertimento", "Per divertimento", "Solo checklist e promemoria", false)}</fieldset>
-      <div class="field"><label for="a-tempo">Tempo obiettivo <span class="muted">(facoltativo)</span></label><input class="input" id="a-tempo" placeholder="es. 3:45:00"></div>
+      <div class="field"><span class="lbl" id="a-tempo-l">Tempo obiettivo <span class="muted">(facoltativo)</span></span>${campoTempo("a-tempo", g.distanza, "", "a-tempo-l")}</div>
       ${P.citta ? "" : `<span class="title">Due cose su di te <span class="muted small" style="font-weight:500">· puoi saltarle</span></span>
       <div class="field">${bottoneGps("a-citta")}</div>
       <div class="grid2"><div class="field"><label for="a-citta">Dove corri di solito</label><input class="input" id="a-citta" placeholder="es. Roma"></div>
@@ -899,8 +899,8 @@
       ${gr.length ? `<a class="card link-card" href="#/gruppo/gara/${encodeURIComponent(g.id)}"><div class="between"><h2>Il gruppo</h2><span class="small" style="color:var(--accent);font-weight:700">›</span></div><div class="row">${avatari(gr)}<span class="small">${gr.length} del gruppo ${gr.length === 1 ? "corre" : "corrono"} anche loro</span></div></a>` : ""}
       <details class="card" ${param.modifica ? "open" : ""}><summary>Ruolo e tempo obiettivo</summary>
         <form id="gara-imp" data-id="${esc(g.id)}" style="display:flex;flex-direction:column;gap:10px">
-        <div class="grid2"><div class="field"><label for="gi-ruolo">Ruolo</label><select class="input" id="gi-ruolo">${["obiettivo", "tappa", "divertimento"].map((r) => `<option value="${r}" ${g.ruolo === r ? "selected" : ""}>${L.RUOLO_LABEL[r]}</option>`).join("")}</select></div>
-        <div class="field"><label for="gi-tempo">Tempo obiettivo</label><input class="input" id="gi-tempo" value="${esc(g.tempo || "")}" placeholder="es. 3:45:00"></div></div>
+        <div class="field"><label for="gi-ruolo">Ruolo</label><select class="input" id="gi-ruolo">${["obiettivo", "tappa", "divertimento"].map((r) => `<option value="${r}" ${g.ruolo === r ? "selected" : ""}>${L.RUOLO_LABEL[r]}</option>`).join("")}</select></div>
+        <div class="field"><span class="lbl" id="gi-tempo-l">Tempo obiettivo <span class="muted">(facoltativo)</span></span>${campoTempo("gi-tempo", g.distanza, g.tempo || "", "gi-tempo-l")}</div>
         <button class="btn" type="submit">Salva</button></form></details>
       <div><button class="btn danger block" data-act="rimuovi" data-id="${esc(g.id)}">Rimuovi gara</button></div>`;
   }
@@ -938,7 +938,7 @@
     const testa = testataGara(g, "info");
     if (param.modifica) {
       return `${testa}<form id="scheda" data-id="${esc(g.id)}" class="card"><h2>Informazioni pratiche</h2><span class="small muted">Valgono solo per te e prevalgono su quelle dal sito ufficiale.</span>
-        ${CAMPI.map(([k, l, ph]) => `<div class="field"><label for="i-${k}">${l}</label>${k === "note" ? `<textarea class="input" id="i-${k}">${esc(info[k])}</textarea>` : `<input class="input" id="i-${k}" value="${esc(info[k])}" placeholder="${esc(ph)}" ${k === "sito" ? 'type="url" inputmode="url"' : ""}>`}</div>`).join("")}
+        ${CAMPI.map(([k, l, ph]) => `<div class="field"><label for="i-${k}">${l}</label>${k === "note" ? `<textarea class="input" id="i-${k}">${esc(info[k])}</textarea>` : k === "partenza" ? `<input class="input" id="i-partenza" type="time" step="300" value="${esc(oraInput((String(info.partenza || "").match(/\d{1,2}[:.]\d{2}/) || [""])[0]))}">` : `<input class="input" id="i-${k}" value="${esc(info[k])}" placeholder="${esc(ph)}" ${k === "sito" ? 'type="url" inputmode="url"' : ""}>`}</div>`).join("")}
         <div class="grid2"><button class="btn" type="submit">Salva</button><a class="btn ghost" href="${urlGara(g.id, "info")}">Annulla</a></div></form>`;
     }
     const azioni = [info.luogoPartenza || info.mappa ? `<a class="btn ghost small" href="${mappa(info, g)}" target="_blank" rel="noopener">Partenza in Maps ↗</a>` : "", sitoOk ? `<a class="btn ghost small" href="${esc(info.sito)}" target="_blank" rel="noopener">Sito ufficiale ↗</a>` : ""].filter(Boolean).join("");
@@ -1465,6 +1465,11 @@
     const ph = { "10": ["0", "47", "30"], "21": ["1", "45", "00"], "42": ["3", "45", "00"] }[distanza];
     const box = (k, v, max, p, nome) => `<input class="input" id="${id}-${k}" inputmode="numeric" pattern="[0-9]*" maxlength="${max}" autocomplete="off" placeholder="${p}" value="${esc(v)}" aria-label="${nome}">`;
     return `<div class="tempo3${grande ? " grande" : ""}" role="group" aria-labelledby="${etichetta}">${box("h", h, 1, ph[0], "Ore")}<span>h</span>${box("m", m, 2, ph[1], "Minuti")}<span>min</span>${box("s", s, 2, ph[2], "Secondi")}<span>s</span></div>`;
+  }
+  // Tempo facoltativo: caselle tutte vuote = nessun tempo; altrimenti come leggiCampoTempo.
+  function leggiTempoFacoltativo(id, distanza) {
+    const vuote = ["h", "m", "s"].every((k) => !((document.getElementById(`${id}-${k}`) || {}).value || "").trim());
+    return vuote ? { tempo: "" } : leggiCampoTempo(id, distanza);
   }
   function leggiCampoTempo(id, distanza) {
     const t = L.tempoDaParti(...["h", "m", "s"].map((k) => (document.getElementById(`${id}-${k}`) || {}).value || ""));
@@ -2049,8 +2054,10 @@
       const id = f.dataset.id;
       const base = D.gare.find((x) => x.id === id) || S._bozza;
       const ruolo = (f.querySelector('input[name="ruolo"]:checked') || {}).value || "obiettivo";
+      const ta = leggiTempoFacoltativo("a-tempo", base.distanza);
+      if (ta.errore) { toast(ta.errore); return; }
       S.gare = S.gare.filter((g) => g.id !== id);
-      S.gare.push({ id, nome: base.nome, data: base.data, luogo: base.luogo || "", distanza: base.distanza, ruolo, tempo: v("a-tempo"), aggiunta: oggi() });
+      S.gare.push({ id, nome: base.nome, data: base.data, luogo: base.luogo || "", distanza: base.distanza, ruolo, tempo: ta.tempo, aggiunta: oggi() });
       if (v("a-citta")) S.profilo.citta = v("a-citta");
       if (v("a-ora")) S.profilo.ora = v("a-ora");
       delete S._bozza; salva(); toast("Preparazione creata");
@@ -2096,12 +2103,18 @@
       location.hash = `#/condividi/${encodeURIComponent(id)}`;
     } else if (f.id === "gara-imp") {
       const g = S.gare.find((x) => x.id === f.dataset.id);
-      if (g) { g.ruolo = v("gi-ruolo") || g.ruolo; g.tempo = v("gi-tempo").trim(); salva(); toast("Salvato"); location.hash = urlGara(g.id); }
+      const tg = g ? leggiTempoFacoltativo("gi-tempo", g.distanza) : {};
+      if (tg.errore) { toast(tg.errore); return; }
+      if (g) { g.ruolo = v("gi-ruolo") || g.ruolo; g.tempo = tg.tempo; salva(); toast("Salvato"); location.hash = urlGara(g.id); }
     } else if (f.id === "scheda") {
       const g = S.gare.find((x) => x.id === f.dataset.id);
       if (g) {
         const uff = (D.schede || {})[g.id] || {};
-        g.info = {}; CAMPI.forEach(([k]) => { const val = v("i-" + k).trim(); if (val && val !== uff[k]) g.info[k] = val; });
+        g.info = {}; CAMPI.forEach(([k]) => {
+          const val = v("i-" + k).trim();
+          if (k === "partenza") { const u = oraInput((String(uff.partenza || "").match(/\d{1,2}[:.]\d{2}/) || [""])[0]); if (val && val !== u) g.info.partenza = val; return; } // orario dall'orologio, confrontato con quello ufficiale
+          if (val && val !== uff[k]) g.info[k] = val;
+        });
         salva(); toast("Info gara salvate");
         location.hash = urlGara(g.id, "info");
       }
