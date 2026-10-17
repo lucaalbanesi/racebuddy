@@ -978,7 +978,7 @@
       const { h, c } = sr, ora = oraISO(S.profilo.ora), o = oggi();
       const at = (t) => { const i = h.time.indexOf(t); return i < 0 ? null : { temp: h.temperature_2m[i], pioggia: h.precipitation_probability[i] ?? 0, vento: h.wind_speed_10m[i] ?? 0, codice: h.weather_code ? h.weather_code[i] : null, notte: h.is_day ? h.is_day[i] === 0 : false }; };
       const giorni = [];
-      const passata = !S.prova && new Date().getHours() > Number(ora.slice(0, 2));
+      const passata = !S.prova && L.prossimaUscita(S.profilo.ora, new Date()).slice(0, 10) !== L.todayISO();
       for (let d = passata ? 1 : 0; d < (passata ? 8 : 7); d++) { const dd = L.addDays(o, d), m = at(`${dd}T${ora}`); if (m) giorni.push([dd, m]); }
       const ore = [];
       const base = S.prova ? `${S.prova}T${ora}` : null;

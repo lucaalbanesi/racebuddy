@@ -214,11 +214,14 @@
   }
 
   /** Prossima uscita: oggi all'ora indicata se non è passata, altrimenti domani. Ritorna "YYYY-MM-DDTHH:00". */
+  /** Prossima uscita: oggi se l'ora non è ancora arrivata (minuti compresi), altrimenti domani.
+   *  Restituisce l'ora piena delle previsioni orarie (7:30 → 07:00). */
   function prossimaUscita(oraUscita, adesso) {
-    const [h] = String(oraUscita || "7:00").split(":").map(Number);
+    const m = String(oraUscita || "7:00").match(/(\d{1,2})(?:[:.](\d{2}))?/);
+    const h = Math.min(23, Number(m ? m[1] : 7)), mi = Number(m && m[2] ? m[2] : 0);
     const oggi = todayISO(adesso);
-    const giorno = adesso.getHours() > h ? addDays(oggi, 1) : oggi;
-    return `${giorno}T${String(h).padStart(2, "0")}:00`;
+    const passata = adesso.getHours() * 60 + adesso.getMinutes() >= h * 60 + mi;
+    return `${passata ? addDays(oggi, 1) : oggi}T${String(h).padStart(2, "0")}:00`;
   }
 
   /** Ricerca nel calendario: gare future, per testo e distanza. */

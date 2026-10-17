@@ -74,6 +74,10 @@ assert.strictEqual(L.descriviMeteo({ temp: 9.4, vento: 6 }), "9°C, vento legger
 // prossima uscita
 assert.strictEqual(L.prossimaUscita("6:30", new Date(2026, 9, 14, 5, 0)), "2026-10-14T06:00");
 assert.strictEqual(L.prossimaUscita("6:30", new Date(2026, 9, 14, 9, 0)), "2026-10-15T06:00");
+assert.strictEqual(L.prossimaUscita("6:30", new Date(2026, 9, 14, 6, 45)), "2026-10-15T06:00"); // iniziata da poco: già domani
+assert.strictEqual(L.prossimaUscita("08:00", new Date(2026, 9, 17, 8, 3)), "2026-10-18T08:00");
+assert.strictEqual(L.prossimaUscita("08:00", new Date(2026, 9, 17, 7, 59)), "2026-10-17T08:00");
+assert.strictEqual(L.prossimaUscita("18:30", new Date(2026, 9, 17, 8, 3)), "2026-10-17T18:00");
 
 // scarpe
 assert.strictEqual(L.statoScarpa({ km: 720, limite: 800 }).etichetta, "quasi a fine vita");
