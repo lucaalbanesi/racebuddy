@@ -155,6 +155,9 @@ assert.ok(L.leggiTempo("21", L.tempoDaParti("1", "75", "00")).errore);
   assert.strictEqual(c["21"][0].tempo, "1:42:58");
   assert.deepStrictEqual(c["10"].map((x) => x.tempo), ["0:48:05"]);
   assert.deepStrictEqual(c["42"], []);
+  // maratona non segnata come gara, GPS a 42,65 km (Roma) e a 43,5 km: si trovano
+  const mar = L.candidatiPersonali([{ id: "r", nome: "Morning Run", data: "2026-03-22", metri: 42653, secondi: 13529 }, { id: "m", data: "2026-04-12", metri: 43500, secondi: 15559 }]);
+  assert.deepStrictEqual(mar["42"].map((x) => [x.id, x.tempo]), [["r", "3:45:29"], ["m", "4:19:19"]]);
   const giorno = [{ id: "a", metri: 2000, secondi: 700 }, { id: "b", metri: 42400, secondi: 13325, gara: true }, { id: "c", metri: 42300, secondi: 13400 }];
   let g = L.corsaDellaGara(giorno, "42");
   assert.strictEqual(g.scelta.id, "b"); assert.strictEqual(g.scelta.tempo, "3:42:05"); assert.deepStrictEqual(g.altre.map((x) => x.id), ["a", "c"]);

@@ -3,7 +3,7 @@
 // GET  ?code=…&state=…        ritorno da Strava dopo l'autorizzazione → reindirizza all'app (#/io?strava=…)
 // POST {azione:"inizio"}      link per autorizzare su Strava (o {pieno:true} se i 10 posti di tester sono occupati)
 // POST {azione:"scarpe"}      scarpe dell'atleta con i km
-// POST {azione:"gare"}        corse segnate come gara (per i personali)
+// POST {azione:"gare"}        corse segnate come gara + corse sulle distanze di gara anche se non segnate (per i personali)
 // POST {azione:"giorno", data:"AAAA-MM-GG"}  corse di quel giorno (per il tempo a fine gara)
 // POST {azione:"scollega"}    revoca l'autorizzazione e cancella i token
 //
@@ -48,6 +48,9 @@ export function crea(env, fetchImpl = fetch) {
     return t.access_token;
   }
   const api = (tk, percorso) => fetchImpl(`${STRAVA}/api/v3/${percorso}`, { headers: { Authorization: `Bearer ${tk}` } });
+  // Distanze di gara con il margine del GPS (come FINESTRE_KM in app/logic.js): molti non segnano la gara su Strava.
+  const FINESTRE_M = [[9800, 10600], [20900, 21800], [41900, 43600]];
+  const suDistanzaGara = (a) => FINESTRE_M.some(([da, a2]) => (a.distance || 0) >= da && (a.distance || 0) <= a2);
   const corsa = (a) => /^(Run|TrailRun|VirtualRun)$/.test(a.sport_type || a.type || "");
   const voce = (a) => ({ id: String(a.id), nome: a.name || "", data: String(a.start_date_local || a.start_date || "").slice(0, 10), metri: Math.round(a.distance || 0),
     secondi: a.elapsed_time || 0, movimento: a.moving_time || 0, gara: a.workout_type === 1 });
@@ -118,11 +121,11 @@ export function crea(env, fetchImpl = fetch) {
     }
     if (az === "gare") {
       const out = [];
-      for (let p = 1; p <= 5; p++) {   // fino a 1.000 attività: basta per anni di corse
+      for (let p = 1; p <= 10; p++) {   // fino a 2.000 attività (contano anche sci, bici, forza): anni di corse
         const r = await api(tk, `athlete/activities?per_page=200&page=${p}`);
         if (!r.ok) return json({ errore: "strava", stato: r.status }, 502);
         const lista = await r.json();
-        out.push(...lista.filter((a) => corsa(a) && a.workout_type === 1).map(voce));
+        out.push(...lista.filter((a) => corsa(a) && (a.workout_type === 1 || suDistanzaGara(a))).map(voce));
         if (lista.length < 200) break;
       }
       return json({ gare: out });

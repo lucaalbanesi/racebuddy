@@ -94,10 +94,14 @@ db.strava_atleti[0].scade = new Date(Date.now() - 1000).toISOString();
 await post({ azione: "scarpe" });
 assert.strictEqual(db.strava_atleti[0].access_token, "acc2");
 
-// gare: solo corse segnate come gara, su più pagine
-attivita = Array.from({ length: 230 }, (_, i) => ({ id: i, name: `Corsa ${i}`, sport_type: i % 3 ? "Run" : "Ride", workout_type: i % 10 === 1 ? 1 : 0, distance: 21200, elapsed_time: 6200, moving_time: 6100, start_date_local: "2026-03-01T09:00:00Z" }));
+// gare: corse segnate come gara + corse sulle distanze di gara non segnate (es. maratona "Morning Run" a 42,65 km), su più pagine
+attivita = Array.from({ length: 230 }, (_, i) => ({ id: i, name: `Corsa ${i}`, sport_type: i % 3 ? "Run" : "Ride", workout_type: i % 10 === 1 ? 1 : 0, distance: i % 4 ? 21200 : 8000, elapsed_time: 6200, moving_time: 6100, start_date_local: "2026-03-01T09:00:00Z" }));
+attivita.push({ id: 999, name: "Morning Run", sport_type: "Run", distance: 42652.5, elapsed_time: 13529, moving_time: 13390, start_date_local: "2026-03-22T08:12:26Z" });
 r = await (await post({ azione: "gare" })).json();
-assert.ok(r.gare.length > 0 && r.gare.every((x) => x.gara)); assert.ok(r.gare.some((x) => Number(x.id) > 200), "seconda pagina letta");
+assert.ok(r.gare.some((x) => x.gara) && r.gare.some((x) => !x.gara), "segnate e non segnate");
+assert.ok(r.gare.every((x) => x.gara || x.metri === 21200 || x.metri === 42653), "le non segnate solo sulle distanze di gara");
+assert.ok(r.gare.some((x) => x.id === "999"), "maratona non segnata trovata");
+assert.ok(r.gare.some((x) => Number(x.id) > 200), "seconda pagina letta");
 
 // giorno: solo le corse di quel giorno
 attivita = [{ id: 1, name: "Firenze Marathon", sport_type: "Run", workout_type: 1, distance: 42400, elapsed_time: 13325, moving_time: 13200, start_date_local: "2026-11-29T08:30:00Z" },

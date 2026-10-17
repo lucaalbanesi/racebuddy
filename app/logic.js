@@ -270,9 +270,10 @@
   }
 
   /** Strava: in che distanza cade una corsa (il GPS sbaglia di qualche centinaio di metri). */
-  const FINESTRE_KM = { "10": [9.8, 10.6], "21": [20.9, 21.8], "42": [41.9, 43.3] };
+  const FINESTRE_KM = { "10": [9.8, 10.6], "21": [20.9, 21.8], "42": [41.9, 43.6] }; // le maratone in città sul GPS arrivano spesso a 43 km e oltre
   const distanzaDi = (metri) => Object.keys(FINESTRE_KM).find((d) => metri / 1000 >= FINESTRE_KM[d][0] && metri / 1000 <= FINESTRE_KM[d][1]) || null;
-  /** Corse segnate come gara su Strava → per ogni distanza le candidate a personale, dalla più veloce. */
+  /** Corse di Strava (segnate come gara o no) → per ogni distanza le candidate a personale, dalla più veloce.
+   *  A parità di tempo prima quella segnata come gara. */
   const hms = (s) => `${Math.floor(s / 3600)}:${String(Math.floor((s % 3600) / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
   function candidatiPersonali(gare) {
     const out = { "10": [], "21": [], "42": [] };
@@ -280,7 +281,7 @@
       const d = distanzaDi(a.metri || 0), t = d && a.secondi > 0 ? leggiTempo(d, hms(a.secondi)) : null; // leggiTempo scarta i tempi impossibili
       if (t && t.tempo) out[d].push({ ...a, tempo: t.tempo, secondi: t.secondi });
     }
-    for (const d of Object.keys(out)) out[d].sort((x, y) => x.secondi - y.secondi || (x.data < y.data ? 1 : -1));
+    for (const d of Object.keys(out)) out[d].sort((x, y) => x.secondi - y.secondi || (y.gara ? 1 : 0) - (x.gara ? 1 : 0) || (x.data < y.data ? 1 : -1));
     return out;
   }
   /** Le corse di Strava del giorno della gara → quella che è la gara (segnata come gara, o con la distanza più giusta), più le altre. */

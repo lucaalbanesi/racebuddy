@@ -1590,7 +1590,7 @@
     if (esito === "ok") { S.strava = { attivo: true, dal: oggi() }; salva(); aggiornaScarpeStrava(true); }
     STRAVA_STATO = null;
   }
-  // Personali da Strava: le corse segnate come gara, la migliore per distanza, da confermare una per una.
+  // Personali da Strava: le corse sulle distanze di gara (segnate come gara o no), la migliore per distanza, da confermare una per una.
   function caricaPBStrava() {
     STRAVA_PB = "carico";
     funzioneStrava({ azione: "gare" }).then((r) => { STRAVA_PB = { ...L.candidatiPersonali(r.gare), totale: (r.gare || []).length }; }).catch((e) => { STRAVA_PB = { errore: e.message }; })
@@ -1602,17 +1602,17 @@
     if (STRAVA_PB.errore) return `<section class="card"><span class="small">${esc(STRAVA_PB.errore)}</span><button class="btn ghost small" data-act="strava-pb" style="align-self:flex-start">Riprova</button></section>`;
     const voce = (d) => {
       const lista = STRAVA_PB[d] || [], c = lista[0], att = (S.pb || {})[d];
-      if (!c) return `<section class="card"><div class="between"><span class="title">${esc(L.DIST_LABEL[d])}</span><span class="small muted">nessuna su Strava</span></div><span class="small muted">Nessuna corsa di questa distanza segnata come gara. Puoi inserirla a mano.</span></section>`;
+      if (!c) return `<section class="card"><div class="between"><span class="title">${esc(L.DIST_LABEL[d])}</span><span class="small muted">nessuna su Strava</span></div><span class="small muted">Nessuna corsa di questa distanza su Strava. Puoi inserirla a mano.</span></section>`;
       const meglio = !att || c.secondi < att.secondi, km = (c.metri / 1000).toFixed(1).replace(".", ",");
       const altre = lista.slice(1, 8);
       return `<section class="card ${meglio ? "strava-meglio" : ""}"><div class="between"><span class="title">${esc(L.DIST_LABEL[d])}</span><span class="small muted">${att ? `oggi nell'app: ${esc(L.leggiTempo(d, att.tempo).tempo || att.tempo)}` : "non ancora inserito"}</span></div>
-        <div class="between"><span style="min-width:0"><b>${esc(c.nome)}</b><br><span class="small muted">${esc(L.fmtBreve(c.data))} · ${km} km sul GPS</span></span><b class="pb-tempo">${esc(c.tempo)}</b></div>
+        <div class="between"><span style="min-width:0"><b>${esc(c.nome)}</b><br><span class="small muted">${esc(L.fmtBreve(c.data))} · ${km} km sul GPS${c.gara ? "" : " · non segnata come gara"}</span></span><b class="pb-tempo">${esc(c.tempo)}</b></div>
         ${meglio ? `${att ? `<span class="small" style="color:var(--accent-strong);font-weight:700">Migliore di quello che hai: −${esc(fmtDiff(att.secondi - c.secondi))}</span>` : ""}
           <div class="grid2"><button class="btn" data-act="strava-pb-salva" data-d="${d}" data-id="${esc(c.id)}">Salva come personale</button><button class="btn ghost" data-act="strava-pb-correggi" data-d="${d}" data-id="${esc(c.id)}">Correggi il tempo</button></div>`
           : `<span class="small muted">${c.secondi === att.secondi ? "È già il tuo personale." : `Più lento di quello che hai: resta ${esc(L.leggiTempo(d, att.tempo).tempo || att.tempo)}.`}</span>`}
         ${altre.length ? `<details><summary class="small">Altre ${altre.length} trovate</summary>${altre.map((x) => `<div class="between small" style="padding:6px 0"><span>${esc(x.nome)} · ${esc(L.fmtBreve(x.data))}</span><span class="row"><b>${esc(x.tempo)}</b><button class="linkbtn" data-act="strava-pb-salva" data-d="${d}" data-id="${esc(x.id)}">Usa questa</button></span></div>`).join("")}</details>` : ""}</section>`;
     };
-    return `<p class="sub">Abbiamo letto le tue corse segnate come <b>gara</b> su Strava: ${STRAVA_PB.totale}. Conferma il tempo ufficiale, che può differire da quello del GPS.</p>${DISTANZE.map(voce).join("")}
+    return `<p class="sub">Abbiamo cercato su Strava le tue corse sulle distanze di gara, segnate come gara o no: ${STRAVA_PB.totale}. Conferma il tempo ufficiale (quello del chip), che può differire da quello del GPS.</p>${DISTANZE.map(voce).join("")}
       <p class="sub">I tempi da Strava restano sul telefono. Entrano nella classifica del gruppo solo quelli che salvi, e solo se hai scelto di comparire.</p>`;
   }
   // "Com'è andata?": il tempo della corsa su Strava, da confermare (vale il chip).
