@@ -2207,5 +2207,22 @@
   }, { passive: true });
   $app.addEventListener("touchcancel", () => { tocco = null; }, { passive: true });
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
-  carica().then(() => { route(); contaApertura(); if (C().strava) aggiornaScarpeStrava(); S.gare.forEach((g) => segnalaGara(g, g.id.startsWith("M") ? "manuale" : "FIDAL")); if (S.push && S.push.attivo) sincronizzaPush(); if (S.gruppo && S.gruppo.dentro) { aggiornaGruppo(true).then(() => sincronizzaPBGruppo()); sincronizzaGareGruppo(); } });
+  // iPhone fuori dalla Home: banner fisso che spiega come aggiungere RaceBuddy alla schermata Home
+  // (su Android ci pensa il banner di installazione di Chrome). "✕" lo nasconde per 7 giorni.
+  const ICO_CONDIVIDI = `<svg aria-label="Condividi" role="img" width="16" height="18" viewBox="0 0 16 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><path d="M8 13V2M4.5 5.5 8 2l3.5 3.5M5 8H3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1h-2"/></svg>`;
+  function bannerHome() {
+    const vecchio = document.getElementById("banner-home");
+    const nascosto = S.bannerHomeDopo && S.bannerHomeDopo > L.todayISO();
+    if (!iOS || standalone() || nascosto) { if (vecchio) vecchio.remove(); document.body.classList.remove("con-banner-home"); return; }
+    if (vecchio) return;
+    const webview = !/Safari\//.test(navigator.userAgent); // browser interno di Instagram, Facebook…: lì non si può aggiungere alla Home
+    const el = document.createElement("aside");
+    el.id = "banner-home"; el.className = "banner-home"; el.setAttribute("aria-label", "Aggiungi RaceBuddy alla schermata Home");
+    el.innerHTML = `<img src="apple-touch-icon.png" alt="" width="44" height="44"><div style="flex:1;min-width:0"><b>Metti RaceBuddy nella Home</b><br>
+      <span>${webview ? "Apri questa pagina in <b>Safari</b> (menu ··· → Apri nel browser), poi aggiungila alla schermata Home." : `Tocca ${ICO_CONDIVIDI} <b>Condividi</b>, poi <b>Aggiungi alla schermata Home</b>. Si apre come un'app e ricevi le notifiche.`}</span></div>
+      <button class="banner-chiudi" type="button" aria-label="Chiudi, ricordamelo tra una settimana">✕</button>`;
+    el.querySelector("button").addEventListener("click", () => { S.bannerHomeDopo = L.addDays(L.todayISO(), 7); salva(); bannerHome(); });
+    document.body.appendChild(el); document.body.classList.add("con-banner-home");
+  }
+  carica().then(() => { bannerHome(); route(); contaApertura(); if (C().strava) aggiornaScarpeStrava(); S.gare.forEach((g) => segnalaGara(g, g.id.startsWith("M") ? "manuale" : "FIDAL")); if (S.push && S.push.attivo) sincronizzaPush(); if (S.gruppo && S.gruppo.dentro) { aggiornaGruppo(true).then(() => sincronizzaPBGruppo()); sincronizzaGareGruppo(); } });
 })();
