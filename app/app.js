@@ -669,7 +669,7 @@
   }
   function vistaVuota(concluse) {
     const o = oggi(), pil = L.pillola(D.pillole, "nessuna", "21", o, Number(o.slice(5, 7)));
-    return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(o))}</span><h1>${S.profilo.nome ? "Ciao, " + esc(S.profilo.nome) : "Buongiorno"}</h1></div></header>
+    return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(o))}</span><h1>${S.profilo.nome ? "Ciao, " + esc(S.profilo.nome.trim().split(/\s+/)[0]) : "Buongiorno"}</h1></div></header>
       ${cardPrepara()}
       <a class="card dark" href="#/gare" style="text-decoration:none;font-weight:inherit"><span class="eyebrow">${concluse ? "Tutte le tue gare sono concluse" : "Nessuna gara in vista"}</span><span style="font:700 24px/1.1 var(--display)">${concluse ? "Qual è la prossima?" : "Scegli la tua prossima gara"}</span><span class="sub">Ti preparo la strada fino al via: cosa fare e quando, info gara, borsa ›</span></a>
       ${cardMeteo()}
@@ -728,7 +728,7 @@
 
     const meteo = cardMeteo();
 
-    return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(o))}</span><h1>Buongiorno${S.profilo.nome ? ", " + esc(S.profilo.nome) : ""}</h1></div></header>${cardPrepara()}${hero}${avvisoDocumenti()}${meteo}${blocco}${statoPrepara().completo ? cardPush(true) : ""}${pill}${(() => {
+    return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(o))}</span><h1>Buongiorno${S.profilo.nome ? ", " + esc(S.profilo.nome.trim().split(/\s+/)[0]) : ""}</h1></div></header>${cardPrepara()}${hero}${avvisoDocumenti()}${meteo}${blocco}${statoPrepara().completo ? cardPush(true) : ""}${pill}${(() => {
       const top = topPerTe(2);
       return top.length ? `<section aria-label="Per te oggi"><div class="between" style="margin-bottom:8px"><h2>Per te oggi</h2><a class="small" href="#/perte">Altro ›</a></div><div class="lista-c">${top.map((c, i) => cardContenuto(c, i === 0)).join("")}</div></section>` : "";
     })()}`;
@@ -1185,7 +1185,7 @@
       <details class="card"><summary>Sei il presidente? Crea il gruppo</summary>
         <form id="g-crea" style="display:flex;flex-direction:column;gap:10px">
         <div class="field"><label for="g-nome">Nome della società o del gruppo</label><input class="input" id="g-nome" required maxlength="60" placeholder="es. Podistica …"></div>
-        <div class="field"><label for="g-io">Come ti vedono gli altri</label><input class="input" id="g-io" required maxlength="40" value="${esc(S.profilo.nome || "")}" placeholder="es. Marco R."></div>
+        <div class="field"><label for="g-io">Nome e cognome</label><input class="input" id="g-io" required maxlength="40" value="${esc(S.profilo.nome || "")}" placeholder="es. Mario Rossi" autocomplete="name"><span class="small muted">Meglio nome e cognome: così nel gruppo ti riconoscono.</span></div>
         <button class="btn" type="submit">Crea il gruppo</button>
         <span class="small muted">Diventi amministratore: potrai invitare gli altri, nominare chi ti aiuta a invitare e gestire i membri.</span></form></details>`;
   }
@@ -1204,7 +1204,7 @@
     if (S.gruppo && S.gruppo.dentro) return `<section class="card"><span class="title">Sei già in un gruppo</span><span class="small">Per entrare in un altro, prima esci da quello attuale (Gruppo → Gestisci o Io).</span><a class="btn" href="#/gruppo">Vai al gruppo</a></section>`;
     return `<section class="invito"><span class="ob-logo">RaceBuddy</span><div id="invito-info" style="display:flex;flex-direction:column;gap:10px"><p class="ob-p">Leggo l'invito…</p></div>
       <form id="g-entra" data-codice="${esc(codice)}" class="card" style="color:var(--fg)">
-        <div class="field"><label for="g-io">Come ti vedono gli altri</label><input class="input" id="g-io" required maxlength="40" value="${esc(S.profilo.nome || "")}" placeholder="es. Luca A."></div>
+        <div class="field"><label for="g-io">Nome e cognome</label><input class="input" id="g-io" required maxlength="40" value="${esc(S.profilo.nome || "")}" placeholder="es. Mario Rossi" autocomplete="name"><span class="small muted">Meglio nome e cognome: così nel gruppo ti riconoscono.</span></div>
         <label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="g-mostra" checked><span><span class="t">Mostra al gruppo le gare a cui sono iscritto</span></span></label>
         <label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="g-mostra-pb" checked><span><span class="t">Metti i miei personali nella classifica del gruppo</span></span></label>
         <button class="btn block" type="submit">Entra nel gruppo</button>
@@ -1690,7 +1690,7 @@
     return `${bannerProva()}<header class="head"><h1>Io</h1></header>
       ${C().login ? acc("account", "Account", AUTH ? '<span class="pill ok">connesso</span>' : "facoltativo", sezioneAccount()) : ""}
       ${acc("profilo", "Profilo", esc([P.nome, P.citta, P.ora && oraInput(P.ora)].filter(Boolean).join(" · ") || "da completare"), `<form id="profilo" autocomplete="off" style="display:flex;flex-direction:column;gap:10px">
-        <div class="field"><label for="p-nome">Come ti chiami</label><input class="input" id="p-nome" data-auto="nome" value="${esc(P.nome)}" autocomplete="given-name"></div>
+        <div class="field"><label for="p-nome">Nome e cognome</label><input class="input" id="p-nome" data-auto="nome" value="${esc(P.nome)}" placeholder="es. Mario Rossi" autocomplete="name" maxlength="40"><span class="small muted">Meglio nome e cognome: è anche il nome con cui ti vede il gruppo.</span></div>
         <div class="field"><label for="p-citta">Dove corri di solito</label><input class="input" id="p-citta" data-auto="citta" value="${esc(P.citta)}" placeholder="es. Roma">
           <div class="between">${bottoneGps("p-citta")}${P.coord ? `<span class="small muted">dal GPS</span>` : ""}</div></div>
         <div class="field"><label for="p-ora">A che ora esci di solito</label><input class="input" id="p-ora" data-auto="ora" type="time" step="900" value="${esc(oraInput(P.ora))}"></div>
@@ -2099,7 +2099,7 @@
         try {
           if (f.id === "g-crea") await rpc("crea_gruppo", { p_token: token(), p_gruppo: v("g-nome").trim(), p_nome: nome });
           else await rpc("entra_gruppo", { p_token: token(), p_codice: f.dataset.codice, p_nome: nome, p_mostra: document.getElementById("g-mostra").checked });
-          G().dentro = true; if (!S.profilo.nome) S.profilo.nome = nome.split(" ")[0]; salva();
+          G().dentro = true; if (!S.profilo.nome) S.profilo.nome = nome; salva();
           const pbNo = document.getElementById("g-mostra-pb") && !document.getElementById("g-mostra-pb").checked;
           if (pbNo) await rpc("imposta_mostra_pb", { p_token: token(), p_mostra: false }).catch(() => {});
           await sincronizzaGareGruppo(); if (!pbNo) await sincronizzaPBGruppo(true); await aggiornaGruppo(true);
