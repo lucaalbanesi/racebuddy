@@ -733,20 +733,25 @@
     })()}`;
   }
 
-  // Home: il meteo di oggi (adesso, minima e massima). In piccolo la prossima uscita, solo se non è oggi (già passata).
+  // Il meteo di oggi: adesso (ora piena) più minima e massima della giornata. null se mancano i dati.
+  const meteoDaSerie = (h, t) => { const i = h.time.indexOf(t); return i < 0 ? null : { temp: h.temperature_2m[i], pioggia: h.precipitation_probability[i] ?? 0, vento: h.wind_speed_10m[i] ?? 0, codice: h.weather_code ? h.weather_code[i] : null, notte: h.is_day ? h.is_day[i] === 0 : false }; };
+  function bloccoOggi(h, giorno) {
+    const m = meteoDaSerie(h, `${giorno}T${String(new Date().getHours()).padStart(2, "0")}:00`);
+    if (!m) return "";
+    const temps = h.time.map((t, i) => (t.startsWith(giorno) ? h.temperature_2m[i] : null)).filter((x) => x != null);
+    return `<div class="meteo-top">${icona(m, 52)}<div style="flex:1;min-width:0"><div class="meteo-temp">${Math.round(m.temp)}°</div><span class="small muted">${esc(NOME_CIELO[L.tipoCielo(m)])}</span></div>${datiMeteo(m)}</div>
+        ${temps.length ? `<span class="small muted">Oggi min ${Math.round(Math.min(...temps))}° · max ${Math.round(Math.max(...temps))}°</span>` : ""}${avvisi(m, false)}`;
+  }
+  // Home: il meteo di oggi. In piccolo la prossima uscita, solo se non è oggi (già passata).
   async function riempiMeteo() {
     const box = document.getElementById("meteo");
     if (!box || !S.profilo.citta) return;
     try {
       const sr = await serie(mioLuogo());
       if (!sr) { box.innerHTML = `<span class="eyebrow">${esc(S.profilo.citta)}</span><span class="small">Non trovo la città: correggila in Io.</span>`; return; }
-      const { h, c } = sr, adesso = new Date(), giorno = S.prova || L.todayISO();
-      const at = (t) => { const i = h.time.indexOf(t); return i < 0 ? null : { temp: h.temperature_2m[i], pioggia: h.precipitation_probability[i] ?? 0, vento: h.wind_speed_10m[i] ?? 0, codice: h.weather_code ? h.weather_code[i] : null, notte: h.is_day ? h.is_day[i] === 0 : false }; };
-      const ora = `${String(adesso.getHours()).padStart(2, "0")}:00`;
-      const m = at(`${giorno}T${ora}`);
-      if (!m) { box.innerHTML = `<span class="eyebrow">${esc(c.nome)}</span><span class="small">Previsioni non disponibili per oggi.</span>`; return; }
-      const temps = h.time.map((t, i) => (t.startsWith(giorno) ? h.temperature_2m[i] : null)).filter((x) => x != null);
-      const minmax = temps.length ? `<span class="small muted">Oggi min ${Math.round(Math.min(...temps))}° · max ${Math.round(Math.max(...temps))}°</span>` : "";
+      const { h, c } = sr, adesso = new Date(), giorno = S.prova || L.todayISO(), at = (t) => meteoDaSerie(h, t);
+      const oggiHtml = bloccoOggi(h, giorno);
+      if (!oggiHtml) { box.innerHTML = `<span class="eyebrow">${esc(c.nome)}</span><span class="small">Previsioni non disponibili per oggi.</span>`; return; }
       let uscita = "";
       const quando = S.prova ? `${S.prova}T${oraISO(S.profilo.ora)}` : L.prossimaUscita(S.profilo.ora, adesso);
       if (quando.slice(0, 10) !== giorno) {
@@ -754,8 +759,7 @@
         if (u) uscita = `<div class="row" style="gap:8px;border-top:1px solid var(--line2);padding-top:8px">${icona(u, 24)}<span class="small" style="flex:1;min-width:0"><b>Uscita di ${quando.slice(0, 10) === L.addDays(giorno, 1) ? "domani" : esc(L.fmtGiorno(quando.slice(0, 10)))} alle ${esc(S.profilo.ora || "7:00")}</b> · ${Math.round(u.temp)}°, ${esc(NOME_CIELO[L.tipoCielo(u)].toLowerCase())}<br>${esc(L.vestizione(u, false).split(". ")[0].replace(/\.$/, ""))}.</span></div>`;
       }
       box.innerHTML = `<span class="eyebrow">${esc(c.nome)} · adesso</span>
-        <div class="meteo-top">${icona(m, 52)}<div style="flex:1;min-width:0"><div class="meteo-temp">${Math.round(m.temp)}°</div><span class="small muted">${esc(NOME_CIELO[L.tipoCielo(m)])}</span></div>${datiMeteo(m)}</div>
-        ${minmax}${avvisi(m, false)}${uscita}<span class="small" style="color:var(--accent);font-weight:700">Prossimi giorni e meteo gara ›</span>`;
+        ${oggiHtml}${uscita}<span class="small" style="color:var(--accent);font-weight:700">Prossimi giorni e meteo gara ›</span>`;
     } catch (e) { box.innerHTML = `<span class="small muted">Meteo non disponibile al momento.</span>`; }
   }
 
@@ -999,9 +1003,10 @@
       let i0 = base ? h.time.indexOf(base) : h.time.indexOf(`${L.todayISO()}T${String(new Date().getHours()).padStart(2, "0")}:00`);
       if (i0 >= 0) for (let i = i0; i < Math.min(h.time.length, i0 + 12); i += 2) ore.push([h.time[i].slice(11), { temp: h.temperature_2m[i], pioggia: h.precipitation_probability[i] ?? 0, codice: h.weather_code ? h.weather_code[i] : null, notte: h.is_day ? h.is_day[i] === 0 : false }]);
       const gareMeteo = S.gare.filter((g) => { const n = L.diffDays(g.data, o); return n >= 0 && n <= 15; });
-      box.innerHTML = (giorni.length ? `<section class="card" style="gap:12px">${(() => { const [dd, m] = giorni[0]; return `<span class="eyebrow">${dd === L.todayISO() ? "Oggi" : esc(L.fmtGiorno(dd))} alle ${esc(S.profilo.ora || "7:00")} · ${esc(c.nome)}</span>${bloccoMeteo(m, false)}`; })()}</section>` : `<p class="sub">Previsioni non disponibili per questa data.</p>`)
+      const oggiHtml = bloccoOggi(h, S.prova || L.todayISO());
+      box.innerHTML = (oggiHtml ? `<section class="card" style="gap:12px"><span class="eyebrow">Oggi · adesso · ${esc(c.nome)}</span>${oggiHtml}</section>` : `<p class="sub">Previsioni non disponibili per oggi.</p>`)
         + (ore.length ? `<section class="card"><h2>Nelle prossime ore</h2><div style="display:flex;justify-content:space-between;gap:4px;text-align:center">${ore.map(([t, m]) => `<div style="display:flex;flex-direction:column;align-items:center;gap:2px"><span class="small muted">${esc(t)}</span>${icona(m, 28)}<b style="font:700 20px var(--display)">${Math.round(m.temp)}°</b><span class="small muted">${m.pioggia}%</span></div>`).join("")}</div><span class="small muted">Temperatura e probabilità di pioggia, alle ore indicate.</span></section>` : "")
-        + (giorni.length > 1 ? `<section class="card list" style="padding-top:12px;padding-bottom:6px"><h2>Le prossime uscite</h2>${giorni.slice(1).map(([dd, m]) => `<div class="line" style="flex-direction:column;gap:4px"><div class="between"><span style="display:flex;align-items:center;gap:8px">${icona(m, 30)}<b>${esc(L.fmtGiorno(dd))}</b></span><span style="display:flex;align-items:center;gap:10px"><b style="font:700 20px var(--display)">${Math.round(m.temp)}°</b>${datiMeteo(m)}</span></div><span class="small">${esc(L.vestizione(m))}</span>${L.avvisiMeteo(m).filter((a) => a.livello === "attenzione").map((a) => `<span class="small" style="color:var(--warn);font-weight:600">${ICO_AVVISO[a.tipo] || "!"} ${esc(a.titolo)}</span>`).join("")}</div>`).join("")}</section>` : "")
+        + (giorni.length ? `<section class="card list" style="padding-top:12px;padding-bottom:6px"><h2>Le prossime uscite · alle ${esc(S.profilo.ora || "7:00")}</h2>${giorni.map(([dd, m]) => `<div class="line" style="flex-direction:column;gap:4px"><div class="between"><span style="display:flex;align-items:center;gap:8px">${icona(m, 30)}<b>${dd === L.todayISO() ? "Oggi" : dd === L.addDays(L.todayISO(), 1) ? "Domani" : esc(L.fmtGiorno(dd))}</b></span><span style="display:flex;align-items:center;gap:10px"><b style="font:700 20px var(--display)">${Math.round(m.temp)}°</b>${datiMeteo(m)}</span></div><span class="small">${esc(L.vestizione(m))}</span>${L.avvisiMeteo(m).filter((a) => a.livello === "attenzione").map((a) => `<span class="small" style="color:var(--warn);font-weight:600">${ICO_AVVISO[a.tipo] || "!"} ${esc(a.titolo)}</span>`).join("")}</div>`).join("")}</section>` : "")
         + gareMeteo.map((g) => `<a class="card soft" href="#/gara/${encodeURIComponent(g.id)}" style="text-decoration:none;color:inherit;font-weight:inherit"><span class="between"><span class="title">Meteo per ${esc(titoloGara(g.nome))}</span><span aria-hidden="true">›</span></span><span class="small">Il ${esc(L.fmtGiorno(g.data))}: apri la scheda gara.</span></a>`).join("");
     } catch (e) { box.innerHTML = `<p class="sub">Meteo non disponibile al momento.</p>`; }
   }
