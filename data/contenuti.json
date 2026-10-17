@@ -2,6 +2,89 @@
  "aggiornato": "2026-10-17",
  "contenuti": [
   {
+   "id": "8f781b91c7d1",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Presciistica: un mese per prepararsi alla neve",
+   "estratto": "Un mese di costruzione a terra condiziona quadricipiti, glutei e catena cinetica per sostenere le forze di taglio e le compressioni continue della discesa. Tensione isometrica…",
+   "link": "https://runlovers.it/2026/ginnastica-presciistica-programma-mensile-gambe/",
+   "data": "2026-10-17",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/10-20261017-1235-Presciistica-T-Unsplash-Greg-Rosenke.jpeg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "scarpe",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico"
+   ]
+  },
+  {
+   "id": "59e7660d8243",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "PRIME IMPRESSIONI adidas Adios Pro 5 (80km percorsi davvero)",
+   "estratto": "PRIME IMPRESSIONI adidas Adios Pro 5 (80km percorsi davvero) Secondo me una scarpa da gara che ti fa sentire a casa. Comoda, leggera e…",
+   "link": "https://www.youtube.com/shorts/HmkDd4zsobY",
+   "data": "2026-10-17",
+   "immagine": "https://i1.ytimg.com/vi/HmkDd4zsobY/hqdefault.jpg",
+   "argomenti": [
+    "scarpe",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "8fd8ff8308b7",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Le mattine di ottobre si decidono sulla soglia di casa",
+   "estratto": "Lo scarto termico tra il corridoio e il marciapiede trasforma la disciplina in un gesto meccanico prima ancora del primo chilometro. La decisione di correre si esaurisce nello…",
+   "link": "https://runlovers.it/2026/le-mattine-di-ottobre-si-decidono-sulla-soglia-di-casa/",
+   "data": "2026-10-17",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/09-20261017-0930-Mattine-ottobre-L-Unsplash-Valentin.jpeg?fit=1920%2C1440&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "recupero",
+    "mente",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico",
+    "gara",
+    "dopo"
+   ]
+  },
+  {
+   "id": "b2e0ea501e99",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Le gare di trail running da non perdere in Italia a novembre",
+   "estratto": "Non si dica che a novembre è finita la stagione del trail running",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74157898/gare-trail-running-italia-novembre/",
+   "data": "2026-10-17",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/cinghiale-652ea0063e81d.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
    "id": "ca2587fa6a82",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -14,6 +97,34 @@
    "argomenti": [],
    "distanze": [],
    "fasi": []
+  },
+  {
+   "id": "e25cf61dcf16",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "La gara diventa un festival e la corsa un momento del programma",
+   "estratto": "Sul programma di Run&Fest , a Mâcon, c’erano due orari che non riuscivo a tenere nella stessa testa. Sabato 23 maggio, alle undici di sera, il DJ set di Kavinsky, quello di…",
+   "link": "https://runlovers.it/2026/festival-ibridi-gara-musica-cultura/",
+   "data": "2026-10-17",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/LoveTrailsFestival-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "rifornimento",
+    "alimentazione",
+    "recupero",
+    "gara"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara",
+    "dopo"
+   ]
   },
   {
    "id": "f90f70c34869",
@@ -36,6 +147,25 @@
     "picco",
     "scarico",
     "dopo"
+   ]
+  },
+  {
+   "id": "b1053d99a115",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "5 modi per aggiungere chilometri di qualità al lunghissimo",
+   "estratto": "Il lunghissimo non deve essere sempre una corsa lenta. Ecco cinque varianti per inserire tratti a ritmo più sostenuto e rendere l’allenamento più specifico",
+   "link": "https://www.runnersworld.com/it/allenamento/a74163283/aggiungere-chilometri-qualita-lunghissimo/",
+   "data": "2026-10-17",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/69b89589-9921-4cdb-80c5-7d7946626ec9.jpeg",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "picco"
    ]
   },
   {
