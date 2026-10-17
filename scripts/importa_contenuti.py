@@ -137,6 +137,11 @@ def immagine_pagina(url: str) -> str | None:
         m = re.search(r'content=["\']([^"\']+)', tag)
         if m and m.group(1).startswith("https://"):
             return html.unescape(m.group(1).strip())
+    # senza og:image (es. firenzemarathon.it): la prima immagine caricata nel sito WordPress che non sia logo o icona
+    for m in re.finditer(r'<img[^>]+?(?:data-src|data-lazy-src|src)=["\'](https://[^"\']+/wp-content/uploads/[^"\']+)', pagina):
+        u = html.unescape(m.group(1))
+        if not re.search(r"logo|favicon|cropped-|icon|sponsor|partner|banner|\.svg", u, re.I):
+            return u
     return None
 
 

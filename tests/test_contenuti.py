@@ -35,7 +35,8 @@ class Risp:
     def __enter__(self): return self
     def __exit__(self, *a): pass
 pagine = {"https://ex.it/a": '<html><head><meta property="og:image" content="https://ex.it/og.jpg"></head>',
-          "https://ex.it/b": "<html><head></head>"}
+          "https://ex.it/b": "<html><head></head>",
+          "https://fm.it/x": '<img src="https://fm.it/wp-content/uploads/logo.png"><img src="https://fm.it/wp-content/uploads/2026/08/sold-out.png">'}
 aperte = []
 def finto(req, timeout=0):
     aperte.append(req.full_url); return Risp(pagine.get(req.full_url, ""))
@@ -52,4 +53,5 @@ assert voci[0]["immagine"] == "https://ex.it/og.jpg" and "immagineCercata" not i
 assert voci[1]["immagine"] is None and voci[1]["immagineCercata"] == "2026-10-17"
 assert voci[3]["immagine"] == "https://ex.it/k.jpg" and voci[4]["immagineCercata"] == "2026-10-16"
 assert aperte == ["https://ex.it/a", "https://ex.it/b"], aperte  # niente video, niente già note, niente tentativi recenti
+assert c.immagine_pagina("https://fm.it/x") == "https://fm.it/wp-content/uploads/2026/08/sold-out.png"
 print("ok")
