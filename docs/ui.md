@@ -88,7 +88,7 @@ video e podcast scelti per fase e distanza, e i sorrisi.
 
 <img src="img/ui/gruppo.png" width="280" alt="Schermata Gruppo, prima di entrare">
 
-Senza gruppo: entrare con il codice d'invito o crearne uno. Dentro: gare in comune, bacheca con applausi, classifica
+Senza gruppo: entrare con il codice d'invito o crearne uno. Dentro: in cima i personali del gruppo (una distanza per volta, primi 3 e la tua posizione, classifica completa), poi le gare in comune; bacheca nascosta per ora. Classifica
 dei personali (solo per chi sceglie di comparire), gestione per admin e organizzatori.
 
 ## Io
