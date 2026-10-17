@@ -1061,9 +1061,11 @@
     const prima = JSON.stringify(S.vistiNovita || {});
     S.vistiNovita = L.segnaVisti(S.vistiNovita || {}, [n.id], oggi());
     if (JSON.stringify(S.vistiNovita) !== prima) setTimeout(salva, 0);
-    return `<a class="card novita-top" href="${urlNovita(n)}">${thumbNovita(n)}<span class="nuovo-badge">Nuovo</span>
+    return `<section class="card novita-top" aria-label="Dalla tua gara"><a href="${urlNovita(n)}" style="text-decoration:none;color:inherit;font-weight:inherit;display:flex;flex-direction:column">${thumbNovita(n)}<span class="nuovo-badge">Nuovo</span>
       <div class="novita-testo"><span class="eyebrow" style="color:var(--accent)">Dalla tua gara · ${esc(TEMA_LABEL[n.tema] || "Notizia")}</span><span class="novita-titolo">${esc(n.titolo)}</span>
-      <span class="small muted">${esc(titoloGara(g.nome))} · ${fonteNovita(n)}</span><span class="small" style="color:var(--accent);font-weight:700">Tutte le novità della gara ›</span></div></a>`;
+      <span class="small muted">${esc(titoloGara(g.nome))} · ${fonteNovita(n)}</span></div></a>
+      <button class="novita-x" data-act="novita-letta" data-id="${esc(n.id)}" aria-label="Togli dalla home: segna come letta">✕</button>
+      <div class="novita-azioni"><button class="btn ghost small" data-act="novita-letta" data-id="${esc(n.id)}">✓ Segna come letta</button><a class="small" href="${urlGara(g.id, "novita")}" style="font-weight:700">Tutte le novità ›</a></div></section>`;
   }
   function riquadroNovita(g) {
     const lista = novitaDi(g.id).filter((n) => n.tema !== "altro").slice(0, 3);
@@ -1815,6 +1817,8 @@
     } else if (act === "perte-tipo") {
       location.hash = `#/perte?t=${t.dataset.t}`;
       return;
+    } else if (act === "novita-letta") {
+      S.letti = S.letti || {}; S.letti["n:" + t.dataset.id] = oggi(); salva(); toast("Segnata come letta"); rerender();
     } else if (act === "apri-novita") {
       S.letti = S.letti || {}; S.letti["n:" + t.dataset.id] = oggi(); salva();
       return;

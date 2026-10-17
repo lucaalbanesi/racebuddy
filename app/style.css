@@ -365,3 +365,5 @@ body.con-banner-home .app { padding-bottom: 200px; }
 body.con-banner-home .toast { bottom: 180px; }
 body.onboarding .banner-home { background: #fff; color: #1E2B4A; }
 body.onboarding .banner-chiudi { background: #1E2B4A14; color: #1E2B4A; }
+.novita-x { position: absolute; right: 10px; top: 10px; width: 34px; height: 34px; border-radius: 50%; border: 0; background: #0009; color: #fff; font-size: 15px; cursor: pointer; }
+.novita-azioni { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 16px 14px; }
