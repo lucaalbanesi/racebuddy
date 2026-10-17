@@ -647,7 +647,7 @@
     requestAnimationFrame(passo);
   }
 
-  const cardMeteo = () => (S.profilo.citta ? `<a class="card" id="meteo" href="#/meteo" style="text-decoration:none;color:inherit;font-weight:inherit" aria-label="Meteo dell'uscita, apri il dettaglio"><span class="eyebrow">${esc(S.profilo.citta)} · uscita delle ${esc(S.profilo.ora || "7:00")}</span><span class="small muted">Meteo in arrivo…</span></a>`
+  const cardMeteo = () => (S.profilo.citta ? `<a class="card" id="meteo" href="#/meteo" style="text-decoration:none;color:inherit;font-weight:inherit" aria-label="Meteo di oggi, apri il dettaglio"><span class="eyebrow">${esc(S.profilo.citta)} · adesso</span><span class="small muted">Meteo in arrivo…</span></a>`
     : `<a class="card" href="#/io" style="text-decoration:none;color:inherit"><span class="title">Meteo e vestizione</span><span class="small">Dimmi dove e a che ora corri di solito: ti dico come vestirti.</span></a>`);
   const contenutiLetti = () => Object.fromEntries(Object.keys(S.letti || {}).filter((k) => k.startsWith("c:")).map((k) => [k.slice(2), true]));
   // Ricorda (solo sul telefono) quali contenuti sono stati mostrati in cima: dal giorno dopo scendono e lasciano posto ad altri.
@@ -733,15 +733,29 @@
     })()}`;
   }
 
+  // Home: il meteo di oggi (adesso, minima e massima). In piccolo la prossima uscita, solo se non è oggi (già passata).
   async function riempiMeteo() {
     const box = document.getElementById("meteo");
     if (!box || !S.profilo.citta) return;
     try {
-      const quando = S.prova ? `${S.prova}T${oraISO(S.profilo.ora)}` : L.prossimaUscita(S.profilo.ora, new Date());
-      const m = await meteoAlle(mioLuogo(), quando);
-      if (!m) { box.innerHTML = `<span class="eyebrow">${esc(S.profilo.citta)}</span><span class="small">Previsioni non disponibili per questa data.</span>`; return; }
-      const giorno = quando.slice(0, 10) === L.todayISO() ? "oggi" : "domani";
-      box.innerHTML = `<span class="eyebrow">${esc(m.luogo)} · uscita di ${giorno} alle ${esc(S.profilo.ora || "7:00")}</span>${bloccoMeteo(m, false)}<span class="small" style="color:var(--accent);font-weight:700">Prossimi giorni e meteo gara ›</span>`;
+      const sr = await serie(mioLuogo());
+      if (!sr) { box.innerHTML = `<span class="eyebrow">${esc(S.profilo.citta)}</span><span class="small">Non trovo la città: correggila in Io.</span>`; return; }
+      const { h, c } = sr, adesso = new Date(), giorno = S.prova || L.todayISO();
+      const at = (t) => { const i = h.time.indexOf(t); return i < 0 ? null : { temp: h.temperature_2m[i], pioggia: h.precipitation_probability[i] ?? 0, vento: h.wind_speed_10m[i] ?? 0, codice: h.weather_code ? h.weather_code[i] : null, notte: h.is_day ? h.is_day[i] === 0 : false }; };
+      const ora = `${String(adesso.getHours()).padStart(2, "0")}:00`;
+      const m = at(`${giorno}T${ora}`);
+      if (!m) { box.innerHTML = `<span class="eyebrow">${esc(c.nome)}</span><span class="small">Previsioni non disponibili per oggi.</span>`; return; }
+      const temps = h.time.map((t, i) => (t.startsWith(giorno) ? h.temperature_2m[i] : null)).filter((x) => x != null);
+      const minmax = temps.length ? `<span class="small muted">Oggi min ${Math.round(Math.min(...temps))}° · max ${Math.round(Math.max(...temps))}°</span>` : "";
+      let uscita = "";
+      const quando = S.prova ? `${S.prova}T${oraISO(S.profilo.ora)}` : L.prossimaUscita(S.profilo.ora, adesso);
+      if (quando.slice(0, 10) !== giorno) {
+        const u = at(quando);
+        if (u) uscita = `<div class="row" style="gap:8px;border-top:1px solid var(--line2);padding-top:8px">${icona(u, 24)}<span class="small" style="flex:1;min-width:0"><b>Uscita di ${quando.slice(0, 10) === L.addDays(giorno, 1) ? "domani" : esc(L.fmtGiorno(quando.slice(0, 10)))} alle ${esc(S.profilo.ora || "7:00")}</b> · ${Math.round(u.temp)}°, ${esc(NOME_CIELO[L.tipoCielo(u)].toLowerCase())}<br>${esc(L.vestizione(u, false).split(". ")[0].replace(/\.$/, ""))}.</span></div>`;
+      }
+      box.innerHTML = `<span class="eyebrow">${esc(c.nome)} · adesso</span>
+        <div class="meteo-top">${icona(m, 52)}<div style="flex:1;min-width:0"><div class="meteo-temp">${Math.round(m.temp)}°</div><span class="small muted">${esc(NOME_CIELO[L.tipoCielo(m)])}</span></div>${datiMeteo(m)}</div>
+        ${minmax}${avvisi(m, false)}${uscita}<span class="small" style="color:var(--accent);font-weight:700">Prossimi giorni e meteo gara ›</span>`;
     } catch (e) { box.innerHTML = `<span class="small muted">Meteo non disponibile al momento.</span>`; }
   }
 
