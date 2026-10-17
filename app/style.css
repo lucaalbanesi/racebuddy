@@ -348,3 +348,4 @@ label.btn.disabled { opacity: .6; pointer-events: none; }
 .link-btn { background: none; border: 0; padding: 6px 0; min-height: 36px; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; font: inherit; text-align: left; align-self: flex-start; }
 .link-btn:hover { color: var(--fg); }
 .chip:disabled { opacity: .4; cursor: default; }
+.gara-meteo { border: 2px solid var(--accent); }
