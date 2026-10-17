@@ -116,8 +116,20 @@ def immagine(el, descr_html: str) -> str | None:
     for c in img:
         if c.get("href"):
             return c.get("href")
-    m = re.search(r'<img[^>]+?(?:data-src|data-lazy-src|src)=["\'](https://[^"\']+)', descr_html or "")
-    return html.unescape(m.group(1)) if m else None
+    for m in re.finditer(r'<img[^>]+?(?:data-src|data-lazy-src|src)=["\'](https://[^"\']+)', descr_html or ""):
+        if buona(html.unescape(m.group(1))):
+            return html.unescape(m.group(1))
+    return None
+
+
+def buona(u: str | None) -> bool:
+    """Scarta le emoji di WordPress (s.w.org), avatar, pixel di tracciamento e loghi."""
+    return bool(u) and u.startswith("https://") and not re.search(r"s\.w\.org|/emoji/|gravatar|feedburner|pixel|/logo|logo[-_.]|favicon|cropped-|\.svg", u, re.I)
+
+
+def grande(u: str | None) -> str | None:
+    """WordPress: dalla miniatura (foto-300x150.jpg) all'originale (foto.jpg)."""
+    return re.sub(r"-\d{2,4}x\d{2,4}(?=\.(?:jpe?g|png|webp)$)", "", u, flags=re.I) if u and "/wp-content/uploads/" in u else u
 
 
 # Molti feed (es. Runlovers, siti ufficiali WordPress) non mettono l'immagine: la si prende dalla pagina dell'articolo
@@ -126,7 +138,7 @@ RIPROVA_GIORNI = 3
 _META_IMG = re.compile(r'<meta[^>]+(?:property|name)=["\'](?:og:image(?::secure_url)?|twitter:image(?::src)?)["\'][^>]*>', re.I)
 
 
-def immagine_pagina(url: str) -> str | None:
+def immagine_pagina(url: str, data: str = "") -> str | None:
     try:
         req = urllib.request.Request(url, headers=UA)
         with urllib.request.urlopen(req, timeout=20) as r:
@@ -135,12 +147,17 @@ def immagine_pagina(url: str) -> str | None:
         return None
     for tag in _META_IMG.findall(pagina):
         m = re.search(r'content=["\']([^"\']+)', tag)
-        if m and m.group(1).startswith("https://"):
+        if m and buona(html.unescape(m.group(1).strip())):
             return html.unescape(m.group(1).strip())
-    # senza og:image (es. firenzemarathon.it): la prima immagine caricata nel sito WordPress che non sia logo o icona
-    for m in re.finditer(r'<img[^>]+?(?:data-src|data-lazy-src|src)=["\'](https://[^"\']+/wp-content/uploads/[^"\']+)', pagina):
+    # senza og:image (es. firenzemarathon.it): la prima immagine WordPress caricata nei mesi dell'articolo
+    # (il logo nell'intestazione è di anni prima), non logo né icona
+    mese = data[:7] if data else ""
+    if mese:
+        a, m_ = int(mese[:4]), int(mese[5:7]) - 3
+        mese = f"{a - 1 if m_ < 1 else a}/{(m_ + 12 if m_ < 1 else m_):02d}"
+    for m in re.finditer(r'<img[^>]+?(?:data-src|data-lazy-src|src)=["\'](https://[^"\']+/wp-content/uploads/(\d{4}/\d{2})/[^"\']+)', pagina):
         u = html.unescape(m.group(1))
-        if not re.search(r"logo|favicon|cropped-|icon|sponsor|partner|banner|\.svg", u, re.I):
+        if buona(u) and not re.search(r"icon|sponsor|partner|banner", u, re.I) and (not mese or m.group(2) >= mese):
             return u
     return None
 
@@ -150,11 +167,12 @@ def completa_immagini(voci: list[dict], vecchie: dict, oggi: str, massimo: int) 
     Annota in "immagineCercata" il giorno del tentativo, per non riprovare a ogni giro. Ritorna le immagini trovate."""
     trovate = cercate = 0
     for v in voci:
+        v["immagine"] = grande(v.get("immagine")) if buona(v.get("immagine")) or "ytimg" in (v.get("immagine") or "") else None
         if v.get("immagine") or v.get("tipo") == "video":
             continue
         prima = vecchie.get(v["id"], {})
-        if prima.get("immagine"):
-            v["immagine"] = prima["immagine"]
+        if buona(prima.get("immagine")):
+            v["immagine"] = grande(prima["immagine"])
             continue
         quando = prima.get("immagineCercata")
         if quando and (dt.date.fromisoformat(oggi) - dt.date.fromisoformat(quando)).days < RIPROVA_GIORNI:
@@ -163,7 +181,7 @@ def completa_immagini(voci: list[dict], vecchie: dict, oggi: str, massimo: int) 
         if cercate >= massimo:
             continue
         cercate += 1
-        v["immagine"] = immagine_pagina(v["link"])
+        v["immagine"] = grande(immagine_pagina(v["link"], v.get("data") or ""))
         if v["immagine"]:
             trovate += 1
             v.pop("immagineCercata", None)

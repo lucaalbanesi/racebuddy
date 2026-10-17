@@ -36,7 +36,7 @@ class Risp:
     def __exit__(self, *a): pass
 pagine = {"https://ex.it/a": '<html><head><meta property="og:image" content="https://ex.it/og.jpg"></head>',
           "https://ex.it/b": "<html><head></head>",
-          "https://fm.it/x": '<img src="https://fm.it/wp-content/uploads/logo.png"><img src="https://fm.it/wp-content/uploads/2026/08/sold-out.png">'}
+          "https://fm.it/x": '<img src="https://fm.it/wp-content/uploads/2024/02/ESTRA-FIRENZE-MARATHON_con-sfondo-300x130.png"><img src="https://fm.it/wp-content/uploads/2026/08/sold-out-1024x576.png">'}
 aperte = []
 def finto(req, timeout=0):
     aperte.append(req.full_url); return Risp(pagine.get(req.full_url, ""))
@@ -53,5 +53,8 @@ assert voci[0]["immagine"] == "https://ex.it/og.jpg" and "immagineCercata" not i
 assert voci[1]["immagine"] is None and voci[1]["immagineCercata"] == "2026-10-17"
 assert voci[3]["immagine"] == "https://ex.it/k.jpg" and voci[4]["immagineCercata"] == "2026-10-16"
 assert aperte == ["https://ex.it/a", "https://ex.it/b"], aperte  # niente video, niente già note, niente tentativi recenti
-assert c.immagine_pagina("https://fm.it/x") == "https://fm.it/wp-content/uploads/2026/08/sold-out.png"
+assert c.immagine_pagina("https://fm.it/x", "2026-10-10") == "https://fm.it/wp-content/uploads/2026/08/sold-out-1024x576.png"
+assert c.grande("https://podisti.net/wp-content/uploads/2026/10/Vincitore-300x150.jpg") == "https://podisti.net/wp-content/uploads/2026/10/Vincitore.jpg"
+assert not c.buona("https://s.w.org/images/core/emoji/17.0.2/72x72/1f45f.png")
+assert c.immagine(c.ET.fromstring("<item/>"), '<img src="https://s.w.org/images/core/emoji/17.0.2/72x72/1f499.png"> testo <img src="https://ex.it/foto.jpg">') == "https://ex.it/foto.jpg"
 print("ok")
