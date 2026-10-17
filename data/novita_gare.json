@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-10-17T07:26Z",
+ "aggiornato": "2026-10-17T07:28Z",
  "novita": [
   {
    "id": "n9d9a31bd11e",
@@ -68,7 +68,7 @@
    "fonte": "Sito ufficiale",
    "ufficiale": true,
    "tipo": "articolo",
-   "immagine": null,
+   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/10/ART-SITO-GINKY-2026.png",
    "trovato": "2026-10-15T12:50Z"
   },
   {
@@ -194,7 +194,7 @@
    "fonte": "Sito ufficiale",
    "ufficiale": true,
    "tipo": "articolo",
-   "immagine": "https://www.romehalfmarathon.it/wp-content/uploads/2026/09/DSC00566-1024x423.jpg",
+   "immagine": "https://www.romehalfmarathon.it/wp-content/uploads/2026/09/DSC00566.jpg",
    "trovato": "2026-10-14T15:07Z"
   },
   {
@@ -208,7 +208,7 @@
    "fonte": "Sito ufficiale",
    "ufficiale": true,
    "tipo": "articolo",
-   "immagine": null,
+   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/09/WAITING-LIST-ITA-2.png",
    "trovato": "2026-10-14T15:07Z"
   },
   {
@@ -222,7 +222,7 @@
    "fonte": "Sito ufficiale",
    "ufficiale": true,
    "tipo": "articolo",
-   "immagine": null,
+   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/08/sold-out-42k-ita.png",
    "trovato": "2026-10-14T15:07Z"
   },
   {
@@ -236,7 +236,7 @@
    "fonte": "Sito ufficiale",
    "ufficiale": true,
    "tipo": "articolo",
-   "immagine": null,
+   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/08/ultimi-pettorali-42k-ita.png",
    "trovato": "2026-10-14T15:07Z"
   },
   {
@@ -250,7 +250,7 @@
    "fonte": "Sito ufficiale",
    "ufficiale": true,
    "tipo": "articolo",
-   "immagine": null,
+   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/07/ART-STAFFETTA_V2.png",
    "trovato": "2026-10-14T15:07Z"
   },
   {
@@ -264,7 +264,7 @@
    "fonte": "Sito ufficiale",
    "ufficiale": true,
    "tipo": "articolo",
-   "immagine": null,
+   "immagine": "https://www.romehalfmarathon.it/wp-content/uploads/2026/07/DSC03581-1536x870-1.jpg",
    "trovato": "2026-10-14T15:07Z"
   },
   {
@@ -292,7 +292,7 @@
    "fonte": "Sito ufficiale",
    "ufficiale": true,
    "tipo": "articolo",
-   "immagine": null,
+   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/06/MERC-ART-SITO-1.png",
    "trovato": "2026-10-14T15:07Z"
   },
   {
@@ -306,7 +306,7 @@
    "fonte": "Sito ufficiale",
    "ufficiale": true,
    "tipo": "articolo",
-   "immagine": null,
+   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/06/CAMBIO-QUOTA-30.06-ART-ITA.png",
    "trovato": "2026-10-14T15:07Z"
   },
   {
@@ -320,7 +320,7 @@
    "fonte": "Sito ufficiale",
    "ufficiale": true,
    "tipo": "articolo",
-   "immagine": null,
+   "immagine": "https://www.romehalfmarathon.it/wp-content/uploads/2026/06/DSC01338-scaled.jpg",
    "trovato": "2026-10-14T15:07Z"
   },
   {
@@ -334,7 +334,7 @@
    "fonte": "Sito ufficiale",
    "ufficiale": true,
    "tipo": "articolo",
-   "immagine": null,
+   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/06/ART-PROMO-PATRONO-ITA.png",
    "trovato": "2026-10-14T15:07Z"
   },
   {
@@ -348,7 +348,7 @@
    "fonte": "Sito ufficiale",
    "ufficiale": true,
    "tipo": "articolo",
-   "immagine": null,
+   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/06/870A4983.jpeg",
    "trovato": "2026-10-14T15:07Z"
   },
   {
@@ -362,7 +362,7 @@
    "fonte": "Sito ufficiale",
    "ufficiale": true,
    "tipo": "articolo",
-   "immagine": null,
+   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/06/870A2138.jpeg",
    "trovato": "2026-10-14T15:07Z"
   },
   {
@@ -376,7 +376,7 @@
    "fonte": "Sito ufficiale",
    "ufficiale": true,
    "tipo": "articolo",
-   "immagine": "https://www.romehalfmarathon.it/wp-content/uploads/2026/06/FOTO-3-707x1024.jpg",
+   "immagine": "https://www.romehalfmarathon.it/wp-content/uploads/2026/06/FOTO-3.jpg",
    "trovato": "2026-10-14T15:07Z"
   },
   {
@@ -390,7 +390,7 @@
    "fonte": "Sito ufficiale",
    "ufficiale": true,
    "tipo": "articolo",
-   "immagine": null,
+   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/06/SOLD-OUT-NOTTURNA.png",
    "trovato": "2026-10-14T15:07Z"
   },
   {
@@ -404,7 +404,7 @@
    "fonte": "Sito ufficiale",
    "ufficiale": true,
    "tipo": "articolo",
-   "immagine": null,
+   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/04/PACER-ART-ITA.png",
    "trovato": "2026-10-14T15:07Z"
   }
  ]
