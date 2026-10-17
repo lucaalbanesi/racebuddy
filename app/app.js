@@ -1051,13 +1051,16 @@
   const thumbNovita = (n, cls = "") => `<div class="thumb ${n.immagine ? "" : "noimg"} t-${esc(n.tipo)} ${cls}">${n.immagine ? `<img src="${esc(n.immagine)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add('noimg');this.remove()">` : ""}${n.tipo === "video" ? '<span class="play" aria-hidden="true">▶</span>' : ""}</div>`;
   // La novità più importante non ancora vista delle tue gare (per Oggi)
   function novitaInEvidenza() {
-    const mie = new Set(S.gare.filter((g) => g.data >= L.addDays(oggi(), -14)).map((g) => g.id));
-    return (D.novita || []).filter((n) => mie.has(n.gara) && n.urgenza !== "app" && !novitaVista(n) && L.diffDays(oggi(), n.data) <= 7)
-      .sort((a, b) => PRI_URG[a.urgenza] - PRI_URG[b.urgenza] || (a.data < b.data ? 1 : -1))[0] || null;
+    const gare = S.gare.filter((g) => g.data >= L.addDays(oggi(), -14)).map((g) => g.id);
+    return L.novitaInEvidenza(D.novita, { gare, letti: S.letti || {}, esposte: S.vistiNovita || {}, oggi: oggi() });
   }
   function cardDallaGara() {
     const n = novitaInEvidenza(), g = n && garaDiNovita(n);
     if (!n || !g) return "";
+    // mostrata in cima oggi: dopo 2 giorni diversi senza aprirla lascia il posto alla successiva
+    const prima = JSON.stringify(S.vistiNovita || {});
+    S.vistiNovita = L.segnaVisti(S.vistiNovita || {}, [n.id], oggi());
+    if (JSON.stringify(S.vistiNovita) !== prima) setTimeout(salva, 0);
     return `<a class="card novita-top" href="${urlNovita(n)}">${thumbNovita(n)}<span class="nuovo-badge">Nuovo</span>
       <div class="novita-testo"><span class="eyebrow" style="color:var(--accent)">Dalla tua gara · ${esc(TEMA_LABEL[n.tema] || "Notizia")}</span><span class="novita-titolo">${esc(n.titolo)}</span>
       <span class="small muted">${esc(titoloGara(g.nome))} · ${fonteNovita(n)}</span><span class="small" style="color:var(--accent);font-weight:700">Tutte le novità della gara ›</span></div></a>`;
@@ -1091,7 +1094,7 @@
       <div class="c-testo"><span class="row" style="gap:6px;flex-wrap:wrap"><span class="pill navy-pill">${esc(titoloGara(g ? g.nome : ""))}</span>${novitaNuova(n) ? '<span class="pill">Nuovo</span>' : ""}</span>
       <span class="c-titolo">${esc(n.titolo)}</span><span class="c-meta">${n.ufficiale ? "Ufficiale" : esc(n.fonte)} · ${esc(TIPO_LABEL[n.tipo] || "")} · ${esc(fa(n.data))}</span></div></a>`;
   }
-  const novitaMieGare = () => { const mie = new Set(S.gare.filter((g) => g.data >= L.addDays(oggi(), -14)).map((g) => g.id)); return (D.novita || []).filter((n) => mie.has(n.gara) && n.tema !== "altro").sort((a, b) => (novitaNuova(a) ? 0 : 1) - (novitaNuova(b) ? 0 : 1) || PRI_URG[a.urgenza] - PRI_URG[b.urgenza] || (a.data < b.data ? 1 : -1)); };
+  const novitaMieGare = () => { const mie = new Set(S.gare.filter((g) => g.data >= L.addDays(oggi(), -14)).map((g) => g.id)); return L.ordinaNovita((D.novita || []).filter((n) => mie.has(n.gara) && n.tema !== "altro")); }; // dalla più recente: il blocco "Dalle tue gare" ne mostra 3, il filtro tutte
   function contesto() {
     const o = oggi(), { focus } = L.gareAttive(S.gare, D.fasi, o);
     if (!focus) return { o, fase: null, nomeFase: "Senza gara in vista", distanza: null };

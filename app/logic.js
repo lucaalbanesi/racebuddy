@@ -174,6 +174,19 @@
     }
     return out;
   }
+  /** Novità delle gare.
+   *  ordinaNovita: dalla più recente (a parità di giorno prima le più urgenti) – per il blocco e il filtro di Per te.
+   *  novitaInEvidenza (scheda di Oggi): non aperte, non "app", al massimo di 7 giorni; le importanti (urgenza subito)
+   *  passano davanti solo nei primi 2 giorni, poi conta la data; una notizia già mostrata in cima in 2 giorni diversi
+   *  (prima di oggi) senza essere aperta lascia il posto. esposte = mappa di segnaVisti. */
+  const PRI_URG = { subito: 0, mattino: 1, app: 2 };
+  const ordinaNovita = (lista) => [...lista].sort((a, b) => (a.data < b.data ? 1 : a.data > b.data ? -1 : (PRI_URG[a.urgenza] ?? 3) - (PRI_URG[b.urgenza] ?? 3)));
+  function novitaInEvidenza(novita, { gare = [], letti = {}, esposte = {}, oggi }) {
+    const fresca = (n) => n.urgenza === "subito" && diffDays(oggi, n.data) <= 2;
+    const parcheggiata = (n) => { const v = esposte[n.id]; return !!(v && v.giorni >= 2 && v.ultimo !== oggi); };
+    return (novita || []).filter((n) => gare.includes(n.gara) && n.urgenza !== "app" && !letti["n:" + n.id] && diffDays(oggi, n.data) <= 7 && !parcheggiata(n))
+      .sort((a, b) => (fresca(a) ? 0 : 1) - (fresca(b) ? 0 : 1) || (a.data < b.data ? 1 : a.data > b.data ? -1 : 0) || (PRI_URG[a.urgenza] ?? 3) - (PRI_URG[b.urgenza] ?? 3))[0] || null;
+  }
   /** Sorriso del giorno: stesso per tutto il giorno, coerente con la fase. */
   function sorriso(sorrisi, fase, oggi) {
     const pool = sorrisi.filter((s) => s.fase === fase);
@@ -430,7 +443,7 @@
     return out;
   }
 
-  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, sorriso, prossimaUscita, cercaGare, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento };
+  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);

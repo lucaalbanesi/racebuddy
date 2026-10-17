@@ -150,6 +150,22 @@ assert.ok(L.leggiTempo("21", L.tempoDaParti("1", "75", "00")).errore);
     { id: "4", nome: "Trail 15 km", data: "2026-05-01", metri: 15000, secondi: 5400 },
     { id: "5", nome: "Mezza con GPS impazzito", data: "2026-04-01", metri: 21200, secondi: 1800 },  // 30 minuti: impossibile
   ];
+  // novità delle gare: scheda di Oggi e ordine di Per te
+  const nv = [
+    { id: "expo", gara: "G", data: "2026-10-14", urgenza: "subito" },
+    { id: "elite", gara: "G", data: "2026-10-16", urgenza: "mattino" },
+    { id: "tv", gara: "G", data: "2026-10-16", urgenza: "mattino" },
+    { id: "promo", gara: "G", data: "2026-10-17", urgenza: "app" },
+    { id: "altra", gara: "X", data: "2026-10-17", urgenza: "subito" },
+  ];
+  assert.deepStrictEqual(L.ordinaNovita(nv.filter((n) => n.gara === "G")).map((n) => n.id), ["promo", "elite", "tv", "expo"]);
+  let ev = (o, esposte = {}, letti = {}) => (L.novitaInEvidenza(nv, { gare: ["G"], letti, esposte, oggi: o }) || {}).id;
+  assert.strictEqual(ev("2026-10-15"), "expo", "importante e fresca: davanti");
+  assert.strictEqual(ev("2026-10-17"), "elite", "dopo 2 giorni conta la data");
+  assert.strictEqual(ev("2026-10-17", { elite: { giorni: 2, ultimo: "2026-10-16" } }), "tv", "vista in 2 giorni senza aprirla: lascia il posto");
+  assert.strictEqual(ev("2026-10-17", { elite: { giorni: 2, ultimo: "2026-10-17" } }), "elite", "il secondo giorno resta per tutta la giornata");
+  assert.strictEqual(ev("2026-10-17", {}, { "n:elite": "2026-10-16", "n:tv": "2026-10-16" }), "expo");
+  assert.strictEqual(ev("2026-10-25"), undefined, "oltre 7 giorni no");
   const c = L.candidatiPersonali(gare);
   assert.deepStrictEqual(c["21"].map((x) => x.id), ["1", "2"]);
   assert.strictEqual(c["21"][0].tempo, "1:42:58");
