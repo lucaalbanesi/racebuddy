@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-10-16",
+ "aggiornato": "2026-10-17",
  "contenuti": [
   {
    "id": "6ed26e9486f3",
@@ -371,6 +371,30 @@
     "costruzione",
     "picco",
     "scarico"
+   ]
+  },
+  {
+   "id": "a5ea1987bb0d",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Le cinque posizioni yoga da conoscere prima del primo corso",
+   "estratto": "Entrare in sala yoga senza conoscere la mappa del corpo genera frustrazione; queste cinque geometrie eliminano l’imbarazzo e proteggono le articolazioni. Tadasana definisce…",
+   "link": "https://runlovers.it/2026/posizioni-yoga-base-primo-corso/",
+   "data": "2026-10-15",
+   "immagine": null,
+   "argomenti": [
+    "alimentazione",
+    "scarpe",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
    ]
   },
   {
