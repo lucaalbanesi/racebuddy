@@ -695,6 +695,7 @@
       ${barraFasi(obiettivo, true)}
       <div class="links-dark"><a href="${urlGara(obiettivo.id)}">La gara</a><a href="${urlGara(obiettivo.id, "preparazione")}">Preparazione</a><a href="${urlGara(obiettivo.id, "borsa")}">Borsa</a></div>
       ${tutte.filter((g) => g.id !== obiettivo.id).slice(0, 2).map((altra) => `<a class="between small" href="#/gara/${encodeURIComponent(altra.id)}" style="border-top:1px solid #FFFFFF26;padding-top:10px;color:inherit;text-decoration:none;font-weight:inherit"><span><b>${esc(titoloGara(altra.nome))}</b> · ${esc(L.RUOLO_LABEL[altra.ruolo].toLowerCase())}</span><span class="pill navy">${esc(mancano(altra))} ›</span></a>`).join("")}
+      <a class="between small" href="#/gare" style="border-top:1px solid #FFFFFF26;padding-top:10px;color:inherit;text-decoration:none;font-weight:700"><span>Vedi tutte le tue gare${S.gare.length > 1 ? ` · ${S.gare.length}` : ""}</span><span aria-hidden="true">›</span></a>
     </section>`;
 
     const st = L.stato(D.percorso, focus, o, S.spunte, S.rinvii);
