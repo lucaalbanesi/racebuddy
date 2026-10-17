@@ -2,6 +2,43 @@
  "aggiornato": "2026-10-17",
  "contenuti": [
   {
+   "id": "ca2587fa6a82",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Le Olimpiadi del futuro? Si disputeranno in più città contemporaneamente",
+   "estratto": "Dall'America si fa largo il pensiero che l’esempio di Milano Cortina seguito anche da altre nazioni",
+   "link": "https://www.runnersworld.com/it/news/a74158811/lolimpiadi-futuro-piu-citta-contemporaneamente/",
+   "data": "2026-10-17",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/1f2c49e3-0fdc-4401-b890-88bb076e28b2.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "f90f70c34869",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Infortunio nella corsa: cosa mangiare per recuperare meglio senza tagliare troppo le calorie",
+   "estratto": "Ridurre drasticamente calorie e carboidrati quando smetti di correre può rallentare il recupero. Tre dietiste sportive spiegano cosa serve davvero all’organismo dopo un infortunio",
+   "link": "https://www.runnersworld.com/it/alimentazione/food-drink/a74132008/infortunio-corsa-alimentazione-recupero-runner/",
+   "data": "2026-10-17",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/0cbe0d38-43b5-42e7-a354-7b56b3f80f64.jpeg",
+   "argomenti": [
+    "rifornimento",
+    "alimentazione",
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico",
+    "dopo"
+   ]
+  },
+  {
    "id": "6ed26e9486f3",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -26,7 +63,7 @@
    "estratto": "Fissare una sorgente luminosa circoscritta riduce le oscillazioni dell’attenzione, trasformando la percezione visiva in uno strumento di disciplina cognitiva quotidiana. Gli occhi…",
    "link": "https://runlovers.it/2026/trataka-meditazione-fiamma-candela/",
    "data": "2026-10-16",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/08-20261016-0715-Trataka-W-Unsplash-Katharina-Maria-Vapens.jpeg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "mente"
    ],
@@ -188,7 +225,7 @@
    "estratto": "La sera in cui non ci si allena Il giovedì è il giorno vuoto della mia settimana. Sul foglio del programma c’è scritto riposo, una parola sola in una colonna dove negli altri…",
    "link": "https://runlovers.it/2026/taylor-sheridan-serie-paesaggi-personaggi-femminili/",
    "data": "2026-10-16",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/taylor-sheridan-montana-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "scarpe",
     "allenamento",
@@ -261,7 +298,7 @@
    "estratto": "In maratona conta la quantità di carboidrati che il tuo intestino riesce ad assorbire, e quella quantità cresce se la alleni lungo dopo lungo, nelle settimane che precedono la…",
    "link": "https://runlovers.it/2026/carbmaxxing-allenare-stomaco-carboidrati-maratona/",
    "data": "2026-10-16",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/carbmaxxing-articolo-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "rifornimento",
     "allenamento",
@@ -361,7 +398,7 @@
    "estratto": "Il guscio che si bagna dopo poche uscite quasi sempre chiede un lavaggio e un po’ di calore: i trattamenti idrorepellenti senza PFAS funzionano, ma bisogna tenerli puliti. Cosa…",
    "link": "https://runlovers.it/2026/guscio-trail-senza-pfas-impermeabilita-manutenzione/",
    "data": "2026-10-15",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/guscio-impermeabile-trail-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "rifornimento",
     "abbigliamento"
@@ -382,7 +419,7 @@
    "estratto": "Entrare in sala yoga senza conoscere la mappa del corpo genera frustrazione; queste cinque geometrie eliminano l’imbarazzo e proteggono le articolazioni. Tadasana definisce…",
    "link": "https://runlovers.it/2026/posizioni-yoga-base-primo-corso/",
    "data": "2026-10-15",
-   "immagine": null,
+   "immagine": "https://runlovers.it/wp-content/uploads/2026/10/06-20261015-0715-Yoga-W-Unsplash-Content-Pixie.jpeg",
    "argomenti": [
     "alimentazione",
     "scarpe",
@@ -406,7 +443,7 @@
    "estratto": "La fibra animale sostituisce i derivati fossili sul corpo di chi corre, trasformando la maglietta tecnica in una complessa questione di classe e durata. Il dominio trentennale di…",
    "link": "https://runlovers.it/2026/lana-merino-abbigliamento-corsa-prezzi/",
    "data": "2026-10-15",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/07-20261015-1235-Merino-C-Unsplash-Martin-Bisof.jpeg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "abbigliamento"
    ],
@@ -612,7 +649,7 @@
    "estratto": "Una partita a tennis rompe la traiettoria lineare della corsa, costringendo il tuo corpo a gestire decelerazioni violente e reazioni visive istantanee. Struttura metabolica…",
    "link": "https://runlovers.it/2026/tennis-cross-training-gambe-cuore-riflessi/",
    "data": "2026-10-14",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/05-20261014-1235-Tennis-T-Unsplash-Moises-Alex.jpeg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "allenamento",
     "recupero"
@@ -694,7 +731,7 @@
    "estratto": "Al ritiro pettorali di una mezza maratona di provincia, la fila si blocca davanti a un uomo sulla sessantina. Porta la canotta di una stracittadina del 1991, lavata così tante…",
    "link": "https://runlovers.it/2026/prima-generazione-invecchia-correndo-over-60/",
    "data": "2026-10-14",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/correre-60-anni-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "scarpe",
     "gara"
@@ -814,7 +851,7 @@
    "estratto": "Camminare a cento passi al minuto trasforma lo spostamento quotidiano in uno stimolo cardiovascolare misurabile, accessibile senza cardiofrequenzimetro. La durata della camminata…",
    "link": "https://runlovers.it/2026/cento-passi-minuto-camminata-veloce-cuore/",
    "data": "2026-10-14",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/04-20261014-0715-100-Passi-W-Unsplash-Ritual-Visuals.jpeg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "allenamento",
     "recupero",
@@ -853,7 +890,7 @@
    "estratto": "Salire regolarmente le scale attiva una risposta emodinamica immediata, associata a una significativa riduzione del rischio cardiovascolare sul lungo periodo. Cinque rampe al…",
    "link": "https://runlovers.it/2026/salire-scale-ogni-giorno-cuore-longevita/",
    "data": "2026-10-13",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/03-20261013-0715-Scale-W-Unsplash-Lindsay-Henwood.jpeg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "alimentazione",
     "allenamento"
@@ -873,7 +910,7 @@
    "estratto": "La bicicletta, il mare e la corsa che nessuno spiega Mio padre correva curvo, una mano sul sellino e l’altra a mezz’aria, pronta a riprendermi. Il cortile dietro casa era di…",
    "link": "https://runlovers.it/2026/nessuno-insegnato-correre-adulti/",
    "data": "2026-10-13",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/imparare-correre-adulti-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [],
    "distanze": [],
    "fasi": []
@@ -1045,7 +1082,7 @@
    "estratto": "La caffeina aiuta soprattutto negli sforzi lunghi e nell’attenzione, a patto di dosarla sul proprio peso, prenderla con il giusto anticipo e conoscere la propria soglia. Cosa fa…",
    "link": "https://runlovers.it/2026/caffe-effetti-forza-resistenza-concentrazione/",
    "data": "2026-10-13",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/effetti-caffe-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "allenamento",
     "forza",
@@ -1200,7 +1237,7 @@
    "estratto": "Credere che i tuoi risultati siano casuali impoverisce il lavoro: identificare questa distorsione permette di sostituire l’ansia con verifiche oggettive. L’esperienza…",
    "link": "https://runlovers.it/2026/sindrome-impostore-lavoro-riconoscerla/",
    "data": "2026-10-12",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/01-20261012-0715-Sindrome-dellimpostore-W-Unsplash-Mark-Farias.jpeg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "mente",
     "racconti",
@@ -1222,7 +1259,7 @@
    "estratto": "Se sul marciapiede non senti un principio di freddo, hai addosso troppi strati e finirai l’uscita zuppo di sudore. Il corpo sotto sforzo produce calore equivalente a un’aria…",
    "link": "https://runlovers.it/2026/regola-dieci-gradi-vestirsi-correre-freddo/",
    "data": "2026-10-12",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/02-20261012-1730-10-Gradi-T-Unsplash-Ryan-Fleischer.jpeg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "mente",
     "abbigliamento"
@@ -1308,7 +1345,7 @@
    "estratto": "Il functional training parte dai movimenti della giornata e li allena uno per uno: sei esercizi, dalla versione a corpo libero a quella con carico, per comporre due sedute da…",
    "link": "https://runlovers.it/2026/functional-training-esercizi-gesti-quotidiani/",
    "data": "2026-10-12",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/funtional-training-6-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "alimentazione",
     "allenamento",
@@ -1611,7 +1648,7 @@
    "estratto": "La gara finisce in una mattina e lascia una casa silenziosa, dove la vera fatica comincia quando non devi più allacciarti le scarpe. La sveglia delle sei suona a vuoto, lasciando…",
    "link": "https://runlovers.it/2026/dopo-la-maratona-non-ce-piu-niente-da-preparare/",
    "data": "2026-10-11",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/10-20261011-1235-Dopo-maratona-L-Unsplash-Adela-Dvorakova.jpeg?fit=1920%2C1279&quality=75&ssl=1",
    "argomenti": [
     "scarpe",
     "allenamento",
@@ -1745,7 +1782,7 @@
    "estratto": "La maratona supera il rito della domenica mattina, trasformando i quartieri urbani in un palcoscenico occupato per un’intera settimana. La maratona supera il confine temporale…",
    "link": "https://runlovers.it/2026/maratona-settimana-citta-eventi-londra-berlino/",
    "data": "2026-10-10",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/09-20261010-1235-Citta-maratona-C-Unsplah-Nikita-Pishchugin.jpeg?fit=1920%2C1281&quality=75&ssl=1",
    "argomenti": [
     "scarpe",
     "allenamento",
@@ -1797,7 +1834,7 @@
    "estratto": "Dal metodo norvegese, chi corre tre volte a settimana può prendere in prestito un’idea sola: lavorare appena sotto la soglia, a frazioni, senza mai andare oltre. Da dove viene il…",
    "link": "https://runlovers.it/2026/metodo-norvegese-soglia-tre-uscite-settimana/",
    "data": "2026-10-10",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/metodo-norvegese-amatori-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "allenamento",
     "tecnologia"
@@ -1816,7 +1853,7 @@
    "estratto": "Un’ora di calcio a cinque spinge il cuore oltre l’ottanta per cento del massimale, trasformando una partita tra amici in una sessione anaerobica molto impegnativa. La frequenza…",
    "link": "https://runlovers.it/2026/calcetto-cross-training-cuore-gambe/",
    "data": "2026-10-10",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/08-20261010-0930-Calcetto-T-Depositphotos_sociopat_mpat.jpeg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "allenamento"
    ],
@@ -2022,7 +2059,7 @@
    "estratto": "La presa è il primo anello a cedere sotto un carico, e si rinforza con pochi esercizi mirati da mettere in coda alla seduta, a casa come in palestra. Perché mani e avambracci…",
    "link": "https://runlovers.it/2026/esercizi-rinforzare-presa-mani-avambracci/",
    "data": "2026-10-09",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/forza-presa-barra-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "allenamento",
     "forza"
@@ -2080,7 +2117,7 @@
    "estratto": "Cinque camminate di un giorno nelle faggete vetuste italiane, per capire quando la quota trasforma il bosco e scegliere il sentiero corretto. I faggi scandiscono l’autunno montàno…",
    "link": "https://runlovers.it/2026/foliage-camminate-boschi-autunno-italia/",
    "data": "2026-10-09",
-   "immagine": null,
+   "immagine": "https://runlovers.it/wp-content/uploads/2026/10/07-20261009-1730-Foliage-W-Unsplash-Wilfried-Santer.jpeg",
    "argomenti": [
     "allenamento",
     "abbigliamento"
@@ -2099,7 +2136,7 @@
    "estratto": "La crisi di metà uscita si decide nella prima ora, quando non hai ancora fame: si evita mangiando presto e a piccole dosi regolari, e bevendo senza aspettare la sosta lunga…",
    "link": "https://runlovers.it/2026/alimentazione-idratazione-uscite-lunghe-trail/",
    "data": "2026-10-09",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/alimentazione-integrazione-trail-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "rifornimento",
     "alimentazione",
@@ -2170,7 +2207,7 @@
    "estratto": "Quando la luce d’autunno taglia l’orizzonte di sbieco, la sintesi cutanea di vitamina D rallenta: la risposta corretta sta nel consulto medico, non negli scaffali degli…",
    "link": "https://runlovers.it/2026/vitamina-d-autunno-sole-carenza/",
    "data": "2026-10-08",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/05-20261008-0715-Vitamina-W-Unsplash-Michele-Blackwell.jpeg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "rifornimento",
     "alimentazione"
@@ -2191,7 +2228,7 @@
    "estratto": "Sessantadue prima di aprire gli occhi La mano arriva al comodino prima che io sappia di essere sveglio. Le dita tastano il legno nel buio, trovano il telefono sotto il filo del…",
    "link": "https://runlovers.it/2026/punteggio-sonno-ortosonnia-wearable/",
    "data": "2026-10-08",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/sonno-ortosonnia-wearable-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "allenamento",
     "forza",
@@ -2249,7 +2286,7 @@
    "estratto": "Cinque movimenti controllati sul pavimento di casa per liberare le anche dopo ore di sedia, ripristinando la mobilità articolare senza dispersioni. La permanenza sulla sedia fissa…",
    "link": "https://runlovers.it/2026/yoga-anche-rigide-posizioni-seduti/",
    "data": "2026-10-08",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/06-20261008-1730-Yoga-W-Depositphotos.jpeg?fit=1919%2C1275&quality=75&ssl=1",
    "argomenti": [
     "alimentazione",
     "forza"
@@ -2325,7 +2362,7 @@
    "estratto": "Un gesto meccanico delle dita e un flusso d’aria controllato assegnano all’attenzione un compito preciso, riducendo frequenza cardiaca e tensione prima del sonno. Spegnere la luce…",
    "link": "https://runlovers.it/2026/respirazione-narici-alternate-sonno/",
    "data": "2026-10-07",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/04-20261007-1730-Respiro-sonno-W-Unsplash-Ajay-Karpur.jpeg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "recupero",
     "mente"
@@ -2403,7 +2440,7 @@
    "estratto": "Il pollice dopo cena Ho cenato tardi e le gambe sono ancora fredde dentro, di quel freddo che resta nei muscoli dopo quaranta minuti di pioggia presa lungo l’argine. Sul divano il…",
    "link": "https://runlovers.it/2026/creator-corsa-social-comunicazione-appiattimento/",
    "data": "2026-10-07",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/creator-social-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "scarpe",
     "allenamento",
@@ -2428,7 +2465,7 @@
    "estratto": "Con le spalle appoggiate al bordo del divano e il bacino che sale fino a distendere l’anca, la fatica si concentra sui glutei proprio nel tratto in cui lavorano di più. Cosa…",
    "link": "https://runlovers.it/2026/hip-thrust-tecnica-glutei-casa/",
    "data": "2026-10-07",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/hip-thrust-divano-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [],
    "distanze": [],
    "fasi": []
@@ -2442,7 +2479,7 @@
    "estratto": "Nike ha strutturato le sue scarpe da gara in base alla gara che stai preparando: Swooshfly per cominciare, Alphafly 4 per il personale in maratona, Apex per chi si gioca i…",
    "link": "https://runlovers.it/2026/nike-apex-alphafly-swooshfly-scarpe-gara-obiettivi/",
    "data": "2026-10-06",
-   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/nike-system-speed-foto-02.jpg?resize=1160%2C773&#038;quality=75&#038;ssl=1",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/nike-system-speed-foto-02.jpg?resize=1160%2C773&quality=75&ssl=1",
    "argomenti": [
     "scarpe",
     "gara",
@@ -2467,7 +2504,7 @@
    "estratto": "I compiti lasciati a metà consumano energia mentale fino a notte fonda, ma un piano preciso puoi aiutarti a disperdere forze inutili. Un compito interrotto mantiene il cervello in…",
    "link": "https://runlovers.it/2026/effetto-zeigarnik-compiti-meta-staccare/",
    "data": "2026-10-06",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/03-20261006-1730-Zeigarnik-W-Unsplash-Sander-Sammy.jpeg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "recupero",
     "mente"
@@ -2489,7 +2526,7 @@
    "estratto": "La velocità con cui ti sposti ogni giorno misura l’efficienza integrata del tuo corpo, rivelando il tuo stato di salute biologica. La velocità del cammino misura l’azione…",
    "link": "https://runlovers.it/2026/velocita-cammino-sesto-segno-vitale-longevita/",
    "data": "2026-10-06",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/02-20261006-0715-Segno-vitale-W-Unsplash-Mahabis-Footwear-1.jpeg?fit=1920%2C1281&quality=75&ssl=1",
    "argomenti": [
     "allenamento",
     "forza",
@@ -2566,7 +2603,7 @@
    "estratto": "Tre settimane per riportare il volume dove era prima dello scarico, risalendo un gradino alla volta invece di saltare dal divano alla tabella di sempre. Cosa succede a muscoli e…",
    "link": "https://runlovers.it/2026/reverse-taper-tornare-correre-dopo-maratona/",
    "data": "2026-10-05",
-   "immagine": null,
+   "immagine": "https://runlovers.it/wp-content/uploads/2026/10/reverse-taper-maratona-foto.jpg",
    "argomenti": [
     "allenamento",
     "gara",
@@ -2607,7 +2644,7 @@
    "estratto": "Il calendario delle maratone poggiava sulla promessa del fresco autunnale, ma oggi preparare una gara significa scommettere su un meteo instabile. Le finestre stagionali storiche…",
    "link": "https://runlovers.it/2026/clima-calendario-maratone-autunno-caldo/",
    "data": "2026-10-05",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/01-20261005-1235-Calendario-Maratone-C-Unsplash-Felix-Yu.jpeg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "gara",
     "tecnologia"
@@ -2669,7 +2706,7 @@
    "estratto": "Quattro blocchi Tabata a corpo libero, uno per esercizio, valgono qualcosa solo se i venti secondi di lavoro arrivano vicino al massimo: la seduta è costruita intorno a questa…",
    "link": "https://runlovers.it/2026/tabata-corpo-libero-allenamento-casa-wow/",
    "data": "2026-10-05",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/tabata-esercizi-foto.jpg?fit=1920%2C1281&quality=75&ssl=1",
    "argomenti": [
     "forza",
     "recupero"
@@ -2749,7 +2786,7 @@
    "estratto": "Sblocca la schiena rigida dalla scrivania comprendendo la biomeccanica del torace e usando il respiro per guidare cinque torsioni essenziali e misurate. La rotazione avviene quasi…",
    "link": "https://runlovers.it/2026/torsioni-yoga-sciogliere-schiena/",
    "data": "2026-10-04",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/09/10-20261004-1235-Yoga-W.-Unsplash-Margaret-Young-1.jpeg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "scarpe",
     "forza"
@@ -2770,7 +2807,7 @@
    "estratto": "Tre uscite a settimana per nove settimane, alternando corsa e camminata a un ritmo che ti lascia parlare, portano chi non ha mai corso a trenta minuti di corsa continua. Un…",
    "link": "https://runlovers.it/2026/correre-5-km-senza-fermarsi-principianti/",
    "data": "2026-10-04",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/09/programma-5k-foto.jpg?fit=1920%2C1284&quality=75&ssl=1",
    "argomenti": [
     "scarpe",
     "allenamento",
@@ -2794,7 +2831,7 @@
    "estratto": "Sei esercizi con lo stesso manubrio coprono gambe, schiena, spalle e tronco, a patto di adattare ripetizioni e velocità a ciascun movimento. Un circuito di sei esercizi con un…",
    "link": "https://runlovers.it/2026/manubrio-singolo-corpo-intero-casa-wow/",
    "data": "2026-10-03",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/09/allenamento-manubrio-casa-foto.jpg?fit=1920%2C1373&quality=75&ssl=1",
    "argomenti": [
     "forza",
     "mente"
@@ -2816,7 +2853,7 @@
    "estratto": "Una lezione di indoor cycling allena cuore e gambe con un impatto minimo sulle articolazioni, a patto di regolare la bici prima di salire e di tenere per sé il controllo della…",
    "link": "https://runlovers.it/2026/indoor-cycling-cross-training-cuore-articolazioni/",
    "data": "2026-10-03",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/09/indoor-sycling-foto.jpg?fit=1920%2C1281&quality=75&ssl=1",
    "argomenti": [
     "alimentazione",
     "allenamento",
@@ -2838,7 +2875,7 @@
    "estratto": "Il numero stampato su un pezzo di carta patinata e quattro spille sigillate testimoniano l’assenza sulla linea di partenza certificando il blocco. Il pettorale consegnato a casa…",
    "link": "https://runlovers.it/2026/pettorale-gara-non-corsa-infortunio/",
    "data": "2026-10-03",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/09/09-20261003-1730-Pettorale-L-Depositphotos_Peopleimages.com_-1.jpeg?fit=1920%2C1281&quality=75&ssl=1",
    "argomenti": [
     "gara",
     "mente",
@@ -2859,7 +2896,7 @@
    "estratto": "Una giornata in città si prepara nei giorni prima: uno o due quartieri, un anello da percorrere a piedi, poche visite al chiuso e un’ora lasciata libera. Come scegliere uno o due…",
    "link": "https://runlovers.it/2026/organizzare-visita-citta-piedi-giornata/",
    "data": "2026-10-02",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/09/visitare-citta-giorno-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "allenamento",
     "racconti"
@@ -2901,7 +2938,7 @@
    "estratto": "La indossi il giorno dopo il traguardo, non prima. È la differenza tra rivendicare uno sforzo e fingere di averlo compiuto. La ritiri in busta di plastica: spille, chip, odore di…",
    "link": "https://runlovers.it/2026/maglietta-gara-indossare-dopo-traguardo/",
    "data": "2026-10-02",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/09/08-20261002-1235-Maglietta-L-Unsplash-Felix-Yu-1.jpeg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "gara",
     "abbigliamento"
@@ -2940,7 +2977,7 @@
    "estratto": "Sulle salite in cui si cammina i bastoncini diventano due gambe in più, e usarli bene è questione di pochi gesti da imparare prima di partire. Su quali percorsi i bastoncini…",
    "link": "https://runlovers.it/2026/bastoncini-trail-quando-usarli-salita/",
    "data": "2026-10-02",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/09/bastoncini-trail-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [],
    "distanze": [],
    "fasi": []
@@ -2954,7 +2991,7 @@
    "estratto": "Il naso chiuso prima di un lungo richiede lucidità: la regola del collo stabilisce un confine anatomico preciso tra l’allenamento e il riposo. La medicina dello sport traccia il…",
    "link": "https://runlovers.it/2026/regola-collo-correre-raffreddore/",
    "data": "2026-10-01",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/09/05-20261001-0715-Collo-T-Unasplash-Felicia-Varzari.jpeg?fit=1920%2C1281&quality=75&ssl=1",
    "argomenti": [
     "allenamento",
     "recupero",
@@ -3020,7 +3057,7 @@
    "estratto": "Sforzarsi di sentire affatica il cervello e isola dalle persone, ma proteggere l’udito frena un rischio primario per il declino cognitivo. Chiedere di ripetere le frasi nei luoghi…",
    "link": "https://runlovers.it/2026/udito-declino-cognitivo-cervello/",
    "data": "2026-10-01",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/09/06-20261001-1235-Udito-W-Unsplash-Jovan-Vasiljevic-1.jpeg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "rifornimento",
     "alimentazione"
@@ -3082,7 +3119,7 @@
    "estratto": "Quattro settimane di serie che restano sotto il massimo, una scala a settimana e pochi piegamenti sparsi nella giornata: il limite si tocca solo nei tre test. Il criterio di un…",
    "link": "https://runlovers.it/2026/programma-mensile-50-piegamenti-braccia/",
    "data": "2026-09-30",
-   "immagine": null,
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/09/50-pushups-plan-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
     "allenamento"
    ],
