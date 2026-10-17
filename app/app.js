@@ -1697,7 +1697,7 @@
         <span class="small muted">Si salva da solo.</span></form>`)}
       ${acc("documenti", "Tessera e certificato", (() => { const a = statoDoc((S.documenti || {}).tessera), b = statoDoc((S.documenti || {}).certificato); const peggio = [a, b].find((x) => ["scaduto", "urgente", "presto"].includes(x.livello)); return peggio ? pillDoc(peggio) : a.livello === "ok" && b.livello === "ok" ? '<span class="pill ok">in regola</span>' : "da inserire"; })(), sezioneDocumenti())}
       ${acc("notifiche", "Notifiche", on ? '<span class="pill ok">attive</span>' : sp === "ok" ? "da attivare" : sp === "non-pronto" ? "in arrivo" : "non disponibili", cardPush(false, true))}
-      ${acc("gruppo", "Gruppo", inG ? `${esc(GD().gruppo.nome)} · ${esc(RUOLI_G[GD().io.ruolo].toLowerCase())}` : "non sei in un gruppo", inG ? `<span class="small">Sei in <b>${esc(GD().gruppo.nome)}</b> come «${esc(GD().io.nome)}».</span>
+      ${acc("gruppo", "Gruppo", inG ? `${esc(GD().gruppo.nome)} · ${esc(RUOLI_G[GD().io.ruolo].toLowerCase())}` : "non sei in un gruppo", inG ? `<span class="small">Sei in <b>${esc(GD().gruppo.nome)}</b> come «${esc(GD().io.nome)}».</span>${S.profilo.nome && S.profilo.nome.trim() !== GD().io.nome ? `<button class="btn ghost small" data-act="g-usa-nome" style="align-self:flex-start">Fatti vedere come «${esc(S.profilo.nome.trim())}»</button>` : ""}
         <label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="io-mostra" ${GD().io.mostra_gare ? "checked" : ""}><span><span class="t">Mostra al gruppo le mie gare</span><br><span class="d">Nome della gara, ruolo e tempo obiettivo.</span></span></label>
         <a class="btn ghost" href="#/gruppo/admin">${GD().io.ruolo === "membro" ? "Membri ed esci dal gruppo" : "Gestisci il gruppo"}</a>` : `<span class="small">Entra nel gruppo della tua società con il link d'invito, oppure crealo se sei il presidente.</span><a class="btn ghost" href="#/gruppo">Vai al gruppo</a>`)}
       ${acc("personali", "I miei personali", esc(riassuntoPB()) || "da inserire", sezionePB())}
@@ -1787,6 +1787,8 @@
     } else if (act === "ob-fine") {
       S.benvenuto = true; salva(); document.body.classList.remove("onboarding");
       if (t.dataset.vai) location.hash = t.dataset.vai; else if (location.hash === "#/benvenuto") location.hash = "#/oggi"; else route();
+    } else if (act === "g-usa-nome") {
+      azioneGruppo(() => rpc("aggiorna_profilo", { p_token: token(), p_nome: S.profilo.nome.trim().slice(0, 40), p_mostra: null }), "Nome aggiornato nel gruppo");
     } else if (act === "g-dist") {
       distGruppo = t.dataset.d; rerender();
     } else if (act === "g-applaudi") {
@@ -2022,7 +2024,10 @@
     if ((S.profilo[k] || "") === val) return;
     S.profilo = { ...S.profilo, [k]: val };
     if (k === "citta") delete S.profilo.coord;
-    salva(); toast("Salvato");
+    salva();
+    // Il nome del profilo è anche il nome con cui ti vede il gruppo
+    if (k === "nome" && val && S.gruppo && S.gruppo.dentro) azioneGruppo(() => rpc("aggiorna_profilo", { p_token: token(), p_nome: val.slice(0, 40), p_mostra: null }), "Salvato, anche nel gruppo");
+    else toast("Salvato");
   });
 
   // Caselle del tempo: solo cifre, si passa da sole alla casella dopo, il tasto cancella su una casella vuota torna indietro.
