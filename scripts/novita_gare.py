@@ -18,7 +18,7 @@ import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from importa_contenuti import SPAM, get, taglia, voci_feed  # noqa: E402
+from importa_contenuti import SPAM, completa_immagini, get, taglia, voci_feed  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "data" / "novita_gare.json"
@@ -147,6 +147,9 @@ def main() -> int:
         print("Nessuna novità letta: file non modificato.", file=sys.stderr)
         return 1
     elenco = sorted(tutte.values(), key=lambda n: (n["data"], n["id"]), reverse=True)
+    img = completa_immagini(elenco, vecchie, oggi, 20)
+    if img:
+        print(f"Immagini trovate nelle pagine: {img}")
     nuovo = {"novita": elenco}
     if OUT.exists() and json.loads(OUT.read_text()).get("novita") == elenco:
         print(f"{len(elenco)} novità, nessun cambiamento")

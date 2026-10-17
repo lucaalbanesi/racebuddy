@@ -24,4 +24,32 @@ assert y[0]["link"] == "https://www.youtube.com/watch?v=abc" and y[0]["immagine"
 e = c.etichette(y[0]["titolo"], y[0]["testo"])
 assert "scarico" in e["fasi"] and "42" in e["distanze"], e
 assert c.taglia("a " * 200, 20).endswith("…")
+
+# immagine nel testo con lazy-load e virgolette singole
+assert c.immagine(c.ET.fromstring("<item/>"), "<p><img class='x' data-src='https://ex.it/l.jpg' src='data:,'></p>") == "https://ex.it/l.jpg"
+
+# feed senza immagine: si prende og:image dalla pagina, si riusa quella già trovata, non si riprova prima di 3 giorni
+class Risp:
+    def __init__(self, t): self.t = t.encode()
+    def read(self, n): return self.t
+    def __enter__(self): return self
+    def __exit__(self, *a): pass
+pagine = {"https://ex.it/a": '<html><head><meta property="og:image" content="https://ex.it/og.jpg"></head>',
+          "https://ex.it/b": "<html><head></head>"}
+aperte = []
+def finto(req, timeout=0):
+    aperte.append(req.full_url); return Risp(pagine.get(req.full_url, ""))
+c.urllib.request.urlopen = finto
+c.time.sleep = lambda s: None
+voci = [{"id": "a", "tipo": "articolo", "link": "https://ex.it/a", "immagine": None},
+        {"id": "b", "tipo": "articolo", "link": "https://ex.it/b", "immagine": None},
+        {"id": "v", "tipo": "video", "link": "https://ex.it/v", "immagine": None},
+        {"id": "k", "tipo": "articolo", "link": "https://ex.it/k", "immagine": None},
+        {"id": "r", "tipo": "articolo", "link": "https://ex.it/r", "immagine": None}]
+vecchie = {"k": {"immagine": "https://ex.it/k.jpg"}, "r": {"immagineCercata": "2026-10-16"}}
+assert c.completa_immagini(voci, vecchie, "2026-10-17", 10) == 1
+assert voci[0]["immagine"] == "https://ex.it/og.jpg" and "immagineCercata" not in voci[0]
+assert voci[1]["immagine"] is None and voci[1]["immagineCercata"] == "2026-10-17"
+assert voci[3]["immagine"] == "https://ex.it/k.jpg" and voci[4]["immagineCercata"] == "2026-10-16"
+assert aperte == ["https://ex.it/a", "https://ex.it/b"], aperte  # niente video, niente già note, niente tentativi recenti
 print("ok")

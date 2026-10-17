@@ -116,8 +116,56 @@ def immagine(el, descr_html: str) -> str | None:
     for c in img:
         if c.get("href"):
             return c.get("href")
-    m = re.search(r'<img[^>]+src="([^"]+)"', descr_html or "")
-    return m.group(1) if m else None
+    m = re.search(r'<img[^>]+?(?:data-src|data-lazy-src|src)=["\'](https://[^"\']+)', descr_html or "")
+    return html.unescape(m.group(1)) if m else None
+
+
+# Molti feed (es. Runlovers, siti ufficiali WordPress) non mettono l'immagine: la si prende dalla pagina dell'articolo
+# (og:image / twitter:image, la stessa che usano WhatsApp e i social). Una pagina si riprova al più ogni RIPROVA_GIORNI.
+RIPROVA_GIORNI = 3
+_META_IMG = re.compile(r'<meta[^>]+(?:property|name)=["\'](?:og:image(?::secure_url)?|twitter:image(?::src)?)["\'][^>]*>', re.I)
+
+
+def immagine_pagina(url: str) -> str | None:
+    try:
+        req = urllib.request.Request(url, headers=UA)
+        with urllib.request.urlopen(req, timeout=20) as r:
+            pagina = r.read(400_000).decode("utf-8", "replace")
+    except Exception:
+        return None
+    for tag in _META_IMG.findall(pagina):
+        m = re.search(r'content=["\']([^"\']+)', tag)
+        if m and m.group(1).startswith("https://"):
+            return html.unescape(m.group(1).strip())
+    return None
+
+
+def completa_immagini(voci: list[dict], vecchie: dict, oggi: str, massimo: int) -> int:
+    """Per le voci senza immagine: riusa quella già trovata, altrimenti la cerca nella pagina (al massimo `massimo` pagine).
+    Annota in "immagineCercata" il giorno del tentativo, per non riprovare a ogni giro. Ritorna le immagini trovate."""
+    trovate = cercate = 0
+    for v in voci:
+        if v.get("immagine") or v.get("tipo") == "video":
+            continue
+        prima = vecchie.get(v["id"], {})
+        if prima.get("immagine"):
+            v["immagine"] = prima["immagine"]
+            continue
+        quando = prima.get("immagineCercata")
+        if quando and (dt.date.fromisoformat(oggi) - dt.date.fromisoformat(quando)).days < RIPROVA_GIORNI:
+            v["immagineCercata"] = quando
+            continue
+        if cercate >= massimo:
+            continue
+        cercate += 1
+        v["immagine"] = immagine_pagina(v["link"])
+        if v["immagine"]:
+            trovate += 1
+            v.pop("immagineCercata", None)
+        else:
+            v["immagineCercata"] = oggi
+        time.sleep(0.5)
+    return trovate
 
 
 def voci_feed(xml: str) -> list[dict]:
@@ -231,6 +279,8 @@ def main() -> int:
         time.sleep(1)
 
     elenco = sorted(per_id.values(), key=lambda c: (c["data"], c["titolo"]), reverse=True)
+    img = completa_immagini(elenco, {c["id"]: c for c in vecchi}, oggi.isoformat(), 60)
+    print(f"Immagini trovate nelle pagine: {img}; ancora senza: {sum(1 for c in elenco if not c.get('immagine') and c['tipo'] != 'video')}")
     if not elenco and errori:
         print("Nessun contenuto letto: file non modificato.", file=sys.stderr)
         return 1
