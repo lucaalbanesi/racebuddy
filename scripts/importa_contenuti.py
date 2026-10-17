@@ -179,6 +179,7 @@ def main() -> int:
     escl_path = ROOT / "content/fonti_escluse.json"
     escluse = set(json.loads(escl_path.read_text())) if escl_path.exists() else set()
     fonti = [f for f in fonti if f["id"] not in escluse]
+    fonti = [f for f in fonti if f["tipo"] != "podcast"]  # podcast tolti dall'app (ottobre 2026)
     oggi = dt.date.today()
     limite = (oggi - dt.timedelta(days=GIORNI)).isoformat()
 
@@ -212,6 +213,8 @@ def main() -> int:
             if not dedicata and not CORSA.search(insieme):
                 scartati["fuori tema"] += 1
                 continue
+            if f["tipo"] == "podcast" or v["audio"]:
+                continue  # podcast tolti dall'app (ottobre 2026)
             cid = hashlib.sha1(v["link"].encode()).hexdigest()[:12]
             tipo = "video" if f["tipo"] == "youtube" else "podcast" if (f["tipo"] == "podcast" or v["audio"]) else "articolo"
             per_id[cid] = {

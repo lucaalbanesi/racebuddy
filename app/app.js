@@ -41,7 +41,7 @@
         ["content/fasi.json", "content/percorso.json", "content/pillole.json", "data/gare.json"].map((u) => fetch(u, { cache: "no-cache" }).then((r) => { if (!r.ok) throw new Error(u); return r.json(); })));
       Object.assign(D, { fasi, percorso, pillole, gare: cal.gare || [], aggiornato: cal.aggiornato, ok: true });
       const opz = (u, def) => fetch(u, { cache: "no-cache" }).then((r) => (r.ok ? r.json() : def)).catch(() => def);
-      [D.schede, D.contenuti, D.sorrisi, D.novita, D.sfondi] = await Promise.all([opz("content/schede.json", {}), opz("data/contenuti.json", { contenuti: [] }).then((x) => x.contenuti || []), opz("content/sorrisi.json", []), opz("data/novita_gare.json", { novita: [] }).then((x) => x.novita || []), opz("content/sfondi.json", {})]);
+      [D.schede, D.contenuti, D.novita, D.sfondi] = await Promise.all([opz("content/schede.json", {}), opz("data/contenuti.json", { contenuti: [] }).then((x) => (x.contenuti || []).filter((c) => c.tipo !== "podcast")), opz("data/novita_gare.json", { novita: [] }).then((x) => x.novita || []), opz("content/sfondi.json", {})]);
     } catch (e) {
       D.errore = "Non riesco a caricare i contenuti. Controlla la connessione e ricarica.";
     }
@@ -674,7 +674,6 @@
       <a class="card dark" href="#/gare" style="text-decoration:none;font-weight:inherit"><span class="eyebrow">${concluse ? "Tutte le tue gare sono concluse" : "Nessuna gara in vista"}</span><span style="font:700 24px/1.1 var(--display)">${concluse ? "Qual è la prossima?" : "Scegli la tua prossima gara"}</span><span class="sub">Ti preparo la strada fino al via: cosa fare e quando, info gara, borsa ›</span></a>
       ${cardMeteo()}
       ${cardInvitoPB()}
-      ${cardSorriso(L.sorriso(D.sorrisi || [], "senza_gara", o))}
       ${pil ? `<section class="card soft" aria-label="Pillola del giorno"><span class="eyebrow" style="color:var(--accent-strong)">Pillola di stagione</span><span class="title">${esc(pil.titolo)}</span><span class="small">${esc(pil.testo)}</span></section>` : ""}
       ${cardPerTe("Da leggere e guardare")}
       <p class="sub">Indicazioni generali per runner amatoriali in salute: non sostituiscono medico, nutrizionista o allenatore.</p>`;
@@ -1007,7 +1006,7 @@
       <p class="sub">Cambiano con le fasi della preparazione: quando entri nella fase successiva qui trovi le nuove.</p>`;
   }
 
-  // ---------------------------------------------------------------- per te: articoli, video, podcast, sorrisi
+  // ---------------------------------------------------------------- per te: articoli e video
   const TIPO_LABEL = { articolo: "Articolo", video: "Video", podcast: "Podcast" };
   const fa = (d) => { const n = L.diffDays(oggi(), d); return n <= 0 ? "oggi" : n === 1 ? "ieri" : n < 7 ? `${n} giorni fa` : L.fmtBreve(d); };
 
@@ -1082,20 +1081,13 @@
       <div class="c-testo"><span class="c-meta">${esc(c.fonte)} · ${esc(TIPO_LABEL[c.tipo] || "")} · ${esc(fa(c.data))}${letto ? " · già visto" : ""}</span>
       <span class="c-titolo">${esc(c.titolo)}</span>${grande && c.estratto ? `<span class="c-estratto">${esc(c.estratto)}</span>` : ""}</div></a>`;
   }
-  function cardSorriso(sr) {
-    return sr ? `<section class="card sorriso" aria-label="Sorriso del giorno"><span class="eyebrow">Sorriso del giorno</span><p>${esc(sr.testo)}</p></section>` : "";
-  }
   function vistaPerTe(param) {
     const { o, fase, nomeFase, distanza } = contesto();
     const mieGare = novitaMieGare();
     const tipo = param.t || "", letti = contenutiLetti();
     const chip = (v, l) => `<button class="chip" data-act="perte-tipo" data-t="${v}" aria-pressed="${tipo === v}">${l}</button>`;
     const testa = `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(nomeFase)}</span><h1>Per te</h1></div></header>
-      <div class="chips" role="group" aria-label="Tipo di contenuto">${chip("", "Tutto")}${mieGare.length ? chip("gare", `Le mie gare · ${mieGare.length}`) : ""}${chip("articolo", "Articoli")}${chip("video", "Video")}${chip("podcast", "Podcast")}${chip("sorrisi", "Sorrisi")}</div>`;
-    if (tipo === "sorrisi") {
-      const lista = [...(D.sorrisi || [])].sort((a, b) => (a.fase === fase ? -1 : 0) - (b.fase === fase ? -1 : 0));
-      return `${testa}${lista.map((x) => `<section class="card sorriso"><p>${esc(x.testo)}</p></section>`).join("")}<p class="sub">Battute originali di RaceBuddy.</p>`;
-    }
+      <div class="chips" role="group" aria-label="Tipo di contenuto">${chip("", "Tutto")}${mieGare.length ? chip("gare", `Le mie gare · ${mieGare.length}`) : ""}${chip("articolo", "Articoli")}${chip("video", "Video")}</div>`;
     if (tipo === "gare") return `${testa}<div class="lista-c">${mieGare.map(cardNovitaPerTe).join("")}</div><p class="sub">Novità ufficiali e articoli delle riviste sulle gare che segui. Tocca per aprirli alla fonte.</p>`;
     const lista = L.perTe(D.contenuti || [], { fase, distanza, oggi: o, letti, visti: S.visti || {}, tipo });
     if (!lista.length) return `${testa}<p class="sub">Nessun contenuto per ora: le fonti si aggiornano due volte al giorno.</p>`;
@@ -1106,7 +1098,6 @@
     const n = Number(param.n || 20);
     return `${testa}
       ${!tipo && mieGare.length ? `<section aria-label="Dalle tue gare"><div class="between" style="margin-bottom:8px"><h2>Dalle tue gare</h2><button class="linkbtn small" data-act="perte-tipo" data-t="gare">Tutte ›</button></div><div class="lista-c">${mieGare.slice(0, 3).map(cardNovitaPerTe).join("")}</div></section>` : ""}
-      ${!tipo ? cardSorriso(L.sorriso(D.sorrisi || [], fase || "senza_gara", o)) : ""}
       ${perFase.length ? `<section aria-label="Per la tua fase"><h2 style="margin-bottom:8px">Per la tua fase</h2><div class="lista-c">${perFase.map((c, i) => cardContenuto(c, i === 0)).join("")}</div></section>` : ""}
       <section aria-label="Novità"><h2 style="margin-bottom:8px">Novità dalle fonti</h2><div class="lista-c">${novita.slice(0, n).map((c) => cardContenuto(c)).join("")}</div></section>
       ${novita.length > n ? `<a class="btn ghost" href="#/perte?t=${tipo}&n=${n + 20}">Mostra altri</a>` : ""}

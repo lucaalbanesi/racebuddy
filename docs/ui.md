@@ -81,8 +81,8 @@ La freccia indietro porta alla Panoramica.
 
 <img src="img/ui/perte.png" width="280" alt="Schermata Per te">
 
-In cima "Dalle tue gare": novità ufficiali e articoli sulle gare seguite, con il filtro "Le mie gare". Sotto articoli,
-video e podcast scelti per fase e distanza, e i sorrisi.
+In cima "Dalle tue gare": novità ufficiali e articoli sulle gare seguite, con il filtro "Le mie gare". Sotto articoli
+e video scelti per fase e distanza.
 
 ## Gruppo
 
