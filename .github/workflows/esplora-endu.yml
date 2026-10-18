@@ -2,36 +2,32 @@ name: Esplora (temporaneo)
 on:
   push:
     branches: [esplora-endu]
+permissions:
+  contents: write
 jobs:
   esplora:
     runs-on: ubuntu-latest
     steps:
-      - name: FIDAL
+      - uses: actions/checkout@v4
+      - name: Scarica pagine di esempio
         run: |
           set +e
-          exec > >(tee esito.txt) 2>&1
           UA="Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 Chrome/126 Mobile Safari/537.36"
-          curl -sL -A "$UA" "https://www.fidal.it/result.php?id_sito=1&cerca=alberto+crippa" -o r.html
-          python3 -c "
-          import re
-          t=open('r.html',encoding='utf-8',errors='ignore').read()
-          rows=re.findall(r'(?s)<tr.*?</tr>',t)
-          for r in rows[:12]:
-            l=re.findall(r'href=\"(https://www.fidal.it/atleta/[^\"]+)\"',r); c=[re.sub(r'<[^>]+>|\s+',' ',x).strip() for x in re.findall(r'(?s)<td.*?</td>',r)]
-            print(c, l[:1])" | tee righe.txt
-          for A in https://www.fidal.it/atleta/Alberto-Crippa/dq2RmJufa2o%3D https://www.fidal.it/atleta/Alberto-Crippa/dq2RlZmnbWU%3D; do
-            echo "=== $A"; curl -sL -A "$UA" "$A" -o at.html
-            python3 -c "
-          import re,html
-          t=open('at.html',encoding='utf-8',errors='ignore').read()
-          print('tabelle',t.count('<table'))
-          for h in re.findall(r'(?s)<h[2-4][^>]*>(.*?)</h[2-4]>',t)[:20]: print('H:',re.sub(r'<[^>]+>|\s+',' ',h).strip())
-          t=re.sub(r'(?s)<(script|style).*?</\\1>','',t);t=re.sub(r'<[^>]+>',' | ',t);t=html.unescape(re.sub(r'\s+',' ',t));t=re.sub(r'( \| )+',' | ',t)
-          i=t.find('Primati'); print(t[i:i+1400] if i>=0 else 'NESSUN PRIMATO')
-          for k in ['Maratona','Mezza','10 Km','Km 10','Strada']: print(k,t.count(k))"
-          done
-      - name: Esito come annotazioni
-        if: always()
+          D=fixtures; mkdir -p $D; g() { curl -sL -A "$UA" --max-time 30 -o "$D/$1" -w "$1 %{http_code} %{size_download} %{content_type}\n" "$2"; sleep 2; }
+          g gpl_atleta.html "https://www.garepodistichelazio.it/dettaglio_atleta.php?na=AURELI%20MAURO"
+          g gpl_elenco.html "https://www.garepodistichelazio.it/elenco-gare.php?na=AURELI%20MAURO&page=2"
+          g gpl_elenco_2025.html "https://www.garepodistichelazio.it/elenco-gare.php?na=AURELI%20MAURO&page=2&anno=2025"
+          g gpl_vuoto.html "https://www.garepodistichelazio.it/dettaglio_atleta.php?na=ZZZXX%20QWERTY"
+          g gpl_rossi.html "https://www.garepodistichelazio.it/dettaglio_atleta.php?na=ROSSI%20MARCO"
+          g gpl_minuscolo.html "https://www.garepodistichelazio.it/dettaglio_atleta.php?na=aureli%20mauro"
+          g gpl_invertito.html "https://www.garepodistichelazio.it/dettaglio_atleta.php?na=MAURO%20AURELI"
+          g fidal_cerca.html "https://www.fidal.it/result.php?id_sito=1&cerca=alberto+crippa"
+          g fidal_amatore.html "https://www.fidal.it/atleta/Alberto-Crippa/dq2RmJufa2o%3D"
+          g fidal_cerca_yeman.html "https://www.fidal.it/result.php?id_sito=1&cerca=yemaneberhan+crippa"
+          Y=$(grep -oE 'https://www.fidal.it/atleta/Yemaneberhan-Crippa/[^"]+' $D/fidal_cerca_yeman.html | head -1); echo "yeman: $Y"
+          [ -n "$Y" ] && g fidal_strada.html "$Y"
+          g fidal_vuoto.html "https://www.fidal.it/result.php?id_sito=1&cerca=zzzxx+qwerty"
+      - name: Salva nel ramo
         run: |
-          split -b 3500 -d esito.txt parte_
-          for f in parte_*; do m=$(sed ':a;N;$!ba;s/%/%25/g;s/\r/%0D/g;s/\n/%0A/g' "$f"); echo "::notice title=$f::$m"; done
+          git config user.name "github-actions"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add fixtures && git commit -qm "Pagine di esempio" && git push -q
