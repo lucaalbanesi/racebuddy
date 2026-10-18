@@ -12,22 +12,12 @@ jobs:
       - name: Scarica pagine di esempio
         run: |
           set +e
-          UA="Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 Chrome/126 Mobile Safari/537.36"
-          D=fixtures; mkdir -p $D; g() { curl -sL -A "$UA" --max-time 30 -o "$D/$1" -w "$1 %{http_code} %{size_download} %{content_type}\n" "$2"; sleep 2; }
-          g gpl_atleta.html "https://www.garepodistichelazio.it/dettaglio_atleta.php?na=AURELI%20MAURO"
-          g gpl_elenco.html "https://www.garepodistichelazio.it/elenco-gare.php?na=AURELI%20MAURO&page=2"
-          g gpl_elenco_2025.html "https://www.garepodistichelazio.it/elenco-gare.php?na=AURELI%20MAURO&page=2&anno=2025"
-          g gpl_vuoto.html "https://www.garepodistichelazio.it/dettaglio_atleta.php?na=ZZZXX%20QWERTY"
-          g gpl_rossi.html "https://www.garepodistichelazio.it/dettaglio_atleta.php?na=ROSSI%20MARCO"
-          g gpl_minuscolo.html "https://www.garepodistichelazio.it/dettaglio_atleta.php?na=aureli%20mauro"
-          g gpl_invertito.html "https://www.garepodistichelazio.it/dettaglio_atleta.php?na=MAURO%20AURELI"
-          g fidal_cerca.html "https://www.fidal.it/result.php?id_sito=1&cerca=alberto+crippa"
-          g fidal_amatore.html "https://www.fidal.it/atleta/Alberto-Crippa/dq2RmJufa2o%3D"
-          g fidal_cerca_yeman.html "https://www.fidal.it/result.php?id_sito=1&cerca=yemaneberhan+crippa"
-          Y=$(grep -oE 'https://www.fidal.it/atleta/Yemaneberhan-Crippa/[^"]+' $D/fidal_cerca_yeman.html | head -1); echo "yeman: $Y"
-          [ -n "$Y" ] && g fidal_strada.html "$Y"
-          g fidal_vuoto.html "https://www.fidal.it/result.php?id_sito=1&cerca=zzzxx+qwerty"
+          UA="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/126 Safari/537.36 RaceBuddy"
+          D=fixtures; rm -rf $D; mkdir -p $D; g() { curl -sL -A "$UA" --max-time 40 -o "$D/$1" -w "$1 %{http_code} %{size_download}\n" "$2"; sleep 2; }
+          g cal_gpl.html "https://www.garepodistichelazio.it/gare-lazio.php"
+          g cal_gpl_2027.html "https://www.garepodistichelazio.it/gare-anno-successivo.php?tipo=0"
+          g cal_gpl_info.html "https://www.garepodistichelazio.it/info-gara-Rome-Half-Marathon"
       - name: Salva nel ramo
         run: |
           git config user.name "github-actions"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add fixtures && git commit -qm "Pagine di esempio" && git push -q
+          git add -A fixtures && git commit -qm "Pagine di esempio calendario" && git push -q
