@@ -77,6 +77,7 @@
       "sito": "https://www.frankfurt-marathon.com/",
       "iscrizione": "libera",
       "notaIscrizione": "Iscrizione libera con prezzo a scaglioni; iscrizioni tardive fino al 18 ottobre e sul posto dal 23 al 25 ottobre 2026.",
+      "racconto": "La maratona cittadina più antica di Germania, nata nel 1981. Un percorso veloce per le strade di Francoforte, con musica e tifo lungo il tracciato, e un arrivo unico al coperto, dentro la Festhalle.",
       "verificato": "2026-10-18"
     },
     {
@@ -92,6 +93,7 @@
       "sito": "https://www.valenciaciudaddelrunning.com/medio/medio-maraton/",
       "iscrizione": "ballottaggio",
       "notaIscrizione": "Sorteggio svolto a novembre 2025 (25.000 pettorali); i posti non confermati sono passati alla lista d'attesa.",
+      "racconto": "Partenza e arrivo sull'Avinguda dels Tarongers, nella zona universitaria: un percorso con poche curve che costeggia il grande parco nel vecchio letto del Turia, entra nel centro storico e torna tra le strade del Cabanyal, con il pubblico a fare il tifo. L'organizzazione lo chiama il circuito più veloce di Spagna.",
       "verificato": "2026-10-18"
     },
     {
@@ -107,6 +109,7 @@
       "sito": "https://www.nyrr.org/tcsnycmarathon",
       "iscrizione": "ballottaggio",
       "notaIscrizione": "Ballottaggio chiuso; restano i posti charity e le agenzie internazionali ufficiali.",
+      "racconto": "Dal 1976 la maratona attraversa tutti e cinque i quartieri di New York: si parte a Staten Island ai piedi del ponte di Verrazzano, poi Brooklyn, Queens e il Bronx, fino all'arrivo in Manhattan, dentro Central Park. Quasi 60.000 runner al via, la prima domenica di novembre.",
       "verificato": "2026-10-18"
     },
     {
@@ -122,6 +125,7 @@
       "sito": "https://www.athensauthenticmarathon.gr/",
       "iscrizione": "libera",
       "notaIscrizione": "Iscrizione libera fino a esaurimento: il sito segnala la maratona esaurita.",
+      "racconto": "Si corre sul percorso originale, dalla città di Maratona fino allo Stadio Panatenaico, lo stadio di marmo delle prime Olimpiadi moderne, dove nel 1896 vinse Spyros Louis. Gli ultimi 170 metri sono sulla pista dello stadio.",
       "verificato": "2026-10-18"
     },
     {
@@ -137,6 +141,7 @@
       "sito": "https://www.valenciaciudaddelrunning.com/maraton/",
       "iscrizione": "ballottaggio",
       "notaIscrizione": "Pettorali assegnati con sorteggio; iscrizioni chiuse, resta la lista d'attesa.",
+      "racconto": "Si parte dalla Plaça de la Marató per un percorso pianeggiante pensato per correre veloci, tra il Cabanyal e il centro storico, con il pubblico lungo le strade dall'inizio alla fine. L'arrivo è alla Città delle Arti e delle Scienze, su una passerella blu che galleggia sull'acqua.",
       "verificato": "2026-10-18"
     },
     {
@@ -152,6 +157,7 @@
       "sito": "https://mitjamarato.barcelona/",
       "iscrizione": "libera",
       "notaIscrizione": "Iscrizione libera fino a esaurimento: 40.000 pettorali esauriti in 7 giorni, resta il marketplace ufficiale per i cambi di nome.",
+      "racconto": "Un circuito tutto urbano tra il cuore e la costa di Barcellona, con partenza dal Passeig Picasso. Gli organizzatori la presentano come la mezza più veloce e festosa: i 40.000 pettorali del 2027 sono andati esauriti in sette giorni.",
       "verificato": "2026-10-18"
     },
     {
@@ -167,6 +173,7 @@
       "sito": "https://www.zurichmaratonsevilla.es/",
       "iscrizione": "libera",
       "notaIscrizione": "Iscrizione libera fino a esaurimento: i 20.000 pettorali sono esauriti, resta la lista d'attesa.",
+      "racconto": "Un percorso piatto come pochi, con appena 10 metri di dislivello, nella città della Giralda, di Plaza de España e della Torre del Oro. Si parte dall'Avenida de María Luisa e si arriva sul Paseo de las Delicias; per il 2027 il record di 20.000 iscritti.",
       "verificato": "2026-10-18"
     },
     {
@@ -180,6 +187,9 @@
         "superhalfs"
       ],
       "sito": "https://maratonaclubedeportugal.com/en/corrida-marco/edp-lisbon-half-marathon/",
+      "iscrizione": "libera",
+      "notaIscrizione": "Iscrizioni aperte fino a esaurimento (limite di 20.000 partecipanti).",
+      "racconto": "Si parte a metà del ponte 25 de Abril, sopra il Tago, dove il pubblico non può salire: ci si arriva in treno e il ponte è tutto dei runner. L'arrivo è davanti al Monastero dos Jerónimos, nel cuore di Lisbona.",
       "verificato": "2026-10-18"
     },
     {
@@ -195,6 +205,7 @@
       "sito": "https://www.marathon.tokyo/en/",
       "iscrizione": "ballottaggio",
       "notaIscrizione": "Ballottaggio generale chiuso il 28 agosto 2026, esito il 18 settembre 2026.",
+      "racconto": "Si parte dal palazzo del Governo metropolitano a Shinjuku e si attraversa la città tra Akihabara, Nihonbashi, i ponti sul fiume Sumida e Ginza, fino all'arrivo all'incrocio della porta Wadakura. Un percorso che, dice l'organizzazione, racconta il passato, il presente e il futuro di Tokyo; nel 2027 è la ventesima edizione.",
       "verificato": "2026-10-18"
     },
     {
@@ -210,6 +221,7 @@
       "sito": "https://www.zurichmaratobarcelona.es/",
       "iscrizione": "libera",
       "notaIscrizione": "Iscrizioni aperte fino a esaurimento, con tariffe a scaglioni.",
+      "racconto": "Si parte dal Passeig de Gràcia, a due passi da Plaça de Catalunya, e si arriva all'Arc de Triomf; al km 14 si passa davanti alla Sagrada Família, nel punto più alto del percorso. Un circuito urbano veloce, che nel 2026 ha battuto il record di partecipazione con 32.000 runner.",
       "verificato": "2026-10-18"
     },
     {
@@ -223,8 +235,9 @@
         "superhalfs"
       ],
       "sito": "https://www.runczech.com/en/events/generali-prague-half-marathon-2027-2",
-      "iscrizione": "libera",
-      "notaIscrizione": "Iscrizione libera fino a esaurimento: pettorali esauriti (attenzione ai falsi rivenditori sui social).",
+      "iscrizione": "ballottaggio",
+      "notaIscrizione": "Pettorali esauriti: ora un posto si ottiene solo con il sorteggio (date non pubblicate) o con un codice di agenzia o charity.",
+      "racconto": "Un percorso nel cuore storico di Praga, con un'atmosfera tutta sua e una fama di gara dove cadono i record. Si corre il sabato, con circa 17.000 runner al via.",
       "verificato": "2026-10-18"
     },
     {
@@ -240,6 +253,7 @@
       "sito": "https://www.generali-berliner-halbmarathon.de/",
       "iscrizione": "ballottaggio",
       "notaIscrizione": "Ballottaggio chiuso il 28 maggio 2026, esito il 16 giugno 2026.",
+      "racconto": "Partenza e arrivo sulla Straße des 17. Juni: il traguardo arriva subito dopo il passaggio sotto la Porta di Brandeburgo. Nel mezzo si corre nel centro di Berlino, dalla Karl-Marx-Allee a Unter den Linden.",
       "verificato": "2026-10-18"
     },
     {
@@ -255,6 +269,7 @@
       "sito": "https://www.mediomaratonmadrid.es/",
       "iscrizione": "libera",
       "notaIscrizione": "Iscrizioni 2027 aperte fino a esaurimento.",
+      "racconto": "Partenza e arrivo sul Paseo de Recoletos, davanti alla Biblioteca Nacional: in mezzo la Castellana fino a Plaza de Castilla, Cuatro Caminos, Alcalá e Serrano, e il ritorno per Cibeles. Per il 2027 gli iscritti hanno già superato i 10.000.",
       "verificato": "2026-10-18"
     },
     {
@@ -282,6 +297,7 @@
       "sito": "https://www.nnmarathonrotterdam.nl/",
       "iscrizione": "libera",
       "notaIscrizione": "Preregistrazione gratuita dal 20 ottobre al 3 novembre 2026 (ore 10); dal 4 novembre 2026 iscrizione con il link personale, chi prima arriva (metà dei pettorali a chi si era preregistrato nel 2026 senza ottenerlo).",
+      "racconto": "Si attraversa due volte il ponte Erasmus, verso il sud della città e lo stadio del Feyenoord, fino all'arrivo sull'«eroica» Coolsingel. Percorso piatto e centinaia di migliaia di spettatori: una vera festa di popolo.",
       "verificato": "2026-10-18"
     },
     {
@@ -297,6 +313,7 @@
       "sito": "https://www.vienna-marathon.com/",
       "iscrizione": "libera",
       "notaIscrizione": "Iscrizione libera fino a esaurimento: la maratona è al completo, resta la lista d'attesa.",
+      "racconto": "Si parte accanto al ponte Reichsbrücke e si attraversa subito il Danubio; poi la Staatsoper, il castello di Schönbrunn e i musei, fino all'arrivo sul Ring, davanti al Burgtheater. Per il 2027 15.000 iscritti alla maratona, nella capitale mondiale della musica.",
       "verificato": "2026-10-18"
     },
     {
@@ -312,6 +329,7 @@
       "sito": "https://www.baa.org/races/boston-marathon",
       "iscrizione": "qualificazione",
       "notaIscrizione": "Serve il tempo di qualificazione: domande raccolte dal 14 al 18 settembre 2026.",
+      "racconto": "La maratona annuale più antica del mondo, corsa la prima volta nel 1897. Si parte da Hopkinton e si arriva su Boylston Street, nel cuore di Boston, dopo le colline di Newton e la famosa Heartbreak Hill; si corre nel giorno del Patriots' Day.",
       "verificato": "2026-10-18"
     },
     {
@@ -327,6 +345,7 @@
       "sito": "https://haspa-marathon-hamburg.de/",
       "iscrizione": "libera",
       "notaIscrizione": "Iscrizione libera fino a esaurimento: i 20.000 pettorali della maratona sono esauriti.",
+      "racconto": "La più grande maratona di primavera in Germania: partenza e arrivo alla Messe, poi la Reeperbahn, l'Elbchaussee con vista sul porto e il giro dei laghi dell'Alster. Per il 2027 tutti i 20.000 pettorali sono andati esauriti.",
       "verificato": "2026-10-18"
     },
     {
@@ -343,6 +362,7 @@
       "sito": "https://www.londonmarathonevents.co.uk/london-marathon",
       "iscrizione": "ballottaggio",
       "notaIscrizione": "Edizione speciale su due giorni (sabato 24 e domenica 25 aprile 2027, 100.000 partecipanti); ballottaggio già estratto, esito inviato il 9 luglio 2026.",
+      "racconto": "Si parte da Blackheath e Greenwich, si gira intorno al Cutty Sark e si attraversa il Tower Bridge, uno dei punti più rumorosi del percorso; poi il Victoria Embankment, Parliament Square e l'ultima curva davanti a Buckingham Palace, per l'arrivo sul Mall. Nel 2027 un'edizione speciale su due giorni, con 100.000 runner.",
       "verificato": "2026-10-18"
     },
     {
@@ -358,6 +378,7 @@
       "sito": "https://rocknrollmadridrun.com/",
       "iscrizione": "libera",
       "notaIscrizione": "Iscrizioni 2027 aperte fino a esaurimento.",
+      "racconto": "La maratona di Madrid si corre con la musica: lungo il percorso suonano le band, oltre 200 hanno partecipato al concorso per esserci. Nel 2026 47.000 runner hanno invaso le strade della città in una giornata record.",
       "verificato": "2026-10-18"
     },
     {
@@ -373,6 +394,7 @@
       "sito": "https://www.runczech.com/en/events/vodafone-prague-marathon-2027",
       "iscrizione": "libera",
       "notaIscrizione": "Iscrizioni aperte fino a esaurimento, da 120 €.",
+      "racconto": "Partenza e arrivo nella Piazza della Città Vecchia; poco dopo il via si attraversa il Ponte Carlo, chiuso al pubblico per l'occasione, e poi il quartiere di Karlín. Circa 17.000 runner al via, nel centro storico di Praga.",
       "verificato": "2026-10-18"
     },
     {
@@ -388,6 +410,7 @@
       "sito": "https://copenhagenmarathon.dk/",
       "iscrizione": "ballottaggio",
       "notaIscrizione": "Primo ballottaggio della gara (13 maggio - 3 giugno 2026) già estratto; restano charity e agenzie.",
+      "racconto": "Un percorso pianeggiante tra il centro e i quartieri di Copenaghen, da Østerbro a Christianshavn, Vesterbro, Nørrebro e Frederiksberg, con il passaggio da Nyhavn, Amalienborg e la Chiesa di Marmo. Per il 2027 oltre 80.000 runner hanno chiesto un pettorale, mai così tanti.",
       "verificato": "2026-10-18"
     },
     {
@@ -403,6 +426,7 @@
       "sito": "https://www.goteborgsvarvet.se/",
       "iscrizione": "libera",
       "notaIscrizione": "Iscrizione libera fino a esaurimento: esaurita in tempi record, resta la lista d'attesa.",
+      "racconto": "La mezza maratona più grande del mondo, secondo l'organizzazione: nata nel 1980 con 1.800 iscritti, attraversa Göteborg tra il parco di Slottsskogen, le banchine di Hisingen e l'Avenyn.",
       "verificato": "2026-10-18"
     },
     {
@@ -418,6 +442,7 @@
       "sito": "https://www.capetownmarathon.com/",
       "iscrizione": "ballottaggio",
       "notaIscrizione": "Prima edizione da Major; ballottaggio generale chiuso, restano i posti charity.",
+      "racconto": "Dal 2027 è l'ottava Major e la prima in Africa. Partenza e arrivo a Green Point, accanto allo stadio, e un percorso che passa dal Castello di Buona Speranza, dalla Grand Parade e da Long Street, nel cuore di Città del Capo.",
       "verificato": "2026-10-18"
     },
     {
@@ -430,8 +455,10 @@
       "circuiti": [
         "major"
       ],
-      "sito": "https://www.sydneymarathon.com/",
+      "sito": "https://www.tcssydneymarathon.com/",
       "iscrizione": "ballottaggio",
+      "notaIscrizione": "Ballottaggio aperto dal 29 settembre al 19 ottobre 2026 (ore 10 di Sydney), esito e addebito il 3 novembre 2026; quota pagata solo se estratti.",
+      "racconto": "La Major d'Australia e la più grande maratona del Paese: si parte da Miller Street a North Sydney, nel ricordo della maratona olimpica del 2000, si attraversa l'Harbour Bridge, si passa da Centennial Park e da Mrs Macquarie's Chair e si arriva davanti alla Sydney Opera House. Nel 2026 oltre 40.000 runner da più di 140 Paesi.",
       "verificato": "2026-10-18"
     },
     {
@@ -447,6 +474,7 @@
       "sito": "https://www.greatrun.org/events/great-north-run/",
       "iscrizione": "ballottaggio",
       "notaIscrizione": "Primo ballottaggio chiuso il 20 settembre 2026 (estrazione il 21); un secondo ballottaggio a gennaio 2027.",
+      "racconto": "Dal 1981 si corre da Newcastle fino al mare di South Shields, passando sul Tyne Bridge. Il Guinness l'ha riconosciuta come la mezza maratona più grande del mondo, e in tanti la corrono per raccogliere fondi in beneficenza.",
       "verificato": "2026-10-18"
     },
     {
@@ -461,7 +489,8 @@
       ],
       "sito": "https://cphhalf.dk/",
       "iscrizione": "ballottaggio",
-      "notaIscrizione": "Ballottaggio aperto dal 16 settembre 2026 (oltre 188.000 iscritti), esiti via e-mail da ottobre 2026.",
+      "notaIscrizione": "Ballottaggio chiuso con 188.522 iscritti; esiti via e-mail dal 5 ottobre 2026.",
+      "racconto": "Circa 45.000 runner su un percorso veloce tra Copenaghen e Frederiksberg. Per il 2027 il sorteggio ha raccolto 188.522 iscrizioni, un numero mai visto.",
       "verificato": "2026-10-18"
     },
     {
@@ -477,6 +506,7 @@
       "sito": "https://www.generali-berlin-marathon.com/",
       "iscrizione": "ballottaggio",
       "notaIscrizione": "Ballottaggio aperto dal 1° ottobre al 12 novembre 2026, esito il 3 dicembre 2026; quota di 215 € solo se estratti.",
+      "racconto": "Un percorso leggendario per la sua velocità: qui sono stati corsi 13 record del mondo. Nata nel 1974 nel Grunewald, dal 1990 la maratona passa sotto la Porta di Brandeburgo e dal 2003 il traguardo è lì accanto.",
       "verificato": "2026-10-18"
     },
     {
@@ -492,6 +522,7 @@
       "sito": "https://www.maratonwarszawski.com/",
       "iscrizione": "libera",
       "notaIscrizione": "Iscrizioni 2027 aperte fino a esaurimento.",
+      "racconto": "Si corre senza interruzioni dal 1979, una delle poche maratone al mondo a poterlo dire. Partenza e arrivo accanto al Palazzo della Cultura e della Scienza, nel centro di Varsavia.",
       "verificato": "2026-10-18"
     },
     {
@@ -507,6 +538,7 @@
       "sito": "https://www.cardiffhalfmarathon.co.uk/",
       "iscrizione": "ballottaggio",
       "notaIscrizione": "Ballottaggio (britannico e internazionale) dal 1° al 18 ottobre 2026, esito il 22 ottobre 2026; poi charity e agenzie.",
+      "racconto": "Si parte accanto al Castello di Cardiff, nel cuore della capitale gallese, e si corre tra il Bute Park e il fiume Taff. Un percorso in gran parte piatto e veloce, adatto a chi è alla prima mezza come all'élite.",
       "verificato": "2026-10-18"
     },
     {
@@ -522,6 +554,7 @@
       "sito": "https://www.chicagomarathon.com/",
       "iscrizione": "ballottaggio",
       "notaIscrizione": "Ballottaggio aperto dall'8 al 29 ottobre 2026, esito l'8 dicembre 2026; iscrizione da completare entro il 15 dicembre.",
+      "racconto": "Partenza e arrivo a Grant Park e un percorso ad anello che attraversa 29 quartieri di Chicago, con 1,7 milioni di spettatori lungo le strade. Nel 2026 oltre 54.000 partecipanti.",
       "verificato": "2026-10-18"
     },
     {
@@ -537,6 +570,7 @@
       "sito": "https://www.valenciaciudaddelrunning.com/medio/medio-maraton/",
       "iscrizione": "ballottaggio",
       "notaIscrizione": "Pettorali assegnati con sorteggio; date del sorteggio 2027 non ancora pubblicate.",
+      "racconto": "Partenza e arrivo sull'Avinguda dels Tarongers, nella zona universitaria: un percorso con poche curve che costeggia il grande parco nel vecchio letto del Turia, entra nel centro storico e torna tra le strade del Cabanyal, con il pubblico a fare il tifo. L'organizzazione lo chiama il circuito più veloce di Spagna.",
       "verificato": "2026-10-18"
     },
     {
@@ -552,6 +586,7 @@
       "sito": "https://www.nyrr.org/tcsnycmarathon",
       "iscrizione": "ballottaggio",
       "notaIscrizione": "Ballottaggio generale atteso a inizio 2027, date non ancora pubblicate.",
+      "racconto": "Dal 1976 la maratona attraversa tutti e cinque i quartieri di New York: si parte a Staten Island ai piedi del ponte di Verrazzano, poi Brooklyn, Queens e il Bronx, fino all'arrivo in Manhattan, dentro Central Park. Quasi 60.000 runner al via, la prima domenica di novembre.",
       "verificato": "2026-10-18"
     }
   ]
