@@ -19,7 +19,7 @@ jobs:
           for r in rows[:12]:
             l=re.findall(r'href=\"(https://www.fidal.it/atleta/[^\"]+)\"',r); c=[re.sub(r'<[^>]+>|\s+',' ',x).strip() for x in re.findall(r'(?s)<td.*?</td>',r)]
             print(c, l[:1])" | tee righe.txt
-          for A in $(grep -oE "https://www.fidal.it/atleta/[^']+" righe.txt | head -3); do
+          for A in https://www.fidal.it/atleta/Alberto-Crippa/dq2RmJufa2o%3D https://www.fidal.it/atleta/Alberto-Crippa/dq2RlZmnbWU%3D; do
             echo "=== $A"; curl -sL -A "$UA" "$A" -o at.html
             python3 -c "
           import re,html
@@ -27,7 +27,7 @@ jobs:
           print('tabelle',t.count('<table'))
           for h in re.findall(r'(?s)<h[2-4][^>]*>(.*?)</h[2-4]>',t)[:20]: print('H:',re.sub(r'<[^>]+>|\s+',' ',h).strip())
           t=re.sub(r'(?s)<(script|style).*?</\\1>','',t);t=re.sub(r'<[^>]+>',' | ',t);t=html.unescape(re.sub(r'\s+',' ',t));t=re.sub(r'( \| )+',' | ',t)
-          i=t.find('Primati'); print(t[i:i+900] if i>=0 else t[-1500:])
+          i=t.find('Primati'); print(t[i:i+1400] if i>=0 else 'NESSUN PRIMATO')
           for k in ['Maratona','Mezza','10 Km','Km 10','Strada']: print(k,t.count(k))"
           done
       - name: Esito come annotazioni
