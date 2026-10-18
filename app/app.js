@@ -772,7 +772,7 @@
   }
   function vistaGare(param) {
     const o = oggi();
-    const { attive, postgara, archivio } = L.dividiGare(S.gare, o, S.risultati || {});
+    const { attive, postgara, archivio } = L.dividiGare(S.gare, o, S.risultati || {}, oraAdesso());
     const mie = [...postgara, ...attive];
     const q = param.q || "", dist = param.d || "";
     const ris = L.cercaGare(D.gare, q, dist, o);
@@ -780,8 +780,8 @@
     return `${bannerProva()}<header class="head"><h1>Gare</h1></header>
       ${mie.length ? `<section aria-label="Le mie gare" style="display:flex;flex-direction:column;gap:8px"><h2>Le mie gare</h2>${mie.map((g) => {
         const n = L.diffDays(g.data, o), f = L.fase(D.fasi, g.distanza, g.data, o), r = (S.risultati || {})[g.id];
-        const pill = n >= 0 ? `<span class="pill">${n > 1 ? `tra ${n} giorni` : n === 1 ? "domani" : "oggi!"}</span>` : `<span class="pill ok">${r ? esc(r.tempo) + (r.pb ? " · personale" : "") : g.esito ? esc(ESITO[g.esito]) : "com'è andata?"}</span>`;
-        return `<a class="card mia-gara ${n < 0 ? "corsa" : ""}" href="${urlGara(g.id)}">${cardGara(g, `<span class="row" style="gap:6px;flex-wrap:wrap">${pill}<span class="small muted">${n < 0 ? "Appena corsa · in archivio " + quandoArchivio(g, o) : esc(L.RUOLO_LABEL[g.ruolo]) + (!["prima", "conclusa"].includes(f.id) ? " · " + esc(f.nome) : "")}</span></span>`)}<span class="chev" aria-hidden="true">›</span></a>`;
+        const pill = !corsa(g, o) ? `<span class="pill">${n > 1 ? `tra ${n} giorni` : n === 1 ? "domani" : "oggi!"}</span>` : `<span class="pill ok">${r ? esc(r.tempo) + (r.pb ? " · personale" : "") : g.esito ? esc(ESITO[g.esito]) : "com'è andata?"}</span>`;
+        return `<a class="card mia-gara ${corsa(g, o) ? "corsa" : ""}" href="${urlGara(g.id)}">${cardGara(g, `<span class="row" style="gap:6px;flex-wrap:wrap">${pill}<span class="small muted">${corsa(g, o) ? "Appena corsa · in archivio " + quandoArchivio(g, o) : esc(L.RUOLO_LABEL[g.ruolo]) + (!["prima", "conclusa"].includes(f.id) ? " · " + esc(f.nome) : "")}</span></span>`)}<span class="chev" aria-hidden="true">›</span></a>`;
       }).join("")}</section>` : ""}
       ${archivio.length ? `<details class="card acc" aria-label="Archivio delle gare"><summary><span>Archivio</span><span class="small muted" style="font-weight:600">${archivio.length} ${archivio.length === 1 ? "gara corsa" : "gare corse"}</span></summary>${archivio.map((g) => {
         const r = (S.risultati || {})[g.id];
@@ -857,7 +857,9 @@
       <nav class="seg" aria-label="Sezioni della gara">${tab("", "Panoramica")}${tab("preparazione", "Preparazione")}${tab("info", "Info gara")}${tab("borsa", "Borsa")}</nav>`;
   }
   // Ciclo di vita: attiva → post-gara (3 giorni) → archivio. Esiti diversi dal tempo, segnati da "Com'è andata?".
-  const cicloGara = (g, o = oggi()) => L.ciclo(g, o, (S.risultati || {})[g.id]);
+  const oraAdesso = () => { const d = new Date(); return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`; };
+  const cicloGara = (g, o = oggi()) => L.ciclo(g, o, (S.risultati || {})[g.id], oraAdesso());
+  const corsa = (g, o = oggi()) => cicloGara(g, o) !== "attiva"; // gara già corsa (anche oggi, dopo le 12)
   const nonArchiviata = (g) => cicloGara(g) !== "archiviata";
   const ESITO = { dnf: "Ritirato", dns: "Non partito", annullata: "Annullata" };
   const garaMancante = () => `<p class="sub">Gara non trovata tra le tue.</p><a class="btn" href="#/gare">Le mie gare</a>`;
@@ -902,7 +904,7 @@
         <span class="sub">${esc(nomeLuogo(g.luogo) || "Luogo da indicare")}${g.tempo ? " · obiettivo " + esc(g.tempo) : ""}</span></div>
         <div style="text-align:right">${n > 0 ? `<div class="big" style="font-size:44px">${n}</div><span class="sub">${n === 1 ? "giorno" : "giorni"}</span>` : `<span class="pill navy">${n === 0 ? "oggi!" : "conclusa"}</span>`}</div></div>
         ${n >= 0 ? `${barraFasi(g, true)}<span class="sub">${f.id === "prima" ? "Preparazione non ancora iniziata" : `Fase: <b style="color:#fff">${esc(f.nome)}</b>`}</span>` : ""}</section>
-      ${n < 0 ? `<a class="card soft" href="#/risultato/${encodeURIComponent(g.id)}" style="text-decoration:none;color:inherit;font-weight:inherit"><span class="title">${ris ? `Il tuo tempo: ${esc(ris.tempo)}${ris.pb ? " · personale!" : ""}` : g.esito ? ESITO[g.esito] : "Com'è andata?"}</span><span class="small">${ris ? "Modifica o condividi ›" : g.esito ? "Cambia ›" : "Segna il tuo tempo ›"}</span></a>` : ""}
+      ${corsa(g, o) ? `<a class="card soft" href="#/risultato/${encodeURIComponent(g.id)}" style="text-decoration:none;color:inherit;font-weight:inherit"><span class="title">${ris ? `Il tuo tempo: ${esc(ris.tempo)}${ris.pb ? " · personale!" : ""}` : g.esito ? ESITO[g.esito] : "Com'è andata?"}</span><span class="small">${ris ? "Modifica o condividi ›" : g.esito ? "Cambia ›" : "Segna il tuo tempo ›"}</span></a>` : ""}
       ${riquadroNovita(g)}
       ${n >= 0 ? avvisoDocumenti(g) : ""}
       ${n >= 0 ? `<a class="card link-card" href="${urlGara(g.id, "preparazione")}"><div class="between"><h2>Preparazione</h2><span class="small" style="color:var(--accent);font-weight:700">Tutta ›</span></div>
@@ -921,7 +923,7 @@
         <div class="field"><label for="gi-ruolo">Ruolo</label><select class="input" id="gi-ruolo">${["obiettivo", "tappa", "divertimento"].map((r) => `<option value="${r}" ${g.ruolo === r ? "selected" : ""}>${L.RUOLO_LABEL[r]}</option>`).join("")}</select></div>
         <div class="field"><span class="lbl" id="gi-tempo-l">Tempo obiettivo <span class="muted">(facoltativo)</span></span>${campoTempo("gi-tempo", g.distanza, g.tempo || "", "gi-tempo-l")}</div>
         <button class="btn" type="submit">Salva</button></form></details>
-      ${n < 0 ? (() => {
+      ${corsa(g, o) ? (() => {
         const c = cicloGara(g, o), torna = g.archiviata && L.ciclo({ ...g, archiviata: null }, o, ris) !== "archiviata";
         return `<section class="card soft" aria-label="Archivio"><span class="small">${c === "archiviata" ? "Questa gara è in archivio: la ritrovi in Gare, sotto Archivio, con il tuo tempo." : `Va in archivio ${quandoArchivio(g, o)}: la ritroverai in Gare, sotto Archivio.`}</span>
           ${c === "postgara" ? `<button class="btn ghost" data-act="archivia" data-id="${esc(g.id)}">Archivia ora</button>` : torna ? `<button class="btn ghost" data-act="riporta" data-id="${esc(g.id)}">Riporta tra le mie gare</button>` : ""}</section>`;

@@ -62,6 +62,13 @@ assert.strictEqual(L.gareAttive([firenze, roma], fasi, "2026-10-25").focus.id, "
 // ciclo di vita: attiva fino al giorno gara, post-gara per 3 giorni, poi archivio
 assert.strictEqual(L.ciclo(roma, "2026-10-17"), "attiva");
 assert.strictEqual(L.ciclo(roma, "2026-10-18"), "attiva");
+// il giorno della gara si passa al post-gara alle 12 (le gare sono di mattina)
+assert.strictEqual(L.ciclo(roma, "2026-10-18", null, "11:59"), "attiva");
+assert.strictEqual(L.ciclo(roma, "2026-10-18", null, "12:00"), "postgara");
+assert.strictEqual(L.ciclo(roma, "2026-10-18", null, "9:30"), "attiva");
+assert.strictEqual(L.ciclo(roma, "2026-10-18", { tempo: "1:45:00", salvato: "2026-10-18" }, "19:00"), "postgara");
+assert.strictEqual(L.ciclo(roma, "2026-10-17", null, "19:00"), "attiva");
+assert.deepStrictEqual(L.dividiGare([firenze, roma], "2026-10-18", {}, "19:02").postgara.map((g) => g.id), ["RM-21"]);
 assert.strictEqual(L.ciclo(roma, "2026-10-19"), "postgara");
 assert.strictEqual(L.ciclo(roma, "2026-10-21"), "postgara");
 assert.strictEqual(L.ciclo(roma, "2026-10-22"), "archiviata");

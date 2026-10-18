@@ -66,25 +66,26 @@
     return { borsa: [...base.filter((v) => v.giorno < 0), ...extra], mattina: base.filter((v) => v.giorno === 0) };
   }
 
-  /** Ciclo di vita di una gara seguita: "attiva" fino al giorno della gara compreso, poi "postgara" (recap e
-      "Com'è andata?") per POST_GARA giorni, poi "archiviata". Si archivia prima quando l'esito è segnato (tempo,
+  /** Ciclo di vita di una gara seguita: "attiva" fino alle 12 del giorno della gara (le gare sono di mattina), poi
+      "postgara" (recap e "Com'è andata?") fino a POST_GARA giorni dopo, poi "archiviata". `ora` = "HH:MM" adesso
+      (senza ora, il giorno della gara resta attivo). Si archivia prima quando l'esito è segnato (tempo,
       ritirato, non partito, annullata): dal giorno dopo averlo segnato, mai il giorno della gara. "Archivia" a mano
       (g.archiviata = data) archivia subito. `risultato` = S.risultati[g.id] (con `salvato`, il giorno in cui è stato
       segnato; i risultati di prima di questa regola valgono come segnati il giorno della gara). */
-  const POST_GARA = 3;
-  function ciclo(g, oggi, risultato) {
+  const POST_GARA = 3, FINE_GARA = "12:00";
+  function ciclo(g, oggi, risultato, ora) {
     if (g.archiviata) return "archiviata";
     const n = diffDays(oggi, g.data);
-    if (n <= 0) return "attiva";
+    if (n < 0 || (n === 0 && !(ora && ora.padStart(5, "0") >= FINE_GARA))) return "attiva";
     const segnato = risultato && risultato.tempo ? (risultato.salvato || g.data) : g.esito ? (g.esitoData || g.data) : null;
     if (segnato && oggi > segnato) return "archiviata";
     return n <= POST_GARA ? "postgara" : "archiviata";
   }
 
   /** Le gare seguite divise per la vista Gare: attive (dalla più vicina), appena corse e archivio (dalla più recente). */
-  function dividiGare(gare, oggi, risultati = {}) {
+  function dividiGare(gare, oggi, risultati = {}, ora) {
     const out = { attive: [], postgara: [], archivio: [] };
-    for (const g of gare) { const c = ciclo(g, oggi, risultati[g.id]); out[c === "attiva" ? "attive" : c === "postgara" ? "postgara" : "archivio"].push(g); }
+    for (const g of gare) { const c = ciclo(g, oggi, risultati[g.id], ora); out[c === "attiva" ? "attive" : c === "postgara" ? "postgara" : "archivio"].push(g); }
     out.attive.sort((a, b) => a.data.localeCompare(b.data));
     out.postgara.sort((a, b) => b.data.localeCompare(a.data));
     out.archivio.sort((a, b) => b.data.localeCompare(a.data));
@@ -479,7 +480,7 @@
     return out;
   }
 
-  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, POST_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento };
+  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);
