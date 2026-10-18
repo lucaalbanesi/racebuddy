@@ -576,7 +576,7 @@
   }
 
   // Preparazione su misura (L.adatta): voci nascoste se non servono, fatte da sole se già soddisfatte, con messaggio e azione.
-  const ctxPrep = () => ({ oggi: oggi(), documenti: S.documenti || {}, nonTesserato: !!S.nonTesserato, scarpe: S.scarpe || [], citta: S.profilo.citta || "", gare: S.gare, risultati: S.risultati || {}, pb: S.pb || {} });
+  const ctxPrep = () => ({ oggi: oggi(), documenti: S.documenti || {}, nonTesserato: !!S.nonTesserato, scarpe: S.scarpe || [], citta: S.profilo.citta || "", kmSettimana: Number(S.profilo.kmSettimana) || 0, gare: S.gare, risultati: S.risultati || {}, pb: S.pb || {} });
   const AUTO = {}; // chiave → { fatta, msg, azione }, riempito da adattaGara per le voci mostrate
   function adattaGara(g) {
     const a = L.adatta(D.percorso, g, ctxPrep());
@@ -592,13 +592,17 @@
     if (a.azione === "documenti") return `<a class="btn small" href="#/io/documenti">${(S.documenti || {}).tessera || (S.documenti || {}).certificato ? "Aggiorna" : "Carica"} tessera e certificato</a>`;
     if (a.azione === "tempo") return `<a class="btn small" href="${urlGara(g.id)}?modifica=1">Imposta il tempo obiettivo</a>`;
     if (a.azione === "aggiungi-scarpe") return `<a class="btn small" href="#/io/scarpe">Aggiungi le tue scarpe</a>`;
-    if (a.azione === "scegli-scarpa") return `<div class="field"><label class="sr" for="sg-${esc(k)}">Scarpe della gara</label><select class="input" id="sg-${esc(k)}" data-act-change="scarpa-gara" data-gara="${esc(g.id)}"><option value="">Scegli le scarpe…</option>${(S.scarpe || []).filter((x) => !x.ritirata).map((x) => `<option value="${esc(x.id)}" ${g.scarpa === x.id ? "selected" : ""}>${esc(x.nome)} · ${Math.round(Number(x.km) || 0)} km</option>`).join("")}</select></div>`;
+    if (a.azione === "km-settimana") return `<div class="field"><label for="km-${esc(k)}" class="small">Quanti km corri a settimana?</label><input class="input" id="km-${esc(k)}" type="number" inputmode="numeric" min="1" max="250" step="1" data-auto="kmSettimana" placeholder="es. 40" style="max-width:140px"></div>${a.ok === false ? selectScarpa(k, g) : ""}`;
+    if (a.azione === "scegli-scarpa") return selectScarpa(k, g);
     return "";
+  }
+  function selectScarpa(k, g) {
+    return `<div class="field"><label class="sr" for="sg-${esc(k)}">Scarpe della gara</label><select class="input" id="sg-${esc(k)}" data-act-change="scarpa-gara" data-gara="${esc(g.id)}"><option value="">Scegli le scarpe…</option>${(S.scarpe || []).filter((x) => !x.ritirata).map((x) => `<option value="${esc(x.id)}" ${g.scarpa === x.id ? "selected" : ""}>${esc(x.nome)} · ${Math.round(Number(x.km) || 0)} km</option>`).join("")}</select></div>`;
   }
   function voceCheck(v, opts = {}) {
     const a = AUTO[v.chiave], auto = !!(a && a.fatta), fatto = fattaVoce(v.chiave), testo = a && a.msg ? a.msg : v.messaggio;
     return `<div class="voce"><label class="check ${fatto ? "done" : ""}"><input type="checkbox" data-act="spunta" data-k="${esc(v.chiave)}" ${fatto ? "checked" : ""} ${auto ? 'disabled aria-describedby="auto-nota"' : ""}>
-      <span><span class="t">${esc(v.titolo)}</span>${opts.nodesc && !(a && a.msg) ? "" : `<br><span class="d">${esc(testo)}</span>`}${auto ? `<br><span class="d auto">✓ fatto da solo</span>` : ""}${opts.quando ? `<br><span class="d muted">${esc(opts.quando)}</span>` : ""}</span></label>${!fatto || (a && a.azione === "scegli-scarpa") ? azioneVoce(v.chiave) : ""}</div>`;
+      <span><span class="t">${esc(v.titolo)}</span>${opts.nodesc && !(a && a.msg) ? "" : `<br><span class="d">${esc(testo)}</span>`}${auto ? `<br><span class="d auto">✓ fatto da solo</span>` : ""}${opts.quando ? `<br><span class="d muted">${esc(opts.quando)}</span>` : ""}</span></label>${!fatto || (a && ["scegli-scarpa", "km-settimana"].includes(a.azione)) ? azioneVoce(v.chiave) : ""}</div>`;
   }
 
   function cardGara(g, attiva) {
@@ -1978,11 +1982,12 @@
     const stravaOn = !!(S.strava && S.strava.attivo && S.strava.archiviato), archivio = S.scarpeArchivio || [];
     return `${bannerProva()}<header class="head"><h1>Io</h1></header>
       ${C().login ? acc("account", "Account", AUTH ? '<span class="pill ok">connesso</span>' : "facoltativo", sezioneAccount()) : ""}
-      ${acc("profilo", "Profilo", esc([P.nome, P.citta, P.ora && oraInput(P.ora)].filter(Boolean).join(" · ") || "da completare"), `<form id="profilo" autocomplete="off" style="display:flex;flex-direction:column;gap:10px">
+      ${acc("profilo", "Profilo", esc([P.nome, P.citta, P.ora && oraInput(P.ora), P.kmSettimana && `${P.kmSettimana} km/sett`].filter(Boolean).join(" · ") || "da completare"), `<form id="profilo" autocomplete="off" style="display:flex;flex-direction:column;gap:10px">
         <div class="field"><label for="p-nome">Come ti chiami</label><input class="input" id="p-nome" data-auto="nome" value="${esc(P.nome)}" placeholder="es. Mario Rossi" autocomplete="name" maxlength="40"><span class="small muted">Usa nome e cognome: comparirà anche nel tuo gruppo.</span></div>
         <div class="field"><label for="p-citta">Dove corri di solito</label><input class="input" id="p-citta" data-auto="citta" value="${esc(P.citta)}" placeholder="es. Roma">
           <div class="between">${bottoneGps("p-citta")}${P.coord ? `<span class="small muted">dal GPS</span>` : ""}</div></div>
         <div class="field"><label for="p-ora">A che ora esci di solito</label><input class="input" id="p-ora" data-auto="ora" type="time" step="900" value="${esc(oraInput(P.ora))}"></div>
+        <div class="field"><label for="p-km">Quanti km corri a settimana</label><input class="input" id="p-km" data-auto="kmSettimana" type="number" inputmode="numeric" min="1" max="250" step="1" value="${esc(P.kmSettimana || "")}" placeholder="es. 40" style="max-width:140px"><span class="small muted">Serve a stimare con quanti km le scarpe arrivano alla gara.</span></div>
         <span class="small muted">Si salva da solo.</span></form>`)}
       ${acc("documenti", "Tessera e certificato", (() => { const a = statoDoc((S.documenti || {}).tessera), b = statoDoc((S.documenti || {}).certificato); const peggio = [a, b].find((x) => ["scaduto", "urgente", "presto"].includes(x.livello)); return peggio ? pillDoc(peggio) : a.livello === "ok" && b.livello === "ok" ? '<span class="pill ok">in regola</span>' : "da inserire"; })(), sezioneDocumenti())}
       ${acc("notifiche", "Notifiche", on ? '<span class="pill ok">attive</span>' : sp === "ok" ? "da attivare" : sp === "non-pronto" ? "in arrivo" : "non disponibili", cardPush(false, true))}
@@ -2370,7 +2375,8 @@
   document.addEventListener("change", (e) => {
     const k = e.target.dataset && e.target.dataset.auto;
     if (!k) return;
-    const val = e.target.value.trim();
+    let val = e.target.value.trim();
+    if (k === "kmSettimana") val = val ? String(Math.min(250, Math.max(1, Math.round(Number(val) || 0)))) : "";
     if ((S.profilo[k] || "") === val) return;
     S.profilo = { ...S.profilo, [k]: val };
     if (k === "citta") delete S.profilo.coord;
@@ -2378,6 +2384,7 @@
     // Il nome del profilo è anche il nome con cui ti vede il gruppo
     if (k === "nome" && val && S.gruppo && S.gruppo.dentro) azioneGruppo(() => rpc("aggiorna_profilo", { p_token: token(), p_nome: val.slice(0, 40), p_mostra: null }), "Salvato, anche nel gruppo");
     else toast("Salvato");
+    if (k === "kmSettimana" && !e.target.closest("#profilo")) rerender();
   });
 
   // Caselle del tempo: solo cifre, si passa da sole alla casella dopo, il tasto cancella su una casella vuota torna indietro.

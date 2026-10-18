@@ -145,18 +145,38 @@
     const giorni = diffDays(st[st.length - 1].d, st[0].d);
     return giorni >= 7 ? Math.max(0, (st[st.length - 1].km - st[0].km) / giorni) : null;
   }
-  // Senza storia si stima con un uso tipico per chi prepara quella distanza (km a settimana sulla scarpa): una scarpa da
-  // gara si usa molto meno (lavori, rodaggio, qualche gara) di quella da allenamento.
-  const USO_TIPICO = { "10": 30, "21": 40, "42": 55 }, USO_GARA = { "10": 10, "21": 12, "42": 15 };
-  /** Con quanti km la scarpa arriva al via: { km, limite, stimata, ok }. */
-  function scarpaAlVia(s, gara, oggi) {
-    const r = kmAlGiorno(s.storia, oggi), giorni = Math.max(0, diffDays(gara.data, oggi));
-    const lim = Math.max(300, Number(s.limite) || 800), km = Math.round((Number(s.km) || 0) + (r == null ? (s.tipo === "gara" ? USO_GARA : USO_TIPICO)[gara.distanza] / 7 : r) * giorni);
-    return { km, limite: lim, stimata: r == null, ok: km <= lim };
+  // Senza storia: i km a settimana del profilo divisi come in una settimana tipo di preparazione (media di mezza
+  // 10 base/10 qualità/10 base/15-18 lungo e maratona 10/10 qualità/10/10/25-30 lungo): base 44%, qualità 18%, lungo 38%.
+  // Le scarpe da allenamento fanno la base, quelle "ritmo e lunghi" qualità e lungo (56%); se manca uno dei due tipi
+  // l'altro fa tutto. Le scarpe dello stesso tipo si dividono i km. Le scarpe da gara contano solo le gare in calendario.
+  // Senza km a settimana: uso tipico per chi prepara quella distanza.
+  const QUOTE = { base: 0.44, qualita: 0.18, lungo: 0.38 };
+  const USO_TIPICO = { "10": 30, "21": 40, "42": 55 }, KM_GARA = { "10": 10, "21": 21.0975, "42": 42.195 };
+  const gruppoScarpa = (s) => (s.tipo === "ritmo" ? "ritmo" : "base");
+  /** Con quanti km la scarpa arriva al via: { km, limite, come: "gare"|"storia"|"settimana"|"tipico", gare, ok }.
+      ctx: { kmSettimana, scarpe (attive), gare (seguite) }. */
+  function scarpaAlVia(s, gara, oggi, ctx = {}) {
+    const giorni = Math.max(0, diffDays(gara.data, oggi)), lim = Math.max(300, Number(s.limite) || 800);
+    let extra, come, nGare = 0;
+    if (s.tipo === "gara") {
+      const prima = (ctx.gare || []).filter((g) => g.id !== gara.id && g.data >= oggi && g.data < gara.data && !g.archiviata);
+      nGare = prima.length; extra = prima.reduce((t, g) => t + (KM_GARA[g.distanza] || 0), 0); come = "gare";
+    } else {
+      const r = kmAlGiorno(s.storia, oggi), sett = Number(ctx.kmSettimana) || 0;
+      if (r != null) { extra = r * giorni; come = "storia"; }
+      else if (sett > 0) {
+        const altre = (ctx.scarpe || []).filter((x) => !x.ritirata && x.tipo !== "gara" && x.tipo !== "trail" && x.id !== s.id);
+        const mio = gruppoScarpa(s), stessi = altre.filter((x) => gruppoScarpa(x) === mio).length + 1, altro = altre.some((x) => gruppoScarpa(x) !== mio);
+        const quota = !altro ? 1 : mio === "ritmo" ? QUOTE.qualita + QUOTE.lungo : QUOTE.base;
+        extra = (sett * quota / stessi / 7) * giorni; come = "settimana";
+      } else { extra = (USO_TIPICO[gara.distanza] / 7) * giorni; come = "tipico"; }
+    }
+    const km = Math.round((Number(s.km) || 0) + extra);
+    return { km, limite: lim, come, gare: nGare, stimata: come !== "storia", ok: km <= lim };
   }
 
   /** La preparazione adattata a chi corre (regole delle voci, "regola" in percorso.json). ctx: { oggi, documenti, nonTesserato,
-      scarpe, citta, gare (tutte quelle seguite, anche passate), risultati, pb }. Ritorna:
+      scarpe, citta, kmSettimana, gare (tutte quelle seguite, anche passate), risultati, pb }. Ritorna:
       - percorso: le voci che valgono per questa gara (via quelle che non servono: viaggio e logistica per le gare in casa,
         bere in corsa e vestizione se non è la prima gara, completo se non è la prima dell'anno);
       - fatte: { chiave: true } delle voci già soddisfatte (documenti validi alla data della gara, tempo obiettivo, scarpa scelta,
@@ -192,9 +212,12 @@
         else info[k] = scarpe.length ? { msg: "Con quali scarpe correrai la gara?", azione: "scegli-scarpa" } : { msg: "Non hai ancora inserito le tue scarpe: aggiungile e ti dico se arrivano alla gara.", azione: "aggiungi-scarpe" };
       } else if (v.regola === "scarpa_dura") {
         if (!scelta) { info[k] = scarpe.length ? { msg: "Scegli prima con quali scarpe correrai: poi ti dico se arrivano al via.", azione: "scegli-scarpa" } : { msg: "Aggiungi le tue scarpe: ti dico se arrivano al via.", azione: "aggiungi-scarpe" }; continue; }
-        const a = scarpaAlVia(scelta, gara, oggi), stima = a.stimata ? " (stima con un uso tipico: aggiorna i km per una previsione tua)" : "";
-        if (a.ok) { fatte[k] = true; info[k] = { msg: `Le ${scelta.nome} arrivano al via con circa ${a.km} km su ${a.limite}${stima}.` }; }
-        else info[k] = { msg: `Le ${scelta.nome} arriverebbero al via con circa ${a.km} km, oltre i ${a.limite}${stima}: valuta adesso una scarpa nuova, così hai il tempo di rodarla.`, azione: "scegli-scarpa" };
+        const a = scarpaAlVia(scelta, gara, oggi, { kmSettimana: ctx.kmSettimana, scarpe, gare: ctx.gare });
+        const stima = { storia: "", settimana: ` (stima con i tuoi ${Number(ctx.kmSettimana)} km a settimana)`, tipico: " (stima con un uso tipico: dimmi quanti km corri a settimana)",
+          gare: a.gare ? ` (contando le ${a.gare === 1 ? "altra gara" : a.gare + " gare"} in calendario prima di questa)` : " (nessun'altra gara in calendario prima di questa)" }[a.come];
+        const azione = a.come === "tipico" ? "km-settimana" : "scegli-scarpa";
+        if (a.ok) { fatte[k] = true; info[k] = { msg: `Le ${scelta.nome} arrivano al via con circa ${a.km} km su ${a.limite}${stima}.`, azione, ok: true }; }
+        else info[k] = { msg: `Le ${scelta.nome} arriverebbero al via con circa ${a.km} km, oltre i ${a.limite}${stima}: valuta adesso una scarpa nuova, così hai il tempo di rodarla.`, azione, ok: false };
       }
     }
     return { percorso: percorso.filter((v) => !(v.regola && nascondi[v.regola])), fatte, info, casa, primaGara, primaAnno };

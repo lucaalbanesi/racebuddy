@@ -401,9 +401,28 @@ assert.strictEqual(L.statoScarpa({ km: 150 }).limite, 800);
   assert.match(conV.info["R:P013"].msg, /Vaporfly arrivano al via con circa 131 km su 400\.$/); // 1 km/giorno per 81 giorni, dalla storia
   const conP = L.adatta(percorso, { ...roma21, scarpa: "s1" }, { ...base, scarpe });
   assert.ok(!conP.fatte["R:P013"] && /oltre i 700.*stima/.test(conP.info["R:P013"].msg), conP.info["R:P013"].msg);
-  // scarpa da gara senza storia: stima con un uso da gara (12 km a settimana per la mezza), non da allenamento
+  // scarpa da gara: contano solo le gare in calendario prima di questa (a partire da oggi), mai la storia
   const gara3 = L.scarpaAlVia({ km: 50, limite: 400, tipo: "gara" }, roma21, "2026-12-10");
-  assert.deepStrictEqual([gara3.km, gara3.stimata, gara3.ok], [189, true, true]);
+  assert.deepStrictEqual([gara3.km, gara3.come, gara3.ok], [50, "gare", true]);
+  const calendario = [roma21, { id: "A", data: "2026-12-20", distanza: "10" }, { id: "B", data: "2027-01-18", distanza: "21" }, { id: "C", data: "2026-11-01", distanza: "42" }, { id: "D", data: "2027-06-01", distanza: "42" }];
+  const gara4 = L.scarpaAlVia({ km: 50, limite: 400, tipo: "gara", storia: [{ d: "2026-11-20", km: 0 }, { d: "2026-12-10", km: 50 }] }, roma21, "2026-12-10", { gare: calendario });
+  assert.deepStrictEqual([gara4.km, gara4.gare], [81, 2]); // 50 + 10 + 21,1 (non quella passata né quella dopo)
+  const conG = L.adatta(percorso, { ...roma21, scarpa: "g1" }, { ...base, gare: calendario, scarpe: [{ id: "g1", nome: "Alphafly", km: 50, limite: 400, tipo: "gara" }] });
+  assert.match(conG.info["R:P013"].msg, /circa 81 km su 400 \(contando le 2 gare in calendario prima di questa\)\.$/);
+  // km a settimana del profilo: base 44% alle scarpe da allenamento, qualità + lungo 56% a quelle "ritmo e lunghi"
+  const parco = [{ id: "a1", nome: "Pegasus", km: 100, tipo: "allenamento" }, { id: "r1", nome: "Endorphin", km: 100, tipo: "ritmo" }, { id: "g1", nome: "Alphafly", km: 0, tipo: "gara" }, { id: "t1", nome: "Speedgoat", km: 0, tipo: "trail" }];
+  const conKm = (id, sc = parco) => L.scarpaAlVia(sc.find((x) => x.id === id), roma21, "2026-12-10", { kmSettimana: 70, scarpe: sc });
+  assert.deepStrictEqual([conKm("a1").km, conKm("a1").come], [100 + Math.round(70 * 0.44 / 7 * 81) , "settimana"]); // 456
+  assert.strictEqual(conKm("r1").km, 100 + Math.round(70 * 0.56 / 7 * 81)); // 554
+  assert.strictEqual(conKm("a1", parco.filter((x) => x.id !== "r1")).km, 100 + 810, "senza scarpe da ritmo fa tutto lei");
+  assert.strictEqual(conKm("a1", [...parco, { id: "a2", nome: "Clifton", km: 0, tipo: "allenamento" }]).km, 100 + Math.round(70 * 0.44 / 2 / 7 * 81), "due da allenamento si dividono la base");
+  assert.strictEqual(conKm("a1", [...parco, { id: "a3", km: 0, tipo: "allenamento", ritirata: true }]).km, conKm("a1").km, "le ritirate non contano");
+  // senza km a settimana: uso tipico e invito a dirli; con: il messaggio lo dice
+  assert.strictEqual(conP.info["R:P013"].azione, "km-settimana");
+  assert.strictEqual(conP.info["R:P013"].ok, false);
+  const conPkm = L.adatta(percorso, { ...roma21, scarpa: "a1" }, { ...base, kmSettimana: 70, scarpe: parco });
+  assert.match(conPkm.info["R:P013"].msg, /Pegasus arrivano al via con circa 456 km su 800 \(stima con i tuoi 70 km a settimana\)\.$/);
+  assert.strictEqual(conPkm.info["R:P013"].azione, "scegli-scarpa");
 }
 assert.strictEqual(L.kmAlGiorno([{ d: "2026-12-05", km: 10 }, { d: "2026-12-10", km: 20 }], "2026-12-10"), null); // meno di 7 giorni
 assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10", km: 38 }], "2026-12-10"), 2);
