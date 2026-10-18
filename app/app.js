@@ -1411,7 +1411,11 @@
         ${campoTempo("ris-tempo", g.distanza, param.t || r.tempo, "ris-tempo-l", true)}
         ${param.t && FONTE_TEMPI[param.f] ? `<span class="small" style="color:var(--accent-strong);font-weight:700">Tempo da ${FONTE_TEMPI[param.f]}: controllalo e salva.</span>` : ""}
         <div id="ris-strava" style="width:100%"></div>
-        ${C().tempi ? `<a class="small" href="#/tempi?gara=${encodeURIComponent(id)}" style="font-weight:700">Cerca il tempo ufficiale nelle classifiche ›</a>` : ""}
+        ${r.tempo ? "" : `<div class="trova-tempo" aria-label="Trova il tempo ufficiale"><span class="small muted">Non ce l'hai sotto mano? Cercalo:</span><div class="chips">
+          ${C().tempi ? `<a class="chip" href="#/tempi?gara=${encodeURIComponent(id)}">Classifiche</a>` : ""}
+          ${S.strava && S.strava.attivo ? `<button type="button" class="chip" data-act="ris-strava-cerca" data-id="${esc(id)}">Strava</button>` : ""}
+          <a class="chip" href="https://www.endu.net/it/results" rel="noopener">ENDU ↗</a></div>
+          <span class="small muted">Classifiche: Gare Podistiche Lazio e FIDAL. ENDU si apre nel browser: torni qui con Fine o indietro.</span></div>`}
         <span class="small muted" id="ris-pb">${pb ? `Il tuo personale: ${esc(L.leggiTempo(g.distanza, pb.tempo).tempo || pb.tempo)}` : "Solo numeri: si passa da solo alla casella dopo"}</span></section>
       <div class="field"><label for="ris-testo">Due parole <span class="muted">(facoltativo)</span></label><textarea class="input" id="ris-testo" maxlength="280" placeholder="es. Crisi al 16, poi il traguardo mi ha tirato su.">${esc(r.testo || "")}</textarea></div>
       ${bilancio(r.debrief || {})}
@@ -1999,6 +2003,10 @@
     } else if (act === "filtro") {
       const q = document.getElementById("cerca").value;
       location.hash = `#/gare?q=${encodeURIComponent(q)}&d=${t.dataset.d}`;
+    } else if (act === "ris-strava-cerca") {
+      const id = t.dataset.id; delete STRAVA_GIORNO[id]; if (S.stravaIgnora) delete S.stravaIgnora[id];
+      const box = document.getElementById("ris-strava"); if (box) box.innerHTML = `<span class="small muted">Cerco su Strava…</span>`;
+      stravaRisultato(id);
     } else if (act === "tempi-pb") {
       const d = t.dataset.d, r = tempoTrovato(t.dataset.id);
       if (!r) return;

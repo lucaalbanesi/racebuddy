@@ -77,6 +77,15 @@ assert.ok(r.invio && r.invio.title.startsWith("Oggi è il giorno") && /8:30/.tes
 // ripetuto alla stessa ora: niente doppioni
 assert.strictEqual(N.pianifica(base({ oggi: "2026-11-29", ora: 6, schede: scheda, stato: r.stato })).invio, null);
 
+// il giorno della gara alle 12: "Com'è andata?", senza tempi, una volta sola, non se il risultato è già segnato
+r = N.pianifica(base({ oggi: "2026-11-29", ora: 12, schede: scheda, stato: r.stato }));
+assert.ok(r.invio && r.invio.title === "Com'è andata la ESTRA Firenze Marathon?" && r.invio.url.endsWith("#/risultato/" + encodeURIComponent(firenze.id)) && !/\d:\d\d/.test(r.invio.body), r.invio);
+assert.strictEqual(N.pianifica(base({ oggi: "2026-11-29", ora: 12, schede: scheda, stato: r.stato })).invio, null);
+assert.strictEqual(N.pianifica(base({ oggi: "2026-11-29", ora: 12, schede: scheda, dati: { ora: "07:00", gare: [firenze], spunte: [`${firenze.id}:P051`] } })).invio, null);
+assert.strictEqual(N.pianifica(base({ oggi: "2026-11-29", ora: 12, schede: scheda, dati: { ora: "07:00", gare: [firenze], spunte: [], pref: { gara: false } } })).invio, null);
+// il giorno dopo niente più "Registra il risultato" (tappa senza notifica)
+assert.ok(!require("../content/percorso.json").find((v) => v.id === "P051").notifica);
+
 // preferenze: meteo spento
 r = N.pianifica(base({ oggi: "2026-10-21", stato: { meteo: { temp: 15, pioggia: 0, fascia: 2 } }, meteoUscita: freddo, dati: { ora: "07:00", gare: [], pref: { meteo: false } } }));
 assert.strictEqual(r.invio, null);

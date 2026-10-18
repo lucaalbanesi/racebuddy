@@ -53,11 +53,11 @@ async function main() {
   const iscritti = await r.json();
   let inviati = 0, scaduti = 0, valutati = 0, falliti = 0;
   const perTipo = {}; // totali per la pagina delle statistiche (nessun dato dell'utente)
-  const tipoInvio = (tag) => (String(tag).match(/^(mattino|meteo|novita|vigilia|gara|fase)-/) || [, "altro"])[1];
+  const tipoInvio = (tag) => (String(tag).match(/^(mattino|meteo|novita|vigilia|gara|dopo|fase)-/) || [, "altro"])[1];
   for (const it of iscritti) {
     const d = it.dati || {};
     const gareVicine = (d.gare || []).filter((g) => { const n = L.diffDays(g.data, OGGI); return n >= 0 && n <= 7; });
-    const personale = PROVA || ORA === N.oraMattino(d.ora) || ORA === 19 || gareVicine.some((g) => g.data === OGGI && ORA === N.oraGara(schede[g.id]));
+    const personale = PROVA || ORA === N.oraMattino(d.ora) || ORA === 19 || gareVicine.some((g) => g.data === OGGI && (ORA === 12 || ORA === N.oraGara(schede[g.id])));
     // le novità urgenti delle gare si controllano ogni ora (8-21), non solo nei momenti fissi
     const urgenti = !PROVA && Number.isInteger(ORA) && ORA >= 8 && ORA <= 21 && (d.gare || []).some((g) => garaConUrgenti.has(g.id));
     if (!personale && !urgenti) continue;

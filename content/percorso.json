@@ -925,7 +925,7 @@
     "divertimento": true,
     "recuperabile": false,
     "modulo": "Gare e PB",
-    "notifica": true
+    "notifica": false
   },
   {
     "id": "P052",

@@ -9,6 +9,8 @@
      per la mezz'ora (6.5 = 6:30); vigilia, mattina di gara e novità urgenti valgono solo all'ora piena.
    - "vigilia": il giorno prima della gara alle 19.
    - "gara":    la mattina della gara, 2 ore prima della partenza (mai prima delle 5).
+   - "dopo":    il giorno della gara alle 12, "Com'è andata?": apre la pagina per segnare il tempo (classifiche, Strava,
+                ENDU). Senza tempi nel testo e solo se il risultato non è già segnato. Una sola, anche con più gare.
    Fuori da questi momenti non parte nulla: niente notifiche di notte.
 
    Al mattino si sceglie la cosa più importante tra (in ordine):
@@ -130,6 +132,11 @@ function pianifica(ctx) {
     righe.push("Buona gara! 🏁");
     segna(`gara:${garaOggi.id}`); stato.ultimo = oggi;
     return { invio: { title: `Oggi è il giorno: ${titolo(garaOggi.nome)}`, body: righe.join("\n"), url: `./#/gara/${encodeURIComponent(garaOggi.id)}`, tag: `gara-${garaOggi.id}` }, stato };
+  }
+  const corsaOggi = gare.find((g) => g.data === oggi && !spunte[`${g.id}:P051`] && !gia(`dopo:${g.id}`));
+  if (pref.gara && corsaOggi && ora === 12) {
+    segna(`dopo:${corsaOggi.id}`);
+    return { invio: { title: `Com'è andata la ${titolo(corsaOggi.nome)}?`, body: "Verifica il tuo risultato: lo cerchiamo nelle classifiche, su Strava o su ENDU, e lo segni con un tocco.", url: `./#/risultato/${encodeURIComponent(corsaOggi.id)}`, tag: `dopo-${corsaOggi.id}` }, stato };
   }
   if (pref.gara && garaDomani && ora === 19 && !gia(`vigilia:${garaDomani.id}`)) {
     const s = schede[garaDomani.id] || {}, m = ctx.meteoGara && ctx.meteoGara(garaDomani, s.partenza);
