@@ -58,3 +58,5 @@ select cron.schedule('racebuddy-push',       '7,37 3-20 * * *',  $$select public
 select cron.schedule('racebuddy-contenuti',  '41 4,15 * * *',    $$select public.racebuddy_lancia('contenuti.yml')$$);
 -- Calendario gare FIDAL: ogni lunedì.
 select cron.schedule('racebuddy-calendario', '17 4 * * 1',       $$select public.racebuddy_lancia('calendario.yml')$$);
+-- Gare estere (elenco curato, docs/gare-estere.md): il giorno 1 di ogni mese.
+select cron.schedule('racebuddy-estero',     '29 4 1 * *',       $$select public.racebuddy_lancia('estero.yml')$$);

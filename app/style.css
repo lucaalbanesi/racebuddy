@@ -384,3 +384,11 @@ body.onboarding .banner-chiudi { background: #1E2B4A14; color: #1E2B4A; }
 .trova-tempo { width: 100%; display: flex; flex-direction: column; gap: 8px; align-items: center; border-top: 1px solid var(--line2); padding-top: 10px; }
 .trova-tempo .chips { justify-content: center; }
 a.chip { display: inline-flex; align-items: center; text-decoration: none; color: inherit; }
+/* Gare estere: circuiti, ballottaggio, benvenuto nel top */
+.pill.ballottaggio { background: var(--warn-soft); color: var(--warn); }
+.ballottaggio-box { border-left: 4px solid var(--warn); }
+.benvenuto-top { background: linear-gradient(135deg, var(--navy), #2b3a67); }
+.benvenuto-top .eyebrow { color: #ffd166; }
+.chips-scorri { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+.chips-scorri::-webkit-scrollbar { display: none; }
+.chips-scorri .chip { flex: none; }

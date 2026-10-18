@@ -1,0 +1,316 @@
+{
+  "aggiornato": "2026-10-18",
+  "nota": "Gare estere curate: Abbott World Marathon Majors, SuperHalfs, European Marathon Classics e grandi gare europee (circa 15.000 arrivati o più). Aggiornato ogni mese dal workflow \"Gare estere\" (docs/gare-estere.md).",
+  "circuiti": {
+    "major": {
+      "nome": "Abbott World Marathon Majors",
+      "breve": "Major",
+      "sito": "https://www.worldmarathonmajors.com/"
+    },
+    "superhalfs": {
+      "nome": "SuperHalfs",
+      "breve": "SuperHalfs",
+      "sito": "https://www.superhalfs.com/"
+    },
+    "classics": {
+      "nome": "European Marathon Classics",
+      "breve": "Classics",
+      "sito": "https://www.europeanmarathonclassics.eu/"
+    },
+    "grandi": {
+      "nome": "Grandi gare europee",
+      "breve": "Grandi gare"
+    }
+  },
+  "italiane": {
+    "classics": [
+      "Run Rome The Marathon"
+    ]
+  },
+  "gare": [
+    {
+      "id": "E-francoforte-42-2026",
+      "nome": "Mainova Frankfurt Marathon",
+      "luogo": "Francoforte",
+      "paese": "Germania",
+      "data": "2026-10-25",
+      "distanza": "42",
+      "circuiti": [
+        "classics"
+      ],
+      "sito": "https://www.frankfurt-marathon.com/"
+    },
+    {
+      "id": "E-siviglia-42-2027",
+      "nome": "Zurich Maratón de Sevilla",
+      "luogo": "Siviglia",
+      "paese": "Spagna",
+      "data": "2027-02-21",
+      "distanza": "42",
+      "circuiti": [
+        "grandi"
+      ],
+      "sito": "https://www.zurichmaratonsevilla.es/"
+    },
+    {
+      "id": "E-tokyo-42-2027",
+      "nome": "Tokyo Marathon",
+      "luogo": "Tokyo",
+      "paese": "Giappone",
+      "data": "2027-03-07",
+      "distanza": "42",
+      "circuiti": [
+        "major"
+      ],
+      "sito": "https://www.marathon.tokyo/en/",
+      "iscrizione": "ballottaggio"
+    },
+    {
+      "id": "E-lisbona-mezza-21-2027",
+      "nome": "EDP Meia Maratona de Lisboa",
+      "luogo": "Lisbona",
+      "paese": "Portogallo",
+      "data": "2027-03-07",
+      "distanza": "21",
+      "circuiti": [
+        "superhalfs"
+      ],
+      "sito": "https://www.maratonaclubedeportugal.com/"
+    },
+    {
+      "id": "E-barcellona-42-2027",
+      "nome": "Zurich Marató Barcelona",
+      "luogo": "Barcellona",
+      "paese": "Spagna",
+      "data": "2027-03-14",
+      "distanza": "42",
+      "circuiti": [
+        "grandi"
+      ],
+      "sito": "https://www.zurichmaratobarcelona.es/"
+    },
+    {
+      "id": "E-praga-mezza-21-2027",
+      "nome": "Prague Half Marathon",
+      "luogo": "Praga",
+      "paese": "Repubblica Ceca",
+      "data": "2027-04-03",
+      "distanza": "21",
+      "circuiti": [
+        "superhalfs"
+      ],
+      "sito": "https://www.runczech.com/"
+    },
+    {
+      "id": "E-berlino-mezza-21-2027",
+      "nome": "Berliner Halbmarathon",
+      "luogo": "Berlino",
+      "paese": "Germania",
+      "data": "2027-04-04",
+      "distanza": "21",
+      "circuiti": [
+        "superhalfs"
+      ],
+      "sito": "https://www.generali-berliner-halbmarathon.de/"
+    },
+    {
+      "id": "E-parigi-42-2027",
+      "nome": "Schneider Electric Marathon de Paris",
+      "luogo": "Parigi",
+      "paese": "Francia",
+      "data": "2027-04-04",
+      "distanza": "42",
+      "circuiti": [
+        "grandi"
+      ],
+      "sito": "https://www.schneiderelectricparismarathon.com/"
+    },
+    {
+      "id": "E-rotterdam-42-2027",
+      "nome": "NN Marathon Rotterdam",
+      "luogo": "Rotterdam",
+      "paese": "Paesi Bassi",
+      "data": "2027-04-11",
+      "distanza": "42",
+      "circuiti": [
+        "grandi"
+      ],
+      "sito": "https://www.nnmarathonrotterdam.nl/"
+    },
+    {
+      "id": "E-vienna-42-2027",
+      "nome": "Vienna City Marathon",
+      "luogo": "Vienna",
+      "paese": "Austria",
+      "data": "2027-04-18",
+      "distanza": "42",
+      "circuiti": [
+        "classics"
+      ],
+      "sito": "https://www.vienna-marathon.com/"
+    },
+    {
+      "id": "E-boston-42-2027",
+      "nome": "Boston Marathon",
+      "luogo": "Boston",
+      "paese": "Stati Uniti",
+      "data": "2027-04-19",
+      "distanza": "42",
+      "circuiti": [
+        "major"
+      ],
+      "sito": "https://www.baa.org/races/boston-marathon",
+      "iscrizione": "qualificazione"
+    },
+    {
+      "id": "E-londra-42-2027",
+      "nome": "TCS London Marathon",
+      "luogo": "Londra",
+      "paese": "Regno Unito",
+      "data": "2027-04-25",
+      "distanza": "42",
+      "circuiti": [
+        "major",
+        "classics"
+      ],
+      "sito": "https://www.tcslondonmarathon.com/",
+      "iscrizione": "ballottaggio"
+    },
+    {
+      "id": "E-madrid-42-2027",
+      "nome": "Rock 'n' Roll Running Series Madrid",
+      "luogo": "Madrid",
+      "paese": "Spagna",
+      "data": "2027-04-25",
+      "distanza": "42",
+      "circuiti": [
+        "classics"
+      ],
+      "sito": "https://www.runrocknroll.com/es/madrid"
+    },
+    {
+      "id": "E-amburgo-42-2027",
+      "nome": "Haspa Marathon Hamburg",
+      "luogo": "Amburgo",
+      "paese": "Germania",
+      "data": "2027-04-25",
+      "distanza": "42",
+      "circuiti": [
+        "grandi"
+      ],
+      "sito": "https://www.haspa-marathon-hamburg.de/"
+    },
+    {
+      "id": "E-goteborg-mezza-21-2027",
+      "nome": "Göteborgsvarvet",
+      "luogo": "Göteborg",
+      "paese": "Svezia",
+      "data": "2027-05-22",
+      "distanza": "21",
+      "circuiti": [
+        "grandi"
+      ],
+      "sito": "https://www.goteborgsvarvet.se/"
+    },
+    {
+      "id": "E-citta-del-capo-42-2027",
+      "nome": "Sanlam Cape Town Marathon",
+      "luogo": "Città del Capo",
+      "paese": "Sudafrica",
+      "data": "2027-05-23",
+      "distanza": "42",
+      "circuiti": [
+        "major"
+      ],
+      "sito": "https://www.capetownmarathon.com/"
+    },
+    {
+      "id": "E-sydney-42-2027",
+      "nome": "Sydney Marathon",
+      "luogo": "Sydney",
+      "paese": "Australia",
+      "data": "2027-08-29",
+      "distanza": "42",
+      "circuiti": [
+        "major"
+      ],
+      "sito": "https://www.sydneymarathon.com/",
+      "iscrizione": "ballottaggio"
+    },
+    {
+      "id": "E-copenaghen-mezza-21-2027",
+      "nome": "Copenhagen Half Marathon",
+      "luogo": "Copenaghen",
+      "paese": "Danimarca",
+      "data": "2027-09-19",
+      "distanza": "21",
+      "circuiti": [
+        "superhalfs"
+      ],
+      "sito": "https://cphhalf.dk/"
+    },
+    {
+      "id": "E-berlino-42-2027",
+      "nome": "BMW Berlin Marathon",
+      "luogo": "Berlino",
+      "paese": "Germania",
+      "data": "2027-09-26",
+      "distanza": "42",
+      "circuiti": [
+        "major"
+      ],
+      "sito": "https://www.bmw-berlin-marathon.com/",
+      "iscrizione": "ballottaggio"
+    },
+    {
+      "id": "E-cardiff-mezza-21-2027",
+      "nome": "Cardiff Half Marathon",
+      "luogo": "Cardiff",
+      "paese": "Regno Unito",
+      "data": "2027-10-03",
+      "distanza": "21",
+      "circuiti": [
+        "superhalfs"
+      ],
+      "sito": "https://www.cardiffhalfmarathon.co.uk/"
+    },
+    {
+      "id": "E-chicago-42-2027",
+      "nome": "Bank of America Chicago Marathon",
+      "luogo": "Chicago",
+      "paese": "Stati Uniti",
+      "data": "2027-10-10",
+      "distanza": "42",
+      "circuiti": [
+        "major"
+      ],
+      "sito": "https://www.chicagomarathon.com/",
+      "iscrizione": "ballottaggio"
+    },
+    {
+      "id": "E-valencia-mezza-21-2027",
+      "nome": "Medio Maratón Valencia",
+      "luogo": "Valencia",
+      "paese": "Spagna",
+      "data": "2027-10-24",
+      "distanza": "21",
+      "circuiti": [
+        "superhalfs"
+      ],
+      "sito": "https://www.mediomaratonvalencia.com/"
+    },
+    {
+      "id": "E-new-york-42-2027",
+      "nome": "TCS New York City Marathon",
+      "luogo": "New York",
+      "paese": "Stati Uniti",
+      "data": "2027-11-07",
+      "distanza": "42",
+      "circuiti": [
+        "major"
+      ],
+      "sito": "https://www.nyrr.org/tcsnycmarathon",
+      "iscrizione": "ballottaggio"
+    }
+  ]
+}

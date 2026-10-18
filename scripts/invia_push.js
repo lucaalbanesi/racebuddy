@@ -27,12 +27,13 @@ async function meteo(luogo, ora, giorno = OGGI) {
   let lat, lon;
   if (luogo && luogo.lat != null) ({ lat, lon } = luogo);
   else if (luogo && luogo.citta) {
-    const g = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(luogo.citta)}&count=1&language=it&countryCode=IT`).then((r) => r.json());
+    // le gare estere (id "E-…") si cercano in tutto il mondo; ore e date sono quelle del posto (timezone=auto)
+    const g = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(luogo.citta)}&count=1&language=it${luogo.mondo ? "" : "&countryCode=IT"}`).then((r) => r.json());
     if (!g.results || !g.results[0]) return null;
     ({ latitude: lat, longitude: lon } = g.results[0]);
   } else return null;
   const k = `${lat.toFixed(2)},${lon.toFixed(2)}`;
-  if (!cacheMeteo[k]) cacheMeteo[k] = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,precipitation_probability,wind_speed_10m,weather_code,is_day&timezone=Europe%2FRome&forecast_days=9`).then((r) => r.json());
+  if (!cacheMeteo[k]) cacheMeteo[k] = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,precipitation_probability,wind_speed_10m,weather_code,is_day&timezone=auto&forecast_days=9`).then((r) => r.json());
   const h = cacheMeteo[k].hourly, i = h.time.indexOf(`${giorno}T${String(ora).padStart(2, "0")}:00`);
   return i < 0 ? null : { temp: h.temperature_2m[i], pioggia: h.precipitation_probability[i] ?? 0, vento: h.wind_speed_10m[i] ?? 0, codice: h.weather_code[i], notte: h.is_day[i] === 0 };
 }
@@ -78,7 +79,7 @@ async function main() {
         const meteoGare = {};
         for (const g of gareVicine) {
           const ora = Math.floor(Number((String((schede[g.id] || {}).partenza || "9").match(/\d{1,2}/) || ["9"])[0]));
-          meteoGare[g.id] = await meteo({ citta: nomeLuogo(g.luogo) || (d.luogo && d.luogo.citta) }, ora, g.data).catch(() => null);
+          meteoGare[g.id] = await meteo(String(g.id).startsWith("E-") ? { citta: g.luogo, mondo: true } : { citta: nomeLuogo(g.luogo) || (d.luogo && d.luogo.citta) }, ora, g.data).catch(() => null);
         }
         let esito = N.pianifica({ oggi: OGGI, ora: ORA, dati: d, stato, fasi, percorso, schede, novita, contenuti, meteoUscita, meteoGara: (g) => meteoGare[g.id] || null });
         if (PROVA && !esito.invio) esito = { invio: { title: "RaceBuddy · prova", body: "Le notifiche funzionano. Ti scrivo solo quando c'è qualcosa di nuovo: cambi di meteo, tappe del percorso, la tua gara.", url: "./#/oggi", tag: "prova" }, stato };

@@ -319,6 +319,30 @@
       .slice(0, limite);
   }
 
+  /** Gare estere (content/estero.json): future, non annullate, per circuito e distanza, dalla più vicina. */
+  function cercaEstero(gare, circuito, distanza, oggi) {
+    return (gare || [])
+      .filter((g) => g.data >= oggi && !g.annullata)
+      .filter((g) => !circuito || (g.circuiti || []).includes(circuito))
+      .filter((g) => !distanza || g.distanza === distanza)
+      .sort((a, b) => a.data.localeCompare(b.data) || a.nome.localeCompare(b.nome));
+  }
+  /** I circuiti di una gara: quelli dell'elenco estero, oppure, per le italiane, quelli in cui compare il nome
+      (estero.italiane = { circuito: [nomi] }, es. Roma negli European Marathon Classics). */
+  const nomeSemplice = (n) => String(n || "").replace(/\b[IVXLCDM]+\^\s*/g, "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, " ").trim();
+  function circuitiDi(gara, estero = {}) {
+    const e = (estero.gare || []).find((x) => x.id === gara.id);
+    if (e) return e.circuiti || [];
+    const n = nomeSemplice(gara.nome);
+    return Object.entries(estero.italiane || {}).filter(([, nomi]) => nomi.some((x) => n.includes(nomeSemplice(x)))).map(([c]) => c);
+  }
+  /** Benvenuto per le gare del top: Major e SuperHalfs. null per le altre. */
+  function benvenutoTop(circuiti, distanza) {
+    if ((circuiti || []).includes("major")) return { titolo: "Benvenuto nel top del top", testo: "È una delle Abbott World Marathon Majors, le maratone più grandi e ambite del mondo. Ogni Major che finisci è una stella in più verso la medaglia di chi le ha corse tutte." };
+    if ((circuiti || []).includes("superhalfs")) return { titolo: "Benvenuto nel top delle mezze", testo: "È una delle SuperHalfs, il circuito delle grandi mezze maratone europee: finiscile tutte e sei e diventi SuperRunner." };
+    return null;
+  }
+
   /** Stato di una scarpa. */
   function statoScarpa(s) {
     const lim = Number(s.limite) || 800;
@@ -515,7 +539,7 @@
     return out;
   }
 
-  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento };
+  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);

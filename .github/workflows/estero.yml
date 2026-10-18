@@ -1,0 +1,101 @@
+name: Gare estere
+# Claude Code tiene aggiornato l'elenco curato delle gare estere (docs/gare-estere.md) con l'abbonamento Claude di Luca.
+# Una volta al mese (giorno 1), come gli altri job da pg_cron di Supabase. Si può lanciare anche a mano.
+# Serve il secret CLAUDE_CODE_OAUTH_TOKEN (da `claude setup-token` sul computer di Luca).
+# Claude modifica solo content/estero.json e scrive messaggio di commit e riepilogo; commit, controllo del JSON
+# e riepilogo li fa il workflow. Il riepilogo arriva come commento sull'issue "Riepilogo gare estere" (notifica GitHub).
+on:
+  workflow_dispatch:
+    inputs:
+      nota:
+        description: "Indicazione in più per questo giro (facoltativa)"
+        required: false
+        default: ""
+permissions:
+  contents: write
+  issues: write
+  id-token: write
+concurrency:
+  group: estero
+  cancel-in-progress: false
+jobs:
+  estero:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Controllo del token
+        env:
+          T: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          if [ -z "$T" ]; then echo "::error::Manca il secret CLAUDE_CODE_OAUTH_TOKEN (vedi l'intestazione di questo file)"; exit 1; fi
+          case "$T" in *$'\n'*|*$'\r'*|*" "*) echo "::error::Il secret CLAUDE_CODE_OAUTH_TOKEN contiene un a capo o uno spazio: reincollalo su una riga sola (vedi docs/job-programmati.md)"; exit 1;; esac
+      - name: Claude aggiorna le gare estere
+        id: claude
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ github.token }}
+          prompt: |
+            Aggiorna l'elenco delle gare estere di RaceBuddy (progetto personale di Luca Albanesi, app per runner in italiano).
+            Oggi è il giorno indicato dal comando `TZ=Europe/Rome date +%F`.
+
+            1. Leggi CLAUDE.md e docs/gare-estere.md e segui la procedura alla lettera. Per ogni gara e circuito controlla
+               sul sito ufficiale data dell'edizione in corso e dell'anno dopo, tipo di iscrizione e date del ballottaggio;
+               aggiungi le edizioni ufficiali mancanti, togli quelle passate, correggi siti e date, scrivi `verificato`.
+               Per cercare usa WebSearch e WebFetch.
+            2. Modifica SOLO content/estero.json (JSON valido, indentato di 2 spazi). Non fare commit né push:
+               li fa il workflow dopo di te.
+            3. Scrivi nella cartella principale `messaggio_commit.txt` (solo se hai modificato content/estero.json) e
+               `riepilogo.md`, come indicato in docs/gare-estere.md.
+            ${{ inputs.nota && format('Indicazione di Luca per questo giro: {0}', inputs.nota) || '' }}
+          claude_args: |
+            --model claude-opus-5-5
+            --max-turns 200
+            --allowedTools "Read,Write,Edit,Glob,Grep,WebSearch,WebFetch,Bash(date:*),Bash(python3:*),Bash(jq:*),Bash(git status:*),Bash(git diff:*),Bash(ls:*)"
+      - name: Errore di Claude (leggibile)
+        if: failure() && steps.claude.outcome == 'failure'
+        env:
+          F: ${{ steps.claude.outputs.execution_file }}
+        run: |
+          if [ -n "$F" ] && [ -f "$F" ]; then
+            msg=$(jq -r '[.[] | select(.type=="result") | (.result // .subtype // "")] | last // empty' "$F" | head -c 700 | tr '\n' ' ')
+            echo "::error title=Claude::${msg:-nessun messaggio}"
+          else echo "::error title=Claude::nessun file di esecuzione"; fi
+      - name: Controlla e pubblica
+        id: pubblica
+        run: |
+          if ! git diff --quiet -- content/estero.json; then
+            python3 -c "import json; json.load(open('content/estero.json'))" || { echo "::error::content/estero.json non è JSON valido: niente pubblicato"; exit 1; }
+            altri=$(git status --porcelain | grep -v -e ' content/estero.json$' -e ' messaggio_commit.txt$' -e ' riepilogo.md$' || true)
+            if [ -n "$altri" ]; then echo "::warning::Claude ha toccato altri file, ignorati: $altri"; fi
+            [ -s messaggio_commit.txt ] || echo "Gare estere del $(TZ=Europe/Rome date +%F)" > messaggio_commit.txt
+            printf '\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\n' >> messaggio_commit.txt
+            git config user.name "Luca Albanesi"; git config user.email "luca.alba8@gmail.com"
+            git add content/estero.json
+            git commit -q -F messaggio_commit.txt
+            for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 5; done
+            echo "commit=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+            echo "$(head -1 messaggio_commit.txt) (commit $(git rev-parse --short HEAD))"
+          else
+            echo "Nessuna modifica a content/estero.json"
+          fi
+      - name: Riepilogo per Luca
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ESITO: ${{ job.status }}
+          COMMIT: ${{ steps.pubblica.outputs.commit }}
+        run: |
+          giorno=$(TZ=Europe/Rome date +%F)
+          { echo "### Gare estere del $giorno"; echo;
+            if [ "$ESITO" != "success" ]; then echo "⚠️ Il giro non è andato a buon fine: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"; echo; fi
+            if [ -s riepilogo.md ]; then cat riepilogo.md; else echo "(nessun riepilogo scritto da Claude)"; fi
+            if [ -n "$COMMIT" ]; then echo; echo "Pubblicato con il commit $COMMIT."; fi; } > corpo.md
+          cat corpo.md >> $GITHUB_STEP_SUMMARY
+          echo "::notice title=Gare estere::$(head -c 900 corpo.md | tr '\n' ' ')"
+          n=$(gh issue list -R ${{ github.repository }} --state open --search 'in:title "Riepilogo gare estere"' --json number --jq '.[0].number')
+          if [ -z "$n" ]; then n=$(gh issue create -R ${{ github.repository }} --title "Riepilogo gare estere" --body "Qui arriva il riepilogo di ogni giro delle gare estere (workflow \"Gare estere\"). Lascia l'issue aperta: ogni commento ti arriva come notifica." | grep -o '[0-9]*$'); fi
+          gh issue comment "$n" -R ${{ github.repository }} --body-file corpo.md

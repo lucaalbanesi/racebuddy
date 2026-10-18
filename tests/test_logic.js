@@ -336,4 +336,20 @@ assert.strictEqual(L.nomeRisultato(un[1]), "Gara a Reggio Emilia");
 assert.deepStrictEqual(L.tempiPerDistanza(un)["42"].map((r) => r.id), ["f2"]);
 assert.deepStrictEqual(L.tempiDellaGara(un, roma).map((r) => r.id), ["g1"]);
 
+// gare estere: elenco curato, circuiti, benvenuto
+const ESTERO = JSON.parse(fs.readFileSync(path.join(root, "content/estero.json"), "utf8"));
+assert.ok(ESTERO.gare.every((g) => /^E-[a-z0-9-]+-(21|42)-\d{4}$/.test(g.id) && g.id.endsWith(g.data.slice(0, 4)) && ["21", "42"].includes(g.distanza) && g.circuiti.length && g.circuiti.every((c) => ESTERO.circuiti[c])), "formato di content/estero.json");
+assert.strictEqual(new Set(ESTERO.gare.map((g) => g.id)).size, ESTERO.gare.length, "id unici");
+const major = L.cercaEstero(ESTERO.gare, "major", "", "2026-10-18");
+assert.ok(major.length >= 7 && major.every((g) => g.distanza === "42"));
+assert.ok(major.every((g, i) => i === 0 || major[i - 1].data <= g.data), "dalla più vicina");
+assert.ok(L.cercaEstero(ESTERO.gare, "superhalfs", "", "2026-10-18").every((g) => g.distanza === "21"));
+assert.strictEqual(L.cercaEstero(ESTERO.gare, "", "", "2099-01-01").length, 0);
+assert.deepStrictEqual(L.circuitiDi({ id: "E-londra-42-2027" }, ESTERO), ["major", "classics"]);
+assert.deepStrictEqual(L.circuitiDi({ id: "COD1-42", nome: "XXXII^ Acea Run Rome The Marathon" }, ESTERO), ["classics"]);
+assert.deepStrictEqual(L.circuitiDi({ id: "COD2-42", nome: "Maratona di Firenze" }, ESTERO), []);
+assert.match(L.benvenutoTop(["major", "classics"]).titolo, /top del top/);
+assert.match(L.benvenutoTop(["superhalfs"]).titolo, /mezze/);
+assert.strictEqual(L.benvenutoTop(["classics"]), null);
+
 console.log("ok");

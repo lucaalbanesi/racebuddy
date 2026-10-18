@@ -41,7 +41,9 @@
         ["content/fasi.json", "content/percorso.json", "content/pillole.json", "data/gare.json"].map((u) => fetch(u, { cache: "no-cache" }).then((r) => { if (!r.ok) throw new Error(u); return r.json(); })));
       Object.assign(D, { fasi, percorso, pillole, gare: cal.gare || [], aggiornato: cal.aggiornato, ok: true });
       const opz = (u, def) => fetch(u, { cache: "no-cache" }).then((r) => (r.ok ? r.json() : def)).catch(() => def);
-      [D.schede, D.contenuti, D.novita, D.sfondi] = await Promise.all([opz("content/schede.json", {}), opz("data/contenuti.json", { contenuti: [] }).then((x) => (x.contenuti || []).filter((c) => c.tipo !== "podcast")), opz("data/novita_gare.json", { novita: [] }).then((x) => x.novita || []), opz("content/sfondi.json", {})]);
+      let est;
+      [D.schede, D.contenuti, D.novita, D.sfondi, est] = await Promise.all([opz("content/schede.json", {}), opz("data/contenuti.json", { contenuti: [] }).then((x) => (x.contenuti || []).filter((c) => c.tipo !== "podcast")), opz("data/novita_gare.json", { novita: [] }).then((x) => x.novita || []), opz("content/sfondi.json", {}), opz("content/estero.json", { gare: [] })]);
+      D.esteroDoc = est || { gare: [] }; D.estero = D.esteroDoc.gare || []; D.circuiti = D.esteroDoc.circuiti || {};
     } catch (e) {
       D.errore = "Non riesco a caricare i contenuti. Controlla la connessione e ricarica.";
     }
@@ -51,10 +53,12 @@
   // Luogo dell'utente: coordinate dal GPS se le ha date, altrimenti il nome della città.
   const mioLuogo = () => (S.profilo.coord ? { ...S.profilo.coord, nome: S.profilo.citta } : S.profilo.citta);
   async function coordinate(citta) {
-    if (citta && typeof citta === "object") return citta;
-    const k = "geo:" + citta.toLowerCase();
+    if (citta && typeof citta === "object" && citta.lat != null) return citta;
+    // { cerca, mondo: true } per le gare estere: la città si cerca in tutto il mondo, non solo in Italia
+    const mondo = !!(citta && citta.mondo), nome = mondo ? citta.cerca : citta;
+    const k = "geo:" + (mondo ? "mondo:" : "") + String(nome).toLowerCase();
     if (meteoCache[k]) return meteoCache[k];
-    const u = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(citta)}&count=1&language=it&countryCode=IT`;
+    const u = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(nome)}&count=1&language=it${mondo ? "" : "&countryCode=IT"}`;
     const r = await fetch(u).then((x) => x.json());
     const p = r.results && r.results[0];
     meteoCache[k] = p ? { lat: p.latitude, lon: p.longitude, nome: p.name } : null;
@@ -65,7 +69,7 @@
     if (!c) return null;
     const k = `m:${c.lat.toFixed(2)},${c.lon.toFixed(2)}`;
     if (!meteoCache[k]) {
-      const u = `https://api.open-meteo.com/v1/forecast?latitude=${c.lat}&longitude=${c.lon}&hourly=temperature_2m,precipitation_probability,wind_speed_10m,weather_code,is_day&timezone=Europe%2FRome&forecast_days=16`;
+      const u = `https://api.open-meteo.com/v1/forecast?latitude=${c.lat}&longitude=${c.lon}&hourly=temperature_2m,precipitation_probability,wind_speed_10m,weather_code,is_day&timezone=auto&forecast_days=16`;
       meteoCache[k] = await fetch(u).then((x) => x.json());
     }
     return { h: meteoCache[k].hourly, c };
@@ -119,7 +123,7 @@
       v: 1, ora: S.profilo.ora || "07:00", pref: { meteo: true, percorso: true, gara: true, documenti: true, novita: true, fase: true, ...(S.prefPush || {}) },
       documenti: Object.fromEntries(Object.entries(S.documenti || {}).filter(([, d]) => d && d.scadenza).map(([k, d]) => [k, k === "tessera" ? { tipo: d.tipo || "", scadenza: d.scadenza } : { scadenza: d.scadenza }])),
       luogo: S.profilo.coord ? { lat: S.profilo.coord.lat, lon: S.profilo.coord.lon } : S.profilo.citta ? { citta: S.profilo.citta } : null,
-      gare: attive.map((g) => ({ id: g.id, nome: g.nome, data: g.data, distanza: g.distanza, ruolo: g.ruolo, aggiunta: g.aggiunta })),
+      gare: attive.map((g) => ({ id: g.id, nome: g.nome, data: g.data, luogo: g.luogo || "", distanza: g.distanza, ruolo: g.ruolo, aggiunta: g.aggiunta })),
       spunte: Object.keys(S.spunte).filter((k) => ids.has(k.split(":")[0])),
       rinvii: Object.fromEntries(Object.entries(S.rinvii).filter(([k, d]) => ids.has(k.split(":")[0]) && d >= o)),
     };
@@ -578,6 +582,7 @@
   }
 
   function cardGara(g, attiva) {
+    if (g.paese) g = { ...g, luogo: `${g.luogo}, ${g.paese}` };
     const d = new Date(g.data + "T12:00:00");
     const mesi = ["gen", "feb", "mar", "apr", "mag", "giu", "lug", "ago", "set", "ott", "nov", "dic"];
     const giorni = ["dom", "lun", "mar", "mer", "gio", "ven", "sab"];
@@ -821,17 +826,40 @@
     if (!ris.length) return `<p class="sub">Nessuna gara trovata. Prova con la città o aggiungila a mano.</p>`;
     const giaMie = new Set(S.gare.map((g) => g.id));
     return `<h2 style="margin-bottom:8px">Risultati · ${ris.length}${ris.length === 40 ? "+" : ""}</h2><div style="display:flex;flex-direction:column;gap:8px">${ris.map((g) =>
-      `<article class="card">${cardGara(g, `${dettagliCalendario(g)}${giaMie.has(g.id) ? `<span class="pill ok">già tra le tue gare</span>` : `<a class="btn small" style="align-self:flex-start" href="#/aggiungi/${encodeURIComponent(g.id)}">Scegli ${esc(L.DIST_LABEL[g.distanza])}</a>`}`)}</article>`).join("")}</div>`;
+      `<article class="card">${cardGara(g, `${L.circuitiDi(g, D.esteroDoc).length ? `<span class="row" style="gap:6px">${pillCircuiti(L.circuitiDi(g, D.esteroDoc))}</span>` : ""}${dettagliCalendario(g)}${giaMie.has(g.id) ? `<span class="pill ok">già tra le tue gare</span>` : `<a class="btn small" style="align-self:flex-start" href="#/aggiungi/${encodeURIComponent(g.id)}">Scegli ${esc(L.DIST_LABEL[g.distanza])}</a>`}`)}</article>`).join("")}</div>`;
   }
-  function vistaEstero() { return ""; } // le internazionali arrivano con data/estero.json
+  // Gare estere (content/estero.json, curato e verificato ogni mese): Major, SuperHalfs, European Marathon Classics,
+  // grandi gare europee. Filtri per circuito e distanza; il ballottaggio è in evidenza.
+  const pillCircuiti = (cs) => (cs || []).map((c) => `<span class="pill ${c === "major" || c === "superhalfs" ? "navy-pill" : "grigio"}">${esc((D.circuiti[c] || {}).breve || c)}</span>`).join("");
+  const pillIscrizione = (g) => g.iscrizione === "ballottaggio" ? `<span class="pill ballottaggio">🎟️ Ballottaggio</span>` : g.iscrizione === "qualificazione" ? `<span class="pill ballottaggio">⏱️ Tempo di qualificazione</span>` : "";
+  function vistaEstero(param, o) {
+    const c = param.c || "", dist = param.d || "";
+    const ris = L.cercaEstero(D.estero, c, dist, o), giaMie = new Set(S.gare.map((g) => g.id));
+    const chip = (k, v, l, att) => `<a class="chip" href="#/gare?v=estero&c=${k === "c" ? v : c}&d=${k === "d" ? v : dist}" aria-pressed="${att === v}">${l}</a>`;
+    return `<div class="chips chips-scorri" role="group" aria-label="Circuito">${chip("c", "", "Tutte", c)}${Object.entries(D.circuiti).map(([k, x]) => chip("c", k, esc(x.breve || x.nome), c)).join("")}</div>
+      <div class="chips" role="group" aria-label="Distanza">${chip("d", "", "Mezza e maratona", dist)}${chip("d", "21", "Mezza", dist)}${chip("d", "42", "Maratona", dist)}</div>
+      ${c && D.circuiti[c] ? `<p class="sub">${esc(D.circuiti[c].nome)}${D.circuiti[c].sito ? ` · <a href="${esc(D.circuiti[c].sito)}" rel="noopener">sito del circuito ↗</a>` : ""}</p>` : ""}
+      ${ris.length ? `<div style="display:flex;flex-direction:column;gap:8px">${ris.map((g) => `<article class="card">${cardGara(g, `<span class="row" style="gap:6px;flex-wrap:wrap">${pillCircuiti(g.circuiti)}${pillIscrizione(g)}</span>${giaMie.has(g.id) ? `<span class="pill ok" style="align-self:flex-start">già tra le tue gare</span>` : `<a class="btn small" style="align-self:flex-start" href="#/aggiungi/${encodeURIComponent(g.id)}">Scegli ${esc(L.DIST_LABEL[g.distanza])}</a>`}`)}</article>`).join("")}</div>` : `<p class="sub">Nessuna gara con questi filtri.</p>`}
+      <p class="sub">Le Abbott World Marathon Majors, le SuperHalfs, gli European Marathon Classics e le grandi gare europee. Date e iscrizioni dai siti ufficiali${D.esteroDoc.aggiornato ? `, ricontrollate il ${esc(L.fmtGiorno(D.esteroDoc.aggiornato))}` : ""}: fai sempre fede al sito della gara.</p>`;
+  }
 
+  // Gare del top (Major, SuperHalfs): un benvenuto speciale. Iscrizione con ballottaggio o qualificazione: in evidenza.
+  function riquadriTop(g, scelta) {
+    const e = (D.estero || []).find((x) => x.id === g.id) || {}, cs = L.circuitiDi(g, D.esteroDoc), b = L.benvenutoTop(cs, g.distanza);
+    const top = b ? `<section class="card dark benvenuto-top" aria-label="${esc(b.titolo)}"><span class="eyebrow">★ ${esc(cs.map((c) => (D.circuiti[c] || {}).nome || c).join(" · "))}</span><span style="font:700 22px/1.15 var(--display)">${esc(b.titolo)}</span><span class="sub">${esc(b.testo)}</span></section>` : "";
+    const sito = e.sito ? `<a class="small" href="${esc(e.sito)}" rel="noopener" style="font-weight:700">Iscrizioni sul sito ufficiale ↗</a>` : "";
+    const iscr = e.iscrizione === "ballottaggio" ? `<section class="card ballottaggio-box" aria-label="Iscrizione con ballottaggio"><span class="title">🎟️ Iscrizione con ballottaggio</span><span class="small">${esc(e.notaIscrizione || "I pettorali si assegnano con un sorteggio: iscriversi al ballottaggio non garantisce il posto.")}</span>${scelta ? `<span class="small muted">Puoi aggiungerla già ora: la preparazione resta valida anche se il pettorale arriva più tardi, con charity o tour operator.</span>` : ""}${sito}</section>`
+      : e.iscrizione === "qualificazione" ? `<section class="card ballottaggio-box" aria-label="Iscrizione con tempo di qualificazione"><span class="title">⏱️ Serve un tempo di qualificazione</span><span class="small">${esc(e.notaIscrizione || "Per iscriverti serve un tempo minimo ottenuto in una maratona valida, diverso per età e sesso.")}</span>${sito}</section>` : "";
+    return top + iscr;
+  }
   function vistaAggiungi(id) {
-    const g = D.gare.find((x) => x.id === id) || (S._bozza && S._bozza.id === id ? S._bozza : null);
+    const g = D.gare.find((x) => x.id === id) || (D.estero || []).find((x) => x.id === id) || (S._bozza && S._bozza.id === id ? S._bozza : null);
     if (!g) return `<p class="sub">Gara non trovata.</p><a class="btn" href="#/gare">Torna alle gare</a>`;
     const ha = S.gare.some((x) => x.ruolo === "obiettivo" && x.data >= oggi());
     const r = (v, t, d, chk) => `<label class="radio"><input type="radio" name="ruolo" value="${v}" ${chk ? "checked" : ""}><span><span class="title" style="font-size:16px">${t}</span><br><span class="small">${d}</span></span></label>`;
     const P = S.profilo;
-    return `<header class="head-back">${back("#/gare")}<div><h1 style="font-size:26px">${esc(titoloGara(g.nome))}</h1><span class="sub">${esc(L.fmtGiorno(g.data))} · ${esc(L.DIST_LABEL[g.distanza])} · tra ${L.diffDays(g.data, oggi())} giorni</span></div></header>
+    return `<header class="head-back">${back(garaEstera(g) ? "#/gare?v=estero" : "#/gare")}<div><h1 style="font-size:26px">${esc(titoloGara(g.nome))}</h1><span class="sub">${esc(L.fmtGiorno(g.data))} · ${esc(L.DIST_LABEL[g.distanza])} · tra ${L.diffDays(g.data, oggi())} giorni</span></div></header>
+      ${riquadriTop(g, true)}
       <form id="aggiungi" data-id="${esc(id)}" style="display:flex;flex-direction:column;gap:16px">
       <fieldset style="border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:8px"><legend class="title" style="margin-bottom:8px;padding:0">Che gara è per te?</legend>
         ${r("obiettivo", "Obiettivo", "Costruisco la preparazione su questa gara", !ha)}
@@ -880,6 +908,9 @@
   const corsa = (g, o = oggi()) => cicloGara(g, o) !== "attiva"; // gara già corsa (anche oggi, dopo le 12)
   const nonArchiviata = (g) => cicloGara(g) !== "archiviata";
   const ESITO = { dnf: "Ritirato", dns: "Non partito", annullata: "Annullata" };
+  // Dove cercare il meteo di una gara: le estere in tutto il mondo (ore locali del posto), le italiane in Italia.
+  const garaEstera = (g) => String(g.id || "").startsWith("E-");
+  const luogoMeteo = (g) => (garaEstera(g) ? { cerca: g.luogo, mondo: true } : nomeLuogo(g.luogo) || S.profilo.citta || "");
   const garaMancante = () => `<p class="sub">Gara non trovata tra le tue.</p><a class="btn" href="#/gare">Le mie gare</a>`;
   function boxMeteoGara(g, modo) {
     const n = L.diffDays(g.data, oggi());
@@ -894,7 +925,7 @@
     if (!g) return;
     const ora = oraPartenza(g);
     try {
-      const m = await meteoAlle(nomeLuogo(g.luogo) || S.profilo.citta || "", `${g.data}T${oraISO(ora || "9:00")}`);
+      const m = await meteoAlle(luogoMeteo(g), `${g.data}T${oraISO(ora || "9:00")}`);
       if (!m) { box.innerHTML = `<h2>Meteo della gara</h2><span class="small">Previsioni non disponibili per questo luogo.</span>`; return; }
       const titolo = `${modo === "borsa" ? "Come vestirti" : "Meteo della gara"} · ${esc(m.luogo)} alle ${esc(ora || "9:00")}${ora ? "" : " (indicativo)"}`;
       box.innerHTML = modo === "home"
@@ -923,6 +954,7 @@
         <div style="text-align:right">${n > 0 ? `<div class="big" style="font-size:44px">${n}</div><span class="sub">${n === 1 ? "giorno" : "giorni"}</span>` : `<span class="pill navy">${n === 0 ? "oggi!" : "conclusa"}</span>`}</div></div>
         ${n >= 0 ? `${barraFasi(g, true)}<span class="sub">${f.id === "prima" ? "Preparazione non ancora iniziata" : `Fase: <b style="color:#fff">${esc(f.nome)}</b>`}</span>` : ""}</section>
       ${corsa(g, o) ? `<a class="card soft" href="#/risultato/${encodeURIComponent(g.id)}" style="text-decoration:none;color:inherit;font-weight:inherit"><span class="title">${ris ? `Il tuo tempo: ${esc(ris.tempo)}${ris.pb ? " · personale!" : ""}` : g.esito ? ESITO[g.esito] : "Com'è andata?"}</span><span class="small">${ris ? "Modifica o condividi ›" : g.esito ? "Cambia ›" : "Segna il tuo tempo ›"}</span></a>` : ""}
+      ${n >= 0 ? riquadriTop(g, false) : ""}
       ${riquadroNovita(g)}
       ${n >= 0 ? avvisoDocumenti(g) : ""}
       ${n >= 0 ? `<a class="card link-card" href="${urlGara(g.id, "preparazione")}"><div class="between"><h2>Preparazione</h2><span class="small" style="color:var(--accent);font-weight:700">Tutta ›</span></div>
@@ -1054,7 +1086,7 @@
       // Le gare entro 15 giorni con previsioni: in evidenza in cima, prima del meteo di oggi.
       const gareConMeteo = (await Promise.all(gareMeteo.sort((x, y) => x.data.localeCompare(y.data)).map(async (g) => {
         const ora = oraPartenza(g);
-        try { const m = await meteoAlle(nomeLuogo(g.luogo) || S.profilo.citta || "", `${g.data}T${oraISO(ora || "9:00")}`); return m ? { g, m, ora } : null; } catch (e) { return null; }
+        try { const m = await meteoAlle(luogoMeteo(g), `${g.data}T${oraISO(ora || "9:00")}`); return m ? { g, m, ora } : null; } catch (e) { return null; }
       }))).filter(Boolean);
       const quandoGara = (d) => (d === L.todayISO() ? "oggi" : d === L.addDays(L.todayISO(), 1) ? "domani" : esc(L.fmtGiorno(d)));
       const carteGara = gareConMeteo.map(({ g, m, ora }) => `<section class="card gara-meteo" style="gap:12px" aria-label="Meteo di ${esc(titoloGara(g.nome))}"><span class="eyebrow" style="color:var(--accent-strong)">Meteo gara · ${quandoGara(g.data)} alle ${esc(ora || "9:00")}${ora ? "" : " (indicativo)"}</span><span class="title">${esc(titoloGara(g.nome))} · ${esc(m.luogo)}</span>${bloccoMeteo(m, true)}<a class="small" href="${urlGara(g.id)}" style="font-weight:700">Apri la scheda gara ›</a></section>`).join("");
@@ -2262,7 +2294,7 @@
       salva(); location.hash = `#/aggiungi/${id}`;
     } else if (f.id === "aggiungi") {
       const id = f.dataset.id;
-      const base = D.gare.find((x) => x.id === id) || S._bozza;
+      const base = D.gare.find((x) => x.id === id) || (D.estero || []).find((x) => x.id === id) || S._bozza;
       const ruolo = (f.querySelector('input[name="ruolo"]:checked') || {}).value || "obiettivo";
       const ta = leggiTempoFacoltativo("a-tempo", base.distanza);
       if (ta.errore) { toast(ta.errore); return; }
