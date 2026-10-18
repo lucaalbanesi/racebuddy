@@ -360,4 +360,8 @@ assert.strictEqual(L.introEstera({ id: "E-citta-del-capo-42-2027", luogo: "CittÃ
 assert.strictEqual(L.introEstera({ id: "E-siviglia-42-2027", luogo: "Siviglia" }, ESTERO).circuito, "grandi");
 assert.deepStrictEqual(L.nelMirino([{ id: "b", data: "2027-04-25" }, { id: "a", data: "2026-01-01" }, { id: "c", data: "2027-03-07" }], "2026-10-19").map((g) => g.id), ["c", "b"]);
 
+// scarpe: il limite minimo Ã¨ 300 km
+assert.strictEqual(L.statoScarpa({ km: 150, limite: 100 }).limite, 300);
+assert.strictEqual(L.statoScarpa({ km: 150, limite: 300 }).quota, 0.5);
+assert.strictEqual(L.statoScarpa({ km: 150 }).limite, 800);
 console.log("ok");

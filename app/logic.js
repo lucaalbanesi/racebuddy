@@ -357,7 +357,7 @@
 
   /** Stato di una scarpa. */
   function statoScarpa(s) {
-    const lim = Number(s.limite) || 800;
+    const lim = Math.max(300, Number(s.limite) || 800); // sotto i 300 km non ha senso: anche i limiti vecchi più bassi valgono 300
     const km = Number(s.km) || 0;
     const quota = Math.min(km / lim, 1);
     const etichetta = quota >= 1 ? "da sostituire" : quota >= 0.85 ? "quasi a fine vita" : s.tipo === "gara" && km < 60 ? "da rodare" : "in forma";

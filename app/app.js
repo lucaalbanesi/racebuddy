@@ -785,7 +785,7 @@
     const vista = ["mie", "italia", "estero"].includes(param.v) && (param.v !== "estero" || estero) ? param.v : param.q || param.d || !(mie.length || archivio.length || L.nelMirino(S.mirino, o).length) ? "italia" : "mie";
     const seg = (k, l) => `<a href="#/gare?v=${k}" ${vista === k ? 'aria-current="page"' : ""}>${l}</a>`;
     const testa = `${bannerProva()}<header class="head"><h1>Gare</h1></header>
-      <nav class="seg" aria-label="Gare">${seg("mie", `Le mie${mie.length ? " · " + mie.length : ""}`)}${seg("italia", "Italia")}${estero ? seg("estero", "Estero") : ""}</nav>`;
+      <nav class="seg" aria-label="Gare">${seg("mie", `Le mie${mie.length ? " · " + mie.length : ""}`)}${seg("italia", "Italia")}${estero ? seg("estero", "Circuiti") : ""}</nav>`;
     if (vista === "mie") return testa + vistaMieGare(o, mie, archivio);
     if (vista === "estero") return testa + vistaEstero(param, o);
     const q = param.q || "", dist = param.d || "";
@@ -909,7 +909,7 @@
   }
   function vistaEstera(id) {
     const g = garaEsteraDati(id);
-    if (!g) return `<p class="sub">Gara non trovata: forse questa edizione è già passata.</p><a class="btn" href="#/gare?v=estero">Le gare estere</a>`;
+    if (!g) return `<p class="sub">Gara non trovata: forse questa edizione è già passata.</p><a class="btn" href="#/gare?v=estero">I circuiti</a>`;
     const it = L.introEstera(g, D.esteroDoc), n = L.diffDays(g.data, oggi()), mir = inMirino(id), cs = L.circuitiDi(g, D.esteroDoc);
     return `${bannerProva()}<header class="head-back">${back(mir ? "#/gare?v=mie" : "#/gare?v=estero")}<div style="min-width:0"><span class="eyebrow">${esc(cs.map((c) => (D.circuiti[c] || {}).breve || c).join(" · "))}</span><h1 style="font-size:28px">${esc(g.nome)}</h1></div></header>
       <section class="card dark benvenuto-top"><div class="between" style="align-items:flex-end"><div style="display:flex;flex-direction:column;gap:2px;min-width:0">
@@ -1938,7 +1938,7 @@
         <div class="meter ${st.livello}" aria-hidden="true"><div style="width:${Math.max(3, Math.round(st.quota * 100))}%"></div></div>
         <div class="between small"><span><b>${Math.round(st.km)}</b> di ${st.limite} km</span><span style="font-weight:700;color:${st.livello === "attenzione" ? "var(--warn)" : st.livello === "info" ? "var(--accent)" : "var(--ok)"}">${esc(st.etichetta)}</span></div>
         <div class="grid2"><div class="field"><label for="su-${esc(s.id)}">Uso</label><select class="input" id="su-${esc(s.id)}" data-act-change="scarpa-uso" data-id="${esc(s.id)}">${opzioni(Object.keys(USI), s.tipo, (v) => USI[v])}</select></div>
-        <div class="field"><label for="sl-${esc(s.id)}">Da cambiare a</label><select class="input" id="sl-${esc(s.id)}" data-act-change="scarpa-limite" data-id="${esc(s.id)}">${opzioni([400, 500, 600, 700, 800, 900, 1000], s.limite, (v) => `${v} km`)}</select></div></div></article>`;
+        <div class="field"><label for="sl-${esc(s.id)}">Da cambiare a</label><select class="input" id="sl-${esc(s.id)}" data-act-change="scarpa-limite" data-id="${esc(s.id)}">${opzioni([300, 400, 500, 600, 700, 800, 900, 1000], s.limite, (v) => `${v} km`)}</select></div></div></article>`;
       return `<article class="card"><div class="between"><span class="title">${esc(s.nome)}</span><span class="small muted">${esc({ allenamento: "allenamento", ritmo: "ritmo e lunghi", gara: "gara", trail: "trail" }[s.tipo] || s.tipo)}</span></div>
         <div class="meter ${st.livello}" aria-hidden="true"><div style="width:${Math.max(3, Math.round(st.quota * 100))}%"></div></div>
         <div class="between small"><span><b>${Math.round(st.km)}</b> di ${st.limite} km</span><span style="font-weight:700;color:${st.livello === "attenzione" ? "var(--warn)" : st.livello === "info" ? "var(--accent)" : "var(--ok)"}">${esc(st.etichetta)}</span></div>
@@ -1972,7 +1972,7 @@
         <div class="field"><label for="s-nome">Modello</label><input class="input" id="s-nome" required placeholder="es. la mia scarpa da lento"></div>
         <div class="grid2"><div class="field"><label for="s-tipo">Uso</label><select class="input" id="s-tipo"><option value="allenamento">Allenamento</option><option value="ritmo">Ritmo e lunghi</option><option value="gara">Gara</option><option value="trail">Trail</option></select></div>
         <div class="field"><label for="s-km">Km attuali</label><input class="input" id="s-km" type="number" min="0" value="0"></div></div>
-        <div class="field"><label for="s-lim">Da cambiare a (km)</label><input class="input" id="s-lim" type="number" min="100" value="800"></div>
+        <div class="field"><label for="s-lim">Da cambiare a (km)</label><input class="input" id="s-lim" type="number" min="300" step="50" value="800"></div>
         <button class="btn" type="submit">Aggiungi scarpa</button></form></details>
         <span class="small muted">I km si aggiornano a mano${C().strava ? "; con Strava arrivano da soli" : ""}.</span>`}`)}
       <details class="card"><summary>Strumenti di prova</summary>
@@ -2267,7 +2267,7 @@
   document.addEventListener("change", (e) => {
     if (e.target.dataset && (e.target.dataset.actChange === "scarpa-uso" || e.target.dataset.actChange === "scarpa-limite")) {
       const sc = S.scarpe.find((x) => x.id === e.target.dataset.id);
-      if (sc) { if (e.target.dataset.actChange === "scarpa-uso") sc.tipo = e.target.value; else sc.limite = Number(e.target.value); salva(); rerender(); }
+      if (sc) { if (e.target.dataset.actChange === "scarpa-uso") sc.tipo = e.target.value; else sc.limite = Math.max(300, Number(e.target.value) || 800); salva(); rerender(); }
     } else if (e.target.dataset && e.target.dataset.actChange === "tempi-persona") {
       if (!TEMPI || !TEMPI.persone) return;
       const id = e.target.dataset.id, sc = new Set(TEMPI.scelti || []);
@@ -2477,7 +2477,7 @@
     } else if (f.id === "profilo") {
       document.activeElement && document.activeElement.blur();
     } else if (f.id === "scarpa") {
-      S.scarpe.push({ id: "S" + Date.now().toString(36), nome: v("s-nome").trim(), tipo: v("s-tipo"), km: Number(v("s-km")) || 0, limite: Number(v("s-lim")) || 800 }); salva(); toast("Scarpa aggiunta"); rerender();
+      S.scarpe.push({ id: "S" + Date.now().toString(36), nome: v("s-nome").trim(), tipo: v("s-tipo"), km: Number(v("s-km")) || 0, limite: Math.max(300, Number(v("s-lim")) || 800) }); salva(); toast("Scarpa aggiunta"); rerender();
     } else if (f.id === "acc-email") {
       const btn = f.querySelector("button[type=submit]"), email = v("acc-mail").trim().toLowerCase(); btn.disabled = true;
       chiamaAuth("otp", { email, create_user: true }).then(() => { ACC.email = email; ACC.inviato = true; rerender(); setTimeout(() => { const c = document.getElementById("acc-cod"); if (c) c.focus(); }, 50); })
