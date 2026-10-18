@@ -12,21 +12,21 @@ jobs:
           exec > >(tee esito.txt) 2>&1
           UA="Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 Chrome/126 Mobile Safari/537.36"
           curl -sL -A "$UA" "https://www.fidal.it/lista_atleti.php?h=1" -o lista.html
-          echo "== form ricerca"; grep -oiE '<(form|input|select)[^>]*>' lista.html | head -20
-          echo "== ricerca Crippa (GET)"
-          curl -sL -A "$UA" "https://www.fidal.it/lista_atleti.php?cognome=crippa&nome=yeman" -o r1.html
-          grep -oiE 'href="[^"]*atleta[^"]*"[^>]*>[^<]*' r1.html | head -10
-          A=$(grep -oiE 'href="[^"]*atleta[^"]*"' r1.html | head -1 | sed 's/href="//;s/"$//')
-          case "$A" in http*) ;; /*) A="https://www.fidal.it$A";; *) A="https://www.fidal.it/$A";; esac
-          echo "== scheda: $A"; curl -sL -A "$UA" "$A" -o at.html
-          python3 - <<'PY'
+          echo "== form in lista_atleti"; python3 -c "
+          import re;t=open('lista.html',encoding='utf-8',errors='ignore').read()
+          for f in re.findall(r'(?s)<form.*?</form>',t): print(re.sub(r'\s+',' ',re.sub(r'(?s)<option.*?</option>','',f))[:700]); print('--')
+          print(len(re.findall('atleta/',t)),'link atleta')"
+          echo "== ricerca sito"; curl -sL -A "$UA" "https://www.fidal.it/result.php?id_sito=1&cerca=yeman+crippa" -o r.html
+          grep -oiE 'href="https://www.fidal.it/atleta/[^"]+"' r.html | sort -u | head -5
+          A=$(grep -oiE 'https://www.fidal.it/atleta/[A-Za-z]+-CRIPPA/[^"]+' r.html | head -1); echo "scheda $A"
+          [ -n "$A" ] && curl -sL -A "$UA" "$A" -o at.html && python3 -c "
           import re,html
           t=open('at.html',encoding='utf-8',errors='ignore').read()
-          t=re.sub(r'(?s)<(script|style).*?</\1>','',t); t=re.sub(r'<[^>]+>',' ',t); t=html.unescape(re.sub(r'\s+',' ',t))
-          i=t.lower().find('primat'); print(t[max(0,i-200):i+1800])
-          for k in ['Mezza','Maratona','10 Km','Strada']: print(k, t.count(k))
-          PY
-          echo "== termini sito"; curl -sL -A "$UA" https://www.fidal.it/ | grep -oiE 'href="[^"]*(note-legali|legal|copyright|condizioni)[^"]*"' | sort -u
+          print('tabelle',t.count('<table'))
+          for h in re.findall(r'(?s)<h[1-4][^>]*>(.*?)</h[1-4]>',t)[:30]: print('H:',re.sub(r'<[^>]+>|\s+',' ',h).strip())
+          t=re.sub(r'(?s)<(script|style).*?</\1>','',t);t=re.sub(r'<[^>]+>',' ',t);t=html.unescape(re.sub(r'\s+',' ',t))
+          for k in ['Maratona','Mezza Maratona','10 Km','Km 10']:
+            i=t.find(k); print(k, t.count(k), '|', t[max(0,i-150):i+250] if i>=0 else '')"
       - name: Esito come annotazioni
         if: always()
         run: |
