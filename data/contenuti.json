@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-10-17",
+ "aggiornato": "2026-10-18",
  "contenuti": [
   {
    "id": "8f781b91c7d1",
@@ -148,6 +148,36 @@
     "scarico",
     "dopo"
    ]
+  },
+  {
+   "id": "825f4af1304a",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Il numero di passi da fare ogni giorno cambia con l'età: ecco cosa dice la ricerca",
+   "estratto": "Quanti passi fare al giorno in base all'età? I 10.000 non sono una regola: gli studi indicano obiettivi diversi prima e dopo i 60 anni",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a74163392/passi-al-giorno-eta/",
+   "data": "2026-10-17",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/9bd2bf69-30b9-4206-9c47-bfd3145bd08f.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "533346b64559",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Furto e danni agli stand della Neapolis Marathon. Ma la manifestazione è salva",
+   "estratto": "Il blitz nella notte, rubate bevande e materiale promozionale dell'evento. L'ipotesi di un gruppo di ragazzini",
+   "link": "https://www.runnersworld.com/it/news/a74167064/neapolis-marathon-furto/",
+   "data": "2026-10-17",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/2ed9f170-cc59-4f71-9cb2-255fff03e3d6.jpeg",
+   "argomenti": [],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
   },
   {
    "id": "b1053d99a115",
