@@ -586,7 +586,7 @@
     const d = new Date(g.data + "T12:00:00");
     const mesi = ["gen", "feb", "mar", "apr", "mag", "giu", "lug", "ago", "set", "ott", "nov", "dic"];
     const giorni = ["dom", "lun", "mar", "mer", "gio", "ven", "sab"];
-    return `<div class="race"><div class="date" aria-hidden="true"><span class="m">${mesi[d.getMonth()]}</span><b>${d.getDate()}</b><span>${giorni[d.getDay()]}</span></div>
+    return `<div class="race"><div class="date" aria-hidden="true"><span class="m">${mesi[d.getMonth()]} ’${String(d.getFullYear()).slice(2)}</span><b>${d.getDate()}</b><span>${giorni[d.getDay()]}</span></div>
       <div class="info"><span class="title">${esc(titoloGara(g.nome))}</span><span class="small muted">${esc(nomeLuogo(g.luogo))} · ${esc(L.DIST_LABEL[g.distanza])}</span>${attiva || ""}</div></div>`;
   }
 
