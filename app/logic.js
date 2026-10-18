@@ -137,6 +137,69 @@
   /** Nome della gara da mostrare: FIDAL non lo dà, solo la città. */
   const nomeRisultato = (r) => r.gara || (r.luogo ? `Gara a ${r.luogo.toLowerCase().replace(/(^|[\s/'-])(\p{L})/gu, (m, a, c) => a + c.toUpperCase())}` : "Gara");
 
+  /** Scarpe: quanti km al giorno macinano, dalla storia dei km (S.scarpe[i].storia = [{d, km}]) degli ultimi 28 giorni,
+      se copre almeno 7 giorni. null se non si sa. */
+  function kmAlGiorno(storia, oggi) {
+    const st = (storia || []).filter((x) => x && x.d <= oggi && diffDays(oggi, x.d) <= 28).sort((a, b) => (a.d < b.d ? -1 : 1));
+    if (st.length < 2) return null;
+    const giorni = diffDays(st[st.length - 1].d, st[0].d);
+    return giorni >= 7 ? Math.max(0, (st[st.length - 1].km - st[0].km) / giorni) : null;
+  }
+  // Senza storia si stima con un uso tipico per chi prepara quella distanza (km a settimana sulla scarpa): una scarpa da
+  // gara si usa molto meno (lavori, rodaggio, qualche gara) di quella da allenamento.
+  const USO_TIPICO = { "10": 30, "21": 40, "42": 55 }, USO_GARA = { "10": 10, "21": 12, "42": 15 };
+  /** Con quanti km la scarpa arriva al via: { km, limite, stimata, ok }. */
+  function scarpaAlVia(s, gara, oggi) {
+    const r = kmAlGiorno(s.storia, oggi), giorni = Math.max(0, diffDays(gara.data, oggi));
+    const lim = Math.max(300, Number(s.limite) || 800), km = Math.round((Number(s.km) || 0) + (r == null ? (s.tipo === "gara" ? USO_GARA : USO_TIPICO)[gara.distanza] / 7 : r) * giorni);
+    return { km, limite: lim, stimata: r == null, ok: km <= lim };
+  }
+
+  /** La preparazione adattata a chi corre (regole delle voci, "regola" in percorso.json). ctx: { oggi, documenti, nonTesserato,
+      scarpe, citta, gare (tutte quelle seguite, anche passate), risultati, pb }. Ritorna:
+      - percorso: le voci che valgono per questa gara (via quelle che non servono: viaggio e logistica per le gare in casa,
+        bere in corsa e vestizione se non è la prima gara, completo se non è la prima dell'anno);
+      - fatte: { chiave: true } delle voci già soddisfatte (documenti validi alla data della gara, tempo obiettivo, scarpa scelta,
+        scarpa che arriva al via);
+      - info: { chiave: { msg, azione } } con il messaggio su misura e l'azione da proporre (documenti, tempo, aggiungi-scarpe,
+        scegli-scarpa). */
+  const chiaveCitta = (c) => String(c || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z]+/g, " ").trim();
+  // Gara "in casa": il luogo della gara (anche composto, es. "OSTIA - ROMA") è la città in cui corri di solito.
+  function inCasa(luogoGara, citta) {
+    const c = chiaveCitta(citta);
+    return !!c && String(luogoGara || "").split(/\s*[-/,]\s*/).map(chiaveCitta).includes(c);
+  }
+  function adatta(percorso, gara, ctx = {}) {
+    const oggi = ctx.oggi || todayISO(), altre = (ctx.gare || []).filter((g) => g.id !== gara.id && g.data < gara.data);
+    const primaGara = !altre.length && !Object.keys(ctx.pb || {}).length && !Object.keys(ctx.risultati || {}).length;
+    const anno = gara.data.slice(0, 4), primaAnno = !altre.some((g) => g.data.startsWith(anno)) && !Object.values(ctx.pb || {}).some((p) => String(p.data || "").startsWith(anno) && p.data < gara.data);
+    const casa = inCasa(gara.luogo, ctx.citta);
+    const nascondi = { fuori_citta: casa, prima_gara: !primaGara, prima_anno: !primaAnno };
+    const fatte = {}, info = {};
+    const scarpe = (ctx.scarpe || []).filter((s) => !s.ritirata), scelta = scarpe.find((s) => s.id === gara.scarpa);
+    for (const v of percorso) {
+      const k = `${gara.id}:${v.id}`;
+      if (v.regola === "documenti") {
+        const d = ctx.documenti || {}, t = d.tessera || {}, c = d.certificato || {}, p = [];
+        if (!t.scadenza) p.push("manca la tessera"); else if (t.scadenza < gara.data) p.push(`la tessera scade il ${fmtBreve(t.scadenza)}, prima della gara`);
+        if (!c.scadenza) p.push("manca il certificato medico"); else if (c.scadenza < gara.data) p.push(`il certificato scade il ${fmtBreve(c.scadenza)}, prima della gara`);
+        if (!p.length) { fatte[k] = true; info[k] = { msg: "Tessera e certificato sono validi fino al giorno della gara." }; }
+        else info[k] = { msg: !t.scadenza && !c.scadenza ? "Non hai ancora inserito tessera e certificato: caricali, ti avviso io prima che scadano." : p.join(" e ").replace(/^./, (x) => x.toUpperCase()) + ".", azione: "documenti" };
+      } else if (v.regola === "tempo") {
+        if (gara.tempo) { fatte[k] = true; info[k] = { msg: `Il tuo obiettivo: ${gara.tempo}.` }; } else info[k] = { msg: v.messaggio, azione: "tempo" };
+      } else if (v.regola === "scarpa") {
+        if (scelta) { fatte[k] = true; info[k] = { msg: `In gara userai le ${scelta.nome}.`, azione: "scegli-scarpa" }; }
+        else info[k] = scarpe.length ? { msg: "Con quali scarpe correrai la gara?", azione: "scegli-scarpa" } : { msg: "Non hai ancora inserito le tue scarpe: aggiungile e ti dico se arrivano alla gara.", azione: "aggiungi-scarpe" };
+      } else if (v.regola === "scarpa_dura") {
+        if (!scelta) { info[k] = scarpe.length ? { msg: "Scegli prima con quali scarpe correrai: poi ti dico se arrivano al via.", azione: "scegli-scarpa" } : { msg: "Aggiungi le tue scarpe: ti dico se arrivano al via.", azione: "aggiungi-scarpe" }; continue; }
+        const a = scarpaAlVia(scelta, gara, oggi), stima = a.stimata ? " (stima con un uso tipico: aggiorna i km per una previsione tua)" : "";
+        if (a.ok) { fatte[k] = true; info[k] = { msg: `Le ${scelta.nome} arrivano al via con circa ${a.km} km su ${a.limite}${stima}.` }; }
+        else info[k] = { msg: `Le ${scelta.nome} arriverebbero al via con circa ${a.km} km, oltre i ${a.limite}${stima}: valuta adesso una scarpa nuova, così hai il tempo di rodarla.`, azione: "scegli-scarpa" };
+      }
+    }
+    return { percorso: percorso.filter((v) => !(v.regola && nascondi[v.regola])), fatte, info, casa, primaGara, primaAnno };
+  }
+
   /** Gara "principale" per la vista Oggi: la più vicina tra quelle non concluse e non archiviate, con priorità
       all'obiettivo se le altre sono lontane. Restituisce anche le altre gare in arrivo. */
   function gareAttive(gare, fasi, oggi, risultati = {}) {
@@ -551,7 +614,7 @@
     return out;
   }
 
-  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento };
+  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);

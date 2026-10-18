@@ -124,7 +124,7 @@
       documenti: Object.fromEntries(Object.entries(S.documenti || {}).filter(([, d]) => d && d.scadenza).map(([k, d]) => [k, k === "tessera" ? { tipo: d.tipo || "", scadenza: d.scadenza } : { scadenza: d.scadenza }])),
       luogo: S.profilo.coord ? { lat: S.profilo.coord.lat, lon: S.profilo.coord.lon } : S.profilo.citta ? { citta: S.profilo.citta } : null,
       gare: attive.map((g) => ({ id: g.id, nome: g.nome, data: g.data, luogo: g.luogo || "", distanza: g.distanza, ruolo: g.ruolo, aggiunta: g.aggiunta })),
-      spunte: Object.keys(S.spunte).filter((k) => ids.has(k.split(":")[0])),
+      spunte: [...new Set([...Object.keys(S.spunte), ...attive.flatMap((g) => { const a = adattaGara(g), tenute = new Set(a.percorso.map((v) => v.id)); return [...Object.keys(a.fatte), ...D.percorso.filter((v) => !tenute.has(v.id)).map((v) => `${g.id}:${v.id}`)]; })])].filter((k) => ids.has(k.split(":")[0])),
       rinvii: Object.fromEntries(Object.entries(S.rinvii).filter(([k, d]) => ids.has(k.split(":")[0]) && d >= o)),
     };
   }
@@ -575,10 +575,30 @@
     return `<div class="bar" aria-hidden="true">${segs}</div>${scuro ? "" : `<div class="bar-labels" aria-hidden="true">${labels}</div>`}`;
   }
 
+  // Preparazione su misura (L.adatta): voci nascoste se non servono, fatte da sole se già soddisfatte, con messaggio e azione.
+  const ctxPrep = () => ({ oggi: oggi(), documenti: S.documenti || {}, nonTesserato: !!S.nonTesserato, scarpe: S.scarpe || [], citta: S.profilo.citta || "", gare: S.gare, risultati: S.risultati || {}, pb: S.pb || {} });
+  const AUTO = {}; // chiave → { fatta, msg, azione }, riempito da adattaGara per le voci mostrate
+  function adattaGara(g) {
+    const a = L.adatta(D.percorso, g, ctxPrep());
+    for (const [k, i] of Object.entries(a.info)) AUTO[k] = { ...i, fatta: !!a.fatte[k], gara: g.id };
+    return a;
+  }
+  const statoGara = (g, o = oggi()) => { const a = adattaGara(g); return L.stato(a.percorso, g, o, { ...S.spunte, ...a.fatte }, S.rinvii); };
+  const fattaVoce = (k) => !!S.spunte[k] || !!(AUTO[k] && AUTO[k].fatta);
+  function azioneVoce(k) {
+    const a = AUTO[k];
+    if (!a || !a.azione) return "";
+    const g = S.gare.find((x) => x.id === a.gara) || {};
+    if (a.azione === "documenti") return `<a class="btn small" href="#/io/documenti">${(S.documenti || {}).tessera || (S.documenti || {}).certificato ? "Aggiorna" : "Carica"} tessera e certificato</a>`;
+    if (a.azione === "tempo") return `<a class="btn small" href="${urlGara(g.id)}?modifica=1">Imposta il tempo obiettivo</a>`;
+    if (a.azione === "aggiungi-scarpe") return `<a class="btn small" href="#/io/scarpe">Aggiungi le tue scarpe</a>`;
+    if (a.azione === "scegli-scarpa") return `<div class="field"><label class="sr" for="sg-${esc(k)}">Scarpe della gara</label><select class="input" id="sg-${esc(k)}" data-act-change="scarpa-gara" data-gara="${esc(g.id)}"><option value="">Scegli le scarpe…</option>${(S.scarpe || []).filter((x) => !x.ritirata).map((x) => `<option value="${esc(x.id)}" ${g.scarpa === x.id ? "selected" : ""}>${esc(x.nome)} · ${Math.round(Number(x.km) || 0)} km</option>`).join("")}</select></div>`;
+    return "";
+  }
   function voceCheck(v, opts = {}) {
-    const fatto = !!S.spunte[v.chiave];
-    return `<label class="check ${fatto ? "done" : ""}"><input type="checkbox" data-act="spunta" data-k="${esc(v.chiave)}" ${fatto ? "checked" : ""}>
-      <span><span class="t">${esc(v.titolo)}</span>${opts.nodesc ? "" : `<br><span class="d">${esc(v.messaggio)}</span>`}${opts.quando ? `<br><span class="d muted">${esc(opts.quando)}</span>` : ""}</span></label>`;
+    const a = AUTO[v.chiave], auto = !!(a && a.fatta), fatto = fattaVoce(v.chiave), testo = a && a.msg ? a.msg : v.messaggio;
+    return `<div class="voce"><label class="check ${fatto ? "done" : ""}"><input type="checkbox" data-act="spunta" data-k="${esc(v.chiave)}" ${fatto ? "checked" : ""} ${auto ? 'disabled aria-describedby="auto-nota"' : ""}>
+      <span><span class="t">${esc(v.titolo)}</span>${opts.nodesc && !(a && a.msg) ? "" : `<br><span class="d">${esc(testo)}</span>`}${auto ? `<br><span class="d auto">✓ fatto da solo</span>` : ""}${opts.quando ? `<br><span class="d muted">${esc(opts.quando)}</span>` : ""}</span></label>${!fatto || (a && a.azione === "scegli-scarpa") ? azioneVoce(v.chiave) : ""}</div>`;
   }
 
   function cardGara(g, attiva) {
@@ -704,8 +724,8 @@
       <a class="between small" href="#/gare" style="border-top:1px solid #FFFFFF26;padding-top:10px;color:inherit;text-decoration:none;font-weight:700"><span>Vedi tutte le tue gare${tutte.length > 1 ? ` · ${tutte.length}` : ""}</span><span aria-hidden="true">›</span></a>
     </section>`;
 
-    const st = L.stato(D.percorso, focus, o, S.spunte, S.rinvii);
-    const stO = focus.id === obiettivo.id ? st : L.stato(D.percorso, obiettivo, o, S.spunte, S.rinvii);
+    const st = statoGara(focus, o);
+    const stO = focus.id === obiettivo.id ? st : statoGara(obiettivo, o);
     const daFare = [...st.oggi, ...(focus.id === obiettivo.id ? [] : stO.oggi)].filter((v) => v.tipo !== "momento" || true);
     const azioni = daFare.filter((v) => v.tipo === "cosa da fare");
     const momenti = daFare.filter((v) => v.tipo === "momento" && !(S.letti || {})[v.chiave]);
@@ -714,7 +734,7 @@
     if (momenti.length) blocco += momenti.map((m) => `<section class="card soft"><div class="between"><span class="eyebrow" style="color:var(--accent-strong)">Momento della preparazione</span><button class="btn ghost small" data-act="letto" data-k="${esc(m.chiave)}" aria-label="Chiudi: ${esc(m.titolo)}">Ok, chiudi</button></div><span class="title">${esc(m.titolo)}</span><span class="small">${esc(m.messaggio)}</span></section>`).join("");
     if (azioni.length) {
       blocco += `<section class="card" aria-label="Da fare oggi"><h2>Da fare oggi</h2>${azioni.map((v) => {
-        const fatto = !!S.spunte[v.chiave];
+        const fatto = fattaVoce(v.chiave);
         return `<div style="display:flex;flex-direction:column;gap:10px">${voceCheck(v)}${fatto ? "" : `<div class="grid2"><button class="btn" data-act="spunta" data-k="${esc(v.chiave)}">Fatto</button><button class="btn ghost" data-act="rinvia" data-k="${esc(v.chiave)}">Domani</button></div>`}</div>`;
       }).join("")}</section>`;
     } else {
@@ -1022,8 +1042,8 @@
     const g = S.gare.find((x) => x.id === id);
     if (!g) return garaMancante();
     const o = oggi(), n = L.diffDays(g.data, o), f = L.fase(D.fasi, g.distanza, g.data, o), info = infoGara(g), ora = oraPartenza(g);
-    const st = L.stato(D.percorso, g, o, S.spunte, S.rinvii);
-    const prossime = [...st.oggi.filter((v) => v.tipo === "cosa da fare"), ...st.settimana].filter((v, i, a) => !S.spunte[v.chiave] && a.findIndex((x) => x.chiave === v.chiave) === i).slice(0, 3);
+    const st = statoGara(g, o);
+    const prossime = [...st.oggi.filter((v) => v.tipo === "cosa da fare"), ...st.settimana].filter((v, i, a) => !fattaVoce(v.chiave) && a.findIndex((x) => x.chiave === v.chiave) === i).slice(0, 3);
     const momento = st.momenti[0];
     const ck = L.checklist(D.percorso, g, S.personali), tot = ck.borsa.length; // la mattina della gara è una lista da leggere, non si spunta
     const fatte = ck.borsa.filter((v) => S.spunte[v.chiave]).length;
@@ -1071,7 +1091,7 @@
     const g = S.gare.find((x) => x.id === id);
     if (!g) return garaMancante();
     const f = L.fase(D.fasi, g.distanza, g.data, o);
-    const st = L.stato(D.percorso, g, o, S.spunte, S.rinvii);
+    const st = statoGara(g, o);
     const rec = st.daRecuperare.length ? `<section class="card soft" aria-label="Da recuperare"><div class="between"><span class="title" style="color:var(--accent-strong)">Ti sei iscritto a preparazione iniziata</span><span class="small"><b>${st.daRecuperare.length}</b></span></div>${st.daRecuperare.map((v) => voceCheck(v)).join("")}</section>` : "";
     const sett = st.settimana.length ? `<section class="card" aria-label="Prossimi giorni"><h2>Nei prossimi 7 giorni</h2>${st.settimana.map((v) => voceCheck(v, { quando: L.fmtGiorno(v.data) })).join("")}</section>` : "";
     const mom = st.momenti.length ? `<section class="card list" aria-label="Prossimi momenti" style="padding-top:12px;padding-bottom:6px"><h2>Prossimi momenti</h2>${st.momenti.map((v) => `<div class="line"><span class="when">${esc(L.fmtBreve(v.data))}</span><span>${esc(v.titolo)}</span></div>`).join("")}</section>` : "";
@@ -1746,12 +1766,18 @@
         if (!S.strava.archiviato) { S.scarpeArchivio = [...(S.scarpeArchivio || []), ...S.scarpe.filter((x) => !x.strava)]; S.scarpe = S.scarpe.filter((x) => x.strava); S.strava.archiviato = true; }
         const prima = Object.fromEntries(S.scarpe.filter((x) => x.strava).map((x) => [x.stravaId, x]));
         S.scarpe = attive.map((x) => ({ tipo: "allenamento", limite: 800, ...(prima[x.id] || {}), id: "st-" + x.id, stravaId: x.id, nome: x.nome, km: x.km, strava: true }));
+        S.scarpe.forEach(annotaKm);
       }
       S.strava.letto = Date.now(); salva();
       if (/^#\/io/.test(location.hash)) rerender();
     } catch (e) { /* riprova alla prossima apertura */ }
   }
   // Scollegato (o account cancellato): scarpe e personali importati restano e diventano manuali.
+  // Una foto dei km di oggi per scarpa (una al giorno, ultimi 60 giorni): serve a stimare quanti km fa a settimana.
+  function annotaKm(sc) {
+    const o = L.todayISO(), st = (sc.storia || []).filter((x) => x.d !== o && L.diffDays(o, x.d) <= 60);
+    sc.storia = [...st, { d: o, km: Math.round(Number(sc.km) || 0) }];
+  }
   function scollegaLocale() {
     S.scarpe.forEach((x, i) => { if (x.strava) { x.strava = false; delete x.stravaId; x.id = "S" + Date.now().toString(36) + i; } });
     for (const d of DISTANZE) if (S.pb && S.pb[d] && S.pb[d].fonte === "strava") delete S.pb[d].fonte;
@@ -2019,7 +2045,7 @@
       case "statistiche": html = vistaStatistiche(); break;
       case "risultato": html = vistaRisultato(parts[1], param); break;
       case "io": if (param.strava) { ritornoStrava(param.strava); history.replaceState(null, "", "#/io"); }
-        if (parts[1] === "documenti") S.ioAperto = { ...(S.ioAperto || {}), documenti: true }; html = vistaIo(); break;
+        if (parts[1] === "documenti" || parts[1] === "scarpe") S.ioAperto = { ...(S.ioAperto || {}), [parts[1]]: true }; html = vistaIo(); break;
       case "gara": html = parts[2] === "novita" ? vistaNovitaGara(parts[1], param) : parts[2] === "preparazione" ? vistaPreparazione(parts[1]) : parts[2] === "info" ? vistaInfoGara(parts[1], param) : parts[2] === "borsa" ? vistaBorsa(parts[1]) : vistaGaraHome(parts[1], param); break;
       case "prepara": html = vistaPrepara(parts[1]); break;
       case "meteo": html = vistaMeteo(); break;
@@ -2037,7 +2063,7 @@
     document.body.classList.toggle("funnel-on", tab === "prepara");
     if (tab === "oggi" || !tab) riempiMeteo();
     riempiMeteoGaraBox();
-    if (tab === "io") { mostraFotoDoc(); if (parts[1] === "documenti") { const el = document.querySelector('[data-acc="documenti"]'); if (el) setTimeout(() => el.scrollIntoView({ block: "start" }), 50); } }
+    if (tab === "io") { mostraFotoDoc(); if (parts[1] === "documenti" || parts[1] === "scarpe") { const el = document.querySelector(`[data-acc="${parts[1]}"]`); if (el) setTimeout(() => el.scrollIntoView({ block: "start" }), 50); } }
     if (tab === "meteo") riempiMeteoDettaglio();
     if (tab === "gare" && param.focus) { const c = document.getElementById("cerca"); if (c) { c.focus(); c.setSelectionRange(c.value.length, c.value.length); } }
   }
@@ -2268,6 +2294,9 @@
     if (e.target.dataset && (e.target.dataset.actChange === "scarpa-uso" || e.target.dataset.actChange === "scarpa-limite")) {
       const sc = S.scarpe.find((x) => x.id === e.target.dataset.id);
       if (sc) { if (e.target.dataset.actChange === "scarpa-uso") sc.tipo = e.target.value; else sc.limite = Math.max(300, Number(e.target.value) || 800); salva(); rerender(); }
+    } else if (e.target.dataset && e.target.dataset.actChange === "scarpa-gara") {
+      const g = S.gare.find((x) => x.id === e.target.dataset.gara);
+      if (g) { if (e.target.value) g.scarpa = e.target.value; else delete g.scarpa; salva(); toast(e.target.value ? "Scarpe della gara scelte" : "Scelta tolta"); rerender(); }
     } else if (e.target.dataset && e.target.dataset.actChange === "tempi-persona") {
       if (!TEMPI || !TEMPI.persone) return;
       const id = e.target.dataset.id, sc = new Set(TEMPI.scelti || []);
@@ -2477,7 +2506,7 @@
     } else if (f.id === "profilo") {
       document.activeElement && document.activeElement.blur();
     } else if (f.id === "scarpa") {
-      S.scarpe.push({ id: "S" + Date.now().toString(36), nome: v("s-nome").trim(), tipo: v("s-tipo"), km: Number(v("s-km")) || 0, limite: Math.max(300, Number(v("s-lim")) || 800) }); salva(); toast("Scarpa aggiunta"); rerender();
+      S.scarpe.push({ id: "S" + Date.now().toString(36), nome: v("s-nome").trim(), tipo: v("s-tipo"), km: Number(v("s-km")) || 0, limite: Math.max(300, Number(v("s-lim")) || 800) }); annotaKm(S.scarpe[S.scarpe.length - 1]); salva(); toast("Scarpa aggiunta"); rerender();
     } else if (f.id === "acc-email") {
       const btn = f.querySelector("button[type=submit]"), email = v("acc-mail").trim().toLowerCase(); btn.disabled = true;
       chiamaAuth("otp", { email, create_user: true }).then(() => { ACC.email = email; ACC.inviato = true; rerender(); setTimeout(() => { const c = document.getElementById("acc-cod"); if (c) c.focus(); }, 50); })
@@ -2498,7 +2527,7 @@
       salva(); toast("Personale salvato"); rerender();
     } else if (f.dataset.form === "km") {
       const s = S.scarpe.find((x) => x.id === f.dataset.id); const km = Number(f.querySelector("input").value);
-      if (s && km > 0) { s.km = Math.round((Number(s.km) + km) * 10) / 10; salva(); toast(`+${km} km`); rerender(); }
+      if (s && km > 0) { annotaKm(s); s.km = Math.round((Number(s.km) + km) * 10) / 10; annotaKm(s); salva(); toast(`+${km} km`); rerender(); }
     } else if (f.id === "prova") {
       S.prova = v("d-prova"); salva(); toast(S.prova ? "Modalità prova attiva" : "Torniamo a oggi"); location.hash = "#/oggi";
     }

@@ -364,4 +364,48 @@ assert.deepStrictEqual(L.nelMirino([{ id: "b", data: "2027-04-25" }, { id: "a", 
 assert.strictEqual(L.statoScarpa({ km: 150, limite: 100 }).limite, 300);
 assert.strictEqual(L.statoScarpa({ km: 150, limite: 300 }).quota, 0.5);
 assert.strictEqual(L.statoScarpa({ km: 150 }).limite, 800);
+// preparazione su misura (L.adatta)
+{
+  const roma21 = { id: "R", nome: "Roma Half", data: "2027-03-01", luogo: "ROMA", distanza: "21", ruolo: "obiettivo", aggiunta: "2026-12-01" };
+  const voci = (a) => a.percorso.map((v) => v.id);
+  const base = { oggi: "2026-12-10", citta: "Roma", gare: [roma21] };
+  // via le voci tolte
+  assert.ok(!percorso.some((v) => ["P007", "P021", "P023", "P054", "P055", "P056"].includes(v.id)));
+  // gara in casa: niente viaggio né logistica; fuori città sì; senza città nel profilo restano
+  let a = L.adatta(percorso, roma21, base);
+  assert.ok(a.casa && !voci(a).includes("P006") && !voci(a).includes("P022"));
+  assert.ok(voci(L.adatta(percorso, { ...roma21, luogo: "FIRENZE" }, base)).includes("P006"));
+  assert.ok(voci(L.adatta(percorso, roma21, { ...base, citta: "" })).includes("P022"));
+  // prima gara in assoluto: bere in corsa e vestizione; prima dell'anno: completo
+  assert.ok(a.primaGara && voci(a).includes("P012") && voci(a).includes("P030") && voci(a).includes("P017"));
+  const esperto = L.adatta(percorso, roma21, { ...base, pb: { "10": { tempo: "0:45:00", data: "2026-05-01" } } });
+  assert.ok(!voci(esperto).includes("P012") && !voci(esperto).includes("P030") && voci(esperto).includes("P017"));
+  const secondaAnno = L.adatta(percorso, roma21, { ...base, gare: [roma21, { id: "X", data: "2027-01-15", luogo: "ROMA", distanza: "10" }] });
+  assert.ok(!voci(secondaAnno).includes("P017") && !voci(secondaAnno).includes("P012"));
+  // documenti: niente → carica; uno scaduto prima della gara → messaggio; validi → fatta
+  assert.strictEqual(a.info["R:P002"].azione, "documenti");
+  assert.ok(!a.fatte["R:P002"]);
+  const doc = (t, c) => L.adatta(percorso, roma21, { ...base, documenti: { tessera: t && { scadenza: t }, certificato: c && { scadenza: c } } });
+  assert.match(doc("2027-12-31", "2027-02-01").info["R:P002"].msg, /certificato scade il 1 feb, prima della gara/);
+  assert.match(doc("2027-12-31", null).info["R:P002"].msg, /^Manca il certificato/);
+  assert.ok(doc("2027-12-31", "2027-06-01").fatte["R:P002"]);
+  // tempo obiettivo
+  assert.strictEqual(a.info["R:P003"].azione, "tempo");
+  assert.ok(L.adatta(percorso, { ...roma21, tempo: "1:45:00" }, base).fatte["R:P003"]);
+  // scarpe: nessuna → aggiungi; ci sono → scegli; scelta → fatta, e dice se arriva al via
+  assert.strictEqual(a.info["R:P004"].azione, "aggiungi-scarpe");
+  const scarpe = [{ id: "s1", nome: "Pegasus", km: 600, limite: 700 }, { id: "s2", nome: "Vaporfly", km: 50, limite: 400, storia: [{ d: "2026-11-20", km: 30 }, { d: "2026-12-10", km: 50 }] }];
+  assert.strictEqual(L.adatta(percorso, roma21, { ...base, scarpe }).info["R:P004"].azione, "scegli-scarpa");
+  const conV = L.adatta(percorso, { ...roma21, scarpa: "s2" }, { ...base, scarpe });
+  assert.ok(conV.fatte["R:P004"] && conV.fatte["R:P013"], conV.info["R:P013"]);
+  assert.match(conV.info["R:P013"].msg, /Vaporfly arrivano al via con circa 131 km su 400\.$/); // 1 km/giorno per 81 giorni, dalla storia
+  const conP = L.adatta(percorso, { ...roma21, scarpa: "s1" }, { ...base, scarpe });
+  assert.ok(!conP.fatte["R:P013"] && /oltre i 700.*stima/.test(conP.info["R:P013"].msg), conP.info["R:P013"].msg);
+  // scarpa da gara senza storia: stima con un uso da gara (12 km a settimana per la mezza), non da allenamento
+  const gara3 = L.scarpaAlVia({ km: 50, limite: 400, tipo: "gara" }, roma21, "2026-12-10");
+  assert.deepStrictEqual([gara3.km, gara3.stimata, gara3.ok], [189, true, true]);
+}
+assert.strictEqual(L.kmAlGiorno([{ d: "2026-12-05", km: 10 }, { d: "2026-12-10", km: 20 }], "2026-12-10"), null); // meno di 7 giorni
+assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10", km: 38 }], "2026-12-10"), 2);
+
 console.log("ok");

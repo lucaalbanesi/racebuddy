@@ -423,3 +423,11 @@ a.chip { display: inline-flex; align-items: center; text-decoration: none; color
 @keyframes an-salta { 0% { transform: scale(.4) rotate(-12deg); opacity: 0; } 70% { transform: scale(1.1) rotate(4deg); opacity: 1; } 100% { transform: none; } }
 .mia-gara.mirino { border-left-color: #d4a017; }
 .citta-attesa { border-style: dashed; background: transparent; }
+/* Voci della preparazione: azione su misura sotto la voce (carica documenti, imposta tempo, scegli le scarpe) */
+.voce { display: flex; flex-direction: column; border-bottom: 1px solid var(--line2); }
+.voce:last-child { border-bottom: 0; }
+.voce > .check { border-bottom: 0; }
+.voce > .btn.small, .voce > .field { align-self: flex-start; margin: 0 0 12px 34px; }
+.voce > .field { width: calc(100% - 34px); }
+.check .d.auto { color: var(--ok); font-weight: 700; }
+.check input:disabled { opacity: 1; }

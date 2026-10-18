@@ -34,7 +34,8 @@
     "divertimento": false,
     "recuperabile": true,
     "modulo": "Scheda gara",
-    "notifica": true
+    "notifica": true,
+    "regola": "documenti"
   },
   {
     "id": "P003",
@@ -52,15 +53,16 @@
     "tappa": false,
     "divertimento": false,
     "recuperabile": true,
-    "modulo": "Previsione tempi"
+    "modulo": "Previsione tempi",
+    "regola": "tempo"
   },
   {
     "id": "P004",
     "fase": "si_parte",
     "tipo": "cosa da fare",
     "categoria": "attrezzatura",
-    "titolo": "Controlla le scarpe",
-    "messaggio": "Quanti km hanno le scarpe che userai? Se una è a fine vita, meglio cambiarla ora che a metà preparazione.",
+    "titolo": "Le scarpe della gara",
+    "messaggio": "Scegli con quali scarpe correrai la gara.",
     "giorni": {
       "10": -53,
       "21": -67,
@@ -70,7 +72,8 @@
     "tappa": false,
     "divertimento": false,
     "recuperabile": true,
-    "modulo": "Scarpe"
+    "modulo": "Scarpe",
+    "regola": "scarpa"
   },
   {
     "id": "P005",
@@ -107,25 +110,8 @@
     "divertimento": false,
     "recuperabile": true,
     "modulo": "Scheda gara",
-    "notifica": true
-  },
-  {
-    "id": "P007",
-    "fase": "si_parte",
-    "tipo": "cosa da fare",
-    "categoria": "logistica",
-    "titolo": "Segna le date chiave",
-    "messaggio": "Annota in agenda ritiro pettorale, partenza e scadenze: le trovi nella scheda gara.",
-    "giorni": {
-      "10": -45,
-      "21": -60,
-      "42": -75
-    },
-    "riferimento": "gara",
-    "tappa": true,
-    "divertimento": false,
-    "recuperabile": true,
-    "modulo": "Scheda gara"
+    "notifica": true,
+    "regola": "fuori_citta"
   },
   {
     "id": "P008",
@@ -216,15 +202,16 @@
     "tappa": false,
     "divertimento": false,
     "recuperabile": true,
-    "modulo": "Rifornimento"
+    "modulo": "Rifornimento",
+    "regola": "prima_gara"
   },
   {
     "id": "P013",
     "fase": "costruzione",
     "tipo": "cosa da fare",
     "categoria": "attrezzatura",
-    "titolo": "Valuta la scarpa da gara",
-    "messaggio": "Se pensi a una scarpa nuova per la gara, questo è il momento di prenderla: serve tempo per rodarla.",
+    "titolo": "La scarpa arriva alla gara?",
+    "messaggio": "Controlla che la scarpa da gara arrivi al via senza superare i suoi km.",
     "giorni": {
       "10": -35,
       "21": -42,
@@ -234,7 +221,8 @@
     "tappa": false,
     "divertimento": false,
     "recuperabile": true,
-    "modulo": "Scarpe"
+    "modulo": "Scarpe",
+    "regola": "scarpa_dura"
   },
   {
     "id": "P014",
@@ -306,7 +294,8 @@
     "tappa": false,
     "divertimento": false,
     "recuperabile": true,
-    "modulo": "Meteo e vestizione"
+    "modulo": "Meteo e vestizione",
+    "regola": "prima_anno"
   },
   {
     "id": "P018",
@@ -365,24 +354,6 @@
     "notifica": true
   },
   {
-    "id": "P021",
-    "fase": "picco",
-    "tipo": "cosa da fare",
-    "categoria": "attrezzatura",
-    "titolo": "Rodaggio scarpa da gara",
-    "messaggio": "Usa la scarpa da gara in qualche uscita: deve arrivare al via rodata, non nuova.",
-    "giorni": {
-      "10": -14,
-      "21": -18,
-      "42": -24
-    },
-    "riferimento": "gara",
-    "tappa": false,
-    "divertimento": false,
-    "recuperabile": true,
-    "modulo": "Scarpe"
-  },
-  {
     "id": "P022",
     "fase": "picco",
     "tipo": "cosa da fare",
@@ -399,25 +370,8 @@
     "divertimento": false,
     "recuperabile": true,
     "modulo": "Scheda gara",
-    "notifica": true
-  },
-  {
-    "id": "P023",
-    "fase": "picco",
-    "tipo": "cosa da fare",
-    "categoria": "logistica",
-    "titolo": "Ritiro pettorale: orari e regole",
-    "messaggio": "Controlla luogo e orari del ritiro pettorale, e se serve un documento o una delega per ritirarlo al posto di qualcuno.",
-    "giorni": {
-      "10": -9,
-      "21": -12,
-      "42": -16
-    },
-    "riferimento": "gara",
-    "tappa": true,
-    "divertimento": false,
-    "recuperabile": true,
-    "modulo": "Scheda gara"
+    "notifica": true,
+    "regola": "fuori_citta"
   },
   {
     "id": "P024",
@@ -545,7 +499,8 @@
     "tappa": true,
     "divertimento": true,
     "recuperabile": false,
-    "modulo": "Meteo e vestizione"
+    "modulo": "Meteo e vestizione",
+    "regola": "prima_gara"
   },
   {
     "id": "P031",
@@ -944,59 +899,5 @@
     "divertimento": false,
     "recuperabile": false,
     "modulo": "Corpo"
-  },
-  {
-    "id": "P054",
-    "fase": "dopo",
-    "tipo": "cosa da fare",
-    "categoria": "attrezzatura",
-    "titolo": "Aggiorna i km delle scarpe",
-    "messaggio": "Aggiorna i km della scarpa da gara: le scarpe da gara si consumano in fretta.",
-    "giorni": {
-      "10": 2,
-      "21": 2,
-      "42": 2
-    },
-    "riferimento": "gara",
-    "tappa": true,
-    "divertimento": false,
-    "recuperabile": false,
-    "modulo": "Scarpe"
-  },
-  {
-    "id": "P055",
-    "fase": "dopo",
-    "tipo": "cosa da fare",
-    "categoria": "bilancio",
-    "titolo": "Bilancio della gara",
-    "messaggio": "Cosa ha funzionato e cosa no? Rifornimento, scarpe, vestizione: annotalo per la prossima volta.",
-    "giorni": {
-      "10": 3,
-      "21": 3,
-      "42": 4
-    },
-    "riferimento": "gara",
-    "tappa": true,
-    "divertimento": false,
-    "recuperabile": false,
-    "modulo": "Percorso"
-  },
-  {
-    "id": "P056",
-    "fase": "dopo",
-    "tipo": "cosa da fare",
-    "categoria": "prossima gara",
-    "titolo": "Scegli la prossima gara",
-    "messaggio": "Ecco le prossime gare in zona adatte a te. Quando sei pronto, si riparte.",
-    "giorni": {
-      "10": 7,
-      "21": 10,
-      "42": 14
-    },
-    "riferimento": "gara",
-    "tappa": false,
-    "divertimento": true,
-    "recuperabile": false,
-    "modulo": "Calendario"
   }
 ]

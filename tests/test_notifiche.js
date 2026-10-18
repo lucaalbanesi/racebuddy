@@ -42,7 +42,7 @@ assert.ok(r.invio && /ghiaccio/i.test(r.invio.body), r.invio);
 r = N.pianifica(base({ oggi: "2026-10-24", stato: r.stato, meteoUscita: { temp: -1, vento: 5, pioggia: 0, codice: 0 } }));
 assert.strictEqual(r.invio, null);
 
-// tappa chiave del percorso: "Ritiro pettorale: orari e regole" (P023, -16) non è tra quelle notificate; "Ricontrolla la logistica" (P022, -20) sì
+// tappa chiave del percorso: "Ricontrolla la logistica" (P022, -20) è tra quelle notificate
 r = N.pianifica(base({ oggi: "2026-11-09" }));
 assert.ok(r.invio && r.invio.title === "Ricontrolla la logistica", r.invio);
 // già spuntata: niente
