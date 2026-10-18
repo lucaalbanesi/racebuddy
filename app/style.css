@@ -422,3 +422,4 @@ a.chip { display: inline-flex; align-items: center; text-decoration: none; color
 @keyframes an-traccia { to { stroke-dashoffset: 0; } }
 @keyframes an-salta { 0% { transform: scale(.4) rotate(-12deg); opacity: 0; } 70% { transform: scale(1.1) rotate(4deg); opacity: 1; } 100% { transform: none; } }
 .mia-gara.mirino { border-left-color: #d4a017; }
+.citta-attesa { border-style: dashed; background: transparent; }

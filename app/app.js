@@ -838,13 +838,22 @@
   const pillCircuiti = (cs) => (cs || []).map((c) => `<span class="pill ${c === "major" || c === "superhalfs" ? "navy-pill" : "grigio"}">${esc((D.circuiti[c] || {}).breve || c)}</span>`).join("");
   const pillIscrizione = (g) => g.iscrizione === "ballottaggio" ? `<span class="pill ballottaggio">🎟️ Ballottaggio</span>` : g.iscrizione === "qualificazione" ? `<span class="pill ballottaggio">⏱️ Tempo di qualificazione</span>` : "";
   function vistaEstero(param, o) {
-    const c = param.c || "", dist = param.d || "";
+    // La distanza si filtra solo dove ha senso: Major e Classics sono maratone, le SuperHalfs mezze.
+    const c = param.c || "", conDistanza = !c || c === "grandi", dist = conDistanza ? param.d || "" : "";
     const ris = L.cercaEstero(D.estero, c, dist, o), giaMie = new Set(S.gare.map((g) => g.id));
-    const chip = (k, v, l, att) => `<a class="chip" href="#/gare?v=estero&c=${k === "c" ? v : c}&d=${k === "d" ? v : dist}" aria-pressed="${att === v}">${l}</a>`;
+    const chip = (k, v, l, att) => { const cc = k === "c" ? v : c, dd = k === "d" ? v : !cc || cc === "grandi" ? dist : ""; return `<a class="chip" href="#/gare?v=estero&c=${cc}&d=${dd}" aria-pressed="${att === v}">${l}</a>`; };
+    // Con un circuito scelto si vedono tutte le sue città: quelle senza un'edizione in elenco restano, con il motivo.
+    const info = D.circuiti[c] || {}, mancanti = (info.citta || []).filter((x) => !ris.some((g) => g.luogo.toLowerCase() === x.toLowerCase()));
+    const italiana = (citta) => { const nomi = ((D.esteroDoc.italiane || {})[c]) || []; return (D.gare || []).filter((g) => g.data >= o && L.circuitiDi(g, D.esteroDoc).includes(c) && nomeLuogo(g.luogo).toLowerCase() === citta.toLowerCase() && nomi.length).sort((a, b) => a.data.localeCompare(b.data))[0]; };
+    const extra = mancanti.map((citta) => {
+      const it = italiana(citta);
+      if (it) return [it.data, `<article class="card">${cardGara(it, `<span class="row" style="gap:6px;flex-wrap:wrap">${pillCircuiti([c])}<span class="pill grigio">nel calendario italiano</span></span>${giaMie.has(it.id) ? `<a class="pill ok" style="align-self:flex-start" href="${urlGara(it.id)}">già tra le tue gare ›</a>` : `<a class="btn small" style="align-self:flex-start" href="#/aggiungi/${encodeURIComponent(it.id)}">Scegli ${esc(L.DIST_LABEL[it.distanza])}</a>`}`)}</article>`];
+      return ["9999", `<article class="card citta-attesa"><div class="between"><span class="title">${esc(citta)}</span>${pillCircuiti([c])}</div><span class="small muted">La data della prossima edizione non è ancora ufficiale: appena esce la trovi qui.</span></article>`];
+    });
     return `<div class="chips chips-scorri" role="group" aria-label="Circuito">${chip("c", "", "Tutte", c)}${Object.entries(D.circuiti).map(([k, x]) => chip("c", k, esc(x.breve || x.nome), c)).join("")}</div>
-      <div class="chips" role="group" aria-label="Distanza">${chip("d", "", "Mezza e maratona", dist)}${chip("d", "21", "Mezza", dist)}${chip("d", "42", "Maratona", dist)}</div>
-      ${c && D.circuiti[c] ? `<p class="sub">${esc(D.circuiti[c].nome)}${D.circuiti[c].sito ? ` · <a href="${esc(D.circuiti[c].sito)}" rel="noopener">sito del circuito ↗</a>` : ""}</p>` : ""}
-      ${ris.length ? `<div style="display:flex;flex-direction:column;gap:8px">${ris.map((g) => `<article class="card">${cardGara(g, `<span class="row" style="gap:6px;flex-wrap:wrap">${pillCircuiti(g.circuiti)}${pillIscrizione(g)}</span>${giaMie.has(g.id) ? `<a class="pill ok" style="align-self:flex-start" href="${urlGara(g.id)}">già tra le tue gare ›</a>` : `<span class="row" style="gap:8px">${inMirino(g.id) ? `<span class="pill navy-pill">⭐ nel mirino</span>` : ""}<a class="btn small" href="#/estera/${encodeURIComponent(g.id)}">Scopri</a></span>`}`)}</article>`).join("")}</div>` : `<p class="sub">Nessuna gara con questi filtri.</p>`}
+      ${conDistanza ? `<div class="chips" role="group" aria-label="Distanza">${chip("d", "", "Mezza e maratona", dist)}${chip("d", "21", "Mezza", dist)}${chip("d", "42", "Maratona", dist)}</div>` : ""}
+      ${c && info.nome ? `<p class="sub">${esc(info.nome)}${info.citta ? ` · ${info.citta.length} ${c === "superhalfs" ? "mezze" : "maratone"}` : ""}${info.sito ? ` · <a href="${esc(info.sito)}" rel="noopener">sito del circuito ↗</a>` : ""}</p>` : ""}
+      ${ris.length || extra.length ? `<div style="display:flex;flex-direction:column;gap:8px">${[...ris.map((g) => [g.data, `<article class="card">${cardGara(g, `<span class="row" style="gap:6px;flex-wrap:wrap">${pillCircuiti(g.circuiti)}${pillIscrizione(g)}</span>${giaMie.has(g.id) ? `<a class="pill ok" style="align-self:flex-start" href="${urlGara(g.id)}">già tra le tue gare ›</a>` : `<span class="row" style="gap:8px">${inMirino(g.id) ? `<span class="pill navy-pill">⭐ nel mirino</span>` : ""}<a class="btn small" href="#/estera/${encodeURIComponent(g.id)}">Scopri</a></span>`}`)}</article>`]), ...extra].sort((a, b) => a[0].localeCompare(b[0])).map((x) => x[1]).join("")}</div>` : `<p class="sub">Nessuna gara con questi filtri.</p>`}
       <p class="sub">Le Abbott World Marathon Majors, le SuperHalfs, gli European Marathon Classics e le grandi gare europee. Date e iscrizioni dai siti ufficiali${D.esteroDoc.aggiornato ? `, ricontrollate il ${esc(L.fmtGiorno(D.esteroDoc.aggiornato))}` : ""}: fai sempre fede al sito della gara.</p>`;
   }
 
