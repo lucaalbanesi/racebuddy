@@ -11,17 +11,25 @@ jobs:
           set +e
           exec > >(tee esito.txt) 2>&1
           UA="Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 Chrome/126 Mobile Safari/537.36"
-          curl -sL -A "$UA" "https://www.fidal.it/lista_atleti.php?h=1" -o lista.html
-          echo "== link non atleta in lista"; grep -oiE 'href="[^"]*lista_atleti[^"]*"' lista.html | sort -u | head -20
-          grep -oiE '(name|id)="[^"]*(cogn|nome|lettera|search|cerca)[^"]*"' lista.html | sort -u
-          grep -oiE '\$\.(get|post|ajax)\([^)]{0,200}' lista.html | head
-          echo "== result.php"; curl -sL -A "$UA" "https://www.fidal.it/result.php?id_sito=1&cerca=crippa" -o r.html
+          curl -sL -A "$UA" "https://www.fidal.it/result.php?id_sito=1&cerca=alberto+crippa" -o r.html
           python3 -c "
-          import re,html
+          import re
           t=open('r.html',encoding='utf-8',errors='ignore').read()
-          print(sorted(set(re.findall(r'href=\"([^\"]*(?:atlet|lista)[^\"]*)\"',t)))[:15])
-          t=re.sub(r'(?s)<(script|style).*?</\\1>','',t);t=re.sub(r'<[^>]+>',' ',t);t=html.unescape(re.sub(r'\s+',' ',t))
-          i=t.lower().find('crippa'); print(t[max(0,i-300):i+600])"
+          rows=re.findall(r'(?s)<tr.*?</tr>',t)
+          for r in rows[:12]:
+            l=re.findall(r'href=\"(https://www.fidal.it/atleta/[^\"]+)\"',r); c=[re.sub(r'<[^>]+>|\s+',' ',x).strip() for x in re.findall(r'(?s)<td.*?</td>',r)]
+            print(c, l[:1])" | tee righe.txt
+          for A in $(grep -oE "https://www.fidal.it/atleta/[^']+" righe.txt | head -3); do
+            echo "=== $A"; curl -sL -A "$UA" "$A" -o at.html
+            python3 -c "
+          import re,html
+          t=open('at.html',encoding='utf-8',errors='ignore').read()
+          print('tabelle',t.count('<table'))
+          for h in re.findall(r'(?s)<h[2-4][^>]*>(.*?)</h[2-4]>',t)[:20]: print('H:',re.sub(r'<[^>]+>|\s+',' ',h).strip())
+          t=re.sub(r'(?s)<(script|style).*?</\\1>','',t);t=re.sub(r'<[^>]+>',' | ',t);t=html.unescape(re.sub(r'\s+',' ',t));t=re.sub(r'( \| )+',' | ',t)
+          i=t.find('Primati'); print(t[i:i+900] if i>=0 else t[-1500:])
+          for k in ['Maratona','Mezza','10 Km','Km 10','Strada']: print(k,t.count(k))"
+          done
       - name: Esito come annotazioni
         if: always()
         run: |
