@@ -1,17 +1,6 @@
 {
- "aggiornato": "2026-10-16",
+ "aggiornato": "2026-10-18",
  "gare": [
-  {
-   "id": "Ha7c4f82f69-10",
-   "nome": "V^ 10k I Tre Borghi",
-   "data": "2026-10-17",
-   "luogo": "LEVANTO",
-   "distanza": "10",
-   "fonte": "FIDAL",
-   "prima_aggiunta": "2026-10-14",
-   "aggiunte": 2,
-   "ultima_aggiunta": "2026-10-14"
-  },
   {
    "id": "Hd9df59d4b1-21",
    "nome": "III^ Rome Half Marathon",
