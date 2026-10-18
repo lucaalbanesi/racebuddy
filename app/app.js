@@ -774,24 +774,20 @@
     const o = oggi();
     const { attive, postgara, archivio } = L.dividiGare(S.gare, o, S.risultati || {}, oraAdesso());
     const mie = [...postgara, ...attive];
+    // Barra in alto: le mie gare, il calendario italiano, l'estero (quando c'è). La ricerca vive nel calendario.
+    const estero = (D.estero || []).length > 0;
+    const vista = ["mie", "italia", "estero"].includes(param.v) && (param.v !== "estero" || estero) ? param.v : param.q || param.d || !(mie.length || archivio.length) ? "italia" : "mie";
+    const seg = (k, l) => `<a href="#/gare?v=${k}" ${vista === k ? 'aria-current="page"' : ""}>${l}</a>`;
+    const testa = `${bannerProva()}<header class="head"><h1>Gare</h1></header>
+      <nav class="seg" aria-label="Gare">${seg("mie", `Le mie${mie.length ? " · " + mie.length : ""}`)}${seg("italia", "Italia")}${estero ? seg("estero", "Estero") : ""}</nav>`;
+    if (vista === "mie") return testa + vistaMieGare(o, mie, archivio);
+    if (vista === "estero") return testa + vistaEstero(param, o);
     const q = param.q || "", dist = param.d || "";
-    const ris = L.cercaGare(D.gare, q, dist, o);
     const chip = (v, l) => `<button class="chip" data-act="filtro" data-d="${v}" aria-pressed="${dist === v}">${l}</button>`;
-    return `${bannerProva()}<header class="head"><h1>Gare</h1></header>
-      ${mie.length ? `<section aria-label="Le mie gare" style="display:flex;flex-direction:column;gap:8px"><h2>Le mie gare</h2>${mie.map((g) => {
-        const n = L.diffDays(g.data, o), f = L.fase(D.fasi, g.distanza, g.data, o), r = (S.risultati || {})[g.id];
-        const pill = !corsa(g, o) ? `<span class="pill">${n > 1 ? `tra ${n} giorni` : n === 1 ? "domani" : "oggi!"}</span>` : `<span class="pill ok">${r ? esc(r.tempo) + (r.pb ? " · personale" : "") : g.esito ? esc(ESITO[g.esito]) : "com'è andata?"}</span>`;
-        return `<a class="card mia-gara ${corsa(g, o) ? "corsa" : ""}" href="${urlGara(g.id)}">${cardGara(g, `<span class="row" style="gap:6px;flex-wrap:wrap">${pill}<span class="small muted">${corsa(g, o) ? "Appena corsa · in archivio " + quandoArchivio(g, o) : esc(L.RUOLO_LABEL[g.ruolo]) + (!["prima", "conclusa"].includes(f.id) ? " · " + esc(f.nome) : "")}</span></span>`)}<span class="chev" aria-hidden="true">›</span></a>`;
-      }).join("")}</section>` : ""}
-      ${archivio.length ? `<details class="card acc" aria-label="Archivio delle gare"><summary><span>Archivio</span><span class="small muted" style="font-weight:600">${archivio.length} ${archivio.length === 1 ? "gara corsa" : "gare corse"}</span></summary>${archivio.map((g) => {
-        const r = (S.risultati || {})[g.id];
-        const esito = r ? `<span class="pill ok">${esc(r.tempo)}</span>${r.pb ? `<span class="pill navy-pill">personale</span>` : ""}` : g.esito ? `<span class="pill grigio">${esc(ESITO[g.esito])}</span>` : `<span class="pill grigio">tempo non segnato</span>`;
-        return `<a class="arch-riga" href="${urlGara(g.id)}">${cardGara(g, `<span class="row" style="gap:6px;flex-wrap:wrap">${esito}<span class="small muted">${esc(g.data.slice(0, 4))}</span></span>`)}<span class="chev" aria-hidden="true">›</span></a>`;
-      }).join("")}</details>` : ""}
-      ${S.gare.length ? `<h2 style="margin-top:6px">Aggiungi una gara</h2>` : ""}
+    return `${testa}
       <div class="field"><label for="cerca">Cerca una gara o una città</label><input class="input" id="cerca" type="search" value="${esc(q)}" placeholder="es. Firenze" autocomplete="off"></div>
       <div class="chips" role="group" aria-label="Distanza">${chip("", "Tutte")}${chip("10", "10 km")}${chip("21", "Mezza")}${chip("42", "Maratona")}</div>
-      <div id="risultati">${risultati(ris)}</div>
+      <div id="risultati">${risultati(L.cercaGare(D.gare, q, dist, o))}</div>
       <details class="card"><summary>Non la trovi? Aggiungila a mano</summary>
         <form id="manuale" style="display:flex;flex-direction:column;gap:10px">
           <div class="field"><label for="m-nome">Nome della gara</label><input class="input" id="m-nome" required></div>
@@ -799,14 +795,35 @@
           <div class="field"><label for="m-dist">Distanza</label><select class="input" id="m-dist"><option value="10">10 km</option><option value="21">Mezza</option><option value="42">Maratona</option></select></div></div>
           <div class="field"><label for="m-luogo">Città</label><input class="input" id="m-luogo"></div>
           <button class="btn" type="submit">Continua</button></form></details>
-      <p class="sub">Calendario FIDAL su strada${D.aggiornato ? `, aggiornato il ${esc(L.fmtGiorno(D.aggiornato.slice(0, 10)))}` : ""}. Maratone e mezze del 2027 dal calendario FIDAL già pubblicato; le altre gare del 2027 compaiono man mano.</p>`;
+      <p class="sub">Calendario FIDAL su strada e, per il Lazio, Gare Podistiche Lazio (anche le non competitive)${D.aggiornato ? `; aggiornato il ${esc(L.fmtGiorno(D.aggiornato.slice(0, 10)))}` : ""}. Maratone e mezze del 2027 dal calendario FIDAL già pubblicato; le altre gare del 2027 compaiono man mano.</p>`;
+  }
+  function vistaMieGare(o, mie, archivio) {
+    if (!mie.length && !archivio.length) return `<section class="card"><span class="title">Nessuna gara</span><span class="small">Scegline una dal calendario: ti preparo la strada fino al via.</span><a class="btn" href="#/gare?v=italia&focus=1">Cerca una gara</a></section>`;
+    return `${mie.length ? `<section aria-label="Le mie gare" style="display:flex;flex-direction:column;gap:8px">${mie.map((g) => {
+        const n = L.diffDays(g.data, o), f = L.fase(D.fasi, g.distanza, g.data, o), r = (S.risultati || {})[g.id];
+        const pill = !corsa(g, o) ? `<span class="pill">${n > 1 ? `tra ${n} giorni` : n === 1 ? "domani" : "oggi!"}</span>` : `<span class="pill ok">${r ? esc(r.tempo) + (r.pb ? " · personale" : "") : g.esito ? esc(ESITO[g.esito]) : "com'è andata?"}</span>`;
+        return `<a class="card mia-gara ${corsa(g, o) ? "corsa" : ""}" href="${urlGara(g.id)}">${cardGara(g, `<span class="row" style="gap:6px;flex-wrap:wrap">${pill}<span class="small muted">${corsa(g, o) ? "Appena corsa · in archivio " + quandoArchivio(g, o) : esc(L.RUOLO_LABEL[g.ruolo]) + (!["prima", "conclusa"].includes(f.id) ? " · " + esc(f.nome) : "")}</span></span>`)}<span class="chev" aria-hidden="true">›</span></a>`;
+      }).join("")}</section>` : `<p class="sub">Nessuna gara in programma.</p>`}
+      <a class="btn ghost block" href="#/gare?v=italia&focus=1">Aggiungi una gara</a>
+      ${archivio.length ? `<details class="card acc" aria-label="Archivio delle gare"><summary><span>Archivio</span><span class="small muted" style="font-weight:600">${archivio.length} ${archivio.length === 1 ? "gara corsa" : "gare corse"}</span></summary>${archivio.map((g) => {
+        const r = (S.risultati || {})[g.id];
+        const esito = r ? `<span class="pill ok">${esc(r.tempo)}</span>${r.pb ? `<span class="pill navy-pill">personale</span>` : ""}` : g.esito ? `<span class="pill grigio">${esc(ESITO[g.esito])}</span>` : `<span class="pill grigio">tempo non segnato</span>`;
+        return `<a class="arch-riga" href="${urlGara(g.id)}">${cardGara(g, `<span class="row" style="gap:6px;flex-wrap:wrap">${esito}<span class="small muted">${esc(g.data.slice(0, 4))}</span></span>`)}<span class="chev" aria-hidden="true">›</span></a>`;
+      }).join("")}</details>` : ""}`;
+  }
+  // Dettagli dal calendario (orario, quota, iscrizioni): oggi li ha Gare Podistiche Lazio.
+  function dettagliCalendario(g) {
+    const isc = g.iscrizioni === "chiuse" ? "iscrizioni chiuse" : /^chiuse/.test(g.iscrizioni || "") ? "iscrizioni chiuse, sul posto" : /^\d{4}-/.test(g.iscrizioni || "") ? (g.iscrizioni < oggi() ? "iscrizioni chiuse" : `iscrizioni entro il ${L.fmtBreve(g.iscrizioni)}`) : "";
+    const parti = [g.ora && `ore ${g.ora}`, g.quota, isc].filter(Boolean);
+    return parti.length ? `<span class="small muted">${esc(parti.join(" · "))}</span>` : "";
   }
   function risultati(ris) {
     if (!ris.length) return `<p class="sub">Nessuna gara trovata. Prova con la città o aggiungila a mano.</p>`;
     const giaMie = new Set(S.gare.map((g) => g.id));
     return `<h2 style="margin-bottom:8px">Risultati · ${ris.length}${ris.length === 40 ? "+" : ""}</h2><div style="display:flex;flex-direction:column;gap:8px">${ris.map((g) =>
-      `<article class="card">${cardGara(g, giaMie.has(g.id) ? `<span class="pill ok">già tra le tue gare</span>` : `<a class="btn small" style="align-self:flex-start" href="#/aggiungi/${encodeURIComponent(g.id)}">Scegli ${esc(L.DIST_LABEL[g.distanza])}</a>`)}</article>`).join("")}</div>`;
+      `<article class="card">${cardGara(g, `${dettagliCalendario(g)}${giaMie.has(g.id) ? `<span class="pill ok">già tra le tue gare</span>` : `<a class="btn small" style="align-self:flex-start" href="#/aggiungi/${encodeURIComponent(g.id)}">Scegli ${esc(L.DIST_LABEL[g.distanza])}</a>`}`)}</article>`).join("")}</div>`;
   }
+  function vistaEstero() { return ""; } // le internazionali arrivano con data/estero.json
 
   function vistaAggiungi(id) {
     const g = D.gare.find((x) => x.id === id) || (S._bozza && S._bozza.id === id ? S._bozza : null);
@@ -843,7 +860,8 @@
     ["sito", "Sito ufficiale", "https://…"],
     ["note", "Altre note", ""],
   ];
-  const infoGara = (g) => Object.assign({}, (D.schede || {})[g.id] || {}, g.info || {});
+  const garaCalendario = (g) => (D.gare || []).find((x) => x.id === g.id) || {};
+  const infoGara = (g) => { const c = garaCalendario(g); return Object.assign({}, c.ora ? { partenza: c.ora } : {}, c.sito ? { sito: c.sito } : {}, (D.schede || {})[g.id] || {}, g.info || {}); };
   const oraPartenza = (g) => { const m = String(infoGara(g).partenza || "").match(/\d{1,2}[:.]\d{2}/); return m ? m[0].replace(".", ":") : null; };
   const urlGara = (id, sez = "") => `#/gara/${encodeURIComponent(id)}${sez ? "/" + sez : ""}`;
   // Link a Google Maps per la partenza: usa il campo "mappa" della scheda (indirizzo o "lat,lon"), altrimenti il testo + città.
@@ -982,7 +1000,8 @@
       ${info.percorsoDescrizione ? `<span class="small">${esc(info.percorsoDescrizione)}</span>` : ""}
       ${linkOk ? `<a class="small" href="${esc(info.percorsoLink)}" target="_blank" rel="noopener">Il percorso sul sito ufficiale ↗</a>` : ""}</section>` : "";
     return `${testa}${azioni ? `<div class="row" style="flex-wrap:wrap">${azioni}</div>` : ""}${logistica}${tracciato}${boxMeteoGara(g, "info")}${prov}
-      <p class="sub">Dati del calendario: ${g.fonte === "manuale" ? "inseriti da te" : "FIDAL"}. Fai sempre fede al regolamento ufficiale della gara.</p>`;
+      ${(() => { const c = garaCalendario(g), d = dettagliCalendario(c); return d && L.diffDays(g.data, oggi()) >= 0 ? `<section class="card soft" aria-label="Iscrizione">${d}${c.scheda_lazio || c.fonte === "Gare Podistiche Lazio" ? `<a class="small" href="${esc(c.scheda_lazio || c.url)}" rel="noopener">La gara su Gare Podistiche Lazio ↗</a>` : ""}</section>` : ""; })()}
+      <p class="sub">Dati del calendario: ${g.id.startsWith("M") ? "inseriti da te" : esc([garaCalendario(g).fonte && !/Lazio/.test(garaCalendario(g).fonte) ? "FIDAL" : "", garaCalendario(g).fonte === "Gare Podistiche Lazio" || garaCalendario(g).scheda_lazio ? "Gare Podistiche Lazio" : ""].filter(Boolean).join(" e ") || "FIDAL")}. Fai sempre fede al regolamento ufficiale della gara.</p>`;
   }
 
   function vistaBorsa(id) {
@@ -2002,7 +2021,7 @@
       S.rinvii[t.dataset.k] = L.addDays(oggi(), 1); salva(); toast("Te lo ricordo domani"); rerender();
     } else if (act === "filtro") {
       const q = document.getElementById("cerca").value;
-      location.hash = `#/gare?q=${encodeURIComponent(q)}&d=${t.dataset.d}`;
+      location.hash = `#/gare?v=italia&q=${encodeURIComponent(q)}&d=${t.dataset.d}`;
     } else if (act === "ris-strava-cerca") {
       const id = t.dataset.id; delete STRAVA_GIORNO[id]; if (S.stravaIgnora) delete S.stravaIgnora[id];
       const box = document.getElementById("ris-strava"); if (box) box.innerHTML = `<span class="small muted">Cerco su Strava…</span>`;
@@ -2219,7 +2238,7 @@
     timer = setTimeout(() => {
       const d = (location.hash.match(/[?&]d=(\d*)/) || [])[1] || "";
       document.getElementById("risultati").innerHTML = risultati(L.cercaGare(D.gare, e.target.value, d, oggi()));
-      history.replaceState(null, "", `#/gare?q=${encodeURIComponent(e.target.value)}&d=${d}`);
+      history.replaceState(null, "", `#/gare?v=italia&q=${encodeURIComponent(e.target.value)}&d=${d}`);
     }, 150);
   });
 

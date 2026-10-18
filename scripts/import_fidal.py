@@ -283,6 +283,7 @@ def main() -> int:
     ap.add_argument("--mesi", type=int, default=12)
     ap.add_argument("--file", help="file .ics locale invece del download")
     ap.add_argument("--senza-pdf", action="store_true", help="non leggere il calendario PDF di maratone e mezze")
+    ap.add_argument("--senza-lazio", action="store_true", help="non leggere il calendario di Gare Podistiche Lazio")
     args = ap.parse_args()
 
     oggi = dt.date.today()
@@ -317,7 +318,8 @@ def main() -> int:
         mesi_letti = {g["data"][:7] for g in gare.values()}
         vecchie = json.loads(OUT.read_text(encoding="utf-8")).get("gare", [])
         for g in vecchie:
-            if g["data"] >= oggi.isoformat() and g["data"][:7] not in mesi_letti and g["id"] not in gare:
+            # le gare del Lazio no: si rileggono sotto (o si tengono tutte, se il sito non risponde)
+            if g["data"] >= oggi.isoformat() and g["data"][:7] not in mesi_letti and g["id"] not in gare and g.get("fonte") != "Gare Podistiche Lazio":
                 gare[g["id"]] = g
         gare = deduplica(gare)
 
@@ -328,6 +330,15 @@ def main() -> int:
             gare.setdefault(g["id"], g)
         gare = deduplica(gare)
 
+    if not args.file and not args.senza_lazio:
+        import calendario_gpl as GPL
+        pagine = GPL.scarica()
+        lazio = [g for p in pagine for g in GPL.leggi(p, _classe, ESCLUSI)]
+        if not pagine and OUT.exists():  # sito non raggiungibile: restano le gare del Lazio già note
+            lazio = [g for g in json.loads(OUT.read_text(encoding="utf-8")).get("gare", []) if g.get("fonte") == GPL.FONTE]
+        nuove = GPL.unisci(gare, lazio, chiave_luogo, oggi.isoformat())
+        print(f"Gare Podistiche Lazio: {len(lazio)} gare lette, {nuove} nuove (le altre arricchiscono quelle FIDAL)")
+
     elenco = sorted(gare.values(), key=lambda g: (g["data"], g["nome"]))
     if not elenco and errori:
         print("Nessuna gara scaricata: il file esistente non viene toccato.", file=sys.stderr)
@@ -335,7 +346,7 @@ def main() -> int:
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps({
         "aggiornato": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "fonte": "Calendario FIDAL (https://www.fidal.it/calendario.php) e calendario FIDAL di maratone e mezze dell'anno successivo",
+        "fonte": "Calendario FIDAL (https://www.fidal.it/calendario.php), calendario FIDAL di maratone e mezze dell'anno successivo e calendario di Gare Podistiche Lazio (https://www.garepodistichelazio.it/gare-lazio.php)",
         "gare": elenco,
     }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     per_dist = {d: sum(1 for g in elenco if g["distanza"] == d) for d in ("10", "21", "42")}
