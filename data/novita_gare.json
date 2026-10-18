@@ -1,6 +1,20 @@
 {
- "aggiornato": "2026-10-17T17:50Z",
+ "aggiornato": "2026-10-18T04:50Z",
  "novita": [
+  {
+   "id": "n46fc1ab53c0",
+   "gara": "H980534b2f8-42",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Furto e danni agli stand della Neapolis Marathon. Ma la manifestazione è salva",
+   "link": "https://www.runnersworld.com/it/news/a74167064/neapolis-marathon-furto/",
+   "data": "2026-10-17",
+   "fonte": "Runner's World Italia",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/2ed9f170-cc59-4f71-9cb2-255fff03e3d6.jpeg",
+   "trovato": "2026-10-18T04:50Z"
+  },
   {
    "id": "n9d9a31bd11e",
    "gara": "Hd9df59d4b1-21",
