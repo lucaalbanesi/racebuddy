@@ -1,17 +1,7 @@
 {
-  "aggiornato": "2026-10-14T11:19:40Z",
-  "fonte": "Calendario FIDAL (https://www.fidal.it/calendario.php) e calendario FIDAL di maratone e mezze dell'anno successivo",
+  "aggiornato": "2026-10-18T19:01:02Z",
+  "fonte": "Calendario FIDAL (https://www.fidal.it/calendario.php), calendario FIDAL di maratone e mezze dell'anno successivo e calendario di Gare Podistiche Lazio (https://www.garepodistichelazio.it/gare-lazio.php)",
   "gare": [
-    {
-      "id": "Ha7c4f82f69-10",
-      "nome": "V^ 10k I Tre Borghi",
-      "data": "2026-10-17",
-      "luogo": "LEVANTO",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
     {
       "id": "H0566aa15ae-21",
       "nome": "17^ MEZZA MARATONA DELLA CERAMICA “Città di ASSEMINI”",
@@ -40,7 +30,13 @@
       "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
+      "url": "https://www.fidal.it/calendario.php",
+      "ora": "09:00",
+      "quota": "€ 45-65",
+      "iscrizioni": "chiuse",
+      "sito": "https://www.romehalfmarathon.it/",
+      "provincia": "RM",
+      "scheda_lazio": "https://www.garepodistichelazio.it/info-gara-Rome-Half-Marathon"
     },
     {
       "id": "H5758af462b-10",
@@ -91,6 +87,21 @@
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "La8ab44294b-10",
+      "nome": "Straviterbo",
+      "data": "2026-10-18",
+      "luogo": "VITERBO",
+      "provincia": "VT",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-Straviterbo",
+      "ora": "10:00",
+      "quota": "€ 15",
+      "iscrizioni": "chiuse, possibili sul posto",
+      "sito": "https://www.instagram.com/p/DE1nEfPO17A/"
     },
     {
       "id": "Ha9421d3e35-10",
@@ -263,6 +274,21 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "L392361966e-10",
+      "nome": "Corri al Massimo per Irene",
+      "data": "2026-10-24",
+      "luogo": "ROMA",
+      "provincia": "RM",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-Corri-al-Massimo-per-Irene",
+      "ora": "16:00",
+      "quota": "€ 15",
+      "iscrizioni": "2026-10-23",
+      "sito": "https://www.associazioneirene.it/corri-al-massimo-per-irene.html"
+    },
+    {
       "id": "H54df2709c1-10",
       "nome": "Palermo 10k Running",
       "data": "2026-10-24",
@@ -291,6 +317,20 @@
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "L49616bcc0c-10",
+      "nome": "Corrincastagna",
+      "data": "2026-10-25",
+      "luogo": "CAVE",
+      "provincia": "RM",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-Corrincastagna",
+      "ora": "09:15",
+      "quota": "€ 12",
+      "iscrizioni": "2026-10-23"
     },
     {
       "id": "H5e9232e72c-10",
@@ -351,6 +391,50 @@
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "L0050f39348-10",
+      "nome": "Maratonina delle Castagne",
+      "data": "2026-10-25",
+      "luogo": "ROCCA DI PAPA",
+      "provincia": "RM",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-Maratonina-delle-Castagne",
+      "ora": "09:30",
+      "quota": "€ 15",
+      "iscrizioni": "2026-10-22",
+      "sito": "http://www.atleticaroccadipapa.com/"
+    },
+    {
+      "id": "L2706675f07-10",
+      "nome": "SperlongaRun",
+      "data": "2026-10-25",
+      "luogo": "SPERLONGA",
+      "provincia": "LT",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-SperlongaRun",
+      "ora": "09:30",
+      "quota": "€ 15",
+      "iscrizioni": "2026-10-21"
+    },
+    {
+      "id": "Lb1e38e0a0e-10",
+      "nome": "Trofeo CV Dental Ronciglione",
+      "data": "2026-10-25",
+      "luogo": "RONCIGLIONE",
+      "provincia": "VT",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-Trofeo-CV-Dental-Ronciglione",
+      "ora": "09:30",
+      "quota": "€ 15",
+      "iscrizioni": "2026-10-23",
+      "sito": "http://www.bicizingari.it/trofeocvdental"
     },
     {
       "id": "Haa42897e78-10",
@@ -503,6 +587,21 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "L2bda4b848d-10",
+      "nome": "Corsa dei Santi",
+      "data": "2026-11-01",
+      "luogo": "ROMA",
+      "provincia": "RM",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-Corsa-dei-Santi",
+      "ora": "08:30",
+      "quota": "€ 30",
+      "iscrizioni": "2026-10-20",
+      "sito": "http://www.corsadeisanti.it/"
+    },
+    {
       "id": "H9b5fd4e924-21",
       "nome": "III^ Egnazia Half Marathon",
       "data": "2026-11-01",
@@ -623,6 +722,21 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "L43ae338386-10",
+      "nome": "Genazzano a Perdifiato",
+      "data": "2026-11-08",
+      "luogo": "GENAZZANO",
+      "provincia": "RM",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-Genazzano-a-Perdifiato",
+      "ora": "10:00",
+      "quota": "€ 12",
+      "iscrizioni": "2026-11-06",
+      "sito": "https://bio.site/atleticagenazzano"
+    },
+    {
       "id": "H5194788aad-10",
       "nome": "III CORSA DI SAN MARTINO - KM 9,600",
       "data": "2026-11-08",
@@ -673,6 +787,46 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Lead88174af-10",
+      "nome": "Memorial Alberto Sacchi",
+      "data": "2026-11-08",
+      "luogo": "CIVITA CASTELLANA",
+      "provincia": "VT",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-Memorial-Alberto-Sacchi",
+      "ora": "10:00"
+    },
+    {
+      "id": "L7685f0a511-21",
+      "nome": "Mezza Maratona di Sabaudia",
+      "data": "2026-11-08",
+      "luogo": "SABAUDIA",
+      "provincia": "LT",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-Mezza-Maratona-di-Sabaudia",
+      "ora": "09:30",
+      "quota": "€ 15-20",
+      "sito": "https://www.uisp.it/latina2/pagina/24-mezza-maratona-di-sabaudia"
+    },
+    {
+      "id": "Ld12e97ce2d-10",
+      "nome": "Mezza Maratona di Sabaudia (Stracittadina)",
+      "data": "2026-11-08",
+      "luogo": "SABAUDIA",
+      "provincia": "LT",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-Mezza-Maratona-di-Sabaudia-(Stracittadina)",
+      "ora": "09:30",
+      "quota": "€ 10-12",
+      "sito": "https://www.uisp.it/latina2/pagina/24-mezza-maratona-di-sabaudia"
+    },
+    {
       "id": "H37697b0c71-10",
       "nome": "Torino (TO) - 3a Cedas We Run - Km. 9.9",
       "data": "2026-11-08",
@@ -687,16 +841,6 @@
       "nome": "V STRACASALE - KM 9,900",
       "data": "2026-11-08",
       "luogo": "CASAL DI PRINCIPE",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "Hd74256421b-10",
-      "nome": "VII CORRI MONTORO - KM 9,900",
-      "data": "2026-11-08",
-      "luogo": "MONTORO",
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
@@ -883,6 +1027,20 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "Lc4b0eb0415-10",
+      "nome": "La corsa di Chiara",
+      "data": "2026-11-15",
+      "luogo": "ROMA",
+      "provincia": "RM",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-La-corsa-di-Chiara",
+      "ora": "09:30",
+      "quota": "€ 15",
+      "iscrizioni": "2026-11-14"
+    },
+    {
       "id": "Hf58ca9cda3-21",
       "nome": "Metà Mezza",
       "data": "2026-11-15",
@@ -891,6 +1049,21 @@
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "L55b6eb6658-10",
+      "nome": "POFI Run (Il giro dell'Ocaro)",
+      "data": "2026-11-15",
+      "luogo": "POFI",
+      "provincia": "FR",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-POFI-Run-(Il-giro-dell'Ocaro)",
+      "ora": "10:00",
+      "quota": "€ 10",
+      "iscrizioni": "2026-11-13",
+      "sito": "http://www.pofisportiva.wordpress.com/"
     },
     {
       "id": "H5ebe117628-42",
@@ -1043,6 +1216,35 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "L950d7c45f5-10",
+      "nome": "Corri alla Garbatella",
+      "data": "2026-11-22",
+      "luogo": "ROMA",
+      "provincia": "RM",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-Corri-alla-Garbatella",
+      "ora": "09:30",
+      "quota": "€ 15-20",
+      "iscrizioni": "2026-11-17",
+      "sito": "http://www.rionegarbatella.it/"
+    },
+    {
+      "id": "Lde4c3e3b4b-10",
+      "nome": "Corriamo al Tiburtino",
+      "data": "2026-11-22",
+      "luogo": "ROMA",
+      "provincia": "RM",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-Corriamo-al-Tiburtino",
+      "ora": "09:30",
+      "quota": "€ 15",
+      "sito": "https://www.catsport.it/corriamo-al-tiburtino/"
+    },
+    {
       "id": "Hdc03f5f540-21",
       "nome": "III^ BCC Brescia Park Run",
       "data": "2026-11-22",
@@ -1133,6 +1335,30 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "H7731e255df-10",
+      "nome": "Piossasco (TO) - 32a 6 Miglia di Piossasco - Camminata per la Vita - Km. 9,6 - da 29/11 a 22/11",
+      "data": "2026-11-22",
+      "luogo": "PIOSSASCO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Lb3c6e3bb60-10",
+      "nome": "Trofeo Santa Barbara",
+      "data": "2026-11-22",
+      "luogo": "COLLEFERRO",
+      "provincia": "RM",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-Trofeo-Santa-Barbara",
+      "ora": "09:30",
+      "quota": "€ 15",
+      "iscrizioni": "2026-11-20"
+    },
+    {
       "id": "H815bf515a2-21",
       "nome": "VII^ Maratonina di San Biagio",
       "data": "2026-11-22",
@@ -1191,6 +1417,34 @@
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Lf8633c5390-10",
+      "nome": "Corri a Terracina",
+      "data": "2026-11-29",
+      "luogo": "TERRACINA",
+      "provincia": "LT",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-Corri-a-Terracina",
+      "ora": "09:30",
+      "sito": "https://www.uisp.it/latina2/pagina/5-corri-terracina-29-novembre-2025-km-10"
+    },
+    {
+      "id": "Lb15a0eaa4e-10",
+      "nome": "Fiumicino Half Marathon (10K)",
+      "data": "2026-11-29",
+      "luogo": "FIUMICINO",
+      "provincia": "RM",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-Fiumicino-Half-Marathon-(10K)",
+      "ora": "08:45",
+      "quota": "€ 15",
+      "iscrizioni": "2026-11-23",
+      "sito": "http://www.fiumicinohalfmarathon.it/"
     },
     {
       "id": "H16538e4778-10",
@@ -1253,14 +1507,19 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
-      "id": "H6d35f66ca8-10",
-      "nome": "Piossasco (TO) - 32a 6 Miglia di Piossasco - Camminata per la Vita - Km. 9,6",
+      "id": "Le7e16a2217-10",
+      "nome": "MARATONINA DELL'OLIO DOP CANINO",
       "data": "2026-11-29",
-      "luogo": "PIOSSASCO",
+      "luogo": "CANINO",
+      "provincia": "VT",
       "distanza": "10",
       "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-Maratonina-dell'olio-DOP-Canino",
+      "ora": "10:30",
+      "quota": "€ 15-18",
+      "iscrizioni": "2026-11-24",
+      "sito": "https://runnerscaninoasd.it/maratonina-olio-dop-canino/"
     },
     {
       "id": "Hce5444c297-21",
@@ -1350,7 +1609,13 @@
       "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
+      "url": "https://www.fidal.it/calendario.php",
+      "ora": "08:45",
+      "quota": "€ 20",
+      "iscrizioni": "2026-11-23",
+      "sito": "http://www.fiumicinohalfmarathon.it/",
+      "provincia": "RM",
+      "scheda_lazio": "https://www.garepodistichelazio.it/info-gara-Fiumicino-Half-Marathon"
     },
     {
       "id": "H0b3d8d0a6b-21",
@@ -1401,6 +1666,33 @@
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Lffd01080fd-10",
+      "nome": "Maratona di Latina (10K)",
+      "data": "2026-12-06",
+      "luogo": "LATINA",
+      "provincia": "LT",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-Maratona-di-Latina-(10K)",
+      "ora": "09:00",
+      "quota": "€ 10-12",
+      "iscrizioni": "2026-12-04",
+      "sito": "https://www.uisplatina.com/maratonadilatina/"
+    },
+    {
+      "id": "L82e87eb227-10",
+      "nome": "Monterosi Run",
+      "data": "2026-12-06",
+      "luogo": "MONTEROSI",
+      "provincia": "VT",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-Monterosi-Run",
+      "ora": "10:00"
     },
     {
       "id": "Hd4aa7b5c6a-21",
@@ -1460,7 +1752,13 @@
       "distanza": "42",
       "annullata": false,
       "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
+      "url": "https://www.fidal.it/calendario.php",
+      "ora": "09:00",
+      "quota": "€ 45-55",
+      "iscrizioni": "2026-12-04",
+      "sito": "https://www.uisplatina.com/maratonadilatina/",
+      "provincia": "LT",
+      "scheda_lazio": "https://www.garepodistichelazio.it/info-gara-Maratona-di-Latina"
     },
     {
       "id": "H6fbf2f59d1-10",
@@ -1470,7 +1768,13 @@
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
+      "url": "https://www.fidal.it/calendario.php",
+      "ora": "09:00",
+      "quota": "€ 15-18",
+      "iscrizioni": "2026-12-02",
+      "sito": "http://www.bestwoman.it/",
+      "provincia": "RM",
+      "scheda_lazio": "https://www.garepodistichelazio.it/info-gara-Best-Woman"
     },
     {
       "id": "H7b8ed625ca-10",
@@ -1491,6 +1795,21 @@
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "L286a180b6a-10",
+      "nome": "La Natalina",
+      "data": "2026-12-08",
+      "luogo": "MONTEROTONDO",
+      "provincia": "RM",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-La-Natalina",
+      "ora": "09:15",
+      "quota": "€ 15",
+      "iscrizioni": "2026-12-05",
+      "sito": "http://www.atleticomonterotondo.it/joomla/"
     },
     {
       "id": "H31527128db-21",
@@ -1610,7 +1929,12 @@
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
+      "url": "https://www.fidal.it/calendario.php",
+      "ora": "08:30",
+      "quota": "€ 18-20",
+      "sito": "https://www.romaurbsmundi.it/regolamento-2026/",
+      "provincia": "RM",
+      "scheda_lazio": "https://www.garepodistichelazio.it/info-gara-Roma-Urbs-Mundi"
     },
     {
       "id": "H466b8254ce-42",
@@ -1618,6 +1942,16 @@
       "data": "2026-12-13",
       "luogo": "REGGIO NELL'EMILIA",
       "distanza": "42",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "Hc9da30d45c-10",
+      "nome": "I^ 10 Km",
+      "data": "2026-12-20",
+      "luogo": "RIBERA",
+      "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
@@ -1750,7 +2084,27 @@
       "distanza": "10",
       "annullata": false,
       "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
+      "url": "https://www.fidal.it/calendario.php",
+      "ora": "14:00",
+      "quota": "€ 22-28",
+      "iscrizioni": "2026-12-23",
+      "sito": "https://www.werunrome.com/",
+      "provincia": "RM",
+      "scheda_lazio": "https://www.garepodistichelazio.it/info-gara-We-Run-Rome"
+    },
+    {
+      "id": "Ldb771f2075-10",
+      "nome": "Trofeo del'Epifania",
+      "data": "2027-01-06",
+      "luogo": "AQUINO",
+      "provincia": "FR",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/2027-info-gara-Trofeo-del'Epifania",
+      "ora": "10:30",
+      "quota": "€ 12",
+      "iscrizioni": "2027-01-04"
     },
     {
       "id": "Pb904b0d03e-21",
@@ -1781,6 +2135,21 @@
       "annullata": false,
       "fonte": "FIDAL maratone e mezze",
       "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "L12edf35333-10",
+      "nome": "La Corsa di Miguel",
+      "data": "2027-01-17",
+      "luogo": "ROMA",
+      "provincia": "RM",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/2027-info-gara-La-Corsa-di-Miguel",
+      "ora": "09:10",
+      "quota": "€ 15-20",
+      "iscrizioni": "2027-01-08",
+      "sito": "http://www.lacorsadimiguel.it/"
     },
     {
       "id": "Pf7324ffc90-42",
@@ -1863,6 +2232,21 @@
       "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
     },
     {
+      "id": "Ldbdba5e367-10",
+      "nome": "Mezza Ciocia...ra (Short)",
+      "data": "2027-01-31",
+      "luogo": "FROSINONE",
+      "provincia": "FR",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/2027-info-gara-Mezza-Ciocia...ra-(Short)",
+      "ora": "09:10",
+      "quota": "€ 11-15",
+      "iscrizioni": "2027-01-28",
+      "sito": "https://www.mezzaciociara.it/"
+    },
+    {
       "id": "P446f2dfae7-42",
       "nome": "Portofino Marathon",
       "data": "2027-01-31",
@@ -1871,6 +2255,21 @@
       "annullata": false,
       "fonte": "FIDAL maratone e mezze",
       "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Le17a09149b-10",
+      "nome": "Trofeo Lidense (10K)",
+      "data": "2027-01-31",
+      "luogo": "OSTIA",
+      "provincia": "RM",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/2027-info-gara-Trofeo-Lidense-(10K)",
+      "ora": "09:00",
+      "quota": "€ 17",
+      "iscrizioni": "2027-01-28",
+      "sito": "https://racechronoservice.it/event/trofeo-lidense-2027/"
     },
     {
       "id": "P1a977f9b0f-21",
@@ -1890,7 +2289,13 @@
       "distanza": "21",
       "annullata": false,
       "fonte": "FIDAL maratone e mezze",
-      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf",
+      "ora": "09:00",
+      "quota": "€ 18-30",
+      "iscrizioni": "2027-01-28",
+      "sito": "https://www.mezzaciociara.it/",
+      "provincia": "FR",
+      "scheda_lazio": "https://www.garepodistichelazio.it/2027-info-gara-Mezza-Ciocia...ra"
     },
     {
       "id": "P512d720ec4-21",
@@ -1933,6 +2338,36 @@
       "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
     },
     {
+      "id": "L086fea0a67-42",
+      "nome": "Maratona Maga Circe",
+      "data": "2027-02-07",
+      "luogo": "SABAUDIA - SAN FELICE CIRCEO",
+      "provincia": "LT",
+      "distanza": "42",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/2027-info-gara-Maratona-Maga-Circe",
+      "ora": "09:30",
+      "quota": "€ 35-45",
+      "iscrizioni": "2027-02-03",
+      "sito": "https://www.maratonamagacirce.it"
+    },
+    {
+      "id": "Le261ab75e1-10",
+      "nome": "Maratonina del Tirreno",
+      "data": "2027-02-07",
+      "luogo": "MARINA DI SAN NICOLA",
+      "provincia": "RM",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/2027-info-gara-Maratonina-del-Tirreno",
+      "ora": "09:00",
+      "quota": "€ 16",
+      "iscrizioni": "2027-02-02",
+      "sito": "https://racechronoservice.it/event/maratonina-del-tirreno-2027/"
+    },
+    {
       "id": "P3ac0ef1304-42",
       "nome": "VII^ Maratona Maga Circe",
       "data": "2027-02-07",
@@ -1961,6 +2396,19 @@
       "annullata": false,
       "fonte": "FIDAL maratone e mezze",
       "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "L3dad1d8871-10",
+      "nome": "Corri Fregene",
+      "data": "2027-02-14",
+      "luogo": "FREGENE",
+      "provincia": "RM",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/2027-info-gara-Corri-Fregene",
+      "ora": "08:45",
+      "sito": "https://www.corrifregene.it/"
     },
     {
       "id": "P04787cfced-42",
@@ -2141,6 +2589,21 @@
       "annullata": false,
       "fonte": "FIDAL maratone e mezze",
       "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "L0c212379c2-21",
+      "nome": "Roma Ostia Half Marathon",
+      "data": "2027-02-28",
+      "luogo": "OSTIA - ROMA",
+      "provincia": "RM",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/2027-info-gara-Roma-Ostia-Half-Marathon",
+      "ora": "09:00",
+      "quota": "€ 40-55",
+      "iscrizioni": "2027-02-15",
+      "sito": "https://www.romaostia.it/"
     },
     {
       "id": "P7f131b10de-21",
@@ -2350,7 +2813,12 @@
       "distanza": "42",
       "annullata": false,
       "fonte": "FIDAL maratone e mezze",
-      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+      "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf",
+      "ora": "08:30",
+      "quota": "€ 119",
+      "sito": "https://www.runromethemarathon.com/",
+      "provincia": "RM",
+      "scheda_lazio": "https://www.garepodistichelazio.it/2027-info-gara-Run-Rome-The-Marathon"
     },
     {
       "id": "P050c4340d7-21",
@@ -2723,6 +3191,19 @@
       "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
     },
     {
+      "id": "L435db5a480-21",
+      "nome": "Pedagnalonga",
+      "data": "2027-04-25",
+      "luogo": "BORGO HERMADA",
+      "provincia": "LT",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/2027-info-gara-Pedagnalonga",
+      "ora": "09:30",
+      "sito": "http://www.pedagnalonga.it/"
+    },
+    {
       "id": "P2231a658e1-21",
       "nome": "XIII^ Mezza Maratona di Ostuni",
       "data": "2027-04-25",
@@ -2763,6 +3244,19 @@
       "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
     },
     {
+      "id": "Ld2bae92c86-10",
+      "nome": "Corri a Tor Vergata",
+      "data": "2027-05-02",
+      "luogo": "ROMA",
+      "provincia": "RM",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/2027-info-gara-Corri-a-Tor-Vergata",
+      "ora": "09:00",
+      "quota": "€ 16"
+    },
+    {
       "id": "Pf31bbccdd4-21",
       "nome": "IV^ Olbia21",
       "data": "2027-05-02",
@@ -2771,6 +3265,30 @@
       "annullata": false,
       "fonte": "FIDAL maratone e mezze",
       "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "L3e5625ac45-21",
+      "nome": "L'Ora del Leone",
+      "data": "2027-05-02",
+      "luogo": "FROSINONE",
+      "provincia": "FR",
+      "distanza": "21",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/2027-info-gara-L'Ora-del-Leone",
+      "ora": "09:30"
+    },
+    {
+      "id": "L98bf1f095a-10",
+      "nome": "L'Ora del Leone (10K)",
+      "data": "2027-05-02",
+      "luogo": "FROSINONE",
+      "provincia": "FR",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/2027-info-gara-L'Ora-del-Leone-(10K)",
+      "ora": "09:30"
     },
     {
       "id": "P6107f88cac-21",
@@ -2983,6 +3501,20 @@
       "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
     },
     {
+      "id": "L593a13e36f-10",
+      "nome": "La Corsa del Solstizio",
+      "data": "2027-06-20",
+      "luogo": "MONTE SAN GIOVANNI CAMPANO",
+      "provincia": "FR",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/2027-info-gara-La-Corsa-del-Solstizio",
+      "ora": "18:30",
+      "quota": "€ 10",
+      "sito": "https://www.instagram.com/la_corsa_del_solstizio/"
+    },
+    {
       "id": "P1fa92ead40-21",
       "nome": "III^ Run the Night \"Karhu x CDF\"",
       "data": "2027-06-25",
@@ -2991,6 +3523,33 @@
       "annullata": false,
       "fonte": "FIDAL maratone e mezze",
       "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "L4c2c03acda-10",
+      "nome": "Corriamo dal Matusa al Campanile",
+      "data": "2027-06-27",
+      "luogo": "FROSINONE",
+      "provincia": "RM",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/2027-info-gara-Corriamo-dal-Matusa-al-Campanile",
+      "ora": "08:30"
+    },
+    {
+      "id": "Le5821b8928-10",
+      "nome": "La Corsa di Cicerone",
+      "data": "2027-07-24",
+      "luogo": "ARPINO",
+      "provincia": "FR",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/2027-info-gara-La-Corsa-di-Cicerone",
+      "ora": "18:30",
+      "quota": "€ 10",
+      "iscrizioni": "2027-07-23",
+      "sito": "https://sites.google.com/view/arpinorunningasd/home-page"
     },
     {
       "id": "P2c12a0d9e7-21",
