@@ -1,0 +1,30 @@
+name: Esplora ENDU (temporaneo)
+on:
+  push:
+    branches: [esplora-endu]
+jobs:
+  esplora:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pagine e script
+        run: |
+          set +e
+          UA="Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 Chrome/126 Mobile Safari/537.36"
+          mkdir -p out && cd out
+          for u in https://www.endu.net/it/results https://www.endu.net/it/events https://www.endu.net/robots.txt; do
+            f=$(echo "$u" | tr '/:?' '___'); curl -sL -A "$UA" -o "$f" -w "$u %{http_code} %{size_download}\n" "$u"
+          done
+          echo "== robots.txt"; cat https___www.endu.net_robots.txt | head -40
+          echo "== script nella pagina risultati"
+          grep -oE '(src|href)="[^"]+\.js[^"]*"' https___www.endu.net_it_results | sort -u | head -40
+          for s in $(grep -oE 'src="[^"]+\.js[^"]*"' https___www.endu.net_it_results | sed 's/src="//;s/"$//' | sort -u); do
+            case "$s" in http*) url="$s";; //*) url="https:$s";; *) url="https://www.endu.net$s";; esac
+            curl -sL -A "$UA" "$url" >> bundle.js; echo >> bundle.js
+          done
+          echo "== dimensione script: $(wc -c < bundle.js)"
+          echo "== URL e percorsi di API negli script"
+          grep -oE 'https?://[a-zA-Z0-9.-]*endu[a-zA-Z0-9.-]*[^"'"'"' )`]*' bundle.js | sort | uniq -c | sort -rn | head -60
+          grep -oE '"/?(api|v[0-9]|rest)/[^"]{2,80}"' bundle.js | sort | uniq -c | sort -rn | head -60
+          grep -oE '[a-zA-Z/_-]*(result|ranking|classific|athlete|atlet|search)[a-zA-Z/_{}:-]*' bundle.js | sort | uniq -c | sort -rn | head -80
+          echo "== __NEXT_DATA__ o stato iniziale"
+          grep -oE '(__NEXT_DATA__|__NUXT__|window\.__[A-Z_]+)' https___www.endu.net_it_results | sort -u
