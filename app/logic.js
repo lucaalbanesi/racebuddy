@@ -102,6 +102,41 @@
     return voci.length || d.nota ? { gara: g, voci, nota: d.nota || "" } : null;
   }
 
+  /** Tempi dalle classifiche (funzione "tempi"): quali persone proporre come "sei tu" tra gli omonimi.
+      FIDAL: quella con il codice società della tessera; Gare Podistiche Lazio: quella con la società della tessera
+      (nome simile); se una fonte ha una sola persona, quella. `tessera` = { codiceSocieta, societa }. */
+  const chiaveNome = (s) => String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\b(a\.?s\.?d\.?|s\.?s\.?d\.?|asd|ssd|ass|associazione|sportiva|dilettantistica|atletica|atl|polisportiva|pol|g\.?s\.?|podistica|team|club)\b/g, " ").replace(/[^a-z0-9]+/g, " ").trim();
+  function personeProposte(persone, tessera = {}) {
+    const cod = String(tessera.codiceSocieta || "").toUpperCase(), soc = chiaveNome(tessera.societa);
+    const out = new Set();
+    for (const fonte of ["gpl", "fidal"]) {
+      const qui = persone.filter((p) => p.fonte === fonte);
+      const mia = qui.filter((p) => (fonte === "fidal" && cod && p.codice === cod) || (soc && chiaveNome(p.societa) && (chiaveNome(p.societa).includes(soc) || soc.includes(chiaveNome(p.societa)))));
+      (mia.length ? mia : qui.length === 1 ? qui : []).forEach((p) => out.add(p.id));
+    }
+    return [...out];
+  }
+  /** I risultati delle persone scelte, senza doppioni (la stessa gara su entrambe le fonti: vince Gare Podistiche Lazio,
+      che ha il nome della gara), dalla più recente. */
+  function tempiUniti(persone, scelti) {
+    const tutti = persone.filter((p) => scelti.includes(p.id)).flatMap((p) => p.risultati)
+      .sort((a, b) => (a.fonte === b.fonte ? 0 : a.fonte === "gpl" ? -1 : 1));
+    const visti = new Set(), out = [];
+    for (const r of tutti) { const k = `${r.data}:${r.distanza}`; if (visti.has(k)) continue; visti.add(k); out.push(r); }
+    return out.sort((a, b) => (a.data < b.data ? 1 : a.data > b.data ? -1 : 0));
+  }
+  /** Per distanza, dal più veloce. */
+  function tempiPerDistanza(risultati) {
+    const out = { "10": [], "21": [], "42": [] };
+    for (const r of risultati) if (out[r.distanza]) out[r.distanza].push(r);
+    for (const d of Object.keys(out)) out[d].sort((a, b) => a.secondi - b.secondi);
+    return out;
+  }
+  /** Il tempo di una gara seguita: stesso giorno e stessa distanza. */
+  const tempiDellaGara = (risultati, gara) => risultati.filter((r) => r.data === gara.data && r.distanza === gara.distanza);
+  /** Nome della gara da mostrare: FIDAL non lo dà, solo la città. */
+  const nomeRisultato = (r) => r.gara || (r.luogo ? `Gara a ${r.luogo.toLowerCase().replace(/(^|[\s/'-])(\p{L})/gu, (m, a, c) => a + c.toUpperCase())}` : "Gara");
+
   /** Gara "principale" per la vista Oggi: la più vicina tra quelle non concluse e non archiviate, con priorità
       all'obiettivo se le altre sono lontane. Restituisce anche le altre gare in arrivo. */
   function gareAttive(gare, fasi, oggi, risultati = {}) {
@@ -480,7 +515,7 @@
     return out;
   }
 
-  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento };
+  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);

@@ -10,4 +10,6 @@ window.RB_CONFIG = {
   // (vedi docs/login-strava.md).
   login: false,
   strava: true,
+  // Tempi dalle classifiche (Gare Podistiche Lazio e FIDAL) con la Edge Function "tempi".
+  tempi: true,
 };

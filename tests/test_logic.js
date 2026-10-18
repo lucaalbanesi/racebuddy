@@ -320,4 +320,20 @@ assert.strictEqual(L.sezioneSwipe("novita", -120, 0, 300), null); // fuori dalla
   assert.deepStrictEqual(L.leggiDocumento("NON AGONISTICA\nvalido sino al 31-01-27", "certificato", O), { tipo: "non agonistico", scadenza: "2027-01-31" });
   assert.strictEqual(L.leggiDocumento("Valida fino al 31/02/2027", "tessera", O).scadenza, undefined); // data impossibile
 }
+// tempi dalle classifiche: chi proporre tra gli omonimi, doppioni tra le fonti, tempo della gara
+const PER = [
+  { id: "gpl:a", fonte: "gpl", societa: "Podistica Solidarieta'", risultati: [{ id: "g1", data: "2026-10-18", distanza: "21", secondi: 6209, tempo: "1:43:29", fonte: "gpl", gara: "Rome Half Marathon", luogo: "Roma" }] },
+  { id: "gpl:b", fonte: "gpl", societa: "Asd Frosinone Sport", risultati: [] },
+  { id: "fidal:x", fonte: "fidal", codice: "RM123", societa: "PODISTICA SOLIDARIETA", risultati: [{ id: "f1", data: "2026-10-18", distanza: "21", secondi: 6209, tempo: "1:43:29", fonte: "fidal", gara: "", luogo: "ROMA" }, { id: "f2", data: "2025-03-16", distanza: "42", secondi: 14000, tempo: "3:53:20", fonte: "fidal", gara: "", luogo: "REGGIO EMILIA" }] },
+  { id: "fidal:y", fonte: "fidal", codice: "MI1", societa: "ALTRA", risultati: [] },
+];
+assert.deepStrictEqual(L.personeProposte(PER, { codiceSocieta: "rm123", societa: "A.S.D. Podistica Solidarietà" }), ["gpl:a", "fidal:x"]);
+assert.deepStrictEqual(L.personeProposte(PER, {}), []);
+assert.deepStrictEqual(L.personeProposte(PER.filter((p) => p.id !== "gpl:b"), {}), ["gpl:a"]); // unica persona di una fonte
+const un = L.tempiUniti(PER, ["gpl:a", "fidal:x"]);
+assert.deepStrictEqual(un.map((r) => r.id), ["g1", "f2"]); // la mezza su entrambe: vince Gare Podistiche Lazio
+assert.strictEqual(L.nomeRisultato(un[1]), "Gara a Reggio Emilia");
+assert.deepStrictEqual(L.tempiPerDistanza(un)["42"].map((r) => r.id), ["f2"]);
+assert.deepStrictEqual(L.tempiDellaGara(un, roma).map((r) => r.id), ["g1"]);
+
 console.log("ok");

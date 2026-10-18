@@ -2,3 +2,7 @@
 # "strava" controlla da sola il login (il ritorno da Strava arriva senza token), quindi niente verifica automatica del JWT.
 [functions.strava]
 verify_jwt = false
+
+# "tempi" cerca i risultati ufficiali (Gare Podistiche Lazio, FIDAL) per nome: l'app la chiama con la chiave publishable.
+[functions.tempi]
+verify_jwt = false
