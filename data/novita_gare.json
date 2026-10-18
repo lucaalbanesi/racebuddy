@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-10-18T15:50Z",
+ "aggiornato": "2026-10-18T17:50Z",
  "novita": [
   {
    "id": "nf552b45f960",
@@ -14,6 +14,20 @@
    "tipo": "articolo",
    "immagine": "https://hips.hearstapps.com/hmg-prod/images/2b0c7315-47aa-4c37-8196-347ce176b401.jpg",
    "trovato": "2026-10-18T15:50Z"
+  },
+  {
+   "id": "n9102320e70c",
+   "gara": "Hd9df59d4b1-21",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Terza edizione da favola per la Mezza Maratona della Capitale!",
+   "link": "https://www.romehalfmarathon.it/terza-edizione-da-favola-per-la-mezza-maratona-della-capitale/",
+   "data": "2026-10-18",
+   "fonte": "Sito ufficiale",
+   "ufficiale": true,
+   "tipo": "articolo",
+   "immagine": "https://www.romehalfmarathon.it/wp-content/uploads/2026/10/runner-al-traguardo.jpg",
+   "trovato": "2026-10-18T17:50Z"
   },
   {
    "id": "n83b93b88a9c",
@@ -156,20 +170,6 @@
    "trovato": "2026-10-15T15:50Z"
   },
   {
-   "id": "n571a21e4148",
-   "gara": "H88b48310e5-42",
-   "tema": "altro",
-   "urgenza": "app",
-   "titolo": "San Benedetto Ginky Family Run – iscrizioni aperte",
-   "link": "https://www.firenzemarathon.it/san-benedetto-ginky-family-run-iscrizioni-aperte/",
-   "data": "2026-10-15",
-   "fonte": "Sito ufficiale",
-   "ufficiale": true,
-   "tipo": "articolo",
-   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/10/ART-SITO-GINKY-2026.png",
-   "trovato": "2026-10-17T17:50Z"
-  },
-  {
    "id": "n528aa5a8924",
    "gara": "Hd9df59d4b1-21",
    "tema": "pettorale",
@@ -296,62 +296,6 @@
    "trovato": "2026-10-14T15:07Z"
   },
   {
-   "id": "nd27787873a2",
-   "gara": "H88b48310e5-42",
-   "tema": "iscrizioni",
-   "urgenza": "app",
-   "titolo": "Aperta la WAITING LIST ❗",
-   "link": "https://www.firenzemarathon.it/aperta-la-waiting-list-%e2%9d%97/",
-   "data": "2026-09-03",
-   "fonte": "Sito ufficiale",
-   "ufficiale": true,
-   "tipo": "articolo",
-   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/09/WAITING-LIST-ITA-2.png",
-   "trovato": "2026-10-17T17:50Z"
-  },
-  {
-   "id": "n4ed6961df10",
-   "gara": "H88b48310e5-42",
-   "tema": "iscrizioni",
-   "urgenza": "app",
-   "titolo": "E’ sold out la 42^ Estra Firenze Marathon.",
-   "link": "https://www.firenzemarathon.it/e-sold-out-la-42-estra-firenze-marathon/",
-   "data": "2026-08-27",
-   "fonte": "Sito ufficiale",
-   "ufficiale": true,
-   "tipo": "articolo",
-   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/08/sold-out-42k-ita.png",
-   "trovato": "2026-10-17T17:50Z"
-  },
-  {
-   "id": "na0ac7a647f2",
-   "gara": "H88b48310e5-42",
-   "tema": "iscrizioni",
-   "urgenza": "app",
-   "titolo": "ULTIMI PETTORALI DISPONIBILI",
-   "link": "https://www.firenzemarathon.it/ultimi-pettorali-disponibili/",
-   "data": "2026-08-26",
-   "fonte": "Sito ufficiale",
-   "ufficiale": true,
-   "tipo": "articolo",
-   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/08/ultimi-pettorali-42k-ita.png",
-   "trovato": "2026-10-17T17:50Z"
-  },
-  {
-   "id": "n216ee2d2186",
-   "gara": "H88b48310e5-42",
-   "tema": "promo",
-   "urgenza": "app",
-   "titolo": "ACF Fiorentina e Firenze Marathon insieme per la solidarietà.",
-   "link": "https://www.firenzemarathon.it/acf-fiorentina-e-firenze-marathon-insieme-per-la-solidarieta-sabato-28-novembre-la3x7k-fiorentina-charity-runpowered-by-firenze-marathon/",
-   "data": "2026-07-31",
-   "fonte": "Sito ufficiale",
-   "ufficiale": true,
-   "tipo": "articolo",
-   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/07/ART-STAFFETTA_V2.png",
-   "trovato": "2026-10-17T17:50Z"
-  },
-  {
    "id": "n78957afb483",
    "gara": "Hd9df59d4b1-21",
    "tema": "allenamento",
@@ -378,118 +322,6 @@
    "tipo": "articolo",
    "immagine": "https://www.romehalfmarathon.it/wp-content/uploads/2026/07/Shooting-Maglia-RHM26-1.jpeg",
    "trovato": "2026-10-14T15:07Z"
-  },
-  {
-   "id": "nb5d25638a26",
-   "gara": "H88b48310e5-42",
-   "tema": "promo",
-   "urgenza": "app",
-   "titolo": "Il merchandising ufficiale è tornato ⚜️",
-   "link": "https://www.firenzemarathon.it/il-merchandising-ufficiale-e-tornato-%e2%9a%9c%ef%b8%8f/",
-   "data": "2026-07-01",
-   "fonte": "Sito ufficiale",
-   "ufficiale": true,
-   "tipo": "articolo",
-   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/06/MERC-ART-SITO-1.png",
-   "trovato": "2026-10-17T17:50Z"
-  },
-  {
-   "id": "n1fa50b44d59",
-   "gara": "H88b48310e5-42",
-   "tema": "iscrizioni",
-   "urgenza": "app",
-   "titolo": "La domanda è semplice: ci sarai? CAMBIO QUOTA 30/06",
-   "link": "https://www.firenzemarathon.it/la-domanda-e-semplice-ci-sarai/",
-   "data": "2026-06-25",
-   "fonte": "Sito ufficiale",
-   "ufficiale": true,
-   "tipo": "articolo",
-   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/06/CAMBIO-QUOTA-30.06-ART-ITA.png",
-   "trovato": "2026-10-17T17:50Z"
-  },
-  {
-   "id": "n027bc89fa52",
-   "gara": "Hd9df59d4b1-21",
-   "tema": "allenamento",
-   "urgenza": "mattino",
-   "titolo": "Official Training 20 giugno a Villa Borghese",
-   "link": "https://www.romehalfmarathon.it/official-training-20-giugno-a-villa-borghese/",
-   "data": "2026-06-24",
-   "fonte": "Sito ufficiale",
-   "ufficiale": true,
-   "tipo": "articolo",
-   "immagine": "https://www.romehalfmarathon.it/wp-content/uploads/2026/06/DSC01338-scaled.jpg",
-   "trovato": "2026-10-14T15:07Z"
-  },
-  {
-   "id": "n77cd85b4da2",
-   "gara": "H88b48310e5-42",
-   "tema": "promo",
-   "urgenza": "app",
-   "titolo": "⚜️ PROMO PATRONO – 24|06|2026",
-   "link": "https://www.firenzemarathon.it/%e2%9a%9c%ef%b8%8f-promo-patrono-24062026/",
-   "data": "2026-06-23",
-   "fonte": "Sito ufficiale",
-   "ufficiale": true,
-   "tipo": "articolo",
-   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/06/ART-PROMO-PATRONO-ITA.png",
-   "trovato": "2026-10-17T17:50Z"
-  },
-  {
-   "id": "ne57c1e8aad1",
-   "gara": "H88b48310e5-42",
-   "tema": "altro",
-   "urgenza": "app",
-   "titolo": "86^ Conad Notturna di San Giovanni di Firenze, un successo con 2mila persone",
-   "link": "https://www.firenzemarathon.it/86-conad-notturna-di-san-giovanni-di-firenze-un-successo-con-2mila-persone/",
-   "data": "2026-06-21",
-   "fonte": "Sito ufficiale",
-   "ufficiale": true,
-   "tipo": "articolo",
-   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/06/870A4983.jpeg",
-   "trovato": "2026-10-17T17:50Z"
-  },
-  {
-   "id": "n7c044cb6df0",
-   "gara": "H88b48310e5-42",
-   "tema": "altro",
-   "urgenza": "app",
-   "titolo": "Presentata la 86^ Conad Notturna di San Giovanni di Firenze",
-   "link": "https://www.firenzemarathon.it/presentata-la-86-conad-notturna-di-san-giovanni-di-firenze/",
-   "data": "2026-06-17",
-   "fonte": "Sito ufficiale",
-   "ufficiale": true,
-   "tipo": "articolo",
-   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/06/870A2138.jpeg",
-   "trovato": "2026-10-17T17:50Z"
-  },
-  {
-   "id": "ne5120bef76a",
-   "gara": "H88b48310e5-42",
-   "tema": "altro",
-   "urgenza": "app",
-   "titolo": "86^ CONAD Notturna di San Giovanni: SOLD OUT",
-   "link": "https://www.firenzemarathon.it/86-conad-notturna-di-san-giovanni-sold-out/",
-   "data": "2026-06-10",
-   "fonte": "Sito ufficiale",
-   "ufficiale": true,
-   "tipo": "articolo",
-   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/06/SOLD-OUT-NOTTURNA.png",
-   "trovato": "2026-10-17T17:50Z"
-  },
-  {
-   "id": "n5b795d890f3",
-   "gara": "H88b48310e5-42",
-   "tema": "pacer",
-   "urgenza": "mattino",
-   "titolo": "Diventa Pacer della Estra Firenze Marathon 2026 🏃‍♂️",
-   "link": "https://www.firenzemarathon.it/diventa-pacer-della-estra-firenze-marathon-2026-%f0%9f%8f%83%e2%99%82%ef%b8%8f/",
-   "data": "2026-04-30",
-   "fonte": "Sito ufficiale",
-   "ufficiale": true,
-   "tipo": "articolo",
-   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/04/PACER-ART-ITA.png",
-   "trovato": "2026-10-17T17:50Z"
   }
  ]
 }
