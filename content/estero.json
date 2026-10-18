@@ -38,7 +38,85 @@
       "circuiti": [
         "classics"
       ],
-      "sito": "https://www.frankfurt-marathon.com/"
+      "sito": "https://www.frankfurt-marathon.com/",
+      "iscrizione": "libera",
+      "notaIscrizione": "Iscrizione libera con prezzo a scaglioni; iscrizioni tardive fino al 18 ottobre e sul posto dal 23 al 25 ottobre 2026.",
+      "verificato": "2026-10-18"
+    },
+    {
+      "id": "E-valencia-mezza-21-2026",
+      "nome": "Medio Maratón Valencia Trinidad Alfonso Zurich",
+      "luogo": "Valencia",
+      "paese": "Spagna",
+      "data": "2026-10-25",
+      "distanza": "21",
+      "circuiti": [
+        "superhalfs"
+      ],
+      "sito": "https://www.valenciaciudaddelrunning.com/medio/medio-maraton/",
+      "iscrizione": "ballottaggio",
+      "notaIscrizione": "Sorteggio svolto a novembre 2025 (25.000 pettorali); i posti non confermati sono passati alla lista d'attesa.",
+      "verificato": "2026-10-18"
+    },
+    {
+      "id": "E-new-york-42-2026",
+      "nome": "TCS New York City Marathon",
+      "luogo": "New York",
+      "paese": "Stati Uniti",
+      "data": "2026-11-01",
+      "distanza": "42",
+      "circuiti": [
+        "major"
+      ],
+      "sito": "https://www.nyrr.org/tcsnycmarathon",
+      "iscrizione": "ballottaggio",
+      "notaIscrizione": "Ballottaggio chiuso; restano i posti charity e le agenzie internazionali ufficiali.",
+      "verificato": "2026-10-18"
+    },
+    {
+      "id": "E-atene-42-2026",
+      "nome": "Athens Marathon. The Authentic",
+      "luogo": "Atene",
+      "paese": "Grecia",
+      "data": "2026-11-08",
+      "distanza": "42",
+      "circuiti": [
+        "grandi"
+      ],
+      "sito": "https://www.athensauthenticmarathon.gr/",
+      "iscrizione": "libera",
+      "notaIscrizione": "Iscrizione libera fino a esaurimento: il sito segnala la maratona esaurita.",
+      "verificato": "2026-10-18"
+    },
+    {
+      "id": "E-valencia-42-2026",
+      "nome": "Maratón Valencia Trinidad Alfonso Zurich",
+      "luogo": "Valencia",
+      "paese": "Spagna",
+      "data": "2026-12-06",
+      "distanza": "42",
+      "circuiti": [
+        "grandi"
+      ],
+      "sito": "https://www.valenciaciudaddelrunning.com/maraton/",
+      "iscrizione": "ballottaggio",
+      "notaIscrizione": "Pettorali assegnati con sorteggio; iscrizioni chiuse, resta la lista d'attesa.",
+      "verificato": "2026-10-18"
+    },
+    {
+      "id": "E-barcellona-mezza-21-2027",
+      "nome": "Hyundai Mitja Marató Barcelona by Brooks",
+      "luogo": "Barcellona",
+      "paese": "Spagna",
+      "data": "2027-02-14",
+      "distanza": "21",
+      "circuiti": [
+        "grandi"
+      ],
+      "sito": "https://mitjamarato.barcelona/",
+      "iscrizione": "libera",
+      "notaIscrizione": "Iscrizione libera fino a esaurimento: 40.000 pettorali esauriti in 7 giorni, resta il marketplace ufficiale per i cambi di nome.",
+      "verificato": "2026-10-18"
     },
     {
       "id": "E-siviglia-42-2027",
@@ -50,7 +128,23 @@
       "circuiti": [
         "grandi"
       ],
-      "sito": "https://www.zurichmaratonsevilla.es/"
+      "sito": "https://www.zurichmaratonsevilla.es/",
+      "iscrizione": "libera",
+      "notaIscrizione": "Iscrizione libera fino a esaurimento: i 20.000 pettorali sono esauriti, resta la lista d'attesa.",
+      "verificato": "2026-10-18"
+    },
+    {
+      "id": "E-lisbona-mezza-21-2027",
+      "nome": "EDP Meia Maratona de Lisboa",
+      "luogo": "Lisbona",
+      "paese": "Portogallo",
+      "data": "2027-03-07",
+      "distanza": "21",
+      "circuiti": [
+        "superhalfs"
+      ],
+      "sito": "https://maratonaclubedeportugal.com/en/corrida-marco/edp-lisbon-half-marathon/",
+      "verificato": "2026-10-18"
     },
     {
       "id": "E-tokyo-42-2027",
@@ -63,19 +157,9 @@
         "major"
       ],
       "sito": "https://www.marathon.tokyo/en/",
-      "iscrizione": "ballottaggio"
-    },
-    {
-      "id": "E-lisbona-mezza-21-2027",
-      "nome": "EDP Meia Maratona de Lisboa",
-      "luogo": "Lisbona",
-      "paese": "Portogallo",
-      "data": "2027-03-07",
-      "distanza": "21",
-      "circuiti": [
-        "superhalfs"
-      ],
-      "sito": "https://www.maratonaclubedeportugal.com/"
+      "iscrizione": "ballottaggio",
+      "notaIscrizione": "Ballottaggio generale chiuso il 28 agosto 2026, esito il 18 settembre 2026.",
+      "verificato": "2026-10-18"
     },
     {
       "id": "E-barcellona-42-2027",
@@ -87,11 +171,14 @@
       "circuiti": [
         "grandi"
       ],
-      "sito": "https://www.zurichmaratobarcelona.es/"
+      "sito": "https://www.zurichmaratobarcelona.es/",
+      "iscrizione": "libera",
+      "notaIscrizione": "Iscrizioni aperte fino a esaurimento, con tariffe a scaglioni.",
+      "verificato": "2026-10-18"
     },
     {
       "id": "E-praga-mezza-21-2027",
-      "nome": "Prague Half Marathon",
+      "nome": "Generali Prague Half Marathon",
       "luogo": "Praga",
       "paese": "Repubblica Ceca",
       "data": "2027-04-03",
@@ -99,11 +186,14 @@
       "circuiti": [
         "superhalfs"
       ],
-      "sito": "https://www.runczech.com/"
+      "sito": "https://www.runczech.com/en/events/generali-prague-half-marathon-2027-2",
+      "iscrizione": "libera",
+      "notaIscrizione": "Iscrizione libera fino a esaurimento: pettorali esauriti (attenzione ai falsi rivenditori sui social).",
+      "verificato": "2026-10-18"
     },
     {
       "id": "E-berlino-mezza-21-2027",
-      "nome": "Berliner Halbmarathon",
+      "nome": "Generali Berliner Halbmarathon",
       "luogo": "Berlino",
       "paese": "Germania",
       "data": "2027-04-04",
@@ -111,7 +201,25 @@
       "circuiti": [
         "superhalfs"
       ],
-      "sito": "https://www.generali-berliner-halbmarathon.de/"
+      "sito": "https://www.generali-berliner-halbmarathon.de/",
+      "iscrizione": "ballottaggio",
+      "notaIscrizione": "Ballottaggio chiuso il 28 maggio 2026, esito il 16 giugno 2026.",
+      "verificato": "2026-10-18"
+    },
+    {
+      "id": "E-madrid-mezza-21-2027",
+      "nome": "Movistar Madrid Medio Maratón",
+      "luogo": "Madrid",
+      "paese": "Spagna",
+      "data": "2027-04-04",
+      "distanza": "21",
+      "circuiti": [
+        "grandi"
+      ],
+      "sito": "https://www.mediomaratonmadrid.es/",
+      "iscrizione": "libera",
+      "notaIscrizione": "Iscrizioni 2027 aperte fino a esaurimento.",
+      "verificato": "2026-10-18"
     },
     {
       "id": "E-parigi-42-2027",
@@ -135,7 +243,10 @@
       "circuiti": [
         "grandi"
       ],
-      "sito": "https://www.nnmarathonrotterdam.nl/"
+      "sito": "https://www.nnmarathonrotterdam.nl/",
+      "iscrizione": "libera",
+      "notaIscrizione": "Preregistrazione gratuita dal 20 ottobre al 3 novembre 2026 (ore 10); dal 4 novembre 2026 iscrizione con il link personale, chi prima arriva (metà dei pettorali a chi si era preregistrato nel 2026 senza ottenerlo).",
+      "verificato": "2026-10-18"
     },
     {
       "id": "E-vienna-42-2027",
@@ -147,7 +258,10 @@
       "circuiti": [
         "classics"
       ],
-      "sito": "https://www.vienna-marathon.com/"
+      "sito": "https://www.vienna-marathon.com/",
+      "iscrizione": "libera",
+      "notaIscrizione": "Iscrizione libera fino a esaurimento: la maratona è al completo, resta la lista d'attesa.",
+      "verificato": "2026-10-18"
     },
     {
       "id": "E-boston-42-2027",
@@ -160,7 +274,24 @@
         "major"
       ],
       "sito": "https://www.baa.org/races/boston-marathon",
-      "iscrizione": "qualificazione"
+      "iscrizione": "qualificazione",
+      "notaIscrizione": "Serve il tempo di qualificazione: domande raccolte dal 14 al 18 settembre 2026.",
+      "verificato": "2026-10-18"
+    },
+    {
+      "id": "E-amburgo-42-2027",
+      "nome": "Haspa Marathon Hamburg",
+      "luogo": "Amburgo",
+      "paese": "Germania",
+      "data": "2027-04-25",
+      "distanza": "42",
+      "circuiti": [
+        "grandi"
+      ],
+      "sito": "https://haspa-marathon-hamburg.de/",
+      "iscrizione": "libera",
+      "notaIscrizione": "Iscrizione libera fino a esaurimento: i 20.000 pettorali della maratona sono esauriti.",
+      "verificato": "2026-10-18"
     },
     {
       "id": "E-londra-42-2027",
@@ -173,12 +304,14 @@
         "major",
         "classics"
       ],
-      "sito": "https://www.tcslondonmarathon.com/",
-      "iscrizione": "ballottaggio"
+      "sito": "https://www.londonmarathonevents.co.uk/london-marathon",
+      "iscrizione": "ballottaggio",
+      "notaIscrizione": "Edizione speciale su due giorni (sabato 24 e domenica 25 aprile 2027, 100.000 partecipanti); ballottaggio già estratto, esito inviato il 9 luglio 2026.",
+      "verificato": "2026-10-18"
     },
     {
       "id": "E-madrid-42-2027",
-      "nome": "Rock 'n' Roll Running Series Madrid",
+      "nome": "Zurich Rock 'n' Roll Running Series Madrid",
       "luogo": "Madrid",
       "paese": "Spagna",
       "data": "2027-04-25",
@@ -186,19 +319,40 @@
       "circuiti": [
         "classics"
       ],
-      "sito": "https://www.runrocknroll.com/es/madrid"
+      "sito": "https://rocknrollmadridrun.com/",
+      "iscrizione": "libera",
+      "notaIscrizione": "Iscrizioni 2027 aperte fino a esaurimento.",
+      "verificato": "2026-10-18"
     },
     {
-      "id": "E-amburgo-42-2027",
-      "nome": "Haspa Marathon Hamburg",
-      "luogo": "Amburgo",
-      "paese": "Germania",
-      "data": "2027-04-25",
+      "id": "E-praga-42-2027",
+      "nome": "Vodafone Prague Marathon",
+      "luogo": "Praga",
+      "paese": "Repubblica Ceca",
+      "data": "2027-05-02",
       "distanza": "42",
       "circuiti": [
         "grandi"
       ],
-      "sito": "https://www.haspa-marathon-hamburg.de/"
+      "sito": "https://www.runczech.com/en/events/vodafone-prague-marathon-2027",
+      "iscrizione": "libera",
+      "notaIscrizione": "Iscrizioni aperte fino a esaurimento, da 120 €.",
+      "verificato": "2026-10-18"
+    },
+    {
+      "id": "E-copenaghen-42-2027",
+      "nome": "Copenhagen Marathon",
+      "luogo": "Copenaghen",
+      "paese": "Danimarca",
+      "data": "2027-05-09",
+      "distanza": "42",
+      "circuiti": [
+        "classics"
+      ],
+      "sito": "https://copenhagenmarathon.dk/",
+      "iscrizione": "ballottaggio",
+      "notaIscrizione": "Primo ballottaggio della gara (13 maggio - 3 giugno 2026) già estratto; restano charity e agenzie.",
+      "verificato": "2026-10-18"
     },
     {
       "id": "E-goteborg-mezza-21-2027",
@@ -210,7 +364,10 @@
       "circuiti": [
         "grandi"
       ],
-      "sito": "https://www.goteborgsvarvet.se/"
+      "sito": "https://www.goteborgsvarvet.se/",
+      "iscrizione": "libera",
+      "notaIscrizione": "Iscrizione libera fino a esaurimento: esaurita in tempi record, resta la lista d'attesa.",
+      "verificato": "2026-10-18"
     },
     {
       "id": "E-citta-del-capo-42-2027",
@@ -222,11 +379,14 @@
       "circuiti": [
         "major"
       ],
-      "sito": "https://www.capetownmarathon.com/"
+      "sito": "https://www.capetownmarathon.com/",
+      "iscrizione": "ballottaggio",
+      "notaIscrizione": "Prima edizione da Major; ballottaggio generale chiuso, restano i posti charity.",
+      "verificato": "2026-10-18"
     },
     {
       "id": "E-sydney-42-2027",
-      "nome": "Sydney Marathon",
+      "nome": "TCS Sydney Marathon",
       "luogo": "Sydney",
       "paese": "Australia",
       "data": "2027-08-29",
@@ -235,7 +395,23 @@
         "major"
       ],
       "sito": "https://www.sydneymarathon.com/",
-      "iscrizione": "ballottaggio"
+      "iscrizione": "ballottaggio",
+      "verificato": "2026-10-18"
+    },
+    {
+      "id": "E-newcastle-mezza-21-2027",
+      "nome": "AJ Bell Great North Run",
+      "luogo": "Newcastle",
+      "paese": "Regno Unito",
+      "data": "2027-09-12",
+      "distanza": "21",
+      "circuiti": [
+        "grandi"
+      ],
+      "sito": "https://www.greatrun.org/events/great-north-run/",
+      "iscrizione": "ballottaggio",
+      "notaIscrizione": "Primo ballottaggio chiuso il 20 settembre 2026 (estrazione il 21); un secondo ballottaggio a gennaio 2027.",
+      "verificato": "2026-10-18"
     },
     {
       "id": "E-copenaghen-mezza-21-2027",
@@ -247,11 +423,14 @@
       "circuiti": [
         "superhalfs"
       ],
-      "sito": "https://cphhalf.dk/"
+      "sito": "https://cphhalf.dk/",
+      "iscrizione": "ballottaggio",
+      "notaIscrizione": "Ballottaggio aperto dal 16 settembre 2026 (oltre 188.000 iscritti), esiti via e-mail da ottobre 2026.",
+      "verificato": "2026-10-18"
     },
     {
       "id": "E-berlino-42-2027",
-      "nome": "BMW Berlin Marathon",
+      "nome": "Generali Berlin-Marathon",
       "luogo": "Berlino",
       "paese": "Germania",
       "data": "2027-09-26",
@@ -259,8 +438,25 @@
       "circuiti": [
         "major"
       ],
-      "sito": "https://www.bmw-berlin-marathon.com/",
-      "iscrizione": "ballottaggio"
+      "sito": "https://www.generali-berlin-marathon.com/",
+      "iscrizione": "ballottaggio",
+      "notaIscrizione": "Ballottaggio aperto dal 1° ottobre al 12 novembre 2026, esito il 3 dicembre 2026; quota di 215 € solo se estratti.",
+      "verificato": "2026-10-18"
+    },
+    {
+      "id": "E-varsavia-42-2027",
+      "nome": "Maraton Warszawski",
+      "luogo": "Varsavia",
+      "paese": "Polonia",
+      "data": "2027-09-26",
+      "distanza": "42",
+      "circuiti": [
+        "classics"
+      ],
+      "sito": "https://www.maratonwarszawski.com/",
+      "iscrizione": "libera",
+      "notaIscrizione": "Iscrizioni 2027 aperte fino a esaurimento.",
+      "verificato": "2026-10-18"
     },
     {
       "id": "E-cardiff-mezza-21-2027",
@@ -272,7 +468,10 @@
       "circuiti": [
         "superhalfs"
       ],
-      "sito": "https://www.cardiffhalfmarathon.co.uk/"
+      "sito": "https://www.cardiffhalfmarathon.co.uk/",
+      "iscrizione": "ballottaggio",
+      "notaIscrizione": "Ballottaggio (britannico e internazionale) dal 1° al 18 ottobre 2026, esito il 22 ottobre 2026; poi charity e agenzie.",
+      "verificato": "2026-10-18"
     },
     {
       "id": "E-chicago-42-2027",
@@ -285,11 +484,13 @@
         "major"
       ],
       "sito": "https://www.chicagomarathon.com/",
-      "iscrizione": "ballottaggio"
+      "iscrizione": "ballottaggio",
+      "notaIscrizione": "Ballottaggio aperto dall'8 al 29 ottobre 2026, esito l'8 dicembre 2026; iscrizione da completare entro il 15 dicembre.",
+      "verificato": "2026-10-18"
     },
     {
       "id": "E-valencia-mezza-21-2027",
-      "nome": "Medio Maratón Valencia",
+      "nome": "Medio Maratón Valencia Trinidad Alfonso Zurich",
       "luogo": "Valencia",
       "paese": "Spagna",
       "data": "2027-10-24",
@@ -297,7 +498,10 @@
       "circuiti": [
         "superhalfs"
       ],
-      "sito": "https://www.mediomaratonvalencia.com/"
+      "sito": "https://www.valenciaciudaddelrunning.com/medio/medio-maraton/",
+      "iscrizione": "ballottaggio",
+      "notaIscrizione": "Pettorali assegnati con sorteggio; date del sorteggio 2027 non ancora pubblicate.",
+      "verificato": "2026-10-18"
     },
     {
       "id": "E-new-york-42-2027",
@@ -310,7 +514,9 @@
         "major"
       ],
       "sito": "https://www.nyrr.org/tcsnycmarathon",
-      "iscrizione": "ballottaggio"
+      "iscrizione": "ballottaggio",
+      "notaIscrizione": "Ballottaggio generale atteso a inizio 2027, date non ancora pubblicate.",
+      "verificato": "2026-10-18"
     }
   ]
 }
