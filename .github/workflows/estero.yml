@@ -45,7 +45,9 @@ jobs:
             1. Leggi CLAUDE.md e docs/gare-estere.md e segui la procedura alla lettera. Per ogni gara e circuito controlla
                sul sito ufficiale data dell'edizione in corso e dell'anno dopo, tipo di iscrizione e date del ballottaggio;
                aggiungi le edizioni ufficiali mancanti, togli quelle passate, correggi siti e date, scrivi `verificato`.
-               Per cercare usa WebSearch e WebFetch.
+               Per cercare usa WebSearch e WebFetch, una gara dopo l'altra, da solo: niente sotto-agenti, niente
+               attività in background e mai fermarti ad "aspettare risultati" (questo è un job automatico: quando
+               chiudi il turno, il giro finisce). Se il tempo non basta per tutte, salva quello che hai verificato.
             2. Modifica SOLO content/estero.json (JSON valido, indentato di 2 spazi). Non fare commit né push:
                li fa il workflow dopo di te.
             3. Scrivi nella cartella principale `messaggio_commit.txt` (solo se hai modificato content/estero.json) e
@@ -53,7 +55,8 @@ jobs:
             ${{ inputs.nota && format('Indicazione di Luca per questo giro: {0}', inputs.nota) || '' }}
           claude_args: |
             --model claude-opus-5-5
-            --max-turns 200
+            --max-turns 250
+            --disallowedTools "Task,Agent"
             --allowedTools "Read,Write,Edit,Glob,Grep,WebSearch,WebFetch,Bash(date:*),Bash(python3:*),Bash(jq:*),Bash(git status:*),Bash(git diff:*),Bash(ls:*)"
       - name: Esito di Claude (leggibile)
         if: always() && steps.claude.outcome != 'skipped'
