@@ -11,12 +11,22 @@ jobs:
           set +e
           exec > >(tee esito.txt) 2>&1
           UA="Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 Chrome/126 Mobile Safari/537.36"
-          echo "== robots.txt"; curl -sL -A "$UA" https://www.fidal.it/robots.txt | head -60
-          curl -sL -A "$UA" https://www.fidal.it/ -o home.html; echo "home $(wc -c < home.html)"
-          echo "== link con atlet/risultat/graduator/primat"
-          grep -oiE 'href="[^"]*(atlet|risultat|graduator|primat|classific)[^"]*"' home.html | sort -u | head -40
-          echo "== termini / note legali"
-          grep -oiE 'href="[^"]*(legal|termini|condizioni|copyright|disclaimer)[^"]*"' home.html | sort -u | head -10
+          curl -sL -A "$UA" "https://www.fidal.it/lista_atleti.php?h=1" -o lista.html
+          echo "== form ricerca"; grep -oiE '<(form|input|select)[^>]*>' lista.html | head -20
+          echo "== ricerca Crippa (GET)"
+          curl -sL -A "$UA" "https://www.fidal.it/lista_atleti.php?cognome=crippa&nome=yeman" -o r1.html
+          grep -oiE 'href="[^"]*atleta[^"]*"[^>]*>[^<]*' r1.html | head -10
+          A=$(grep -oiE 'href="[^"]*atleta[^"]*"' r1.html | head -1 | sed 's/href="//;s/"$//')
+          case "$A" in http*) ;; /*) A="https://www.fidal.it$A";; *) A="https://www.fidal.it/$A";; esac
+          echo "== scheda: $A"; curl -sL -A "$UA" "$A" -o at.html
+          python3 - <<'PY'
+          import re,html
+          t=open('at.html',encoding='utf-8',errors='ignore').read()
+          t=re.sub(r'(?s)<(script|style).*?</\1>','',t); t=re.sub(r'<[^>]+>',' ',t); t=html.unescape(re.sub(r'\s+',' ',t))
+          i=t.lower().find('primat'); print(t[max(0,i-200):i+1800])
+          for k in ['Mezza','Maratona','10 Km','Strada']: print(k, t.count(k))
+          PY
+          echo "== termini sito"; curl -sL -A "$UA" https://www.fidal.it/ | grep -oiE 'href="[^"]*(note-legali|legal|copyright|condizioni)[^"]*"' | sort -u
       - name: Esito come annotazioni
         if: always()
         run: |
