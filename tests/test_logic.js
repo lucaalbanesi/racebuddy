@@ -59,6 +59,40 @@ assert.strictEqual(ga.obiettivo.id, "FI-42");
 assert.strictEqual(ga.focus.id, "RM-21");
 assert.strictEqual(L.gareAttive([firenze, roma], fasi, "2026-10-25").focus.id, "FI-42");
 
+// ciclo di vita: attiva fino al giorno gara, post-gara per 3 giorni, poi archivio
+assert.strictEqual(L.ciclo(roma, "2026-10-17"), "attiva");
+assert.strictEqual(L.ciclo(roma, "2026-10-18"), "attiva");
+assert.strictEqual(L.ciclo(roma, "2026-10-19"), "postgara");
+assert.strictEqual(L.ciclo(roma, "2026-10-21"), "postgara");
+assert.strictEqual(L.ciclo(roma, "2026-10-22"), "archiviata");
+// tempo segnato il giorno della gara: in archivio dal giorno dopo; segnato al giorno 2: dal giorno 3
+assert.strictEqual(L.ciclo(roma, "2026-10-18", { tempo: "1:45:00", salvato: "2026-10-18" }), "attiva");
+assert.strictEqual(L.ciclo(roma, "2026-10-19", { tempo: "1:45:00", salvato: "2026-10-18" }), "archiviata");
+assert.strictEqual(L.ciclo(roma, "2026-10-20", { tempo: "1:45:00", salvato: "2026-10-20" }), "postgara");
+assert.strictEqual(L.ciclo(roma, "2026-10-21", { tempo: "1:45:00", salvato: "2026-10-20" }), "archiviata");
+// risultati salvati prima di questa regola (senza "salvato") valgono come segnati il giorno della gara
+assert.strictEqual(L.ciclo(roma, "2026-10-19", { tempo: "1:45:00" }), "archiviata");
+// ritirato / non partito: come il tempo; archiviata a mano: subito
+assert.strictEqual(L.ciclo({ ...roma, esito: "dnf", esitoData: "2026-10-19" }, "2026-10-19"), "postgara");
+assert.strictEqual(L.ciclo({ ...roma, esito: "dnf", esitoData: "2026-10-19" }, "2026-10-20"), "archiviata");
+assert.strictEqual(L.ciclo({ ...roma, archiviata: "2026-10-19" }, "2026-10-19"), "archiviata");
+// le gare divise: la maratona resta attiva, la mezza passa da appena corsa ad archivio
+const dv = L.dividiGare([firenze, roma], "2026-10-19");
+assert.deepStrictEqual([dv.attive.map((g) => g.id), dv.postgara.map((g) => g.id), dv.archivio.map((g) => g.id)], [["FI-42"], ["RM-21"], []]);
+assert.deepStrictEqual(L.dividiGare([firenze, roma], "2026-10-19", { "RM-21": { tempo: "1:45:00", salvato: "2026-10-18" } }).archivio.map((g) => g.id), ["RM-21"]);
+// in Oggi una gara archiviata non c'è più: la mezza col tempo segnato lascia il posto alla maratona
+assert.strictEqual(L.gareAttive([firenze, roma], fasi, "2026-10-19").tutte.length, 2);
+assert.deepStrictEqual(L.gareAttive([firenze, roma], fasi, "2026-10-19", { "RM-21": { tempo: "1:45:00", salvato: "2026-10-18" } }).tutte.map((g) => g.id), ["FI-42"]);
+assert.strictEqual(L.gareAttive([roma], fasi, "2026-10-22").obiettivo, null);
+// il bilancio dell'ultima gara torna nella borsa della successiva, solo se c'è qualcosa da ricordare
+const ris = { "RM-21": { tempo: "1:45:00", debrief: { rifornimento: "rivedere", scarpe: "ok", fastidi: "no", nota: "Gel al 15 e al 30" } } };
+const ud = L.ultimoDebrief([firenze, roma], ris, firenze.data);
+assert.strictEqual(ud.gara.id, "RM-21");
+assert.deepStrictEqual(ud.voci, ["Rifornimento da rivedere"]);
+assert.strictEqual(ud.nota, "Gel al 15 e al 30");
+assert.strictEqual(L.ultimoDebrief([firenze, roma], ris, roma.data), null);
+assert.strictEqual(L.ultimoDebrief([roma], { "RM-21": { tempo: "1:45:00", debrief: { rifornimento: "ok", scarpe: "ok", fastidi: "no", nota: "" } } }, firenze.data), null);
+
 // pillola: stabile nel giorno, coerente con fase e distanza
 const p1 = L.pillola(pillole, "costruzione", "42", "2026-10-14", 10);
 assert.strictEqual(p1.id, L.pillola(pillole, "costruzione", "42", "2026-10-14", 10).id);

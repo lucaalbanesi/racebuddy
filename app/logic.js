@@ -66,10 +66,46 @@
     return { borsa: [...base.filter((v) => v.giorno < 0), ...extra], mattina: base.filter((v) => v.giorno === 0) };
   }
 
-  /** Gara "principale" per la vista Oggi: la più vicina tra quelle non concluse, con priorità all'obiettivo
-      se le altre sono lontane. Restituisce anche le altre gare in arrivo. */
-  function gareAttive(gare, fasi, oggi) {
+  /** Ciclo di vita di una gara seguita: "attiva" fino al giorno della gara compreso, poi "postgara" (recap e
+      "Com'è andata?") per POST_GARA giorni, poi "archiviata". Si archivia prima quando l'esito è segnato (tempo,
+      ritirato, non partito, annullata): dal giorno dopo averlo segnato, mai il giorno della gara. "Archivia" a mano
+      (g.archiviata = data) archivia subito. `risultato` = S.risultati[g.id] (con `salvato`, il giorno in cui è stato
+      segnato; i risultati di prima di questa regola valgono come segnati il giorno della gara). */
+  const POST_GARA = 3;
+  function ciclo(g, oggi, risultato) {
+    if (g.archiviata) return "archiviata";
+    const n = diffDays(oggi, g.data);
+    if (n <= 0) return "attiva";
+    const segnato = risultato && risultato.tempo ? (risultato.salvato || g.data) : g.esito ? (g.esitoData || g.data) : null;
+    if (segnato && oggi > segnato) return "archiviata";
+    return n <= POST_GARA ? "postgara" : "archiviata";
+  }
+
+  /** Le gare seguite divise per la vista Gare: attive (dalla più vicina), appena corse e archivio (dalla più recente). */
+  function dividiGare(gare, oggi, risultati = {}) {
+    const out = { attive: [], postgara: [], archivio: [] };
+    for (const g of gare) { const c = ciclo(g, oggi, risultati[g.id]); out[c === "attiva" ? "attive" : c === "postgara" ? "postgara" : "archivio"].push(g); }
+    out.attive.sort((a, b) => a.data.localeCompare(b.data));
+    out.postgara.sort((a, b) => b.data.localeCompare(a.data));
+    out.archivio.sort((a, b) => b.data.localeCompare(a.data));
+    return out;
+  }
+
+  /** Il bilancio dell'ultima gara corsa prima di `prima` (data), da ricordare nella borsa: le voci "da rivedere" e la
+      nota. null se non c'è niente da ricordare. */
+  const DEBRIEF = { rifornimento: "Rifornimento da rivedere", scarpe: "Scarpe da rivedere", fastidi: "Hai avuto fastidi" };
+  function ultimoDebrief(gare, risultati = {}, prima) {
+    const g = gare.filter((x) => x.data < prima && risultati[x.id] && risultati[x.id].debrief).sort((a, b) => b.data.localeCompare(a.data))[0];
+    if (!g) return null;
+    const d = risultati[g.id].debrief, voci = Object.keys(DEBRIEF).filter((k) => d[k] === "rivedere" || (k === "fastidi" && d[k] === "si")).map((k) => DEBRIEF[k]);
+    return voci.length || d.nota ? { gara: g, voci, nota: d.nota || "" } : null;
+  }
+
+  /** Gara "principale" per la vista Oggi: la più vicina tra quelle non concluse e non archiviate, con priorità
+      all'obiettivo se le altre sono lontane. Restituisce anche le altre gare in arrivo. */
+  function gareAttive(gare, fasi, oggi, risultati = {}) {
     const vive = gare
+      .filter((g) => ciclo(g, oggi, risultati[g.id]) !== "archiviata")
       .map((g) => ({ ...g, fase: fase(fasi, g.distanza, g.data, oggi), mancano: diffDays(g.data, oggi) }))
       .filter((g) => g.fase.id !== "conclusa")
       .sort((a, b) => a.data.localeCompare(b.data));
@@ -443,7 +479,7 @@
     return out;
   }
 
-  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento };
+  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, POST_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);

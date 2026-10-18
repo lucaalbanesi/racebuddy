@@ -367,3 +367,16 @@ body.onboarding .banner-home { background: #fff; color: #1E2B4A; }
 body.onboarding .banner-chiudi { background: #1E2B4A14; color: #1E2B4A; }
 .novita-x { position: absolute; right: 10px; top: 10px; width: 34px; height: 34px; border-radius: 50%; border: 0; background: #0009; color: #fff; font-size: 15px; cursor: pointer; }
 .novita-azioni { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 16px 14px; }
+
+/* Gare: appena corse e archivio */
+.mia-gara.corsa { border-left-color: var(--ok); }
+.arch-riga { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-top: 1px solid var(--line2); text-decoration: none; color: inherit; font-weight: inherit; }
+.arch-riga .race { flex: 1; min-width: 0; }
+.arch-riga .race .date b { font-size: 26px; }
+/* Bilancio della gara: scelte a pillola fatte di radio */
+.scelta-riga { border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.scelta { display: flex; gap: 8px; flex-wrap: wrap; }
+.scelta input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+.scelta label { height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font-weight: 600; font-size: 14px; display: inline-flex; align-items: center; cursor: pointer; }
+.scelta input:checked + label { background: var(--navy); color: #fff; border-color: var(--navy); }
+.scelta input:focus-visible + label { outline: 2px solid var(--accent); outline-offset: 2px; }
