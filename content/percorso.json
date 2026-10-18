@@ -590,25 +590,7 @@
     "tipo": "checklist",
     "categoria": "borsa",
     "titolo": "Pettorale e spille",
-    "messaggio": "Pettorale con spille, o portapettorale.",
-    "giorni": {
-      "10": -1,
-      "21": -1,
-      "42": -1
-    },
-    "riferimento": "gara",
-    "tappa": true,
-    "divertimento": true,
-    "recuperabile": false,
-    "modulo": "Checklist"
-  },
-  {
-    "id": "P034",
-    "fase": "scarico",
-    "tipo": "checklist",
-    "categoria": "borsa",
-    "titolo": "Chip",
-    "messaggio": "Chip di cronometraggio, se separato dal pettorale.",
+    "messaggio": "Pettorale con il chip già attaccato, e spille o portapettorale.",
     "giorni": {
       "10": -1,
       "21": -1,
