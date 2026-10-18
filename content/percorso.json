@@ -393,24 +393,6 @@
     "notifica": true
   },
   {
-    "id": "P025",
-    "fase": "scarico",
-    "tipo": "cosa da fare",
-    "categoria": "meteo",
-    "titolo": "Prime previsioni meteo",
-    "messaggio": "Sono uscite le prime previsioni per il giorno della gara: tienile d'occhio, possono ancora cambiare.",
-    "giorni": {
-      "10": -7,
-      "21": -7,
-      "42": -12
-    },
-    "riferimento": "gara",
-    "tappa": true,
-    "divertimento": false,
-    "recuperabile": false,
-    "modulo": "Meteo e vestizione"
-  },
-  {
     "id": "P026",
     "fase": "scarico",
     "tipo": "cosa da fare",
@@ -520,24 +502,6 @@
     "recuperabile": false,
     "modulo": "Scheda gara",
     "notifica": true
-  },
-  {
-    "id": "P032",
-    "fase": "scarico",
-    "tipo": "cosa da fare",
-    "categoria": "logistica",
-    "titolo": "Sveglia e colazione",
-    "messaggio": "Imposta la sveglia in modo da fare colazione con calma e arrivare in anticipo. Colazione già provata nei lunghi.",
-    "giorni": {
-      "10": -1,
-      "21": -1,
-      "42": -1
-    },
-    "riferimento": "gara",
-    "tappa": true,
-    "divertimento": true,
-    "recuperabile": false,
-    "modulo": "Percorso"
   },
   {
     "id": "P033",

@@ -2063,6 +2063,11 @@
     document.body.classList.toggle("funnel-on", tab === "prepara");
     if (tab === "oggi" || !tab) riempiMeteo();
     riempiMeteoGaraBox();
+    // "Imposta il tempo obiettivo" dalla preparazione: si apre la Panoramica già sul campo, con le ore pronte da scrivere
+    if (tab === "gara" && !parts[2] && param.modifica) {
+      const f = document.getElementById("gara-imp"), h = document.getElementById("gi-tempo-h");
+      if (f && h) setTimeout(() => { f.closest("details").open = true; f.scrollIntoView({ block: "center", behavior: "smooth" }); h.focus({ preventScroll: true }); f.classList.add("evidenzia"); }, 80);
+    }
     if (tab === "io") { mostraFotoDoc(); if (parts[1] === "documenti" || parts[1] === "scarpe") { const el = document.querySelector(`[data-acc="${parts[1]}"]`); if (el) setTimeout(() => el.scrollIntoView({ block: "start" }), 50); } }
     if (tab === "meteo") riempiMeteoDettaglio();
     if (tab === "gare" && param.focus) { const c = document.getElementById("cerca"); if (c) { c.focus(); c.setSelectionRange(c.value.length, c.value.length); } }

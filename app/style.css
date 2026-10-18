@@ -431,3 +431,5 @@ a.chip { display: inline-flex; align-items: center; text-decoration: none; color
 .voce > .field { width: calc(100% - 34px); }
 .check .d.auto { color: var(--ok); font-weight: 700; }
 .check input:disabled { opacity: 1; }
+@keyframes evidenzia { 0%, 60% { box-shadow: 0 0 0 3px var(--accent); } 100% { box-shadow: 0 0 0 0 transparent; } }
+.evidenzia { border-radius: 12px; animation: evidenzia 1.6s ease-out; }
