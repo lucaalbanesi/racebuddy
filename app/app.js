@@ -639,6 +639,7 @@
     tr.addEventListener("scroll", () => {
       const i = Math.round(tr.scrollLeft / tr.clientWidth);
       dots.forEach((d, j) => d.classList.toggle("on", j === i));
+      tr.querySelectorAll(".ob-slide").forEach((sl, j) => sl.classList.toggle("vista", j === i));
       av.style.visibility = i === dots.length - 1 ? "hidden" : "visible";
     }, { passive: true });
     // Prima schermata: il conto alla rovescia scende a 46 e la fase si riempie, una volta sola (niente se il telefono riduce le animazioni).
@@ -781,7 +782,7 @@
     const mie = [...postgara, ...attive];
     // Barra in alto: le mie gare, il calendario italiano, l'estero (quando c'è). La ricerca vive nel calendario.
     const estero = (D.estero || []).length > 0;
-    const vista = ["mie", "italia", "estero"].includes(param.v) && (param.v !== "estero" || estero) ? param.v : param.q || param.d || !(mie.length || archivio.length) ? "italia" : "mie";
+    const vista = ["mie", "italia", "estero"].includes(param.v) && (param.v !== "estero" || estero) ? param.v : param.q || param.d || !(mie.length || archivio.length || L.nelMirino(S.mirino, o).length) ? "italia" : "mie";
     const seg = (k, l) => `<a href="#/gare?v=${k}" ${vista === k ? 'aria-current="page"' : ""}>${l}</a>`;
     const testa = `${bannerProva()}<header class="head"><h1>Gare</h1></header>
       <nav class="seg" aria-label="Gare">${seg("mie", `Le mie${mie.length ? " · " + mie.length : ""}`)}${seg("italia", "Italia")}${estero ? seg("estero", "Estero") : ""}</nav>`;
@@ -803,12 +804,16 @@
       <p class="sub">Calendario FIDAL su strada e, per il Lazio, Gare Podistiche Lazio (anche le non competitive)${D.aggiornato ? `; aggiornato il ${esc(L.fmtGiorno(D.aggiornato.slice(0, 10)))}` : ""}. Maratone e mezze del 2027 dal calendario FIDAL già pubblicato; le altre gare del 2027 compaiono man mano.</p>`;
   }
   function vistaMieGare(o, mie, archivio) {
-    if (!mie.length && !archivio.length) return `<section class="card"><span class="title">Nessuna gara</span><span class="small">Scegline una dal calendario: ti preparo la strada fino al via.</span><a class="btn" href="#/gare?v=italia&focus=1">Cerca una gara</a></section>`;
+    const mirino = L.nelMirino(S.mirino, o);
+    const blMirino = mirino.length ? `<section aria-label="Nel mirino" style="display:flex;flex-direction:column;gap:8px"><h2>⭐ Nel mirino</h2>${mirino.map((g) => { const e = garaEsteraDati(g.id) || g;
+      return `<a class="card mia-gara mirino" href="#/estera/${encodeURIComponent(g.id)}">${cardGara(e, `<span class="row" style="gap:6px;flex-wrap:wrap"><span class="pill">tra ${L.diffDays(g.data, o)} giorni</span>${pillIscrizione(e)}</span><span class="small muted">Da attivare quando sei iscritto</span>`)}<span class="chev" aria-hidden="true">›</span></a>`; }).join("")}</section>` : "";
+    if (!mie.length && !archivio.length && !mirino.length) return `<section class="card"><span class="title">Nessuna gara</span><span class="small">Scegline una dal calendario: ti preparo la strada fino al via.</span><a class="btn" href="#/gare?v=italia&focus=1">Cerca una gara</a></section>`;
     return `${mie.length ? `<section aria-label="Le mie gare" style="display:flex;flex-direction:column;gap:8px">${mie.map((g) => {
         const n = L.diffDays(g.data, o), f = L.fase(D.fasi, g.distanza, g.data, o), r = (S.risultati || {})[g.id];
         const pill = !corsa(g, o) ? `<span class="pill">${n > 1 ? `tra ${n} giorni` : n === 1 ? "domani" : "oggi!"}</span>` : `<span class="pill ok">${r ? esc(r.tempo) + (r.pb ? " · personale" : "") : g.esito ? esc(ESITO[g.esito]) : "com'è andata?"}</span>`;
         return `<a class="card mia-gara ${corsa(g, o) ? "corsa" : ""}" href="${urlGara(g.id)}">${cardGara(g, `<span class="row" style="gap:6px;flex-wrap:wrap">${pill}<span class="small muted">${corsa(g, o) ? "Appena corsa · in archivio " + quandoArchivio(g, o) : esc(L.RUOLO_LABEL[g.ruolo]) + (!["prima", "conclusa"].includes(f.id) ? " · " + esc(f.nome) : "")}</span></span>`)}<span class="chev" aria-hidden="true">›</span></a>`;
       }).join("")}</section>` : `<p class="sub">Nessuna gara in programma.</p>`}
+      ${blMirino}
       <a class="btn ghost block" href="#/gare?v=italia&focus=1">Aggiungi una gara</a>
       ${archivio.length ? `<details class="card acc" aria-label="Archivio delle gare"><summary><span>Archivio</span><span class="small muted" style="font-weight:600">${archivio.length} ${archivio.length === 1 ? "gara corsa" : "gare corse"}</span></summary>${archivio.map((g) => {
         const r = (S.risultati || {})[g.id];
@@ -839,8 +844,78 @@
     return `<div class="chips chips-scorri" role="group" aria-label="Circuito">${chip("c", "", "Tutte", c)}${Object.entries(D.circuiti).map(([k, x]) => chip("c", k, esc(x.breve || x.nome), c)).join("")}</div>
       <div class="chips" role="group" aria-label="Distanza">${chip("d", "", "Mezza e maratona", dist)}${chip("d", "21", "Mezza", dist)}${chip("d", "42", "Maratona", dist)}</div>
       ${c && D.circuiti[c] ? `<p class="sub">${esc(D.circuiti[c].nome)}${D.circuiti[c].sito ? ` · <a href="${esc(D.circuiti[c].sito)}" rel="noopener">sito del circuito ↗</a>` : ""}</p>` : ""}
-      ${ris.length ? `<div style="display:flex;flex-direction:column;gap:8px">${ris.map((g) => `<article class="card">${cardGara(g, `<span class="row" style="gap:6px;flex-wrap:wrap">${pillCircuiti(g.circuiti)}${pillIscrizione(g)}</span>${giaMie.has(g.id) ? `<span class="pill ok" style="align-self:flex-start">già tra le tue gare</span>` : `<a class="btn small" style="align-self:flex-start" href="#/aggiungi/${encodeURIComponent(g.id)}">Scegli ${esc(L.DIST_LABEL[g.distanza])}</a>`}`)}</article>`).join("")}</div>` : `<p class="sub">Nessuna gara con questi filtri.</p>`}
+      ${ris.length ? `<div style="display:flex;flex-direction:column;gap:8px">${ris.map((g) => `<article class="card">${cardGara(g, `<span class="row" style="gap:6px;flex-wrap:wrap">${pillCircuiti(g.circuiti)}${pillIscrizione(g)}</span>${giaMie.has(g.id) ? `<a class="pill ok" style="align-self:flex-start" href="${urlGara(g.id)}">già tra le tue gare ›</a>` : `<span class="row" style="gap:8px">${inMirino(g.id) ? `<span class="pill navy-pill">⭐ nel mirino</span>` : ""}<a class="btn small" href="#/estera/${encodeURIComponent(g.id)}">Scopri</a></span>`}`)}</article>`).join("")}</div>` : `<p class="sub">Nessuna gara con questi filtri.</p>`}
       <p class="sub">Le Abbott World Marathon Majors, le SuperHalfs, gli European Marathon Classics e le grandi gare europee. Date e iscrizioni dai siti ufficiali${D.esteroDoc.aggiornato ? `, ricontrollate il ${esc(L.fmtGiorno(D.esteroDoc.aggiornato))}` : ""}: fai sempre fede al sito della gara.</p>`;
+  }
+
+  // ---------------------------------------------------------------- gare estere: presentazione, pagina, "nel mirino"
+  // Una gara estera non si aggiunge come una gara di paese: si scopre (presentazione a schermate la prima volta), si mette
+  // "nel mirino" (S.mirino: solo la gara, niente preparazione né notifiche) e si attiva da iscritti (diventa una gara
+  // normale in S.gare). La presentazione si vede una volta per gara (S.introEstere), e si può rivedere.
+  const garaEsteraDati = (id) => (D.estero || []).find((x) => x.id === id) || (S.mirino || []).find((x) => x.id === id) || null;
+  const inMirino = (id) => (S.mirino || []).some((x) => x.id === id);
+  const MESI_LUNGHI = ["gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"];
+  const dataLunga = (iso) => { const d = new Date(iso + "T12:00:00"); return `${["domenica", "lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato"][d.getDay()]} ${d.getDate()} ${MESI_LUNGHI[d.getMonth()]} ${d.getFullYear()}`; };
+  // L'animazione del circuito, in SVG: le città si accendono una dopo l'altra, quella della gara pulsa d'oro.
+  function animCircuito(it) {
+    const n = it.citta.length;
+    if (it.circuito === "grandi" || !n) {
+      const pallini = Array.from({ length: 96 }, (_, i) => { const x = 18 + (i % 12) * 24, y = 40 + Math.floor(i / 12) * 24; return `<circle class="an-folla" cx="${x}" cy="${y}" r="6" style="--d:${((i % 12) + Math.floor(i / 12)) * 60}ms"/>`; }).join("");
+      return `<svg class="an" viewBox="0 0 300 260" role="img" aria-label="Una folla di runner">${pallini}<text x="150" y="250" text-anchor="middle" class="an-num">15.000+</text></svg>`;
+    }
+    const cx = 150, cy = 140, r = 104, forma = it.circuito === "major" ? "stella" : "medaglia";
+    const pezzi = it.citta.map((c, i) => {
+      const a = -Math.PI / 2 + (i * 2 * Math.PI) / n, x = cx + r * Math.cos(a), y = cy + r * Math.sin(a), mia = i === it.indice;
+      const sim = forma === "stella" ? `<path d="M0,-13 L3.8,-4.2 13,-4 5.8,2.2 8.2,11.6 0,6.3 -8.2,11.6 -5.8,2.2 -13,-4 -3.8,-4.2Z"/>` : `<circle r="11"/><circle r="6" class="an-centro"/>`;
+      const co = Math.cos(a), si = Math.sin(a), lato = co > 0.3 ? "start" : co < -0.3 ? "end" : "middle";
+      const lx = x + (lato === "middle" ? 0 : co > 0 ? 20 : -20), ly = lato === "middle" ? y + (si < 0 ? -22 : 32) : y + 5;
+      return `<g class="an-pezzo ${mia ? "mia" : ""}" style="--d:${300 + i * 260}ms"><g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${mia ? 1.45 : 1})">${sim}</g><text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="${lato}">${esc(c)}</text></g>`;
+    }).join("");
+    const centro = it.circuito === "classics" ? `<text x="${cx}" y="${cy - 2}" text-anchor="middle" class="an-num">5</text><text x="${cx}" y="${cy + 20}" text-anchor="middle" class="an-sotto">per la medaglia</text>`
+      : `<text x="${cx}" y="${cy + 10}" text-anchor="middle" class="an-num">${n}</text><text x="${cx}" y="${cy + 30}" text-anchor="middle" class="an-sotto">${it.circuito === "major" ? "Major" : "mezze"}</text>`;
+    return `<svg class="an" viewBox="-40 0 380 290" role="img" aria-label="${esc(it.info.nome || "")}: ${esc(it.citta.join(", "))}"><circle cx="${cx}" cy="${cy}" r="${r}" class="an-anello"/>${pezzi}${centro}</svg>`;
+  }
+  function vistaIntroEstera(g) {
+    const it = L.introEstera(g, D.esteroDoc), e = garaEsteraDati(g.id) || g, b = L.benvenutoTop([it.circuito], g.distanza);
+    const nomeC = it.info.nome || "Gara internazionale", altri = it.altri.map((c) => (D.circuiti[c] || {}).nome).filter(Boolean);
+    const km = g.distanza === "42" ? "42,195 km" : "21,097 km";
+    const isc = e.iscrizione === "ballottaggio" ? ["🎟️", "Si entra con il ballottaggio", "I pettorali si sorteggiano tra chi si candida. Incrociamo le dita 🤞"]
+      : e.iscrizione === "qualificazione" ? ["⏱️", "Serve un tempo di qualificazione", "Si entra con un tempo minimo ottenuto in una maratona valida."]
+      : e.iscrizione === "libera" ? ["✅", "Iscrizioni libere", "Fino a esaurimento dei pettorali: nelle grandi gare finiscono in fretta."] : ["🏁", "Come si entra", "Le iscrizioni sono sul sito ufficiale."];
+    const slides = [
+      { k: nomeC, t: b ? b.titolo : "Una delle grandi d'Europa", d: `${it.info.racconto || ""} ${it.info.traguardo || ""}${altri.length ? ` Fa parte anche di ${altri.join(" e ")}.` : ""}`.trim(), ill: animCircuito(it) },
+      { k: dataLunga(g.data), t: g.luogo, d: e.racconto || `${g.nome}: ${km} a ${g.luogo}${e.paese ? `, ${e.paese}` : ""}.`,
+        ill: `<div class="an-citta"><svg class="an" viewBox="0 0 300 150" aria-hidden="true"><path class="an-percorso" d="M20 120 C60 40 110 140 150 80 S230 20 280 60"/><circle class="an-arrivo" cx="280" cy="60" r="7"/></svg><span class="an-km">${km}</span></div>` },
+      { k: "Il pettorale", t: isc[1], d: `${e.notaIscrizione ? e.notaIscrizione + " " : ""}${isc[2]}`, ill: `<div class="ob-countdown"><span class="big an-ticket">${isc[0]}</span></div>` },
+    ];
+    const tot = slides.length + 1;
+    return `<section class="ob ob-estera" aria-roledescription="presentazione" aria-label="${esc(g.nome)}">
+      <div class="ob-top"><span class="ob-logo">${esc(g.nome)}</span><button class="ob-salta" data-act="intro-fine" data-id="${esc(g.id)}">Salta</button></div>
+      <div class="ob-track" id="ob-track">${slides.map((x, i) => `<article class="ob-slide ${i ? "" : "vista"}" aria-label="${i + 1} di ${tot}"><div class="ob-ill">${x.ill}</div><span class="eyebrow">${esc(x.k)}</span><h1>${esc(x.t)}</h1><p>${esc(x.d)}</p></article>`).join("")}
+        <article class="ob-slide" aria-label="${tot} di ${tot}"><div class="ob-ill"><div class="ob-countdown"><span class="big an-stella">⭐</span><span>${L.diffDays(g.data, oggi())} giorni al via</span></div></div><span class="eyebrow">E adesso?</span><h1>La metti nel mirino?</h1>
+          <p>La segui senza impegno: date, ballottaggio e novità. Quando hai il pettorale, la attivi e parte la preparazione.</p>
+          <button class="btn block" data-act="mirino-si" data-id="${esc(g.id)}">Mettila nel mirino ⭐</button>
+          <button class="btn ob-sec block" data-act="intro-fine" data-id="${esc(g.id)}">Prima voglio guardarla</button></article></div>
+      <div class="ob-bottom"><div class="ob-dots" aria-hidden="true">${Array.from({ length: tot }, (_, i) => `<span class="${i ? "" : "on"}"></span>`).join("")}</div><button class="btn" id="ob-avanti" data-act="ob-avanti">Avanti</button></div></section>`;
+  }
+  function vistaEstera(id) {
+    const g = garaEsteraDati(id);
+    if (!g) return `<p class="sub">Gara non trovata: forse questa edizione è già passata.</p><a class="btn" href="#/gare?v=estero">Le gare estere</a>`;
+    const it = L.introEstera(g, D.esteroDoc), n = L.diffDays(g.data, oggi()), mir = inMirino(id), cs = L.circuitiDi(g, D.esteroDoc);
+    return `${bannerProva()}<header class="head-back">${back(mir ? "#/gare?v=mie" : "#/gare?v=estero")}<div style="min-width:0"><span class="eyebrow">${esc(cs.map((c) => (D.circuiti[c] || {}).breve || c).join(" · "))}</span><h1 style="font-size:28px">${esc(g.nome)}</h1></div></header>
+      <section class="card dark benvenuto-top"><div class="between" style="align-items:flex-end"><div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+        <span style="font:700 20px/1.1 var(--display)">${esc(g.luogo)}${g.paese ? `, ${esc(g.paese)}` : ""}</span><span class="sub">${esc(dataLunga(g.data))} · ${esc(L.DIST_LABEL[g.distanza])}</span></div>
+        <div style="text-align:right"><div class="big" style="font-size:44px">${n}</div><span class="sub">giorni</span></div></div>
+        ${mir ? `<span class="pill navy">⭐ Nel mirino</span>` : ""}</section>
+      ${g.racconto ? `<section class="card"><span class="small">${esc(g.racconto)}</span></section>` : ""}
+      ${riquadriTop(g, false)}
+      ${it.info.nome ? `<section class="card"><h2>${esc(it.info.nome)}</h2><span class="small">${esc(it.info.racconto || "")} ${esc(it.info.traguardo || "")}</span>${it.info.sito ? `<a class="small" href="${esc(it.info.sito)}" rel="noopener">Il sito del circuito ↗</a>` : ""}</section>` : ""}
+      ${mir ? `<a class="btn block" href="#/aggiungi/${encodeURIComponent(id)}">Sono iscritto: attiva la preparazione</a>
+        <button class="btn ghost block" data-act="mirino-no" data-id="${esc(id)}">Non la seguo più</button>`
+      : `<button class="btn block" data-act="mirino-si" data-id="${esc(id)}">Mettila nel mirino ⭐</button>
+        <a class="btn ghost block" href="#/aggiungi/${encodeURIComponent(id)}">Sono già iscritto: attiva la preparazione</a>`}
+      <button class="linkbtn small" data-act="intro-rivedi" data-id="${esc(id)}" style="align-self:center">Rivedi la presentazione</button>
+      ${g.sito ? `<p class="sub">Date e iscrizioni dal <a href="${esc(g.sito)}" rel="noopener">sito ufficiale ↗</a>${g.verificato ? `, ricontrollate il ${esc(L.fmtGiorno(g.verificato))}` : ""}.</p>` : ""}`;
   }
 
   // Gare del top (Major, SuperHalfs): un benvenuto speciale. Iscrizione con ballottaggio o qualificazione: in evidenza.
@@ -858,7 +933,7 @@
     const ha = S.gare.some((x) => x.ruolo === "obiettivo" && x.data >= oggi());
     const r = (v, t, d, chk) => `<label class="radio"><input type="radio" name="ruolo" value="${v}" ${chk ? "checked" : ""}><span><span class="title" style="font-size:16px">${t}</span><br><span class="small">${d}</span></span></label>`;
     const P = S.profilo;
-    return `<header class="head-back">${back(garaEstera(g) ? "#/gare?v=estero" : "#/gare")}<div><h1 style="font-size:26px">${esc(titoloGara(g.nome))}</h1><span class="sub">${esc(L.fmtGiorno(g.data))} · ${esc(L.DIST_LABEL[g.distanza])} · tra ${L.diffDays(g.data, oggi())} giorni</span></div></header>
+    return `<header class="head-back">${back(garaEstera(g) ? `#/estera/${encodeURIComponent(g.id)}` : "#/gare")}<div><h1 style="font-size:26px">${esc(titoloGara(g.nome))}</h1><span class="sub">${esc(L.fmtGiorno(g.data))} · ${esc(L.DIST_LABEL[g.distanza])} · tra ${L.diffDays(g.data, oggi())} giorni</span></div></header>
       ${riquadriTop(g, true)}
       <form id="aggiungi" data-id="${esc(id)}" style="display:flex;flex-direction:column;gap:16px">
       <fieldset style="border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:8px"><legend class="title" style="margin-bottom:8px;padding:0">Che gara è per te?</legend>
@@ -1908,7 +1983,7 @@
     const parts = path.split("/").map(decodeURIComponent);
     const param = Object.fromEntries(new URLSearchParams(query || ""));
     const tab = parts[0] || "oggi";
-    document.querySelectorAll("nav.tabs a").forEach((a) => a.setAttribute("aria-current", a.dataset.tab === ({ prepara: "oggi", aggiungi: "gare", gara: "gare", checklist: "gare", percorso: "gare", meteo: "oggi", pillole: "oggi", invito: "gruppo", risultato: "oggi", pb: "io", tempi: "io", statistiche: "io", condividi: "gare" }[tab] || tab) ? "page" : "false"));
+    document.querySelectorAll("nav.tabs a").forEach((a) => a.setAttribute("aria-current", a.dataset.tab === ({ prepara: "oggi", aggiungi: "gare", gara: "gare", checklist: "gare", percorso: "gare", meteo: "oggi", pillole: "oggi", invito: "gruppo", risultato: "oggi", pb: "io", tempi: "io", estera: "gare", statistiche: "io", condividi: "gare" }[tab] || tab) ? "page" : "false"));
     if (D.errore) { $app.innerHTML = `<section class="card"><span class="title">Qualcosa non va</span><span class="small">${esc(D.errore)}</span></section>`; return; }
     let html;
     const benvenuto = !S.benvenuto && !S.gare.length && (tab === "oggi" || tab === "benvenuto");
@@ -1923,6 +1998,12 @@
         html = parts[1] === "gara" ? vistaGaraGruppo(parts[2]) : parts[1] === "classifica" ? vistaClassifica(param) : parts[1] === "admin" ? vistaAdmin() : vistaGruppo();
         break;
       case "invito": html = vistaInvito(parts[1]); break;
+      case "estera": {
+        const id = parts[1], ge = garaEsteraDati(id);
+        if (S.gare.some((x) => x.id === id)) { location.replace(urlGara(id)); return; }
+        if (ge && !(S.introEstere || {})[id]) { $app.innerHTML = vistaIntroEstera(ge); document.body.classList.add("onboarding"); avviaBenvenuto(); return; }
+        html = vistaEstera(id); break;
+      }
       case "pb": html = vistaPB(param); break;
       case "tempi": html = C().tempi ? vistaTempi(param) : vistaPB(); break;
       case "condividi": html = vistaCondividi(parts[1]); break;
@@ -1964,6 +2045,17 @@
       salva(); if (t.tagName !== "INPUT") toast("Fatto"); rerender();
     } else if (act === "ob-avanti") {
       const tr = document.getElementById("ob-track"); tr.scrollBy({ left: tr.clientWidth, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    } else if (act === "intro-fine" || act === "mirino-si" || act === "intro-rivedi") {
+      const id = t.dataset.id, g = garaEsteraDati(id);
+      S.introEstere = { ...(S.introEstere || {}), [id]: act !== "intro-rivedi" };
+      if (act === "mirino-si" && g && !inMirino(id)) {
+        S.mirino = [...(S.mirino || []), { id: g.id, nome: g.nome, data: g.data, luogo: g.luogo, paese: g.paese || "", distanza: g.distanza, aggiunta: oggi() }];
+        toast("Nel mirino ⭐ La trovi in Le mie gare");
+      }
+      salva(); document.body.classList.remove("onboarding");
+      if (location.hash === `#/estera/${encodeURIComponent(id)}`) route(); else location.hash = `#/estera/${encodeURIComponent(id)}`;
+    } else if (act === "mirino-no") {
+      confirmBox(t, "Non la segui più?", () => { S.mirino = (S.mirino || []).filter((x) => x.id !== t.dataset.id); salva(); toast("Tolta dal mirino"); location.hash = "#/gare?v=mie"; });
     } else if (act === "ob-fine") {
       S.benvenuto = true; salva(); document.body.classList.remove("onboarding");
       if (t.dataset.vai) location.hash = t.dataset.vai; else if (location.hash === "#/benvenuto") location.hash = "#/oggi"; else route();
@@ -2300,6 +2392,7 @@
       if (ta.errore) { toast(ta.errore); return; }
       S.gare = S.gare.filter((g) => g.id !== id);
       S.gare.push({ id, nome: base.nome, data: base.data, luogo: base.luogo || "", distanza: base.distanza, ruolo, tempo: ta.tempo, aggiunta: oggi() });
+      S.mirino = (S.mirino || []).filter((x) => x.id !== id); S.introEstere = { ...(S.introEstere || {}), [id]: true };
       if (v("a-citta")) S.profilo.citta = v("a-citta");
       if (v("a-ora")) S.profilo.ora = v("a-ora");
       delete S._bozza; salva(); toast("Preparazione creata");

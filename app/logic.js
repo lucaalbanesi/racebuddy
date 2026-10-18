@@ -343,6 +343,18 @@
     return null;
   }
 
+  /** Presentazione di una gara estera: il circuito principale (Major prima di tutto), gli altri, le città del circuito e
+      quale è quella della gara (per illuminarla nell'animazione). */
+  const PRI_CIRCUITI = ["major", "superhalfs", "classics", "grandi"];
+  function introEstera(gara, estero = {}) {
+    const cs = circuitiDi(gara, estero).slice().sort((a, b) => PRI_CIRCUITI.indexOf(a) - PRI_CIRCUITI.indexOf(b));
+    const c = cs[0] || null, info = ((estero.circuiti || {})[c]) || {}, citta = info.citta || [];
+    const k = nomeSemplice(gara.luogo);
+    return { circuito: c, altri: cs.slice(1), info, citta, indice: citta.findIndex((x) => nomeSemplice(x) === k) };
+  }
+  /** Le gare "nel mirino" ancora da correre, dalla più vicina. */
+  const nelMirino = (lista, oggi) => (lista || []).filter((g) => g.data >= oggi).sort((a, b) => a.data.localeCompare(b.data));
+
   /** Stato di una scarpa. */
   function statoScarpa(s) {
     const lim = Number(s.limite) || 800;
@@ -539,7 +551,7 @@
     return out;
   }
 
-  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento };
+  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);

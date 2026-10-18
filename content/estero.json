@@ -5,21 +5,57 @@
     "major": {
       "nome": "Abbott World Marathon Majors",
       "breve": "Major",
-      "sito": "https://www.worldmarathonmajors.com/"
+      "sito": "https://www.worldmarathonmajors.com/",
+      "racconto": "Le maratone più grandi e ambite del mondo. Ogni anno centinaia di migliaia di runner sognano uno dei loro pettorali.",
+      "traguardo": "Chi le corre tutte riceve la medaglia riservata a chi ha completato ogni Major.",
+      "citta": [
+        "Tokyo",
+        "Boston",
+        "Londra",
+        "Città del Capo",
+        "Sydney",
+        "Berlino",
+        "Chicago",
+        "New York"
+      ]
     },
     "superhalfs": {
       "nome": "SuperHalfs",
       "breve": "SuperHalfs",
-      "sito": "https://www.superhalfs.com/"
+      "sito": "https://www.superhalfs.com/",
+      "racconto": "Sei grandi mezze maratone europee unite in un solo circuito, ognuna in una capitale del running.",
+      "traguardo": "Finiscile tutte e sei e diventi SuperRunner.",
+      "citta": [
+        "Lisbona",
+        "Praga",
+        "Berlino",
+        "Copenaghen",
+        "Cardiff",
+        "Valencia"
+      ]
     },
     "classics": {
       "nome": "European Marathon Classics",
       "breve": "Classics",
-      "sito": "https://www.europeanmarathonclassics.eu/"
+      "sito": "https://www.europeanmarathonclassics.eu/",
+      "racconto": "Otto maratone classiche d'Europa riunite nel 2026 in un nuovo circuito, partito proprio da Roma.",
+      "traguardo": "Ne bastano cinque, in cinque città diverse e senza limiti di tempo, per la medaglia di European Marathon Classics Finisher, con un distintivo da collezione per ogni gara. Aderire è gratis.",
+      "citta": [
+        "Roma",
+        "Vienna",
+        "Londra",
+        "Madrid",
+        "Copenaghen",
+        "Varsavia",
+        "Lisbona",
+        "Francoforte"
+      ]
     },
     "grandi": {
       "nome": "Grandi gare europee",
-      "breve": "Grandi gare"
+      "breve": "Grandi gare",
+      "racconto": "Le grandi gare d'Europa: decine di migliaia di runner al via e città intere a fare il tifo.",
+      "traguardo": "Nessuna medaglia di circuito: qui il premio è correre dentro una folla immensa."
     }
   },
   "italiane": {

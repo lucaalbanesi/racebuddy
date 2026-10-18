@@ -352,4 +352,12 @@ assert.match(L.benvenutoTop(["major", "classics"]).titolo, /top del top/);
 assert.match(L.benvenutoTop(["superhalfs"]).titolo, /mezze/);
 assert.strictEqual(L.benvenutoTop(["classics"]), null);
 
+// presentazione delle estere e gare nel mirino
+const il = L.introEstera({ id: "E-londra-42-2027", luogo: "Londra" }, ESTERO);
+assert.deepStrictEqual([il.circuito, il.altri, il.indice], ["major", ["classics"], 2]);
+assert.ok(il.info.racconto && il.info.traguardo && il.citta.length === 8);
+assert.strictEqual(L.introEstera({ id: "E-citta-del-capo-42-2027", luogo: "Città del Capo" }, ESTERO).indice, 3);
+assert.strictEqual(L.introEstera({ id: "E-siviglia-42-2027", luogo: "Siviglia" }, ESTERO).circuito, "grandi");
+assert.deepStrictEqual(L.nelMirino([{ id: "b", data: "2027-04-25" }, { id: "a", data: "2026-01-01" }, { id: "c", data: "2027-03-07" }], "2026-10-19").map((g) => g.id), ["c", "b"]);
+
 console.log("ok");

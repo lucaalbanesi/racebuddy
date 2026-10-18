@@ -39,6 +39,7 @@ ufficiale**. Le edizioni passate si tolgono. Un'edizione senza data ufficiale no
   "sito": "https://www.bmw-berlin-marathon.com/",
   "iscrizione": "ballottaggio",
   "notaIscrizione": "Ballottaggio aperto fino al 5 novembre 2026; posti garantiti con tempi di qualificazione.",
+  "racconto": "Due o tre frasi in italiano sulla gara e sulla città: il percorso, cosa la rende speciale, un'emozione.",
   "verificato": "2026-11-01"
 }
 ```
@@ -49,6 +50,11 @@ ufficiale**. Le edizioni passate si tolgono. Un'edizione senza data ufficiale no
 - `iscrizione`: `ballottaggio` (lotteria/sorteggio per i pettorali, anche se ci sono altre vie come charity o tempi),
   `qualificazione` (serve un tempo minimo, es. Boston) o `libera` (fino a esaurimento). `notaIscrizione`: una frase in
   italiano con le date del ballottaggio dell'edizione, se pubblicate (apertura, chiusura, estrazione).
+- `racconto`: 2-3 frasi in italiano, calde ma vere, per la presentazione che l'utente vede la prima volta che apre la
+  gara: la città, il percorso (punti di passaggio, arrivo), cosa la rende unica (folla, storia, record). Solo fatti presi
+  dal sito ufficiale o dal circuito; niente superlativi inventati, niente tempi o consigli di allenamento.
+- I circuiti in testa al file hanno `racconto`, `traguardo` (cosa si ottiene completandolo) e `citta`: correggili solo se
+  il circuito cambia davvero (es. una nuova Major ufficiale).
 - `verificato`: giorno in cui hai controllato data e iscrizione **sul sito ufficiale** della gara.
 
 ## Regole

@@ -392,3 +392,33 @@ a.chip { display: inline-flex; align-items: center; text-decoration: none; color
 .chips-scorri { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
 .chips-scorri::-webkit-scrollbar { display: none; }
 .chips-scorri .chip { flex: none; }
+/* Presentazione delle gare estere: animazioni in SVG (ripartono sulla schermata visibile, ferme se il telefono riduce le animazioni) */
+.ob-estera { background: radial-gradient(120% 70% at 50% 0%, #2b3a67 0%, var(--navy) 70%); }
+.an { width: 100%; max-width: 340px; height: auto; margin: 0 auto; display: block; overflow: visible; }
+.an-anello { fill: none; stroke: #ffffff22; stroke-width: 2; stroke-dasharray: 4 6; }
+.an-pezzo { fill: #ffffff55; opacity: .25; }
+.an-pezzo text { fill: #ffffffcc; font: 600 11px var(--body, system-ui); }
+.an-pezzo .an-centro { fill: var(--navy); }
+.an-pezzo.mia { fill: #ffd166; }
+.an-pezzo.mia text { fill: #ffd166; font-weight: 800; font-size: 12.5px; }
+.an-num { fill: #fff; font: 800 54px var(--display); }
+.an-sotto { fill: #ffffffaa; font: 600 13px var(--body, system-ui); }
+.an-folla { fill: #ffffff66; opacity: .2; }
+.an-citta { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.an-km { font: 800 40px var(--display); color: #ffd166; }
+.an-percorso { fill: none; stroke: #ffd166; stroke-width: 6; stroke-linecap: round; stroke-dasharray: 420; stroke-dashoffset: 0; }
+.an-arrivo { fill: #fff; }
+.an-ticket, .an-stella { font-size: 110px !important; line-height: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  .ob-slide.vista .an-pezzo { animation: an-accendi .5s ease-out forwards; animation-delay: var(--d); }
+  .ob-slide.vista .an-pezzo.mia { animation: an-accendi .5s ease-out forwards, an-pulsa 1.6s ease-in-out infinite; animation-delay: var(--d), calc(var(--d) + .6s); transform-origin: center; transform-box: fill-box; }
+  .ob-slide.vista .an-folla { animation: an-accendi .4s ease-out forwards; animation-delay: var(--d); }
+  .ob-slide.vista .an-percorso { stroke-dashoffset: 420; animation: an-traccia 2.2s .2s ease-out forwards; }
+  .ob-slide.vista .an-ticket, .ob-slide.vista .an-stella { animation: an-salta .8s ease-out both; }
+}
+@media (prefers-reduced-motion: reduce) { .an-pezzo, .an-folla { opacity: 1; } }
+@keyframes an-accendi { to { opacity: 1; } }
+@keyframes an-pulsa { 50% { filter: drop-shadow(0 0 10px #ffd166); } }
+@keyframes an-traccia { to { stroke-dashoffset: 0; } }
+@keyframes an-salta { 0% { transform: scale(.4) rotate(-12deg); opacity: 0; } 70% { transform: scale(1.1) rotate(4deg); opacity: 1; } 100% { transform: none; } }
+.mia-gara.mirino { border-left-color: #d4a017; }
