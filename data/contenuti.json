@@ -2,6 +2,283 @@
  "aggiornato": "2026-10-18",
  "contenuti": [
   {
+   "id": "6aac9e318c7b",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Superblast 3: alta, morbida e leggera, una delle scarpe più comode sul mercato per macinare chilomet",
+   "estratto": "La scorsa settimana abbiamo deciso di far uscire un video dove raccontiamo tutti (o quasi) i modelli della linea ASICS BLAST, oggi tocca…",
+   "link": "https://www.youtube.com/shorts/E9kAnQRWLhE",
+   "data": "2026-10-18",
+   "immagine": "https://i2.ytimg.com/vi/E9kAnQRWLhE/hqdefault.jpg",
+   "argomenti": [
+    "scarpe"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "e3fa63efe9d2",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Scendere sotto i 50 minuti nei 10 km in sei settimane",
+   "estratto": "Un test sui 5 km per ricavare i ritmi, sei settimane in cui ogni uscita ha un compito preciso e un piano di gara per tenere 5:00 min/km fino al traguardo. Per chi oggi chiude i 10…",
+   "link": "https://runlovers.it/2026/programma-sei-settimane-10-km-sotto-50-minuti/",
+   "data": "2026-10-18",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/migliorare-10k-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [
+    "10"
+   ],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "7d169212f79f",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Rome Half Marathon, l'Africa detta legge nella festa dei 40mila runner",
+   "estratto": "Tra gli uomini vince il keniano Kibet con il nuovo record della gara. Tra le donne, trionfa l'etiope Desta",
+   "link": "https://www.runnersworld.com/it/eventi/a74169717/rome-half-marathon-risultati-2026/",
+   "data": "2026-10-18",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/2b0c7315-47aa-4c37-8196-347ce176b401.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "93a6e1ae7386",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Parma Marathon: per tutti i runner e su tutte le distanze",
+   "estratto": "Domenica 18 Ottobre: è il giorno della Parma Marathon, manifestazione che oltre alla prova sui 42195 metri, offriva ai runner un menù di gare per tutti i gusti. Si poteva…",
+   "link": "https://podisti.net/parma-marathon-per-tutti-i-runner-e-su-tutte-le-distanze/",
+   "data": "2026-10-18",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/Parma-Marathon2026-Medaglie.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42",
+    "10"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "1a76df019a6d",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Omegna (VB) – Minerva Energia Ultra Trail del Lago d’Orta: Minoggio e Boggio vincono la 58 km",
+   "estratto": "17-18 Ottobre – Sono Cristian Minoggio e Chiara Boggio, nella 58 km, e Filippo Maulini e Denise Zacco, nella 34 km, i vincitori delle due gare che hanno animato, sabato 17…",
+   "link": "https://podisti.net/omegna-vb-minerva-energia-ultra-trail-del-lago-dorta-minoggio-e-boggio-vincono-la-58-km/",
+   "data": "2026-10-18",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/Minoggio_FotoRavenna-1.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "gara"
+   ]
+  },
+  {
+   "id": "fb07e5e4bfb1",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Non solo corsa, 5 esercizi di forza per rimettersi in forma dopo i 40 anni",
+   "estratto": "Dopo i 40 anni preservare la massa muscolare diventa ancora più importante. Una coach propone cinque esercizi per allenare forza, equilibrio e tutto il corpo",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a74164242/esercizi-forza-dopo-40-anni-runner/",
+   "data": "2026-10-18",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/af5bfc85-5388-4031-9d1b-2e3b44b3a5d3.jpeg",
+   "argomenti": [
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "71909fa1fa66",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Neapolis Marathon, Kositany e Omosa firmano una doppietta da record",
+   "estratto": "Il Kenya domina la gara sui 42,195 chilometri: Joel Kipsang Kositany vince in 2h12’32”, Teresiah Omosa in 2h34’05”. Nella mezza maratona successi di Yassine Zaki e Claudia…",
+   "link": "https://podisti.net/neapolis-marathon-kositany-e-omosa-firmano-una-doppietta-da-record/",
+   "data": "2026-10-18",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/JoelKipsangKositanyVincitoreNeapolisMarathon2026FotoOrganizzatoriFb.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "e3680050bcfe",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Mezza Maratona di Roma, i risultati degli italiani",
+   "estratto": "Brilla Giovanna Epis con altre quattro tre azzurre nella top ten. Tra gli uomini Ouhda è undicesimo assoluto",
+   "link": "https://www.runnersworld.com/it/news/a74169776/mezza-maratona-roma-risultati-italiani/",
+   "data": "2026-10-18",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/gettyimages-1639674174-65eacc7dc044d.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "e3ce484c9848",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona di Amsterdam, tanti record battuti sotto la pioggia. Bene gli italiani",
+   "estratto": "L'etiope Diriba demolisce il primato del tracciato, ottime performance anche per gli italiani",
+   "link": "https://www.runnersworld.com/it/news/a74169902/maratona-amsterdam-risultati-italiani/",
+   "data": "2026-10-18",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/b2b58a99-ec18-4083-ace6-8539aa4ac540.jpeg",
+   "argomenti": [
+    "gara",
+    "abbigliamento",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "7cfb60e65517",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Manca poco per il Campionato Italiano Trail Lungo: ad Alba un percorso che fa discutere",
+   "estratto": "Si assegnano domenica 25 ottobre i titoli italiani di trail lungo, su un percorso che lascia un po' perplessi. La FIDAL non poteva fare di meglio?",
+   "link": "https://www.runnersworld.com/it/trail/ultra-trail/a74146103/campionato-italiano-trail-lungo-2026-alba/",
+   "data": "2026-10-18",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/8d3a178e-9db9-4764-9894-574f5d439159.jpeg",
+   "argomenti": [
+    "allenamento",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "03434cd01037",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Kibet e Desta vincono la Wizz Air Rome Half Marathon",
+   "estratto": "Il keniano chiude in 59’22” e stabilisce il nuovo record della gara. L’etiope vince in 1h07’26”. Giovanna Epis e Ahmed Ouhda migliori italiani al traguardo. 18 ottobre Roma –…",
+   "link": "https://podisti.net/kibet-e-desta-vincono-la-wizz-air-rome-half-marathon/",
+   "data": "2026-10-18",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/PodioMaschileWizzAirRomeHalfMarathon2026FotoComitatoOrganizzatore.png",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "cc9a7f6ab61b",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Glutei addormentati e mal di schiena, il circuito per risvegliarli",
+   "estratto": "Sei esercizi a corpo libero per rimettere al lavoro anche e glutei dopo una giornata da seduti: un’aggiunta utile alla cura della schiena, da affiancare al resto del lavoro. Cosa…",
+   "link": "https://runlovers.it/2026/glutei-addormentati-schiena-circuito-wow/",
+   "data": "2026-10-18",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/glutei-schiena-routine-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "forza",
+    "recupero",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "dopo"
+   ]
+  },
+  {
+   "id": "8940a4ed47ae",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Gli allenamenti scientifici di Andreas Almgren per la Maratona di New York: soglia, lunghi, forza e volume",
+   "estratto": "Un approccio moderno basato sul monitoraggio continuo del lattato e su volumi elevati che sta riscrivendo le regole della corsa di fondo",
+   "link": "https://www.runnersworld.com/it/allenamento/a74144825/allenamenti-andreas-almgren-maratona-new-york/",
+   "data": "2026-10-18",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/0b5b0531-5b4a-496f-aa5b-09958109fafe.jpeg",
+   "argomenti": [
+    "allenamento",
+    "forza",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "1c800db9bf7e",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Amsterdam (NED) – TCS Amsterdam Marathon",
+   "estratto": "PAGINA IN AGGIORNAMENTO 18 ottobre 2026. Una manifestazione in forte crescita, dall’ormai lontano 1975 quando è nata ne ha fatta di strada, se pensiamo che è passata dai 16.815…",
+   "link": "https://podisti.net/amsterdam-ned-tcs-amsterdam-marathon/",
+   "data": "2026-10-18",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/Amsterdam-2026-supporters.png",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
    "id": "8f781b91c7d1",
    "tipo": "articolo",
    "fonte": "Runlovers",
