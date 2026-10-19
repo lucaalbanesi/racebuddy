@@ -2,6 +2,330 @@
  "aggiornato": "2026-10-19",
  "contenuti": [
   {
+   "id": "d3e75696d1ad",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Valtellina Wine Trail, perché piace così tanto? Tutto su una delle gare più amate dai runner",
+   "estratto": "Sold out dopo poche ore dall’apertura delle iscrizioni, la gara del prossimo 7 novembre è fra i trail più imperdibili. Le ragioni del suo successo? Eccole",
+   "link": "https://www.runnersworld.com/it/eventi/a74170551/valtellina-wine-trail-perche-piace/",
+   "data": "2026-10-19",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/1e124ad4-c531-4a8e-9174-f8495508f910.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "55a6245de9d5",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Recupero dopo la maratona: 6 cose da fare nelle ore successive",
+   "estratto": "Dal camminare dopo il traguardo a cibo, idratazione e riposo: 6 indicazioni per recuperare dopo una maratona e tornare gradualmente a correre",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a74169927/recupero-dopo-maratona-cose-fare/",
+   "data": "2026-10-19",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/036c2002-e45f-4ce6-bec1-dfcb9f587f0d.jpeg",
+   "argomenti": [
+    "rifornimento",
+    "alimentazione",
+    "recupero",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico",
+    "dopo"
+   ]
+  },
+  {
+   "id": "13c50c3f3c70",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Quanto aspettare dopo una maratona prima di correre un’altra gara",
+   "estratto": "Una 5K facile e un’altra maratona richiedono tempi di recupero molto diversi. Due coach spiegano quanto aspettare e quali segnali indicano che puoi tornare a gareggiare",
+   "link": "https://www.runnersworld.com/it/allenamento/maratona/a74031237/maratona-quando-correre-prossima-gara/",
+   "data": "2026-10-19",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/aa932759-54fa-4716-b86c-3ea69a43cadf.jpeg",
+   "argomenti": [
+    "recupero",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "dopo"
+   ]
+  },
+  {
+   "id": "4367de53f4cc",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Migliora la tua mobilità in un mese",
+   "estratto": "Un mese di mobilità attiva per anche, caviglie, colonna e spalle, con un metro da sarta per sapere da dove si parte. Quattro misure da prendere con un metro e una matita, il primo…",
+   "link": "https://runlovers.it/2026/programma-mensile-mobilita-corpo-intero/",
+   "data": "2026-10-19",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/mobilita-articolare-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "alimentazione",
+    "allenamento",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "17142728db86",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Mattinata (FG) – 1° Trofeo Terra degli Ulivi, vincono Bouryoug e Parisi",
+   "estratto": "18 ottobre – Prima edizione di grande rilievo per il Trofeo Terra degli Ulivi che a Mattinata (FG) ha portato avanti il Circuito Provinciale Capitanata Terra dell’Atletica 2026…",
+   "link": "https://podisti.net/mattinata-fg-1-trofeo-terra-degli-ulivi-vincono-bouryoug-e-parisi/",
+   "data": "2026-10-19",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/Arrivo-vincitore-2.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "gara"
+   ]
+  },
+  {
+   "id": "3b319645a6bd",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "L’allenamento settimanale per addominali forti (senza crunch)",
+   "estratto": "Un circuito a terra di venti minuti che allena la pancia al compito che svolge per tutta la giornata: tenere fermo il tronco mentre braccia e gambe si muovono. Cinque esercizi a…",
+   "link": "https://runlovers.it/2026/addominali-senza-crunch-circuito-wow/",
+   "data": "2026-10-19",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/addominali-no-crunch-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "forza",
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "gara",
+    "dopo"
+   ]
+  },
+  {
+   "id": "f2099a67d640",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "La meditazione della gentilezza per i giorni in cui tutto irrita",
+   "estratto": "Quando la reattività ti blocca, una pratica di dieci minuti allena la disponibilità emotiva come un muscolo. Ecco come funziona. La meditazione metta (gentilezza amorevole) nasce…",
+   "link": "https://runlovers.it/2026/meditazione-gentilezza-amorevole-irritazione/",
+   "data": "2026-10-19",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/01-20261019-1730-Meditazione-gentilezza-W-Unsplash-Valeriia-Miller.jpeg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "forza",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "85536e498f73",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Foliage in Liguria: quando l'autunno colora l'entroterra tra mare e monti",
+   "estratto": "Voglia di foliage in Liguria? Dai parchi montani alle Cinque Terre, l’autunno è il momento giusto per camminare nella natura",
+   "link": "https://www.runnersworld.com/it/travel/a66021472/foliage-liguria-cammini-autunno/",
+   "data": "2026-10-19",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/78d9497e-71dd-46f3-8ac3-c265a5dc6af4.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "025f1dbd00f5",
+   "tipo": "articolo",
+   "fonte": "Garmin Blog Italia",
+   "fonteId": "garmin_blog",
+   "titolo": "Fare cardio senza correre: 5 alternative efficaci",
+   "estratto": "La corsa è uno dei metodi più efficaci per allenare il sistema cardiovascolare, ma non è l’unico, né sempre il più indicato. Traumi da sovraccarico, fastidi articolari o la…",
+   "link": "https://www.garmin.com/it-IT/blog/fitness/cardio-senza-correre/",
+   "data": "2026-10-19",
+   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/10/aumentare-fiato-senza-correre.jpg",
+   "argomenti": [
+    "allenamento",
+    "recupero",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico",
+    "gara",
+    "dopo"
+   ]
+  },
+  {
+   "id": "4c2dae88a9b8",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "Da Pechino alla Rome Half Marathon: weekend di record",
+   "estratto": "Un indomabile e inossidabile Tamirat Tola vince la maratona di Pechino col record del percorso. Agnes Ngetich firma la quarta prestazione 2026 nella mezza maratona di Tokyo. In un…",
+   "link": "https://correre.it/rome-half-marathon-2/",
+   "data": "2026-10-19",
+   "immagine": "https://correre.it/wp-content/uploads/2026/10/Rome_Half_Marathon_2026_arrivo.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "5393c075aaba",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Courtney Dauwalter punta alla maratona in 2h37 per qualificarsi ai Trials olimpici 2028",
+   "estratto": "La regina dell’ultrarunning tornerà alla California International Marathon per inseguire il minimo olimpico. E nel 2027 potrebbe provare anche un Ironman",
+   "link": "https://www.runnersworld.com/it/vip/a74175438/courtney-dauwalter-maratona-trials-olimpici/",
+   "data": "2026-10-19",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/87b32efb-265f-465b-9cf7-10a5c7c992a6.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "b5941e6ba8c0",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Conegliano (TV) – 4^ Ca’ Del Poggio Run, Ottolan e Mazzucco vincono la mezza",
+   "estratto": "18 ottobre – Di corsa tra i vigneti. Su e giù, ma senza fretta. Un occhio al cronometro e l’altro agli splendidi panorami delle Colline del Prosecco di Conegliano e Valdobbiadene…",
+   "link": "https://podisti.net/conegliano-tv-4-ca-del-poggio-run-ottolan-e-mazzucco-vincono-la-mezza/",
+   "data": "2026-10-19",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/7_Cdpr-2026_La-partenza-1.jpg",
+   "argomenti": [
+    "rifornimento",
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "7d7e3e9d22b6",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Come preparare una 5 km sul tapis roulant: il programma di un mese per correre più forte",
+   "estratto": "Ripetute, tempo run, forza e sprint: il programma di 4 settimane della coach di Runner's World per presentarti al via dei 5 km più veloce e preparato",
+   "link": "https://www.runnersworld.com/it/allenamento/5km/a74171204/come-preparare-gara-5-km-su-tapis-roulant-programma-un-mese-per-correre-forte/",
+   "data": "2026-10-19",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/c737d83a-c339-45f8-9a1e-476e873f4d3b.jpg",
+   "argomenti": [
+    "allenamento",
+    "forza",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "c488e5e7fb83",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Chiavenna (SO) – 10° Val Bregaglia Trail, Valchiese e La Recastello campioni italiani",
+   "estratto": "18 ottobre – È stata una gara ricca di colpi di scena che ha confermato come giusta l’intuizione di portare al X Val Bregaglia Trail i Campionati Italiani Assoluti, Juniores e…",
+   "link": "https://podisti.net/chiavenna-so-10-val-bregaglia-trail-valchiese-e-la-recastello-campioni-italiani/",
+   "data": "2026-10-19",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/Podio-Femminile_Campionato-Itali.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "d72626cd2c2e",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Cavaria con Premezzo (VA) – Cavaria con Premezzo La 7 Campanili",
+   "estratto": "",
+   "link": "https://podisti.net/cavaria-con-premezzo-va-cavaria-con-premezzo-la-7-campanili/",
+   "data": "2026-10-19",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/DSC_25052.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "82d5c42b864e",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Alcol e corsa: quanto può bere un runner senza compromettere allenamento e prestazioni",
+   "estratto": "Anche un solo drink può incidere su sonno, idratazione e recupero. Un ricercatore e una dietista sportiva spiegano come limitare gli effetti negativi dell’alcol",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a74158073/alcol-corsa-runner/",
+   "data": "2026-10-19",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/98a79eb2-a657-4c84-8a09-dac74b11dcec.jpeg",
+   "argomenti": [
+    "rifornimento",
+    "allenamento",
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico",
+    "dopo"
+   ]
+  },
+  {
    "id": "6aac9e318c7b",
    "tipo": "video",
    "fonte": "Personal Running Coach",
@@ -350,20 +674,6 @@
    "distanze": [
     "42"
    ],
-   "fasi": []
-  },
-  {
-   "id": "d72626cd2c2e",
-   "tipo": "articolo",
-   "fonte": "Podisti.net",
-   "fonteId": "podistinet",
-   "titolo": "Cavaria con Premezzo (VA) – Cavaria con Premezzo La 7 Campanili",
-   "estratto": "",
-   "link": "https://podisti.net/cavaria-con-premezzo-va-cavaria-con-premezzo-la-7-campanili/",
-   "data": "2026-10-18",
-   "immagine": "https://podisti.net/wp-content/uploads/2026/10/DSC_2505.jpg",
-   "argomenti": [],
-   "distanze": [],
    "fasi": []
   },
   {
