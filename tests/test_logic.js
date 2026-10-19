@@ -427,4 +427,18 @@ assert.strictEqual(L.statoScarpa({ km: 150 }).limite, 800);
 assert.strictEqual(L.kmAlGiorno([{ d: "2026-12-05", km: 10 }, { d: "2026-12-10", km: 20 }], "2026-12-10"), null); // meno di 7 giorni
 assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10", km: 38 }], "2026-12-10"), 2);
 
+// Buddy: contesto per il modello, senza dati di Strava e senza nomi
+{
+  const ctx = L.contestoBuddy({ oggi: "2026-10-14", gare: [firenze, { ...roma, data: "2026-11-08", tempo: "1:40:00" }], fasi,
+    pb: { "21": { tempo: "1:38:00" }, "10": { tempo: "44:00", fonte: "strava" } },
+    scarpe: [{ nome: "Adizero", tipo: "gara", km: 250, limite: 600 }, { nome: "DaStrava", tipo: "allenamento", km: 3, strava: true }], kmSettimana: 45 });
+  assert.ok(ctx.includes("Gara obiettivo: Firenze Marathon (Maratona), 2026-11-29, tra 46 giorni"), ctx);
+  assert.ok(ctx.includes("tempo obiettivo 1:40:00 (passo 4:44/km)"), ctx);
+  assert.ok(ctx.includes("Personali: Mezza 1:38:00."), ctx);
+  assert.ok(!ctx.includes("44:00") && !ctx.includes("DaStrava"), "niente dati di Strava");
+  assert.ok(ctx.includes("Adizero (gara): 250 km, limite 600 km"), ctx);
+  assert.ok(ctx.includes("Km a settimana: circa 45."), ctx);
+  assert.ok(L.contestoBuddy({ oggi: "2026-10-14", fasi }).includes("Nessuna gara in programma."));
+}
+
 console.log("ok");

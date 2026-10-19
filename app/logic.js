@@ -637,7 +637,33 @@
     return out;
   }
 
-  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento };
+  // Buddy (chat AI): il contesto del runner per il modello, in poche righe. Solo il minimo: gare, obiettivo, personali,
+  // scarpe inserite a mano e km a settimana. Mai nomi, documenti, posizione, né dati arrivati da Strava (scarpe con
+  // `strava`, personali con fonte "strava"): i dati di Strava restano all'utente e non vanno alle funzioni AI.
+  const KM_DIST = { "10": 10, "21": 21.0975, "42": 42.195 };
+  const TIPO_SCARPA = { allenamento: "allenamento", ritmo: "ritmo e lunghi", gara: "gara", trail: "trail" };
+  function fmtPasso(sec) { const s = Math.round(sec); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}/km`; }
+  function secondiTempo(t) { const p = String(t || "").split(":").map(Number); if (p.length < 2 || p.some((x) => !Number.isFinite(x))) return 0; return p.length === 3 ? p[0] * 3600 + p[1] * 60 + p[2] : p[0] * 60 + p[1]; }
+  function contestoBuddy({ oggi, gare = [], fasi, risultati = {}, pb = {}, scarpe = [], kmSettimana = 0 }) {
+    const righe = [`Oggi: ${oggi}.`];
+    const { tutte, obiettivo } = fasi ? gareAttive(gare, fasi, oggi, risultati) : { tutte: [], obiettivo: null };
+    const descr = (g) => {
+      const sec = secondiTempo(g.tempo), km = KM_DIST[g.distanza];
+      return `${g.nome} (${DIST_LABEL[g.distanza] || g.distanza}), ${g.data}, tra ${g.mancano} giorni${g.fase && g.fase.nome ? `, fase: ${g.fase.nome}` : ""}${sec && km ? `, tempo obiettivo ${g.tempo} (passo ${fmtPasso(sec / km)})` : ", tempo obiettivo non indicato"}`;
+    };
+    if (obiettivo) righe.push(`Gara obiettivo: ${descr(obiettivo)}.`);
+    else righe.push("Nessuna gara in programma.");
+    const altre = tutte.filter((g) => !obiettivo || g.id !== obiettivo.id).slice(0, 3);
+    if (altre.length) righe.push(`Altre gare: ${altre.map(descr).join("; ")}.`);
+    const per = ["10", "21", "42"].filter((d) => pb[d] && pb[d].tempo && pb[d].fonte !== "strava").map((d) => `${DIST_LABEL[d]} ${pb[d].tempo}`);
+    righe.push(per.length ? `Personali: ${per.join(", ")}.` : "Personali: non indicati.");
+    const sc = scarpe.filter((x) => x && !x.strava).slice(0, 6).map((x) => `${x.nome} (${TIPO_SCARPA[x.tipo] || x.tipo}): ${Math.round(Number(x.km) || 0)} km, limite ${Math.max(300, Number(x.limite) || 800)} km`);
+    righe.push(sc.length ? `Scarpe: ${sc.join("; ")}.` : "Scarpe: non indicate.");
+    if (Number(kmSettimana) > 0) righe.push(`Km a settimana: circa ${Math.round(Number(kmSettimana))}.`);
+    return righe.join("\n");
+  }
+
+  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);

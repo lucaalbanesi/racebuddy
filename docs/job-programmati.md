@@ -30,7 +30,7 @@ Ogni job è in coda con sé stesso: due giri dello stesso job non si sovrappongo
 | Job (workflow) | Quando parte | Claude | Cosa fa |
 |---|---|---|---|
 | Pubblica web app (`pages.yml`) | push su `main` (app, contenuti, dati) e dopo il calendario | – | test della logica e pubblicazione su GitHub Pages |
-| Pubblica funzioni Supabase (`funzioni.yml`) | push sulle funzioni o a mano | – | pubblica le Edge Function `tempi` e `strava` e prova `tempi` dal vivo |
+| Pubblica funzioni Supabase (`funzioni.yml`) | push sulle funzioni o a mano | – | applica i contatori del Buddy e le statistiche, pubblica le Edge Function `tempi`, `strava` e `buddy`, prova `tempi` e la quota del `buddy` dal vivo |
 | Foto delle città (`foto-citta.yml`) | push sul ramo `foto-citta` o a mano | – | cerca su Wikimedia Commons foto CC0/pubblico dominio delle città (`content/foto_ricerca.json`): provini in `foto_candidati/`, scarica quelle con `file` in `content/sfondi/` + `sfondi.json`. La scelta si fa a vista in chat con Claude; il ramo poi va su `main` senza i provini |
 | Verifica fonti contenuti (`fonti.yml`) | a mano | – | controlla che i feed dei contenuti rispondano → `data/fonti_verificate.json` |
 | Innesco job (Supabase) (`innesco-push.yml`) | a mano | – | installa calendario e token dell'innesco su Supabase (vedi sotto) |
@@ -69,6 +69,7 @@ facoltativo (es. "dai priorità alla Firenze Marathon").
 |---|---|---|
 | `DISPATCH_TOKEN` | Supabase lancia i workflow | GitHub → Settings → Developer settings → Fine-grained tokens → token di racebuddy → **Regenerate** (stessi permessi: solo repo racebuddy, Actions: Read and write). Aggiorna il secret, poi Actions → **"Innesco job (Supabase)"** → Run workflow |
 | `CLAUDE_CODE_OAUTH_TOKEN` | Claude Code in schede gara e gare estere | `claude setup-token` sul computer, poi aggiorna il secret. Non serve rilanciare nulla |
+| `GROQ_API_KEY` (in **Supabase** → Edge Functions → Secrets, non su GitHub) | il Buddy, la chat AI dell'app (piano gratuito di Groq) | console.groq.com → API Keys → nuova chiave, poi aggiorna il segreto in Supabase. Non serve ripubblicare |
 | `SUPABASE_ACCESS_TOKEN` | installare l'innesco e pubblicare le funzioni | Supabase → Account → Access Tokens, poi aggiorna il secret |
 
 Segnali che un token è scaduto:

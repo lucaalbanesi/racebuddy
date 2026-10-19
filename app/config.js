@@ -12,4 +12,6 @@ window.RB_CONFIG = {
   strava: true,
   // Tempi dalle classifiche (Gare Podistiche Lazio e FIDAL) con la Edge Function "tempi".
   tempi: true,
+  // Buddy, la chat AI su scarpe, integratori e allenamento (Edge Function "buddy", Groq).
+  buddy: true,
 };

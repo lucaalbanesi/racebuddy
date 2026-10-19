@@ -719,7 +719,7 @@
   }
   function vistaVuota(concluse) {
     const o = oggi(), pil = L.pillola(D.pillole, "nessuna", "21", o, Number(o.slice(5, 7)));
-    return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(o))}</span><h1>${S.profilo.nome ? "Ciao, " + esc(S.profilo.nome.trim().split(/\s+/)[0]) : "Buongiorno"}</h1></div></header>
+    return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(o))}</span><h1>${S.profilo.nome ? "Ciao, " + esc(S.profilo.nome.trim().split(/\s+/)[0]) : "Buongiorno"}</h1></div>${pulsanteBuddy()}</header>
       ${cardPrepara()}
       <a class="card dark" href="#/gare" style="text-decoration:none;font-weight:inherit"><span class="eyebrow">${concluse ? "Tutte le tue gare sono concluse" : "Nessuna gara in vista"}</span><span style="font:700 24px/1.1 var(--display)">${concluse ? "Qual è la prossima?" : "Scegli la tua prossima gara"}</span><span class="sub">Ti preparo la strada fino al via: cosa fare e quando, info gara, borsa ›</span></a>
       ${cardMeteo()}
@@ -778,7 +778,7 @@
 
     const meteo = cardMeteo();
 
-    return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(o))}</span><h1>Buongiorno${S.profilo.nome ? ", " + esc(S.profilo.nome.trim().split(/\s+/)[0]) : ""}</h1></div></header>${cardPrepara()}${hero}${avvisoDocumenti()}${meteo}${blocco}${statoPrepara().completo ? cardPush(true) : ""}${pill}${(() => {
+    return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(o))}</span><h1>Buongiorno${S.profilo.nome ? ", " + esc(S.profilo.nome.trim().split(/\s+/)[0]) : ""}</h1></div>${pulsanteBuddy()}</header>${cardPrepara()}${hero}${avvisoDocumenti()}${meteo}${blocco}${statoPrepara().completo ? cardPush(true) : ""}${pill}${(() => {
       const top = topPerTe(2);
       return top.length ? `<section aria-label="Per te oggi"><div class="between" style="margin-bottom:8px"><h2>Per te oggi</h2><a class="small" href="#/perte">Altro ›</a></div><div class="lista-c">${top.map((c, i) => cardContenuto(c, i === 0)).join("")}</div></section>` : "";
     })()}`;
@@ -1035,7 +1035,7 @@
   }
   function testataGara(g, sez) {
     const tab = (k, l) => `<a href="${urlGara(g.id, k)}" ${sez === k ? 'aria-current="page"' : ""}>${l}</a>`;
-    return `${bannerProva()}<header class="head-back">${back(sez ? urlGara(g.id) : "#/gare")}<div style="min-width:0"><span class="eyebrow">${esc(L.fmtGiorno(g.data))} · ${esc(L.DIST_LABEL[g.distanza])} · ${esc(L.RUOLO_LABEL[g.ruolo].toLowerCase())}</span><h1 style="font-size:28px">${esc(titoloGara(g.nome))}</h1></div></header>
+    return `${bannerProva()}<header class="head-back">${back(sez ? urlGara(g.id) : "#/gare")}<div style="min-width:0"><span class="eyebrow">${esc(L.fmtGiorno(g.data))} · ${esc(L.DIST_LABEL[g.distanza])} · ${esc(L.RUOLO_LABEL[g.ruolo].toLowerCase())}</span><h1 style="font-size:28px">${esc(titoloGara(g.nome))}</h1></div>${pulsanteBuddy()}</header>
       <nav class="seg" aria-label="Sezioni della gara">${tab("", "Panoramica")}${tab("preparazione", "Preparazione")}${tab("info", "Info gara")}${tab("borsa", "Borsa")}</nav>`;
   }
   // Ciclo di vita: attiva → post-gara (3 giorni) → archivio. Esiti diversi dal tempo, segnati da "Com'è andata?".
@@ -1647,6 +1647,7 @@
     STAT.letto = new Date();
     try { sessionStorage.setItem(STAT_KEY, parola); if (ricorda) localStorage.setItem(STAT_KEY, parola); } catch (e) { /* niente */ }
   }
+  const TEMA_BUDDY = { scarpe: "Scarpe", integratori: "Integratori", allenamento: "Allenamento", fuori_tema: "Fuori tema", altro: "Altro" };
   const INVIO_LABEL = { mattino: "Mattino", meteo: "Meteo", novita: "Novità gara", vigilia: "Vigilia", gara: "Mattina di gara", fase: "Per la fase", altro: "Altro" };
   const INTERR_LABEL = { percorso: "Tappe", gara: "La tua gara", meteo: "Meteo", novita: "Novità gara", documenti: "Scadenze", fase: "Per la fase" };
   const barreOrizz = (righe, valore) => `<div class="hbar">${righe.map(([l, n, max]) => `<span>${esc(l)}</span><div class="hbar-t"><div style="width:${max ? Math.max(2, Math.round((n / max) * 100)) : 0}%"></div></div><b>${esc(valore(n))}</b>`).join("")}</div>`;
@@ -1695,6 +1696,12 @@
       <section class="card"><h2>Gruppo</h2><div class="grid2 stat-num">
         <div><b>${esc(gr.membri)}</b><span class="small muted">membri</span></div><div><b>${esc(gr.attivi7)}</b><span class="small muted">attivi in 7 giorni</span></div>
         <div><b>${esc(gr.risultati30)}</b><span class="small muted">risultati in bacheca · 30 g</span></div><div><b>${esc(gr.personali)}</b><span class="small muted">personali in classifica</span></div></div></section>
+      ${d.buddy ? (() => {
+        const bu = d.buddy, temi = Object.entries(bu.temi30 || {}).sort((a, b) => b[1] - a[1]), maxT = Math.max(0, ...temi.map(([, n]) => n)), tot = temi.reduce((a, [, n]) => a + n, 0);
+        return `<section class="card"><div class="between"><h2>Buddy · temi in 30 giorni</h2><b style="font:700 22px var(--display)">${tot}</b></div>
+          ${temi.length ? barreOrizz(temi.map(([k, n]) => [TEMA_BUDDY[k] || k, n, maxT]), (n) => `${Math.round((n / tot) * 100)}%`) : `<span class="small">Ancora nessuna domanda al buddy.</span>`}
+          <span class="small muted">Oggi ${esc(bu.oggi)} domande (${esc(Math.round((bu.token_oggi || 0) / 1000))}k token su ~200k gratuiti) · 7 giorni ${esc(bu.domande7)}. Il testo delle domande non si salva: solo il tema.</span></section>`;
+      })() : ""}
       <p class="sub">Solo totali: nessun nome, nessuna gara dei singoli. Le aperture si contano senza riconoscere il telefono, dal ${esc(L.fmtBreve(Object.keys(att).sort()[0] || oggiS))}.</p>`;
   }
 
@@ -2044,6 +2051,69 @@
       <p class="sub">Profilo, preparazione e scarpe restano su questo telefono.</p>`;
   }
 
+  // ---------------------------------------------------------------- Buddy: chat AI su scarpe, integratori e allenamento
+  // La chat resta su questo telefono (S.buddy.chat). Le domande vanno alla Edge Function "buddy" (Groq, piano gratuito di
+  // Luca) con il contesto di L.contestoBuddy: gara, obiettivo, personali, scarpe inserite a mano. Mai nomi, documenti o
+  // dati di Strava. Quota del giorno per telefono calcolata dalla funzione sui telefoni attivi della settimana.
+  const B = () => (S.buddy = S.buddy || { ok: false, chat: [] });
+  const BUDDY_ESEMPI = ["Che scarpa prendo dopo le mie?", "Come imposto le prossime settimane?", "Gel e integratori: consigli?"];
+  let buddyAttesa = false, buddyQuotaLetta = null;
+  const pulsanteBuddy = () => (C().buddy ? `<a class="buddy-btn" href="#/buddy" aria-label="Chiedi al buddy"><span aria-hidden="true">✦</span> Buddy</a>` : "");
+  // Markdown minimo delle risposte: grassetto, link, elenchi, paragrafi. Tutto passa da esc prima.
+  function mdBuddy(t) {
+    const link = (x) => x.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, (_, a, u) => `<a href="${u}" target="_blank" rel="noopener">${a}</a>`)
+      .replace(/(^|[\s(])(https?:\/\/[^\s<)]+)/g, (_, p, u) => `${p}<a href="${u}" target="_blank" rel="noopener">${u.replace(/^https?:\/\/(www\.)?/, "").split("/")[0]}</a>`);
+    const riga = (x) => link(esc(x)).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
+    return String(t || "").split(/\n{2,}/).map((blocco) => {
+      const r = blocco.split("\n").filter((x) => x.trim());
+      if (r.length && r.every((x) => /^\s*([-*•]|\d+[.)])\s+/.test(x))) {
+        const num = /^\s*\d/.test(r[0]);
+        return `<${num ? "ol" : "ul"}>${r.map((x) => `<li>${riga(x.replace(/^\s*([-*•]|\d+[.)])\s+/, ""))}</li>`).join("")}</${num ? "ol" : "ul"}>`;
+      }
+      return `<p>${r.map(riga).join("<br>")}</p>`;
+    }).join("");
+  }
+  async function chiamaBuddy(corpo) {
+    const r = await fetch(`${C().supabaseUrl}/functions/v1/buddy`, { method: "POST", headers: { apikey: C().supabaseKey, "x-racebuddy-token": token(), "Content-Type": "application/json" }, body: JSON.stringify(corpo) });
+    return r.json();
+  }
+  function leggiQuotaBuddy() {
+    if (buddyQuotaLetta === oggi()) return;
+    buddyQuotaLetta = oggi();
+    chiamaBuddy({ azione: "quota" }).then((j) => { if (j && typeof j.restano === "number") { B().restano = j.restano; B().giorno = oggi(); salva(); const el = document.getElementById("buddy-quota"); if (el) el.textContent = testoQuota(); } }).catch(() => { buddyQuotaLetta = null; });
+  }
+  const testoQuota = () => { const b = B(); return b.giorno === oggi() && typeof b.restano === "number" ? (b.restano > 0 ? `Oggi ancora ${b.restano} ${b.restano === 1 ? "domanda" : "domande"}` : "Domande di oggi finite") : ""; };
+  async function inviaBuddy(testo) {
+    const b = B(), t = String(testo || "").trim().slice(0, 1000);
+    if (!t || buddyAttesa) return;
+    b.chat = [...(b.chat || []), { r: "u", t }].slice(-40); buddyAttesa = true; salva(); rerender(); scorriChat();
+    const contesto = L.contestoBuddy({ oggi: oggi(), gare: S.gare, fasi: D.fasi, risultati: S.risultati || {}, pb: S.pb || {}, scarpe: S.scarpe || [], kmSettimana: S.profilo.kmSettimana });
+    try {
+      const j = await chiamaBuddy({ messaggi: b.chat.filter((m) => m.r === "u" || m.r === "b").slice(-10), contesto });
+      if (j.esito === "ok") b.chat.push({ r: "b", t: j.risposta, tema: j.tema });
+      else b.chat.push({ r: "n", t: j.messaggio || "Il buddy non ha risposto, riprova tra poco." });
+      if (typeof j.restano === "number") { b.restano = j.restano; b.giorno = oggi(); }
+    } catch (e) { b.chat.push({ r: "n", t: "Sei offline o il buddy non è raggiungibile: riprova tra poco." }); }
+    buddyAttesa = false; salva(); rerender(); scorriChat();
+  }
+  const scorriChat = () => requestAnimationFrame(() => window.scrollTo(0, document.body.scrollHeight));
+  function vistaBuddy() {
+    const b = B();
+    const testa = `<header class="head-back buddy-testa">${back("#/oggi")}<div style="min-width:0;flex:1"><span class="eyebrow">Scarpe · integratori · allenamento</span><h1 style="font-size:28px">Il tuo buddy</h1></div>${b.ok && (b.chat || []).length ? `<button class="btn ghost buddy-nuova" data-act="buddy-nuova">Nuova chat</button>` : ""}</header>`;
+    if (!b.ok) return `${testa}
+      <section class="card buddy-intro"><span class="buddy-ico" aria-hidden="true">✦</span><span class="title">Chiedimi di scarpe, integratori e allenamento</span>
+        <span class="small">Conosco già la tua gara, l'obiettivo, i tuoi personali e le tue scarpe: non serve ripetermeli.</span>
+        <ul class="small buddy-punti"><li>Le domande vanno a un modello AI con il minimo indispensabile: gara, obiettivo, personali e scarpe. Mai il tuo nome, i documenti o i dati di Strava.</li><li>Le conversazioni restano su questo telefono.</li><li>Le risposte sono generate da un'AI: non sostituiscono medico o allenatore.</li></ul>
+        <button class="btn block" data-act="buddy-ok">Iniziamo</button></section>`;
+    leggiQuotaBuddy();
+    const chat = b.chat || [];
+    const msg = (m) => m.r === "u" ? `<div class="msg tu">${esc(m.t).replace(/\n/g, "<br>")}</div>` : m.r === "b" ? `<div class="msg buddy">${mdBuddy(m.t)}</div>` : `<div class="msg nota">${esc(m.t)}</div>`;
+    const vuota = `<div class="buddy-vuota"><span class="buddy-ico" aria-hidden="true">✦</span><span class="title">Ciao! Di cosa parliamo?</span><div class="buddy-esempi">${BUDDY_ESEMPI.map((x) => `<button class="chip" data-act="buddy-esempio" data-t="${esc(x)}">${esc(x)}</button>`).join("")}</div></div>`;
+    return `${testa}<div class="chat" aria-live="polite">${chat.length ? chat.map(msg).join("") : vuota}${buddyAttesa ? `<div class="msg buddy attesa" aria-label="Il buddy sta scrivendo"><span></span><span></span><span></span></div>` : ""}</div>
+      <form id="buddy-form" class="buddy-scrivi"><textarea id="buddy-testo" class="input" rows="1" maxlength="1000" placeholder="Scrivi al buddy…" aria-label="Domanda al buddy" ${buddyAttesa ? "disabled" : ""}></textarea><button class="btn buddy-invia" type="submit" aria-label="Invia" ${buddyAttesa ? "disabled" : ""}>↑</button>
+        <span class="buddy-piede"><span id="buddy-quota">${esc(testoQuota())}</span> · Risposte generate da un'AI: non sostituiscono medico o allenatore.</span></form>`;
+  }
+
   // ---------------------------------------------------------------- router
   function route() {
     const h = location.hash.replace(/^#\/?/, "");
@@ -2076,6 +2146,7 @@
       case "tempi": html = C().tempi ? vistaTempi(param) : vistaPB(); break;
       case "condividi": html = vistaCondividi(parts[1]); break;
       case "statistiche": html = vistaStatistiche(); break;
+      case "buddy": html = C().buddy ? vistaBuddy() : vistaOggi(); break;
       case "risultato": html = vistaRisultato(parts[1], param); break;
       case "io": if (param.strava) { ritornoStrava(param.strava); history.replaceState(null, "", "#/io"); }
         if (parts[1] === "documenti" || parts[1] === "scarpe") S.ioAperto = { ...(S.ioAperto || {}), [parts[1]]: true }; html = vistaIo(); break;
@@ -2094,6 +2165,7 @@
     if (att) seg.scrollLeft = att.offsetLeft - (seg.clientWidth - att.offsetWidth) / 2;
     document.body.classList.toggle("onboarding", tab === "invito" && !(S.gruppo && S.gruppo.dentro));
     document.body.classList.toggle("funnel-on", tab === "prepara");
+    document.body.classList.toggle("chat-on", tab === "buddy" && !!C().buddy);
     if (tab === "oggi" || !tab) riempiMeteo();
     riempiMeteoGaraBox();
     // "Imposta il tempo obiettivo" dalla preparazione: si apre la Panoramica già sul campo, con le ore pronte da scrivere
@@ -2112,6 +2184,9 @@
     const t = e.target.closest("[data-act]");
     if (!t) return;
     const act = t.dataset.act;
+    if (act === "buddy-ok") { B().ok = true; salva(); rerender(); return; }
+    if (act === "buddy-esempio") { inviaBuddy(t.dataset.t); return; }
+    if (act === "buddy-nuova") { B().chat = []; salva(); rerender(); return; }
     if (act === "spunta") {
       if (t.tagName === "INPUT") S.spunte[t.dataset.k] = t.checked; else S.spunte[t.dataset.k] = true;
       if (!S.spunte[t.dataset.k]) delete S.spunte[t.dataset.k];
@@ -2417,6 +2492,11 @@
 
   // Caselle del tempo: solo cifre, si passa da sole alla casella dopo, il tasto cancella su una casella vuota torna indietro.
   const caselleTempo = (el) => (el && el.closest && el.closest(".tempo3") ? [...el.closest(".tempo3").querySelectorAll("input")] : null);
+  // Buddy: la casella cresce mentre si scrive (fino a 5 righe)
+  document.addEventListener("input", (e) => {
+    if (e.target.id !== "buddy-testo") return;
+    e.target.style.height = "auto"; e.target.style.height = Math.min(140, e.target.scrollHeight) + "px";
+  });
   document.addEventListener("input", (e) => {
     const tutte = caselleTempo(e.target);
     if (!tutte) return;
@@ -2447,6 +2527,7 @@
   document.addEventListener("submit", (e) => {
     const f = e.target; e.preventDefault();
     const v = (id) => (document.getElementById(id) || {}).value || "";
+    if (f.id === "buddy-form") { inviaBuddy(v("buddy-testo")); return; }
     if (f.id === "prepara-form") {
       const passo = f.dataset.passo;
       if (passo === "ora") S.profilo = { ...S.profilo, ora: v("pf-ora") };

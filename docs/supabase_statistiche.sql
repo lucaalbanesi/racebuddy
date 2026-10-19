@@ -1,4 +1,4 @@
--- RaceBuddy – statistiche d'uso (ottobre 2026). Da eseguire una volta nell'SQL Editor di Supabase (si può rilanciare).
+-- RaceBuddy – statistiche d'uso (ottobre 2026). Si può rilanciare: lo applica anche il workflow "Pubblica funzioni Supabase".
 --
 -- Niente dati personali: solo contatori per giorno.
 -- - aperture: il telefono manda un +1 la prima volta che apre l'app nel giorno ("giorno"), nella settimana ("settimana")
@@ -88,7 +88,13 @@ begin
         'membri', (select count(*) from public.membri),
         'attivi7', (select count(*) from public.membri where visto > now() - interval '7 days'),
         'risultati30', (select count(*) from public.bacheca where tipo = 'risultato' and creato > now() - interval '30 days'),
-        'personali', (select count(*) from public.pb_membri))
+        'personali', (select count(*) from public.pb_membri)),
+    'buddy', json_build_object( -- tabelle in docs/supabase_buddy.sql, da applicare prima di questo file
+        'domande7', (select coalesce(sum(domande), 0) from public.buddy_giorno where giorno > oggi - 7),
+        'oggi', (select coalesce(sum(domande), 0) from public.buddy_giorno where giorno = oggi),
+        'token_oggi', (select coalesce(sum(token), 0) from public.buddy_giorno where giorno = oggi),
+        'temi7', (select coalesce(json_object_agg(tema, n), '{}') from (select tema, sum(n) as n from public.buddy_temi where giorno > oggi - 7 group by tema) x),
+        'temi30', (select coalesce(json_object_agg(tema, n), '{}') from (select tema, sum(n) as n from public.buddy_temi where giorno > oggi - 30 group by tema) x))
   );
 end $$;
 

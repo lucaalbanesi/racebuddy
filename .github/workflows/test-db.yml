@@ -34,11 +34,18 @@ jobs:
         run: |
           psql -v ON_ERROR_STOP=1 -f docs/supabase.sql
           psql -v ON_ERROR_STOP=1 -c "create table public.gare_aggiunte (id bigserial primary key, gara_id text not null, nome text, data date, luogo text, distanza text, fonte text, creato timestamptz not null default now());"
+          psql -v ON_ERROR_STOP=1 -f docs/supabase_buddy.sql          # tabelle del Buddy, prima delle statistiche
           psql -v ON_ERROR_STOP=1 -f docs/supabase_statistiche.sql
           psql -v ON_ERROR_STOP=1 -f docs/supabase_statistiche.sql   # ripetibile
+          psql -v ON_ERROR_STOP=1 -f docs/supabase_buddy.sql          # ripetibile
           psql -v ON_ERROR_STOP=1 -f tests/test_statistiche.sql > esito3.txt 2>&1 || true
           cat esito3.txt
           if ! grep -q "permessi statistiche ok" esito3.txt; then echo "::error::statistiche: $(grep -iE 'error|errore|assert|context|line' esito3.txt | head -6 | tr '\n' ' ')"; exit 1; fi
+      - name: Buddy
+        run: |
+          psql -v ON_ERROR_STOP=1 -f tests/test_buddy.sql > esito6.txt 2>&1 || true
+          cat esito6.txt
+          if ! grep -q "permessi buddy ok" esito6.txt; then echo "::error::buddy: $(grep -iE 'error|errore|assert|context|line' esito6.txt | head -6 | tr '\n' ' ')"; exit 1; fi
       - name: Strava
         run: |
           psql -v ON_ERROR_STOP=1 -f docs/supabase_strava.sql

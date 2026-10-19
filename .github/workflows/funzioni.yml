@@ -1,10 +1,10 @@
 name: Pubblica funzioni Supabase
-# Pubblica le Edge Functions "strava" e "tempi" sul progetto Supabase. Serve il secret SUPABASE_ACCESS_TOKEN
+# Pubblica le Edge Functions "strava", "tempi" e "buddy" sul progetto Supabase (e applica le tabelle del Buddy). Serve il secret SUPABASE_ACCESS_TOKEN
 # (Supabase → Account → Access Tokens). I segreti di Strava stanno in Supabase, non qui (docs/login-strava.md).
 on:
   push:
     branches: [main]
-    paths: ["supabase/functions/**", "supabase/config.toml", "tests/test_strava.mjs", "tests/test_tempi.mjs", "tests/fixtures/tempi/**", ".github/workflows/funzioni.yml"]
+    paths: ["supabase/functions/**", "supabase/config.toml", "tests/test_strava.mjs", "tests/test_tempi.mjs", "tests/test_buddy.mjs", "docs/supabase_buddy.sql", "tests/fixtures/tempi/**", ".github/workflows/funzioni.yml"]
   workflow_dispatch:
 permissions:
   contents: read
@@ -20,6 +20,8 @@ jobs:
         run: node tests/test_strava.mjs
       - name: Test della funzione tempi
         run: node tests/test_tempi.mjs
+      - name: Test della funzione buddy
+        run: node tests/test_buddy.mjs
       - name: Progetto Supabase
         run: echo "REF=$(grep -o 'https://[a-z0-9]*\.supabase\.co' app/config.js | sed 's#https://##; s#\.supabase\.co##')" >> $GITHUB_ENV
       - name: Controllo del token
@@ -49,6 +51,30 @@ jobs:
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
         run: supabase functions deploy strava --project-ref "$REF" --no-verify-jwt
+      - name: Tabelle e contatori del Buddy (prima delle statistiche, che li leggono)
+        if: env.SALTA != '1'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          for f in docs/supabase_buddy.sql docs/supabase_statistiche.sql; do
+            body=$(jq -Rs '{query: .}' < "$f")
+            code=$(curl -s -o out.json -w '%{http_code}' -X POST "https://api.supabase.com/v1/projects/$REF/database/query" \
+              -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" -H "Content-Type: application/json" --data "$body")
+            if [ "${code:0:1}" != "2" ]; then echo "::error::$f non applicato (HTTP $code): $(head -c 400 out.json)"; exit 1; fi
+            echo "$f applicato"
+          done
+      - name: Pubblica "buddy"
+        if: env.SALTA != '1'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: supabase functions deploy buddy --project-ref "$REF" --no-verify-jwt
+      - name: Prova "buddy" dal vivo (solo la quota, non consuma domande)
+        if: env.SALTA != '1'
+        run: |
+          KEY=$(grep -o 'sb_publishable_[A-Za-z0-9_-]*' app/config.js)
+          T=$(head -c 32 /dev/urandom | od -An -tx1 | tr -d ' \n')
+          R=$(curl -s --max-time 30 -X POST "https://$REF.supabase.co/functions/v1/buddy" -H "apikey: $KEY" -H "x-racebuddy-token: $T" -H "Content-Type: application/json" -d '{"azione":"quota"}')
+          case "$R" in *'"quota"'*) echo "::notice title=Funzione buddy::$R";; *) echo "::warning title=Funzione buddy::${R:0:300}";; esac
       - name: Pubblica "tempi"
         if: env.SALTA != '1'
         env:
