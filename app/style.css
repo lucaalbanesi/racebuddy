@@ -468,3 +468,23 @@ a.chip { display: inline-flex; align-items: center; text-decoration: none; color
 .ob-storia-sub { font-size: 10px; color: #ffffffbb; }
 .ob-storia-tempo { font: 700 44px/1 var(--display); font-variant-numeric: tabular-nums; margin-top: 4px; }
 .ob-storia-badge { align-self: flex-start; margin-top: 4px; font-size: 9.5px; font-weight: 700; padding: 3px 8px; border-radius: 999px; background: var(--accent); color: #fff; }
+.ob-marchio { display: flex; align-items: center; gap: 12px; color: var(--navy-muted); font-size: 14px; line-height: 1.3; }
+.ob-marchio img { border-radius: 14px; flex: none; box-shadow: 0 8px 20px #0005; }
+.ob-marchio b { font: 700 22px var(--display); color: #fff; letter-spacing: .02em; }
+.ob-auto { display: flex; align-items: center; gap: 10px; border-top: 1px solid var(--line2); padding-top: 10px; }
+.ob-auto .t { font-weight: 600; }
+.ob-auto .d { font-size: 13px; color: var(--fg2); }
+.ob-auto-ico { flex: none; width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: var(--accent-soft); font-size: 18px; }
+.ob-km { display: block; height: 6px; border-radius: 3px; background: var(--line2); margin-top: 6px; overflow: hidden; }
+.ob-km span { display: block; height: 100%; background: var(--ok); border-radius: 3px; }
+.ob-auto-nota { font-size: 11.5px; font-weight: 600; color: var(--muted); }
+.ob-esito { gap: 6px; transform: rotate(1deg); }
+.ob-esito .pb-tempo { font: 700 24px var(--display); }
+.ob-esito + .ob-storia { width: 40%; margin-top: -6px; }
+.ob-storia { container-type: inline-size; }
+.ob-storia-testo { padding: 8cqw 7cqw; }
+.ob-storia-logo { top: 7cqw; left: 7cqw; font-size: 8cqw; }
+.ob-storia-gara { font-size: 10.5cqw; }
+.ob-storia-sub { font-size: 6cqw; }
+.ob-storia-tempo { font-size: 24cqw; }
+.ob-storia-badge { font-size: 5.6cqw; padding: 1.5cqw 4.5cqw; }
