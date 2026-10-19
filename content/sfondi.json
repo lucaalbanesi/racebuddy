@@ -5,7 +5,10 @@
   "autore": "EddieJav",
   "licenza": "CC0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Firenze-DuomoAndBIbliotecaNazionaleCentrale-viewFrom-PiazzaleMichelangelo.jpg",
-  "fuoco": [0.59, 0.36]
+  "fuoco": [
+   0.59,
+   0.36
+  ]
  },
  "roma": {
   "file": "content/sfondi/roma.jpg",
@@ -13,6 +16,548 @@
   "autore": "Wilfredor",
   "licenza": "CC0",
   "fonte": "https://commons.wikimedia.org/wiki/File:View_of_Colosseo_from_Ponte_degli_Annibaldi.jpg",
-  "fuoco": [0.57, 0.3]
+  "fuoco": [
+   0.57,
+   0.3
+  ]
+ },
+ "francoforte": {
+  "file": "content/sfondi/francoforte.jpg",
+  "titolo": "Lo skyline sul Meno",
+  "autore": "Marco Almbauer",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Skyline_Frankfurt_am_Main_2019.jpg",
+  "fuoco": [
+   0.5,
+   0.4
+  ],
+  "iconica": {
+   "file": "content/sfondi/francoforte-iconica.jpg",
+   "titolo": "Il Römerberg",
+   "autore": "Robert von Oliva (naruciakk)",
+   "licenza": "CC0",
+   "fonte": "https://commons.wikimedia.org/wiki/File:R%C3%B6merberg_in_Frankfurt.jpg",
+   "fuoco": [
+    0.5,
+    0.4
+   ]
+  }
+ },
+ "valencia": {
+  "file": "content/sfondi/valencia.jpg",
+  "titolo": "Le Torri di Serranos",
+  "autore": "Coralma*",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Valencia_-_Puerta_de_Serranos.jpg",
+  "fuoco": [
+   0.5,
+   0.4
+  ],
+  "iconica": {
+   "file": "content/sfondi/valencia-iconica.jpg",
+   "titolo": "La Città delle Arti e delle Scienze",
+   "autore": "Julián Monrabal",
+   "licenza": "CC0",
+   "fonte": "https://commons.wikimedia.org/wiki/File:Ciudad_de_las_Ciencias_y_las_Artes_(Valencia).jpg",
+   "fuoco": [
+    0.5,
+    0.4
+   ]
+  }
+ },
+ "new york": {
+  "file": "content/sfondi/new-york.jpg",
+  "titolo": "Il ponte di Brooklyn e Manhattan di sera",
+  "autore": "Kai Pilger",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Brooklyn_Bridge_at_night.jpg",
+  "fuoco": [
+   0.6,
+   0.5
+  ],
+  "iconica": {
+   "file": "content/sfondi/new-york-iconica.jpg",
+   "titolo": "La Statua della Libertà",
+   "autore": "AskALotl",
+   "licenza": "CC0",
+   "fonte": "https://commons.wikimedia.org/wiki/File:Front_view_of_Statue_of_Liberty_with_pedestal_and_base_2024.jpg",
+   "fuoco": [
+    0.5,
+    0.18
+   ]
+  }
+ },
+ "atene": {
+  "file": "content/sfondi/atene.jpg",
+  "titolo": "L'Acropoli al tramonto",
+  "autore": "Jebulon",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Erechtheum_Acropolis_Athens_evening_moon.jpg",
+  "fuoco": [
+   0.5,
+   0.4
+  ],
+  "iconica": {
+   "file": "content/sfondi/atene-iconica.jpg",
+   "titolo": "Il Partenone",
+   "autore": "Jebulon",
+   "licenza": "CC0",
+   "fonte": "https://commons.wikimedia.org/wiki/File:Parthenon_east_side_Acropolis_Athens,_Greece.jpg",
+   "fuoco": [
+    0.5,
+    0.4
+   ]
+  }
+ },
+ "barcellona": {
+  "file": "content/sfondi/barcellona.jpg",
+  "titolo": "Il Park Güell",
+  "autore": "Unknown authorUnknown author",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Town-city-cityscape-vacation-amusement-park-tower-1103525.jpg",
+  "fuoco": [
+   0.5,
+   0.4
+  ],
+  "iconica": {
+   "file": "content/sfondi/barcellona-iconica.jpg",
+   "titolo": "La Sagrada Família",
+   "autore": "Lensicle",
+   "licenza": "CC0",
+   "fonte": "https://commons.wikimedia.org/wiki/File:Bas%C3%ADlica_i_Temple_Expiatori_de_la_Sagrada_Fam%C3%ADlia_taken_by_Lensicle.jpg",
+   "fuoco": [
+    0.5,
+    0.4
+   ]
+  }
+ },
+ "siviglia": {
+  "file": "content/sfondi/siviglia.jpg",
+  "titolo": "La Giralda",
+  "autore": "Jebulon",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Top_Giralda_Sevilla.jpg",
+  "fuoco": [
+   0.5,
+   0.4
+  ],
+  "iconica": {
+   "file": "content/sfondi/siviglia-iconica.jpg",
+   "titolo": "Plaza de España",
+   "autore": "Zarateman",
+   "licenza": "CC0",
+   "fonte": "https://commons.wikimedia.org/wiki/File:Sevilla_-_Plaza_de_Espa%C3%B1a_72.jpg",
+   "fuoco": [
+    0.5,
+    0.4
+   ]
+  }
+ },
+ "lisbona": {
+  "file": "content/sfondi/lisbona.jpg",
+  "titolo": "Il tram 28 di sera",
+  "autore": "Terry Kearney from liverpool, merseyside",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Estrela_28_(44788867012).jpg",
+  "fuoco": [
+   0.25,
+   0.4
+  ],
+  "iconica": {
+   "file": "content/sfondi/lisbona-iconica.jpg",
+   "titolo": "La Torre di Belém",
+   "autore": "Szilas",
+   "licenza": "CC0",
+   "fonte": "https://commons.wikimedia.org/wiki/File:Torre_de_Bel%C3%A9m_2006-01-03_Lisbon_05.jpg",
+   "fuoco": [
+    0.5,
+    0.4
+   ]
+  }
+ },
+ "tokyo": {
+  "file": "content/sfondi/tokyo.jpg",
+  "titolo": "Tokyo con il Fuji sullo sfondo",
+  "autore": "Syced",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Shibuya_and_Mount_Fuji_seen_from_Roppongi_Hills.jpg",
+  "fuoco": [
+   0.5,
+   0.4
+  ],
+  "iconica": {
+   "file": "content/sfondi/tokyo-iconica.jpg",
+   "titolo": "La Tokyo Tower",
+   "autore": "Syced",
+   "licenza": "CC0",
+   "fonte": "https://commons.wikimedia.org/wiki/File:Tokyo_Tower_and_Roppongi_Hills_Mori_Tower_seen_from_Hamamatsucho.jpg",
+   "fuoco": [
+    0.5,
+    0.4
+   ]
+  }
+ },
+ "praga": {
+  "file": "content/sfondi/praga.jpg",
+  "titolo": "Il Castello sulla Moldava",
+  "autore": "Pierre Blaché from Paris, France",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:St._Vitus_Cathedral,_Prague_(49472133348).jpg",
+  "fuoco": [
+   0.5,
+   0.4
+  ],
+  "iconica": {
+   "file": "content/sfondi/praga-iconica.jpg",
+   "titolo": "Il Ponte Carlo",
+   "autore": "Stefano Vigorelli",
+   "licenza": "CC0",
+   "fonte": "https://commons.wikimedia.org/wiki/File:View_of_Charles_Bridge,_Prague.jpg",
+   "fuoco": [
+    0.5,
+    0.4
+   ]
+  }
+ },
+ "berlino": {
+  "file": "content/sfondi/berlino.jpg",
+  "titolo": "La torre della televisione",
+  "autore": "DanielMichaelPerry",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Fernsehturm_Berlin_at_twilight.jpg",
+  "fuoco": [
+   0.5,
+   0.4
+  ],
+  "iconica": {
+   "file": "content/sfondi/berlino-iconica.jpg",
+   "titolo": "La Porta di Brandeburgo",
+   "autore": "Perituss",
+   "licenza": "CC0",
+   "fonte": "https://commons.wikimedia.org/wiki/File:Strasse_des_17._Juni_2015_3.jpg",
+   "fuoco": [
+    0.5,
+    0.4
+   ]
+  }
+ },
+ "madrid": {
+  "file": "content/sfondi/madrid.jpg",
+  "titolo": "Plaza Mayor",
+  "autore": "Snooze123",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Plaza_mayor_madrid_20200502.jpg",
+  "fuoco": [
+   0.5,
+   0.4
+  ],
+  "iconica": {
+   "file": "content/sfondi/madrid-iconica.jpg",
+   "titolo": "La Puerta de Alcalá",
+   "autore": "Juanlufer4",
+   "licenza": "CC0",
+   "fonte": "https://commons.wikimedia.org/wiki/File:Puerta_alcala_juanlufer4.jpg",
+   "fuoco": [
+    0.5,
+    0.4
+   ]
+  }
+ },
+ "parigi": {
+  "file": "content/sfondi/parigi.jpg",
+  "titolo": "L'Arco di Trionfo",
+  "autore": "Wilfredor",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Arc_de_Triomphe_de_l'%C3%89toile_at_night_vertical_fix.jpg",
+  "fuoco": [
+   0.5,
+   0.4
+  ],
+  "iconica": {
+   "file": "content/sfondi/parigi-iconica.jpg",
+   "titolo": "La Torre Eiffel",
+   "autore": "Jebulon",
+   "licenza": "CC0",
+   "fonte": "https://commons.wikimedia.org/wiki/File:Tour_Eiffel_depuis_un_bateau_sur_la_Seine.jpg",
+   "fuoco": [
+    0.5,
+    0.55
+   ]
+  }
+ },
+ "rotterdam": {
+  "file": "content/sfondi/rotterdam.jpg",
+  "titolo": "Il ponte Erasmus al tramonto",
+  "autore": "Wichien W",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:The_Erasmus_Bridge_(224269705).jpeg",
+  "fuoco": [
+   0.5,
+   0.4
+  ],
+  "iconica": {
+   "file": "content/sfondi/rotterdam-iconica.jpg",
+   "titolo": "Il ponte Erasmus",
+   "autore": "Rik van der Kroon astute",
+   "licenza": "CC0",
+   "fonte": "https://commons.wikimedia.org/wiki/File:Erasmus_bridge_at_sunset_(Unsplash).jpg",
+   "fuoco": [
+    0.5,
+    0.4
+   ]
+  }
+ },
+ "vienna": {
+  "file": "content/sfondi/vienna.jpg",
+  "titolo": "Il Castello di Schönbrunn",
+  "autore": "Jebulon",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Fa%C3%A7ade_nord_ch%C3%A2teau_Sch%C3%B6nbrunn_Vienna.jpg",
+  "fuoco": [
+   0.5,
+   0.4
+  ],
+  "iconica": {
+   "file": "content/sfondi/vienna-iconica.jpg",
+   "titolo": "Il Duomo di Santo Stefano",
+   "autore": "Jebulon",
+   "licenza": "CC0",
+   "fonte": "https://commons.wikimedia.org/wiki/File:Spire_Cathedral_St_Stephen_Vienna_Wien_Steffl_1.jpg",
+   "fuoco": [
+    0.5,
+    0.75
+   ]
+  }
+ },
+ "boston": {
+  "file": "content/sfondi/boston.jpg",
+  "titolo": "La Massachusetts State House",
+  "autore": "Daderot",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Massachusetts_State_House_-_Boston,_MA_-_DSC04664.JPG",
+  "fuoco": [
+   0.5,
+   0.4
+  ],
+  "iconica": {
+   "file": "content/sfondi/boston-iconica.jpg",
+   "titolo": "Lo skyline sul fiume Charles",
+   "autore": "Trevor Mccourt",
+   "licenza": "CC0",
+   "fonte": "https://commons.wikimedia.org/wiki/File:Charles_River,_Boston_(260745033).jpg",
+   "fuoco": [
+    0.5,
+    0.4
+   ]
+  }
+ },
+ "amburgo": {
+  "file": "content/sfondi/amburgo.jpg",
+  "titolo": "La Speicherstadt di sera",
+  "autore": "Claudio Testa claudiotesta",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Hafen_City_(Unsplash).jpg",
+  "fuoco": [
+   0.5,
+   0.4
+  ],
+  "iconica": {
+   "file": "content/sfondi/amburgo-iconica.jpg",
+   "titolo": "L'Elbphilharmonie",
+   "autore": "Christoph Mahlstedt _senator_",
+   "licenza": "CC0",
+   "fonte": "https://commons.wikimedia.org/wiki/File:Elbphilharmonie_Hamburg,_Hamburg,_Germany_(Unsplash_AWyj7_t8pj0).jpg",
+   "fuoco": [
+    0.5,
+    0.4
+   ]
+  }
+ },
+ "copenaghen": {
+  "file": "content/sfondi/copenaghen.jpg",
+  "titolo": "La torre di Christiansborg",
+  "autore": "Jebulon",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Christiansborg_Slot_spire_Copenhagen_Denmark.jpg",
+  "fuoco": [
+   0.5,
+   0.4
+  ],
+  "iconica": {
+   "file": "content/sfondi/copenaghen-iconica.jpg",
+   "titolo": "Nyhavn",
+   "autore": "Ramblersen2",
+   "licenza": "CC0",
+   "fonte": "https://commons.wikimedia.org/wiki/File:Nyhavn_53_(Copenhagen)_02.jpg",
+   "fuoco": [
+    0.5,
+    0.4
+   ]
+  }
+ },
+ "città del capo": {
+  "file": "content/sfondi/citta-del-capo.jpg",
+  "titolo": "Il Bo-Kaap e la Lion's Head",
+  "autore": "Dennis Sylvester Hurd",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Little_Walk_to_Bo-Kaap.jpg",
+  "fuoco": [
+   0.9,
+   0.4
+  ],
+  "iconica": {
+   "file": "content/sfondi/citta-del-capo-iconica.jpg",
+   "titolo": "La Table Mountain",
+   "autore": "Netha Hussain",
+   "licenza": "CC0",
+   "fonte": "https://commons.wikimedia.org/wiki/File:View_of_Cape_Town_from_halfway_up_the_Table_Mountain_02.jpg",
+   "fuoco": [
+    0.5,
+    0.4
+   ]
+  }
+ },
+ "sydney": {
+  "file": "content/sfondi/sydney.jpg",
+  "titolo": "L'Harbour Bridge e lo skyline",
+  "autore": "Christof46",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Harbour_Bridge_IMG_0822a.jpg",
+  "fuoco": [
+   0.5,
+   0.4
+  ],
+  "iconica": {
+   "file": "content/sfondi/sydney-iconica.jpg",
+   "titolo": "L'Opera House e l'Harbour Bridge",
+   "autore": "Servite et contribuere",
+   "licenza": "CC0",
+   "fonte": "https://commons.wikimedia.org/wiki/File:Sydney_Harbour_Bridge_View_16_October_2025.jpg",
+   "fuoco": [
+    0.5,
+    0.4
+   ]
+  }
+ },
+ "newcastle": {
+  "file": "content/sfondi/newcastle.jpg",
+  "titolo": "Il Millennium Bridge sul Tyne",
+  "autore": "Alex Liivet from Chester, United Kingdom",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Gateshead_Millennium_Bridge_(51218283831).jpg",
+  "fuoco": [
+   0.5,
+   0.4
+  ],
+  "iconica": {
+   "file": "content/sfondi/newcastle-iconica.jpg",
+   "titolo": "Il Tyne Bridge",
+   "autore": "Alex Liivet from Chester, United Kingdom",
+   "licenza": "CC0",
+   "fonte": "https://commons.wikimedia.org/wiki/File:Tyne_Bridge_(26496582699).jpg",
+   "fuoco": [
+    0.5,
+    0.4
+   ]
+  }
+ },
+ "varsavia": {
+  "file": "content/sfondi/varsavia.jpg",
+  "titolo": "La piazza della Città Vecchia",
+  "autore": "Rakoon",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:PANO_20190207_115122.jpg",
+  "fuoco": [
+   0.2,
+   0.4
+  ],
+  "iconica": {
+   "file": "content/sfondi/varsavia-iconica.jpg",
+   "titolo": "Il Palazzo della Cultura e della Scienza",
+   "autore": "Pannini",
+   "licenza": "CC0",
+   "fonte": "https://commons.wikimedia.org/wiki/File:Palace_of_Culture_and_Science_Warsaw_2018.jpg",
+   "fuoco": [
+    0.5,
+    0.4
+   ]
+  }
+ },
+ "cardiff": {
+  "file": "content/sfondi/cardiff.jpg",
+  "titolo": "Il Pierhead Building a Cardiff Bay",
+  "autore": "Michael",
+  "licenza": "pubblico dominio",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Cardiff_Pierhead_Building_at_Night.jpg",
+  "fuoco": [
+   0.5,
+   0.4
+  ],
+  "iconica": {
+   "file": "content/sfondi/cardiff-iconica.jpg",
+   "titolo": "Il Castello di Cardiff",
+   "autore": "Detroit Publishing Co.",
+   "licenza": "pubblico dominio",
+   "fonte": "https://commons.wikimedia.org/wiki/File:Animal_Wall_Cardiff.jpg",
+   "fuoco": [
+    0.5,
+    0.4
+   ]
+  }
+ },
+ "chicago": {
+  "file": "content/sfondi/chicago.jpg",
+  "titolo": "Lo skyline tra le nuvole",
+  "autore": "Fineas Anton fineas_anton",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Chicago_Skyline_(Unsplash).jpg",
+  "fuoco": [
+   0.5,
+   0.4
+  ],
+  "iconica": {
+   "file": "content/sfondi/chicago-iconica.jpg",
+   "titolo": "Lo skyline sul lago Michigan",
+   "autore": "Bladerunner2019",
+   "licenza": "CC0",
+   "fonte": "https://commons.wikimedia.org/wiki/File:Panorama_Chicago.jpg",
+   "fuoco": [
+    0.5,
+    0.4
+   ]
+  }
+ },
+ "londra": {
+  "file": "content/sfondi/londra.jpg",
+  "titolo": "Westminster e il Big Ben sul Tamigi",
+  "autore": "CubicPioneer",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Elizabeth_Tower_and_Palace_of_Westminster_from_the_River_Thames.jpg",
+  "fuoco": [
+   0.5,
+   0.4
+  ],
+  "iconica": {
+   "file": "content/sfondi/londra-iconica.jpg",
+   "titolo": "Il Tower Bridge",
+   "autore": "Gary Todd from Xinzheng, China",
+   "licenza": "CC0",
+   "fonte": "https://commons.wikimedia.org/wiki/File:London_Tower_Bridge_(9816177325).jpg",
+   "fuoco": [
+    0.5,
+    0.4
+   ]
+  }
+ },
+ "göteborg": {
+  "file": "content/sfondi/goteborg.jpg",
+  "titolo": "La Feskekôrka di sera",
+  "autore": "Pasi Mammela",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Feskek%C3%B4rka.jpg",
+  "fuoco": [
+   0.65,
+   0.5
+  ]
  }
 }

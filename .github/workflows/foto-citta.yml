@@ -1,0 +1,37 @@
+name: Foto delle città
+# Cerca e scarica da Wikimedia Commons (solo CC0 o pubblico dominio) le foto delle città: scripts/foto_citta.py su
+# content/foto_ricerca.json. Gira sul ramo "foto-citta" (a ogni push che cambia la ricerca) o a mano: i provini dei
+# candidati vanno in foto_candidati/ (solo sul ramo, per scegliere), le foto scelte in content/sfondi/ + sfondi.json.
+# Il ramo poi si unisce a main senza la cartella foto_candidati/.
+on:
+  push:
+    branches: [foto-citta]
+    paths: ["content/foto_ricerca.json", "scripts/foto_citta.py", ".github/workflows/foto-citta.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: foto-citta
+  cancel-in-progress: false
+jobs:
+  foto:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pillow==11.0.0
+      - name: Candidati
+        run: python scripts/foto_citta.py candidati
+      - name: Foto scelte
+        run: python scripts/foto_citta.py scarica
+      - name: Commit
+        run: |
+          git config user.name "Luca Albanesi"
+          git config user.email "luca.alba8@gmail.com"
+          git add -A foto_candidati content/sfondi content/sfondi.json
+          git diff --cached --quiet && { echo "Niente di nuovo"; exit 0; }
+          git commit -m "Foto delle città: candidati e foto scelte"
+          git push origin HEAD:${GITHUB_REF_NAME}

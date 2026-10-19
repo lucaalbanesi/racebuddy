@@ -1,0 +1,468 @@
+{
+  "nota": "Ricerca delle foto delle città su Wikimedia Commons (solo CC0 o pubblico dominio), usata da scripts/foto_citta.py. Per ogni città: 'iconica' (prima schermata della presentazione delle gare estere) e 'sfondo' (seconda schermata e immagine del risultato da condividere). 'cerca' = parole per trovare i candidati; quando c'è 'file' (pagina File: su Commons) la foto è scelta e il job la scarica.",
+  "citta": {
+    "francoforte": {
+      "iconica": {
+        "cerca": [
+          "Römerberg Frankfurt",
+          "Frankfurt Römer"
+        ],
+        "file": "File:Römerberg in Frankfurt.jpg",
+        "titolo": "Il Römerberg"
+      },
+      "sfondo": {
+        "cerca": [
+          "Frankfurt skyline Main",
+          "Frankfurt am Main skyline"
+        ],
+        "file": "File:Skyline Frankfurt am Main 2019.jpg",
+        "titolo": "Lo skyline sul Meno"
+      }
+    },
+    "valencia": {
+      "iconica": {
+        "cerca": [
+          "Ciudad de las Artes y las Ciencias",
+          "Hemisfèric Valencia"
+        ],
+        "file": "File:Ciudad de las Ciencias y las Artes (Valencia).jpg",
+        "titolo": "La Città delle Arti e delle Scienze"
+      },
+      "sfondo": {
+        "cerca": [
+          "Torres de Serranos",
+          "Valencia Cathedral Micalet"
+        ],
+        "file": "File:Valencia - Puerta de Serranos.jpg",
+        "titolo": "Le Torri di Serranos"
+      }
+    },
+    "new york": {
+      "iconica": {
+        "cerca": [
+          "Statue of Liberty",
+          "Manhattan skyline Statue of Liberty"
+        ],
+        "file": "File:Front view of Statue of Liberty with pedestal and base 2024.jpg",
+        "titolo": "La Statua della Libertà",
+        "fuoco": [
+          0.5,
+          0.18
+        ]
+      },
+      "sfondo": {
+        "cerca": [
+          "Brooklyn Bridge Manhattan",
+          "Brooklyn Bridge"
+        ],
+        "file": "File:Brooklyn Bridge at night.jpg",
+        "titolo": "Il ponte di Brooklyn e Manhattan di sera",
+        "fuoco": [
+          0.6,
+          0.5
+        ]
+      }
+    },
+    "atene": {
+      "iconica": {
+        "cerca": [
+          "Parthenon Athens",
+          "Acropolis of Athens"
+        ],
+        "file": "File:Parthenon east side Acropolis Athens, Greece.jpg",
+        "titolo": "Il Partenone"
+      },
+      "sfondo": {
+        "cerca": [
+          "Acropolis Athens view",
+          "Athens Acropolis sunset"
+        ],
+        "file": "File:Erechtheum Acropolis Athens evening moon.jpg",
+        "titolo": "L'Acropoli al tramonto"
+      }
+    },
+    "barcellona": {
+      "iconica": {
+        "cerca": [
+          "Sagrada Família Barcelona exterior",
+          "Basílica de la Sagrada Família facade"
+        ],
+        "file": "File:Basílica i Temple Expiatori de la Sagrada Família taken by Lensicle.jpg",
+        "titolo": "La Sagrada Família"
+      },
+      "sfondo": {
+        "cerca": [
+          "Park Güell",
+          "Barcelona skyline"
+        ],
+        "file": "File:Town-city-cityscape-vacation-amusement-park-tower-1103525.jpg",
+        "titolo": "Il Park Güell"
+      }
+    },
+    "siviglia": {
+      "iconica": {
+        "cerca": [
+          "Plaza de España Sevilla",
+          "Plaza de España Seville"
+        ],
+        "file": "File:Sevilla - Plaza de España 72.jpg",
+        "titolo": "Plaza de España"
+      },
+      "sfondo": {
+        "cerca": [
+          "Giralda Sevilla",
+          "Seville Cathedral Giralda"
+        ],
+        "file": "File:Top Giralda Sevilla.jpg",
+        "titolo": "La Giralda"
+      }
+    },
+    "lisbona": {
+      "iconica": {
+        "cerca": [
+          "Torre de Belém",
+          "Belém Tower"
+        ],
+        "file": "File:Torre de Belém 2006-01-03 Lisbon 05.jpg",
+        "titolo": "La Torre di Belém"
+      },
+      "sfondo": {
+        "cerca": [
+          "Lisbon tram 28",
+          "Lisbon Alfama view"
+        ],
+        "file": "File:Estrela 28 (44788867012).jpg",
+        "titolo": "Il tram 28 di sera",
+        "fuoco": [
+          0.25,
+          0.4
+        ]
+      }
+    },
+    "tokyo": {
+      "iconica": {
+        "cerca": [
+          "Tokyo Tower",
+          "Tokyo Skytree"
+        ],
+        "file": "File:Tokyo Tower and Roppongi Hills Mori Tower seen from Hamamatsucho.jpg",
+        "titolo": "La Tokyo Tower",
+        "fuoco": [
+          0.5,
+          0.4
+        ]
+      },
+      "sfondo": {
+        "cerca": [
+          "Tokyo skyline Mount Fuji",
+          "Tokyo skyline night"
+        ],
+        "file": "File:Shibuya and Mount Fuji seen from Roppongi Hills.jpg",
+        "titolo": "Tokyo con il Fuji sullo sfondo"
+      }
+    },
+    "praga": {
+      "iconica": {
+        "cerca": [
+          "Charles Bridge Prague",
+          "Karlův most"
+        ],
+        "file": "File:View of Charles Bridge, Prague.jpg",
+        "titolo": "Il Ponte Carlo"
+      },
+      "sfondo": {
+        "cerca": [
+          "Prague Castle Vltava",
+          "Prague panorama"
+        ],
+        "file": "File:St. Vitus Cathedral, Prague (49472133348).jpg",
+        "titolo": "Il Castello sulla Moldava"
+      }
+    },
+    "berlino": {
+      "iconica": {
+        "cerca": [
+          "Brandenburger Tor",
+          "Brandenburg Gate"
+        ],
+        "file": "File:Strasse des 17. Juni 2015 3.jpg",
+        "titolo": "La Porta di Brandeburgo"
+      },
+      "sfondo": {
+        "cerca": [
+          "Berliner Fernsehturm",
+          "Berlin TV Tower"
+        ],
+        "file": "File:Fernsehturm Berlin at twilight.jpg",
+        "titolo": "La torre della televisione"
+      }
+    },
+    "madrid": {
+      "iconica": {
+        "cerca": [
+          "Puerta de Alcalá",
+          "Metrópolis building Madrid"
+        ],
+        "file": "File:Puerta alcala juanlufer4.jpg",
+        "titolo": "La Puerta de Alcalá"
+      },
+      "sfondo": {
+        "cerca": [
+          "Plaza Mayor Madrid",
+          "Palacio Real de Madrid",
+          "Gran Vía Madrid night"
+        ],
+        "file": "File:Plaza mayor madrid 20200502.jpg",
+        "titolo": "Plaza Mayor"
+      }
+    },
+    "parigi": {
+      "iconica": {
+        "cerca": [
+          "Eiffel Tower",
+          "Tour Eiffel"
+        ],
+        "file": "File:Tour Eiffel depuis un bateau sur la Seine.jpg",
+        "titolo": "La Torre Eiffel",
+        "fuoco": [
+          0.5,
+          0.55
+        ]
+      },
+      "sfondo": {
+        "cerca": [
+          "Arc de Triomphe Paris",
+          "Champs-Élysées Arc de Triomphe"
+        ],
+        "file": "File:Arc de Triomphe de l'Étoile at night vertical fix.jpg",
+        "titolo": "L'Arco di Trionfo"
+      }
+    },
+    "rotterdam": {
+      "iconica": {
+        "cerca": [
+          "Erasmusbrug",
+          "Erasmus Bridge Rotterdam"
+        ],
+        "file": "File:Erasmus bridge at sunset (Unsplash).jpg",
+        "titolo": "Il ponte Erasmus"
+      },
+      "sfondo": {
+        "cerca": [
+          "Rotterdam skyline",
+          "Kubuswoningen Rotterdam"
+        ],
+        "file": "File:The Erasmus Bridge (224269705).jpeg",
+        "titolo": "Il ponte Erasmus al tramonto"
+      }
+    },
+    "vienna": {
+      "iconica": {
+        "cerca": [
+          "Stephansdom Wien",
+          "St. Stephen's Cathedral Vienna"
+        ],
+        "file": "File:Spire Cathedral St Stephen Vienna Wien Steffl 1.jpg",
+        "titolo": "Il Duomo di Santo Stefano",
+        "fuoco": [
+          0.5,
+          0.75
+        ]
+      },
+      "sfondo": {
+        "cerca": [
+          "Schönbrunn Palace",
+          "Schloss Schönbrunn"
+        ],
+        "file": "File:Façade nord château Schönbrunn Vienna.jpg",
+        "titolo": "Il Castello di Schönbrunn"
+      }
+    },
+    "boston": {
+      "iconica": {
+        "cerca": [
+          "Boston skyline Charles River",
+          "Boston Back Bay skyline"
+        ],
+        "file": "File:Charles River, Boston (260745033).jpg",
+        "titolo": "Lo skyline sul fiume Charles"
+      },
+      "sfondo": {
+        "cerca": [
+          "Massachusetts State House",
+          "Boston Public Garden"
+        ],
+        "file": "File:Massachusetts State House - Boston, MA - DSC04664.JPG",
+        "titolo": "La Massachusetts State House"
+      }
+    },
+    "amburgo": {
+      "iconica": {
+        "cerca": [
+          "Elbphilharmonie",
+          "Elbphilharmonie Hamburg"
+        ],
+        "file": "File:Elbphilharmonie Hamburg, Hamburg, Germany (Unsplash AWyj7 t8pj0).jpg",
+        "titolo": "L'Elbphilharmonie"
+      },
+      "sfondo": {
+        "cerca": [
+          "Speicherstadt Hamburg",
+          "Hamburg Speicherstadt"
+        ],
+        "file": "File:Hafen City (Unsplash).jpg",
+        "titolo": "La Speicherstadt di sera"
+      }
+    },
+    "londra": {
+      "iconica": {
+        "cerca": [
+          "Tower Bridge London Thames",
+          "Tower Bridge at night"
+        ],
+        "file": "File:London Tower Bridge (9816177325).jpg",
+        "titolo": "Il Tower Bridge"
+      },
+      "sfondo": {
+        "cerca": [
+          "Palace of Westminster Thames",
+          "Big Ben London Westminster Bridge"
+        ],
+        "file": "File:Elizabeth Tower and Palace of Westminster from the River Thames.jpg",
+        "titolo": "Westminster e il Big Ben sul Tamigi"
+      }
+    },
+    "copenaghen": {
+      "iconica": {
+        "cerca": [
+          "Nyhavn",
+          "Nyhavn Copenhagen"
+        ],
+        "file": "File:Nyhavn 53 (Copenhagen) 02.jpg",
+        "titolo": "Nyhavn"
+      },
+      "sfondo": {
+        "file": "File:Christiansborg Slot spire Copenhagen Denmark.jpg",
+        "titolo": "La torre di Christiansborg"
+      }
+    },
+    "göteborg": {
+      "sfondo": {
+        "file": "File:Feskekôrka.jpg",
+        "titolo": "La Feskekôrka di sera",
+        "fuoco": [
+          0.65,
+          0.5
+        ]
+      }
+    },
+    "città del capo": {
+      "iconica": {
+        "cerca": [
+          "Table Mountain Cape Town",
+          "Table Mountain"
+        ],
+        "file": "File:View of Cape Town from halfway up the Table Mountain 02.jpg",
+        "titolo": "La Table Mountain"
+      },
+      "sfondo": {
+        "cerca": [
+          "Bo-Kaap Cape Town",
+          "Cape Town Waterfront"
+        ],
+        "file": "File:Little Walk to Bo-Kaap.jpg",
+        "titolo": "Il Bo-Kaap e la Lion's Head",
+        "fuoco": [
+          0.9,
+          0.4
+        ]
+      }
+    },
+    "sydney": {
+      "iconica": {
+        "cerca": [
+          "Sydney Opera House",
+          "Sydney Opera House Harbour Bridge"
+        ],
+        "file": "File:Sydney Harbour Bridge View 16 October 2025.jpg",
+        "titolo": "L'Opera House e l'Harbour Bridge"
+      },
+      "sfondo": {
+        "cerca": [
+          "Sydney Harbour Bridge",
+          "Sydney skyline"
+        ],
+        "file": "File:Harbour Bridge IMG 0822a.jpg",
+        "titolo": "L'Harbour Bridge e lo skyline"
+      }
+    },
+    "newcastle": {
+      "iconica": {
+        "cerca": [
+          "Tyne Bridge",
+          "Tyne Bridge Newcastle"
+        ],
+        "file": "File:Tyne Bridge (26496582699).jpg",
+        "titolo": "Il Tyne Bridge"
+      },
+      "sfondo": {
+        "cerca": [
+          "Gateshead Millennium Bridge",
+          "Newcastle Quayside"
+        ],
+        "file": "File:Gateshead Millennium Bridge (51218283831).jpg",
+        "titolo": "Il Millennium Bridge sul Tyne"
+      }
+    },
+    "varsavia": {
+      "iconica": {
+        "cerca": [
+          "Palace of Culture and Science Warsaw",
+          "Pałac Kultury i Nauki"
+        ],
+        "file": "File:Palace of Culture and Science Warsaw 2018.jpg",
+        "titolo": "Il Palazzo della Cultura e della Scienza"
+      },
+      "sfondo": {
+        "cerca": [
+          "Warsaw Old Town Market Square",
+          "Warsaw Royal Castle"
+        ],
+        "file": "File:PANO 20190207 115122.jpg",
+        "titolo": "La piazza della Città Vecchia",
+        "fuoco": [
+          0.2,
+          0.4
+        ]
+      }
+    },
+    "cardiff": {
+      "iconica": {
+        "file": "File:Animal Wall Cardiff.jpg",
+        "titolo": "Il Castello di Cardiff"
+      },
+      "sfondo": {
+        "cerca": [
+          "Cardiff Bay",
+          "Wales Millennium Centre"
+        ],
+        "file": "File:Cardiff Pierhead Building at Night.jpg",
+        "titolo": "Il Pierhead Building a Cardiff Bay"
+      }
+    },
+    "chicago": {
+      "iconica": {
+        "file": "File:Panorama Chicago.jpg",
+        "titolo": "Lo skyline sul lago Michigan"
+      },
+      "sfondo": {
+        "cerca": [
+          "Chicago skyline",
+          "Chicago skyline night"
+        ],
+        "file": "File:Chicago Skyline (Unsplash).jpg",
+        "titolo": "Lo skyline tra le nuvole"
+      }
+    }
+  }
+}
