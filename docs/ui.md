@@ -17,8 +17,8 @@ blu notte per i riquadri in evidenza; tema chiaro e scuro automatici.
 
 <img src="img/ui/benvenuto.png" width="280" alt="Prima schermata del benvenuto">
 
-Al primo avvio, rivedibile da Io: cinque schermate dimostrative (La preparazione, Meteo e avvisi, La gara, Il gruppo,
-Partiamo). Si scorrono con il dito o con "Avanti"; "Salta" porta all'app.
+Al primo avvio, rivedibile da Io: sei schermate dimostrative (Scegli la tua gara, La preparazione, La gara e gli
+avvisi, Dopo la gara, Il gruppo, Partiamo). Si scorrono con il dito o con "Avanti"; "Salta" porta all'app.
 
 ## Prepara RaceBuddy
 
