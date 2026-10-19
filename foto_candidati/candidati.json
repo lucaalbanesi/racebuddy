@@ -1,257 +1,60 @@
 {
- "barcellona|iconica": [
-  {
-   "file": "File:Caméra de surveillance, proche Sagrada Família (octobre 2023).JPG",
-   "licenza": "CC0",
-   "autore": "Benoît Prieur",
-   "w": 2608,
-   "h": 3632
-  },
-  {
-   "file": "File:Basílica i Temple Expiatori de la Sagrada Família taken by Lensicle.jpg",
-   "licenza": "CC0",
-   "autore": "Lensicle",
-   "w": 1152,
-   "h": 2048
-  },
-  {
-   "file": "File:Sagrada Família (34424652343).jpg",
-   "licenza": "Public domain",
-   "autore": "Brian Dooley",
-   "w": 2048,
-   "h": 1536
-  }
- ],
- "madrid|sfondo": [
-  {
-   "file": "File:Plaza Mayor, Madrid, low sun.jpg",
-   "licenza": "CC0",
-   "autore": "Gerda Arendt",
-   "w": 3746,
-   "h": 2809
-  },
-  {
-   "file": "File:Plaza Mayor-Madrid (2).jpg",
-   "licenza": "CC0",
-   "autore": "Alberto-g-rovi",
-   "w": 7341,
-   "h": 4899
-  },
-  {
-   "file": "File:Plaza Mayor-Madrid (1).jpg",
-   "licenza": "CC0",
-   "autore": "Alberto-g-rovi",
-   "w": 7138,
-   "h": 4764
-  },
-  {
-   "file": "File:Madrid - Plaza Mayor 13.jpg",
-   "licenza": "CC0",
-   "autore": "Zarateman",
-   "w": 1293,
-   "h": 1665
-  },
-  {
-   "file": "File:Madrid - Plaza Mayor 07.jpg",
-   "licenza": "CC0",
-   "autore": "Zarateman",
-   "w": 2048,
-   "h": 1536
-  },
-  {
-   "file": "File:Plaza Mayor-Madrid(3).jpg",
-   "licenza": "CC0",
-   "autore": "Alberto-g-rovi",
-   "w": 7192,
-   "h": 4800
-  },
-  {
-   "file": "File:Plaza mayor madrid 20200502.jpg",
-   "licenza": "CC0",
-   "autore": "Snooze123",
-   "w": 3937,
-   "h": 2950
-  },
-  {
-   "file": "File:Madrid - Plaza Mayor 09.jpg",
-   "licenza": "CC0",
-   "autore": "Zarateman",
-   "w": 1536,
-   "h": 2048
-  }
- ],
- "londra|iconica": [
-  {
-   "file": "File:Aerial view of River Thames from Tower Bridge to Isle of Dogs.jpg",
-   "licenza": "CC0",
-   "autore": "Mertbiol",
-   "w": 2587,
-   "h": 1940
-  },
-  {
-   "file": "File:The Thames from Tower Bridge 2026-01-30.jpg",
-   "licenza": "CC0",
-   "autore": "jacquemart",
-   "w": 5744,
-   "h": 1920
-  },
-  {
-   "file": "File:London Tower Bridge (9816121085).jpg",
-   "licenza": "CC0",
-   "autore": "Gary Todd from Xinzheng, China",
-   "w": 3632,
-   "h": 2421
-  },
-  {
-   "file": "File:London Tower Bridge (9816177325).jpg",
-   "licenza": "CC0",
-   "autore": "Gary Todd from Xinzheng, China",
-   "w": 1600,
-   "h": 1123
-  },
-  {
-   "file": "File:London Tower Bridge (9816190076).jpg",
-   "licenza": "CC0",
-   "autore": "Gary Todd from Xinzheng, China",
-   "w": 1600,
-   "h": 1140
-  },
-  {
-   "file": "File:Thames wharf map 1905 Tower Bridge to Bow Creek.jpg",
-   "licenza": "CC0",
-   "autore": "G. D. Evans",
-   "w": 6400,
-   "h": 3840
-  },
-  {
-   "file": "File:Tower Bridge in de mist, Bestanddeelnr 254-1956.jpg",
-   "licenza": "CC0",
-   "autore": "Willem van de Poll",
-   "w": 2610,
-   "h": 2554
-  },
-  {
-   "file": "File:Tower Bridge from the Shard 4K.jpg",
-   "licenza": "CC0",
-   "autore": "Hnapel",
-   "w": 3840,
-   "h": 2161
-  }
- ],
- "londra|sfondo": [
-  {
-   "file": "File:The River Thames with the Palace of Westminster in the background.jpg",
-   "licenza": "CC0",
-   "autore": "Ronnievonjohnson",
-   "w": 3024,
-   "h": 4032
-  },
-  {
-   "file": "File:The Palace of Westminster featuring a street light.jpg",
-   "licenza": "CC0",
-   "autore": "Ronnievonjohnson",
-   "w": 5184,
-   "h": 3888
-  },
-  {
-   "file": "File:Elizabeth Tower and Palace of Westminster from the River Thames.jpg",
-   "licenza": "CC0",
-   "autore": "CubicPioneer",
-   "w": 2296,
-   "h": 4080
-  },
-  {
-   "file": "File:London Eye River Thames Palace of Westminster in 2016.jpg",
-   "licenza": "CC0",
-   "autore": "Bill Emrich",
-   "w": 5760,
-   "h": 3840
-  },
-  {
-   "file": "File:Joseph Pennell, Westminster, Evening, 1909, NGA 9569.jpg",
-   "licenza": "CC0",
-   "autore": "Joseph Pennell",
-   "w": 4000,
-   "h": 2791
-  },
-  {
-   "file": "File:Houses of Parliament, Londen, met schepen in de Thames op de voorgrond 96 houses of Parliament Y & S (titel op object), RP-F-F16356.jpg",
-   "licenza": "CC0",
-   "autore": "Rijksmuseum",
-   "w": 6336,
-   "h": 3910
-  },
-  {
-   "file": "File:Flower Girl by Big Ben (Unsplash).jpg",
-   "licenza": "CC0",
-   "autore": "Clem Onojeghuo clemono2",
-   "w": 5400,
-   "h": 3600
-  },
-  {
-   "file": "File:United Kingdom Under the London Eye (9329222320).jpg",
-   "licenza": "CC0",
-   "autore": "Yiannis Theologos Michellis",
-   "w": 4752,
-   "h": 3168
-  }
- ],
  "copenaghen|sfondo": [
   {
-   "file": "File:Expo 2010 Denmark Pavilion- Little Mermaid Statue from Copenhagen Harbor 01.jpg",
+   "file": "File:Sentry box shadow lamp Christiansborg Copenhagen Denmark.jpg",
    "licenza": "CC0",
-   "autore": "Gary Todd",
-   "w": 4752,
-   "h": 3168
+   "autore": "Jebulon",
+   "w": 3982,
+   "h": 5973
   },
   {
-   "file": "File:Expo 2010 Denmark Pavilion- Little Mermaid Statue from Copenhagen Harbor 03.jpg",
+   "file": "File:Christiansborg Slot spire Copenhagen Denmark.jpg",
    "licenza": "CC0",
-   "autore": "Gary Lee Todd, Ph.D.",
-   "w": 4752,
-   "h": 3168
+   "autore": "Jebulon",
+   "w": 3502,
+   "h": 5661
   },
   {
-   "file": "File:Expo 2010 Denmark Pavilion- Little Mermaid Statue from Copenhagen Harbor 09.jpg",
+   "file": "File:Christiansborg Slot from west Copenhagen Denmark.jpg",
    "licenza": "CC0",
-   "autore": "Gary Lee Todd, Ph.D.",
-   "w": 4752,
-   "h": 3168
+   "autore": "Jebulon",
+   "w": 6000,
+   "h": 3419
   },
   {
-   "file": "File:Expo 2010 Denmark Pavilion- Little Mermaid Statue from Copenhagen Harbor 07.jpg",
+   "file": "File:Christiansborg Slot panoplie F3 Copenhagen Denmark.jpg",
    "licenza": "CC0",
-   "autore": "Gary Lee Todd, Ph.D.",
-   "w": 4752,
-   "h": 3168
+   "autore": "Jebulon",
+   "w": 3565,
+   "h": 5204
   },
   {
-   "file": "File:Expo 2010 Denmark Pavilion- Little Mermaid Statue from Copenhagen Harbor 08.jpg",
+   "file": "File:Folketinget facade Copenhagen Denmark.jpg",
    "licenza": "CC0",
-   "autore": "Gary Lee Todd, Ph.D.",
-   "w": 4752,
-   "h": 3168
+   "autore": "Jebulon",
+   "w": 4863,
+   "h": 3759
   },
   {
-   "file": "File:Expo 2010 Denmark Pavilion- Little Mermaid Statue from Copenhagen Harbor 05.jpg",
+   "file": "File:Slot Christiansborg in Kopenhagen Christiansborg Slot, Kolonnaden Vue du château de Christiansborg, la colonnade (titel op object) Copenhague (serietitel op object), RP-F-F12406.jpg",
    "licenza": "CC0",
-   "autore": "Gary Lee Todd, Ph.D.",
-   "w": 4752,
-   "h": 3168
+   "autore": "Rijksmuseum",
+   "w": 4340,
+   "h": 2242
   },
   {
-   "file": "File:Expo 2010 Denmark Pavilion- Little Mermaid Statue from Copenhagen Harbor 06.jpg",
+   "file": "File:Christiansborg, København Peter Elfelt (15255311142).jpg",
    "licenza": "CC0",
-   "autore": "Gary Lee Todd, Ph.D.",
-   "w": 4752,
-   "h": 3168
+   "autore": "The Film Museum from Copenhagen, Denmark",
+   "w": 2215,
+   "h": 1141
   },
   {
-   "file": "File:Expo 2010 Denmark Pavilion- Little Mermaid Statue from Copenhagen Harbor 04.jpg",
+   "file": "File:Christiansborg slot, København Peter Elfelt (15068967359).jpg",
    "licenza": "CC0",
-   "autore": "Gary Lee Todd, Ph.D.",
-   "w": 3168,
-   "h": 4752
+   "autore": "The Film Museum from Copenhagen, Denmark",
+   "w": 2220,
+   "h": 1126
   }
  ],
  "göteborg|iconica": [
@@ -270,11 +73,11 @@
    "h": 2527
   },
   {
-   "file": "File:Goteborg lanscellfangelse.jpg",
+   "file": "File:GÖTA ELF bärgas - Sjöfartsmuseet Akvariet - SMGF9445.tif",
    "licenza": "Public domain",
-   "autore": "Ludvig Messmann",
-   "w": 2021,
-   "h": 1500
+   "autore": "",
+   "w": 3443,
+   "h": 2480
   },
   {
    "file": "File:Fotografi, photography-okänd - Göteborgs stadsmuseum - GhmPK 432.tif",
@@ -291,6 +94,13 @@
    "h": 3735
   },
   {
+   "file": "File:GÖTA ELF bärgas - Sjöfartsmuseet Akvariet - SMGF9447.tif",
+   "licenza": "Public domain",
+   "autore": "",
+   "w": 2480,
+   "h": 2869
+  },
+  {
    "file": "File:Fotografi, photography-Olga Rinman - Göteborgs stadsmuseum - GhmE 4702.tif",
    "licenza": "Public domain",
    "autore": "Olga Rinman",
@@ -298,27 +108,41 @@
    "h": 3545
   },
   {
-   "file": "File:GÖTA ELF bärgas - Sjöfartsmuseet Akvariet - SMGF9445.tif",
+   "file": "File:Goteborg lanscellfangelse.jpg",
    "licenza": "Public domain",
-   "autore": "",
-   "w": 3443,
-   "h": 2480
-  },
-  {
-   "file": "File:GÖTA ELF bärgas - Sjöfartsmuseet Akvariet - SMGF9447.tif",
-   "licenza": "Public domain",
-   "autore": "",
-   "w": 2480,
-   "h": 2869
+   "autore": "Ludvig Messmann",
+   "w": 2021,
+   "h": 1500
   }
  ],
  "göteborg|sfondo": [
   {
-   "file": "File:Looking down Haga Nygata, Göteborg, 2006.jpg",
+   "file": "File:Vitrail peche miraculeuse Saint-Pierre Marsilly Charente-Maritime-2.jpg",
    "licenza": "CC0",
-   "autore": "DimiTalen",
-   "w": 3008,
-   "h": 2000
+   "autore": "Jebulon",
+   "w": 1974,
+   "h": 4037
+  },
+  {
+   "file": "File:Feskekôrka.jpg",
+   "licenza": "CC0",
+   "autore": "Pasi Mammela",
+   "w": 4016,
+   "h": 6016
+  },
+  {
+   "file": "File:Fisketorget - Göteborgs stadsmuseum - GhmPK 159.tif",
+   "licenza": "CC0",
+   "autore": "Fotograf okänd",
+   "w": 4961,
+   "h": 3380
+  },
+  {
+   "file": "File:Fotografi, photography-Olga Rinman - Göteborgs stadsmuseum - GhmB 13740.tif",
+   "licenza": "Public domain",
+   "autore": "Olga Rinman",
+   "w": 4974,
+   "h": 3552
   },
   {
    "file": "File:Kraljevina Švedska 2025.jpg",
@@ -328,162 +152,141 @@
    "h": 3060
   },
   {
-   "file": "File:Goteborg panorama from Skansen Kronan2.jpg",
+   "file": "File:Looking down Haga Nygata, Göteborg, 2006.jpg",
    "licenza": "CC0",
-   "autore": "Jan Pešula",
-   "w": 5312,
-   "h": 2988
+   "autore": "DimiTalen",
+   "w": 3008,
+   "h": 2000
   },
   {
-   "file": "File:Hagakyrkan i Göteborg (december 2025, bild 2).jpg",
+   "file": "File:Švedski grad Göteborg u travnju 2025.jpg",
    "licenza": "CC0",
-   "autore": "DKjellby",
-   "w": 4028,
-   "h": 2952
+   "autore": "August Dominus",
+   "w": 4080,
+   "h": 3060
   },
   {
-   "file": "File:Hagakyrkan i Göteborg (december 2025, bild 1).jpg",
+   "file": "File:Švedski grad Göteborg travnja 2025.jpg",
    "licenza": "CC0",
-   "autore": "DKjellby",
-   "w": 2940,
-   "h": 3743
-  },
-  {
-   "file": "File:Haga town office, Tochigi.jpg",
-   "licenza": "CC0",
-   "autore": "ニンジンシチュー",
-   "w": 3648,
-   "h": 2736
-  },
-  {
-   "file": "File:Haga slott.jpg",
-   "licenza": "CC0",
-   "autore": "Zejo",
-   "w": 4383,
-   "h": 2468
-  },
-  {
-   "file": "File:Haga kyrka int6.jpg",
-   "licenza": "CC0",
-   "autore": "Ulf Klingström",
-   "w": 3000,
-   "h": 4000
+   "autore": "August Dominus",
+   "w": 4080,
+   "h": 3060
   }
  ],
  "cardiff|iconica": [
   {
-   "file": "File:The Keep of Cardiff Castle, Glamorganshire. (BM 1957,0530.52).jpg",
-   "licenza": "Public domain",
-   "autore": "Print made by: Louis Haghe Printed by: Day &amp; Co Published by: William Bird",
-   "w": 2113,
-   "h": 1570
-  },
-  {
-   "file": "File:Cardiff Solidarity for Palestine protest, 21 October 2023 121850 (redacted).jpg",
+   "file": "File:Cardiff Solidarity for Palestine protest, 21 October 2023 124021 (redacted).jpg",
    "licenza": "CC0",
    "autore": "OwenBlacker",
    "w": 3072,
    "h": 4096
   },
   {
-   "file": "File:Cardiff Solidarity for Palestine protest, 21 October 2023 120221 (redacted).jpg",
-   "licenza": "CC0",
-   "autore": "OwenBlacker",
-   "w": 4096,
-   "h": 3072
+   "file": "File:Animal Wall Cardiff.jpg",
+   "licenza": "Public domain",
+   "autore": "UnknownUnknown ; published by the Detroit Publishing Co.",
+   "w": 3529,
+   "h": 2549
   },
   {
-   "file": "File:Cardiff Solidarity for Palestine protest, 21 October 2023 121002 (redacted).jpg",
+   "file": "File:Bisexual Pride flag over UK Government building in Cardiff, 2023-09-21.jpg",
    "licenza": "CC0",
    "autore": "OwenBlacker",
-   "w": 4096,
-   "h": 3072
+   "w": 3072,
+   "h": 4096
   },
   {
-   "file": "File:Cardiff Solidarity for Palestine protest, 21 October 2023 120334 (redacted).jpg",
+   "file": "File:A walk on Good Friday afternoon (49757084528).jpg",
    "licenza": "CC0",
-   "autore": "OwenBlacker",
-   "w": 4096,
-   "h": 3072
+   "autore": "Jeremy Segrott from Cardiff, Wales, UK",
+   "w": 3648,
+   "h": 2736
   },
   {
-   "file": "File:Cardiff Solidarity for Palestine protest, 21 October 2023 120408 (redacted).jpg",
+   "file": "File:2003 Challenge Cup Final.jpg",
    "licenza": "CC0",
-   "autore": "OwenBlacker",
-   "w": 4096,
-   "h": 3072
+   "autore": "Fleets",
+   "w": 1084,
+   "h": 1692
   },
   {
-   "file": "File:Cardiff Solidarity for Palestine protest, 21 October 2023 120409 (redacted).jpg",
+   "file": "File:Rugby World Cup Editathon3.jpg",
    "licenza": "CC0",
-   "autore": "OwenBlacker",
-   "w": 4096,
-   "h": 3072
+   "autore": "Jason.nlw",
+   "w": 4256,
+   "h": 2832
   },
   {
-   "file": "File:Connor Hall footballer 2025.jpg",
+   "file": "File:Rugby World Cup Editathon4.jpg",
    "licenza": "CC0",
-   "autore": "EchetusXe",
-   "w": 1022,
-   "h": 1905
+   "autore": "Jason.nlw",
+   "w": 4256,
+   "h": 2832
+  },
+  {
+   "file": "File:Rugby World Cup Editathon1.jpg",
+   "licenza": "CC0",
+   "autore": "Jason.nlw",
+   "w": 4256,
+   "h": 2832
   }
  ],
  "chicago|iconica": [
   {
-   "file": "File:Anpan 002.jpg",
+   "file": "File:Morning view of the downtown skyline from near Morgan Point along Lakefront Trail, Chicago, 2025.jpg",
    "licenza": "CC0",
-   "autore": "Ocdp",
-   "w": 4000,
+   "autore": "DimiTalen",
+   "w": 5555,
+   "h": 3703
+  },
+  {
+   "file": "File:Chicago from Michigan Lake (Unsplash).jpg",
+   "licenza": "CC0",
+   "autore": "Hide Obara hideobara",
+   "w": 5325,
+   "h": 3550
+  },
+  {
+   "file": "File:Chicago Skyline - Dusk.JPG",
+   "licenza": "CC0",
+   "autore": "Alanthebox",
+   "w": 4976,
    "h": 2800
   },
   {
-   "file": "File:Kobe Bryant 8.jpg",
-   "licenza": "Public domain",
-   "autore": "Kobe_Bryant_7144.jpg: Sgt. Joseph A. Lee derivative work: JoeJohnson2 (talk)",
-   "w": 2020,
-   "h": 3016
+   "file": "File:Chicago and Lake Michigan (Unsplash).jpg",
+   "licenza": "CC0",
+   "autore": "Fineas Anton fineas_anton",
+   "w": 6000,
+   "h": 4000
   },
   {
-   "file": "File:Granite cliff with pink jelly bean plant and common houseleek.jpg",
+   "file": "File:Chicago-illinois-skyline-skyscrapers-161963.jpg",
    "licenza": "CC0",
-   "autore": "W.carter",
-   "w": 4657,
-   "h": 3059
+   "autore": "quinntheislander",
+   "w": 2740,
+   "h": 1859
   },
   {
-   "file": "File:Bean salad.jpg",
+   "file": "File:Chicago shore (Unsplash).jpg",
    "licenza": "CC0",
-   "autore": "PPD",
-   "w": 3994,
-   "h": 2995
+   "autore": "Mason Hopfensperger masonscoth",
+   "w": 4000,
+   "h": 6000
   },
   {
-   "file": "File:Black bean sprouts.jpg",
+   "file": "File:Chicago from Miller.jpg",
    "licenza": "CC0",
-   "autore": "Fumikas Sagisavas",
-   "w": 3000,
-   "h": 3000
+   "autore": "Visviva",
+   "w": 2030,
+   "h": 1378
   },
   {
-   "file": "File:Green bean cakes.jpg",
+   "file": "File:Panorama Chicago.jpg",
    "licenza": "CC0",
-   "autore": "Fumikas Sagisavas",
-   "w": 3000,
-   "h": 3000
-  },
-  {
-   "file": "File:Bean sprouts.jpg",
-   "licenza": "CC0",
-   "autore": "Ronggy at Chinese Wikipedia",
-   "w": 900,
-   "h": 1600
-  },
-  {
-   "file": "File:The Coffee Bean LAX Airport.jpg",
-   "licenza": "CC0",
-   "autore": "Northwalker",
-   "w": 3264,
-   "h": 1836
+   "autore": "Bladerunner2019",
+   "w": 9463,
+   "h": 2724
   }
  ]
 }

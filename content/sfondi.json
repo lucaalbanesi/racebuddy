@@ -118,7 +118,18 @@
   "fuoco": [
    0.5,
    0.4
-  ]
+  ],
+  "iconica": {
+   "file": "content/sfondi/barcellona-iconica.jpg",
+   "titolo": "La Sagrada Família",
+   "autore": "Lensicle",
+   "licenza": "CC0",
+   "fonte": "https://commons.wikimedia.org/wiki/File:Bas%C3%ADlica_i_Temple_Expiatori_de_la_Sagrada_Fam%C3%ADlia_taken_by_Lensicle.jpg",
+   "fuoco": [
+    0.5,
+    0.4
+   ]
+  }
  },
  "siviglia": {
   "file": "content/sfondi/siviglia.jpg",
@@ -231,6 +242,15 @@
   }
  },
  "madrid": {
+  "file": "content/sfondi/madrid.jpg",
+  "titolo": "Plaza Mayor",
+  "autore": "Snooze123",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Plaza_mayor_madrid_20200502.jpg",
+  "fuoco": [
+   0.5,
+   0.4
+  ],
   "iconica": {
    "file": "content/sfondi/madrid-iconica.jpg",
    "titolo": "La Puerta de Alcalá",
@@ -475,5 +495,27 @@
    0.5,
    0.4
   ]
+ },
+ "londra": {
+  "file": "content/sfondi/londra.jpg",
+  "titolo": "Westminster e il Big Ben sul Tamigi",
+  "autore": "CubicPioneer",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Elizabeth_Tower_and_Palace_of_Westminster_from_the_River_Thames.jpg",
+  "fuoco": [
+   0.5,
+   0.4
+  ],
+  "iconica": {
+   "file": "content/sfondi/londra-iconica.jpg",
+   "titolo": "Il Tower Bridge",
+   "autore": "Gary Todd from Xinzheng, China",
+   "licenza": "CC0",
+   "fonte": "https://commons.wikimedia.org/wiki/File:London_Tower_Bridge_(9816177325).jpg",
+   "fuoco": [
+    0.5,
+    0.4
+   ]
+  }
  }
 }
