@@ -488,3 +488,7 @@ a.chip { display: inline-flex; align-items: center; text-decoration: none; color
 .ob-storia-sub { font-size: 6cqw; }
 .ob-storia-tempo { font-size: 24cqw; }
 .ob-storia-badge { font-size: 5.6cqw; padding: 1.5cqw 4.5cqw; }
+.ob-alto .ob-ill { justify-content: flex-start; padding-top: 4px; }
+.ob-alto .ob-marchio { margin-bottom: 18px; }
+.ob-alto .ob-esito { margin-bottom: 22px; }
+.ob-esito + .ob-storia { width: 48%; max-width: 200px; margin-top: 0; }
