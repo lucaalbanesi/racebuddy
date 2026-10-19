@@ -61,7 +61,7 @@ const domanda = { messaggi: [{ r: "u", t: "Che scarpa prendo?" }], contesto: "Ma
   assert.strictEqual(r.esito, "ok"); assert.strictEqual(r.tema, "scarpe"); assert.ok(!r.risposta.includes("TEMA")); assert.strictEqual(r.restano, 4);
   assert.strictEqual(conteggi.length, 1); assert.strictEqual(conteggi[0].p_tema, "scarpe"); assert.strictEqual(conteggi[0].p_token, 1500);
   assert.notStrictEqual(conteggi[0].p_impronta, TEL); assert.strictEqual(conteggi[0].p_impronta.length, 64);
-  assert.deepStrictEqual(groq[0].tools, [{ type: "browser_search" }]);
+  assert.deepStrictEqual(groq[0].tools, [{ type: "browser_search" }]); assert.strictEqual(groq[0].tool_choice, "required");
   assert.ok(groq[0].messages[1].content.includes("obiettivo 3:25:00"));
   // domanda non sulle scarpe: niente ricerca
   groq = []; await chiama({ messaggi: [{ r: "u", t: "Gel e integratori: consigli?" }], contesto: "x" }); assert.ok(!groq[0].tools);
