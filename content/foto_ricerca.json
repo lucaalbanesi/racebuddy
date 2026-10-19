@@ -78,7 +78,9 @@
         "cerca": [
           "Sagrada Família Barcelona exterior",
           "Basílica de la Sagrada Família facade"
-        ]
+        ],
+        "file": "File:Basílica i Temple Expiatori de la Sagrada Família taken by Lensicle.jpg",
+        "titolo": "La Sagrada Família"
       },
       "sfondo": {
         "cerca": [
@@ -193,7 +195,9 @@
           "Plaza Mayor Madrid",
           "Palacio Real de Madrid",
           "Gran Vía Madrid night"
-        ]
+        ],
+        "file": "File:Plaza mayor madrid 20200502.jpg",
+        "titolo": "Plaza Mayor"
       }
     },
     "parigi": {
@@ -291,13 +295,17 @@
         "cerca": [
           "Tower Bridge London Thames",
           "Tower Bridge at night"
-        ]
+        ],
+        "file": "File:London Tower Bridge (9816177325).jpg",
+        "titolo": "Il Tower Bridge"
       },
       "sfondo": {
         "cerca": [
           "Palace of Westminster Thames",
           "Big Ben London Westminster Bridge"
-        ]
+        ],
+        "file": "File:Elizabeth Tower and Palace of Westminster from the River Thames.jpg",
+        "titolo": "Westminster e il Big Ben sul Tamigi"
       }
     },
     "copenaghen": {
@@ -314,22 +322,24 @@
           "Copenhagen Little Mermaid",
           "Amalienborg Copenhagen",
           "Copenhagen Christiansborg"
-        ]
+        ],
+        "file": "File:Expo 2010 Denmark Pavilion- Little Mermaid Statue from Copenhagen Harbor 07.jpg",
+        "titolo": "La Sirenetta"
       }
     },
     "göteborg": {
       "iconica": {
         "cerca": [
-          "Göteborgsoperan",
-          "Gothenburg Barken Viking",
-          "Lilla Bommen Göteborg"
+          "Gothenburg skyline Göta älv",
+          "Skanskaskrapan Göteborg",
+          "Göteborg Lilla Bommen harbour"
         ]
       },
       "sfondo": {
         "cerca": [
-          "Haga Göteborg",
-          "Gothenburg Poseidon Götaplatsen",
-          "Göteborg Göta älv"
+          "Göteborg Vallgraven canal",
+          "Gothenburg Feskekörka",
+          "Gothenburg Haga street"
         ]
       }
     },
@@ -408,9 +418,9 @@
     "cardiff": {
       "iconica": {
         "cerca": [
-          "Cardiff Castle keep",
-          "Cardiff City Hall",
-          "Principality Stadium Cardiff"
+          "Cardiff Castle clock tower",
+          "Cardiff Castle Norman keep",
+          "Millennium Stadium Cardiff"
         ]
       },
       "sfondo": {
@@ -425,9 +435,9 @@
     "chicago": {
       "iconica": {
         "cerca": [
-          "Cloud Gate Millennium Park",
-          "Chicago Bean sculpture",
-          "Chicago River skyline"
+          "Chicago skyline Lake Michigan",
+          "Willis Tower Chicago",
+          "Chicago Millennium Park skyline"
         ]
       },
       "sfondo": {
