@@ -418,15 +418,15 @@ a.chip { display: inline-flex; align-items: center; text-decoration: none; color
 .ob-slide.con-sfondo h1, .ob-slide.con-sfondo .eyebrow, .ob-slide.con-sfondo p { text-shadow: 0 1px 12px #0d1733cc; }
 .ob-slide.con-sfondo p { color: #E8ECF5; }
 .ob-slide.con-sfondo .an-km { text-shadow: 0 2px 14px #0d1733; }
-.an-cartolina { margin: 0; position: relative; width: 100%; border-radius: 18px; overflow: hidden; box-shadow: 0 18px 40px #0006; transform: rotate(-1.5deg); background: #FFFFFF14; }
+.an-cartolina { margin: 0; position: relative; width: 56%; max-width: 220px; align-self: center; flex: none; border-radius: 12px; overflow: hidden; box-shadow: 0 12px 28px #0006; transform: rotate(-1.5deg); background: #FFFFFF14; }
 .an-cartolina img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; display: block; }
-.an-cartolina figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 22px 14px 10px; font-size: 13px; color: #ffffffcc; background: linear-gradient(180deg, #0000, #000a); }
-.an-cartolina figcaption b { font: 700 18px var(--display); color: #fff; letter-spacing: .02em; }
+.an-cartolina figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 16px 10px 6px; font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #ffffffcc; background: linear-gradient(180deg, #0000, #000a); }
+.an-cartolina figcaption b { font: 700 15px var(--display); color: #fff; letter-spacing: .02em; }
 .ob-slide.vista .an-cartolina { animation: an-cartolina .7s ease-out both; }
-.an-piccola .an { max-width: 230px; }
+.an-piccola .an { max-width: 340px; }
 .ob-credito { font-size: 11px; color: #ffffff80; line-height: 1.3; }
 @keyframes an-cartolina { from { opacity: 0; transform: translateY(14px) rotate(-4deg) scale(.96); } to { opacity: 1; transform: rotate(-1.5deg); } }
-@media (max-height: 740px) { .an-piccola .an { max-width: 170px; } .an-cartolina img { aspect-ratio: 16 / 8; } }
+@media (max-height: 740px) { .an-piccola .an { max-width: 260px; } .an-cartolina { width: 46%; } }
 @media (prefers-reduced-motion: reduce) { .ob-sfondo { transition: none; } .ob-slide.vista .an-cartolina { animation: none; } }
 @media (prefers-reduced-motion: no-preference) {
   .ob-slide.vista .an-pezzo { animation: an-accendi .5s ease-out forwards; animation-delay: var(--d); }
