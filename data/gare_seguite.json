@@ -1,38 +1,16 @@
 {
- "aggiornato": "2026-10-18",
+ "aggiornato": "2026-10-19",
  "gare": [
   {
-   "id": "Hd9df59d4b1-21",
-   "nome": "III^ Rome Half Marathon",
-   "data": "2026-10-18",
+   "id": "L2bda4b848d-10",
+   "nome": "Corsa dei Santi",
+   "data": "2026-11-01",
    "luogo": "ROMA",
-   "distanza": "21",
-   "fonte": "FIDAL",
-   "prima_aggiunta": "2026-10-14",
-   "aggiunte": 3,
-   "ultima_aggiunta": "2026-10-15"
-  },
-  {
-   "id": "H980534b2f8-42",
-   "nome": "VI^ Neapolis Marathon",
-   "data": "2026-10-18",
-   "luogo": "NAPOLI",
-   "distanza": "42",
-   "fonte": "FIDAL",
-   "prima_aggiunta": "2026-10-14",
-   "aggiunte": 1,
-   "ultima_aggiunta": "2026-10-14"
-  },
-  {
-   "id": "H3e98ac2d78-10",
-   "nome": "X^ Corsa dei Castelli",
-   "data": "2026-10-18",
-   "luogo": "TRIESTE",
    "distanza": "10",
    "fonte": "FIDAL",
-   "prima_aggiunta": "2026-10-14",
+   "prima_aggiunta": "2026-10-18",
    "aggiunte": 1,
-   "ultima_aggiunta": "2026-10-14"
+   "ultima_aggiunta": "2026-10-18"
   },
   {
    "id": "H0e7dc2579e-21",
@@ -53,8 +31,8 @@
    "distanza": "42",
    "fonte": "FIDAL",
    "prima_aggiunta": "2026-10-14",
-   "aggiunte": 2,
-   "ultima_aggiunta": "2026-10-15"
+   "aggiunte": 3,
+   "ultima_aggiunta": "2026-10-18"
   },
   {
    "id": "H90a44ed91b-10",
@@ -64,8 +42,8 @@
    "distanza": "10",
    "fonte": "FIDAL",
    "prima_aggiunta": "2026-10-14",
-   "aggiunte": 1,
-   "ultima_aggiunta": "2026-10-14"
+   "aggiunte": 2,
+   "ultima_aggiunta": "2026-10-18"
   },
   {
    "id": "P8cb521dda8-42",
@@ -75,8 +53,19 @@
    "distanza": "42",
    "fonte": "FIDAL",
    "prima_aggiunta": "2026-10-14",
+   "aggiunte": 2,
+   "ultima_aggiunta": "2026-10-18"
+  },
+  {
+   "id": "E-copenaghen-mezza-21-2027",
+   "nome": "Copenhagen Half Marathon",
+   "data": "2027-09-19",
+   "luogo": "Copenaghen",
+   "distanza": "21",
+   "fonte": "FIDAL",
+   "prima_aggiunta": "2026-10-18",
    "aggiunte": 1,
-   "ultima_aggiunta": "2026-10-14"
+   "ultima_aggiunta": "2026-10-18"
   }
  ]
 }
