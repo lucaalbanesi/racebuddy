@@ -1,0 +1,49 @@
+name: Prova Buddy
+# Fa al Buddy (Edge Function "buddy") alcune domande vere con un telefono di prova e scrive risposte, temi e quota
+# come annotazioni del job (leggibili anche da Claude con l'API dei check-run). Consuma domande dal budget del giorno.
+on:
+  workflow_dispatch:
+    inputs:
+      domande:
+        description: "Domande separate da | (facoltativo)"
+        required: false
+        default: ""
+permissions:
+  contents: read
+jobs:
+  prova:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Domande al Buddy
+        env:
+          DOMANDE: ${{ inputs.domande }}
+        run: |
+          REF=$(grep -o 'https://[a-z0-9]*\.supabase\.co' app/config.js | sed 's#https://##; s#\.supabase\.co##')
+          KEY=$(grep -o 'sb_publishable_[A-Za-z0-9_-]*' app/config.js)
+          T=$(head -c 32 /dev/urandom | od -An -tx1 | tr -d ' \n')
+          python3 - "$REF" "$KEY" "$T" <<'EOF'
+          import json, os, sys, time, urllib.request
+          ref, key, tok = sys.argv[1:4]
+          url = f"https://{ref}.supabase.co/functions/v1/buddy"
+          contesto = ("Oggi: 2026-10-19.\nGara obiettivo: Maratona di Roma (Maratona), 2027-03-21, tra 153 giorni, fase: Prima della preparazione, "
+                      "tempo obiettivo 3:25:00 (passo 4:52/km).\nPersonali: Mezza 1:38:00.\n"
+                      "Scarpe: Adidas Adizero Adios Pro 4 (gara): 250 km, limite 600 km; Asics Novablast 5 (allenamento): 610 km, limite 700 km.\n"
+                      "Km a settimana: circa 45.")
+          dom = [d.strip() for d in (os.environ.get("DOMANDE") or "").split("|") if d.strip()] or [
+              "Che scarpa prendo dopo le mie?",
+              "Gel e integratori: consigli?",
+              "Mi consigli un buon ETF?"]
+          def chiama(corpo):
+              req = urllib.request.Request(url, data=json.dumps(corpo).encode(), method="POST",
+                  headers={"apikey": key, "x-racebuddy-token": tok, "Content-Type": "application/json"})
+              try:
+                  with urllib.request.urlopen(req, timeout=120) as r: return r.status, json.load(r)
+              except urllib.error.HTTPError as e: return e.code, json.loads(e.read() or b"{}")
+          s, q = chiama({"azione": "quota"})
+          print(f"::notice title=Quota::{s} {json.dumps(q, ensure_ascii=False)}")
+          for d in dom:
+              t0 = time.time(); s, j = chiama({"messaggi": [{"r": "u", "t": d}], "contesto": contesto})
+              testo = (j.get("risposta") or j.get("messaggio") or json.dumps(j, ensure_ascii=False)).replace("%", "%25").replace("\r", "").replace("\n", "%0A")
+              print(f"::notice title=Domanda: {d[:60]} [{s} {j.get('esito')} · tema {j.get('tema')} · restano {j.get('restano')} · {time.time()-t0:.1f}s]::{testo}")
+          EOF
