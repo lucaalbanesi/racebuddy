@@ -71,3 +71,10 @@ ufficiale**. Le edizioni passate si tolgono. Un'edizione senza data ufficiale no
 - `messaggio_commit.txt`: "Gare estere del AAAA-MM-GG: N aggiunte, M aggiornate, K tolte" e nel corpo una riga per gara.
 - `riepilogo.md`: breve, in italiano, per Luca: edizioni aggiunte, date cambiate, ballottaggi in apertura nei prossimi
   60 giorni (in evidenza), gare di cui non hai trovato la data ufficiale, fonti.
+
+## Foto delle città
+
+Ogni città estera ha in `content/sfondi.json` la foto di sfondo (seconda schermata della presentazione e immagine del
+risultato) e, se c'è, la foto `iconica` (prima schermata). Se aggiungi una gara in una città nuova non toccare le foto:
+basta segnalarla nel riepilogo ("città senza foto: …"). Le foto si cercano e si scelgono a parte, con il workflow
+"Foto delle città" (vedi `docs/job-programmati.md`); senza foto la presentazione funziona lo stesso.

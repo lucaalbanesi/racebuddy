@@ -9,22 +9,39 @@ Nessun segreto va nel codice o in chat.
 Orari fissati in UTC dentro Supabase (`docs/supabase_cron.sql`). A Roma sono +2 ore con l'ora legale e +1 con l'ora solare
 (dal 25 ottobre 2026 i job partono un'ora prima rispetto all'orologio di Roma).
 
-| Job (workflow) | UTC | Roma, ora legale | Cosa fa |
-|---|---|---|---|
-| Esporta gare seguite (`seguite.yml`) | 3:23 | 5:23 | gare seguite dall'app → `data/gare_seguite.json` |
-| Schede gara (`schede.yml`) | 3:53 | 5:53 | Claude Code compila le schede → `content/schede.json` |
-| Novità delle gare (`novita.yml`) | ogni ora :50, 3-19 | 5:50-21:50 | novità ufficiali → `data/novita_gare.json` |
-| Notifiche push (`push.yml`) | :07 e :37, 3-20 | 5:07-22:37 | messaggio del mattino, vigilia, gara, novità urgenti |
-| Aggiorna contenuti (`contenuti.yml`) | 4:41 e 15:41 | 6:41 e 17:41 | articoli, video, podcast → `data/contenuti.json` |
-| Aggiorna calendario gare (`calendario.yml`) | lunedì 4:17 | lunedì 6:17 | calendario FIDAL → `data/gare.json` |
+| Job (workflow) | UTC | Roma, ora legale | Claude | Cosa fa |
+|---|---|---|---|---|
+| Esporta gare seguite (`seguite.yml`) | 3:23 | 5:23 | – | gare seguite dall'app → `data/gare_seguite.json` |
+| Schede gara (`schede.yml`) | 3:53 | 5:53 | **sì** | Claude Code compila e ricontrolla le schede dai siti ufficiali (al massimo 8 gare per giro, limite 40 min) → `content/schede.json` |
+| Novità delle gare (`novita.yml`) | ogni ora :50, 3-19 | 5:50-21:50 | – | novità ufficiali, tema e urgenza decisi con regole → `data/novita_gare.json` |
+| Notifiche push (`push.yml`) | :07 e :37, 3-20 | 5:07-22:37 | – | messaggio del mattino, vigilia, gara, novità urgenti |
+| Aggiorna contenuti (`contenuti.yml`) | 4:41 e 15:41 | 6:41 e 17:41 | – | articoli e video dai feed → `data/contenuti.json` |
+| Aggiorna calendario gare (`calendario.yml`) | lunedì 4:17 | lunedì 6:17 | – | calendario FIDAL + Gare Podistiche Lazio → `data/gare.json` |
+| Gare estere (`estero.yml`) | giorno 1 alle 4:29 | giorno 1 alle 6:29 | **sì** | Claude Code aggiorna date ufficiali, iscrizioni e ballottaggi (limite 60 min) → `content/estero.json` |
+
+Solo **Schede gara** e **Gare estere** usano Claude (Claude Code in GitHub Actions con l'abbonamento di Luca, secret
+`CLAUDE_CODE_OAUTH_TOKEN`). Claude modifica solo il proprio file di dati e scrive messaggio di commit e riepilogo;
+controllo del JSON, commit e riepilogo sull'issue li fa il workflow. Tutti gli altri job sono script senza AI.
 
 Ogni job è in coda con sé stesso: due giri dello stesso job non si sovrappongono mai.
+
+### Job non programmati (si lanciano a mano o partono da soli)
+
+| Job (workflow) | Quando parte | Claude | Cosa fa |
+|---|---|---|---|
+| Pubblica web app (`pages.yml`) | push su `main` (app, contenuti, dati) e dopo il calendario | – | test della logica e pubblicazione su GitHub Pages |
+| Pubblica funzioni Supabase (`funzioni.yml`) | push sulle funzioni o a mano | – | pubblica le Edge Function `tempi` e `strava` e prova `tempi` dal vivo |
+| Foto delle città (`foto-citta.yml`) | push sul ramo `foto-citta` o a mano | – | cerca su Wikimedia Commons foto CC0/pubblico dominio delle città (`content/foto_ricerca.json`): provini in `foto_candidati/`, scarica quelle con `file` in `content/sfondi/` + `sfondi.json`. La scelta si fa a vista in chat con Claude; il ramo poi va su `main` senza i provini |
+| Verifica fonti contenuti (`fonti.yml`) | a mano | – | controlla che i feed dei contenuti rispondano → `data/fonti_verificate.json` |
+| Innesco job (Supabase) (`innesco-push.yml`) | a mano | – | installa calendario e token dell'innesco su Supabase (vedi sotto) |
+| Verifica collegamento Supabase (`supabase-verifica.yml`) | a mano | – | prova il collegamento a Supabase |
+| Test database gruppo (`test-db.yml`) | push sui file SQL o a mano | – | prova le funzioni del gruppo su un database di test |
 
 ### Dove vedo cosa è successo
 - **Actions** su GitHub: ogni giro con la spunta verde o la X rossa; i giri lanciati da Supabase risultano "workflow_dispatch".
 - **Notifiche push**: in ogni giro l'annotazione "Invii notifiche" (iscritti, inviati per tipo, falliti). Gialla se qualcosa è fallito.
-- **Schede gara**: il riepilogo arriva come commento sull'issue **"Riepilogo schede gara"** (notifica GitHub, app o email)
-  e nella pagina del giro.
+- **Schede gara** e **Gare estere**: il riepilogo arriva come commento sulle issue **"Riepilogo schede gara"** e
+  **"Riepilogo gare estere"** (notifica GitHub, app o email) e nella pagina del giro.
 
 ## Come è fatto l'innesco
 - Funzione `racebuddy_lancia(workflow)` su Supabase: chiama l'API di GitHub con il token salvato nel **Vault**
@@ -33,43 +50,32 @@ Ogni job è in coda con sé stesso: due giri dello stesso job non si sovrappongo
 - Tutto si installa (e si reinstalla) con il workflow **"Innesco job (Supabase)"** (`innesco-push.yml`), che legge
   `docs/supabase_cron.sql`, mette il token nel Vault e fa una chiamata di prova. Si può rilanciare quante volte si vuole.
 
-## Operazione da fare ora: token di Claude per le schede gara
+## Il token di Claude (schede gara e gare estere)
 
-Le schede gara girano con **Claude Code in GitHub Actions**, con il tuo abbonamento Claude. Serve un token.
+Il token è già installato (secret `CLAUDE_CODE_OAUTH_TOKEN`). Per crearne uno nuovo:
 
-1. **Crea il token** sul computer dove hai Claude Code: nel terminale lancia
-   ```
-   claude setup-token
-   ```
-   Si apre il browser: entra con il tuo account Claude e autorizza. Nel terminale compare il token
-   (una lunga stringa che inizia con `sk-ant-oat`). Copialo.
-   Attenzione: il terminale lo mostra spezzato su due righe. Incollalo prima in un editor (es. VS Code), unisci
-   le righe togliendo l'a capo e controlla che non ci siano spazi: deve essere **una riga sola**.
-2. **Salvalo su GitHub**: repo racebuddy → **Settings → Secrets and variables → Actions → New repository secret**
-   - Name: `CLAUDE_CODE_OAUTH_TOKEN`
-   - Secret: il token copiato → **Add secret**
-3. **Dimmelo in chat.** Io poi:
-   - lancio un giro di prova di "Schede gara" e controllo commit e riepilogo;
-   - se va bene, disattivo la vecchia attività programmata di Claude delle 5:53 (fino ad allora resta attiva,
-     così le schede si aggiornano comunque e non partono mai due giri insieme);
-   - rilancio "Innesco job (Supabase)" per mettere le schede nel calendario di Supabase.
+1. Sul computer dove hai Claude Code, nel terminale: `claude setup-token`. Si apre il browser: entra con il tuo account
+   Claude e autorizza. Nel terminale compare il token (inizia con `sk-ant-oat`).
+   Il terminale lo mostra spezzato su due righe: incollalo prima in un editor, unisci le righe e controlla che non ci
+   siano spazi. Deve essere **una riga sola**.
+2. GitHub, repo racebuddy → **Settings → Secrets and variables → Actions** → `CLAUDE_CODE_OAUTH_TOKEN` → Update.
 
-Se vuoi provarlo tu: Actions → **"Schede gara"** → Run workflow. Il campo "Indicazione in più" è facoltativo
-(es. "dai priorità alla Firenze Marathon").
+Per un giro a mano: Actions → **"Schede gara"** (o **"Gare estere"**) → Run workflow. Il campo "Indicazione in più" è
+facoltativo (es. "dai priorità alla Firenze Marathon").
 
 ## Manutenzione: i token che scadono
 
 | Secret su GitHub | A cosa serve | Come si rinnova |
 |---|---|---|
 | `DISPATCH_TOKEN` | Supabase lancia i workflow | GitHub → Settings → Developer settings → Fine-grained tokens → token di racebuddy → **Regenerate** (stessi permessi: solo repo racebuddy, Actions: Read and write). Aggiorna il secret, poi Actions → **"Innesco job (Supabase)"** → Run workflow |
-| `CLAUDE_CODE_OAUTH_TOKEN` | Claude Code nelle schede gara | `claude setup-token` sul computer, poi aggiorna il secret. Non serve rilanciare nulla |
+| `CLAUDE_CODE_OAUTH_TOKEN` | Claude Code in schede gara e gare estere | `claude setup-token` sul computer, poi aggiorna il secret. Non serve rilanciare nulla |
 | `SUPABASE_ACCESS_TOKEN` | installare l'innesco e pubblicare le funzioni | Supabase → Account → Access Tokens, poi aggiorna il secret |
 
 Segnali che un token è scaduto:
 - **DISPATCH_TOKEN**: in Actions non compaiono più giri nuovi (nessun job parte). Rilanciando "Innesco job (Supabase)"
   il passo "Il token può lanciare il workflow?" diventa rosso.
-- **CLAUDE_CODE_OAUTH_TOKEN**: il giro di "Schede gara" è rosso e l'issue "Riepilogo schede gara" riceve un commento
-  "Il giro non è andato a buon fine".
+- **CLAUDE_CODE_OAUTH_TOKEN**: i giri di "Schede gara" e "Gare estere" sono rossi e le issue di riepilogo ricevono un
+  commento "Il giro non è andato a buon fine".
 
 ## Aggiungere o spostare un job
 1. Il workflow deve avere `workflow_dispatch:` tra gli eventi (e niente `schedule:`).
