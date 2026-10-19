@@ -319,12 +319,10 @@
       },
       "sfondo": {
         "cerca": [
-          "Copenhagen Little Mermaid",
-          "Amalienborg Copenhagen",
-          "Copenhagen Christiansborg"
-        ],
-        "file": "File:Expo 2010 Denmark Pavilion- Little Mermaid Statue from Copenhagen Harbor 07.jpg",
-        "titolo": "La Sirenetta"
+          "Nyhavn evening",
+          "Christiansborg Palace Copenhagen",
+          "Copenhagen Opera House harbour"
+        ]
       }
     },
     "göteborg": {
