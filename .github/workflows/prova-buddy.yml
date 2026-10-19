@@ -28,7 +28,7 @@ jobs:
           url = f"https://{ref}.supabase.co/functions/v1/buddy"
           contesto = ("Oggi: 2026-10-19.\nGara obiettivo: Maratona di Roma (Maratona), 2027-03-21, tra 153 giorni, fase: Prima della preparazione, "
                       "tempo obiettivo 3:25:00 (passo 4:52/km).\nPersonali: Mezza 1:38:00.\n"
-                      "Scarpe: Adidas Adizero Adios Pro 4 (gara): 250 km, limite 600 km; Asics Novablast 5 (allenamento): 610 km, limite 700 km.\n"
+                      "Scarpe: Adidas Adizero Adios Pro 4 (gara): 250 km su 600 (42%, in forma); Asics Novablast 5 (allenamento): 610 km su 700 (87%, quasi a fine vita).\n"
                       "Km a settimana: circa 45.")
           dom = [d.strip() for d in (os.environ.get("DOMANDE") or "").split("|") if d.strip()] or [
               "Che scarpa prendo dopo le mie?",
@@ -42,8 +42,9 @@ jobs:
               except urllib.error.HTTPError as e: return e.code, json.loads(e.read() or b"{}")
           s, q = chiama({"azione": "quota"})
           print(f"::notice title=Quota::{s} {json.dumps(q, ensure_ascii=False)}")
-          for d in dom:
+          for i, d in enumerate(dom):
+              if i: time.sleep(25)   # come una persona vera: niente raffica, rispetta il limite al minuto
               t0 = time.time(); s, j = chiama({"messaggi": [{"r": "u", "t": d}], "contesto": contesto})
               testo = (j.get("risposta") or j.get("messaggio") or json.dumps(j, ensure_ascii=False)).replace("%", "%25").replace("\r", "").replace("\n", "%0A")
-              print(f"::notice title=Domanda: {d[:60]} [{s} {j.get('esito')} · tema {j.get('tema')} · restano {j.get('restano')} · {time.time()-t0:.1f}s]::{testo}")
+              print(f"::notice title=Domanda: {d[:60]} [{s} {j.get('esito')} · tema {j.get('tema')} · ricerca {j.get('ricerca')} · {j.get('token')} token · restano {j.get('restano')} · {time.time()-t0:.1f}s]::{testo}")
           EOF

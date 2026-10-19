@@ -657,7 +657,7 @@
     if (altre.length) righe.push(`Altre gare: ${altre.map(descr).join("; ")}.`);
     const per = ["10", "21", "42"].filter((d) => pb[d] && pb[d].tempo && pb[d].fonte !== "strava").map((d) => `${DIST_LABEL[d]} ${pb[d].tempo}`);
     righe.push(per.length ? `Personali: ${per.join(", ")}.` : "Personali: non indicati.");
-    const sc = scarpe.filter((x) => x && !x.strava).slice(0, 6).map((x) => `${x.nome} (${TIPO_SCARPA[x.tipo] || x.tipo}): ${Math.round(Number(x.km) || 0)} km, limite ${Math.max(300, Number(x.limite) || 800)} km`);
+    const sc = scarpe.filter((x) => x && !x.strava).slice(0, 6).map((x) => { const st = statoScarpa(x); return `${x.nome} (${TIPO_SCARPA[x.tipo] || x.tipo}): ${Math.round(st.km)} km su ${st.limite} (${Math.round(st.quota * 100)}%, ${st.etichetta})`; });
     righe.push(sc.length ? `Scarpe: ${sc.join("; ")}.` : "Scarpe: non indicate.");
     if (Number(kmSettimana) > 0) righe.push(`Km a settimana: circa ${Math.round(Number(kmSettimana))}.`);
     return righe.join("\n");

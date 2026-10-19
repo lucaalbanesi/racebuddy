@@ -1,6 +1,6 @@
 // Test della funzione "buddy" con Groq e database finti: node tests/test_buddy.mjs
 import assert from "node:assert";
-import { crea, quotaGiorno, separaTema, messaggiModello, BUDGET } from "../supabase/functions/buddy/gestisci.js";
+import { crea, quotaGiorno, separaTema, messaggiModello, serveRicerca, pulisci, BUDGET } from "../supabase/functions/buddy/gestisci.js";
 
 // quota dinamica: budget diviso per gli attivi della settimana, tra 3 e 20
 assert.strictEqual(quotaGiorno(50, 0), 20);
@@ -14,6 +14,11 @@ assert.deepStrictEqual(separaTema("Ciao\n**TEMA: Allenamento**"), { testo: "Ciao
 assert.deepStrictEqual(separaTema("Qui parlo di scarpe, integratori e allenamento.\nTEMA: fuori_tema"), { testo: "Qui parlo di scarpe, integratori e allenamento.", tema: "fuori_tema" });
 assert.deepStrictEqual(separaTema("Risposta senza tema"), { testo: "Risposta senza tema", tema: "altro" });
 assert.strictEqual(separaTema("x\nTEMA: finanza").tema, "altro");
+
+// ricerca solo per le scarpe, marcatori di citazione tolti
+assert.ok(serveRicerca("Che scarpa prendo dopo le mie?")); assert.ok(serveRicerca("meglio Novablast o Pegasus?"));
+assert.ok(!serveRicerca("Gel e integratori: consigli?")); assert.ok(!serveRicerca("Come imposto le prossime settimane?"));
+assert.strictEqual(pulisci("circa 250 €【1†L30-L33】. Bene"), "circa 250 €. Bene");
 
 // messaggi: istruzioni + contesto + al massimo 10 scambi, solo ruoli noti
 const tanti = Array.from({ length: 14 }, (_, i) => ({ r: i % 2 ? "b" : "u", t: "m" + i }));
@@ -58,11 +63,13 @@ const domanda = { messaggi: [{ r: "u", t: "Che scarpa prendo?" }], contesto: "Ma
   assert.notStrictEqual(conteggi[0].p_impronta, TEL); assert.strictEqual(conteggi[0].p_impronta.length, 64);
   assert.deepStrictEqual(groq[0].tools, [{ type: "browser_search" }]);
   assert.ok(groq[0].messages[1].content.includes("obiettivo 3:25:00"));
+  // domanda non sulle scarpe: niente ricerca
+  groq = []; await chiama({ messaggi: [{ r: "u", t: "Gel e integratori: consigli?" }], contesto: "x" }); assert.ok(!groq[0].tools);
   // ricerca web non disponibile (400): si riprova senza strumenti
   let prima = true; rispostaGroq = (b) => (b.tools && prima ? ((prima = false), { status: 400, corpo: { error: {} } }) : { status: 200, corpo: { choices: [{ message: { content: "Ok\nTEMA: allenamento" } }], usage: { total_tokens: 900 } } });
   groq = []; r = await (await chiama(domanda)).json();
   assert.strictEqual(r.esito, "ok"); assert.strictEqual(groq.length, 2); assert.ok(!groq[1].tools);
-  // limite di Groq: riposo, niente conteggio
+  // limite di Groq anche senza ricerca: riposo, niente conteggio
   rispostaGroq = () => ({ status: 429 }); const n = conteggi.length;
   r = await (await chiama(domanda)).json(); assert.strictEqual(r.esito, "riposo"); assert.strictEqual(conteggi.length, n);
   // quota del telefono finita
