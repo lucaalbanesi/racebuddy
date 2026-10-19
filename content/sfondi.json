@@ -72,8 +72,8 @@
   "licenza": "CC0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Brooklyn_Bridge_at_night.jpg",
   "fuoco": [
-   0.5,
-   0.4
+   0.6,
+   0.5
   ],
   "iconica": {
    "file": "content/sfondi/new-york-iconica.jpg",
@@ -83,7 +83,7 @@
    "fonte": "https://commons.wikimedia.org/wiki/File:Front_view_of_Statue_of_Liberty_with_pedestal_and_base_2024.jpg",
    "fuoco": [
     0.5,
-    0.4
+    0.18
    ]
   }
  },
@@ -160,7 +160,7 @@
   "licenza": "CC0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Estrela_28_(44788867012).jpg",
   "fuoco": [
-   0.5,
+   0.25,
    0.4
   ],
   "iconica": {
@@ -281,7 +281,7 @@
    "fonte": "https://commons.wikimedia.org/wiki/File:Tour_Eiffel_depuis_un_bateau_sur_la_Seine.jpg",
    "fuoco": [
     0.5,
-    0.4
+    0.55
    ]
   }
  },
@@ -325,7 +325,7 @@
    "fonte": "https://commons.wikimedia.org/wiki/File:Spire_Cathedral_St_Stephen_Vienna_Wien_Steffl_1.jpg",
    "fuoco": [
     0.5,
-    0.4
+    0.75
    ]
   }
  },
@@ -374,6 +374,15 @@
   }
  },
  "copenaghen": {
+  "file": "content/sfondi/copenaghen.jpg",
+  "titolo": "La torre di Christiansborg",
+  "autore": "Jebulon",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Christiansborg_Slot_spire_Copenhagen_Denmark.jpg",
+  "fuoco": [
+   0.5,
+   0.4
+  ],
   "iconica": {
    "file": "content/sfondi/copenaghen-iconica.jpg",
    "titolo": "Nyhavn",
@@ -393,7 +402,7 @@
   "licenza": "CC0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Little_Walk_to_Bo-Kaap.jpg",
   "fuoco": [
-   0.5,
+   0.9,
    0.4
   ],
   "iconica": {
@@ -459,7 +468,7 @@
   "licenza": "CC0",
   "fonte": "https://commons.wikimedia.org/wiki/File:PANO_20190207_115122.jpg",
   "fuoco": [
-   0.5,
+   0.2,
    0.4
   ],
   "iconica": {
@@ -483,7 +492,18 @@
   "fuoco": [
    0.5,
    0.4
-  ]
+  ],
+  "iconica": {
+   "file": "content/sfondi/cardiff-iconica.jpg",
+   "titolo": "Il Castello di Cardiff",
+   "autore": "UnknownUnknown ; published by the Detroit Publishing Co.",
+   "licenza": "pubblico dominio",
+   "fonte": "https://commons.wikimedia.org/wiki/File:Animal_Wall_Cardiff.jpg",
+   "fuoco": [
+    0.5,
+    0.4
+   ]
+  }
  },
  "chicago": {
   "file": "content/sfondi/chicago.jpg",
@@ -494,7 +514,18 @@
   "fuoco": [
    0.5,
    0.4
-  ]
+  ],
+  "iconica": {
+   "file": "content/sfondi/chicago-iconica.jpg",
+   "titolo": "Lo skyline sul lago Michigan",
+   "autore": "Bladerunner2019",
+   "licenza": "CC0",
+   "fonte": "https://commons.wikimedia.org/wiki/File:Panorama_Chicago.jpg",
+   "fuoco": [
+    0.5,
+    0.4
+   ]
+  }
  },
  "londra": {
   "file": "content/sfondi/londra.jpg",
@@ -517,5 +548,16 @@
     0.4
    ]
   }
+ },
+ "göteborg": {
+  "file": "content/sfondi/goteborg.jpg",
+  "titolo": "La Feskekôrka di sera",
+  "autore": "Pasi Mammela",
+  "licenza": "CC0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Feskek%C3%B4rka.jpg",
+  "fuoco": [
+   0.5,
+   0.4
+  ]
  }
 }
