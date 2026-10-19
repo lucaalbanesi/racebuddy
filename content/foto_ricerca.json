@@ -1,0 +1,30 @@
+{
+  "nota": "Ricerca delle foto delle città su Wikimedia Commons (solo CC0 o pubblico dominio), usata da scripts/foto_citta.py. Per ogni città: 'iconica' (prima schermata della presentazione delle gare estere) e 'sfondo' (seconda schermata e immagine del risultato da condividere). 'cerca' = parole per trovare i candidati; quando c'è 'file' (pagina File: su Commons) la foto è scelta e il job la scarica.",
+  "citta": {
+    "francoforte": { "iconica": { "cerca": ["Römerberg Frankfurt", "Frankfurt Römer"] }, "sfondo": { "cerca": ["Frankfurt skyline Main", "Frankfurt am Main skyline"] } },
+    "valencia": { "iconica": { "cerca": ["Ciudad de las Artes y las Ciencias", "Hemisfèric Valencia"] }, "sfondo": { "cerca": ["Torres de Serranos", "Valencia Cathedral Micalet"] } },
+    "new york": { "iconica": { "cerca": ["Statue of Liberty", "Manhattan skyline Statue of Liberty"] }, "sfondo": { "cerca": ["Brooklyn Bridge Manhattan", "Brooklyn Bridge"] } },
+    "atene": { "iconica": { "cerca": ["Parthenon Athens", "Acropolis of Athens"] }, "sfondo": { "cerca": ["Acropolis Athens view", "Athens Acropolis sunset"] } },
+    "barcellona": { "iconica": { "cerca": ["Sagrada Familia", "Sagrada Família"] }, "sfondo": { "cerca": ["Park Güell", "Barcelona skyline"] } },
+    "siviglia": { "iconica": { "cerca": ["Plaza de España Sevilla", "Plaza de España Seville"] }, "sfondo": { "cerca": ["Giralda Sevilla", "Seville Cathedral Giralda"] } },
+    "lisbona": { "iconica": { "cerca": ["Torre de Belém", "Belém Tower"] }, "sfondo": { "cerca": ["Lisbon tram 28", "Lisbon Alfama view"] } },
+    "tokyo": { "iconica": { "cerca": ["Tokyo Tower", "Tokyo Skytree"] }, "sfondo": { "cerca": ["Tokyo skyline Mount Fuji", "Tokyo skyline night"] } },
+    "praga": { "iconica": { "cerca": ["Charles Bridge Prague", "Karlův most"] }, "sfondo": { "cerca": ["Prague Castle Vltava", "Prague panorama"] } },
+    "berlino": { "iconica": { "cerca": ["Brandenburger Tor", "Brandenburg Gate"] }, "sfondo": { "cerca": ["Berliner Fernsehturm", "Berlin TV Tower"] } },
+    "madrid": { "iconica": { "cerca": ["Puerta de Alcalá", "Metrópolis building Madrid"] }, "sfondo": { "cerca": ["Gran Vía Madrid", "Edificio Metrópolis Madrid"] } },
+    "parigi": { "iconica": { "cerca": ["Eiffel Tower", "Tour Eiffel"] }, "sfondo": { "cerca": ["Arc de Triomphe Paris", "Champs-Élysées Arc de Triomphe"] } },
+    "rotterdam": { "iconica": { "cerca": ["Erasmusbrug", "Erasmus Bridge Rotterdam"] }, "sfondo": { "cerca": ["Rotterdam skyline", "Kubuswoningen Rotterdam"] } },
+    "vienna": { "iconica": { "cerca": ["Stephansdom Wien", "St. Stephen's Cathedral Vienna"] }, "sfondo": { "cerca": ["Schönbrunn Palace", "Schloss Schönbrunn"] } },
+    "boston": { "iconica": { "cerca": ["Boston skyline Charles River", "Boston Back Bay skyline"] }, "sfondo": { "cerca": ["Massachusetts State House", "Boston Public Garden"] } },
+    "amburgo": { "iconica": { "cerca": ["Elbphilharmonie", "Elbphilharmonie Hamburg"] }, "sfondo": { "cerca": ["Speicherstadt Hamburg", "Hamburg Speicherstadt"] } },
+    "londra": { "iconica": { "cerca": ["Tower Bridge", "Tower Bridge London"] }, "sfondo": { "cerca": ["Big Ben Westminster", "Elizabeth Tower Westminster"] } },
+    "copenaghen": { "iconica": { "cerca": ["Nyhavn", "Nyhavn Copenhagen"] }, "sfondo": { "cerca": ["Copenhagen harbour", "Christiansborg Palace"] } },
+    "göteborg": { "iconica": { "cerca": ["Gothenburg Opera", "Göteborg Lilla Bommen"] }, "sfondo": { "cerca": ["Gothenburg harbour", "Göteborg Feskekôrka"] } },
+    "città del capo": { "iconica": { "cerca": ["Table Mountain Cape Town", "Table Mountain"] }, "sfondo": { "cerca": ["Bo-Kaap Cape Town", "Cape Town Waterfront"] } },
+    "sydney": { "iconica": { "cerca": ["Sydney Opera House", "Sydney Opera House Harbour Bridge"] }, "sfondo": { "cerca": ["Sydney Harbour Bridge", "Sydney skyline"] } },
+    "newcastle": { "iconica": { "cerca": ["Tyne Bridge", "Tyne Bridge Newcastle"] }, "sfondo": { "cerca": ["Gateshead Millennium Bridge", "Newcastle Quayside"] } },
+    "varsavia": { "iconica": { "cerca": ["Palace of Culture and Science Warsaw", "Pałac Kultury i Nauki"] }, "sfondo": { "cerca": ["Warsaw Old Town Market Square", "Warsaw Royal Castle"] } },
+    "cardiff": { "iconica": { "cerca": ["Cardiff Castle", "Principality Stadium"] }, "sfondo": { "cerca": ["Cardiff Bay", "Wales Millennium Centre"] } },
+    "chicago": { "iconica": { "cerca": ["Cloud Gate Chicago", "Cloud Gate"] }, "sfondo": { "cerca": ["Chicago skyline", "Chicago skyline night"] } }
+  }
+}
