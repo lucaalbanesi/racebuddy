@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-10-18",
+ "aggiornato": "2026-10-19",
  "contenuti": [
   {
    "id": "6aac9e318c7b",
@@ -158,6 +158,28 @@
    "fasi": []
   },
   {
+   "id": "521f5d14542d",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Meda Urban Race Luca Rossetto e Flora Barlassina vincono la mezza maratona",
+   "estratto": "Nella 10 km i più veloci sono Luca Venier (Runners Legnano SSD) e Cristina Ballabio (Atletica Casone Noceto) Meda 18 ottobre – Un successo di partecipazione, entusiasmo e…",
+   "link": "https://podisti.net/meda-urban-race-luca-rossetto-e-flora-barlassina-vincono-la-mezza-maratona/",
+   "data": "2026-10-18",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/Larrivo-di-Rossetto.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "21",
+    "10"
+   ],
+   "fasi": [
+    "gara"
+   ]
+  },
+  {
    "id": "e3ce484c9848",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -190,6 +212,24 @@
    "argomenti": [
     "allenamento",
     "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "663f5fb33e80",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "La CR10 RUN incorona Stephen Mwangi Njieri ed Elisa Palmero",
+   "estratto": "Cremona 18 ottobre – È proprio autunno. Lo dice il calendario, lo conferma il cielo grigio e lo sottolinea quella pioggerellina sottile, a tratti più insistente, che accompagna…",
+   "link": "https://podisti.net/la-cr10-run-incorona-stephen-mwangi-njieri-ed-elisa-palmero/",
+   "data": "2026-10-18",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/CR10-RUN.jpg",
+   "argomenti": [
+    "allenamento"
    ],
    "distanze": [],
    "fasi": [
@@ -261,6 +301,110 @@
    ]
   },
   {
+   "id": "b6c9fb6d7883",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Ellittica o vogatore: qual è il miglior cross training per runner?",
+   "estratto": "Ha davvero importanza quale opzione si scelga in palestra? Un personal trainer certificato ci dice la sua",
+   "link": "https://www.runnersworld.com/it/allenamento/a74127293/ellittica-vogatore-cross-training-runner/",
+   "data": "2026-10-18",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/4b19f691-307a-4229-9ca8-94e0770a4310.jpeg",
+   "argomenti": [
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "74f407c23dc5",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Drago Vaia Trail: la 20 km a Samuele Demetz e Giulia Marchesoni",
+   "estratto": "18 ottobre – Folla delle grandi occasioni alla quarta edizione del Drago Vaia Trail, manifestazione offroad allestita a Gionghi di Longarone (TN) che prevedeva due percorsi. La…",
+   "link": "https://podisti.net/drago-vaia-trail-la-20-km-a-samuele-demetz-e-giulia-marchesoni/",
+   "data": "2026-10-18",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/DRAGO-VAIA-TRAIL.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "b9f8d1728d40",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Dodecarun: al Giro di Dino Valeria Straneo è ancora la più forte. Mouhssine Hafid vince fra gli uomini",
+   "estratto": "Alessandria, 16 ottobre – Sul percorso del Giro di Dino, nella frazione Giardinetto di Castelletto Monferrato, Valeria Straneo ha preparato le sue grandi gare internazionali. Le…",
+   "link": "https://podisti.net/dodecarun-al-giro-di-dino-valeria-straneo-e-ancora-la-piu-forte-mouhssine-hafid-vince-fra-gli-uomini/",
+   "data": "2026-10-18",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/DODECARUN-PARTENZA.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "d72626cd2c2e",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Cavaria con Premezzo (VA) – Cavaria con Premezzo La 7 Campanili",
+   "estratto": "",
+   "link": "https://podisti.net/cavaria-con-premezzo-va-cavaria-con-premezzo-la-7-campanili/",
+   "data": "2026-10-18",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/DSC_2505.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "2d9693571fa2",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Castellana Grotte (BA) – 14° Trofeo Grotte, successi di Butoyi e Iania",
+   "estratto": "18 ottobre – Quattordicesima edizione del Trofeo Grotte a Castellana Grotte, in provincia di Bari: ad organizzare la locale Associazione Atletica, conosciuta anche come Free Dogs…",
+   "link": "https://podisti.net/castellana-grotte-ba-14-trofeo-grotte-successi-di-butoyi-e-iania/",
+   "data": "2026-10-18",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/0189.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "scarico"
+   ]
+  },
+  {
+   "id": "0d52c6321f54",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Ancona – 7^ La Dieci di Ancona, vincono Massimi e Calvauna",
+   "estratto": "18 ottobre – Si è corsa stamani la settima edizione de La Dieci di Ancona – 6° Memorial Lorenzo Farinelli, gara nazionale di 10 chilometri, con partenza e arrivo in Piazza Roma…",
+   "link": "https://podisti.net/ancona-7-la-dieci-di-ancona-vincono-massimi-e-calvauna/",
+   "data": "2026-10-18",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/855436826_1745178867618456_64141.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "gara"
+   ]
+  },
+  {
    "id": "1c800db9bf7e",
    "tipo": "articolo",
    "fonte": "Podisti.net",
@@ -276,6 +420,36 @@
    "distanze": [
     "42"
    ],
+   "fasi": []
+  },
+  {
+   "id": "12f0dff3cb03",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Al Kilometro Verticale Chiavenna-Lagunc successi per Henry Aymonod e Andrea Mayr",
+   "estratto": "Chiavenna, 17 ottobre – In una mattinata splendente di sole con il numero di atleti partecipanti alla competizione tra i più alti di sempre e il borgo di Lagunc stracolmo di…",
+   "link": "https://podisti.net/al-kilometro-verticale-chiavenna-lagunc-successi-per-henry-aymonod-e-andrea-mayr/",
+   "data": "2026-10-18",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/LAGUNC-PODIO-FEMMINILE.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "4ad07343ec6a",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "10^ Corsa dei Castelli, Godana da record, Mattagliano al bis",
+   "estratto": "4^ International Road Race Running u.23 sono d’oro la squadra italiana e la Svizzera al femminile Trieste 18 ottobre – E’ il solito stupendo viaggio, il decimo per l’esattezza…",
+   "link": "https://podisti.net/10-corsa-dei-castelli-godana-da-record-mattagliano-al-bis/",
+   "data": "2026-10-18",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/Larrivo-di-Baneta.jpg",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [],
    "fasi": []
   },
   {
