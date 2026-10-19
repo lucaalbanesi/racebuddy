@@ -625,20 +625,26 @@
     const notifica = (ora, titolo, testo) => `<div class="ob-notif"><img src="icon-192.png" alt="" width="34" height="34"><div class="ob-notif-t"><div class="between"><span>RaceBuddy</span><span>${ora}</span></div><b>${titolo}</b><span>${testo}</span></div></div>`;
     const pos = (n, nome, tempo, tu) => `<div class="post ${tu ? "mio" : ""}"><span class="ob-pos p${n}">${n}</span>${avatar(nome, 30)}<span style="flex:1;min-width:0"><b>${tu ? "Tu" : nome}</b>${tu ? `<br><span class="small" style="color:var(--accent-strong);font-weight:600">a 2:10 da Marco</span>` : ""}</span><b class="pb-tempo">${tempo}</b></div>`;
     const chi = (nome, ruolo, tempo) => `<div class="between small"><span><b>${nome}</b> · ${ruolo}</span><span class="muted">${tempo}</span></div>`;
+    const garaDemo = (nome, quando, pill) => `<div class="ob-gara"><div style="min-width:0"><b>${nome}</b><br><span class="small muted">${quando}</span></div>${pill}</div>`;
     const slides = [
-      { k: "Ciao! · La preparazione", t: "Ogni giorno sai cosa fare", d: "Dall'iscrizione al traguardo: cosa provare, cosa preparare e cosa leggere, sulle date vere della tua gara.",
+      { k: "Ciao! · Le gare", t: "Scegli la tua gara", d: "Tutto il calendario italiano. E se sogni in grande, i circuiti del mondo: Major, SuperHalfs, Classics.",
+        nota: "Corri solo in Italia? Va benissimo: i circuiti sono un di più.",
+        ill: `<div class="card ob-mini" style="gap:8px"><div class="seg ob-seg"><a>Le mie</a><a aria-current="page">Italia</a><a>Circuiti</a></div>
+            ${garaDemo("Firenze Marathon", "dom 29 nov · Firenze · 42 km", '<span class="pill ok">la segui</span>')}
+            ${garaDemo("Corri per il Verde", "dom 8 nov · Roma · 10 km", '<span class="pill grigio">FIDAL</span>')}
+            ${garaDemo("TCS London Marathon", "dom 25 apr 2027 · Londra", '<span class="pill navy-pill">Major ⭐</span>')}</div>` },
+      { k: "La preparazione", t: "Ogni giorno sai cosa fare", d: "Dall'iscrizione al traguardo: cosa provare, cosa preparare e cosa leggere, sulle date vere della tua gara. Tessera, certificato e scarpe compresi.",
         ill: `<div class="ob-countdown"><span class="big ob-num" id="ob-num">46</span><span>giorni alla tua gara</span></div>
           <div class="card dark ob-barra">${barra}</div>
           <div class="card ob-mini"><span class="eyebrow" style="color:var(--accent)">Oggi</span>
             <label class="check"><input type="checkbox" tabindex="-1"><span><span class="t">Prova il gel nel lungo</span><br><span class="d">Lo stesso che userai in gara, al 10° km</span></span></label>
             <div class="ob-cont"><span class="thumb noimg t-video"><span class="play" aria-hidden="true">▶</span></span><span class="c-testo"><span class="c-meta">Per la tua fase · video · 6 min</span><span class="c-titolo">Il lungo a ritmo gara, spiegato bene</span></span></div></div>` },
-      { k: "Meteo e avvisi", t: "Ti avviso quando serve", d: "Come vestirti all'ora della tua uscita. E una notifica solo se cambia qualcosa: al massimo una al mattino, la vigilia alle 19. Mai di notte.",
+      { k: "La gara e gli avvisi", t: "Sempre aggiornato, mai invadente", d: "Orari e percorso dal sito ufficiale, la borsa da spuntare, il meteo della tua uscita. Una notifica solo se cambia qualcosa, mai di notte.",
         nota: "Le notifiche le attivi da Io. Su iPhone prima aggiungi RaceBuddy alla schermata Home.",
-        ill: `<div class="card ob-mini"><span class="eyebrow">Roma · uscita di domani alle 7:00</span><div class="meteo-top">${icona(m, 52)}<div style="flex:1;min-width:0"><div class="meteo-temp">${Math.round(m.temp)}°</div><span class="small muted">${esc(NOME_CIELO[L.tipoCielo(m)])}</span></div>${datiMeteo(m)}</div><span class="small">${esc(L.vestizione(m, false))}</span><span class="pill" style="align-self:flex-start">Rischio ghiaccio</span></div>
-          ${notifica("6:00", "Il meteo cambia", "Alle 7: -1°, vento forte. Guanti e uno strato antivento.")}
-          ${notifica("19:00", "Domani: Firenze Marathon", "Partenza alle 8:30. Prepara la borsa stasera: la checklist è pronta.")}` },
-      { k: "La gara", t: "La tua gara, in una scheda", d: "Orari, ritiro pettorale, griglie, deposito e percorso, presi dal sito ufficiale e ricontrollati fino al via. Con la partenza su Maps.",
-        ill: `<div class="card ob-mini"><div class="between"><b>Domenica · ore 8:30</b><span class="pill ok">dal sito ufficiale</span></div>${mappaDemo}<div class="list" style="display:flex;flex-direction:column">${riga("Pettorale", "Expo, ven 10-19 · sab 9-19")}${riga("Griglia", "Per tempo, ingresso 7:00-8:00")}${riga("Deposito", "In piazza dalle 7:00")}</div><span class="small" style="color:var(--accent);font-weight:700">Partenza in Maps ↗ · Percorso ↗</span></div>` },
+        ill: `<div class="card ob-mini"><div class="between"><b>Domenica · ore 8:30</b><span class="pill ok">dal sito ufficiale</span></div>${mappaDemo}<div class="list" style="display:flex;flex-direction:column">${riga("Pettorale", "Expo, ven 10-19 · sab 9-19")}</div></div>
+          ${notifica("6:00", "Il meteo cambia", "Alle 7: -1°, vento forte. Guanti e uno strato antivento.")}` },
+      { k: "Dopo la gara", t: "Il traguardo è tuo", d: "Segna il tempo, anche cercandolo nelle classifiche ufficiali. Festeggia il personale e condividi l'immagine con la foto della città.",
+        ill: `<div class="ob-storia" role="img" aria-label="Esempio di immagine del risultato"><img src="content/sfondi/roma.jpg" alt=""><div class="ob-storia-testo"><span class="ob-storia-logo">RaceBuddy</span><span class="ob-storia-gara">Maratona di Roma</span><span class="ob-storia-sub">Maratona · 22 marzo</span><span class="ob-storia-tempo">3:28:41</span><span class="ob-storia-badge">Nuovo personale · −2:15</span></div></div>` },
       { k: "Il gruppo", t: "Corri con la tua società", d: "La classifica dei personali della squadra e chi corre le tue gare. Condividi solo quello che scegli.",
         ill: `<div class="card ob-mini" style="gap:4px"><div class="between"><span style="font:700 22px/1 var(--display)">Classifica dei personali</span><span class="chip" aria-pressed="true" style="height:26px;font-size:12px;display:inline-flex;align-items:center">Mezza</span></div>
             ${pos(1, "Giulia", "1:38:00")}${pos(2, "Marco", "1:41:20")}${pos(3, "Tu", "1:43:30", true)}</div>
@@ -665,16 +671,24 @@
       dots.forEach((d, j) => d.classList.toggle("on", j === i));
       tr.querySelectorAll(".ob-slide").forEach((sl, j) => sl.classList.toggle("vista", j === i));
       av.style.visibility = i === dots.length - 1 ? "hidden" : "visible";
+      if (num && num.closest(".ob-slide.vista")) contaAlla();
     }, { passive: true });
-    // Prima schermata: il conto alla rovescia scende a 46 e la fase si riempie, una volta sola (niente se il telefono riduce le animazioni).
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Schermata della preparazione: il conto alla rovescia scende a 46 e la fase si riempie, la prima volta che si vede
+    // (niente se il telefono riduce le animazioni).
     const num = document.getElementById("ob-num"), fill = tr.querySelector(".ob-barra .fill");
-    if (!num || !fill) return;
+    if (!num || !fill || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    num.textContent = "60"; fill.style.width = "0%";
+    let fatto = false;
+    function contaAlla() {
+    if (fatto || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    fatto = true;
     const da = 60, a = 46, durata = 900, t0 = performance.now();
     fill.style.width = "0%";
     requestAnimationFrame(() => requestAnimationFrame(() => { fill.style.transition = `width ${durata}ms ease-out`; fill.style.width = fill.dataset.obW; }));
     const passo = (t) => { const k = Math.min(1, (t - t0) / durata), e = 1 - Math.pow(1 - k, 3); num.textContent = String(Math.round(da - (da - a) * e)); if (k < 1) requestAnimationFrame(passo); };
     requestAnimationFrame(passo);
+    }
+    if (num.closest(".ob-slide.vista")) contaAlla();
   }
 
   const cardMeteo = () => (S.profilo.citta ? `<a class="card" id="meteo" href="#/meteo" style="text-decoration:none;color:inherit;font-weight:inherit" aria-label="Meteo di oggi, apri il dettaglio"><span class="eyebrow">${esc(S.profilo.citta)} · adesso</span><span class="small muted">Meteo in arrivo…</span></a>`

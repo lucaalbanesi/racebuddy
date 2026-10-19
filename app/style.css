@@ -455,3 +455,16 @@ a.chip { display: inline-flex; align-items: center; text-decoration: none; color
 .ob-slide.con-sfondo .an-citta { justify-content: flex-end; height: 100%; }
 .ob-slide.con-sfondo .an-citta .an { display: none; }
 .ob-slide.con-sfondo .an-km { align-self: flex-start; font-size: 30px; padding: 4px 14px; border-radius: 999px; background: #0d1733a6; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); text-shadow: none; }
+/* Tutorial: gare d'esempio, barra a segmenti finta e immagine del risultato d'esempio. */
+.ob-gara { display: flex; justify-content: space-between; align-items: center; gap: 10px; border-top: 1px solid var(--line2); padding-top: 8px; font-size: 14px; }
+.ob-seg { pointer-events: none; }
+.ob-seg a { padding: 6px 8px; font-size: 13px; }
+.ob-storia { position: relative; align-self: center; width: 46%; max-width: 190px; aspect-ratio: 9 / 16; border-radius: 16px; overflow: hidden; box-shadow: 0 18px 40px #0006; transform: rotate(-2deg); background: var(--navy); }
+.ob-storia img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 57% 30%; }
+.ob-storia::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, #0d173366 0%, #0d173300 30%, #0d1733cc 70%, #0d1733f2 100%); }
+.ob-storia-testo { position: absolute; inset: 0; z-index: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: 2px; padding: 14px 12px; color: #fff; }
+.ob-storia-logo { position: absolute; top: 12px; left: 12px; font: 700 13px var(--display); color: var(--accent-on-dark); }
+.ob-storia-gara { font: 700 17px/1.05 var(--display); }
+.ob-storia-sub { font-size: 10px; color: #ffffffbb; }
+.ob-storia-tempo { font: 700 44px/1 var(--display); font-variant-numeric: tabular-nums; margin-top: 4px; }
+.ob-storia-badge { align-self: flex-start; margin-top: 4px; font-size: 9.5px; font-weight: 700; padding: 3px 8px; border-radius: 999px; background: var(--accent); color: #fff; }
