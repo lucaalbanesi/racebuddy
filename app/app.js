@@ -2063,7 +2063,7 @@
   function mdBuddy(t) {
     const link = (x) => x.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, (_, a, u) => `<a href="${u}" target="_blank" rel="noopener">${a}</a>`)
       .replace(/(^|[\s(])(https?:\/\/[^\s<)]+)/g, (_, p, u) => `${p}<a href="${u}" target="_blank" rel="noopener">${u.replace(/^https?:\/\/(www\.)?/, "").split("/")[0]}</a>`);
-    const riga = (x) => link(esc(x)).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
+    const riga = (x) => link(esc(x.replace(/^\s*#{1,6}\s+(.*)$/, "**$1**"))).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
     return String(t || "").split(/\n{2,}/).map((blocco) => {
       const r = blocco.split("\n").filter((x) => x.trim());
       if (r.length && r.every((x) => /^\s*([-*•]|\d+[.)])\s+/.test(x))) {
@@ -2080,9 +2080,16 @@
   function leggiQuotaBuddy() {
     if (buddyQuotaLetta === oggi()) return;
     buddyQuotaLetta = oggi();
-    chiamaBuddy({ azione: "quota" }).then((j) => { if (j && typeof j.restano === "number") { B().restano = j.restano; B().giorno = oggi(); salva(); const el = document.getElementById("buddy-quota"); if (el) el.textContent = testoQuota(); } }).catch(() => { buddyQuotaLetta = null; });
+    chiamaBuddy({ azione: "quota" }).then((j) => { if (j && typeof j.restano === "number") { B().restano = j.restano; B().budget = j.budget; B().giorno = oggi(); salva(); const el = document.getElementById("buddy-quota"); if (el) el.textContent = testoQuota(); } }).catch(() => { buddyQuotaLetta = null; });
   }
-  const testoQuota = () => { const b = B(); return b.giorno === oggi() && typeof b.restano === "number" ? (b.restano > 0 ? `Oggi ancora ${b.restano} ${b.restano === 1 ? "domanda" : "domande"}` : "Domande di oggi finite") : ""; };
+  // In fase di test la quota per telefono è alta: conta il budget gratuito di Groq del giorno (in %), con avviso dall'80%.
+  const testoQuota = () => {
+    const b = B();
+    if (b.giorno !== oggi() || typeof b.restano !== "number") return "";
+    if (b.restano <= 0) return "Domande di oggi finite";
+    if (typeof b.budget === "number") return b.budget >= 100 ? "Budget gratuito di oggi finito" : `Budget gratuito di oggi: ${b.budget}% usato${b.budget >= 80 ? " · quasi finito" : ""}`;
+    return `Oggi ancora ${b.restano} ${b.restano === 1 ? "domanda" : "domande"}`;
+  };
   async function inviaBuddy(testo) {
     const b = B(), t = String(testo || "").trim().slice(0, 1000);
     if (!t || buddyAttesa) return;
@@ -2093,6 +2100,7 @@
       if (j.esito === "ok") b.chat.push({ r: "b", t: j.risposta, tema: j.tema });
       else b.chat.push({ r: "n", t: j.messaggio || "Il buddy non ha risposto, riprova tra poco." });
       if (typeof j.restano === "number") { b.restano = j.restano; b.giorno = oggi(); }
+      if (typeof j.budget === "number") { const prima = b.budget || 0; b.budget = j.budget; if (prima < 80 && j.budget >= 80 && j.budget < 100) b.chat.push({ r: "n", t: `Attenzione: hai usato l'${j.budget}% del budget gratuito di oggi. Una domanda sulle scarpe (con ricerca web) ne consuma circa un quinto.` }); }
     } catch (e) { b.chat.push({ r: "n", t: "Sei offline o il buddy non è raggiungibile: riprova tra poco." }); }
     buddyAttesa = false; salva(); rerender(); scorriChat();
   }

@@ -19,6 +19,9 @@ export const BUDGET = 50;           // domande al giorno per tutti (base della q
 export const BUDGET_TOKEN = 170000; // token al giorno per tutti: ~85% dei 200.000 gratuiti di Groq
 export const TOKEN_RICERCA = 110000; // oltre questa soglia giornaliera niente ricerca web (una ricerca costa ~40.000 token)
 export const MIN_QUOTA = 3, MAX_QUOTA = 20;
+// Fase di test (ottobre 2026, lo usa quasi solo Luca): quota fissa e alta, ci si ferma solo sui token gratuiti di Groq.
+// Per tornare alla quota dinamica sugli attivi della settimana: QUOTA_TEST = 0 (o il segreto BUDDY_QUOTA=0).
+export const QUOTA_TEST = 200;
 const MAX_MESSAGGI = 10, MAX_TESTO = 1200, MAX_CONTESTO = 2500;
 
 /** Domande al giorno per telefono: il budget diviso per i telefoni attivi della settimana, tra 3 e 20. */
@@ -35,7 +38,10 @@ Parli SOLO di tre temi:
 Per qualsiasi altro argomento rispondi solo, con gentilezza: "Qui parlo di scarpe, integratori e allenamento." e non aggiungere altro.
 
 Come rispondi:
-- In italiano, tono da amico runner esperto: concreto, caldo, mai prolisso. Al massimo 150 parole, elenchi brevi se servono. Mai tabelle: solo paragrafi brevi ed elenchi puntati.
+- In italiano, tono da amico runner esperto e allenatore attento: concreto, caldo, ragionato.
+- Ragiona sul caso di questo runner: parti da cosa dicono i suoi dati nel CONTESTO (giorni alla gara, fase, tempo obiettivo e passo, personali, km a settimana, scarpe e loro stato) e spiega il perché di ogni consiglio collegandolo a quei dati. Se un dato importante manca (peso, esperienza, giorni disponibili, fastidi), dillo e spiega come cambierebbe il consiglio, oppure fai una domanda alla fine.
+- Lunghezza: 250-450 parole. Struttura con 2-4 titoletti in grassetto (**così**, mai #) seguiti da paragrafi brevi ed elenchi puntati. Mai tabelle.
+- Chiudi con il passo concreto da fare adesso (es. "questa settimana…").
 - Usa il CONTESTO del runner (gara, giorni mancanti, obiettivo, personali, scarpe): non chiedere ciò che è già lì. Se manca un dato essenziale, chiedilo con una domanda sola.
 - Piani: indicazioni generali per amatori in salute, progressione prudente, mai più del 10% di volume in più a settimana. Usa SOLO i "Ritmi di riferimento" del CONTESTO (se mancano, descrivi i ritmi a sensazione: lento, medio, soglia) e controlla che i km della settimana tornino. Non promettere tempi.
 - Usa i dati del CONTESTO così come sono (km e limiti delle scarpe, giorni, personali): non cambiarli.
@@ -80,6 +86,7 @@ export function messaggiModello(messaggi, contesto) {
 export function crea(env, fetchImpl = fetch) {
   const SB = env.SUPABASE_URL, KEY = env.SUPABASE_SERVICE_ROLE_KEY;
   const modello = env.BUDDY_MODELLO || MODELLO, budget = Number(env.BUDDY_BUDGET) || BUDGET, budgetToken = Number(env.BUDDY_BUDGET_TOKEN) || BUDGET_TOKEN;
+  const quotaFissa = env.BUDDY_QUOTA !== undefined && env.BUDDY_QUOTA !== "" ? Number(env.BUDDY_QUOTA) || 0 : QUOTA_TEST;
   const cors = { "Access-Control-Allow-Origin": env.APP_ORIGIN || "*", "Access-Control-Allow-Headers": "authorization, apikey, content-type, x-racebuddy-token", "Access-Control-Allow-Methods": "POST, OPTIONS" };
   const json = (corpo, status = 200) => new Response(JSON.stringify(corpo), { status, headers: { ...cors, "Content-Type": "application/json" } });
   const rpc = (nome, args) => fetchImpl(`${SB}/rest/v1/rpc/${nome}`, { method: "POST", headers: { apikey: KEY, Authorization: `Bearer ${KEY}`, "Content-Type": "application/json" }, body: JSON.stringify(args) });
@@ -93,11 +100,12 @@ export function crea(env, fetchImpl = fetch) {
   async function stato(uid) {
     const r = await rpc("buddy_stato", { p_impronta: uid });
     if (!r.ok) throw new Error(`stato ${r.status}`);
-    const s = await r.json(), quota = quotaGiorno(budget, s.attivi);
-    return { quota, usate: s.mie, restano: Math.max(0, quota - s.mie), esaurito: s.tutte >= budget * 2 || s.token >= budgetToken, token: Number(s.token) || 0 };
+    const s = await r.json(), quota = quotaFissa > 0 ? quotaFissa : quotaGiorno(budget, s.attivi), token = Number(s.token) || 0;
+    return { quota, usate: s.mie, restano: Math.max(0, quota - s.mie), esaurito: (!quotaFissa && s.tutte >= budget * 2) || token >= budgetToken,
+      token, budget: Math.min(100, Math.round((token / budgetToken) * 100)) };
   }
   async function chiediModello(msgs, conRicerca) {
-    const corpo = { model: modello, messages: msgs, temperature: 0.2, max_completion_tokens: 1200 };
+    const corpo = { model: modello, messages: msgs, temperature: 0.3, max_completion_tokens: 4000, reasoning_effort: "high" };
     if (conRicerca) { corpo.tools = [{ type: "browser_search" }]; corpo.tool_choice = "required"; } // per le scarpe la ricerca si fa sempre
     return fetchImpl("https://api.groq.com/openai/v1/chat/completions", { method: "POST",
       headers: { Authorization: `Bearer ${env.GROQ_API_KEY}`, "Content-Type": "application/json" }, body: JSON.stringify(corpo) });
@@ -113,10 +121,10 @@ export function crea(env, fetchImpl = fetch) {
 
     let st;
     try { st = await stato(uid); } catch (_e) { return json({ esito: "errore", messaggio: "Il buddy non è raggiungibile, riprova tra poco." }, 503); }
-    if (corpo.azione === "quota") return json({ quota: st.quota, usate: st.usate, restano: st.restano });
+    if (corpo.azione === "quota") return json({ quota: st.quota, usate: st.usate, restano: st.restano, budget: st.budget });
     if (!env.GROQ_API_KEY) return json({ esito: "errore", restano: st.restano, messaggio: "Il buddy non è ancora acceso." }, 503);
     if (st.restano <= 0) return json({ esito: "quota", restano: 0, quota: st.quota, messaggio: `Per oggi hai usato le tue ${st.quota} domande: il buddy ti aspetta domani.` });
-    if (st.esaurito) return json({ esito: "riposo", restano: st.restano, messaggio: "Oggi il buddy ha risposto a tanti runner e si riposa: torna domani." });
+    if (st.esaurito) return json({ esito: "riposo", restano: st.restano, budget: 100, messaggio: "Finiti i token gratuiti di oggi su Groq: il buddy riparte domani." });
 
     const msgs = messaggiModello(corpo.messaggi, corpo.contesto);
     if (!msgs.some((m) => m.role === "user")) return json({ esito: "errore", restano: st.restano, messaggio: "Scrivi una domanda." }, 400);
@@ -136,6 +144,7 @@ export function crea(env, fetchImpl = fetch) {
     const { testo, tema } = separaTema(pulisci(d?.choices?.[0]?.message?.content || ""));
     if (!testo) return json({ esito: "errore", restano: st.restano, messaggio: "Il buddy non ha trovato le parole, riprova." }, 502);
     await rpc("buddy_conta", { p_impronta: uid, p_tema: tema, p_token: Number(d?.usage?.total_tokens) || 0 }).catch(() => null);
-    return json({ esito: "ok", risposta: testo, tema, restano: Math.max(0, st.restano - 1), token: Number(d?.usage?.total_tokens) || 0, ricerca });
+    const usati = Number(d?.usage?.total_tokens) || 0;
+    return json({ esito: "ok", risposta: testo, tema, restano: Math.max(0, st.restano - 1), token: usati, ricerca, budget: Math.min(100, Math.round(((st.token + usati) / budgetToken) * 100)) });
   };
 }

@@ -46,5 +46,5 @@ jobs:
               if i: time.sleep(25)   # come una persona vera: niente raffica, rispetta il limite al minuto
               t0 = time.time(); s, j = chiama({"messaggi": [{"r": "u", "t": d}], "contesto": contesto})
               testo = (j.get("risposta") or j.get("messaggio") or json.dumps(j, ensure_ascii=False)).replace("%", "%25").replace("\r", "").replace("\n", "%0A")
-              print(f"::notice title=Domanda: {d[:60]} [{s} {j.get('esito')} · tema {j.get('tema')} · ricerca {j.get('ricerca')} · {j.get('token')} token · restano {j.get('restano')} · {time.time()-t0:.1f}s]::{testo}")
+              print(f"::notice title=Domanda: {d[:60]} [{s} {j.get('esito')} · tema {j.get('tema')} · ricerca {j.get('ricerca')} · {j.get('token')} token · restano {j.get('restano')} · budget {j.get('budget')}% · {time.time()-t0:.1f}s]::{testo}")
           EOF
