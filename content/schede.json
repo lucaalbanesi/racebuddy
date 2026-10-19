@@ -1,4 +1,50 @@
 {
+ "L2bda4b848d-10": {
+  "partenza": "8:30",
+  "luogoPartenza": "Partenza in Piazza Pio XII (davanti a Piazza San Pietro), arrivo in Piazza Pia; ritrovo dalle 6:30 in via della Conciliazione.",
+  "pettorale": "Parrocchia S. Maria delle Grazie al Trionfale, via Frà Albenzio 3 (Metro A Cipro): ven 30 e sab 31/10, 10-18. Anche con delega.",
+  "griglia": "Griglie per tempo dichiarato all'iscrizione (senza tempo, ultima griglia). Accesso alla partenza solo da Borgo Santo Spirito.",
+  "deposito": "Al gazebo del ritiro pettorali della mattina, in via Giuseppe Ceccarelli (sotto il Passetto, accanto a Castel Sant'Angelo).",
+  "ristori": "Un ristoro a metà percorso e uno all'arrivo.",
+  "mappa": "Piazza Pio XII, Roma",
+  "percorsoDescrizione": "9,5 km nel centro storico: Corso Vittorio, Torre Argentina, Teatro Marcello, Circo Massimo, Colosseo, Fori Imperiali, Via del Corso, Piazza del Popolo, Prati e ritorno su via della Conciliazione.",
+  "sito": "https://www.corsadeisanti.it/",
+  "canali": {
+   "notizie": "https://www.corsadeisanti.it/feed/",
+   "instagram": "https://www.instagram.com/lacorsadeisanti/",
+   "facebook": "https://www.facebook.com/corsadeisanti"
+  },
+  "nomi": [
+   "Corsa dei Santi",
+   "La Corsa dei Santi"
+  ],
+  "note": "Distanza ufficiale 9,5 km. Tempo massimo 2 ore. Chi risiede fuori provincia di Roma può ritirare il pettorale anche la mattina, 7-8:15, al gazebo di via Ceccarelli.",
+  "fonti": [
+   "https://www.corsadeisanti.it/la-corsa/",
+   "https://www.corsadeisanti.it/wp-content/uploads/2026/09/REGOLAMENTO-CORSA-DEI-SANTI-DEFINITIVO-2026-1.pdf"
+  ],
+  "verificato": "2026-10-19",
+  "edizione": "2026"
+ },
+ "E-copenaghen-mezza-21-2027": {
+  "partenza": "9:30",
+  "sito": "https://cphhalf.dk/en/",
+  "canali": {
+   "instagram": "https://www.instagram.com/cphhalf/",
+   "facebook": "https://www.facebook.com/cphhalf"
+  },
+  "nomi": [
+   "Copenhagen Half Marathon",
+   "CPH Half",
+   "Mezza maratona di Copenaghen"
+  ],
+  "note": "Informazioni pratiche dell'edizione 2027 (luogo di partenza, ritiro pettorale, percorso) non ancora pubblicate. Iscrizione solo con ballottaggio.",
+  "fonti": [
+   "https://cphhalf.dk/en/"
+  ],
+  "verificato": "2026-10-19",
+  "edizione": "2027"
+ },
  "Hd9df59d4b1-21": {
   "partenza": "8:00",
   "luogoPartenza": "Partenza da Viale di Porta Ardeatina (incrocio con via Cristoforo Colombo), arrivo al Colosseo (via degli Annibaldi)",
