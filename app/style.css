@@ -409,6 +409,25 @@ a.chip { display: inline-flex; align-items: center; text-decoration: none; color
 .an-percorso { fill: none; stroke: #ffd166; stroke-width: 6; stroke-linecap: round; stroke-dasharray: 420; stroke-dashoffset: 0; }
 .an-arrivo { fill: #fff; }
 .an-ticket, .an-stella { font-size: 110px !important; line-height: 1; }
+/* Foto delle città nella presentazione delle gare estere: cartolina nella prima schermata, sfondo nella seconda. */
+.ob-estera { position: relative; isolation: isolate; }
+.ob-sfondo { position: absolute; inset: 0; z-index: -1; opacity: 0; transition: opacity .6s ease; pointer-events: none; overflow: hidden; }
+.ob-sfondo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ob-sfondo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, #0d1733b3 0%, #0d173326 22%, #0d173300 38%, #0d1733b8 62%, var(--navy) 92%); }
+.ob-estera:has(.ob-slide.con-sfondo.vista) .ob-sfondo { opacity: 1; }
+.ob-slide.con-sfondo h1, .ob-slide.con-sfondo .eyebrow, .ob-slide.con-sfondo p { text-shadow: 0 1px 12px #0d1733cc; }
+.ob-slide.con-sfondo p { color: #E8ECF5; }
+.ob-slide.con-sfondo .an-km { text-shadow: 0 2px 14px #0d1733; }
+.an-cartolina { margin: 0; position: relative; width: 100%; border-radius: 18px; overflow: hidden; box-shadow: 0 18px 40px #0006; transform: rotate(-1.5deg); background: #FFFFFF14; }
+.an-cartolina img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; display: block; }
+.an-cartolina figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 22px 14px 10px; font-size: 13px; color: #ffffffcc; background: linear-gradient(180deg, #0000, #000a); }
+.an-cartolina figcaption b { font: 700 18px var(--display); color: #fff; letter-spacing: .02em; }
+.ob-slide.vista .an-cartolina { animation: an-cartolina .7s ease-out both; }
+.an-piccola .an { max-width: 230px; }
+.ob-credito { font-size: 11px; color: #ffffff80; line-height: 1.3; }
+@keyframes an-cartolina { from { opacity: 0; transform: translateY(14px) rotate(-4deg) scale(.96); } to { opacity: 1; transform: rotate(-1.5deg); } }
+@media (max-height: 740px) { .an-piccola .an { max-width: 170px; } .an-cartolina img { aspect-ratio: 16 / 8; } }
+@media (prefers-reduced-motion: reduce) { .ob-sfondo { transition: none; } .ob-slide.vista .an-cartolina { animation: none; } }
 @media (prefers-reduced-motion: no-preference) {
   .ob-slide.vista .an-pezzo { animation: an-accendi .5s ease-out forwards; animation-delay: var(--d); }
   .ob-slide.vista .an-pezzo.mia { animation: an-accendi .5s ease-out forwards, an-pulsa 1.6s ease-in-out infinite; animation-delay: var(--d), calc(var(--d) + .6s); transform-origin: center; transform-box: fill-box; }
@@ -433,3 +452,6 @@ a.chip { display: inline-flex; align-items: center; text-decoration: none; color
 .check input:disabled { opacity: 1; }
 @keyframes evidenzia { 0%, 60% { box-shadow: 0 0 0 3px var(--accent); } 100% { box-shadow: 0 0 0 0 transparent; } }
 .evidenzia { border-radius: 12px; animation: evidenzia 1.6s ease-out; }
+.ob-slide.con-sfondo .an-citta { justify-content: flex-end; height: 100%; }
+.ob-slide.con-sfondo .an-citta .an { display: none; }
+.ob-slide.con-sfondo .an-km { align-self: flex-start; font-size: 30px; padding: 4px 14px; border-radius: 999px; background: #0d1733a6; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); text-shadow: none; }

@@ -915,16 +915,24 @@
     const isc = e.iscrizione === "ballottaggio" ? ["🎟️", "Si entra con il ballottaggio", "I pettorali si sorteggiano tra chi si candida. Incrociamo le dita 🤞"]
       : e.iscrizione === "qualificazione" ? ["⏱️", "Serve un tempo di qualificazione", "Si entra con un tempo minimo ottenuto in una maratona valida."]
       : e.iscrizione === "libera" ? ["✅", "Iscrizioni libere", "Fino a esaurimento dei pettorali: nelle grandi gare finiscono in fretta."] : ["🏁", "Come si entra", "Le iscrizioni sono sul sito ufficiale."];
+    // Foto della città (content/sfondi.json): l'iconica nella prima schermata, quella dell'immagine da condividere
+    // come sfondo a tutto schermo della seconda (compare in dissolvenza quando la schermata è visibile).
+    const foto = (D.sfondi || {})[chiaveCitta(g)] || null, ico = foto && foto.iconica;
+    const posFoto = (f) => `object-position:${Math.round((f.fuoco || [0.5, 0.4])[0] * 100)}% ${Math.round((f.fuoco || [0.5, 0.4])[1] * 100)}%`;
+    const credito = (f) => `Foto: ${f.autore} · Wikimedia Commons (${f.licenza})`;
+    const cartolina = ico ? `<figure class="an-cartolina"><img src="${esc(ico.file)}" alt="${esc(ico.titolo || g.luogo)}" style="${posFoto(ico)}" onerror="this.closest('figure').remove()"><figcaption><b>${esc(g.luogo)}</b>${ico.titolo ? ` · ${esc(ico.titolo)}` : ""}</figcaption></figure>` : "";
     const slides = [
-      { k: nomeC, t: b ? b.titolo : "Una delle grandi d'Europa", d: `${it.info.racconto || ""} ${it.info.traguardo || ""}${altri.length ? ` Fa parte anche di ${altri.join(" e ")}.` : ""}`.trim(), ill: animCircuito(it) },
-      { k: dataLunga(g.data), t: g.luogo, d: e.racconto || `${g.nome}: ${km} a ${g.luogo}${e.paese ? `, ${e.paese}` : ""}.`,
+      { k: nomeC, t: b ? b.titolo : "Una delle grandi d'Europa", d: `${it.info.racconto || ""} ${it.info.traguardo || ""}${altri.length ? ` Fa parte anche di ${altri.join(" e ")}.` : ""}`.trim(),
+        ill: cartolina ? `${cartolina}<div class="an-piccola">${animCircuito(it)}</div>` : animCircuito(it), credito: ico ? credito(ico) : "" },
+      { k: dataLunga(g.data), t: g.luogo, d: e.racconto || `${g.nome}: ${km} a ${g.luogo}${e.paese ? `, ${e.paese}` : ""}.`, sfondo: !!foto, credito: foto ? credito(foto) : "",
         ill: `<div class="an-citta"><svg class="an" viewBox="0 0 300 150" aria-hidden="true"><path class="an-percorso" d="M20 120 C60 40 110 140 150 80 S230 20 280 60"/><circle class="an-arrivo" cx="280" cy="60" r="7"/></svg><span class="an-km">${km}</span></div>` },
       { k: "Il pettorale", t: isc[1], d: `${e.notaIscrizione ? e.notaIscrizione + " " : ""}${isc[2]}`, ill: `<div class="ob-countdown"><span class="big an-ticket">${isc[0]}</span></div>` },
     ];
     const tot = slides.length + 1;
     return `<section class="ob ob-estera" aria-roledescription="presentazione" aria-label="${esc(g.nome)}">
+      ${foto ? `<div class="ob-sfondo" aria-hidden="true"><img src="${esc(foto.file)}" alt="" style="${posFoto(foto)}" onerror="this.parentNode.remove()"></div>` : ""}
       <div class="ob-top"><span class="ob-logo">${esc(g.nome)}</span><button class="ob-salta" data-act="intro-fine" data-id="${esc(g.id)}">Salta</button></div>
-      <div class="ob-track" id="ob-track">${slides.map((x, i) => `<article class="ob-slide ${i ? "" : "vista"}" aria-label="${i + 1} di ${tot}"><div class="ob-ill">${x.ill}</div><span class="eyebrow">${esc(x.k)}</span><h1>${esc(x.t)}</h1><p>${esc(x.d)}</p></article>`).join("")}
+      <div class="ob-track" id="ob-track">${slides.map((x, i) => `<article class="ob-slide ${i ? "" : "vista"} ${x.sfondo ? "con-sfondo" : ""}" aria-label="${i + 1} di ${tot}"><div class="ob-ill">${x.ill}</div><span class="eyebrow">${esc(x.k)}</span><h1>${esc(x.t)}</h1><p>${esc(x.d)}</p>${x.credito ? `<span class="ob-credito">${esc(x.credito)}</span>` : ""}</article>`).join("")}
         <article class="ob-slide" aria-label="${tot} di ${tot}"><div class="ob-ill"><div class="ob-countdown"><span class="big an-stella">⭐</span><span>${L.diffDays(g.data, oggi())} giorni al via</span></div></div><span class="eyebrow">E adesso?</span><h1>La metti nel mirino?</h1>
           <p>La segui senza impegno: date, ballottaggio e novità. Quando hai il pettorale, la attivi e parte la preparazione.</p>
           <button class="btn block" data-act="mirino-si" data-id="${esc(g.id)}">Mettila nel mirino ⭐</button>
