@@ -5,7 +5,10 @@
   "autore": "EddieJav",
   "licenza": "CC0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Firenze-DuomoAndBIbliotecaNazionaleCentrale-viewFrom-PiazzaleMichelangelo.jpg",
-  "fuoco": [0.59, 0.36]
+  "fuoco": [
+   0.59,
+   0.36
+  ]
  },
  "roma": {
   "file": "content/sfondi/roma.jpg",
@@ -13,6 +16,9 @@
   "autore": "Wilfredor",
   "licenza": "CC0",
   "fonte": "https://commons.wikimedia.org/wiki/File:View_of_Colosseo_from_Ponte_degli_Annibaldi.jpg",
-  "fuoco": [0.57, 0.3]
+  "fuoco": [
+   0.57,
+   0.3
+  ]
  }
 }
