@@ -642,7 +642,7 @@
           <div class="card dark ob-barra">${barra}</div>
           <div class="card ob-mini"><span class="eyebrow" style="color:var(--accent)">Oggi</span>
             <div class="ob-cont" style="border-top:0;padding-top:0"><span class="thumb noimg t-video"><span class="play" aria-hidden="true">▶</span></span><span class="c-testo"><span class="c-meta">Per la tua fase · video · 6 min</span><span class="c-titolo">Il lungo a ritmo gara, spiegato bene</span></span></div>
-            <div class="ob-auto"><span class="ob-auto-ico" aria-hidden="true">👟</span><span style="flex:1;min-width:0"><span class="t">La scarpa arriva alla gara</span><br><span class="d">Pegasus: 612 km oggi, circa 690 al via</span><span class="ob-km" aria-hidden="true"><span style="width:86%"></span></span></span><span class="pill ok">✓ ok</span></div>
+            <div class="ob-auto"><span class="ob-auto-ico" aria-hidden="true">👟</span><span style="flex:1;min-width:0"><span class="t">La scarpa arriva alla gara</span><br><span class="d">Adizero: 250 km oggi, circa 290 al via · limite 600</span><span class="ob-km" aria-hidden="true"><span style="width:48%"></span></span></span><span class="pill ok">✓ ok</span></div>
             <span class="ob-auto-nota">Calcolato da solo dai tuoi km</span></div>` },
       { k: "La gara e gli avvisi", t: "Sempre aggiornato, mai invadente", d: "Orari e percorso dal sito ufficiale, la borsa da spuntare, il meteo della tua uscita. Una notifica solo se cambia qualcosa, mai di notte.",
         nota: "Le notifiche le attivi da Io. Su iPhone prima aggiungi RaceBuddy alla schermata Home.",
