@@ -349,7 +349,11 @@
     "göteborg": {
       "sfondo": {
         "file": "File:Feskekôrka.jpg",
-        "titolo": "La Feskekôrka di sera"
+        "titolo": "La Feskekôrka di sera",
+        "fuoco": [
+          0.65,
+          0.5
+        ]
       }
     },
     "città del capo": {

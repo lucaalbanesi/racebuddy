@@ -496,7 +496,7 @@
   "iconica": {
    "file": "content/sfondi/cardiff-iconica.jpg",
    "titolo": "Il Castello di Cardiff",
-   "autore": "UnknownUnknown ; published by the Detroit Publishing Co.",
+   "autore": "Detroit Publishing Co.",
    "licenza": "pubblico dominio",
    "fonte": "https://commons.wikimedia.org/wiki/File:Animal_Wall_Cardiff.jpg",
    "fuoco": [
@@ -556,8 +556,8 @@
   "licenza": "CC0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Feskek%C3%B4rka.jpg",
   "fuoco": [
-   0.5,
-   0.4
+   0.65,
+   0.5
   ]
  }
 }
