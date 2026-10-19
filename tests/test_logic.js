@@ -438,6 +438,8 @@ assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10",
   assert.ok(!ctx.includes("44:00") && !ctx.includes("DaStrava"), "niente dati di Strava");
   assert.ok(ctx.includes("Adizero (gara): 250 km su 600 (42%, in forma)"), ctx);
   assert.ok(ctx.includes("Km a settimana: circa 45."), ctx);
+  const ctx2 = L.contestoBuddy({ oggi: "2026-10-14", gare: [{ ...firenze, tempo: "3:25:00" }], fasi });
+  assert.ok(ctx2.includes("passo maratona 4:52/km, soglia 4:37/km, ripetute 4:22/km"), ctx2);
   assert.ok(L.contestoBuddy({ oggi: "2026-10-14", fasi }).includes("Nessuna gara in programma."));
 }
 

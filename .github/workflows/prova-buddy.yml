@@ -27,7 +27,7 @@ jobs:
           ref, key, tok = sys.argv[1:4]
           url = f"https://{ref}.supabase.co/functions/v1/buddy"
           contesto = ("Oggi: 2026-10-19.\nGara obiettivo: Maratona di Roma (Maratona), 2027-03-21, tra 153 giorni, fase: Prima della preparazione, "
-                      "tempo obiettivo 3:25:00 (passo 4:52/km).\nPersonali: Mezza 1:38:00.\n"
+                      "tempo obiettivo 3:25:00 (passo 4:52/km).\nRitmi di riferimento (dal tempo obiettivo): lento 5:52/km-6:12/km, medio 5:12/km, passo maratona 4:52/km, soglia 4:37/km, ripetute 4:22/km.\nPersonali: Mezza 1:38:00.\n"
                       "Scarpe: Adidas Adizero Adios Pro 4 (gara): 250 km su 600 (42%, in forma); Asics Novablast 5 (allenamento): 610 km su 700 (87%, quasi a fine vita).\n"
                       "Km a settimana: circa 45.")
           dom = [d.strip() for d in (os.environ.get("DOMANDE") or "").split("|") if d.strip()] or [

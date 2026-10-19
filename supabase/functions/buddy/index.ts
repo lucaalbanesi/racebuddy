@@ -3,7 +3,7 @@
 // SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY li mette Supabase da solo.
 import { crea } from "./gestisci.js";
 
-const NOMI = ["SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY", "GROQ_API_KEY", "BUDDY_MODELLO", "BUDDY_BUDGET", "APP_ORIGIN"];
+const NOMI = ["SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY", "GROQ_API_KEY", "BUDDY_MODELLO", "BUDDY_BUDGET", "BUDDY_BUDGET_TOKEN", "APP_ORIGIN"];
 const env: Record<string, unknown> = Object.fromEntries(NOMI.map((n) => [n, (Deno.env.get(n) || "").trim()]));
 
 Deno.serve(crea(env));

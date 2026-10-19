@@ -652,6 +652,12 @@
       return `${g.nome} (${DIST_LABEL[g.distanza] || g.distanza}), ${g.data}, tra ${g.mancano} giorni${g.fase && g.fase.nome ? `, fase: ${g.fase.nome}` : ""}${sec && km ? `, tempo obiettivo ${g.tempo} (passo ${fmtPasso(sec / km)})` : ", tempo obiettivo non indicato"}`;
     };
     if (obiettivo) righe.push(`Gara obiettivo: ${descr(obiettivo)}.`);
+    // ritmi di riferimento dal passo obiettivo (stime prudenti, per tenere coerenti i numeri del piano)
+    const secO = obiettivo ? secondiTempo(obiettivo.tempo) : 0, kmO = obiettivo ? KM_DIST[obiettivo.distanza] : 0;
+    if (secO && kmO) {
+      const p = secO / kmO, pm = obiettivo.distanza === "42" ? p : obiettivo.distanza === "21" ? p * 1.05 : p * 1.12;
+      righe.push(`Ritmi di riferimento (dal tempo obiettivo): lento ${fmtPasso(pm + 60)}-${fmtPasso(pm + 80)}, medio ${fmtPasso(pm + 20)}, passo maratona ${fmtPasso(pm)}, soglia ${fmtPasso(pm - 15)}, ripetute ${fmtPasso(pm - 30)}.`);
+    }
     else righe.push("Nessuna gara in programma.");
     const altre = tutte.filter((g) => !obiettivo || g.id !== obiettivo.id).slice(0, 3);
     if (altre.length) righe.push(`Altre gare: ${altre.map(descr).join("; ")}.`);

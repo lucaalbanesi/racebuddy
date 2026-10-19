@@ -65,6 +65,12 @@ const domanda = { messaggi: [{ r: "u", t: "Che scarpa prendo?" }], contesto: "Ma
   assert.ok(groq[0].messages[1].content.includes("obiettivo 3:25:00"));
   // domanda non sulle scarpe: niente ricerca
   groq = []; await chiama({ messaggi: [{ r: "u", t: "Gel e integratori: consigli?" }], contesto: "x" }); assert.ok(!groq[0].tools);
+  // tanti token già usati oggi: niente ricerca, ma si risponde
+  stato = { mie: 0, tutte: 5, token: 120000, attivi: 10 }; groq = []; rispostaGroq = () => ({ status: 200, corpo: { choices: [{ message: { content: "Ok\nTEMA: scarpe" } }], usage: { total_tokens: 900 } } });
+  r = await (await chiama(domanda)).json(); assert.strictEqual(r.esito, "ok"); assert.ok(!groq[0].tools); assert.strictEqual(r.ricerca, false);
+  // budget di token finito: riposo
+  stato = { mie: 0, tutte: 5, token: 175000, attivi: 10 }; r = await (await chiama(domanda)).json(); assert.strictEqual(r.esito, "riposo");
+  stato = { mie: 0, tutte: 0, token: 0, attivi: 10 };
   // ricerca web non disponibile (400): si riprova senza strumenti
   let prima = true; rispostaGroq = (b) => (b.tools && prima ? ((prima = false), { status: 400, corpo: { error: {} } }) : { status: 200, corpo: { choices: [{ message: { content: "Ok\nTEMA: allenamento" } }], usage: { total_tokens: 900 } } });
   groq = []; r = await (await chiama(domanda)).json();
@@ -75,8 +81,8 @@ const domanda = { messaggi: [{ r: "u", t: "Che scarpa prendo?" }], contesto: "Ma
   // quota del telefono finita
   stato = { mie: 5, tutte: 10, attivi: 10 }; r = await (await chiama(domanda)).json();
   assert.strictEqual(r.esito, "quota"); assert.strictEqual(r.restano, 0);
-  // budget di tutti finito
-  stato = { mie: 0, tutte: BUDGET, attivi: 10 }; r = await (await chiama(domanda)).json();
+  // troppe domande per tutti (il doppio del budget): riposo
+  stato = { mie: 0, tutte: BUDGET * 2, attivi: 10 }; r = await (await chiama(domanda)).json();
   assert.strictEqual(r.esito, "riposo");
   // senza chiave di Groq: spento, ma la quota si legge
   const spenta = crea({ ...env, GROQ_API_KEY: "" }, finto); stato = { mie: 0, tutte: 0, attivi: 1 };

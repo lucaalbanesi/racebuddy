@@ -15,7 +15,9 @@
 
 export const TEMI = ["scarpe", "integratori", "allenamento", "fuori_tema"];
 export const MODELLO = "openai/gpt-oss-120b";
-export const BUDGET = 50;           // domande al giorno per tutti: l'80% circa dei token gratuiti di Groq
+export const BUDGET = 50;           // domande al giorno per tutti (base della quota per telefono)
+export const BUDGET_TOKEN = 170000; // token al giorno per tutti: ~85% dei 200.000 gratuiti di Groq
+export const TOKEN_RICERCA = 110000; // oltre questa soglia giornaliera niente ricerca web (una ricerca costa ~40.000 token)
 export const MIN_QUOTA = 3, MAX_QUOTA = 20;
 const MAX_MESSAGGI = 10, MAX_TESTO = 1200, MAX_CONTESTO = 2500;
 
@@ -35,7 +37,8 @@ Per qualsiasi altro argomento rispondi solo, con gentilezza: "Qui parlo di scarp
 Come rispondi:
 - In italiano, tono da amico runner esperto: concreto, caldo, mai prolisso. Al massimo 150 parole, elenchi brevi se servono.
 - Usa il CONTESTO del runner (gara, giorni mancanti, obiettivo, personali, scarpe): non chiedere ciò che è già lì. Se manca un dato essenziale, chiedilo con una domanda sola.
-- Piani: indicazioni generali per amatori in salute, progressione prudente, mai più del 10% di volume in più a settimana. Non promettere tempi.
+- Piani: indicazioni generali per amatori in salute, progressione prudente, mai più del 10% di volume in più a settimana. Usa SOLO i "Ritmi di riferimento" del CONTESTO (se mancano, descrivi i ritmi a sensazione: lento, medio, soglia) e controlla che i km della settimana tornino. Non promettere tempi.
+- Usa i dati del CONTESTO così come sono (km e limiti delle scarpe, giorni, personali): non cambiarli.
 - Integratori: solo prodotti comuni da sport (gel, barrette, bevande, sali), quantità indicative standard: 30-60 g di carboidrati all'ora oltre i 75-90 minuti; caffeina facoltativa e solo se già abituati, al massimo circa 3 mg per kg di peso; sempre "provali in allenamento prima della gara". Mai farmaci, mai sostanze vietate dal codice antidoping. Non citare marche se non servono.
 - Salute: se si parla di dolore, infortunio, malattia, gravidanza, farmaci o patologie, consiglia di sentire prima un medico e non dare un piano.
 - Scarpe: rispetta l'uso di ogni categoria. Le scarpe con piastra in carbonio (Vaporfly, Alphafly, Adios Pro, Metaspeed, Endorphin Pro, Rocket X, Deviate Elite e simili) sono SOLO per gara e lavori veloci, mai per lunghi lenti o recupero; per allenamento e recupero proponi scarpe ammortizzate da tutti i giorni (daily trainer); per ritmo e lunghi veloci scarpe senza piastra o con piastra in nylon/plastica. Proponi i modelli dell'ultima versione in commercio, verificati con la ricerca web. Lo stato delle scarpe del runner è già calcolato nel CONTESTO: non contraddirlo. Proponi modelli attuali e venduti in Italia; se hai i risultati di una ricerca web, cita 1-2 fonti come link markdown [sito](url). Non inventare modelli, dati o prezzi: se non sai, dillo.
@@ -75,7 +78,7 @@ export function messaggiModello(messaggi, contesto) {
 
 export function crea(env, fetchImpl = fetch) {
   const SB = env.SUPABASE_URL, KEY = env.SUPABASE_SERVICE_ROLE_KEY;
-  const modello = env.BUDDY_MODELLO || MODELLO, budget = Number(env.BUDDY_BUDGET) || BUDGET;
+  const modello = env.BUDDY_MODELLO || MODELLO, budget = Number(env.BUDDY_BUDGET) || BUDGET, budgetToken = Number(env.BUDDY_BUDGET_TOKEN) || BUDGET_TOKEN;
   const cors = { "Access-Control-Allow-Origin": env.APP_ORIGIN || "*", "Access-Control-Allow-Headers": "authorization, apikey, content-type, x-racebuddy-token", "Access-Control-Allow-Methods": "POST, OPTIONS" };
   const json = (corpo, status = 200) => new Response(JSON.stringify(corpo), { status, headers: { ...cors, "Content-Type": "application/json" } });
   const rpc = (nome, args) => fetchImpl(`${SB}/rest/v1/rpc/${nome}`, { method: "POST", headers: { apikey: KEY, Authorization: `Bearer ${KEY}`, "Content-Type": "application/json" }, body: JSON.stringify(args) });
@@ -90,7 +93,7 @@ export function crea(env, fetchImpl = fetch) {
     const r = await rpc("buddy_stato", { p_impronta: uid });
     if (!r.ok) throw new Error(`stato ${r.status}`);
     const s = await r.json(), quota = quotaGiorno(budget, s.attivi);
-    return { quota, usate: s.mie, restano: Math.max(0, quota - s.mie), esaurito: s.tutte >= budget };
+    return { quota, usate: s.mie, restano: Math.max(0, quota - s.mie), esaurito: s.tutte >= budget * 2 || s.token >= budgetToken, token: Number(s.token) || 0 };
   }
   async function chiediModello(msgs, conRicerca) {
     const corpo = { model: modello, messages: msgs, temperature: 0.2, max_completion_tokens: 1200 };
@@ -117,7 +120,7 @@ export function crea(env, fetchImpl = fetch) {
     const msgs = messaggiModello(corpo.messaggi, corpo.contesto);
     if (!msgs.some((m) => m.role === "user")) return json({ esito: "errore", restano: st.restano, messaggio: "Scrivi una domanda." }, 400);
     const ultima = [...msgs].reverse().find((m) => m.role === "user").content;
-    let ricerca = serveRicerca(ultima);
+    let ricerca = serveRicerca(ultima) && st.token < Math.min(TOKEN_RICERCA, budgetToken * 0.65);
     let r = await chiediModello(msgs, ricerca);
     if (r.status === 400 && ricerca) { ricerca = false; r = await chiediModello(msgs, false); } // ricerca non disponibile: si risponde senza
     // limite al minuto di Groq: se l'attesa è breve si aspetta e si riprova una volta, altrimenti senza ricerca
