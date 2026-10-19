@@ -44,7 +44,11 @@
           "Manhattan skyline Statue of Liberty"
         ],
         "file": "File:Front view of Statue of Liberty with pedestal and base 2024.jpg",
-        "titolo": "La Statua della Libertà"
+        "titolo": "La Statua della Libertà",
+        "fuoco": [
+          0.5,
+          0.18
+        ]
       },
       "sfondo": {
         "cerca": [
@@ -52,7 +56,11 @@
           "Brooklyn Bridge"
         ],
         "file": "File:Brooklyn Bridge at night.jpg",
-        "titolo": "Il ponte di Brooklyn e Manhattan di sera"
+        "titolo": "Il ponte di Brooklyn e Manhattan di sera",
+        "fuoco": [
+          0.6,
+          0.5
+        ]
       }
     },
     "atene": {
@@ -124,7 +132,11 @@
           "Lisbon Alfama view"
         ],
         "file": "File:Estrela 28 (44788867012).jpg",
-        "titolo": "Il tram 28 di sera"
+        "titolo": "Il tram 28 di sera",
+        "fuoco": [
+          0.25,
+          0.4
+        ]
       }
     },
     "tokyo": {
@@ -134,7 +146,11 @@
           "Tokyo Skytree"
         ],
         "file": "File:Tokyo Tower and Roppongi Hills Mori Tower seen from Hamamatsucho.jpg",
-        "titolo": "La Tokyo Tower"
+        "titolo": "La Tokyo Tower",
+        "fuoco": [
+          0.5,
+          0.4
+        ]
       },
       "sfondo": {
         "cerca": [
@@ -207,7 +223,11 @@
           "Tour Eiffel"
         ],
         "file": "File:Tour Eiffel depuis un bateau sur la Seine.jpg",
-        "titolo": "La Torre Eiffel"
+        "titolo": "La Torre Eiffel",
+        "fuoco": [
+          0.5,
+          0.55
+        ]
       },
       "sfondo": {
         "cerca": [
@@ -243,7 +263,11 @@
           "St. Stephen's Cathedral Vienna"
         ],
         "file": "File:Spire Cathedral St Stephen Vienna Wien Steffl 1.jpg",
-        "titolo": "Il Duomo di Santo Stefano"
+        "titolo": "Il Duomo di Santo Stefano",
+        "fuoco": [
+          0.5,
+          0.75
+        ]
       },
       "sfondo": {
         "cerca": [
@@ -318,27 +342,14 @@
         "titolo": "Nyhavn"
       },
       "sfondo": {
-        "cerca": [
-          "Nyhavn evening",
-          "Christiansborg Palace Copenhagen",
-          "Copenhagen Opera House harbour"
-        ]
+        "file": "File:Christiansborg Slot spire Copenhagen Denmark.jpg",
+        "titolo": "La torre di Christiansborg"
       }
     },
     "göteborg": {
-      "iconica": {
-        "cerca": [
-          "Gothenburg skyline Göta älv",
-          "Skanskaskrapan Göteborg",
-          "Göteborg Lilla Bommen harbour"
-        ]
-      },
       "sfondo": {
-        "cerca": [
-          "Göteborg Vallgraven canal",
-          "Gothenburg Feskekörka",
-          "Gothenburg Haga street"
-        ]
+        "file": "File:Feskekôrka.jpg",
+        "titolo": "La Feskekôrka di sera"
       }
     },
     "città del capo": {
@@ -356,7 +367,11 @@
           "Cape Town Waterfront"
         ],
         "file": "File:Little Walk to Bo-Kaap.jpg",
-        "titolo": "Il Bo-Kaap e la Lion's Head"
+        "titolo": "Il Bo-Kaap e la Lion's Head",
+        "fuoco": [
+          0.9,
+          0.4
+        ]
       }
     },
     "sydney": {
@@ -410,16 +425,17 @@
           "Warsaw Royal Castle"
         ],
         "file": "File:PANO 20190207 115122.jpg",
-        "titolo": "La piazza della Città Vecchia"
+        "titolo": "La piazza della Città Vecchia",
+        "fuoco": [
+          0.2,
+          0.4
+        ]
       }
     },
     "cardiff": {
       "iconica": {
-        "cerca": [
-          "Cardiff Castle clock tower",
-          "Cardiff Castle Norman keep",
-          "Millennium Stadium Cardiff"
-        ]
+        "file": "File:Animal Wall Cardiff.jpg",
+        "titolo": "Il Castello di Cardiff"
       },
       "sfondo": {
         "cerca": [
@@ -432,11 +448,8 @@
     },
     "chicago": {
       "iconica": {
-        "cerca": [
-          "Chicago skyline Lake Michigan",
-          "Willis Tower Chicago",
-          "Chicago Millennium Park skyline"
-        ]
+        "file": "File:Panorama Chicago.jpg",
+        "titolo": "Lo skyline sul lago Michigan"
       },
       "sfondo": {
         "cerca": [
