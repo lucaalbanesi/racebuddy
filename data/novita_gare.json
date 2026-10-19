@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-10-19T03:50Z",
+ "aggiornato": "2026-10-19T04:50Z",
  "novita": [
   {
    "id": "n23b64c5b536",
@@ -182,6 +182,20 @@
    "tipo": "articolo",
    "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/06/SOLD-OUT-NOTTURNA.png",
    "trovato": "2026-10-18T18:50Z"
+  },
+  {
+   "id": "nd11d50f2202",
+   "gara": "L2bda4b848d-10",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "slider2026",
+   "link": "https://www.corsadeisanti.it/2026/05/15/slider2026/",
+   "data": "2026-05-15",
+   "fonte": "Sito ufficiale",
+   "ufficiale": true,
+   "tipo": "articolo",
+   "immagine": "https://www.corsadeisanti.it/wp-content/uploads/2026/05/Slider-visual-07.jpg",
+   "trovato": "2026-10-19T04:50Z"
   },
   {
    "id": "n5b795d890f3",
