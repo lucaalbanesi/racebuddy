@@ -25,11 +25,12 @@ begin
   return (select coalesce(json_agg(json_build_object('id', g.id, 'nome', g.nome, 'classifiche', coalesce(g.classifiche, false),
       'membri', (select count(*) from public.membri m where m.gruppo_id = g.id),
       'partecipanti', (select count(*) from public.membri m where m.gruppo_id = g.id and m.partecipa),
-      'qui', exists (select 1 from public.membri m where m.gruppo_id = g.id and m.token_hash = public._hash(p_token))) order by lower(g.nome)), '[]')
+      'qui', exists (select 1 from public.membri m where m.gruppo_id = g.id and m.token_hash = public._hash(p_token)),
+      'ruolo', (select m.ruolo from public.membri m where m.gruppo_id = g.id and m.token_hash = public._hash(p_token) limit 1)) order by lower(g.nome)), '[]')
     from public.gruppi g);
 end $$;
 
--- Spostarsi in un gruppo come amministratore
+-- Spostarsi in un gruppo come amministratore (nel gruppo in cui si è già: torna amministratore, senza uscire)
 create or replace function public.super_vai(p_token text, p_gruppo uuid, p_nome text) returns json
 language plpgsql security definer set search_path = '' as $$
 declare h text := public._hash(p_token); vecchi uuid[]; m public.membri;
