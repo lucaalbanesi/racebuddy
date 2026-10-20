@@ -1800,6 +1800,27 @@
       <div class="piede"><a class="btn block" href="#/gruppo">Vai al gruppo</a><a class="btn ghost-dark block" href="#/oggi">Vai a Oggi</a></div></section>`;
   }
 
+  // ---------------------------------------------------------------- superamministratore (test di Luca)
+  // Solo per i telefoni nominati dal workflow "Amministratore del gruppo (assistenza)": vede tutti i gruppi e ci entra
+  // come amministratore, uscendo da quello di prima (un telefono sta in un solo gruppo). docs/supabase_superadmin.sql
+  let SUPER = null;
+  async function caricaSuper() {
+    SUPER = { carico: true };
+    try { SUPER = { gruppi: await rpc("super_gruppi", { p_token: token() }) }; }
+    catch (e) { SUPER = { errore: /superamministratore/.test(e.message || "") ? "Questo telefono non è superamministratore. Si attiva dal workflow «Amministratore del gruppo (assistenza)»." : "Non riesco a leggere i gruppi adesso: riprova tra poco." }; }
+    if (/^#\/super/.test(location.hash)) rerender();
+  }
+  function vistaSuper() {
+    if (!SUPER) setTimeout(caricaSuper, 0);
+    const testa = `<header class="head-back">${back("#/io")}<div><span class="eyebrow">Strumenti di prova</span><h1 style="font-size:28px">Superamministratore</h1></div></header>`;
+    if (!SUPER || SUPER.carico) return `${testa}<p class="sub">Carico i gruppi…</p>`;
+    if (SUPER.errore) return `${testa}<section class="card"><span class="small">${esc(SUPER.errore)}</span></section>`;
+    const l = SUPER.gruppi || [];
+    return `${testa}<p class="sub">Entri in qualunque gruppo come amministratore, senza invito. Un telefono sta in un solo gruppo: spostandoti esci da quello di prima (i tuoi risultati lì si cancellano; un gruppo rimasto vuoto sparisce). Nel nuovo gruppo riparte il percorso "Entra nel gruppo".</p>
+      <section class="card" style="gap:0">${l.length ? l.map((g) => `<div class="post"><span style="flex:1;min-width:0"><b>${esc(g.nome)}</b><br><span class="small muted">${g.membri} ${g.membri === 1 ? "membro" : "membri"} · classifiche ${g.classifiche ? `accese, ${g.partecipanti} partecipano` : "spente"}</span></span>
+        ${g.qui ? `<span class="pill ok">Sei qui</span>` : `<button class="btn ghost small" data-act="super-vai" data-id="${esc(g.id)}" data-nome="${esc(g.nome)}">Entra</button>`}</div>`).join("") : `<span class="small">Nessun gruppo.</span>`}</section>`;
+  }
+
   function gareInComune() {
     const d = GD(), mie = new Set(S.gare.map((g) => g.id)), per = {};
     for (const g of d.gare) (per[g.gara_id] = per[g.gara_id] || { ...g, chi: [] }).chi.push(g.membro);
@@ -2418,7 +2439,7 @@
       <details class="card"><summary>Strumenti di prova</summary>
         <form id="prova" style="display:flex;flex-direction:column;gap:10px"><div class="field"><label for="d-prova">Fai finta che oggi sia</label><input class="input" id="d-prova" type="date" value="${esc(S.prova)}"></div>
         <div class="grid2"><button class="btn" type="submit">Applica</button><button class="btn ghost" type="button" data-act="prova-off">Torna a oggi</button></div></form>
-        <a class="small" href="#/statistiche" style="align-self:flex-start">Statistiche ›</a>
+        <div class="row" style="gap:18px"><a class="small" href="#/statistiche">Statistiche ›</a><a class="small" href="#/super">Superamministratore ›</a></div>
         <div id="reset-box" style="display:flex;flex-direction:column;gap:8px"><button class="btn ghost" type="button" data-act="reset-ask">Cancella tutti i miei dati</button></div></details>
       <section class="card" aria-label="Rivedi i percorsi guidati" style="gap:0"><span class="eyebrow" style="margin-bottom:4px">Rivedi i percorsi guidati</span>
         <a class="link-card riga-percorso" href="#/benvenuto"><span><b>Benvenuto</b><br><span class="small muted">Le 5 schermate del primo avvio</span></span><span aria-hidden="true">›</span></a>
@@ -2508,7 +2529,7 @@
     const parts = path.split("/").map(decodeURIComponent);
     const param = Object.fromEntries(new URLSearchParams(query || ""));
     const tab = parts[0] || "oggi";
-    document.querySelectorAll("nav.tabs a").forEach((a) => a.setAttribute("aria-current", a.dataset.tab === ({ prepara: "oggi", aggiungi: "gare", gara: "gare", checklist: "gare", percorso: "gare", meteo: "oggi", pillole: "oggi", invito: "gruppo", entra: "gruppo", risultato: "oggi", pb: "io", tempi: "io", estera: "gare", statistiche: "io", condividi: "gare" }[tab] || tab) ? "page" : "false"));
+    document.querySelectorAll("nav.tabs a").forEach((a) => a.setAttribute("aria-current", a.dataset.tab === ({ prepara: "oggi", aggiungi: "gare", gara: "gare", checklist: "gare", percorso: "gare", meteo: "oggi", pillole: "oggi", invito: "gruppo", entra: "gruppo", risultato: "oggi", pb: "io", tempi: "io", estera: "gare", statistiche: "io", super: "io", condividi: "gare" }[tab] || tab) ? "page" : "false"));
     if (D.errore) { $app.innerHTML = `<section class="card"><span class="title">Qualcosa non va</span><span class="small">${esc(D.errore)}</span></section>`; return; }
     let html;
     if (param.rivedi) { RIVEDI = tab === "prepara" ? "prepara" : "entra"; invitoInSafari = false; }
@@ -2537,6 +2558,7 @@
       case "tempi": html = C().tempi ? vistaTempi(param) : vistaPB(); break;
       case "condividi": html = vistaCondividi(parts[1]); break;
       case "statistiche": html = vistaStatistiche(); break;
+      case "super": html = vistaSuper(); break;
       case "buddy": html = C().buddy ? vistaBuddy() : vistaOggi(); break;
       case "risultato": html = vistaRisultato(parts[1], param); break;
       case "io": if (param.strava) { ritornoStrava(param.strava); history.replaceState(null, "", "#/io"); }
@@ -2589,6 +2611,19 @@
       t.disabled = true;
       rpc("partecipa_classifiche", { p_token: token(), p_on: true }).then(async () => { ENTRA(); await aggiornaClassifiche(); toast("Partecipi alle classifiche"); vaiEntra("classifiche"); })
         .catch((e) => { t.disabled = false; toast(e.message || "Non riuscito"); });
+      return;
+    }
+    if (act === "super-vai") {
+      const qui = GD() ? GD().gruppo.nome : "";
+      confirmBox(t, `${qui ? `Esci da «${qui}» ed entri` : "Entri"} in «${t.dataset.nome}» come amministratore?`, async () => {
+        try {
+          const tk = token();
+          await rpc("super_vai", { p_token: tk, p_gruppo: t.dataset.id, p_nome: (S.profilo.nome || "Luca").trim() });
+          S.gruppo = { token: tk, dentro: true, entra: { dal: oggi(), saltati: {} } }; salva();
+          SUPER = null; CODA = null; await aggiornaGruppo(true); await aggiornaClassifiche();
+          toast(`Sei in «${t.dataset.nome}» come amministratore`); location.hash = "#/gruppo";
+        } catch (e) { toast(e.message || "Non riuscito"); rerender(); }
+      });
       return;
     }
     if (act === "entra-salta") { saltaEntra(t.dataset.k); return; }
