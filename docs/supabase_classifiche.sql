@@ -241,6 +241,19 @@ begin
 end $$;
 
 -- ------------------------------------------------------------------ permessi
+-- Invito: anche se il gruppo ha le classifiche accese e quanti partecipano (per la prima schermata del funnel)
+create or replace function public.info_invito(p_codice text) returns json
+language sql security definer set search_path = '' as $$
+  select json_build_object('nome', g.nome, 'membri', (select count(*) from public.membri m where m.gruppo_id = g.id),
+    'admin', (select m.nome from public.membri m where m.gruppo_id = g.id and m.ruolo = 'admin' order by m.creato limit 1),
+    'iniziali', (select json_agg(x.nome) from (select m.nome from public.membri m where m.gruppo_id = g.id order by m.visto desc limit 6) x),
+    'classifiche', coalesce(g.classifiche, false),
+    'partecipanti', (select count(*) from public.membri m where m.gruppo_id = g.id and m.partecipa))
+  from public.gruppi g where g.codice = upper(trim(p_codice));
+$$;
+revoke all on function public.info_invito(text) from public;
+grant execute on function public.info_invito(text) to anon;
+
 revoke all on function public._norm_nome(text), public._passo_ok(text, int), public._puo_registrare(public.membri, date), public._io_classifiche(text) from public, anon, authenticated;
 revoke all on function public._registra_certificati(text, text, jsonb) from public, anon, authenticated;
 grant execute on function public._registra_certificati(text, text, jsonb) to service_role;
