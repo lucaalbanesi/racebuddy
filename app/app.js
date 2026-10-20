@@ -1539,7 +1539,7 @@
     if (/^#\/gruppo\/admin/.test(location.hash)) rerender();
   }
   function cardClassificheAdmin(d) {
-    if (!clOn() || !CL()) return "";
+    if (!clOn() || !CL() || d.io.ruolo === "membro") return "";
     const io = d.io, admin = io.ruolo === "admin", cl = CL();
     const sw = `<input type="checkbox" class="switch" id="cl-gruppo" ${cl.attive ? "checked" : ""} aria-label="Classifiche della stagione">`;
     const interr = !admin ? "" : cl.attive
@@ -1834,7 +1834,7 @@
     if (!d) return `${bannerProva()}<header class="head"><h1>Gruppo</h1></header><p class="sub">Carico il gruppo…</p>`;
     const io = d.io, org = io.ruolo === "admin" || io.ruolo === "organizzatore";
     const comuni = gareInComune();
-    return `${bannerProva()}<header class="head"><div style="min-width:0"><span class="eyebrow">Il gruppo · ${d.membri.length} runner</span><h1>${esc(d.gruppo.nome)}</h1></div>${org ? `<a class="btn ghost small" href="#/gruppo/admin">${io.ruolo === "admin" ? "Gestisci" : "Invita"}</a>` : ""}</header>
+    return `${bannerProva()}<header class="head"><div style="min-width:0"><span class="eyebrow">Il gruppo · ${d.membri.length} runner</span><h1>${esc(d.gruppo.nome)}</h1></div><a class="btn ghost small" href="#/gruppo/admin">${io.ruolo === "admin" ? "Gestisci" : io.ruolo === "organizzatore" ? "Invita" : "Membri"}</a></header>
       ${cardStagione(d)}
       <section aria-label="Gare in comune"><h2 style="margin-bottom:8px">Le gare del gruppo</h2>${comuni.length ? `<div class="lista-c">${comuni.slice(0, 6).map((g) => `<a class="card" href="#/gruppo/gara/${encodeURIComponent(g.gara_id)}" style="text-decoration:none;color:inherit;font-weight:inherit"><div class="between"><span class="title">${esc(titoloGara(g.nome))}</span><span class="small" style="font-weight:700;color:${g.mia ? "var(--accent)" : "var(--muted)"}">${esc(L.fmtGiorno(g.data))}</span></div><div class="row">${avatari(g.chi)}<span class="small">${g.chi.length} del gruppo${g.mia ? ", tu compreso" : ""} ›</span></div></a>`).join("")}</div>` : `<p class="sub">Ancora nessuna gara condivisa.</p>`}</section>
       <p class="sub">Ognuno sceglie cosa condividere: le tue gare si vedono solo se lo hai scelto (Io → Gruppo).</p>`;
@@ -1889,7 +1889,7 @@
     const membro = (m) => `<div class="post"><span style="flex:1;min-width:0"><b>${esc(m.nome)}</b>${m.id === io.id ? ' <span class="muted">(tu)</span>' : ""}<br><span class="small muted">visto ${esc(m.visto ? fa(m.visto) : "—")}</span></span>
       ${admin ? `<select class="input ruolo-sel" data-act-change="g-ruolo" data-id="${m.id}" aria-label="Ruolo di ${esc(m.nome)}">${Object.entries(RUOLI_G).map(([k, l]) => `<option value="${k}" ${m.ruolo === k ? "selected" : ""}>${l}</option>`).join("")}</select>${m.id !== io.id ? `<button class="btn ghost small" data-act="g-rimuovi" data-id="${m.id}" data-nome="${esc(m.nome)}" aria-label="Rimuovi ${esc(m.nome)}">✕</button>` : ""}` : `<span class="small muted">${RUOLI_G[m.ruolo]}</span>`}</div>`;
     return `${bannerProva()}<header class="head-back">${back("#/gruppo")}<span class="small" style="font-weight:600">Gruppo</span></header>
-      <div><span class="eyebrow">${esc(d.gruppo.nome)} · ${RUOLI_G[io.ruolo]}</span><h1 style="font-size:36px">Gestione</h1></div>
+      <div><span class="eyebrow">${esc(d.gruppo.nome)} · ${RUOLI_G[io.ruolo]}</span><h1 style="font-size:36px">${io.ruolo === "membro" ? "Membri" : "Gestione"}</h1></div>
       ${cardClassificheAdmin(d)}
       ${link ? `<section class="card"><span class="eyebrow">Invito</span><div class="between" style="gap:12px"><span class="codice-invito">${esc(d.gruppo.codice)}</span><button class="btn ghost" data-act="g-condividi" data-link="${esc(link)}">Condividi</button></div>
         <span class="small muted">Condividi manda il link con un messaggio pronto: chi lo apre dal telefono entra in 3 minuti, guidato passo per passo.</span>
@@ -1899,7 +1899,8 @@
         ${d.membri.map(membro).join("")}
         ${admin ? `<span class="small muted" style="padding-top:8px">Gli <b>organizzatori</b> condividono l'invito e approvano i tempi. Gli <b>amministratori</b> gestiscono anche i membri.</span>` : ""}</section>
       ${admin ? `<form id="g-rinomina" class="card"><span class="eyebrow">Nome del gruppo</span><div class="row"><label class="sr" for="g-nn">Nome</label><input class="input" id="g-nn" value="${esc(d.gruppo.nome)}" maxlength="60"><button class="btn ghost" type="submit">Salva</button></div></form>` : ""}
-      <div id="g-esci-box"><button class="btn ghost block" data-act="g-esci">Esci dal gruppo</button></div>`;
+      <div id="g-esci-box"><button class="btn ghost block" data-act="g-esci">Esci dal gruppo</button></div>
+      <p class="sub">Uscendo, online si cancellano le tue gare condivise, i personali in classifica e i risultati delle classifiche; sul telefono resta tutto. Puoi rientrare con un nuovo invito.</p>`;
   }
 
   // ---------------------------------------------------------------- risultato dopo la gara
@@ -2423,7 +2424,7 @@
       ${acc("gruppo", "Gruppo", inG ? `${esc(GD().gruppo.nome)} · ${esc(RUOLI_G[GD().io.ruolo].toLowerCase())}` : "non sei in un gruppo", inG ? `<span class="small">Sei in <b>${esc(GD().gruppo.nome)}</b> come «${esc(GD().io.nome)}».</span>${S.profilo.nome && S.profilo.nome.trim() !== GD().io.nome ? `<button class="btn ghost small" data-act="g-usa-nome" style="align-self:flex-start">Fatti vedere come «${esc(S.profilo.nome.trim())}»</button>` : ""}
         <label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="io-mostra" ${GD().io.mostra_gare ? "checked" : ""}><span><span class="t">Mostra al gruppo le mie gare</span><br><span class="d">Nome della gara, ruolo e tempo obiettivo.</span></span></label>
         ${clAttive() ? `<label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="cl-partecipo" ${partecipo() ? "checked" : ""}><span><span class="t">Partecipo alle classifiche</span><br><span class="d">${partecipo() ? "Spegnendo, i tuoi risultati online si cancellano; sul telefono restano." : "Gare corse, PB della stagione e Albo d'oro del gruppo."}</span></span></label>` : ""}
-        <a class="btn ghost" href="#/gruppo/admin">${GD().io.ruolo === "membro" ? "Membri ed esci dal gruppo" : "Gestisci il gruppo"}</a>` : `<span class="small">Entra nel gruppo della tua società con il link d'invito, oppure crealo se sei il presidente.</span><a class="btn ghost" href="#/gruppo">Vai al gruppo</a>`)}
+        <a class="btn ghost" href="#/gruppo/admin">${GD().io.ruolo === "membro" ? "Membri del gruppo" : "Gestisci il gruppo"}</a><button class="btn ghost" type="button" data-act="g-esci">Esci dal gruppo</button>` : `<span class="small">Entra nel gruppo della tua società con il link d'invito, oppure crealo se sei il presidente.</span><a class="btn ghost" href="#/gruppo">Vai al gruppo</a>`)}
       ${acc("personali", "I miei personali", esc(riassuntoPB()) || "da inserire", sezionePB())}
       ${C().strava ? acc("strava", "Strava", STRAVA_STATO && STRAVA_STATO.collegato ? '<span class="pill ok">collegato</span>' : "in prova", sezioneStrava()) : ""}
       ${acc("scarpe", "Le mie scarpe", S.scarpe.length ? `${S.scarpe.length} ${stravaOn ? "da Strava" : S.scarpe.length === 1 ? "paio" : "paia"}${daCambiare ? ` · <b style="color:var(--warn)">${daCambiare} da cambiare</b>` : ""}` : "nessuna", `${scarpe || `<span class="small">Nessuna scarpa ancora.</span>`}
@@ -2718,7 +2719,7 @@
     } else if (act === "g-copia") {
       copia(t.dataset.link);
     } else if (act === "g-esci") {
-      confirmBox(t, "Esci dal gruppo? Le tue gare e i tuoi post spariscono dal gruppo.", async () => {
+      confirmBox(t, "Esci dal gruppo? Online si cancellano le tue gare condivise, i personali e i risultati delle classifiche; sul telefono resta tutto.", async () => {
         try { await rpc("esci_gruppo", { p_token: token() }); S.gruppo = { token: S.gruppo.token }; salva(); toast("Sei uscito dal gruppo"); location.hash = "#/gruppo"; }
         catch (e) { toast(e.message); rerender(); }
       });
