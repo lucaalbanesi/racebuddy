@@ -1461,7 +1461,7 @@
     const cl = CL(), io = cl.io || {}, org = io.ruolo === "admin" || io.ruolo === "organizzatore";
     if (!io.partecipa) return `<section class="card dark"><span class="eyebrow">Novità nel gruppo</span><span style="font:700 26px/1.05 var(--display)">Le classifiche della stagione</span>
       <span class="small" style="color:var(--navy-muted)">Gare corse, PB della stagione e Albo d'oro, con i tempi presi dalle classifiche ufficiali. ${cl.partecipanti} ${cl.partecipanti === 1 ? "runner partecipa" : "runner partecipano"} su ${cl.membri}.</span>
-      <a class="btn" href="#/entra/classifiche">Partecipo</a></section>${cardClassifica(d)}`;
+      <div class="row" style="gap:14px;align-items:center"><a class="btn" style="flex:1" href="#/entra/classifiche">Partecipo</a><a href="#/gruppo/regole" style="color:var(--accent-on-dark)">Come funzionano</a></div></section>${cardClassifica(d)}`;
     const l = righeCl(tabCl), { primi, tu } = L.primiETu(l);
     const chip = (k) => `<button class="chip" data-act="cl-tab" data-t="${k}" aria-pressed="${k === tabCl}">${TAB_CL[k]}</button>`;
     const chipD = (x) => `<button class="chip" data-act="cl-dist" data-d="${x}" aria-pressed="${x === distAlbo}">${esc(L.DIST_LABEL[x])}</button>`;
@@ -1472,7 +1472,7 @@
       <div class="chips">${Object.keys(TAB_CL).map(chip).join("")}</div>
       ${tabCl === "albo" ? `<div class="chips">${DISTANZE.map(chipD).join("")}</div>` : ""}
       <div>${l.length ? primi.map((x) => x.html(x)).join("") + (tu ? `<div class="post small muted" style="justify-content:center;padding:2px 0">···</div>${tu.html(tu)}` : "") : `<span class="small">${vuoto}</span>`}</div>
-      <a class="btn ghost block" href="#/gruppo/classifiche?c=${tabCl}${tabCl === "albo" ? `&d=${distAlbo}` : ""}">Classifica completa ›</a></section>`;
+      <a class="btn ghost block" href="#/gruppo/classifiche?c=${tabCl}${tabCl === "albo" ? `&d=${distAlbo}` : ""}">Classifica completa ›</a><a class="link-regole" href="#/gruppo/regole">Come funzionano le classifiche ›</a></section>`;
   }
   function vistaPartecipa() {
     if (!clAttive()) return vistaGruppo();
@@ -1530,8 +1530,29 @@
       ${filtri}
       ${l.length ? `<section class="card" style="gap:0">${l.map((x) => x.html(x)).join("")}</section>` : `<p class="sub">Nessun tempo in questa classifica, per ora.</p>`}
       ${rec.length ? `<section class="card" style="gap:0"><h2 style="margin-bottom:4px">Record per categoria</h2>${rec.map((x) => `<div class="post ${x.mio ? "mio" : ""}"><span style="width:52px;font-weight:700">${esc(x.categoria)}</span><span style="flex:1;min-width:0"><b>${esc(x.mio ? "Tu" : x.membro)}</b><br><span class="small muted">${esc(titoloGara(x.gara_nome || ""))} · ${esc(x.data.slice(0, 4))}</span></span><b style="font:700 18px var(--display)">${esc(fmtSec(x.secondi))}</b></div>`).join("")}</section>` : ""}
-      <p class="sub">${spiega}</p>`;
+      <p class="sub">${spiega}</p><a class="link-regole" href="#/gruppo/regole?da=classifiche">Tutte le regole delle classifiche ›</a>`;
   }
+  // Le regole delle classifiche, in parole semplici (#/gruppo/regole?da=…: la freccia torna da dove si è arrivati)
+  function vistaRegole(param = {}) {
+    const torna = { entra: "#/entra/classifiche", classifiche: "#/gruppo/classifiche", io: "#/io", admin: "#/gruppo/admin" }[param.da] || "#/gruppo";
+    const cl = CL() || {}, io = cl.io || {}, anno = oggi().slice(0, 4);
+    const sez = (titolo, corpo) => `<section class="card regole"><h2>${titolo}</h2>${corpo}</section>`;
+    const cl3 = (nome, cosa, parita) => `<div class="regola-cl"><b>${nome}</b><span>${cosa}</span><span class="small muted">${parita}</span></div>`;
+    return `${bannerProva()}<header class="head-back">${back(torna)}<div><span class="eyebrow">${esc(GD() ? GD().gruppo.nome : "Il gruppo")} · stagione ${esc(anno)}</span><h1 style="font-size:28px">Come funzionano le classifiche</h1></div></header>
+      ${sez("Chi partecipa", `${voceOk("Solo chi sceglie <b>Partecipo</b>. Chi non partecipa usa l'app come sempre e non compare.")}${voceOk("Puoi uscire quando vuoi da Io → Gruppo: i tuoi risultati online si cancellano, sul telefono restano.")}`)}
+      ${sez("Quali gare contano", `${voceOk("<b>10 km, mezza e maratona</b> su strada, con il tempo della classifica ufficiale.")}${voceOk("La stagione va dal <b>1 gennaio al 31 dicembre</b>. L'Albo d'oro invece vale per sempre.")}${voceOk("Contano solo i tempi <b>certificati</b>. Ritirato, non partito e annullata si vedono nella tua storia, ma non danno posizioni.")}`)}
+      ${sez("Come entra un tempo", `${voceOk("<b>Dalle classifiche ufficiali</b> (Gare Podistiche Lazio e FIDAL): in «Com'è andata?» tocchi <b>Cerca nelle classifiche</b> e poi <b>Usa</b>. Se il nome in classifica è quello con cui sei nel gruppo, è certificato subito.")}
+        ${voceOk("<b>Nome diverso, gara non trovata o classifica solo in PDF</b>: tocchi <b>Manda al referente</b> con il link o una nota. Lo approva l'amministratore o un organizzatore (il tuo tempo, se sei referente, lo approva un altro). Al massimo 5 in attesa.")}
+        ${voceOk("Un tempo sbagliato, per esempio di un omonimo, lo può annullare l'amministratore.")}
+        ${voceOk("Tempi impossibili non entrano: il passo deve stare tra 2:30 e 15:00 al km.")}`)}
+      ${sez("Le gare già corse", `${voceOk("Nei <b>primi 30 giorni</b> da quando partecipi recuperi tutte le gare trovate nelle classifiche, anche degli anni scorsi: servono per l'Albo d'oro e per i PB.")}${voceOk("Dopo, si aggiungono solo le gare dalla settimana prima della tua adesione in avanti.")}
+        ${L.recuperoAperto(io) ? `<a class="btn ghost" href="#/gruppo/recupero">Recupera le tue gare · fino al ${esc(L.fmtBreve(String(io.recupero_fino).slice(0, 10)))}</a>` : ""}`)}
+      ${sez("Le tre classifiche", `${cl3("Gare corse", `Quante gare concludi nella stagione con un tempo certificato. C'è anche la vista del mese.`, "A pari gare, pari posizione.")}
+        ${cl3("PB della stagione", "Quante volte quest'anno migliori il tuo miglior tempo di sempre su 10 km, mezza o maratona. La prima gara su una distanza fissa il riferimento e non conta.", "A pari PB vince chi è migliorato di più, in percentuale.")}
+        ${cl3("Albo d'oro", "Il miglior tempo di sempre di ognuno, per distanza, con i filtri uomini e donne (dalla categoria della classifica ufficiale) e i record per categoria.", "Conta solo il tempo: niente punti.")}`)}
+      ${sez("Cosa vedono i compagni", `${voceOk("Gara, data, distanza, tempo, categoria e società della classifica ufficiale.")}<div class="voce-ok"><span class="spunta muto" aria-hidden="true">${ICO.lucchetto}</span><span>Tessera, certificato, scarpe, preparazione e posizione restano sul tuo telefono.</span></div>`)}`;
+  }
+
   // In Gestione: interruttore del gruppo, coda del referente, ultimi tempi certificati (l'amministratore li può annullare)
   let CODA = null;
   async function caricaCoda() {
@@ -1543,7 +1564,7 @@
     const io = d.io, admin = io.ruolo === "admin", cl = CL();
     const sw = `<input type="checkbox" class="switch" id="cl-gruppo" ${cl.attive ? "checked" : ""} aria-label="Classifiche della stagione">`;
     const interr = !admin ? "" : cl.attive
-      ? `<section class="card"><div class="between" style="gap:12px"><span><span class="title">Classifiche della stagione</span><br><span class="small muted">Stagione ${esc(oggi().slice(0, 4))} · ${cl.partecipanti} di ${cl.membri} runner partecipano</span></span>${sw}</div></section>`
+      ? `<section class="card"><div class="between" style="gap:12px"><span><span class="title">Classifiche della stagione</span><br><span class="small muted">Stagione ${esc(oggi().slice(0, 4))} · ${cl.partecipanti} di ${cl.membri} runner partecipano</span></span>${sw}</div><a class="link-regole" href="#/gruppo/regole?da=admin">Le regole spiegate ai membri ›</a></section>`
       : `<section class="card evid"><div class="between" style="gap:12px;align-items:flex-start"><span><span class="pill">Nuovo</span><br><span class="title">Classifiche della stagione</span></span>${sw}</div>
         <span class="small">Il gruppo gioca insieme alla stagione: Gare corse, PB della stagione e Albo d'oro.</span>
         ${voceOk("Ogni runner sceglie se partecipare: chi non vuole usa l'app come oggi.")}${voceOk("I tempi arrivano dalle classifiche ufficiali: niente da controllare a mano.")}${voceOk("Tu e gli organizzatori approvate solo i tempi che non si trovano in classifica.")}
@@ -1697,7 +1718,7 @@
     let corpo;
     if (k === "classifiche") {
       const cl = CL();
-      corpo = `<h1>Partecipi alle classifiche?</h1><p class="sub">${cl.partecipanti} dei ${cl.membri} runner del gruppo partecipano. Chi non partecipa usa l'app come sempre.</p>
+      corpo = `<h1>Partecipi alle classifiche?</h1><p class="sub">${cl.partecipanti} dei ${cl.membri} runner del gruppo partecipano. Chi non partecipa usa l'app come sempre. <a href="#/gruppo/regole?da=entra">Come funzionano</a></p>
         <section class="card"><h2>Vedono i compagni</h2>${voceOk("I risultati delle tue gare su 10 km, mezza e maratona, presi dalle classifiche ufficiali")}${voceOk("Categoria e società della classifica, per l'Albo d'oro")}${voceOk("Gli esiti senza tempo: ritirato, non partito, annullata")}</section>
         <section class="card"><h2>Resta sul telefono</h2><div class="voce-ok"><span class="spunta muto" aria-hidden="true">${ICO.lucchetto}</span><span>Tessera, certificato, scarpe, preparazione, posizione</span></div></section>
         <div class="piede"><button class="btn block" data-act="entra-partecipo">Partecipo</button><button class="btn ghost block" data-act="entra-salta" data-k="classifiche">Non ora</button>
@@ -2423,7 +2444,7 @@
       ${acc("notifiche", "Notifiche", on ? '<span class="pill ok">attive</span>' : sp === "ok" ? "da attivare" : sp === "non-pronto" ? "in arrivo" : "non disponibili", cardPush(false, true))}
       ${acc("gruppo", "Gruppo", inG ? `${esc(GD().gruppo.nome)} · ${esc(RUOLI_G[GD().io.ruolo].toLowerCase())}` : "non sei in un gruppo", inG ? `<span class="small">Sei in <b>${esc(GD().gruppo.nome)}</b> come «${esc(GD().io.nome)}».</span>${S.profilo.nome && S.profilo.nome.trim() !== GD().io.nome ? `<button class="btn ghost small" data-act="g-usa-nome" style="align-self:flex-start">Fatti vedere come «${esc(S.profilo.nome.trim())}»</button>` : ""}
         <label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="io-mostra" ${GD().io.mostra_gare ? "checked" : ""}><span><span class="t">Mostra al gruppo le mie gare</span><br><span class="d">Nome della gara, ruolo e tempo obiettivo.</span></span></label>
-        ${clAttive() ? `<label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="cl-partecipo" ${partecipo() ? "checked" : ""}><span><span class="t">Partecipo alle classifiche</span><br><span class="d">${partecipo() ? "Spegnendo, i tuoi risultati online si cancellano; sul telefono restano." : "Gare corse, PB della stagione e Albo d'oro del gruppo."}</span></span></label>` : ""}
+        ${clAttive() ? `<label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="cl-partecipo" ${partecipo() ? "checked" : ""}><span><span class="t">Partecipo alle classifiche</span><br><span class="d">${partecipo() ? "Spegnendo, i tuoi risultati online si cancellano; sul telefono restano." : "Gare corse, PB della stagione e Albo d'oro del gruppo."}</span></span></label><a class="link-regole" href="#/gruppo/regole?da=io">Come funzionano le classifiche ›</a>` : ""}
         <a class="btn ghost" href="#/gruppo/admin">${GD().io.ruolo === "membro" ? "Membri del gruppo" : "Gestisci il gruppo"}</a><button class="btn ghost" type="button" data-act="g-esci">Esci dal gruppo</button>` : `<span class="small">Entra nel gruppo della tua società con il link d'invito, oppure crealo se sei il presidente.</span><a class="btn ghost" href="#/gruppo">Vai al gruppo</a>`)}
       ${acc("personali", "I miei personali", esc(riassuntoPB()) || "da inserire", sezionePB())}
       ${C().strava ? acc("strava", "Strava", STRAVA_STATO && STRAVA_STATO.collegato ? '<span class="pill ok">collegato</span>' : "in prova", sezioneStrava()) : ""}
@@ -2545,7 +2566,7 @@
       case "checklist": html = vistaBorsa(parts[1]); break;
       case "gruppo":
         html = parts[1] === "gara" ? vistaGaraGruppo(parts[2]) : parts[1] === "classifica" ? vistaClassifica(param) : parts[1] === "admin" ? vistaAdmin()
-          : parts[1] === "partecipa" ? vistaEntra("classifiche") : parts[1] === "recupero" ? vistaRecupero() : parts[1] === "classifiche" ? vistaClassifiche(param) : vistaGruppo();
+          : parts[1] === "partecipa" ? vistaEntra("classifiche") : parts[1] === "regole" ? vistaRegole(param) : parts[1] === "recupero" ? vistaRecupero() : parts[1] === "classifiche" ? vistaClassifiche(param) : vistaGruppo();
         break;
       case "invito": html = vistaInvito(parts[1], param); break;
       case "entra": html = vistaEntra(parts[1]); break;
