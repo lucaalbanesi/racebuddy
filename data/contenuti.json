@@ -2,6 +2,301 @@
  "aggiornato": "2026-10-20",
  "contenuti": [
   {
+   "id": "ba914a87d9b7",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "The Long Way to Venice, il viaggio di Luca Masoero da Milano a Venezia",
+   "estratto": "Più di 300 chilometri di corsa non stop. L'ultra runner Luca Masoero racconta The Long Way to Venice, il progetto che lo ha portato a correre da Milano a Venezia con il supporto…",
+   "link": "https://www.runnersworld.com/it/vip/a74188035/corsa-viaggio-luca-masoero-milano-venezia-ultra-runing-kiprun-decathlon-gressier/",
+   "data": "2026-10-20",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/06815915-5859-4b73-aca4-654926d189e3.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "2e72ec0c166f",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Scarico pre-gara: quanto ridurre gli allenamenti?",
+   "estratto": "Scarico pre-gara: quanto ridurre gli allenamenti per correre al massimo? TAPERING | La ricerca spiega perché arrivare riposati non significa smettere di allenarsi. E perché il…",
+   "link": "https://podisti.net/scarico-pre-gara-quanto-ridurre-gli-allenamenti/",
+   "data": "2026-10-20",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/Scarico-pre-gara_-correre-al-massimo.png",
+   "argomenti": [
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
+   "id": "4b23977110f5",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Sawe, Kejelcha e Tamberi: nel premio Momento dell'anno un anno di atletica",
+   "estratto": "Sawe sotto le due ore a Londra, Kejelcha da record nella mezza e Tamberi campione: momenti azzurri e internazionali in corsa per il nuovo premio World Athletics",
+   "link": "https://www.runnersworld.com/it/news/a74188294/premio-momento-anno-atletica-tamberi-sawe/",
+   "data": "2026-10-20",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/5a803b26-deb8-48d5-b18c-fd8d333ac927.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "5997a2f0df66",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Rome Half Marathon da record: è la gara con più finisher nella storia d’Italia",
+   "estratto": "Nuovo primato di arrivi per un evento organizzato in Italia. Tutti i numeri del successo",
+   "link": "https://www.runnersworld.com/it/news/a74181433/rome-half-marathon-record/",
+   "data": "2026-10-20",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/183e94fd-d77d-4e8e-ba13-0ff1ce2d212e.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "ee485d1bdf1a",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Recensioni: ”Born to Run” di Christopher Mc Dougall",
+   "estratto": "Il mio giovane vicino di casa Francesco, notando come io vada a correre a tutte le ore e con ogni tipo di condizioni meteo, ha pensato di prestarmi un libro della sua biblioteca…",
+   "link": "https://podisti.net/recensioni-born-to-run-di-christopher-mc-dougall/",
+   "data": "2026-10-20",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/BorntoRun-di-ChristopherMcDougall.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "5bbaa7fca8e4",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Recensioni: “Un anno corrimatto” di Alessandro Somazzi",
+   "estratto": "Dal titolo sembra un diario, ma anche se il libro di Alessandro Somazzi parte dalla promessa, mantenuta, di correre 365 giorni consecutivi, “Un anno corrimatto” è un’altra cosa…",
+   "link": "https://podisti.net/recensioni-un-anno-corrimatto-di-alessandro-somazzi/",
+   "data": "2026-10-20",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/Corrimatto-Foto-Alexander-Shumovich.png",
+   "argomenti": [
+    "racconti"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "9d7f25b2dbe5",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Nike Pegasus Plus 2, la scarpa da allenamento che invita ad accelerare",
+   "estratto": "Intersuola in schima ZoomX e una nuova unità Air Zoom a vista nell'avampiede. Nike Pegasus Plus 2 cerca un equilibrio tra comfort quotidiano e ritmo. Pensata per i lavori di…",
+   "link": "https://www.runnersworld.com/it/scarpe/scarpe-running/a74187365/nike-pegasus-plus-2-corsa-scarpe-running-allenamento-veloce/",
+   "data": "2026-10-20",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/0b83e9f4-0ca8-4604-b594-79a1b71e62ca.png",
+   "argomenti": [
+    "scarpe",
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "67cfea95a843",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Il cammino dal Baltico a Trieste porta la firma di un brand",
+   "estratto": "Una linea di 3.500 chilometri unisce il mare del Nord all’Adriatico, portando il thru-hiking americano in Europa con il marchio Jack Wolfskin. Jack Wolfskin presenta il Wolf Trail…",
+   "link": "https://runlovers.it/2026/wolf-trail-jack-wolfskin-baltico-trieste/",
+   "data": "2026-10-20",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/Wolfskin-the-trail-map.jpg?resize=1160%2C612&quality=75&ssl=1",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
+   "id": "945d2118268f",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Gli esercizi per rinforzare i glutei",
+   "estratto": "Sei esercizi da fare a casa con un divano, una sedia e un elastico, per allenare il muscolo che dà la spinta e quello che tiene il bacino in piano. I due compiti diversi del…",
+   "link": "https://runlovers.it/2026/esercizi-rinforzare-glutei/",
+   "data": "2026-10-20",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/glutei-casa-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "gara"
+   ]
+  },
+  {
+   "id": "533bf5881c4a",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Esoscheletri, da fiction a realtà. Sono davvero utili nello sport?",
+   "estratto": "Abbiamo provato Navee Exo S Pro, un esoscheletro pensato per il supporto degli arti inferiori. Può essere utile per il recupero da infortuni del runner o nel trekking?",
+   "link": "https://www.runnersworld.com/it/equipment/tech/a74175661/esoscheletro-corsa-cammino-trekking-sport-recupero/",
+   "data": "2026-10-20",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/791f4c6d-6d19-4125-9039-964176fa834a.jpg",
+   "argomenti": [
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "dopo"
+   ]
+  },
+  {
+   "id": "9711bc3271f3",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Dal Giro d’Italia alla mezza maratona: Leknessund nella top 50 ad Amsterdam",
+   "estratto": "Dopo i tre secondi posti al Giro d’Italia e la vittoria di tappa alla Vuelta, Andreas Leknessund si è messo alla prova nella mezza maratona di Amsterdam",
+   "link": "https://www.runnersworld.com/it/news/a74190085/leknessund-mezza-maratona-amsterdam/",
+   "data": "2026-10-20",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/035fea95-cd52-4669-a278-6b034fb43614.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "85ae4ba7635b",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Corse d'autunno: le gare più originali tra tartufo, castagne e vino",
+   "estratto": "Dal tartufo alle castagne, dall'olio nuovo al vino: le gare da correre in autunno dove il running incontra i sapori e le tradizioni del territorio",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74174565/gare-corsa-autunno/",
+   "data": "2026-10-20",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/f57b5171-bd50-404a-a68b-dfa41f5b9206.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "3af7fb763052",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Bardolino (VR) – Allali e Mukandanga firmano la 13^ La 10 di Bardolino",
+   "estratto": "18 ottobre – Morad Allali e Clementine Mukandanga firmano la tredicesima edizione de La 10 di Bardolino, che si chiude con il secondo sold out consecutivo e 1.400 iscritti tra…",
+   "link": "https://podisti.net/bardolino-vr-allali-e-mukandanga-firmano-la-13-la-10-di-bardolino/",
+   "data": "2026-10-20",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/86cdb40d-878f-666e-815d-020b63a4.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "0414b6793881",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "A ottobre il conto dei chilometri dell’anno diventa un debito",
+   "estratto": "Un numero fissato a gennaio diventa in autunno un debito contabile: chiudere la stagione sotto quota restituisce alla corsa il suo valore biologico. A gennaio imposti una cifra…",
+   "link": "https://runlovers.it/2026/chilometri-anno-conto-debito-ottobre/",
+   "data": "2026-10-20",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/03-20261020-1730-Ottobre-KM-L-Unsplash-Callum-Cutler.jpeg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "scarpe",
+    "allenamento",
+    "recupero",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "dopo"
+   ]
+  },
+  {
+   "id": "530706bced42",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "7 errori comuni da evitare quando stai preparando una mezza maratona",
+   "estratto": "Ecco gli errori di allenamento che devi correggere per bruciare i 21 chilometri",
+   "link": "https://www.runnersworld.com/it/allenamento/mezza-maratona/a74187547/errori-comuni-mezza-maratona/",
+   "data": "2026-10-20",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/f33919e7-c395-4a14-a6aa-f8e7c14fee82.jpeg",
+   "argomenti": [
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "b0329fe77afd",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "40^ Wizz Air Venicemarathon, tutto pronto per il via",
+   "estratto": "Il conto alla rovescia in vista della 40 a Wizz Air Venicemarathon è ufficialmente iniziato con la presentazione alla stampa di oggi, 20 ottobre. Domenica 25 ottobre la Maratona…",
+   "link": "https://correre.it/40-wizz-air-venicemarathon/",
+   "data": "2026-10-20",
+   "immagine": "https://correre.it/wp-content/uploads/2026/08/Venicemarathon_partenza.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42",
+    "21",
+    "10"
+   ],
+   "fasi": [
+    "si_parte",
+    "gara"
+   ]
+  },
+  {
    "id": "d3e75696d1ad",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
