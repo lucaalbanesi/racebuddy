@@ -508,6 +508,10 @@ assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10",
   assert.strictEqual(L.prossimoEntra(s1, "notifiche"), "documenti");
   assert.strictEqual(L.prossimoEntra(s1, "documenti"), "uscita");
   assert.strictEqual(s1.obbligatoriFatti, false);
+  // "Lo faccio più tardi" sulla tessera: non blocca, non torna in fondo al funnel
+  const dd = L.passiEntra({ ora: true, zona: true, saltati: { documenti: true } });
+  assert.ok(dd.passi[0].fatto && dd.obbligatoriFatti);
+  assert.strictEqual(L.prossimoEntra(dd, "notifiche"), null);
   // non tesserato: il passo dei documenti è fatto e non obbligatorio
   const nt = L.passiEntra({ nonTesserato: true, ora: true, zona: true });
   assert.ok(nt.passi[0].fatto && !nt.passi[0].obbligatorio && nt.obbligatoriFatti);

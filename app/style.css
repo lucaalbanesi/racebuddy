@@ -582,3 +582,4 @@ body.chat-on .app { padding-bottom: 150px; }
 .riga-percorso > span:last-child { color: var(--accent); font-size: 22px; font-weight: 700; }
 .rivedi-banner { display: flex; justify-content: space-between; align-items: center; background: var(--navy); color: var(--navy-fg); border-radius: 12px; padding: 8px 14px; font-size: 14px; font-weight: 600; }
 .rivedi-banner a { color: var(--accent-on-dark); }
+.doc-mano summary { font-weight: 700; color: var(--accent); cursor: pointer; }
