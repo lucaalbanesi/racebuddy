@@ -473,6 +473,19 @@
         <span class="title">Certificato medico agonistico</span>
         <div class="field"><label for="pf-cert-scadenza">Scadenza del certificato</label><input class="input" id="pf-cert-scadenza" type="date" required value="${esc(cert.scadenza || "")}"><span class="small muted">Sulla tessera FIDAL la trovi stampata: la scansione la legge da sola. Serve il certificato agonistico per l'atletica leggera, valido il giorno della gara.</span></div>`,
         `<details class="scan-cert"><summary class="small">Carica anche il file del certificato (foto o PDF), per le iscrizioni</summary>${bottoneCarica("certificato")}</details>`]; };
+  // Passo tessera e certificato nei due funnel: prima la scansione, i campi a mano solo se servono, e un'uscita facile
+  function passoDocumenti(funnel) {
+    const [campi, nota] = campiDocumenti(), t = doc("tessera"), c = doc("certificato"), pieni = !!(t.numero || t.scadenza || c.scadenza);
+    return `<h1>Tessera e certificato medico</h1>
+      <p class="sub">Con la foto o il PDF del tesserino FIDAL bastano 30 secondi: leggo io numero, società e scadenze. Poi ti avviso prima che scadano.</p>
+      ${bottoneScan("tessera").replace('class="btn ghost block"', 'class="btn block"')}
+      <form id="prepara-form" data-passo="documenti" ${funnel === "entra" ? 'data-funnel="entra"' : ""}>
+        <details class="card doc-mano" ${pieni ? "open" : ""}><summary>${pieni ? "Controlla i dati e vai avanti" : "Oppure scrivili a mano"}</summary>
+          <div class="funnel-form" style="margin-top:12px">${campi}<button class="btn block" type="submit">Avanti</button>${nota}</div></details></form>
+      <div class="piede"><button class="btn ghost block" type="button" data-act="doc-dopo" data-funnel="${funnel}">Lo faccio più tardi</button>
+        <p class="small muted centro">Nessun problema: te lo ricordo in Oggi e lo trovi sempre in Io → Tessera e certificato.</p>
+        <button class="link-btn small centro" type="button" data-act="non-tesserato" data-dal-funnel="${funnel === "entra" ? "entra" : "1"}">Non sono tesserato</button></div>`;
+  }
   function vistaPrepara(passo) {
     const k = passo === "fine" || ORDINE_FUNNEL.includes(passo) ? passo : prossimoPasso() || "fine";
     const i = ORDINE_FUNNEL.indexOf(k);
@@ -486,10 +499,7 @@
       ${form(`<div class="field"><label for="pf-ora">Ora dell'uscita</label><input class="input" id="pf-ora" type="time" step="900" required value="${esc(oraInput(S.profilo.ora) || "07:00")}"></div>`)}`;
     else if (k === "zona") corpo = `<h1>Dove corri di solito?</h1><p class="sub">Serve per il meteo della tua uscita: ti avviso solo se cambia davvero. La posizione resta sul telefono, arrotondata a circa 1 km.</p>
       ${form(`<div class="field">${bottoneGps("pf-citta")}</div><div class="field"><label for="pf-citta">Città o quartiere</label><input class="input" id="pf-citta" required placeholder="es. Roma" value="${esc(S.profilo.citta || "")}" autocomplete="address-level2"></div>`)}`;
-    else if (k === "documenti") corpo = `<h1>Tessera e certificato medico</h1><p class="sub">Senza non si corre: ti avviso 30, 15 e 2 giorni prima che scadano, e il numero di tessera è sempre a portata di mano quando ti iscrivi a una gara.</p>
-      <button class="link-btn small" type="button" data-act="non-tesserato" data-dal-funnel="1">Non sono tesserato: salta questo passo</button>
-      ${bottoneScan("tessera")}
-      ${form(...campiDocumenti())}`;
+    else if (k === "documenti") corpo = passoDocumenti("prepara");
     else if (k === "notifiche") {
       const sp = supportoPush(), on = S.push && S.push.attivo;
       const cosa = `<ul class="vantaggi"><li>Scadenze di tessera e certificato</li><li>Il meteo della tua uscita, solo quando cambia davvero</li>${S.gare.length ? "<li>Le tue gare: scheda pronta, vigilia alle 19, mattina di gara, novità ufficiali</li>" : ""}</ul>`;
@@ -1693,10 +1703,7 @@
         <div class="piede"><button class="btn block" data-act="entra-partecipo">Partecipo</button><button class="btn ghost block" data-act="entra-salta" data-k="classifiche">Non ora</button>
           <p class="small muted centro">Puoi cambiare idea quando vuoi da Io → Gruppo: uscendo, i tuoi risultati online si cancellano.</p></div>`;
     } else if (k === "documenti") {
-      corpo = `<h1>Tessera e certificato medico</h1><p class="sub">Ti avviso prima che scadano, e il numero è sempre a portata quando ti iscrivi a una gara. Il codice società aiuta anche a trovarti nelle classifiche.</p>
-        ${bottoneScan("tessera")}
-        <form id="prepara-form" data-passo="documenti" data-funnel="entra" class="funnel-form">${campiDocumenti()[0]}<button class="btn block" type="submit">Avanti</button>${campiDocumenti()[1]}</form>
-        <button class="link-btn small centro" type="button" data-act="non-tesserato" data-dal-funnel="entra">Non sono tesserato</button>`;
+      corpo = passoDocumenti("entra");
     } else if (k === "tempi") corpo = passoTempi();
     else if (k === "uscita") {
       corpo = `<h1>Quando e dove corri</h1><p class="sub">Ti scrivo mezz'ora prima di uscire, con il meteo del posto giusto.</p>
@@ -1782,7 +1789,7 @@
     const pb = DISTANZE.filter((x) => (S.pb || {})[x]);
     if (pb.length) righe.push(riga(true, `Personali su ${pb.map((x) => L.DIST_LABEL[x].toLowerCase()).join(", ").replace(/, ([^,]*)$/, " e $1")}`));
     const f = Object.fromEntries(statoPrepara().passi.map((x) => [x.k, x.fatto]));
-    if (!S.nonTesserato) righe.push(riga(f.documenti, f.documenti ? "Tessera e certificato in regola" : "Tessera e certificato da inserire", f.documenti ? "ti avviso prima delle scadenze" : "li trovi in Io"));
+    if (!S.nonTesserato) righe.push(riga(f.documenti, f.documenti ? "Tessera e certificato in regola" : "Tessera e certificato da inserire", f.documenti ? "ti avviso prima delle scadenze" : "quando vuoi: te lo ricordo in Oggi"));
     const g = S.gare.filter((x) => x.data >= o).sort((a, b) => (a.data < b.data ? -1 : 1))[0];
     if (g) { const n = L.diffDays(g.data, o), con = d ? d.gare.filter((x) => x.gara_id === g.id && x.membro_id !== (d.io || {}).id).map((x) => x.membro) : [];
       righe.push(riga(true, `${titoloGara(g.nome)} ${n === 0 ? "oggi" : n === 1 ? "domani" : `tra ${n} giorni`}`, [con.length ? `con ${con.slice(0, 2).join(", ")}${con.length > 2 ? ` e altri ${con.length - 2}` : ""}` : "", g.tempo ? `obiettivo ${g.tempo}` : ""].filter(Boolean).join(" · "))); }
@@ -2691,6 +2698,10 @@
     } else if (act === "apri-contenuto") {
       S.letti = S.letti || {}; S.letti["c:" + t.dataset.id] = oggi(); salva(); // il link si apre comunque
       return;
+    } else if (act === "doc-dopo") {
+      if (t.dataset.funnel === "entra") { if (!RIVEDI) { ENTRA().saltati = { ...(ENTRA().saltati || {}), documenti: true }; salva(); } vaiEntra("documenti"); }
+      else vaiPasso("documenti");
+      toast("Va bene: te lo ricordo in Oggi");
     } else if (act === "non-tesserato" && RIVEDI && t.dataset.dalFunnel) {
       if (t.dataset.dalFunnel === "entra") vaiEntra("documenti"); else vaiPasso("documenti");
     } else if (act === "non-tesserato") {
@@ -2916,7 +2927,9 @@
       try {
         const r = await scansiona(k, el.files[0], stato);
         const letti = descriviLetti(r, k);
-        if (!letti) { stato("Non sono riuscito a leggere i dati: inseriscili a mano. La foto è salvata."); return; }
+        const dm = document.querySelector(".doc-mano");
+        if (!letti) { if (dm) dm.open = true; stato("Non sono riuscito a leggere i dati: inseriscili a mano. La foto è salvata."); return; }
+        if (dm) { dm.open = true; const sm = dm.querySelector("summary"); if (sm) sm.textContent = "Controlla i dati e vai avanti"; }
         const d = doc(k);
         if (r.tipo) d.tipo = r.tipo;
         if (r.certificato) { const c = doc("certificato"); if (r.certificato.tipo) c.tipo = r.certificato.tipo; if (!nelFunnel && r.certificato.scadenza) c.scadenza = r.certificato.scadenza; }

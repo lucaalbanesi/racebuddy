@@ -550,7 +550,7 @@
     const sal = x.saltati || {};
     const fatto = {
       classifiche: !!x.partecipa || !!sal.classifiche,
-      documenti: !!x.documenti || !!x.nonTesserato,
+      documenti: !!x.documenti || !!x.nonTesserato || !!sal.documenti,
       tempi: !!x.tempiFatti || !!sal.tempi,
       uscita: !!x.ora && !!x.zona,
       gara: !!x.garaFutura || !!sal.gara,
