@@ -534,6 +534,41 @@
     return { passi, fatti: obb.filter((p) => p.fatto).length, totale: obb.length, completo: obb.every((p) => p.fatto) };
   }
 
+  /** Funnel "Entra nel gruppo" (dal link d'invito, o per chi è già nel gruppo quando si accendono le classifiche).
+   *  Sei passi in ordine; quelli già fatti si saltano. Obbligatori: tessera e certificato (salvo non tesserati), quando e dove
+   *  corri. Le classifiche ci sono solo se il gruppo le ha accese, i tempi solo se la ricerca nelle classifiche è attiva.
+   *  x = { classifiche, partecipa, documenti, nonTesserato, tempi, tempiFatti, ora, zona, garaFutura, notifiche, saltati } */
+  const PASSI_ENTRA = [
+    { k: "classifiche", titolo: "Le classifiche della stagione", obbligatorio: false },
+    { k: "documenti", titolo: "Tessera e certificato", obbligatorio: true },
+    { k: "tempi", titolo: "I tuoi tempi dalle classifiche", obbligatorio: false },
+    { k: "uscita", titolo: "Quando e dove corri", obbligatorio: true },
+    { k: "gara", titolo: "La tua prossima gara", obbligatorio: false },
+    { k: "notifiche", titolo: "Le notifiche", obbligatorio: false },
+  ];
+  function passiEntra(x = {}) {
+    const sal = x.saltati || {};
+    const fatto = {
+      classifiche: !!x.partecipa || !!sal.classifiche,
+      documenti: !!x.documenti || !!x.nonTesserato,
+      tempi: !!x.tempiFatti || !!sal.tempi,
+      uscita: !!x.ora && !!x.zona,
+      gara: !!x.garaFutura || !!sal.gara,
+      notifiche: !!x.notifiche || !!sal.notifiche,
+    };
+    const passi = PASSI_ENTRA.filter((p) => (p.k !== "classifiche" || x.classifiche) && (p.k !== "tempi" || x.tempi))
+      .map((p) => ({ ...p, obbligatorio: p.obbligatorio && !(p.k === "documenti" && x.nonTesserato), fatto: fatto[p.k] }));
+    const fatti = passi.filter((p) => p.fatto).length;
+    return { passi, fatti, totale: passi.length, completo: passi.every((p) => p.fatto), obbligatoriFatti: passi.every((p) => !p.obbligatorio || p.fatto) };
+  }
+  /** Il passo dopo "dopo" (o il primo): prima quelli che seguono, poi gli obbligatori rimasti indietro; null = finito. */
+  function prossimoEntra(stato, dopo) {
+    const ks = stato.passi.map((p) => p.k), i = dopo ? ks.indexOf(dopo) + 1 : 0;
+    const giro = [...stato.passi.slice(i), ...stato.passi.slice(0, Math.max(0, i - 1)).filter((p) => p.obbligatorio)];
+    const p = giro.find((x) => !x.fatto && x.k !== dopo);
+    return p ? p.k : null;
+  }
+
   /** Legge il testo di una foto di tessera o certificato (OCR fatto sul telefono) e propone i campi.
    *  k = "tessera" | "certificato". Restituisce solo ciò che trova: { tipo, numero, codiceSocieta, societa, scadenza, certificato, calcolata }.
    *  I valori sono proposte: l'utente li controlla prima di salvare. */
@@ -740,7 +775,7 @@
     return (trovati || []).filter((r) => !gia.has(`${r.data}:${r.distanza}:${r.secondi}`) && (recuperoAperto(io, adesso) || (dal && r.data >= dal)));
   }
 
-  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, daRecuperare };
+  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, daRecuperare, PASSI_ENTRA, passiEntra, prossimoEntra };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);

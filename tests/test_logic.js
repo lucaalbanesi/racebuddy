@@ -488,4 +488,31 @@ assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10",
   assert.strictEqual(L.recuperoAperto({ partecipa: false, recupero_fino: "2099-01-01" }), false);
 }
 
+// funnel "Entra nel gruppo"
+{
+  const nuovo = L.passiEntra({ classifiche: true, tempi: true });
+  assert.deepStrictEqual(nuovo.passi.map((p) => p.k), ["classifiche", "documenti", "tempi", "uscita", "gara", "notifiche"]);
+  assert.strictEqual(nuovo.totale, 6); assert.strictEqual(nuovo.fatti, 0);
+  assert.strictEqual(L.prossimoEntra(nuovo), "classifiche");
+  assert.strictEqual(L.prossimoEntra(nuovo, "classifiche"), "documenti");
+  // senza classifiche accese e senza ricerca dei tempi: quattro passi
+  assert.deepStrictEqual(L.passiEntra({}).passi.map((p) => p.k), ["documenti", "uscita", "gara", "notifiche"]);
+  // chi è già nel gruppo e ha già fatto tutto vede solo le classifiche e i tempi
+  const vecchio = L.passiEntra({ classifiche: true, tempi: true, documenti: true, ora: true, zona: true, garaFutura: true, notifiche: true });
+  assert.strictEqual(vecchio.fatti, 4);
+  assert.strictEqual(L.prossimoEntra(vecchio), "classifiche");
+  assert.strictEqual(L.prossimoEntra(vecchio, "classifiche"), "tempi");
+  assert.strictEqual(L.prossimoEntra(vecchio, "tempi"), null);
+  // saltati: valgono come fatti; gli obbligatori rimasti indietro tornano in fondo
+  const s1 = L.passiEntra({ classifiche: true, tempi: true, saltati: { classifiche: true, tempi: true, gara: true }, notifiche: true });
+  assert.strictEqual(L.prossimoEntra(s1, "notifiche"), "documenti");
+  assert.strictEqual(L.prossimoEntra(s1, "documenti"), "uscita");
+  assert.strictEqual(s1.obbligatoriFatti, false);
+  // non tesserato: il passo dei documenti è fatto e non obbligatorio
+  const nt = L.passiEntra({ nonTesserato: true, ora: true, zona: true });
+  assert.ok(nt.passi[0].fatto && !nt.passi[0].obbligatorio && nt.obbligatoriFatti);
+  assert.strictEqual(L.prossimoEntra(nt), "gara");
+  assert.strictEqual(L.prossimoEntra(L.passiEntra({ documenti: true, ora: true, zona: true, garaFutura: true, notifiche: true })), null);
+}
+
 console.log("ok");

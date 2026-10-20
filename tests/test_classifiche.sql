@@ -21,6 +21,8 @@ begin
   begin perform public.admin_classifiche(b, true); assert false, 'membro accende';
   exception when others then if sqlerrm not like '%amministratori%' then raise; end if; end;
   perform public.admin_classifiche(a, true);
+  j := public.info_invito(cod);
+  assert (j->>'classifiche')::boolean and (j->>'partecipanti')::int = 0 and (j->>'membri')::int = 3, 'invito con classifiche: ' || j::text;
   j := public.stato_classifiche(b);
   assert (j->>'attive')::boolean and not (j->'io'->>'partecipa')::boolean and json_array_length(j->'risultati') = 0, 'acceso, non partecipa';
   perform public.partecipa_classifiche(a, true);

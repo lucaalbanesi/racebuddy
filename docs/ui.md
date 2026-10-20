@@ -91,6 +91,16 @@ e video scelti per fase e distanza.
 Senza gruppo: entrare con il codice d'invito o crearne uno. Dentro: in cima i personali del gruppo (una distanza per volta, primi 3 e la tua posizione, classifica completa), poi le gare in comune; bacheca nascosta per ora. Classifica
 dei personali (solo per chi sceglie di comparire), gestione per admin e organizzatori.
 
+### Entra nel gruppo (funnel dall'invito)
+
+| <img src="img/ui/entra-invito.png" width="220" alt="L'invito"> | <img src="img/ui/entra-tempi.png" width="220" alt="Sei tu? I tuoi tempi"> | <img src="img/ui/entra-dentro.png" width="220" alt="Sei dentro"> | <img src="img/ui/gestione.png" width="220" alt="Gestione del gruppo"> |
+|---|---|---|---|
+
+Dal link d'invito (su iPhone in Safari prima la Home, con il codice da copiare e incollare nell'app): nome e cognome,
+poi `#/entra/:passo` con "x di 6" (classifiche, tessera e certificato, "Sei tu?" con i tempi, quando e dove corri,
+la prossima gara tra quelle del gruppo, notifiche) e "Sei dentro". I passi già fatti si saltano; se si interrompe
+riparte dalla scheda in Oggi. Chi è già nel gruppo la ritrova in Oggi quando l'amministratore accende le classifiche.
+
 ### Classifiche della stagione (fase 1)
 
 | <img src="img/ui/classifiche-gruppo.png" width="220" alt="Gruppo con le classifiche accese"> | <img src="img/ui/classifiche-recupero.png" width="220" alt="Recupera le tue gare"> | <img src="img/ui/classifiche-albo.png" width="220" alt="Albo d'oro della mezza"> | <img src="img/ui/classifiche-gestione.png" width="220" alt="Gestione: interruttore e coda Da approvare"> |
