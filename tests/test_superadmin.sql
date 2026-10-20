@@ -20,6 +20,11 @@ begin
   assert not exists (select 1 from public.membri where gruppo_id = g1 and nome = 'Luca'), 'uscito dal gruppo Uno';
   assert exists (select 1 from public.gruppi where id = g1), 'il gruppo Uno resta con Anna';
   perform public.admin_classifiche(x, true);
+  -- declassato a membro: torna amministratore restando nel gruppo
+  update public.membri set ruolo = 'membro' where token_hash = public._hash(x);
+  assert (select e->>'ruolo' from json_array_elements(public.super_gruppi(x)) e where (e->>'qui')::boolean) = 'membro', 'ruolo visibile';
+  perform public.super_vai(x, g2, 'Luca');
+  assert (public.stato_gruppo(x)->'io'->>'ruolo') = 'admin' and (public.stato_gruppo(x)->'gruppo'->>'nome') = 'Gruppo Due', 'di nuovo admin, stesso gruppo';
   -- ultimo membro di un gruppo: spostandosi il gruppo vuoto sparisce
   perform public.esci_gruppo(b);
   j := public.crea_gruppo(repeat('v', 40), 'Gruppo Tre', 'Carla');

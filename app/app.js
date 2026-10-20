@@ -1818,7 +1818,7 @@
     const l = SUPER.gruppi || [];
     return `${testa}<p class="sub">Entri in qualunque gruppo come amministratore, senza invito. Un telefono sta in un solo gruppo: spostandoti esci da quello di prima (i tuoi risultati lì si cancellano; un gruppo rimasto vuoto sparisce). Nel nuovo gruppo riparte il percorso "Entra nel gruppo".</p>
       <section class="card" style="gap:0">${l.length ? l.map((g) => `<div class="post"><span style="flex:1;min-width:0"><b>${esc(g.nome)}</b><br><span class="small muted">${g.membri} ${g.membri === 1 ? "membro" : "membri"} · classifiche ${g.classifiche ? `accese, ${g.partecipanti} partecipano` : "spente"}</span></span>
-        ${g.qui ? `<span class="pill ok">Sei qui</span>` : `<button class="btn ghost small" data-act="super-vai" data-id="${esc(g.id)}" data-nome="${esc(g.nome)}">Entra</button>`}</div>`).join("") : `<span class="small">Nessun gruppo.</span>`}</section>`;
+        ${g.qui && g.ruolo === "admin" ? `<span class="pill ok">Sei qui · admin</span>` : g.qui ? `<button class="btn small" data-act="super-vai" data-qui="1" data-id="${esc(g.id)}" data-nome="${esc(g.nome)}">Torna admin</button>` : `<button class="btn ghost small" data-act="super-vai" data-id="${esc(g.id)}" data-nome="${esc(g.nome)}">Entra</button>`}</div>`).join("") : `<span class="small">Nessun gruppo.</span>`}</section>`;
   }
 
   function gareInComune() {
@@ -2616,13 +2616,14 @@
     }
     if (act === "super-vai") {
       const qui = GD() ? GD().gruppo.nome : "";
-      confirmBox(t, `${qui ? `Esci da «${qui}» ed entri` : "Entri"} in «${t.dataset.nome}» come amministratore?`, async () => {
+      const resta = !!t.dataset.qui;
+      confirmBox(t, resta ? `Torni amministratore di «${t.dataset.nome}»?` : `${qui ? `Esci da «${qui}» ed entri` : "Entri"} in «${t.dataset.nome}» come amministratore?`, async () => {
         try {
           const tk = token();
           await rpc("super_vai", { p_token: tk, p_gruppo: t.dataset.id, p_nome: (S.profilo.nome || "Luca").trim() });
-          S.gruppo = { token: tk, dentro: true, entra: { dal: oggi(), saltati: {} } }; salva();
+          if (!resta) { S.gruppo = { token: tk, dentro: true, entra: { dal: oggi(), saltati: {} } }; salva(); }
           SUPER = null; CODA = null; await aggiornaGruppo(true); await aggiornaClassifiche();
-          toast(`Sei in «${t.dataset.nome}» come amministratore`); location.hash = "#/gruppo";
+          toast(resta ? "Sei di nuovo amministratore" : `Sei in «${t.dataset.nome}» come amministratore`); location.hash = resta ? "#/gruppo/admin" : "#/gruppo";
         } catch (e) { toast(e.message || "Non riuscito"); rerender(); }
       });
       return;
