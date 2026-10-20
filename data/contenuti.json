@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-10-19",
+ "aggiornato": "2026-10-20",
  "contenuti": [
   {
    "id": "d3e75696d1ad",
@@ -152,6 +152,22 @@
    ]
   },
   {
+   "id": "99144d3d7422",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Francesco Puppi vince i Templiers, Ruth Croft domina la Diagonale des Fous",
+   "estratto": "Pur non in condizioni perfette, Francesco Puppi domina nella classica francese. Sull'isola de La Réunion, torna alla vittoria Ruth Croft. Hugo Deck vince al maschile",
+   "link": "https://www.runnersworld.com/it/trail/ultra-trail/a74179249/francesco-puppi-templiers/",
+   "data": "2026-10-19",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/puppi-western-states-6939a2073ed77.jpeg",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
    "id": "85536e498f73",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -299,6 +315,23 @@
    "data": "2026-10-19",
    "immagine": "https://podisti.net/wp-content/uploads/2026/10/DSC_25052.jpg",
    "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "8262450b166e",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Cavaria con Premezzo (VA) – 112esima edizione della 7 Campanili",
+   "estratto": "La Sette Campanili non teme il meteo: successo ed entusiasmo per l’edizione 2026 18 ottobre 2026. Un cielo incerto e la minaccia della pioggia non sono bastati a fermare il popolo…",
+   "link": "https://podisti.net/cavaria-con-premezzo-va-112esima-edizione-della-7-campanili/",
+   "data": "2026-10-19",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/Cavaria-7-Campanili-2026.jpg",
+   "argomenti": [
+    "gara",
+    "abbigliamento"
+   ],
    "distanze": [],
    "fasi": []
   },
@@ -4325,36 +4358,6 @@
     "si_parte",
     "gara"
    ]
-  },
-  {
-   "id": "6c8caf539775",
-   "tipo": "video",
-   "fonte": "Andrea Vignone",
-   "fonteId": "yt_crazyvigno",
-   "titolo": "NON SOLO BATTERIE AL LITIO! 🔋 impianto elettrico COMPLETO e i SERVIZI su misura di LITIO.STORE",
-   "estratto": "NON SOLO BATTERIE AL LITIO! 🔋 impianto elettrico COMPLETO e i SERVIZI su misura di LITIO.STORE 👉 Scopri Litio.Store e tutti i prodotti…",
-   "link": "https://www.youtube.com/watch?v=IYGU6RVB_4k",
-   "data": "2026-08-20",
-   "immagine": "https://i2.ytimg.com/vi/IYGU6RVB_4k/hqdefault.jpg",
-   "argomenti": [
-    "racconti"
-   ],
-   "distanze": [],
-   "fasi": []
-  },
-  {
-   "id": "481eb15838e6",
-   "tipo": "video",
-   "fonte": "Riccardo Bugari · Running Bug",
-   "fonteId": "yt_runningbug",
-   "titolo": "Altra - Vanish Carbon 3 🔥🔥 #running #shoes #altrarunning",
-   "estratto": "",
-   "link": "https://www.youtube.com/shorts/vkKpB7xm8rc",
-   "data": "2026-08-20",
-   "immagine": "https://i3.ytimg.com/vi/vkKpB7xm8rc/hqdefault.jpg",
-   "argomenti": [],
-   "distanze": [],
-   "fasi": []
   }
  ]
 }
