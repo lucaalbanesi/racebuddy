@@ -577,3 +577,8 @@ body.chat-on .app { padding-bottom: 150px; }
 .switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 26px; height: 26px; border-radius: 50%; background: #fff; transition: transform .15s; box-shadow: 0 1px 2px #0003; }
 .switch:checked { background: var(--ok); }
 .switch:checked::after { transform: translateX(20px); }
+/* Io: rivedi i percorsi guidati */
+.riga-percorso { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line2); }
+.riga-percorso > span:last-child { color: var(--accent); font-size: 22px; font-weight: 700; }
+.rivedi-banner { display: flex; justify-content: space-between; align-items: center; background: var(--navy); color: var(--navy-fg); border-radius: 12px; padding: 8px 14px; font-size: 14px; font-weight: 600; }
+.rivedi-banner a { color: var(--accent-on-dark); }
