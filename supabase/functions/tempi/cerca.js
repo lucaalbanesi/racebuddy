@@ -10,6 +10,13 @@
 //   Risposta: { persone: [{ id, fonte, nome, societa, codice, categoria, risultati: [...] }], fonti: { gpl, fidal } }
 //
 // Il nome serve solo alla ricerca: non si salva da nessuna parte. Si interroga una pagina per volta, solo su richiesta.
+//
+// POST {azione:"certifica", nome, cognome[, anno][, codice], persone:[id], risultati:[id]}  (classifiche del gruppo)
+//   Con il codice del telefono nell'intestazione x-racebuddy-token. Rifà la stessa ricerca, tiene solo i risultati
+//   scelti delle persone scelte (quelli che esistono davvero nelle classifiche ufficiali) e li registra nel database con
+//   la chiave segreta (funzione _registra_certificati: certificati se il nome cercato è quello del membro, altrimenti al
+//   referente). Il telefono non può scrivere un risultato certificato da solo. Nel database va l'impronta del codice,
+//   mai il codice. Risposta: { certificati, in_approvazione, saltati, righe }.
 
 export const GPL = "https://www.garepodistichelazio.it";
 export const FIDAL = "https://www.fidal.it";
@@ -155,6 +162,50 @@ export function crea(env = {}, fetchImpl = fetch, adesso = () => new Date()) {
     }));
   }
 
+  async function cerca(nome, cognome, anno, codice) {
+    const [gpl, fidal] = await Promise.allSettled([cercaGpl(nome, cognome, anno), cercaFidal(nome, cognome, codice)]);
+    const persone = [...(gpl.status === "fulfilled" ? gpl.value : []), ...(fidal.status === "fulfilled" ? fidal.value : [])].filter((p) => p.gare > 0);
+    return { persone, fonti: { gpl: gpl.status === "fulfilled" ? "ok" : "errore", fidal: fidal.status === "fulfilled" ? "ok" : "errore" } };
+  }
+
+  // impronta del codice segreto del telefono, come public._hash nel database (sha256 esadecimale)
+  async function impronta(req) {
+    const t = req.headers.get("x-racebuddy-token") || "";
+    if (t.length < 32 || t.length > 200) return null;
+    const h = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(t));
+    return [...new Uint8Array(h)].map((x) => x.toString(16).padStart(2, "0")).join("");
+  }
+
+  async function certifica(req, b, nome, cognome, anno, codice) {
+    if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) return json({ errore: "certificazione non configurata" }, 503);
+    const hash = await impronta(req);
+    if (!hash) return json({ errore: "manca il codice del telefono" }, 401);
+    const idOk = (x) => typeof x === "string" && x.length <= 200;
+    const chiPersone = Array.isArray(b.persone) ? b.persone.filter(idOk).slice(0, 8) : [];
+    const chiRisultati = Array.isArray(b.risultati) ? b.risultati.filter(idOk).slice(0, 200) : [];
+    if (!chiPersone.length || !chiRisultati.length) return json({ errore: "scegli persone e risultati" }, 400);
+    const { persone } = await cerca(nome, cognome, anno, codice);
+    // Gare Podistiche Lazio prima di FIDAL: a parità di gara vince quella con il nome della gara
+    const righe = [], viste = new Set();
+    for (const p of persone.filter((x) => chiPersone.includes(x.id)).sort((x, y) => (x.fonte === "gpl" ? -1 : 0) - (y.fonte === "gpl" ? -1 : 0))) {
+      for (const r of p.risultati.filter((x) => chiRisultati.includes(x.id))) {
+        const k = `${r.data}:${r.distanza}`;
+        if (viste.has(k)) continue;
+        viste.add(k);
+        righe.push({ data: r.data, distanza: r.distanza, secondi: r.secondi, gara_nome: r.gara || r.luogo || "", fonte: r.fonte, categoria: r.categoria || p.categoria || "", societa: p.societa || "" });
+      }
+    }
+    if (!righe.length) return json({ certificati: 0, in_approvazione: 0, saltati: 0, righe: 0 });
+    const r = await fetchImpl(`${env.SUPABASE_URL}/rest/v1/rpc/_registra_certificati`, { method: "POST",
+      headers: { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: `Bearer ${env.SUPABASE_SERVICE_ROLE_KEY}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ p_hash: hash, p_nome: `${nome} ${cognome}`, p_righe: righe }) });
+    const testoR = await r.text();
+    let j = {};
+    try { j = JSON.parse(testoR); } catch (_e) { j = {}; }
+    if (!r.ok) return json({ errore: String(j.message || "non registrato").slice(0, 160) }, r.status >= 500 ? 502 : 400);
+    return json({ ...j, righe: righe.length });
+  }
+
   return async function (req) {
     if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
     if (req.method !== "POST") return json({ errore: "solo POST" }, 405);
@@ -165,8 +216,7 @@ export function crea(env = {}, fetchImpl = fetch, adesso = () => new Date()) {
     const nome = b.nome.trim().replace(/\s+/g, " "), cognome = b.cognome.trim().replace(/\s+/g, " ");
     const anno = Number.isInteger(b.anno) && b.anno >= PRIMO_ANNO_GPL && b.anno <= adesso().getFullYear() ? b.anno : null;
     const codice = typeof b.codice === "string" && /^[A-Z]{2}\d{1,4}$/i.test(b.codice) ? b.codice.toUpperCase() : "";
-    const [gpl, fidal] = await Promise.allSettled([cercaGpl(nome, cognome, anno), cercaFidal(nome, cognome, codice)]);
-    const persone = [...(gpl.status === "fulfilled" ? gpl.value : []), ...(fidal.status === "fulfilled" ? fidal.value : [])].filter((p) => p.gare > 0);
-    return json({ persone, fonti: { gpl: gpl.status === "fulfilled" ? "ok" : "errore", fidal: fidal.status === "fulfilled" ? "ok" : "errore" } });
+    if (b.azione === "certifica") return certifica(req, b, nome, cognome, anno, codice);
+    return json(await cerca(nome, cognome, anno, codice));
   };
 }

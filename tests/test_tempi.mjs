@@ -1,6 +1,7 @@
 // Test della funzione "tempi": node tests/test_tempi.mjs
 // Le pagine in tests/fixtures/tempi sono vere (ottobre 2026) ma ridotte e anonime: nomi e link cambiati.
 import assert from "assert";
+import crypto from "crypto";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -101,5 +102,50 @@ assert.strictEqual((await post({ nome: "Luigi" })).status, 400);
 assert.strictEqual((await post({ nome: "x".repeat(60), cognome: "Verdi" })).status, 400);
 assert.strictEqual((await h(new Request("https://x", { method: "GET" }))).status, 405);
 assert.ok((await post({ nome: "Maria Grazia", cognome: "D'Angelo" })).status === 200, "nomi composti e apostrofi");
+
+// certificazione (classifiche del gruppo): rifà la ricerca, tiene solo i risultati scelti e li scrive con la chiave segreta
+const scritte = [];
+const conDb = async (url, opt = {}) => {
+  if (String(url).includes("/rest/v1/rpc/_registra_certificati")) {
+    scritte.push({ url, opt, corpo: JSON.parse(opt.body) });
+    return new Response(JSON.stringify({ certificati: JSON.parse(opt.body).p_righe.length, in_approvazione: 0, saltati: 0 }), { status: 200 });
+  }
+  return finta(url);
+};
+const env = { SUPABASE_URL: "https://db.esempio", SUPABASE_SERVICE_ROLE_KEY: "segreta" };
+const hc = T.crea(env, conDb, () => new Date("2026-10-18T19:00:00"));
+const tok = "a".repeat(64);
+const certifica = (corpo, token = tok) => hc(new Request("https://x/functions/v1/tempi", { method: "POST", headers: token ? { "x-racebuddy-token": token } : {}, body: JSON.stringify({ azione: "certifica", ...corpo }) }));
+j = await (await post({ nome: "Luigi", cognome: "Verdi" })).json();
+const pg = j.persone.find((x) => x.fonte === "gpl"), scelto = pg.risultati.find((x) => x.distanza === "42");
+r = await certifica({ nome: "Luigi", cognome: "Verdi", persone: [pg.id], risultati: [scelto.id, "gpl:2026-01-01:10:9999", pg.risultati[0].id, pg.risultati[0].id] });
+j = await r.json();
+assert.strictEqual(r.status, 200, JSON.stringify(j));
+assert.strictEqual(scritte.length, 1);
+const w = scritte[0];
+assert.strictEqual(w.opt.headers.apikey, "segreta", "scrive con la chiave segreta");
+assert.strictEqual(w.corpo.p_nome, "Luigi Verdi");
+assert.strictEqual(w.corpo.p_hash, crypto.createHash("sha256").update(tok).digest("hex"), "nel database solo l'impronta");
+assert.ok(!JSON.stringify(w.corpo).includes(tok), "mai il codice");
+assert.strictEqual(w.corpo.p_righe.length, 2, "solo i risultati veri e scelti, senza doppioni");
+assert.deepStrictEqual(w.corpo.p_righe.find((x) => x.distanza === "42"), { data: scelto.data, distanza: "42", secondi: scelto.secondi, gara_nome: scelto.gara, fonte: "gpl", categoria: scelto.categoria, societa: "Podistica Esempio" });
+assert.strictEqual(j.righe, 2);
+// FIDAL: il nome della gara è la città
+j = await (await post({ nome: "Luigi", cognome: "Verdi" })).json();
+const pf = j.persone.find((x) => x.fonte === "fidal" && x.risultati.length), rf = pf.risultati[0];
+scritte.length = 0;
+r = await certifica({ nome: "Luigi", cognome: "Verdi", persone: [pf.id], risultati: [rf.id] });
+assert.strictEqual(r.status, 200);
+assert.strictEqual(scritte[0].corpo.p_righe[0].gara_nome, rf.luogo);
+assert.strictEqual(scritte[0].corpo.p_righe[0].fonte, "fidal");
+// senza codice del telefono, senza scelte, senza database
+assert.strictEqual((await certifica({ nome: "Luigi", cognome: "Verdi", persone: [pg.id], risultati: [scelto.id] }, "")).status, 401);
+assert.strictEqual((await certifica({ nome: "Luigi", cognome: "Verdi", persone: [], risultati: [scelto.id] })).status, 400);
+assert.strictEqual((await T.crea({}, conDb)(new Request("https://x", { method: "POST", headers: { "x-racebuddy-token": tok }, body: JSON.stringify({ azione: "certifica", nome: "Luigi", cognome: "Verdi", persone: [pg.id], risultati: [scelto.id] }) }))).status, 503);
+// il database rifiuta (per esempio: non partecipi): l'errore arriva al telefono
+const rifiuta = T.crea(env, async (url, opt) => (String(url).includes("rpc/") ? new Response(JSON.stringify({ message: "non partecipi alle classifiche" }), { status: 400 }) : finta(url)), () => new Date("2026-10-18T19:00:00"));
+r = await rifiuta(new Request("https://x", { method: "POST", headers: { "x-racebuddy-token": tok }, body: JSON.stringify({ azione: "certifica", nome: "Luigi", cognome: "Verdi", persone: [pg.id], risultati: [scelto.id] }) }));
+assert.strictEqual(r.status, 400);
+assert.strictEqual((await r.json()).errore, "non partecipi alle classifiche");
 
 console.log("ok");

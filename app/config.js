@@ -14,4 +14,7 @@ window.RB_CONFIG = {
   tempi: true,
   // Buddy, la chat AI su scarpe, integratori e allenamento (Edge Function "buddy", Groq).
   buddy: true,
+  // Classifiche del gruppo (fase 1: Gare corse, PB della stagione, Albo d'oro con i tempi certificati). Restano spente
+  // finché l'amministratore non le accende in Gestione; servono docs/supabase_classifiche.sql e la funzione "tempi".
+  classifiche: true,
 };

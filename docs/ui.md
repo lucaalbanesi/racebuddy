@@ -91,6 +91,16 @@ e video scelti per fase e distanza.
 Senza gruppo: entrare con il codice d'invito o crearne uno. Dentro: in cima i personali del gruppo (una distanza per volta, primi 3 e la tua posizione, classifica completa), poi le gare in comune; bacheca nascosta per ora. Classifica
 dei personali (solo per chi sceglie di comparire), gestione per admin e organizzatori.
 
+### Classifiche della stagione (fase 1)
+
+| <img src="img/ui/classifiche-gruppo.png" width="220" alt="Gruppo con le classifiche accese"> | <img src="img/ui/classifiche-recupero.png" width="220" alt="Recupera le tue gare"> | <img src="img/ui/classifiche-albo.png" width="220" alt="Albo d'oro della mezza"> | <img src="img/ui/classifiche-gestione.png" width="220" alt="Gestione: interruttore e coda Da approvare"> |
+|---|---|---|---|
+
+Accese dall'amministratore in Gestione; ognuno sceglie "Partecipo" (`#/gruppo/partecipa`). Al posto dei personali:
+Gare corse, PB della stagione e Albo d'oro (`#/gruppo/classifiche`), solo con tempi certificati. Chi entra recupera
+le gare già corse dalle classifiche ufficiali (`#/gruppo/recupero`); i tempi non trovati vanno al referente
+(coda "Da approvare" in Gestione).
+
 ## Io
 
 <img src="img/ui/io.png" width="280" alt="Schermata Io">

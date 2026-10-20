@@ -22,7 +22,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Ruoli come su Supabase
-        run: psql -v ON_ERROR_STOP=1 -c "create role anon nologin; create role authenticated nologin; grant usage on schema public to anon, authenticated; create schema extensions;"
+        run: psql -v ON_ERROR_STOP=1 -c "create role anon nologin; create role authenticated nologin; create role service_role nologin; grant usage on schema public to anon, authenticated, service_role; create schema extensions;"
       - name: Schema del gruppo
         run: psql -v ON_ERROR_STOP=1 -f docs/supabase_gruppo.sql
       - name: Prove
@@ -30,6 +30,13 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f tests/test_gruppo.sql > esito.txt 2>&1 || true
           cat esito.txt
           if ! grep -q "permessi ok" esito.txt; then echo "::error::$(grep -iE 'error|errore|assert|context|line' esito.txt | head -6 | tr '\n' ' ')"; exit 1; fi
+      - name: Classifiche (fase 1)
+        run: |
+          psql -v ON_ERROR_STOP=1 -f docs/supabase_classifiche.sql
+          psql -v ON_ERROR_STOP=1 -f docs/supabase_classifiche.sql   # ripetibile
+          psql -v ON_ERROR_STOP=1 -f tests/test_classifiche.sql > esito7.txt 2>&1 || true
+          cat esito7.txt
+          if ! grep -q "permessi classifiche ok" esito7.txt; then echo "::error::classifiche: $(grep -iE 'error|errore|assert|context|line' esito7.txt | head -6 | tr '\n' ' ')"; exit 1; fi
       - name: Statistiche
         run: |
           psql -v ON_ERROR_STOP=1 -f docs/supabase.sql
