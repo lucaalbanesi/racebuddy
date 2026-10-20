@@ -431,7 +431,10 @@
   const ORDINE_FUNNEL = ["ora", "zona", "documenti", "notifiche", "gara"];
   const statoPrepara = () => L.passiPrepara({ profilo: S.profilo, documenti: S.documenti || {}, gare: S.gare, nonTesserato: !!S.nonTesserato }, oggi());
   const pushChiusa = () => !!(S.push && S.push.attivo) || ["no", "negato", "non-pronto"].includes(supportoPush());
+  let RIVEDI = null; // "prepara" | "entra": si rivede il funnel passo per passo, anche i passi già fatti
+  const bannerRivedi = () => RIVEDI ? `<div class="rivedi-banner"><span>Anteprima del percorso</span><a href="#/io">Esci</a></div>` : "";
   function prossimoPasso(dopo) {
+    if (RIVEDI === "prepara") { const i = dopo ? ORDINE_FUNNEL.indexOf(dopo) + 1 : 0; return ORDINE_FUNNEL[i] || null; }
     const st = statoPrepara(), fatto = Object.fromEntries(st.passi.map((x) => [x.k, x.fatto]));
     fatto.notifiche = pushChiusa();
     if (S.nonTesserato) fatto.documenti = true;
@@ -505,7 +508,8 @@
         <ul class="passi">${st.passi.map((x) => `<li class="${x.fatto ? "ok" : ""}"><span class="pallino" aria-hidden="true">${x.fatto ? "✓" : ""}</span><span>${esc(x.titolo)}${x.obbligatorio ? "" : ' <span class="muted">· facoltativa</span>'}</span></li>`).join("")}<li class="${on ? "ok" : ""}"><span class="pallino" aria-hidden="true">${on ? "✓" : ""}</span><span>Notifiche</span></li></ul>
         <a class="btn block" href="#/oggi">Vai a Oggi</a>`;
     }
-    return `${testa(k === "fine" ? "Prepara RaceBuddy" : passoN)}<div class="funnel">${corpo}</div>`;
+    if (k === "fine") RIVEDI = null;
+    return `${bannerRivedi()}${testa(k === "fine" ? "Prepara RaceBuddy" : passoN)}<div class="funnel">${corpo}</div>`;
   }
 
   // ---------------------------------------------------------------- posizione dal GPS
@@ -1588,8 +1592,13 @@
     return L.passiEntra({ classifiche: clAttive(), partecipa: partecipo(), documenti: f.documenti, nonTesserato: !!S.nonTesserato, tempi: !!C().tempi,
       tempiFatti: !!e.tempi, ora: f.ora, zona: f.zona, garaFutura: f.gara, notifiche: pushChiusa(), saltati: e.saltati || {} });
   }
-  const vaiEntra = (dopo) => { location.hash = `#/entra/${L.prossimoEntra(statoEntra(), dopo) || "fine"}`; };
-  const saltaEntra = (k) => { ENTRA().saltati = { ...(ENTRA().saltati || {}), [k]: true }; salva(); vaiEntra(k); };
+  function prossimoEntra(st, dopo) {
+    if (RIVEDI !== "entra") return L.prossimoEntra(st, dopo);
+    const ks = st.passi.map((x) => x.k), i = dopo ? ks.indexOf(dopo) + 1 : 0;
+    return ks[i] || null;
+  }
+  const vaiEntra = (dopo) => { location.hash = `#/entra/${prossimoEntra(statoEntra(), dopo) || "fine"}`; };
+  const saltaEntra = (k) => { if (!RIVEDI) { ENTRA().saltati = { ...(ENTRA().saltati || {}), [k]: true }; salva(); } vaiEntra(k); };
   // chi è già nel gruppo: quando l'amministratore accende le classifiche il funnel riparte (una volta sola)
   function proponiEntra() {
     const cl = CL(), e = S.gruppo && S.gruppo.entra;
@@ -1622,13 +1631,21 @@
 
   // L'invito: su iPhone fuori dalla Home prima la Home (l'app nella Home ha una memoria separata da Safari)
   let invitoInSafari = false;
-  function vistaInvito(codice) {
+  function vistaInvito(codice, param = {}) {
     if (!codice) return vistaSenzaGruppo();
+    const prova = codice === "anteprima" && S.gruppo && S.gruppo.dentro && GD();
+    if (prova) {
+      const d = GD(), adm = d.membri.find((m) => m.ruolo === "admin") || {};
+      return paginaInvito(d.gruppo.codice || "K7MPQ2XA", { nome: d.gruppo.nome, membri: d.membri.length, admin: String(adm.nome || "").split(/\s+/)[0], iniziali: d.membri.map((m) => m.nome), classifiche: clAttive(), partecipanti: (CL() || {}).partecipanti || 0 }, !!param.home);
+    }
     if (S.gruppo && S.gruppo.dentro) return `<section class="card"><span class="title">Sei già in un gruppo</span><span class="small">Per entrare in un altro, prima esci da quello attuale (Gruppo → Gestisci o Io).</span><a class="btn" href="#/gruppo">Vai al gruppo</a></section>`;
+    return paginaInvito(codice, null, false);
+  }
+  function paginaInvito(codice, infoProva, home) {
     const link = linkInvito(codice);
     setTimeout(async () => {
       try {
-        const info = await rpc("info_invito", { p_codice: codice });
+        const info = infoProva || await rpc("info_invito", { p_codice: codice });
         const tit = document.getElementById("inv-tit"), box = document.getElementById("invito-info");
         if (!info) { if (tit) tit.textContent = "Invito non valido"; if (box) box.innerHTML = `<p class="sub">Questo invito non è valido o è stato sostituito. Chiedi un link nuovo a chi ti ha invitato.</p>`; const f = document.getElementById("g-entra"); if (f) f.hidden = true; return; }
         if (tit) tit.textContent = `${info.admin || "Il gruppo"} ti ha invitato in «${info.nome}»`;
@@ -1639,10 +1656,10 @@
           ${vantaggio(ICO.bandiera, "Il tuo buddy fino al via", "Preparazione, borsa, meteo e scadenze della tessera")}</div>`;
       } catch (e) { const box = document.getElementById("invito-info"); if (box) box.innerHTML = `<p class="sub">Non riesco a leggere l'invito: controlla la connessione.</p>`; }
     }, 0);
-    if (iOS && !standalone() && !invitoInSafari) {
+    if (((iOS && !standalone()) || home) && !invitoInSafari) {
       const webview = !/Safari\//.test(navigator.userAgent);
       const passo = (n, t) => `<div class="passo-num"><span class="num">${n}</span><span>${t}</span></div>`;
-      return `<section class="entra-invito"><span class="ob-logo">RaceBuddy</span>
+      return `${bannerRivedi()}<section class="entra-invito"><span class="ob-logo">RaceBuddy</span>
         <h1 id="inv-tit">Ti hanno invitato nel gruppo</h1>
         <p class="sub" style="font-size:16px">Su iPhone RaceBuddy funziona come un'app: prima la metti nella Home, poi entri nel gruppo da lì.</p>
         <section class="card" style="gap:12px">${passo(1, `Tocca <b>Condividi</b> ${ICO_CONDIVIDI} nella barra di Safari`)}${passo(2, "Scegli <b>Aggiungi alla schermata Home</b>")}${passo(3, "Apri RaceBuddy dall'icona e tocca <b>Incolla l'invito</b>")}</section>
@@ -1652,9 +1669,9 @@
           <p class="small muted centro">Le notifiche su iPhone arrivano solo alle app nella Home.</p>
           <button class="link-btn small centro" type="button" data-act="inv-safari">Continua qui in Safari</button></div></section>`;
     }
-    return `<section class="entra-invito"><span class="ob-logo">RaceBuddy</span>
+    return `${bannerRivedi()}<section class="entra-invito"><span class="ob-logo">RaceBuddy</span>
       <div id="invito-info" style="display:flex;flex-direction:column;gap:12px"><h1 id="inv-tit">Leggo l'invito…</h1></div>
-      <form id="g-entra" data-codice="${esc(codice)}" class="piede">
+      <form id="g-entra" data-codice="${esc(codice)}" ${infoProva ? 'data-anteprima="1"' : ""} class="piede">
         <div class="card"><div class="field"><label for="g-io">Nome e cognome</label><input class="input" id="g-io" required maxlength="40" value="${esc(S.profilo.nome || "")}" placeholder="es. Mario Rossi" autocomplete="name"><span class="small muted">Così ti riconoscono i compagni e troviamo i tuoi tempi nelle classifiche.</span></div></div>
         <button class="btn block" type="submit">Entra nel gruppo</button>
         <p class="small muted centro">Tieni a portata la tessera FIDAL. Niente email né password: le tue gare e i personali si vedono nel gruppo, puoi cambiarlo da Io.</p></form></section>`;
@@ -1663,7 +1680,7 @@
   function vistaEntra(passo) {
     if (!S.gruppo || !S.gruppo.dentro) return vistaGruppo();
     const st = statoEntra(), ks = st.passi.map((x) => x.k);
-    const k = passo === "fine" || ks.includes(passo) ? passo : L.prossimoEntra(st) || "fine";
+    const k = passo === "fine" || ks.includes(passo) ? passo : prossimoEntra(st) || "fine";
     if (k === "fine") return vistaEntraFine(st);
     const i = ks.indexOf(k), prev = i > 0 ? `#/entra/${ks[i - 1]}` : "#/gruppo";
     const testa = `<header class="head-back">${back(prev)}<div style="min-width:0;flex:1"><span class="eyebrow">Entra nel gruppo · ${i + 1} di ${st.totale}</span><div class="funnel-barra" aria-hidden="true">${st.passi.map((x, j) => `<span class="${j === i ? "ora" : x.fatto ? "ok" : ""}"></span>`).join("")}</div></div></header>`;
@@ -1697,7 +1714,7 @@
         <section class="card vantaggi-lista">${vantaggio(ICO.tessera, "Tessera e certificato", "30, 15 e 2 giorni prima della scadenza")}${vantaggio(ICO.sole, "Il meteo della tua uscita", "solo quando cambia davvero")}${vantaggio(ICO.bandiera, "La tua gara", "novità ufficiali, vigilia, mattina del via, com'è andata")}</section>
         <div class="piede">${azione}<p class="small muted centro">Per mandarle salviamo online orario, zona e le tue gare, senza il tuo nome.</p></div>`;
     }
-    return `${testa}<div class="funnel funnel-pieno">${corpo}</div>`;
+    return `${bannerRivedi()}${testa}<div class="funnel funnel-pieno">${corpo}</div>`;
   }
 
   // Passo "Sei tu?": la ricerca parte da sola con il nome del gruppo; con un tocco personali e gare nelle classifiche
@@ -1752,7 +1769,8 @@
 
   // Arrivo: cosa è pronto (e cosa manca)
   function vistaEntraFine(st) {
-    const e = ENTRA(); if (!e.fine) { e.fine = oggi(); salva(); }
+    const e = RIVEDI ? (S.gruppo.entra || {}) : ENTRA(); if (!RIVEDI && !e.fine) { e.fine = oggi(); salva(); }
+    RIVEDI = null;
     const d = GD(), cl = CL(), o = oggi(), nome = String(S.profilo.nome || "").trim().split(/\s+/)[0];
     const riga = (ok, t, sotto = "") => `<li class="${ok ? "ok" : ""}"><span class="pallino" aria-hidden="true">${ok ? "✓" : ""}</span><span><b>${t}</b>${sotto ? `<br><span>${sotto}</span>` : ""}</span></li>`;
     const righe = [];
@@ -2395,7 +2413,12 @@
         <div class="grid2"><button class="btn" type="submit">Applica</button><button class="btn ghost" type="button" data-act="prova-off">Torna a oggi</button></div></form>
         <a class="small" href="#/statistiche" style="align-self:flex-start">Statistiche ›</a>
         <div id="reset-box" style="display:flex;flex-direction:column;gap:8px"><button class="btn ghost" type="button" data-act="reset-ask">Cancella tutti i miei dati</button></div></details>
-      <a class="btn ghost" href="#/benvenuto">Rivedi il tutorial</a>
+      <section class="card" aria-label="Rivedi i percorsi guidati" style="gap:0"><span class="eyebrow" style="margin-bottom:4px">Rivedi i percorsi guidati</span>
+        <a class="link-card riga-percorso" href="#/benvenuto"><span><b>Benvenuto</b><br><span class="small muted">Le 5 schermate del primo avvio</span></span><span aria-hidden="true">›</span></a>
+        <a class="link-card riga-percorso" href="#/prepara/ora?rivedi=1"><span><b>Prepara RaceBuddy</b><br><span class="small muted">Uscita, zona, tessera e certificato, notifiche, gara</span></span><span aria-hidden="true">›</span></a>
+        ${S.gruppo && S.gruppo.dentro && GD() ? `<a class="link-card riga-percorso" href="#/invito/anteprima?rivedi=1"><span><b>Entra nel gruppo</b><br><span class="small muted">Dall'invito ai 6 passi fino a "Sei dentro"</span></span><span aria-hidden="true">›</span></a>
+        <a class="link-card riga-percorso" href="#/invito/anteprima?rivedi=1&home=1"><span><b>Entra nel gruppo da iPhone</b><br><span class="small muted">Come lo vede chi apre l'invito in Safari</span></span><span aria-hidden="true">›</span></a>` : `<span class="small muted" style="padding-top:8px">Entra nel gruppo: lo rivedi quando sei in un gruppo.</span>`}
+        <span class="small muted" style="padding-top:8px">Ogni passo si vede dall'inizio, anche quelli già fatti. Quello che confermi si salva come sempre.</span></section>
       <p class="sub">Versione ${esc(window.RB_VERSION || "?")} · gare condivise: ${Object.keys(S.segnalate || {}).length} di ${S.gare.length}${S.erroreSegnala ? ` · ultimo errore: ${esc(S.erroreSegnala)}` : ""}</p>
       <p class="sub">Profilo, preparazione e scarpe restano su questo telefono.</p>`;
   }
@@ -2481,6 +2504,8 @@
     document.querySelectorAll("nav.tabs a").forEach((a) => a.setAttribute("aria-current", a.dataset.tab === ({ prepara: "oggi", aggiungi: "gare", gara: "gare", checklist: "gare", percorso: "gare", meteo: "oggi", pillole: "oggi", invito: "gruppo", entra: "gruppo", risultato: "oggi", pb: "io", tempi: "io", estera: "gare", statistiche: "io", condividi: "gare" }[tab] || tab) ? "page" : "false"));
     if (D.errore) { $app.innerHTML = `<section class="card"><span class="title">Qualcosa non va</span><span class="small">${esc(D.errore)}</span></section>`; return; }
     let html;
+    if (param.rivedi) { RIVEDI = tab === "prepara" ? "prepara" : "entra"; invitoInSafari = false; }
+    else if (!["prepara", "entra", "invito"].includes(tab)) RIVEDI = null;
     const benvenuto = !S.benvenuto && !S.gare.length && (tab === "oggi" || tab === "benvenuto");
     document.body.classList.toggle("onboarding", benvenuto);
     if (benvenuto || tab === "benvenuto") { $app.innerHTML = vistaBenvenuto(); document.body.classList.add("onboarding"); avviaBenvenuto(); return; }
@@ -2493,7 +2518,7 @@
         html = parts[1] === "gara" ? vistaGaraGruppo(parts[2]) : parts[1] === "classifica" ? vistaClassifica(param) : parts[1] === "admin" ? vistaAdmin()
           : parts[1] === "partecipa" ? vistaEntra("classifiche") : parts[1] === "recupero" ? vistaRecupero() : parts[1] === "classifiche" ? vistaClassifiche(param) : vistaGruppo();
         break;
-      case "invito": html = vistaInvito(parts[1]); break;
+      case "invito": html = vistaInvito(parts[1], param); break;
       case "entra": html = vistaEntra(parts[1]); break;
       case "estera": {
         const id = parts[1], ge = garaEsteraDati(id);
@@ -2522,7 +2547,7 @@
     if (entrata) { void $app.offsetWidth; $app.classList.add(entrata); entrata = null; }
     const seg = $app.querySelector('nav.seg[aria-label="Sezioni della gara"]'), att = seg && seg.querySelector('[aria-current="page"]');
     if (att) seg.scrollLeft = att.offsetLeft - (seg.clientWidth - att.offsetWidth) / 2;
-    const inv = tab === "invito" && !(S.gruppo && S.gruppo.dentro), fineEntra = tab === "entra" && parts[1] === "fine" && S.gruppo && S.gruppo.dentro;
+    const inv = tab === "invito" && (!(S.gruppo && S.gruppo.dentro) || parts[1] === "anteprima"), fineEntra = tab === "entra" && parts[1] === "fine" && S.gruppo && S.gruppo.dentro;
     document.body.classList.toggle("onboarding", !!fineEntra);
     document.body.classList.toggle("funnel-on", tab === "prepara" || (tab === "entra" && !fineEntra) || inv);
     document.body.classList.toggle("chat-on", tab === "buddy" && !!C().buddy);
@@ -2666,6 +2691,8 @@
     } else if (act === "apri-contenuto") {
       S.letti = S.letti || {}; S.letti["c:" + t.dataset.id] = oggi(); salva(); // il link si apre comunque
       return;
+    } else if (act === "non-tesserato" && RIVEDI && t.dataset.dalFunnel) {
+      if (t.dataset.dalFunnel === "entra") vaiEntra("documenti"); else vaiPasso("documenti");
     } else if (act === "non-tesserato") {
       S.nonTesserato = true; salva();
       toast("Ok: tessera e certificato li puoi aggiungere quando vuoi da Io");
@@ -3021,6 +3048,8 @@
     } else if (f.id === "g-codice") {
       const c = (v("g-cod").match(/([A-Z2-9]{8})\s*$/i) || [])[1];
       if (c) location.hash = `#/invito/${c.toUpperCase()}`; else toast("Codice non valido: sono 8 caratteri");
+    } else if (f.id === "g-entra" && f.dataset.anteprima) {
+      location.hash = "#/entra";
     } else if (f.id === "g-crea" || f.id === "g-entra") {
       const nome = v("g-io").trim(), btn = f.querySelector("button[type=submit]"); btn.disabled = true;
       (async () => {
