@@ -1,5 +1,7 @@
 # Assistenza: rende di nuovo amministratore un membro di un gruppo (per esempio dopo "Cancella tutti i miei dati").
 # Senza "membro" elenca solo i membri del gruppo (nome, ruolo, quando è entrato) per scegliere l'id giusto.
+# Con "superadmin" il telefono di quel membro diventa superamministratore (docs/supabase_superadmin.sql): admin ovunque e
+# libero di spostarsi in qualunque gruppo da Io → Strumenti di prova.
 name: Amministratore del gruppo (assistenza)
 on:
   workflow_dispatch:
@@ -11,6 +13,10 @@ on:
         description: "Id del membro da nominare amministratore (vuoto = solo elenco)"
         required: false
         default: ""
+      superadmin:
+        description: "Rendi superamministratore il telefono di questo membro"
+        type: boolean
+        default: false
 jobs:
   admin:
     runs-on: ubuntu-latest
@@ -23,11 +29,15 @@ jobs:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           GRUPPO: ${{ inputs.gruppo }}
           MEMBRO: ${{ inputs.membro }}
+          SUPER: ${{ inputs.superadmin }}
         run: |
           [[ "$GRUPPO" =~ ^[A-Za-z0-9\ ._-]{2,60}$ ]] || { echo "::error::nome del gruppo non valido"; exit 1; }
           if [ -n "$MEMBRO" ]; then
             [[ "$MEMBRO" =~ ^[0-9a-f-]{36}$ ]] || { echo "::error::id del membro non valido"; exit 1; }
             q="update public.membri m set ruolo = 'admin' from public.gruppi g where m.id = '$MEMBRO' and g.id = m.gruppo_id and g.nome ilike '%$GRUPPO%' returning g.nome as gruppo, m.nome, m.ruolo;"
+            if [ "$SUPER" = "true" ]; then
+              q="with s as (insert into public.superadmin (token_hash, nota) select m.token_hash, m.nome from public.membri m join public.gruppi g on g.id = m.gruppo_id where m.id = '$MEMBRO' and g.nome ilike '%$GRUPPO%' on conflict (token_hash) do update set nota = excluded.nota returning nota) select nota as superamministratore from s;"
+            fi
           else
             q="select g.nome as gruppo, g.classifiche, m.id, m.nome, m.ruolo, m.creato::date as entrato, m.visto from public.gruppi g left join public.membri m on m.gruppo_id = g.id where g.nome ilike '%$GRUPPO%' order by g.nome, m.creato desc;"
           fi
