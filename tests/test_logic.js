@@ -443,4 +443,49 @@ assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10",
   assert.ok(L.contestoBuddy({ oggi: "2026-10-14", fasi }).includes("Nessuna gara in programma."));
 }
 
+// classifiche del gruppo (fase 1)
+{
+  const R = (membro, data, distanza, secondi, categoria = "", mio = false) => ({ membro_id: membro, membro, mio, data, distanza, secondi, categoria, gara_nome: `Gara ${data}` });
+  const ris = [
+    R("Giulia", "2026-03-15", "21", 6400, "SF35"), R("Giulia", "2026-10-18", "21", 6350, "SF35"), R("Giulia", "2025-11-30", "42", 14500, "SF35"),
+    R("Giulia", "2026-10-04", "10", 2900, "SF35"),
+    R("Luca", "2025-10-19", "21", 6000, "SM45", true), R("Luca", "2026-03-22", "21", 5950, "SM45", true), R("Luca", "2026-10-18", "21", 5900, "SM45", true),
+    R("Marco", "2026-10-11", "10", 2500, "SM40"), R("Marco", "2026-10-18", "10", 2400, "SM40"), R("Marco", "2026-09-06", "21", 5600, "SM40"),
+    R("Sara", "2024-05-05", "10", 3000, ""),
+  ];
+  assert.strictEqual(L.sessoCategoria("SM45"), "M");
+  assert.strictEqual(L.sessoCategoria("sf"), "F");
+  assert.strictEqual(L.sessoCategoria("AF"), "F");
+  assert.strictEqual(L.sessoCategoria(""), "");
+  // gare corse nella stagione: Giulia 3, Marco 3, Luca 2; Sara (solo 2024) non compare
+  const gc = L.classificaGareCorse(ris, { anno: 2026 });
+  assert.deepStrictEqual(gc.map((x) => `${x.pos} ${x.membro} ${x.n}`), ["1 Giulia 3", "1 Marco 3", "3 Luca 2"]);
+  assert.deepStrictEqual(L.classificaGareCorse(ris, { mese: "2026-10" }).map((x) => `${x.pos} ${x.membro} ${x.n}`), ["1 Giulia 2", "1 Marco 2", "3 Luca 1"]);
+  // PB della stagione: Luca migliora due volte la mezza (riferimento del 2025), Giulia una (la prima mezza fissa il
+  // riferimento), Marco una sui 10 km; a parità vince chi è migliorato di più
+  const pb = L.classificaPBStagione(ris, 2026);
+  assert.deepStrictEqual(pb.map((x) => `${x.pos} ${x.membro} ${x.n}`), ["1 Luca 2", "2 Marco 1", "3 Giulia 1"]);
+  assert.ok(pb[1].perc > pb[2].perc, "Marco migliora di più in percentuale");
+  assert.strictEqual(L.classificaPBStagione(ris, 2025).length, 0, "nel 2025 nessuno migliora");
+  // albo d'oro: miglior tempo di sempre per atleta; filtro per sesso dalla categoria
+  assert.deepStrictEqual(L.alboDoro(ris, "21").map((x) => `${x.pos} ${x.membro} ${x.secondi}`), ["1 Marco 5600", "2 Luca 5900", "3 Giulia 6350"]);
+  assert.deepStrictEqual(L.alboDoro(ris, "21", "F").map((x) => x.membro), ["Giulia"]);
+  assert.deepStrictEqual(L.alboDoro(ris, "10").map((x) => x.membro), ["Marco", "Giulia", "Sara"]);
+  assert.deepStrictEqual(L.alboDoro(ris, "10", "M").map((x) => x.membro), ["Marco"], "senza categoria solo in tutti");
+  assert.deepStrictEqual(L.recordCategorie(ris, "21").map((x) => `${x.categoria} ${x.membro}`), ["SF35 Giulia", "SM40 Marco", "SM45 Luca"]);
+  // pari merito
+  assert.deepStrictEqual(L.conPosizioni([{ v: 5 }, { v: 5 }, { v: 3 }], (x) => x.v).map((x) => x.pos), [1, 1, 3]);
+  // le prime 3 e la tua riga
+  const lungo = ["A", "B", "C", "D", "E"].map((m, i) => ({ membro: m, mio: m === "E", pos: i + 1 }));
+  assert.deepStrictEqual(L.primiETu(lungo), { primi: lungo.slice(0, 3), tu: lungo[4] });
+  assert.strictEqual(L.primiETu(lungo.slice(0, 3).map((x, i) => ({ ...x, mio: i === 1 }))).tu, null);
+  // recupero: aperto nei 30 giorni; dopo solo le gare da una settimana prima dell'adesione
+  const io = { partecipa: true, dal: "2026-10-20T08:00:00Z", recupero_fino: "2026-11-19T08:00:00Z" };
+  const trovati = [{ data: "2024-04-07", distanza: "21", secondi: 6500 }, { data: "2026-10-18", distanza: "21", secondi: 6350 }, { data: "2026-11-30", distanza: "42", secondi: 14000 }];
+  assert.strictEqual(L.daRecuperare(trovati, io, [], new Date("2026-10-21")).length, 3);
+  assert.deepStrictEqual(L.daRecuperare(trovati, io, [], new Date("2026-12-10")).map((x) => x.data), ["2026-10-18", "2026-11-30"]);
+  assert.strictEqual(L.daRecuperare(trovati, io, [{ data: "2026-10-18", distanza: "21", secondi: 6350, stato: "certificato" }], new Date("2026-10-21")).length, 2, "già certificati esclusi");
+  assert.strictEqual(L.recuperoAperto({ partecipa: false, recupero_fino: "2099-01-01" }), false);
+}
+
 console.log("ok");

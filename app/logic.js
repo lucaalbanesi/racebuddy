@@ -669,7 +669,78 @@
     return righe.join("\n");
   }
 
-  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy };
+  // ---------------------------------------------------------------- classifiche del gruppo (fase 1)
+  // I risultati arrivano dal database: solo quelli certificati, con il tempo, di chi partecipa
+  // ({ membro_id, membro, mio, data, distanza, secondi, gara_nome, categoria }). Qui si fanno le classifiche.
+  /** Sesso dalla categoria FIDAL o di Gare Podistiche Lazio ("SM45", "SF", "PM", "AF"): seconda lettera. */
+  function sessoCategoria(cat) { const m = /^[A-Z]([MF])/.exec(String(cat || "").toUpperCase()); return m ? m[1] : ""; }
+  /** Posizioni con il pari merito: stessa chiave, stessa posizione (1, 2, 2, 4). */
+  function conPosizioni(lista, chiaveFn) {
+    let prec = null, pos = 0;
+    return lista.map((x, i) => { const k = chiaveFn(x); if (k !== prec) { pos = i + 1; prec = k; } return { ...x, pos }; });
+  }
+  const perMembro = (risultati) => {
+    const m = new Map();
+    for (const r of risultati || []) { if (!m.has(r.membro_id)) m.set(r.membro_id, { membro_id: r.membro_id, membro: r.membro, mio: !!r.mio, lista: [] }); m.get(r.membro_id).lista.push(r); }
+    return [...m.values()];
+  };
+  const ordineNome = (a, b) => String(a.membro).localeCompare(String(b.membro), "it");
+  /** Gare corse: quante gare concluse nella stagione (anno) o nel mese ("AAAA-MM"). Chi non ne ha non compare. */
+  function classificaGareCorse(risultati, { anno, mese } = {}) {
+    const dentro = (r) => (mese ? r.data.slice(0, 7) === mese : r.data.slice(0, 4) === String(anno));
+    const l = perMembro(risultati).map((m) => ({ membro_id: m.membro_id, membro: m.membro, mio: m.mio, n: m.lista.filter(dentro).length })).filter((x) => x.n > 0);
+    return conPosizioni(l.sort((a, b) => b.n - a.n || ordineNome(a, b)), (x) => x.n);
+  }
+  /** PB della stagione: quante volte nell'anno un atleta migliora il suo miglior tempo certificato precedente sulla stessa
+   *  distanza (anche di anni prima). La prima gara su una distanza fissa il riferimento e non conta. A parità vince chi è
+   *  migliorato di più in percentuale (somma dei miglioramenti). */
+  function classificaPBStagione(risultati, anno) {
+    const l = perMembro(risultati).map((m) => {
+      let n = 0, perc = 0;
+      for (const d of ["10", "21", "42"]) {
+        const gare = m.lista.filter((r) => r.distanza === d).sort((a, b) => (a.data < b.data ? -1 : a.data > b.data ? 1 : 0));
+        let meglio = null;
+        for (const r of gare) {
+          if (meglio !== null && r.secondi < meglio && r.data.slice(0, 4) === String(anno)) { n++; perc += ((meglio - r.secondi) / meglio) * 100; }
+          if (meglio === null || r.secondi < meglio) meglio = r.secondi;
+        }
+      }
+      return { membro_id: m.membro_id, membro: m.membro, mio: m.mio, n, perc: Math.round(perc * 10) / 10 };
+    }).filter((x) => x.n > 0);
+    return conPosizioni(l.sort((a, b) => b.n - a.n || b.perc - a.perc || ordineNome(a, b)), (x) => `${x.n}|${x.perc}`);
+  }
+  /** Albo d'oro: il miglior tempo di sempre di ogni atleta su una distanza, dal più veloce. sesso "M"/"F" filtra con la
+   *  categoria della gara (chi non ha categoria compare solo in "tutti"). */
+  function alboDoro(risultati, distanza, sesso = "") {
+    const l = perMembro((risultati || []).filter((r) => r.distanza === distanza && (!sesso || sessoCategoria(r.categoria) === sesso)))
+      .map((m) => { const b = m.lista.reduce((x, y) => (y.secondi < x.secondi || (y.secondi === x.secondi && y.data < x.data) ? y : x)); return { membro_id: m.membro_id, membro: m.membro, mio: m.mio, secondi: b.secondi, data: b.data, gara_nome: b.gara_nome || "", categoria: b.categoria || "" }; });
+    return conPosizioni(l.sort((a, b) => a.secondi - b.secondi || (a.data < b.data ? -1 : 1)), (x) => x.secondi);
+  }
+  /** Record del gruppo per categoria su una distanza: il tempo più veloce di ogni categoria, in ordine di categoria. */
+  function recordCategorie(risultati, distanza) {
+    const m = new Map();
+    for (const r of (risultati || []).filter((x) => x.distanza === distanza && x.categoria)) {
+      const c = String(r.categoria).toUpperCase(), b = m.get(c);
+      if (!b || r.secondi < b.secondi || (r.secondi === b.secondi && r.data < b.data)) m.set(c, { categoria: c, membro: r.membro, mio: !!r.mio, secondi: r.secondi, data: r.data, gara_nome: r.gara_nome || "" });
+    }
+    return [...m.values()].sort((a, b) => a.categoria.localeCompare(b.categoria, "it", { numeric: true }));
+  }
+  /** Le prime n righe e, se sta più giù, la riga dell'atleta (per le schede in Gruppo). */
+  function primiETu(lista, n = 3) {
+    const io = lista.findIndex((x) => x.mio);
+    return { primi: lista.slice(0, n), tu: io >= n ? lista[io] : null };
+  }
+  /** Recupero della stagione aperto: entro i 30 giorni dall'adesione (recupero_fino dal database). */
+  const recuperoAperto = (io, adesso = new Date()) => !!(io && io.partecipa && io.recupero_fino && new Date(io.recupero_fino) >= adesso);
+  /** Risultati trovati nelle classifiche che si possono ancora recuperare: tutti nel recupero, poi solo quelli da una
+   *  settimana prima dell'adesione. Esclusi quelli già certificati con lo stesso tempo. */
+  function daRecuperare(trovati, io, miei = [], adesso = new Date()) {
+    const dal = io && io.dal ? addDays(String(io.dal).slice(0, 10), -7) : null;
+    const gia = new Set((miei || []).filter((m) => m.stato === "certificato").map((m) => `${m.data}:${m.distanza}:${m.secondi}`));
+    return (trovati || []).filter((r) => !gia.has(`${r.data}:${r.distanza}:${r.secondi}`) && (recuperoAperto(io, adesso) || (dal && r.data >= dal)));
+  }
+
+  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, daRecuperare };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);
