@@ -583,3 +583,9 @@ body.chat-on .app { padding-bottom: 150px; }
 .rivedi-banner { display: flex; justify-content: space-between; align-items: center; background: var(--navy); color: var(--navy-fg); border-radius: 12px; padding: 8px 14px; font-size: 14px; font-weight: 600; }
 .rivedi-banner a { color: var(--accent-on-dark); }
 .doc-mano summary { font-weight: 700; color: var(--accent); cursor: pointer; }
+/* Regole delle classifiche */
+.link-regole { font-size: 14px; align-self: flex-start; }
+.regole { gap: 12px; }
+.regola-cl { display: flex; flex-direction: column; gap: 2px; padding: 10px 0; border-bottom: 1px solid var(--line2); font-size: 15px; }
+.regola-cl:last-child { border-bottom: 0; padding-bottom: 0; }
+.regola-cl b { font-size: 16px; }
