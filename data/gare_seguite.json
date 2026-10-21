@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-10-19",
+ "aggiornato": "2026-10-21",
  "gare": [
   {
    "id": "L2bda4b848d-10",
@@ -31,8 +31,8 @@
    "distanza": "42",
    "fonte": "FIDAL",
    "prima_aggiunta": "2026-10-14",
-   "aggiunte": 3,
-   "ultima_aggiunta": "2026-10-18"
+   "aggiunte": 5,
+   "ultima_aggiunta": "2026-10-20"
   },
   {
    "id": "H90a44ed91b-10",
@@ -42,8 +42,8 @@
    "distanza": "10",
    "fonte": "FIDAL",
    "prima_aggiunta": "2026-10-14",
-   "aggiunte": 2,
-   "ultima_aggiunta": "2026-10-18"
+   "aggiunte": 4,
+   "ultima_aggiunta": "2026-10-20"
   },
   {
    "id": "P8cb521dda8-42",
@@ -53,8 +53,8 @@
    "distanza": "42",
    "fonte": "FIDAL",
    "prima_aggiunta": "2026-10-14",
-   "aggiunte": 2,
-   "ultima_aggiunta": "2026-10-18"
+   "aggiunte": 4,
+   "ultima_aggiunta": "2026-10-20"
   },
   {
    "id": "E-copenaghen-mezza-21-2027",
