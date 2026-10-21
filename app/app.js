@@ -1614,7 +1614,7 @@
       ${sez("Le tre classifiche", `${cl3("Gare corse", `Quante gare concludi nella stagione con un tempo certificato. C'è anche la vista del mese.`, "A pari gare, pari posizione.")}
         ${cl3("PB della stagione", "Quante volte quest'anno migliori il tuo miglior tempo di sempre su 10 km, mezza o maratona. La prima gara su una distanza fissa il riferimento e non conta.", "A pari PB vince chi è migliorato di più, in percentuale.")}
         ${cl3("Albo d'oro", "Il miglior tempo di sempre di ognuno, per distanza, con i filtri uomini e donne (dalla categoria della classifica ufficiale) e i record per categoria.", "Conta solo il tempo: niente punti.")}`)}
-      ${sez("Cosa vedono i compagni", `${voceOk("Gara, data, distanza, tempo, categoria e società della classifica ufficiale.")}<div class="voce-ok"><span class="spunta muto" aria-hidden="true">${ICO.lucchetto}</span><span>Tessera, certificato, scarpe, preparazione e posizione restano sul tuo telefono.</span></div>`)}`;
+      ${sez("Cosa vedono i compagni", `${voceOk("Gara, data, distanza, tempo, categoria e società della classifica ufficiale.")}${voceOk("L'<b>amministratore</b> vede tutte le tue gare online, anche quelle in approvazione o non approvate, per controllarle e sistemarle.")}<div class="voce-ok"><span class="spunta muto" aria-hidden="true">${ICO.lucchetto}</span><span>Tessera, certificato, scarpe, preparazione e posizione restano sul tuo telefono.</span></div>`)}`;
   }
 
   // In Gestione: interruttore del gruppo, coda del referente, ultimi tempi certificati (l'amministratore li può annullare)
@@ -1641,10 +1641,70 @@
       <div class="row" style="gap:10px;align-items:baseline"><b style="font:700 28px var(--display)">${esc(fmtSec(x.secondi))}</b>${x.link && /^https?:\/\//.test(x.link) ? `<a class="small" href="${esc(x.link)}" rel="noopener" target="_blank">Apri la classifica</a>` : ""}</div>
       ${x.nota ? `<span class="small muted">Nota: «${esc(x.nota)}»</span>` : ""}
       <div class="grid2"><button class="btn" data-act="cl-decidi" data-id="${esc(x.id)}" data-ok="1">Approva</button><button class="btn ghost" data-act="cl-decidi" data-id="${esc(x.id)}" data-ok="0">Rifiuta</button></div></div>`).join("");
-    const ultimi = admin ? [...(cl.risultati || [])].sort((a, b) => (a.data < b.data ? 1 : -1)).slice(0, 8) : [];
     return `${interr}<section class="card ${CODA && CODA.length ? "evid" : ""}"><div class="between"><span class="title">Da approvare</span>${CODA && CODA.length ? `<span class="pill">${CODA.length}</span>` : ""}</div>
       ${CODA === null ? `<span class="small muted">Carico…</span>` : CODA.length ? `<span class="small muted">Tempi non trovati nelle classifiche ufficiali. Li vedete tu${altri.length ? ` e ${esc(altri.join(", "))}` : ""}.</span>${coda}` : `<span class="small">Niente in attesa. Qui arrivano i tempi non trovati nelle classifiche ufficiali.</span>`}</section>
-      ${ultimi.length ? `<details class="card"><summary><span class="title" style="font-size:16px">Ultimi tempi certificati</span></summary><div style="margin-top:6px">${ultimi.map((x) => `<div class="post"><span style="flex:1;min-width:0"><b>${esc(x.membro)}</b><br><span class="small muted">${esc(titoloGara(x.gara_nome || ""))} · ${esc(L.DIST_LABEL[x.distanza])} · ${esc(L.fmtBreve(x.data))} ${esc(x.data.slice(0, 4))}</span></span><b style="font:700 16px var(--display)">${esc(fmtSec(x.secondi))}</b><button class="linkbtn small" data-act="cl-annulla" data-id="${esc(x.id)}" data-nome="${esc(x.membro)}">Annulla</button></div>`).join("")}</div><span class="small muted" style="padding-top:8px;display:block">Annulla un tempo sbagliato, per esempio di un omonimo: esce dalle classifiche.</span></details>` : ""}`;
+      ${admin ? `<a class="card link-card" href="#/gruppo/gare"><span class="title">Le gare di tutti</span><span class="small">Ogni gara dei membri: quali contano, quali aspettano, quali non sono approvate. Da qui annulli un tempo sbagliato.</span><span class="small" style="color:var(--accent);font-weight:700">Apri ›</span></a>` : ""}`;
+  }
+  // Le gare di tutti (#/gruppo/gare?m=<id membro>&p=stagione|tutte&q=…), solo per l'amministratore: ogni risultato online
+  // di ogni membro, in ogni stato (gare_membri), con le azioni del referente (approva, rifiuta, annulla).
+  let GM = null, caricandoGM = false;
+  async function caricaGareMembri() {
+    if (caricandoGM) return;
+    caricandoGM = true;
+    try { GM = await rpc("gare_membri", { p_token: token() }); } catch (e) { GM = { errore: e.message || "Non riuscito", membri: [], risultati: [] }; }
+    finally { caricandoGM = false; }
+    if (/^#\/gruppo\/gare/.test(location.hash)) rerender();
+  }
+  const righeGM = () => L.gareMembri((GM && GM.risultati) || [], { oggi: oggi() });
+  function rigaGM(x, conNome) {
+    const [cls, etichetta] = PILL_MIE[x.stato], anno = x.data.slice(0, 4);
+    const titolo = titoloGara(x.nome) || `Gara del ${L.fmtBreve(x.data)}`;
+    const perche = { conta: x.fonte === "manuale" ? `Approvata${x.deciso_da ? ` da ${x.deciso_da}` : " dal referente"}` : `Dalla classifica di ${FONTE_TEMPI[x.fonte] || x.fonte}`,
+      storico: `Stagione ${anno}: vale per Albo d'oro e PB`, attesa: x.fonte === "manuale" ? "Mandata a mano: aspetta il referente" : "Nome diverso in classifica: aspetta il referente",
+      rifiutato: `${x.nota || "Non approvata"}${x.deciso_da && !x.nota.includes("referente") ? ` · ${x.deciso_da}` : ""}`, esito: "Senza tempo: non dà posizioni" }[x.stato];
+    const azioni = [];
+    if (x.stato === "attesa") azioni.push(`<button class="btn small" data-act="cl-decidi" data-id="${esc(x.id)}" data-ok="1">Approva</button><button class="btn ghost small" data-act="cl-decidi" data-id="${esc(x.id)}" data-ok="0">Rifiuta</button>`);
+    if (x.stato === "conta" || x.stato === "storico") azioni.push(`<button class="btn ghost small" data-act="cl-annulla" data-id="${esc(x.id)}" data-nome="${esc(x.mio ? "te" : x.membro)}">Annulla</button>`);
+    if (x.link && /^https?:\/\//.test(x.link)) azioni.push(`<a class="btn ghost small" href="${esc(x.link)}" rel="noopener" target="_blank">Apri la classifica</a>`);
+    return `<div class="post cl-mia cl-${x.stato}"><span style="flex:1;min-width:0">${conNome ? `<span class="small" style="font-weight:700">${esc(x.mio ? "Tu" : x.membro)}</span><br>` : ""}<b>${esc(titolo)}</b><br><span class="small muted">${esc(L.DIST_LABEL[x.distanza])} · ${esc(L.fmtBreve(x.data))} ${esc(anno)}${x.categoria ? ` · ${esc(x.categoria)}` : ""}</span></span>
+      <span class="cl-mia-dx">${x.secondi ? `<b class="pb-tempo">${esc(fmtSec(x.secondi))}</b>` : ""}<span class="pill ${cls}">${esc(etichetta || L.ESITO_LABEL[x.esito] || "Senza tempo")}</span></span>
+      <span class="small cl-mia-perche">${esc(perche)}</span>${azioni.length ? `<span class="cl-mia-azioni">${azioni.join("")}</span>` : ""}</div>`;
+  }
+  function listaGM(q, periodo, m) {
+    const base = righeGM().filter((x) => !m || x.membro_id === m);
+    // in stagione restano anche i tempi in attesa degli anni prima: vanno comunque decisi
+    const l = L.cercaMieGare(base, q, { periodo: "tutte", oggi: oggi() }).filter((x) => periodo === "tutte" || x.data.slice(0, 4) === oggi().slice(0, 4) || x.stato === "attesa");
+    if (l.length) return l.map((x) => rigaGM(x, !m)).join("");
+    return `<span class="small">${q ? `Nessuna gara trovata per «${esc(q)}».` : periodo === "tutte" ? "Nessuna gara online, per ora." : `Nessuna gara nella stagione ${esc(oggi().slice(0, 4))}, per ora.`}</span>`;
+  }
+  function vistaGareMembri(param = {}) {
+    const d = GD(); if (!d || d.io.ruolo !== "admin" || !clAttive()) return vistaAdmin();
+    if (GM === null) setTimeout(caricaGareMembri, 0);
+    const anno = oggi().slice(0, 4), periodo = param.p === "tutte" ? "tutte" : "stagione", q = param.q || "";
+    const membri = (GM && GM.membri) || [], m = membri.find((x) => x.id === param.m) || null;
+    const riep = L.riepilogoMembri(membri, righeGM(), { oggi: oggi() });
+    const chip = (p, l) => `<a class="chip" href="#/gruppo/gare?p=${p}${m ? `&m=${encodeURIComponent(m.id)}` : ""}" aria-pressed="${p === periodo}" style="display:inline-flex;align-items:center;text-decoration:none;color:inherit">${l}</a>`;
+    const testa = `${bannerProva()}<header class="head-back">${back(m ? "#/gruppo/gare" : "#/gruppo/admin")}<div><span class="eyebrow">${esc(d.gruppo.nome)} · stagione ${esc(anno)}</span><h1 style="font-size:28px">${m ? esc(m.mio ? "Le tue gare" : m.nome) : "Le gare di tutti"}</h1></div></header>`;
+    if (GM === null) return `${testa}<p class="sub">Carico le gare del gruppo…</p>`;
+    if (GM.errore) return `${testa}<section class="card"><span class="small">Non riesco a caricare le gare: ${esc(GM.errore)}</span><button class="btn ghost" data-act="gm-ricarica">Riprova</button></section>`;
+    const somma = (k, l) => l.reduce((t, x) => t + x.n[k], 0);
+    const sel = m ? riep.filter((x) => x.id === m.id) : riep;
+    const conta = somma("conta", sel), attesa = somma("attesa", sel), rifiutate = somma("rifiutato", sel);
+    const extra = [attesa && `${attesa} in approvazione`, rifiutate && `${rifiutate} non ${rifiutate === 1 ? "approvata" : "approvate"}`].filter(Boolean).join(" · ");
+    const sotto = m ? `${m.partecipa ? `Partecipa${m.dal ? ` dal ${L.fmtBreve(String(m.dal).slice(0, 10))} ${String(m.dal).slice(0, 4)}` : ""}` : "Non partecipa alle classifiche"}${extra ? ` · ${extra}` : ""}`
+      : `${riep.filter((x) => x.partecipa).length} di ${riep.length} partecipano${extra ? ` · ${extra}` : ""}`;
+    const cerca = `<div class="field"><label for="gm-cerca">${m ? `Cerca tra le gare di ${esc(m.mio ? "te" : m.nome.split(/\s+/)[0])}` : "Cerca tra le gare di tutti"}</label><input class="input" id="gm-cerca" type="search" value="${esc(q)}" placeholder="${m ? "es. mezza, ottobre, in approvazione" : "es. Giulia, Roma, in approvazione"}" autocomplete="off"></div>
+      <div class="chips">${chip("stagione", `Stagione ${esc(anno)}`)}${chip("tutte", "Tutti gli anni")}</div>`;
+    const lista = `<section class="card" style="gap:0" id="gm-lista" data-p="${periodo}" data-m="${esc(m ? m.id : "")}">${listaGM(q, periodo, m ? m.id : "")}</section>`;
+    const persona = (x) => {
+      const n = x.n, bit = [n.conta && `${n.conta} ${n.conta === 1 ? "conta" : "contano"}`, n.attesa && `${n.attesa} in approvazione`, n.rifiutato && `${n.rifiutato} non ${n.rifiutato === 1 ? "approvata" : "approvate"}`, n.esito && `${n.esito} senza tempo`].filter(Boolean);
+      return `<a class="post link-card" href="#/gruppo/gare?m=${encodeURIComponent(x.id)}${periodo === "tutte" ? "&p=tutte" : ""}" style="text-decoration:none;color:inherit">${avatar(x.nome, 32)}<span style="flex:1;min-width:0"><b>${esc(x.nome)}</b>${x.mio ? ' <span class="muted">(tu)</span>' : ""}<br><span class="small muted">${esc(!x.partecipa && !x.tutte ? "Non partecipa" : bit.length ? bit.join(" · ") : `Nessuna gara nella stagione${x.tutte ? ` · ${x.tutte} in tutto` : ""}`)}</span></span>${n.attesa ? `<span class="pill">${n.attesa}</span>` : ""}<span aria-hidden="true">›</span></a>`;
+    };
+    return `${testa}
+      <section class="card dark" style="gap:4px"><span style="font:700 34px/1 var(--display)">${conta} ${conta === 1 ? "gara conta" : "gare contano"}</span><span class="small" style="color:var(--navy-muted)">${esc(sotto)}</span></section>
+      ${cerca}
+      ${m || q ? lista : `<section class="card" style="gap:0"><span class="eyebrow" style="margin-bottom:4px">Membri · ${riep.length}</span>${riep.map(persona).join("")}</section>`}
+      <p class="sub">Le vedi solo tu come amministratore. Approva e rifiuta valgono come nella coda «Da approvare»; Annulla toglie dalle classifiche un tempo certificato sbagliato (per esempio di un omonimo).</p>`;
   }
   // In "Com'è andata?": stato del tempo per le classifiche e invio al referente
   function cardRisultatoCl(g, r) {
@@ -1967,6 +2027,7 @@
 
   function vistaAdmin() {
     const d = GD(); if (!d) return vistaGruppo();
+    GM = null; // le gare di tutti si ricaricano a ogni apertura
     const io = d.io, admin = io.ruolo === "admin";
     const link = d.gruppo.codice ? linkInvito(d.gruppo.codice) : "";
     const attivi = d.membri.filter((m) => m.visto && L.diffDays(L.todayISO(), m.visto) <= 7).length;
@@ -2630,7 +2691,7 @@
       case "checklist": html = vistaBorsa(parts[1]); break;
       case "gruppo":
         html = parts[1] === "gara" ? vistaGaraGruppo(parts[2]) : parts[1] === "classifica" ? vistaClassifica(param) : parts[1] === "admin" ? vistaAdmin()
-          : parts[1] === "partecipa" ? vistaEntra("classifiche") : parts[1] === "regole" ? vistaRegole(param) : parts[1] === "recupero" ? vistaRecupero(param) : parts[1] === "classifiche" ? vistaClassifiche(param) : parts[1] === "mie" ? vistaMieGare(param) : vistaGruppo();
+          : parts[1] === "partecipa" ? vistaEntra("classifiche") : parts[1] === "regole" ? vistaRegole(param) : parts[1] === "recupero" ? vistaRecupero(param) : parts[1] === "classifiche" ? vistaClassifiche(param) : parts[1] === "mie" ? vistaMieGare(param) : parts[1] === "gare" ? vistaGareMembri(param) : vistaGruppo();
         break;
       case "invito": html = vistaInvito(parts[1], param); break;
       case "entra": html = vistaEntra(parts[1]); break;
@@ -2760,12 +2821,16 @@
     }
     if (act === "cl-decidi") {
       t.disabled = true;
-      rpc("decidi_risultato", { p_token: token(), p_id: t.dataset.id, p_ok: t.dataset.ok === "1" }).then(async () => { toast(t.dataset.ok === "1" ? "Approvato: entra in classifica" : "Rifiutato"); CODA = null; await aggiornaClassifiche(); rerender(); })
+      rpc("decidi_risultato", { p_token: token(), p_id: t.dataset.id, p_ok: t.dataset.ok === "1" }).then(async () => { toast(t.dataset.ok === "1" ? "Approvato: entra in classifica" : "Rifiutato"); CODA = null; if (GM) await caricaGareMembri(); await aggiornaClassifiche(); rerender(); })
         .catch((e) => { toast(e.message || "Non riuscito"); rerender(); });
       return;
     }
     if (act === "cl-annulla") {
-      confirmBox(t, `Annulli il tempo di ${t.dataset.nome}? Esce dalle classifiche.`, () => azioneGruppo(async () => { await rpc("annulla_risultato", { p_token: token(), p_id: t.dataset.id }); await aggiornaClassifiche(); }, "Tempo annullato"));
+      confirmBox(t, `Annulli il tempo di ${t.dataset.nome}? Esce dalle classifiche.`, () => azioneGruppo(async () => { await rpc("annulla_risultato", { p_token: token(), p_id: t.dataset.id }); if (GM) await caricaGareMembri(); await aggiornaClassifiche(); }, "Tempo annullato"));
+      return;
+    }
+    if (act === "gm-ricarica") {
+      GM = null; rerender();
       return;
     }
     if (act === "buddy-esempio") { inviaBuddy(t.dataset.t); return; }
@@ -3141,6 +3206,15 @@
         const p = box.dataset.p, da = (location.hash.match(/[?&]da=(\w+)/) || [])[1] || "";
         box.innerHTML = listaMie(e.target.value.trim(), p);
         history.replaceState(null, "", `#/gruppo/mie?p=${p}${da ? `&da=${da}` : ""}${e.target.value.trim() ? `&q=${encodeURIComponent(e.target.value.trim())}` : ""}`);
+      }, 150);
+    } else if (e.target.id === "gm-cerca") {
+      clearTimeout(timerMie);
+      timerMie = setTimeout(() => {
+        const v = e.target.value.trim(), box = document.getElementById("gm-lista");
+        const m = box ? box.dataset.m : (location.hash.match(/[?&]m=([^&]+)/) || [])[1] || "", p = box ? box.dataset.p : /[?&]p=tutte/.test(location.hash) ? "tutte" : "stagione";
+        const url = `#/gruppo/gare?p=${p}${m ? `&m=${encodeURIComponent(decodeURIComponent(m))}` : ""}${v ? `&q=${encodeURIComponent(v)}` : ""}`;
+        if (box && (m || v)) { box.innerHTML = listaGM(v, p, decodeURIComponent(m)); history.replaceState(null, "", url); }
+        else { history.replaceState(null, "", url); rerender(); const f = document.getElementById("gm-cerca"); if (f) { f.focus(); f.setSelectionRange(f.value.length, f.value.length); } }
       }, 150);
     } else if (e.target.id === "ma-nome") {
       // nome di una gara dell'app: data e distanza si compilano da sole

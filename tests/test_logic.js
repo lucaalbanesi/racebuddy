@@ -562,4 +562,26 @@ assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10",
   assert.deepStrictEqual(L.cercaMieGare(lista, "ritirato", { oggi: "2026-10-21" }).map((x) => x.id), ["e"]);
 }
 
+// Le gare di tutti (amministratore): ogni stato, con il membro; riepilogo per membro e ricerca anche per nome
+{
+  const ris = [
+    { id: "1", membro_id: "g", membro: "Giulia Neri", data: "2026-10-18", distanza: "21", gara_nome: "Rome Half", esito: "arrivato", secondi: 6350, fonte: "gpl", stato: "certificato" },
+    { id: "2", membro_id: "g", membro: "Giulia Neri", data: "2025-09-07", distanza: "10", gara_nome: "", esito: "arrivato", secondi: 2900, fonte: "manuale", stato: "in_approvazione", link: "https://x.it/c.pdf" },
+    { id: "3", membro_id: "l", membro: "Luca Albanesi", mio: true, data: "2026-10-04", distanza: "10", gara_nome: "Corsa di Ognissanti", esito: "arrivato", secondi: 2892, fonte: "manuale", stato: "rifiutato", nota: "Annullato dal referente", deciso_da: "Luca Albanesi" },
+    { id: "4", membro_id: "l", membro: "Luca Albanesi", mio: true, data: "2025-03-16", distanza: "42", gara_nome: "Maratona di Roma", esito: "arrivato", secondi: 12900, fonte: "fidal", stato: "certificato" },
+  ];
+  const righe = L.gareMembri(ris, { oggi: "2026-10-21" });
+  assert.deepStrictEqual(righe.map((x) => `${x.id} ${x.stato}`), ["1 conta", "3 rifiutato", "2 attesa", "4 storico"]);
+  assert.strictEqual(righe[1].deciso_da, "Luca Albanesi");
+  assert.strictEqual(righe[2].link, "https://x.it/c.pdf");
+  const membri = [{ id: "l", nome: "Luca Albanesi", mio: true, partecipa: true }, { id: "p", nome: "Paolo", partecipa: false }, { id: "g", nome: "Giulia Neri", partecipa: true }];
+  const riep = L.riepilogoMembri(membri, righe, { oggi: "2026-10-21" });
+  assert.deepStrictEqual(riep.map((x) => x.nome), ["Giulia Neri", "Luca Albanesi", "Paolo"]); // prima chi ha tempi da decidere
+  assert.strictEqual(riep[0].n.conta, 1); assert.strictEqual(riep[0].n.attesa, 1);            // l'attesa conta anche se di un anno prima
+  assert.strictEqual(riep[1].n.rifiutato, 1); assert.strictEqual(riep[1].tutte, 2);
+  assert.strictEqual(riep[2].tutte, 0);
+  assert.deepStrictEqual(L.cercaMieGare(righe, "giulia", { periodo: "tutte", oggi: "2026-10-21" }).map((x) => x.id), ["1", "2"]);
+  assert.deepStrictEqual(L.cercaMieGare(righe, "luca maratona", { periodo: "tutte", oggi: "2026-10-21" }).map((x) => x.id), ["4"]);
+}
+
 console.log("ok");

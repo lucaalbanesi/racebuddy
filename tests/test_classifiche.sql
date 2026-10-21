@@ -88,6 +88,18 @@ begin
   perform public.annulla_risultato(a, rid);
   assert (select stato from public.risultati_gruppo where id = rid) = 'rifiutato', 'annullato';
 
+  -- le gare di tutti: solo l'amministratore, in ogni stato, anche di chi non è in classifica
+  begin perform public.gare_membri(b); assert false, 'organizzatore vede le gare di tutti';
+  exception when others then if sqlerrm not like '%amministratori%' then raise; end if; end;
+  j := public.gare_membri(a);
+  assert json_array_length(j->'membri') = 3, 'tutti i membri: ' || (j->'membri')::text;
+  assert (select count(*) from json_array_elements(j->'risultati')) = (select count(*) from public.risultati_gruppo), 'tutti i risultati';
+  assert exists (select 1 from json_array_elements(j->'risultati') x where x->>'stato' = 'in_approvazione' and x->>'membro' = 'Giulia Neri'), 'anche in approvazione';
+  assert exists (select 1 from json_array_elements(j->'risultati') x where x->>'id' = rid::text and x->>'stato' = 'rifiutato' and x->>'deciso_da' = 'Luca Albanesi'), 'chi ha deciso';
+  perform public.partecipa_classifiche(a, false);
+  assert json_array_length(public.gare_membri(a)->'risultati') > 0, 'l''amministratore vede anche senza partecipare';
+  perform public.partecipa_classifiche(a, true);
+
   -- esiti senza tempo
   perform public.segna_esito(b, '{"data":"2026-10-25","distanza":"42","esito":"ritirato","gara_nome":"Maratona"}');
   assert (select esito from public.risultati_gruppo where data = '2026-10-25') = 'ritirato', 'esito salvato';

@@ -214,6 +214,23 @@ begin
   if not found then raise exception 'tempo non trovato'; end if;
 end $$;
 
+-- Le gare di tutti: l'amministratore vede ogni risultato online di ogni membro, in ogni stato (certificato, in
+-- approvazione, rifiutato, esito senza tempo), anche se lui non partecipa. Serve a controllare e sistemare.
+create or replace function public.gare_membri(p_token text) returns json
+language plpgsql security definer set search_path = '' as $$
+declare m public.membri := public._io(p_token);
+begin
+  if m.ruolo <> 'admin' then raise exception 'solo per gli amministratori'; end if;
+  return json_build_object(
+    'membri', (select coalesce(json_agg(json_build_object('id', x.id, 'nome', x.nome, 'mio', x.id = m.id, 'partecipa', x.partecipa, 'dal', x.partecipa_dal)
+        order by x.nome), '[]') from public.membri x where x.gruppo_id = m.gruppo_id),
+    'risultati', (select coalesce(json_agg(json_build_object('id', r.id, 'membro_id', x.id, 'membro', x.nome, 'mio', x.id = m.id, 'data', r.data,
+        'distanza', r.distanza, 'gara_nome', r.gara_nome, 'esito', r.esito, 'secondi', r.secondi, 'fonte', r.fonte, 'categoria', r.categoria,
+        'stato', r.stato, 'nota', r.nota, 'link', r.link, 'deciso_da', d.nome) order by r.data desc), '[]')
+      from public.risultati_gruppo r join public.membri x on x.id = r.membro_id left join public.membri d on d.id = r.deciso_da
+      where x.gruppo_id = m.gruppo_id));
+end $$;
+
 -- ------------------------------------------------------------------ lettura
 -- Le classifiche si vedono solo partecipando; i risultati sono quelli certificati (con il tempo) di chi partecipa.
 create or replace function public.stato_classifiche(p_token text) returns json
@@ -262,7 +279,7 @@ declare f text;
 begin
   foreach f in array array[
     'admin_classifiche(text,boolean)', 'partecipa_classifiche(text,boolean)', 'invia_risultato(text,jsonb)', 'segna_esito(text,jsonb)',
-    'togli_risultato(text,uuid)', 'da_approvare(text)', 'decidi_risultato(text,uuid,boolean)', 'annulla_risultato(text,uuid)', 'stato_classifiche(text)']
+    'togli_risultato(text,uuid)', 'da_approvare(text)', 'decidi_risultato(text,uuid,boolean)', 'annulla_risultato(text,uuid)', 'gare_membri(text)', 'stato_classifiche(text)']
   loop
     execute format('revoke all on function public.%s from public', f);
     execute format('grant execute on function public.%s to anon', f);

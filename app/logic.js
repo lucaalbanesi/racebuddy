@@ -795,8 +795,7 @@
     for (const m of miei || []) {
       const k = chiave(m.data, m.distanza), g = locali.get(k);
       online.add(k);
-      const stato = m.stato === "certificato" ? (m.data.slice(0, 4) === anno ? "conta" : "storico")
-        : m.stato === "in_approvazione" ? "attesa" : m.stato === "rifiutato" ? "rifiutato" : "esito";
+      const stato = statoOnline(m, anno);
       out.push({ chiave: k, id: m.id, gid: g ? g.id : null, data: m.data, distanza: m.distanza, nome: m.gara_nome || (g && g.nome) || "",
         secondi: m.secondi || null, fonte: m.fonte, nota: m.nota || "", esito: m.esito, stato, luogo: (g && g.luogo) || "" });
     }
@@ -809,6 +808,28 @@
     }
     return out.sort((a, b) => (a.data < b.data ? 1 : a.data > b.data ? -1 : 0));
   }
+  /** Stato di un risultato online per l'elenco: conta (certificato nella stagione) · storico · attesa · rifiutato · esito. */
+  const statoOnline = (m, anno) => m.stato === "certificato" ? (m.data.slice(0, 4) === anno ? "conta" : "storico")
+    : m.stato === "in_approvazione" ? "attesa" : m.stato === "rifiutato" ? "rifiutato" : "esito";
+  /** Le gare di tutti (per l'amministratore, da gare_membri): ogni risultato online di ogni membro, in ogni stato,
+   *  con lo stesso formato di mieGareClassifica più membro, membro_id, link e chi ha deciso. Dalla più recente. */
+  function gareMembri(risultati, { oggi } = {}) {
+    const anno = String(oggi || todayISO()).slice(0, 4);
+    return (risultati || []).map((m) => ({ chiave: `${m.membro_id}:${m.data}:${m.distanza}`, id: m.id, gid: null, data: m.data, distanza: m.distanza,
+      nome: m.gara_nome || "", secondi: m.secondi || null, fonte: m.fonte, nota: m.nota || "", esito: m.esito || "arrivato", stato: statoOnline(m, anno),
+      luogo: "", membro: m.membro || "", membro_id: m.membro_id, mio: !!m.mio, link: m.link || "", deciso_da: m.deciso_da || "", categoria: m.categoria || "" }))
+      .sort((a, b) => (a.data < b.data ? 1 : a.data > b.data ? -1 : 0));
+  }
+  /** Un riepilogo per membro (tutti i membri del gruppo, anche chi non partecipa): quante gare per stato nella stagione
+   *  e quante in tutto. Prima chi ha qualcosa da decidere, poi per nome. */
+  function riepilogoMembri(membri, righe, { oggi } = {}) {
+    const anno = String(oggi || todayISO()).slice(0, 4);
+    return (membri || []).map((m) => {
+      const sue = (righe || []).filter((x) => x.membro_id === m.id);
+      return { id: m.id, nome: m.nome, partecipa: !!m.partecipa, mio: !!m.mio, tutte: sue.length,
+        n: riepilogoMie(sue.filter((x) => x.data.slice(0, 4) === anno || x.stato === "attesa")) };
+    }).sort((a, b) => (b.n.attesa > 0) - (a.n.attesa > 0) || b.partecipa - a.partecipa || String(a.nome).localeCompare(String(b.nome), "it"));
+  }
   const STATO_MIE = { conta: "conta", storico: "albo e pb", attesa: "in approvazione", rifiutato: "non approvata", esito: "senza tempo", locale: "non certificata", vecchia: "fuori tempo" };
   const MESI_LUNGHI = ["gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"];
   const senzaAccenti = (s) => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
@@ -819,7 +840,7 @@
     return (lista || []).filter((x) => {
       if (periodo !== "tutte" && x.data.slice(0, 4) !== anno) return false;
       if (!parole.length) return true;
-      const testo = senzaAccenti([x.nome, x.luogo, DIST_LABEL[x.distanza], x.distanza === "42" ? "42 km" : x.distanza === "21" ? "21 km" : "", fmtBreve(x.data), MESI_LUNGHI[Number(x.data.slice(5, 7)) - 1], x.data.slice(0, 4),
+      const testo = senzaAccenti([x.nome, x.luogo, x.membro || "", DIST_LABEL[x.distanza], x.distanza === "42" ? "42 km" : x.distanza === "21" ? "21 km" : "", fmtBreve(x.data), MESI_LUNGHI[Number(x.data.slice(5, 7)) - 1], x.data.slice(0, 4),
         STATO_MIE[x.stato], ESITO_LABEL[x.esito] || ""].join(" "));
       return parole.every((p) => testo.includes(p));
     });
@@ -831,7 +852,7 @@
     return n;
   }
 
-  const api = { registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, daRecuperare, PASSI_ENTRA, passiEntra, prossimoEntra };
+  const api = { gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, daRecuperare, PASSI_ENTRA, passiEntra, prossimoEntra };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);
