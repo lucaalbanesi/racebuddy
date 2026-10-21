@@ -845,7 +845,7 @@
     const seg = (k, l) => `<a href="#/gare?v=${k}" ${vista === k ? 'aria-current="page"' : ""}>${l}</a>`;
     const testa = `${bannerProva()}<header class="head"><h1>Gare</h1></header>
       <nav class="seg" aria-label="Gare">${seg("mie", `Le mie${mie.length ? " · " + mie.length : ""}`)}${seg("italia", "Italia")}${estero ? seg("estero", "Circuiti") : ""}</nav>`;
-    if (vista === "mie") return testa + vistaMieGare(o, mie, archivio);
+    if (vista === "mie") return testa + vistaLeMieGare(o, mie, archivio);
     if (vista === "estero") return testa + vistaEstero(param, o);
     const q = param.q || "", dist = param.d || "";
     const chip = (v, l) => `<button class="chip" data-act="filtro" data-d="${v}" aria-pressed="${dist === v}">${l}</button>`;
@@ -862,7 +862,7 @@
           <button class="btn" type="submit">Continua</button></form></details>
       <p class="sub">Calendario FIDAL su strada e, per il Lazio, Gare Podistiche Lazio (anche le non competitive)${D.aggiornato ? `; aggiornato il ${esc(L.fmtGiorno(D.aggiornato.slice(0, 10)))}` : ""}. Maratone e mezze del 2027 dal calendario FIDAL già pubblicato; le altre gare del 2027 compaiono man mano.</p>`;
   }
-  function vistaMieGare(o, mie, archivio) {
+  function vistaLeMieGare(o, mie, archivio) {
     const mirino = L.nelMirino(S.mirino, o);
     const blMirino = mirino.length ? `<section aria-label="Nel mirino" style="display:flex;flex-direction:column;gap:8px"><h2>⭐ Nel mirino</h2>${mirino.map((g) => { const e = garaEsteraDati(g.id) || g;
       return `<a class="card mia-gara mirino" href="#/estera/${encodeURIComponent(g.id)}">${cardGara(e, `<span class="row" style="gap:6px;flex-wrap:wrap"><span class="pill">tra ${L.diffDays(g.data, o)} giorni</span>${pillIscrizione(e)}</span><span class="small muted">Da attivare quando sei iscritto</span>`)}<span class="chev" aria-hidden="true">›</span></a>`; }).join("")}</section>` : "";
