@@ -37,16 +37,6 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f tests/test_classifiche.sql > esito7.txt 2>&1 || true
           cat esito7.txt
           if ! grep -q "permessi classifiche ok" esito7.txt; then echo "::error::classifiche: $(grep -iE 'error|errore|assert|context|line' esito7.txt | head -6 | tr '\n' ' ')"; exit 1; fi
-      - name: Stagione (fase 2)
-        run: |
-          psql -v ON_ERROR_STOP=1 -f docs/supabase_age_grade.sql
-          psql -v ON_ERROR_STOP=1 -f docs/supabase_stagione.sql
-          psql -v ON_ERROR_STOP=1 -f docs/supabase_stagione.sql   # ripetibile
-          psql -v ON_ERROR_STOP=1 -f tests/test_gruppo.sql > esito9a.txt 2>&1 || true
-          if ! grep -q "permessi ok" esito9a.txt; then cat esito9a.txt; echo "::error::gruppo dopo la stagione"; exit 1; fi
-          psql -v ON_ERROR_STOP=1 -f tests/test_stagione.sql > esito9.txt 2>&1 || true
-          cat esito9.txt
-          if ! grep -q "permessi stagione ok" esito9.txt; then echo "::error::stagione: $(grep -iE 'error|errore|assert|context|line' esito9.txt | head -6 | tr '\n' ' ')"; exit 1; fi
       - name: Superamministratore
         run: |
           psql -v ON_ERROR_STOP=1 -f docs/supabase_superadmin.sql
@@ -54,6 +44,14 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f tests/test_superadmin.sql > esito8.txt 2>&1 || true
           cat esito8.txt
           if ! grep -q "permessi superadmin ok" esito8.txt; then echo "::error::superadmin: $(grep -iE 'error|errore|assert|context|line' esito8.txt | head -6 | tr '\n' ' ')"; exit 1; fi
+      - name: Stagione (fase 2)
+        run: |
+          psql -v ON_ERROR_STOP=1 -f docs/supabase_age_grade.sql
+          psql -v ON_ERROR_STOP=1 -f docs/supabase_stagione.sql
+          psql -v ON_ERROR_STOP=1 -f docs/supabase_stagione.sql   # ripetibile
+          psql -v ON_ERROR_STOP=1 -f tests/test_stagione.sql > esito9.txt 2>&1 || true
+          cat esito9.txt
+          if ! grep -q "permessi stagione ok" esito9.txt; then echo "::error::stagione: $(grep -iE 'error|errore|assert|context|line' esito9.txt | head -6 | tr '\n' ' ')"; exit 1; fi
       - name: Statistiche
         run: |
           psql -v ON_ERROR_STOP=1 -f docs/supabase.sql
