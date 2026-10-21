@@ -847,12 +847,12 @@
       <nav class="seg" aria-label="Gare">${seg("mie", `Le mie${mie.length ? " · " + mie.length : ""}`)}${seg("italia", "Italia")}${estero ? seg("estero", "Circuiti") : ""}</nav>`;
     if (vista === "mie") return testa + vistaLeMieGare(o, mie, archivio);
     if (vista === "estero") return testa + vistaEstero(param, o);
-    const q = param.q || "", dist = param.d || "";
+    const q = param.q || "", dist = param.d || "", conSoc = clAttive() && gareSoc().some((s) => s.data >= o), soc = conSoc && param.s === "1";
     const chip = (v, l) => `<button class="chip" data-act="filtro" data-d="${v}" aria-pressed="${dist === v}">${l}</button>`;
     return `${testa}
       <div class="field"><label for="cerca">Cerca una gara o una città</label><input class="input" id="cerca" type="search" value="${esc(q)}" placeholder="es. Firenze" autocomplete="off"></div>
-      <div class="chips" role="group" aria-label="Distanza">${chip("", "Tutte")}${chip("10", "10 km")}${chip("21", "Mezza")}${chip("42", "Maratona")}</div>
-      <div id="risultati">${risultati(L.cercaGare(D.gare, q, dist, o))}</div>
+      <div class="chips" role="group" aria-label="Filtri">${chip("", "Tutte")}${chip("10", "10 km")}${chip("21", "Mezza")}${chip("42", "Maratona")}${conSoc ? `<button class="chip" data-act="filtro-soc" aria-pressed="${soc}">★ Società</button>` : ""}</div>
+      <div id="risultati">${risultatiItalia(q, dist, soc, o)}</div>
       <details class="card"><summary>Non la trovi? Aggiungila a mano</summary>
         <form id="manuale" style="display:flex;flex-direction:column;gap:10px">
           <div class="field"><label for="m-nome">Nome della gara</label><input class="input" id="m-nome" required></div>
@@ -870,7 +870,7 @@
     return `${mie.length ? `<section aria-label="Le mie gare" style="display:flex;flex-direction:column;gap:8px">${mie.map((g) => {
         const n = L.diffDays(g.data, o), f = L.fase(D.fasi, g.distanza, g.data, o), r = (S.risultati || {})[g.id];
         const pill = !corsa(g, o) ? `<span class="pill">${n > 1 ? `tra ${n} giorni` : n === 1 ? "domani" : "oggi!"}</span>` : `<span class="pill ok">${r ? esc(r.tempo) + (r.pb ? " · personale" : "") : g.esito ? esc(ESITO[g.esito]) : "com'è andata?"}</span>`;
-        return `<a class="card mia-gara ${corsa(g, o) ? "corsa" : ""}" href="${urlGara(g.id)}">${cardGara(g, `<span class="row" style="gap:6px;flex-wrap:wrap">${pill}<span class="small muted">${corsa(g, o) ? "Appena corsa · in archivio " + quandoArchivio(g, o) : esc(L.RUOLO_LABEL[g.ruolo]) + (!["prima", "conclusa"].includes(f.id) ? " · " + esc(f.nome) : "")}</span></span>`)}<span class="chev" aria-hidden="true">›</span></a>`;
+        return `<a class="card mia-gara ${corsa(g, o) ? "corsa" : ""}" href="${urlGara(g.id)}">${cardGara(g, `<span class="row" style="gap:6px;flex-wrap:wrap">${pill}${pillSoc(g)}<span class="small muted">${corsa(g, o) ? "Appena corsa · in archivio " + quandoArchivio(g, o) : esc(L.RUOLO_LABEL[g.ruolo]) + (!["prima", "conclusa"].includes(f.id) ? " · " + esc(f.nome) : "")}</span></span>`)}<span class="chev" aria-hidden="true">›</span></a>`;
       }).join("")}</section>` : `<p class="sub">Nessuna gara in programma.</p>`}
       ${blMirino}
       <a class="btn ghost block" href="#/gare?v=italia&focus=1">Aggiungi una gara</a>
@@ -886,11 +886,19 @@
     const parti = [g.ora && `ore ${g.ora}`, g.quota, isc].filter(Boolean);
     return parti.length ? `<span class="small muted">${esc(parti.join(" · "))}</span>` : "";
   }
+  // Gare → Italia: con il filtro Società, solo le gare della società; quelle aggiunte a mano dal direttivo (fuori dal
+  // calendario) si ricordano in fondo con il rimando all'elenco del gruppo.
+  function risultatiItalia(q, dist, soc, o) {
+    if (!soc) return risultati(L.cercaGare(D.gare, q, dist, o));
+    const ris = L.cercaGare(filtraSoc(D.gare), q, dist, o);
+    const fuori = gareSoc().filter((s) => s.data >= o && (!dist || s.distanza === dist) && !D.gare.some((g) => L.garaSocDi([s], g)));
+    return (ris.length || !fuori.length ? risultati(ris) : "") + (fuori.length ? `<a class="card soft link-card" href="#/gruppo/societa" style="margin-top:8px"><span class="small">${fuori.length === 1 ? "Un'altra gara della società non è" : `Altre ${fuori.length} gare della società non sono`} nel calendario (aggiunte a mano dal direttivo).</span><span class="small" style="color:var(--accent);font-weight:700">Gare della società ›</span></a>` : "");
+  }
   function risultati(ris) {
     if (!ris.length) return `<p class="sub">Nessuna gara trovata. Prova con la città o aggiungila a mano.</p>`;
     const giaMie = new Set(S.gare.map((g) => g.id));
     return `<h2 style="margin-bottom:8px">Risultati · ${ris.length}${ris.length === 40 ? "+" : ""}</h2><div style="display:flex;flex-direction:column;gap:8px">${ris.map((g) =>
-      `<article class="card">${cardGara(g, `${L.circuitiDi(g, D.esteroDoc).length ? `<span class="row" style="gap:6px">${pillCircuiti(L.circuitiDi(g, D.esteroDoc))}</span>` : ""}${dettagliCalendario(g)}${giaMie.has(g.id) ? `<span class="pill ok">già tra le tue gare</span>` : `<a class="btn small" style="align-self:flex-start" href="#/aggiungi/${encodeURIComponent(g.id)}">Scegli ${esc(L.DIST_LABEL[g.distanza])}</a>`}`)}</article>`).join("")}</div>`;
+      `<article class="card">${cardGara(g, `${L.circuitiDi(g, D.esteroDoc).length || garaSoc(g) ? `<span class="row" style="gap:6px;flex-wrap:wrap">${pillSoc(g)}${pillCircuiti(L.circuitiDi(g, D.esteroDoc))}</span>` : ""}${dettagliCalendario(g)}${giaMie.has(g.id) ? `<span class="pill ok">già tra le tue gare</span>` : `<a class="btn small" style="align-self:flex-start" href="#/aggiungi/${encodeURIComponent(g.id)}">Scegli ${esc(L.DIST_LABEL[g.distanza])}</a>`}`)}</article>`).join("")}</div>`;
   }
   // Gare estere (content/estero.json, curato e verificato ogni mese): Major, SuperHalfs, European Marathon Classics,
   // grandi gare europee. Filtri per circuito e distanza; il ballottaggio è in evidenza.
@@ -1464,6 +1472,11 @@
   // (docs/supabase_stagione.sql), calcoli in logic.js. Le percentuali per età arrivano già fatte: l'età non esce mai.
   const ST = () => (S.gruppo && S.gruppo.st) || {};
   const gareSoc = () => ST().gare_societa || [];
+  // Bollino in Gare: solo le gare della propria società (le altre società non si vedono mai)
+  const garaSoc = (g) => (clAttive() ? L.garaSocDi(gareSoc(), g) : null);
+  const pillSoc = (g) => (garaSoc(g) ? `<span class="pill navy-pill">★ Gara della società</span>` : "");
+  // Filtro "Società" in Gare → Italia: le gare del calendario che sono della società
+  const filtraSoc = (gare) => gare.filter((g) => garaSoc(g));
   const ioId = () => (CL() && CL().io && CL().io.id) || (GD() && GD().io && GD().io.id) || null;
   const nomiCl = () => { const n = {}; for (const r of (CL() || {}).risultati || []) n[r.membro_id] = r.membro; for (const p of ST().partecipanti || []) n[p.id] = p.nome; return n; };
   let memoSt = null;
@@ -3235,9 +3248,11 @@
       S.letti = S.letti || {}; S.letti[t.dataset.k] = true; salva(); rerender();
     } else if (act === "rinvia") {
       S.rinvii[t.dataset.k] = L.addDays(oggi(), 1); salva(); toast("Te lo ricordo domani"); rerender();
-    } else if (act === "filtro") {
-      const q = document.getElementById("cerca").value;
-      location.hash = `#/gare?v=italia&q=${encodeURIComponent(q)}&d=${t.dataset.d}`;
+    } else if (act === "filtro" || act === "filtro-soc") {
+      const q = document.getElementById("cerca").value, h = location.hash;
+      const d = act === "filtro" ? t.dataset.d : (h.match(/[?&]d=(\d*)/) || [])[1] || "";
+      const soc = act === "filtro-soc" ? t.getAttribute("aria-pressed") !== "true" : /[?&]s=1/.test(h);
+      location.hash = `#/gare?v=italia&q=${encodeURIComponent(q)}&d=${d}${soc ? "&s=1" : ""}`;
     } else if (act === "ris-strava-cerca") {
       const id = t.dataset.id; delete STRAVA_GIORNO[id]; if (S.stravaIgnora) delete S.stravaIgnora[id];
       const box = document.getElementById("ris-strava"); if (box) box.innerHTML = `<span class="small muted">Cerco su Strava…</span>`;
@@ -3481,9 +3496,9 @@
     if (e.target.id !== "cerca") return;
     clearTimeout(timer);
     timer = setTimeout(() => {
-      const d = (location.hash.match(/[?&]d=(\d*)/) || [])[1] || "";
-      document.getElementById("risultati").innerHTML = risultati(L.cercaGare(D.gare, e.target.value, d, oggi()));
-      history.replaceState(null, "", `#/gare?v=italia&q=${encodeURIComponent(e.target.value)}&d=${d}`);
+      const d = (location.hash.match(/[?&]d=(\d*)/) || [])[1] || "", soc = /[?&]s=1/.test(location.hash) && !!document.querySelector('[data-act="filtro-soc"]');
+      document.getElementById("risultati").innerHTML = risultatiItalia(e.target.value, d, soc, oggi());
+      history.replaceState(null, "", `#/gare?v=italia&q=${encodeURIComponent(e.target.value)}&d=${d}${soc ? "&s=1" : ""}`);
     }, 150);
   });
 

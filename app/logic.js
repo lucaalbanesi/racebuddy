@@ -784,6 +784,17 @@
   const scartoObiettivo = (secondi, obiettivo) => (obiettivo > 0 && secondi > 0 ? (Math.abs(secondi - obiettivo) / obiettivo) * 100 : null);
   /** La gara della società di quella data e distanza, se c'è. */
   const garaDellaSocieta = (gareSoc, data, distanza) => (gareSoc || []).find((s) => s.data === data && s.distanza === distanza) || null;
+  /** Bollino in Gare: la gara della società che corrisponde a questa gara del calendario o delle mie. Se il direttivo
+   *  l'ha scelta dal calendario (gara_id) vale solo quella; aggiunta a mano (senza gara_id) servono stessa data, distanza
+   *  e una parola del nome in comune (almeno 4 lettere), così non si accendono le altre gare d'Italia di quel giorno.
+   *  Una mia gara inserita a mano (id "M…") vale per stessa data e distanza. */
+  const paroleNome = (n) => new Set(String(n || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(/[^a-z]+/).filter((w) => w.length >= 4));
+  const garaSocDi = (gareSoc, g) => (g && (gareSoc || []).find((s) => {
+    if (s.data !== g.data || s.distanza !== g.distanza) return false;
+    if (s.gara_id === g.id || String(g.id || "").startsWith("M")) return true;
+    if (s.gara_id) return false;
+    const a = paroleNome(s.nome); return [...paroleNome(g.nome)].some((w) => a.has(w));
+  })) || null;
   /** L'obiettivo è ancora modificabile online: fino alla mezzanotte del giorno della gara (ora del telefono). */
   const obiettivoAperto = (data, adesso = new Date()) => todayISO(adesso) < data;
   /** Tutti gli eventi che fanno punti Impegno, per membro: solo nelle gare della società (arrivo, nuovo personale, obiettivo
@@ -995,7 +1006,7 @@
     return n;
   }
 
-  const api = { PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, daRecuperare, PASSI_ENTRA, passiEntra, prossimoEntra };
+  const api = { PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, daRecuperare, PASSI_ENTRA, passiEntra, prossimoEntra };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);

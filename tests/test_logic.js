@@ -642,4 +642,15 @@ assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10",
   assert.ok(L.badgeAtleta({ miei: [...miei, R("z", "m1", "2026-12-06", "42", 12600, { ag: 70.5 })], oggi: "2026-12-07" }).find((x) => x.k === "oltre70").preso);
 }
 
+{ // bollino "gara della società" in Gare
+  const soc = [{ data: "2026-11-15", distanza: "21", nome: "Mezza di Roma", gara_id: "F123" }, { data: "2026-12-08", distanza: "10", nome: "Corsa di Natale", gara_id: null }];
+  assert.ok(L.garaSocDi(soc, { id: "F123", data: "2026-11-15", distanza: "21" }));
+  assert.strictEqual(L.garaSocDi(soc, { id: "L999-21", data: "2026-11-15", distanza: "21" }), null, "altra gara lo stesso giorno");
+  assert.ok(L.garaSocDi(soc, { id: "M42", data: "2026-11-15", distanza: "21" }), "mia gara a mano");
+  assert.ok(L.garaSocDi(soc, { id: "L1-10", data: "2026-12-08", distanza: "10", nome: "XX Corsa di Natale" }), "gara della società a mano");
+  assert.strictEqual(L.garaSocDi(soc, { id: "L2-10", data: "2026-12-08", distanza: "10", nome: "Corri per amore" }), null, "altra gara d'Italia quel giorno");
+  assert.strictEqual(L.garaSocDi(soc, { id: "F123", data: "2026-11-15", distanza: "42" }), null);
+  assert.strictEqual(L.garaSocDi([], { id: "F123", data: "2026-11-15", distanza: "21" }), null);
+}
+
 console.log("ok");
