@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-10-20",
+ "aggiornato": "2026-10-21",
  "contenuti": [
   {
    "id": "ba914a87d9b7",
@@ -126,6 +126,26 @@
    ]
   },
   {
+   "id": "1550ffbf378f",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Nel Delta del Po Veneto la 4^ Epica dell’Acqua",
+   "estratto": "18 ottobre – Correre solo per stare bene, per lasciarsi alle spalle un periodo difficile o per ricordare qualcuno. Per molti di loro la corsa rappresenta la “cura”, per altri la…",
+   "link": "https://podisti.net/nel-delta-del-po-veneto-la-4-epica-dellacqua/",
+   "data": "2026-10-20",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/ZACCHI.jpg",
+   "argomenti": [
+    "mente",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
    "id": "67cfea95a843",
    "tipo": "articolo",
    "fonte": "Runlovers",
@@ -212,6 +232,25 @@
    ],
    "distanze": [],
    "fasi": []
+  },
+  {
+   "id": "72bd443e97fd",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Chiaccherate col Fisioterapista (21) – Il VO2max è davvero il numero più importante per un runner?",
+   "estratto": "Nel mondo del running esistono numeri che affascinano più di altri. Tra questi, il VO2max è probabilmente il parametro fisiologico più conosciuto e, allo stesso tempo, uno dei più…",
+   "link": "https://podisti.net/chiaccherate-col-fisioterapista-21-il-vo2max-e-davvero-il-numero-piu-importante-per-un-runner/",
+   "data": "2026-10-20",
+   "immagine": "https://podisti.net/wp-content/uploads/2025/09/Foto-Mattia-Plati-con-scritta.jpg",
+   "argomenti": [
+    "allenamento",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
   },
   {
    "id": "3af7fb763052",
