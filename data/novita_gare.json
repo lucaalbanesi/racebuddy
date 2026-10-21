@@ -1,6 +1,20 @@
 {
- "aggiornato": "2026-10-19T04:50Z",
+ "aggiornato": "2026-10-21T15:50Z",
  "novita": [
+  {
+   "id": "n32a30ae3033",
+   "gara": "P8cb521dda8-42",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Tre atleti Brooks e la sfida dei 21K: il dietro le quinte della preparazione verso la Mezza Maratona di Roma",
+   "link": "https://www.runnersworld.com/it/vip/a74092748/tre-atleti-brooks-e-la-sfida-dei-21k-il-dietro-le-quinte-della-preparazione-verso-la-mezza-maratona-di-roma/",
+   "data": "2026-10-21",
+   "fonte": "Runner's World Italia",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://hips.hearstapps.com/vidthumb/d27686f7-a310-4c02-8c0e-9212d27ed1bb/thumb_1920x1080.0000001.jpg",
+   "trovato": "2026-10-15T08:36Z"
+  },
   {
    "id": "n23b64c5b536",
    "gara": "P8cb521dda8-42",
@@ -28,20 +42,6 @@
    "tipo": "articolo",
    "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/10/ART-SITO-GINKY-2026.png",
    "trovato": "2026-10-18T18:50Z"
-  },
-  {
-   "id": "n32a30ae3033",
-   "gara": "P8cb521dda8-42",
-   "tema": "notizia",
-   "urgenza": "mattino",
-   "titolo": "Tre atleti Brooks e la sfida dei 21K: il dietro le quinte della preparazione verso la Mezza Maratona di Roma",
-   "link": "https://www.runnersworld.com/it/vip/a74092748/tre-atleti-brooks-e-la-sfida-dei-21k-il-dietro-le-quinte-della-preparazione-verso-la-mezza-maratona-di-roma/",
-   "data": "2026-10-14",
-   "fonte": "Runner's World Italia",
-   "ufficiale": false,
-   "tipo": "articolo",
-   "immagine": "https://hips.hearstapps.com/vidthumb/d27686f7-a310-4c02-8c0e-9212d27ed1bb/thumb_1920x1080.0000001.jpg",
-   "trovato": "2026-10-15T08:36Z"
   },
   {
    "id": "nd27787873a2",
