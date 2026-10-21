@@ -14,6 +14,7 @@
   let timerPush;
   const salva = () => {
     try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast("Non riesco a salvare sul telefono"); }
+    if (vetrina()) return; // Safari su iPhone: i dati veri stanno nell'app, da qui non si manda niente online
     if (S.push && S.push.attivo) { clearTimeout(timerPush); timerPush = setTimeout(() => sincronizzaPush(), 2000); }
     if (S.gruppo && S.gruppo.dentro) { clearTimeout(timerGareGruppo); timerGareGruppo = setTimeout(() => { sincronizzaGareGruppo(); sincronizzaPBGruppo(); sincronizzaStagione(); }, 2500); }
   };
@@ -108,6 +109,9 @@
   const C = () => window.RB_CONFIG || {};
   const iOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
   const standalone = () => window.matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+  // iPhone/iPad fuori dalla Home: Safari e l'app nella Home hanno memorie separate, quindi qui RaceBuddy è solo una vetrina
+  // (si mette nella Home, oppure si portano i dati già salvati qui). Vedi vistaVetrina.
+  const vetrina = () => iOS && !standalone();
   function supportoPush() {
     if (!C().vapidPublic) return "non-pronto";
     if (iOS && !standalone()) return "ios-home";
@@ -676,7 +680,7 @@
     const tot = slides.length + 1;
     return `<section class="ob" aria-roledescription="tutorial" aria-label="Benvenuto in RaceBuddy">
       <div class="ob-top"><span class="ob-logo">RaceBuddy</span><button class="ob-salta" data-act="ob-fine">Salta</button></div>
-      <div class="ob-track" id="ob-track">${slides.map((x, i) => `<article class="ob-slide ${x.cls || ""}" aria-label="${i + 1} di ${tot}"><div class="ob-ill">${x.ill}</div><span class="eyebrow">${x.k}</span><h1>${x.t}</h1><p>${x.d}</p>${x.nota ? `<p class="ob-nota">${x.nota}</p>` : ""}${i === 0 ? `<button class="ob-invito" type="button" data-act="ob-invito">Hai un invito del gruppo? Incollalo</button>` : ""}</article>`).join("")}
+      <div class="ob-track" id="ob-track">${slides.map((x, i) => `<article class="ob-slide ${x.cls || ""}" aria-label="${i + 1} di ${tot}"><div class="ob-ill">${x.ill}</div><span class="eyebrow">${x.k}</span><h1>${x.t}</h1><p>${x.d}</p>${x.nota ? `<p class="ob-nota">${x.nota}</p>` : ""}${i === 0 ? `<button class="ob-invito" type="button" data-act="ob-invito">${iOS && standalone() ? "Hai un invito o arrivi da Safari? Incolla" : "Hai un invito del gruppo? Incollalo"}</button>` : ""}</article>`).join("")}
         <article class="ob-slide" aria-label="${tot} di ${tot}"><div class="ob-ill"><div class="ob-countdown"><span class="big">Via!</span></div></div><span class="eyebrow">Partiamo</span><h1>Qual è la tua prossima gara?</h1><p>Ci vuole un minuto. I tuoi dati restano su questo telefono.</p>
           <button class="btn block" data-act="ob-fine" data-vai="#/gare">Scegli la tua gara</button>
           <div class="grid2"><button class="btn ob-sec" data-act="ob-fine" data-vai="#/pb">Inserisci i tuoi personali</button><button class="btn ob-sec" data-act="ob-fine" data-vai="#/gruppo">Ho un invito del gruppo</button></div>
@@ -1976,12 +1980,164 @@
       <section class="card"><h2>Hai un invito?</h2><span class="small">Apri il link che ti hanno mandato, oppure incolla qui il codice.</span>
         ${navigator.clipboard && navigator.clipboard.readText ? `<button class="btn block" type="button" data-act="inv-incolla">Incolla l'invito</button>` : ""}
         <form id="g-codice" class="row"><label class="sr" for="g-cod">Codice invito</label><input class="input" id="g-cod" placeholder="es. K7MPQ2XA" autocapitalize="characters" required><button class="btn" type="submit">Vai</button></form></section>
+      <section class="card"><h2>Hai cambiato telefono?</h2><span class="small">Se eri già nel gruppo con un altro telefono non entrare di nuovo: saresti due volte. Chiedi un codice e dallo al tuo amministratore: ritrovi tempi, punti e gare.</span>
+        <a class="btn ghost block" href="#/ritorno">Ho cambiato telefono</a>
+        ${iOS && standalone() ? `<span class="small muted">Prima usavi RaceBuddy in Safari su questo iPhone? Lì tocca «Copia i miei dati», poi <button class="linkbtn small" type="button" data-act="dati-incolla">incolla qui</button>.</span>` : ""}</section>
       <details class="card"><summary>Sei il presidente? Crea il gruppo</summary>
         <form id="g-crea" style="display:flex;flex-direction:column;gap:10px">
         <div class="field"><label for="g-nome">Nome della società o del gruppo</label><input class="input" id="g-nome" required maxlength="60" placeholder="es. Podistica …"></div>
         <div class="field"><label for="g-io">Come ti vedono gli altri</label><input class="input" id="g-io" required maxlength="40" value="${esc(S.profilo.nome || "")}" placeholder="es. Mario Rossi" autocomplete="name"><span class="small muted">Usa nome e cognome: comparirà anche nel tuo gruppo.</span></div>
         <button class="btn" type="submit">Crea il gruppo</button>
         <span class="small muted">Diventi amministratore: potrai invitare gli altri, nominare chi ti aiuta a invitare e gestire i membri.</span></form></details>`;
+  }
+
+  // ---------------------------------------------------------------- telefoni: da Safari all'app (iPhone) e telefono nuovo
+  // Su iPhone Safari e l'app nella Home hanno memorie separate. In Safari RaceBuddy è una vetrina: non salva niente e
+  // spiega come metterla nella Home; chi ha già dati in Safari li copia negli appunti (L.creaPacchetto, con il codice
+  // segreto del gruppo) e li incolla nell'app, restando la stessa persona. Se l'app aveva già dati suoi si sceglie quali
+  // tenere; se tutti e due erano nel gruppo il server fonde i due profili (unisci_membri, docs/supabase_telefoni.sql).
+  // Telefono nuovo: chiede un codice (chiedi_ritorno), l'amministratore lo collega al vecchio profilo (admin_ritorno) e
+  // dall'online tornano gare in programma, gare corse delle classifiche e personali (L.ripristinoDaOnline).
+  const passoNum = (n, t) => `<div class="passo-num"><span class="num">${n}</span><span>${t}</span></div>`;
+  function vistaVetrina(codice, prova) {
+    const dati = prova ? prova === "dati" : L.haDatiLocali(S);
+    const webview = !prova && !/Safari\//.test(navigator.userAgent); // WhatsApp, Instagram…: da lì non si aggiunge alla Home
+    const testa = prova ? `<header class="head-back">${back("#/io")}<span class="small" style="font-weight:600">Anteprima · così la vede un iPhone in Safari</span></header>` : "";
+    const apriSafari = webview ? `<section class="card soft"><span class="small"><b>L'hai aperta da WhatsApp, Instagram o Facebook?</b> Da qui non si può mettere nella Home: tocca il menu ··· e scegli <b>Apri in Safari</b>.</span></section>` : "";
+    const home = passoNum(1, `Tocca <b>Condividi</b> ${ICO_CONDIVIDI} nella barra di Safari`) + passoNum(2, "Scegli <b>Aggiungi alla schermata Home</b>");
+    if (dati) {
+      const doppio = S.gruppo && S.gruppo.dentro;
+      return `${testa}<section class="entra-invito"><span class="ob-logo">RaceBuddy</span>
+        <h1>Porta i tuoi dati nell'app</h1>
+        <p class="sub" style="font-size:16px">Su iPhone RaceBuddy si usa dall'icona nella Home. L'app ha una memoria tutta sua: senza questo passaggio ripartiresti da zero${doppio ? " e nel gruppo saresti due volte" : ""}.</p>
+        ${apriSafari}
+        <section class="card" style="gap:12px">${passoNum(1, "Tocca <b>Copia i miei dati</b> qui sotto")}${passoNum(2, `Tocca <b>Condividi</b> ${ICO_CONDIVIDI}, poi <b>Aggiungi alla schermata Home</b>`)}${passoNum(3, "Apri RaceBuddy dall'icona e tocca <b>Incolla</b> nella prima schermata")}</section>
+        <div class="piede"><button class="btn block" type="button" data-act="vt-copia" data-codice="${esc(codice || "")}" ${prova ? 'data-prova="1"' : ""}>${S.traslocato && !prova ? "✓ Copiati · copia di nuovo" : "Copia i miei dati"}</button>
+          <div id="vt-manuale"></div>
+          <p class="small muted centro">Qui in Safari: ${esc(prova ? "2 gare in programma · 3 personali · nel gruppo" : L.riassuntoDati(S, oggi()))}.<br>Passano gare, preparazione, personali, scarpe, gruppo e scadenze dei documenti; le foto e i PDF di tessera e certificato si ricaricano nell'app.</p>
+          <p class="small muted centro">Da Safari non si salva più niente: le notifiche su iPhone arrivano solo all'app nella Home.</p></div></section>`;
+    }
+    return `${testa}<section class="entra-invito"><span class="ob-logo">RaceBuddy</span>
+      <h1>${codice ? "Ti hanno invitato nel gruppo" : "Il tuo compagno di gara"}</h1>
+      <p class="sub" style="font-size:16px">Su iPhone RaceBuddy si usa come un'app: prima la metti nella Home, poi la apri dall'icona${codice ? " ed entri nel gruppo da lì" : ""}. In Safari non salva niente, così non perdi nulla per strada.</p>
+      ${apriSafari}
+      <section class="card" style="gap:12px">${home}${passoNum(3, codice ? "Apri RaceBuddy dall'icona e tocca <b>Incolla l'invito</b>" : "Apri RaceBuddy dall'icona")}</section>
+      ${codice ? `<button class="card dark codice-box" type="button" data-act="inv-copia" data-link="${esc(linkInvito(codice))}"><span class="eyebrow">Il tuo invito</span><span class="codice-grande">${esc(codice)}</span><span class="pill ok" id="inv-copiato">Tocca per copiarlo</span></button>` : ""}
+      <div class="piede">${codice ? `<button class="btn ghost block" type="button" data-act="inv-copia" data-link="${esc(linkInvito(codice))}">Copia il codice</button>` : ""}
+        <a class="btn ghost block" href="#/benvenuto">Guarda come funziona</a>
+        <p class="small muted centro">Le notifiche su iPhone arrivano solo alle app nella Home.</p></div></section>`;
+  }
+
+  // Nell'app: il pacchetto incollato dagli appunti. Senza dati qui si prende così com'è, altrimenti si sceglie.
+  let ARRIVO = null;
+  function riceviPacchetto(pk) {
+    if (!L.haDatiLocali(S)) { applicaPacchetto(pk, "safari"); return; }
+    ARRIVO = pk; location.hash = "#/trasloco";
+  }
+  function vistaTrasloco() {
+    if (!ARRIVO) return `<header class="head-back">${back("#/oggi")}</header><section class="card"><span class="small">Niente da incollare: in Safari tocca «Copia i miei dati», poi torna qui.</span><a class="btn" href="#/oggi">Va bene</a></section>`;
+    const a = ARRIVO.s, gruppoA = a.gruppo && a.gruppo.dentro, gruppoQ = S.gruppo && S.gruppo.dentro;
+    const scelta = (v, eyebrow, riassunto, etichetta) => `<section class="card"><span class="eyebrow">${eyebrow}</span><span>${esc(riassunto)}</span><button class="btn ${v === "safari" ? "" : "ghost"}" type="button" data-act="tr-tieni" data-v="${v}">${etichetta}</button></section>`;
+    return `<header class="head-back">${back("#/oggi")}<span class="small" style="font-weight:600">Dati da Safari</span></header>
+      <div><span class="eyebrow">Su questo telefono ci sono già dati</span><h1 style="font-size:34px">Quali tieni?</h1></div>
+      <p class="sub">Scegli quali dati restano nell'app: gli altri si cancellano da questo telefono.${gruppoA && gruppoQ ? " Nel gruppo invece resti una persona sola, con i tempi e i personali di tutti e due." : gruppoA || gruppoQ ? " Il posto nel gruppo resta in ogni caso." : ""}</p>
+      ${scelta("safari", `Da Safari${ARRIVO.il ? ` · copiati ${esc(L.fmtBreve(ARRIVO.il))}` : ""}`, L.riassuntoDati(a, oggi()), "Tieni quelli di Safari")}
+      ${scelta("app", "Qui nell'app", L.riassuntoDati(S, oggi()), "Tieni quelli dell'app")}`;
+  }
+  async function applicaPacchetto(pk, scelta) {
+    const qui = S, arrivo = Object.assign(vuoto(), pk.s);
+    const tieni = scelta === "safari" ? arrivo : qui, altro = scelta === "safari" ? qui : arrivo;
+    const { gruppo, unisci } = L.gruppoDopoTrasloco(tieni, altro);
+    const nuovo = Object.assign(vuoto(), tieni);
+    delete nuovo.invitoDaAprire; delete nuovo.traslocato; delete nuovo.errorePush;
+    // del telefono restano le notifiche e i contatori anonimi; le gare già segnalate non si risegnalano
+    nuovo.push = qui.push;
+    nuovo.conta = { ...(arrivo.conta || {}), ...(qui.conta || {}) };
+    nuovo.segnalate = { ...(arrivo.segnalate || {}), ...(qui.segnalate || {}) };
+    nuovo.benvenuto = true;
+    const dentro = !!(gruppo && gruppo.dentro);
+    // fuori dal gruppo finché non si è rimesso a posto: così il telefono non sovrascrive gare e personali online
+    nuovo.gruppo = gruppo ? { ...gruppo, dentro: false } : {};
+    ARRIVO = null; S = nuovo; salva();
+    let avviso = "";
+    if (dentro) {
+      try {
+        if (unisci) await rpc("unisci_membri", { p_token: unisci.tieni, p_altro: unisci.altro });
+        await rientra();
+      } catch (e) { S.gruppo.dentro = true; salva(); avviso = ` (gruppo: ${e.message})`; aggiornaGruppo(true); }
+    }
+    try { if (navigator.clipboard) navigator.clipboard.writeText("").catch(() => {}); } catch (e) { /* gli appunti restano */ }
+    const docs = Object.values(S.documenti || {}).some((d) => d && d.scadenza);
+    toast(`Dati arrivati da Safari${unisci ? ": nel gruppo sei uno solo" : ""}${docs ? ". Ricarica le foto dei documenti da Io" : ""}${avviso}`);
+    const inv = arrivo.invitoDaAprire && !(S.gruppo && S.gruppo.dentro) ? arrivo.invitoDaAprire : "";
+    location.hash = inv ? `#/invito/${inv}` : "#/oggi";
+    route();
+  }
+
+  // Il telefono è (di nuovo) riconosciuto nel gruppo: prima si rimette quello che è online, poi si torna "dentro".
+  // Nell'ordine opposto il telefono, ancora vuoto, sovrascriverebbe gare e personali online.
+  async function rientra() {
+    const tk = token();
+    const d = await rpc("stato_gruppo", { p_token: tk });
+    const cl = C().classifiche ? await rpc("stato_classifiche", { p_token: tk }).catch(() => null) : null;
+    const r = L.ripristinoDaOnline(d, cl, S, oggi());
+    S.gare = [...S.gare, ...r.gare, ...r.archivio];
+    S.risultati = { ...(S.risultati || {}), ...r.risultati };
+    S.pb = { ...(S.pb || {}), ...r.pb };
+    S.segnalate = S.segnalate || {}; for (const g of r.gare) S.segnalate[g.id] = true;
+    if (!S.profilo.nome && d.io && d.io.nome) S.profilo.nome = d.io.nome;
+    S.benvenuto = true;
+    S.gruppo.dentro = true; S.gruppo.dati = d; S.gruppo.aggiornato = new Date().toISOString();
+    salva(); aggiornaClassifiche();
+    return { ...r.n, nome: d.io ? d.io.nome : "", gruppo: d.gruppo ? d.gruppo.nome : "" };
+  }
+
+  // Telefono nuovo: il codice per l'amministratore, poi la pagina si aggiorna da sola quando lo ha inserito.
+  let RITORNO = null, RIT_FATTO = null, timerRitorno;
+  function vistaRitorno() {
+    clearTimeout(timerRitorno);
+    if (S.gruppo && S.gruppo.dentro) return `<header class="head-back">${back("#/gruppo")}</header><section class="card"><span class="title">Sei già nel gruppo</span><span class="small">Questo telefono è già nel gruppo: non serve nessun codice.</span><a class="btn" href="#/gruppo">Vai al gruppo</a></section>`;
+    if (!RITORNO) {
+      RITORNO = { attesa: true };
+      rpc("chiedi_ritorno", { p_token: token() }).then((c) => { RITORNO = { codice: c }; }).catch((e) => { RITORNO = { errore: e.message || "Non riuscito" }; })
+        .then(() => { if (/^#\/ritorno$/.test(location.hash)) rerender(); });
+    }
+    const c = RITORNO.codice, bello = c ? `${c.slice(0, 4)} ${c.slice(4)}` : "";
+    if (c) timerRitorno = setTimeout(() => controllaRitorno(false), 8000);
+    return `<header class="head-back">${back("#/gruppo")}<span class="small" style="font-weight:600">Gruppo</span></header>
+      <div><span class="eyebrow">Telefono nuovo</span><h1 style="font-size:34px">Ritrova il tuo profilo</h1></div>
+      <p class="sub">Non entrare di nuovo con l'invito: diventeresti un'altra persona. Dai questo codice all'amministratore del gruppo: lo collega al tuo profilo e qui ritrovi tempi, punti, badge e gare.</p>
+      ${RITORNO.errore ? `<section class="card"><span class="small">${esc(RITORNO.errore)}</span><button class="btn ghost" type="button" data-act="rit-riprova">Riprova</button></section>`
+        : c ? `<button class="card dark codice-box" type="button" data-act="rit-copia" data-codice="${esc(c)}"><span class="eyebrow">Il tuo codice</span><span class="codice-grande">${esc(bello)}</span><span class="pill ok">Tocca per copiarlo</span></button>
+          <button class="btn block" type="button" data-act="rit-manda" data-codice="${esc(c)}">Manda il codice all'amministratore</button>
+          <button class="btn ghost block" type="button" data-act="rit-controlla">L'ha inserito: controlla</button>
+          <p class="small muted centro">Lo inserisce in Gruppo → Gestisci → «Telefono nuovo». Il codice vale 7 giorni; appena lo inserisce questa pagina si aggiorna da sola.</p>`
+        : `<section class="card"><span class="small">Preparo il codice…</span></section>`}
+      <section class="card soft"><span class="eyebrow">Cosa torna</span><span class="small">Le gare in programma (se le mostravi al gruppo), le gare corse e i personali delle classifiche. Preparazione e borsa ripartono dalle gare; scarpe, foto dei documenti, Strava e notifiche si rifanno da Io.</span></section>`;
+  }
+  async function controllaRitorno(aMano) {
+    if (!/^#\/ritorno$/.test(location.hash)) return;
+    try { await rpc("stato_gruppo", { p_token: token() }); }
+    catch (e) {
+      if (aMano) toast(/non sei in un gruppo/.test(e.message) ? "Non ancora: l'amministratore non ha inserito il codice" : "Non riesco a controllare: riprova tra poco");
+      if (/^#\/ritorno$/.test(location.hash)) { clearTimeout(timerRitorno); timerRitorno = setTimeout(() => controllaRitorno(false), 8000); }
+      return;
+    }
+    clearTimeout(timerRitorno);
+    try { RIT_FATTO = await rientra(); } catch (e) { toast("Riconosciuto, ma non riesco a leggere il gruppo: riprova"); return; }
+    RITORNO = null; location.hash = "#/ritorno/fatto";
+  }
+  function vistaRitornoFatto() {
+    const n = RIT_FATTO || { gare: 0, corse: 0, pb: 0 };
+    const tornato = [n.gare && `${n.gare} ${n.gare === 1 ? "gara in programma" : "gare in programma"}`, n.corse && `${n.corse} ${n.corse === 1 ? "gara corsa" : "gare corse"}`, n.pb && `${n.pb} ${n.pb === 1 ? "personale" : "personali"}`].filter(Boolean);
+    const riga = (href, t, d) => `<a class="link-card riga-percorso" href="${href}"><span><b>${t}</b><br><span class="small muted">${d}</span></span><span aria-hidden="true">›</span></a>`;
+    return `<section class="entra-invito"><span class="ob-logo">RaceBuddy</span>
+      <h1>Bentornato${n.nome ? `, ${esc(String(n.nome).split(/\s+/)[0])}` : ""}</h1>
+      <p class="sub" style="font-size:16px">Sei di nuovo in «${esc(n.gruppo || "il tuo gruppo")}» con lo stesso profilo: tempi, punti e badge sono al loro posto.</p>
+      <section class="card"><span class="eyebrow">Ho rimesso su questo telefono</span><span>${tornato.length ? esc(tornato.join(" · ")) : "Online non c'erano gare o personali da rimettere."}</span></section>
+      <section class="card" style="gap:0"><span class="eyebrow" style="margin-bottom:4px">Da rifare su questo telefono</span>
+        ${riga("#/io", "Notifiche", "Si attivano da Io → Notifiche")}${riga("#/io/documenti", "Tessera e certificato", "Scadenze e foto restano sul vecchio telefono: rifai Scansiona")}${riga("#/io/scarpe", "Scarpe", "Rimettile con i km di adesso")}${C().strava ? riga("#/io", "Strava", "Ricollegalo da Io → Strava") : ""}</section>
+      <div class="piede"><a class="btn block" href="#/gruppo">Vai al gruppo</a></div></section>`;
   }
 
   // ---------------------------------------------------------------- Entra nel gruppo: invito e funnel #/entra/:passo
@@ -2032,8 +2188,7 @@
       <div class="row" style="gap:10px"><a class="btn" style="flex:1" href="#/entra">Continua · ${min} ${min === 1 ? "minuto" : "minuti"}</a><button class="btn ghost" type="button" data-act="entra-dopo">Più tardi</button></div></section>`;
   }
 
-  // L'invito: su iPhone fuori dalla Home prima la Home (l'app nella Home ha una memoria separata da Safari)
-  let invitoInSafari = false;
+  // L'invito: su iPhone fuori dalla Home lo mostra la vetrina (l'app nella Home ha una memoria separata da Safari)
   function vistaInvito(codice, param = {}) {
     if (!codice) return vistaSenzaGruppo();
     const prova = codice === "anteprima" && S.gruppo && S.gruppo.dentro && GD();
@@ -2059,25 +2214,15 @@
           ${vantaggio(ICO.bandiera, "Il tuo buddy fino al via", "Preparazione, borsa, meteo e scadenze della tessera")}</div>`;
       } catch (e) { const box = document.getElementById("invito-info"); if (box) box.innerHTML = `<p class="sub">Non riesco a leggere l'invito: controlla la connessione.</p>`; }
     }, 0);
-    if (((iOS && !standalone()) || home) && !invitoInSafari) {
-      const webview = !/Safari\//.test(navigator.userAgent);
-      const passo = (n, t) => `<div class="passo-num"><span class="num">${n}</span><span>${t}</span></div>`;
-      return `${bannerRivedi()}<section class="entra-invito"><span class="ob-logo">RaceBuddy</span>
-        <h1 id="inv-tit">Ti hanno invitato nel gruppo</h1>
-        <p class="sub" style="font-size:16px">Su iPhone RaceBuddy funziona come un'app: prima la metti nella Home, poi entri nel gruppo da lì.</p>
-        <section class="card" style="gap:12px">${passo(1, `Tocca <b>Condividi</b> ${ICO_CONDIVIDI} nella barra di Safari`)}${passo(2, "Scegli <b>Aggiungi alla schermata Home</b>")}${passo(3, "Apri RaceBuddy dall'icona e tocca <b>Incolla l'invito</b>")}</section>
-        <button class="card dark codice-box" type="button" data-act="inv-copia" data-link="${esc(link)}"><span class="eyebrow">Il tuo invito</span><span class="codice-grande">${esc(codice)}</span><span class="pill ok" id="inv-copiato">Tocca per copiarlo</span></button>
-        ${webview ? `<p class="sub">Lo hai aperto da WhatsApp o Instagram? Prima apri questa pagina in Safari: menu ··· → <b>Apri in Safari</b>.</p>` : ""}
-        <div class="piede"><button class="btn ghost block" type="button" data-act="inv-copia" data-link="${esc(link)}">Copia il codice</button>
-          <p class="small muted centro">Le notifiche su iPhone arrivano solo alle app nella Home.</p>
-          <button class="link-btn small centro" type="button" data-act="inv-safari">Continua qui in Safari</button></div></section>`;
-    }
+    // anteprima da Io ("come lo vede un iPhone in Safari"); in Safari vero la vetrina la mostra già route()
+    if (home) return vistaVetrina(codice, "nuovo");
     return `${bannerRivedi()}<section class="entra-invito"><span class="ob-logo">RaceBuddy</span>
       <div id="invito-info" style="display:flex;flex-direction:column;gap:12px"><h1 id="inv-tit">Leggo l'invito…</h1></div>
       <form id="g-entra" data-codice="${esc(codice)}" ${infoProva ? 'data-anteprima="1"' : ""} class="piede">
         <div class="card"><div class="field"><label for="g-io">Nome e cognome</label><input class="input" id="g-io" required maxlength="40" value="${esc(S.profilo.nome || "")}" placeholder="es. Mario Rossi" autocomplete="name"><span class="small muted">Così ti riconoscono i compagni e troviamo i tuoi tempi nelle classifiche.</span></div></div>
         <button class="btn block" type="submit">Entra nel gruppo</button>
-        <p class="small muted centro">Tieni a portata la tessera FIDAL. Niente email né password: le tue gare e i personali si vedono nel gruppo, puoi cambiarlo da Io.</p></form></section>`;
+        <p class="small muted centro">Tieni a portata la tessera FIDAL. Niente email né password: le tue gare e i personali si vedono nel gruppo, puoi cambiarlo da Io.</p>
+        <a class="small centro" href="#/ritorno">Eri già nel gruppo con un altro telefono?</a></form></section>`;
   }
 
   function vistaEntra(passo) {
@@ -2292,6 +2437,11 @@
         <span class="small muted" style="margin-bottom:4px">${attivi} attivi in settimana · ${comuni} ${comuni === 1 ? "gara" : "gare"} in comune</span>
         ${d.membri.map(membro).join("")}
         ${admin ? `<span class="small muted" style="padding-top:8px">Gli <b>organizzatori</b> condividono l'invito e approvano i tempi. Gli <b>amministratori</b> gestiscono anche i membri.</span>` : ""}</section>
+      ${admin && d.membri.length > 1 ? `<form id="g-ritorno" class="card" style="gap:10px"><span class="eyebrow">Telefono nuovo</span>
+        <span class="small">Qualcuno ha cambiato telefono? Sul telefono nuovo, in Gruppo, tocca «Ho cambiato telefono» e ti dà un codice. Inseriscilo qui: ritrova tempi, punti e gare, senza diventare un doppione.</span>
+        <div class="field"><label for="gr-membro">Chi</label><select class="input" id="gr-membro" required><option value="">Scegli…</option>${d.membri.filter((m) => m.id !== io.id).map((m) => `<option value="${esc(m.id)}">${esc(m.nome)}</option>`).join("")}</select></div>
+        <div class="field"><label for="gr-cod">Codice</label><input class="input" id="gr-cod" required maxlength="12" autocapitalize="characters" autocomplete="off" placeholder="es. K7MP Q2XA"></div>
+        <button class="btn" type="submit">Collega il telefono</button></form>` : ""}
       ${admin ? `<form id="g-rinomina" class="card"><span class="eyebrow">Nome del gruppo</span><div class="row"><label class="sr" for="g-nn">Nome</label><input class="input" id="g-nn" value="${esc(d.gruppo.nome)}" maxlength="60"><button class="btn ghost" type="submit">Salva</button></div></form>` : ""}
       <div id="g-esci-box"><button class="btn ghost block" data-act="g-esci">Esci dal gruppo</button></div>
       <p class="sub">Uscendo, online si cancellano le tue gare condivise, i personali in classifica e i risultati delle classifiche; sul telefono resta tutto. Puoi rientrare con un nuovo invito.</p>`;
@@ -2818,7 +2968,7 @@
       ${acc("gruppo", "Gruppo", inG ? `${esc(GD().gruppo.nome)} · ${esc(RUOLI_G[GD().io.ruolo].toLowerCase())}` : "non sei in un gruppo", inG ? `<span class="small">Sei in <b>${esc(GD().gruppo.nome)}</b> come «${esc(GD().io.nome)}».</span>${S.profilo.nome && S.profilo.nome.trim() !== GD().io.nome ? `<button class="btn ghost small" data-act="g-usa-nome" style="align-self:flex-start">Fatti vedere come «${esc(S.profilo.nome.trim())}»</button>` : ""}
         <label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="io-mostra" ${GD().io.mostra_gare ? "checked" : ""}><span><span class="t">Mostra al gruppo le mie gare</span><br><span class="d">Nome della gara, ruolo e tempo obiettivo.</span></span></label>
         ${clAttive() ? `<label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="cl-partecipo" ${partecipo() ? "checked" : ""}><span><span class="t">Partecipo alle classifiche</span><br><span class="d">${partecipo() ? "Spegnendo, i tuoi risultati online si cancellano; sul telefono restano." : "Gare corse, PB della stagione e Albo d'oro del gruppo."}</span></span></label>${partecipo() ? `<a class="btn ghost" href="#/gruppo/carriera">La mia carriera</a><a class="btn ghost" href="#/gruppo/mie?da=io">Le mie gare in classifica</a>` : ""}<a class="link-regole" href="#/gruppo/regole?da=io">Come funzionano le classifiche ›</a>` : ""}
-        <a class="btn ghost" href="#/gruppo/admin">${GD().io.ruolo === "membro" ? "Membri del gruppo" : "Gestisci il gruppo"}</a><button class="btn ghost" type="button" data-act="g-esci">Esci dal gruppo</button>` : `<span class="small">Entra nel gruppo della tua società con il link d'invito, oppure crealo se sei il presidente.</span><a class="btn ghost" href="#/gruppo">Vai al gruppo</a>`)}
+        <a class="btn ghost" href="#/gruppo/admin">${GD().io.ruolo === "membro" ? "Membri del gruppo" : "Gestisci il gruppo"}</a><button class="btn ghost" type="button" data-act="g-esci">Esci dal gruppo</button>` : `<span class="small">Entra nel gruppo della tua società con il link d'invito, oppure crealo se sei il presidente.</span><a class="btn ghost" href="#/gruppo">Vai al gruppo</a><a class="btn ghost" href="#/ritorno">Ho cambiato telefono</a>`)}
       ${acc("personali", "I miei personali", esc(riassuntoPB()) || "da inserire", sezionePB())}
       ${C().strava ? acc("strava", "Strava", STRAVA_STATO && STRAVA_STATO.collegato ? '<span class="pill ok">collegato</span>' : "in prova", sezioneStrava()) : ""}
       ${acc("scarpe", "Le mie scarpe", S.scarpe.length ? `${S.scarpe.length} ${stravaOn ? "da Strava" : S.scarpe.length === 1 ? "paio" : "paia"}${daCambiare ? ` · <b style="color:var(--warn)">${daCambiare} da cambiare</b>` : ""}` : "nessuna", `${scarpe || `<span class="small">Nessuna scarpa ancora.</span>`}
@@ -2836,11 +2986,13 @@
         <div class="grid2"><button class="btn" type="submit">Applica</button><button class="btn ghost" type="button" data-act="prova-off">Torna a oggi</button></div></form>
         <div class="row" style="gap:18px"><a class="small" href="#/statistiche">Statistiche ›</a><a class="small" href="#/super">Superamministratore ›</a></div>
         <div id="reset-box" style="display:flex;flex-direction:column;gap:8px"><button class="btn ghost" type="button" data-act="reset-ask">Cancella tutti i miei dati</button></div></details>
+      ${iOS && standalone() ? `<section class="card"><span class="eyebrow">Da Safari</span><span class="small">Hai usato RaceBuddy in Safari prima di metterla nella Home? In Safari tocca «Copia i miei dati», poi torna qui.</span><button class="btn ghost" type="button" data-act="dati-incolla">Incolla i dati da Safari</button></section>` : ""}
       <section class="card" aria-label="Rivedi i percorsi guidati" style="gap:0"><span class="eyebrow" style="margin-bottom:4px">Rivedi i percorsi guidati</span>
         <a class="link-card riga-percorso" href="#/benvenuto"><span><b>Benvenuto</b><br><span class="small muted">Le 5 schermate del primo avvio</span></span><span aria-hidden="true">›</span></a>
         <a class="link-card riga-percorso" href="#/prepara/ora?rivedi=1"><span><b>Prepara RaceBuddy</b><br><span class="small muted">Uscita, zona, tessera e certificato, notifiche, gara</span></span><span aria-hidden="true">›</span></a>
         ${S.gruppo && S.gruppo.dentro && GD() ? `<a class="link-card riga-percorso" href="#/invito/anteprima?rivedi=1"><span><b>Entra nel gruppo</b><br><span class="small muted">Dall'invito ai 6 passi fino a "Sei dentro"</span></span><span aria-hidden="true">›</span></a>
         <a class="link-card riga-percorso" href="#/invito/anteprima?rivedi=1&home=1"><span><b>Entra nel gruppo da iPhone</b><br><span class="small muted">Come lo vede chi apre l'invito in Safari</span></span><span aria-hidden="true">›</span></a>` : `<span class="small muted" style="padding-top:8px">Entra nel gruppo: lo rivedi quando sei in un gruppo.</span>`}
+        <a class="link-card riga-percorso" href="#/vetrina?dati=1"><span><b>Safari su iPhone</b><br><span class="small muted">Come si portano nell'app i dati salvati in Safari</span></span><span aria-hidden="true">›</span></a>
         <span class="small muted" style="padding-top:8px">Ogni passo si vede dall'inizio, anche quelli già fatti. Quello che confermi si salva come sempre.</span></section>
       <p class="sub">Versione ${esc(window.RB_VERSION || "?")} · gare condivise: ${Object.keys(S.segnalate || {}).length} di ${S.gare.length}${S.erroreSegnala ? ` · ultimo errore: ${esc(S.erroreSegnala)}` : ""}</p>
       <p class="sub">Profilo, preparazione e scarpe restano su questo telefono.</p>`;
@@ -2924,10 +3076,16 @@
     const parts = path.split("/").map(decodeURIComponent);
     const param = Object.fromEntries(new URLSearchParams(query || ""));
     const tab = parts[0] || "oggi";
-    document.querySelectorAll("nav.tabs a").forEach((a) => a.setAttribute("aria-current", a.dataset.tab === ({ prepara: "oggi", aggiungi: "gare", gara: "gare", checklist: "gare", percorso: "gare", meteo: "oggi", pillole: "oggi", invito: "gruppo", entra: "gruppo", risultato: "oggi", pb: "io", tempi: "io", estera: "gare", statistiche: "io", super: "io", condividi: "gare" }[tab] || tab) ? "page" : "false"));
+    document.querySelectorAll("nav.tabs a").forEach((a) => a.setAttribute("aria-current", a.dataset.tab === ({ prepara: "oggi", aggiungi: "gare", gara: "gare", checklist: "gare", percorso: "gare", meteo: "oggi", pillole: "oggi", invito: "gruppo", entra: "gruppo", ritorno: "gruppo", trasloco: "oggi", vetrina: "io", risultato: "oggi", pb: "io", tempi: "io", estera: "gare", statistiche: "io", super: "io", condividi: "gare" }[tab] || tab) ? "page" : "false"));
     if (D.errore) { $app.innerHTML = `<section class="card"><span class="title">Qualcosa non va</span><span class="small">${esc(D.errore)}</span></section>`; return; }
     let html;
-    if (param.rivedi) { RIVEDI = tab === "prepara" ? "prepara" : "entra"; invitoInSafari = false; }
+    // Safari su iPhone: solo la vetrina (e il benvenuto da guardare). "#/vetrina" = anteprima da Io.
+    if ((vetrina() && tab !== "benvenuto") || tab === "vetrina") {
+      document.body.classList.remove("onboarding", "chat-on"); document.body.classList.add("funnel-on");
+      $app.innerHTML = vistaVetrina(tab === "invito" ? parts[1] || "" : "", tab === "vetrina" ? (param.dati ? "dati" : "nuovo") : null);
+      return;
+    }
+    if (param.rivedi) RIVEDI = tab === "prepara" ? "prepara" : "entra";
     else if (!["prepara", "entra", "invito"].includes(tab)) RIVEDI = null;
     const benvenuto = !S.benvenuto && !S.gare.length && (tab === "oggi" || tab === "benvenuto");
     document.body.classList.toggle("onboarding", benvenuto);
@@ -2942,6 +3100,8 @@
           : parts[1] === "partecipa" ? vistaEntra("classifiche") : parts[1] === "regole" ? vistaRegole(param) : parts[1] === "recupero" ? vistaRecupero(param) : parts[1] === "classifiche" ? vistaClassifiche(param) : parts[1] === "mie" ? vistaMieGare(param) : parts[1] === "societa" ? vistaSocieta(param) : parts[1] === "carriera" ? vistaCarriera() : parts[1] === "gare" ? vistaGareMembri(param) : vistaGruppo();
         break;
       case "invito": html = vistaInvito(parts[1], param); break;
+      case "ritorno": html = parts[1] === "fatto" ? vistaRitornoFatto() : vistaRitorno(); break;
+      case "trasloco": html = vistaTrasloco(); break;
       case "entra": html = vistaEntra(parts[1]); break;
       case "estera": {
         const id = parts[1], ge = garaEsteraDati(id);
@@ -2973,7 +3133,7 @@
     if (att) seg.scrollLeft = att.offsetLeft - (seg.clientWidth - att.offsetWidth) / 2;
     const inv = tab === "invito" && (!(S.gruppo && S.gruppo.dentro) || parts[1] === "anteprima"), fineEntra = tab === "entra" && parts[1] === "fine" && S.gruppo && S.gruppo.dentro;
     document.body.classList.toggle("onboarding", !!fineEntra);
-    document.body.classList.toggle("funnel-on", tab === "prepara" || (tab === "entra" && !fineEntra) || inv);
+    document.body.classList.toggle("funnel-on", tab === "prepara" || (tab === "entra" && !fineEntra) || inv || tab === "ritorno");
     document.body.classList.toggle("chat-on", tab === "buddy" && !!C().buddy);
     if (tab === "oggi" || !tab) riempiMeteo();
     riempiMeteoGaraBox();
@@ -3040,15 +3200,44 @@
         .catch((e) => { toast(e.message); t.disabled = false; t.textContent = "Sono io: usa questi dati"; });
       return;
     }
+    if (act === "vt-copia") {
+      const prova = !!t.dataset.prova, codice = t.dataset.codice;
+      const testo = L.creaPacchetto({ ...S, ...(codice ? { invitoDaAprire: codice } : {}) }, oggi());
+      const fatto = () => { if (!prova) { S.traslocato = oggi(); salva(); } t.textContent = "✓ Copiati · copia di nuovo"; toast("Dati copiati: ora mettila nella Home"); };
+      (navigator.clipboard ? navigator.clipboard.writeText(testo) : Promise.reject()).then(fatto).catch(() => {
+        const box = document.getElementById("vt-manuale");
+        if (!box) return;
+        box.innerHTML = `<div class="field"><label for="vt-testo">Non riesco a copiarli da solo: tieni premuto nel riquadro, «Seleziona tutto», «Copia»</label><textarea class="input" id="vt-testo" rows="3" readonly>${esc(testo)}</textarea></div>`;
+        const ta = box.querySelector("textarea"); ta.focus(); ta.select();
+        if (!prova) { S.traslocato = oggi(); salva(); }
+      });
+      return;
+    }
+    if (act === "tr-tieni") { if (ARRIVO) { t.disabled = true; applicaPacchetto(ARRIVO, t.dataset.v); } return; }
+    if (act === "rit-riprova") { RITORNO = null; rerender(); return; }
+    if (act === "rit-controlla") { controllaRitorno(true); return; }
+    if (act === "rit-copia") { copia(t.dataset.codice, "Codice"); return; }
+    if (act === "rit-manda") {
+      const testo = `Ciao, ho cambiato telefono. In RaceBuddy vai in Gruppo → Gestisci → «Telefono nuovo», scegli ${S.profilo.nome ? S.profilo.nome.trim() : "il mio nome"} e scrivi il codice ${t.dataset.codice}`;
+      if (navigator.share) navigator.share({ text: testo }).catch(() => {}); else copia(testo, "Messaggio");
+      return;
+    }
     if (act === "inv-copia") {
       const ok = () => { const p = document.getElementById("inv-copiato"); if (p) p.textContent = "✓ Copiato: incollalo nell'app"; };
       (navigator.clipboard ? navigator.clipboard.writeText(t.dataset.link) : Promise.reject()).then(() => { ok(); toast("Invito copiato"); }).catch(() => toast("Tieni premuto sul codice per copiarlo"));
       return;
     }
-    if (act === "inv-safari") { invitoInSafari = true; rerender(); return; }
-    if (act === "inv-incolla" || act === "ob-invito") {
+    if (vetrina() && (act === "ob-fine" || act === "ob-invito")) { location.hash = "#/"; route(); return; } // benvenuto da guardare, in Safari
+    if (act === "inv-incolla" || act === "ob-invito" || act === "dati-incolla") {
       if (act === "ob-invito") { S.benvenuto = true; salva(); document.body.classList.remove("onboarding"); }
-      const vai = (testo) => { const c = (String(testo || "").match(/([A-Z2-9]{8})\s*$/i) || [])[1]; if (c) location.hash = `#/invito/${c.toUpperCase()}`; else { if (act === "inv-incolla") toast("Negli appunti non c'è un invito: scrivi il codice"); location.hash = "#/gruppo"; route(); } };
+      const vai = (testo) => {
+        const pk = L.leggiPacchetto(testo);
+        if (pk) { riceviPacchetto(pk); return; }
+        const c = (String(testo || "").match(/([A-Z2-9]{8})\s*$/i) || [])[1];
+        if (c && act !== "dati-incolla") { location.hash = `#/invito/${c.toUpperCase()}`; return; }
+        toast(act === "dati-incolla" ? "Negli appunti non ci sono dati di RaceBuddy: in Safari tocca «Copia i miei dati»" : act === "inv-incolla" ? "Negli appunti non c'è un invito: scrivi il codice" : "Negli appunti non c'è un invito né dati da Safari");
+        if (act !== "dati-incolla") { location.hash = "#/gruppo"; route(); }
+      };
       (navigator.clipboard && navigator.clipboard.readText ? navigator.clipboard.readText() : Promise.reject()).then(vai).catch(() => vai(""));
       return;
     }
@@ -3506,6 +3695,13 @@
     const f = e.target; e.preventDefault();
     const v = (id) => (document.getElementById(id) || {}).value || "";
     if (f.id === "buddy-form") { inviaBuddy(v("buddy-testo")); return; }
+    if (f.id === "g-ritorno") {
+      const b = f.querySelector('button[type="submit"]'); b.disabled = true;
+      rpc("admin_ritorno", { p_token: token(), p_membro: v("gr-membro"), p_codice: v("gr-cod") })
+        .then((nome) => { toast(`Fatto: ${nome} ritrova tutto sul telefono nuovo`); f.reset(); aggiornaGruppo(true); })
+        .catch((e) => toast(e.message || "Non riuscito")).finally(() => { b.disabled = false; });
+      return;
+    }
     if (f.id === "prepara-form") {
       const passo = f.dataset.passo;
       if (passo === "uscita" && !v("pf-citta").trim() && !S.profilo.coord) { toast("Scrivi la città o usa la posizione"); return; }
@@ -3724,22 +3920,7 @@
   }, { passive: true });
   $app.addEventListener("touchcancel", () => { tocco = null; }, { passive: true });
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
-  // iPhone fuori dalla Home: banner fisso che spiega come aggiungere RaceBuddy alla schermata Home
-  // (su Android ci pensa il banner di installazione di Chrome). "✕" lo nasconde per 7 giorni.
+  // Icona di Condividi di Safari, per le istruzioni "Aggiungi alla schermata Home" (vetrina). Su Android basta il banner di Chrome.
   const ICO_CONDIVIDI = `<svg aria-label="Condividi" role="img" width="16" height="18" viewBox="0 0 16 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><path d="M8 13V2M4.5 5.5 8 2l3.5 3.5M5 8H3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1h-2"/></svg>`;
-  function bannerHome() {
-    const vecchio = document.getElementById("banner-home");
-    const nascosto = S.bannerHomeDopo && S.bannerHomeDopo > L.todayISO();
-    if (!iOS || standalone() || nascosto || /^#\/(invito|entra)/.test(location.hash)) { if (vecchio) vecchio.remove(); document.body.classList.remove("con-banner-home"); return; }
-    if (vecchio) return;
-    const webview = !/Safari\//.test(navigator.userAgent); // browser interno di Instagram, Facebook…: lì non si può aggiungere alla Home
-    const el = document.createElement("aside");
-    el.id = "banner-home"; el.className = "banner-home"; el.setAttribute("aria-label", "Aggiungi RaceBuddy alla schermata Home");
-    el.innerHTML = `<img src="apple-touch-icon.png" alt="" width="44" height="44"><div style="flex:1;min-width:0"><b>Metti RaceBuddy nella Home</b><br>
-      <span>${webview ? "Apri questa pagina in <b>Safari</b> (menu ··· → Apri nel browser), poi aggiungila alla schermata Home." : `Tocca ${ICO_CONDIVIDI} <b>Condividi</b>, poi <b>Aggiungi alla schermata Home</b>. Si apre come un'app e ricevi le notifiche.`}</span></div>
-      <button class="banner-chiudi" type="button" aria-label="Chiudi, ricordamelo tra una settimana">✕</button>`;
-    el.querySelector("button").addEventListener("click", () => { S.bannerHomeDopo = L.addDays(L.todayISO(), 7); salva(); bannerHome(); });
-    document.body.appendChild(el); document.body.classList.add("con-banner-home");
-  }
-  carica().then(() => { bannerHome(); route(); contaApertura(); if (C().strava) aggiornaScarpeStrava(); S.gare.forEach((g) => segnalaGara(g, g.id.startsWith("M") ? "manuale" : "FIDAL")); if (S.push && S.push.attivo) sincronizzaPush(); if (S.gruppo && S.gruppo.dentro) { aggiornaGruppo(true).then(() => sincronizzaPBGruppo()); sincronizzaGareGruppo(); } });
+  carica().then(() => { route(); if (vetrina()) return; contaApertura(); if (C().strava) aggiornaScarpeStrava(); S.gare.forEach((g) => segnalaGara(g, g.id.startsWith("M") ? "manuale" : "FIDAL")); if (S.push && S.push.attivo) sincronizzaPush(); if (S.gruppo && S.gruppo.dentro) { aggiornaGruppo(true).then(() => sincronizzaPBGruppo()); sincronizzaGareGruppo(); } });
 })();

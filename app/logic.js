@@ -995,7 +995,103 @@
     return n;
   }
 
-  const api = { PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, daRecuperare, PASSI_ENTRA, passiEntra, prossimoEntra };
+  // ---------------------------------------------------------------- telefoni: da Safari all'app (iPhone) e telefono nuovo
+  // Su iPhone Safari e l'app nella Home hanno memorie separate: i dati passano con un "pacchetto" negli appunti
+  // (niente server). Il pacchetto porta anche il codice segreto del gruppo, così nell'app si resta la stessa persona.
+  const PACCHETTO = "RACEBUDDY-DATI-1:";
+  // non passano: cose legate a quel browser (notifiche, banner), stati temporanei e la data simulata
+  const NON_PASSA = ["push", "errorePush", "bannerHomeDopo", "traslocato", "_bozza", "prova", "ioAperto", "erroreSegnala"];
+  const aBase64 = (s) => btoa(unescape(encodeURIComponent(s)));
+  const daBase64 = (b) => decodeURIComponent(escape(atob(b)));
+  /** C'è qualcosa che vale la pena portare? (Il solo benvenuto visto o i contatori anonimi non contano.) */
+  function haDatiLocali(S) {
+    if (!S) return false;
+    const pieno = (x) => (Array.isArray(x) ? x.length > 0 : !!x && Object.keys(x).length > 0);
+    const docs = Object.values(S.documenti || {}).some((d) => d && (d.scadenza || d.numero));
+    const prof = S.profilo || {};
+    return pieno(S.gare) || pieno(S.mirino) || pieno(S.pb) || pieno(S.scarpe) || pieno(S.risultati) || docs
+      || !!(S.gruppo && S.gruppo.dentro) || !!(prof.nome || prof.citta || prof.coord);
+  }
+  /** Il testo da copiare negli appunti in Safari. */
+  function creaPacchetto(S, oggi) {
+    const s = {};
+    for (const [k, v] of Object.entries(S || {})) if (!NON_PASSA.includes(k)) s[k] = v;
+    return PACCHETTO + aBase64(JSON.stringify({ il: oggi || todayISO(), s }));
+  }
+  /** Dagli appunti: { il, s } se è un pacchetto di RaceBuddy integro, altrimenti null. */
+  function leggiPacchetto(testo) {
+    const t = String(testo || ""), i = t.indexOf(PACCHETTO);
+    if (i < 0) return null;
+    try {
+      const j = JSON.parse(daBase64(t.slice(i + PACCHETTO.length).replace(/\s+/g, "")));
+      if (!j || typeof j.s !== "object" || !j.s || Array.isArray(j.s)) return null;
+      if (j.s.gare && !Array.isArray(j.s.gare)) return null;
+      return { il: j.il || "", s: j.s };
+    } catch (e) { return null; }
+  }
+  /** Due righe per confrontare i dati di Safari con quelli già nell'app. */
+  function riassuntoDati(S, oggi) {
+    const o = oggi || todayISO(), gare = (S && S.gare) || [];
+    const prossime = gare.filter((g) => g.data >= o && !g.archiviata).length, corse = gare.length - prossime;
+    const parti = [];
+    if (prossime) parti.push(`${prossime} ${prossime === 1 ? "gara in programma" : "gare in programma"}`);
+    if (corse) parti.push(`${corse} ${corse === 1 ? "gara corsa" : "gare corse"}`);
+    const pb = Object.keys((S && S.pb) || {}).length;
+    if (pb) parti.push(`${pb} ${pb === 1 ? "personale" : "personali"}`);
+    const sc = ((S && S.scarpe) || []).length;
+    if (sc) parti.push(`${sc} ${sc === 1 ? "scarpa" : "scarpe"}`);
+    if (S && S.gruppo && S.gruppo.dentro) parti.push("nel gruppo");
+    return parti.length ? parti.join(" · ") : "nessun dato";
+  }
+  /** Dopo il pacchetto, chi resta nel gruppo. `tieni` sono i dati scelti, `altro` quelli lasciati.
+   *  Se solo uno dei due è nel gruppo, quell'identità passa ai dati tenuti; se lo sono entrambi (doppione sullo stesso
+   *  telefono) il server fonde i due membri: { gruppo, unisci: { tieni, altro } } con i due codici. */
+  function gruppoDopoTrasloco(tieni, altro) {
+    const gt = (tieni && tieni.gruppo) || null, ga = (altro && altro.gruppo) || null;
+    const dentroT = !!(gt && gt.dentro && gt.token), dentroA = !!(ga && ga.dentro && ga.token);
+    if (dentroT && dentroA && gt.token !== ga.token) return { gruppo: gt, unisci: { tieni: gt.token, altro: ga.token } };
+    if (dentroT) return { gruppo: gt, unisci: null };
+    if (dentroA) return { gruppo: ga, unisci: null };
+    return { gruppo: gt || ga, unisci: null };
+  }
+  /** Telefono nuovo, appena tornato nel gruppo: cosa si può rimettere dall'online. `gruppo` = stato_gruppo,
+   *  `classifiche` = stato_classifiche (facoltativo), `S` = i dati già sul telefono (niente doppioni).
+   *  Gare in programma (se condivise), gare corse dalle classifiche (tempi certificati ed esiti), personali in classifica. */
+  function ripristinoDaOnline(gruppo, classifiche, S, oggi) {
+    const o = oggi || todayISO(), io = (gruppo && gruppo.io) || {}, qui = (S && S.gare) || [];
+    const giaGara = (id) => qui.some((g) => g.id === id);
+    const giaCorsa = (data, dist) => qui.some((g) => g.data === data && g.distanza === dist);
+    const gare = ((gruppo && gruppo.gare) || [])
+      .filter((g) => g.membro_id === io.id && g.data >= o && !giaGara(g.gara_id))
+      .map((g) => ({ id: g.gara_id, nome: g.nome, data: g.data, luogo: g.luogo || "", distanza: g.distanza, ruolo: g.ruolo || "obiettivo", tempo: g.tempo || "", aggiunta: o }));
+    const ESITI = { ritirato: "dnf", non_partito: "dns", annullata: "annullata" };
+    const archivio = [], risultati = {}, visti = new Set();
+    for (const r of (classifiche && classifiche.miei) || []) {
+      if (!["certificato", "dichiarato"].includes(r.stato) || r.data >= o || giaCorsa(r.data, r.distanza)) continue;
+      const id = `R${r.data.replace(/-/g, "")}-${r.distanza}`;
+      if (visti.has(id)) continue;
+      visti.add(id);
+      const g = { id, nome: r.gara_nome || `${DIST_LABEL[r.distanza] || r.distanza} del ${fmtBreve(r.data)}`, data: r.data, luogo: "", distanza: r.distanza, ruolo: "tappa", tempo: "", aggiunta: r.data, archiviata: r.data };
+      if (r.esito && r.esito !== "arrivato") { g.esito = ESITI[r.esito] || r.esito; g.esitoData = r.data; }
+      else if (r.secondi) {
+        const t = leggiTempo(r.distanza, `${Math.floor(r.secondi / 3600)}:${String(Math.floor((r.secondi % 3600) / 60)).padStart(2, "0")}:${String(r.secondi % 60).padStart(2, "0")}`);
+        if (!t.tempo) continue;
+        risultati[id] = { tempo: t.tempo, secondi: t.secondi, testo: "", pb: false, precedente: null, salvato: r.data, fonte: r.fonte || "" };
+      }
+      archivio.push(g);
+    }
+    const pb = {}, att = (S && S.pb) || {};
+    for (const p of (gruppo && gruppo.classifica) || []) {
+      if (!p.mio || !p.secondi) continue;
+      const mio = att[p.distanza];
+      if (mio && mio.secondi && mio.secondi <= p.secondi) continue;
+      if (pb[p.distanza] && pb[p.distanza].secondi <= p.secondi) continue;
+      pb[p.distanza] = { tempo: p.tempo, secondi: p.secondi, gara: p.gara_nome || "", data: p.data_gara || "" };
+    }
+    return { gare, archivio, risultati, pb, n: { gare: gare.length, corse: archivio.length, pb: Object.keys(pb).length } };
+  }
+
+  const api = { PACCHETTO, haDatiLocali, creaPacchetto, leggiPacchetto, riassuntoDati, gruppoDopoTrasloco, ripristinoDaOnline, PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, daRecuperare, PASSI_ENTRA, passiEntra, prossimoEntra };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);

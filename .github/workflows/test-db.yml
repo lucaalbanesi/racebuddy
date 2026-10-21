@@ -52,6 +52,18 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f tests/test_stagione.sql > esito9.txt 2>&1 || true
           cat esito9.txt
           if ! grep -q "permessi stagione ok" esito9.txt; then echo "::error::stagione: $(grep -iE 'error|errore|assert|context|line' esito9.txt | head -6 | tr '\n' ' ')"; exit 1; fi
+      - name: Telefoni del membro (cambio di telefono e doppioni)
+        run: |
+          psql -v ON_ERROR_STOP=1 -f docs/supabase_telefoni.sql
+          psql -v ON_ERROR_STOP=1 -f docs/supabase_telefoni.sql   # ripetibile
+          psql -v ON_ERROR_STOP=1 -f tests/test_telefoni.sql > esito10.txt 2>&1 || true
+          cat esito10.txt
+          if ! grep -q "permessi telefoni ok" esito10.txt; then echo "::error::telefoni: $(grep -iE 'error|errore|assert|context|line' esito10.txt | head -6 | tr '\n' ' ')"; exit 1; fi
+          # le prove di prima valgono anche con i telefoni aggiunti
+          for t in gruppo classifiche superadmin stagione; do
+            psql -v ON_ERROR_STOP=1 -f tests/test_$t.sql > esito_$t.txt 2>&1 || true
+            if ! grep -q "permessi.* ok" esito_$t.txt; then cat esito_$t.txt; echo "::error::$t dopo i telefoni"; exit 1; fi
+          done
       - name: Statistiche
         run: |
           psql -v ON_ERROR_STOP=1 -f docs/supabase.sql

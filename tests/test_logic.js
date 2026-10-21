@@ -642,4 +642,75 @@ assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10",
   assert.ok(L.badgeAtleta({ miei: [...miei, R("z", "m1", "2026-12-06", "42", 12600, { ag: 70.5 })], oggi: "2026-12-07" }).find((x) => x.k === "oltre70").preso);
 }
 
+// ---------------------------------------------------------------- telefoni: Safari → app e telefono nuovo
+{
+  // dati che contano: non il solo benvenuto o i contatori
+  assert.strictEqual(L.haDatiLocali({ profilo: {}, gare: [], benvenuto: true, conta: { g: "2026-10-21" } }), false);
+  assert.strictEqual(L.haDatiLocali({ profilo: { nome: "Daniele" }, gare: [] }), true);
+  assert.strictEqual(L.haDatiLocali({ profilo: {}, gare: [], gruppo: { token: "x", dentro: true } }), true);
+  assert.strictEqual(L.haDatiLocali({ profilo: {}, gare: [], gruppo: { token: "x" } }), false, "solo il codice, fuori dal gruppo");
+  assert.strictEqual(L.haDatiLocali({ profilo: {}, gare: [], documenti: { tessera: { scadenza: "2026-12-31" } } }), true);
+  assert.strictEqual(L.haDatiLocali(null), false);
+
+  // pacchetto: andata e ritorno, accenti compresi; via notifiche, banner e data simulata
+  const S = { profilo: { nome: "Niccolò D'Angelo", citta: "Roma" }, gare: [firenze], pb: { "21": { tempo: "1:40:00", secondi: 6000 } },
+    gruppo: { token: "a".repeat(64), dentro: true }, push: { attivo: true, endpoint: "https://x" }, bannerHomeDopo: "2026-10-28", prova: "2026-11-01", traslocato: "2026-10-20" };
+  const p = L.creaPacchetto(S, "2026-10-21");
+  assert.ok(p.startsWith(L.PACCHETTO));
+  const letto = L.leggiPacchetto(`Ecco: ${p}\n`);
+  assert.strictEqual(letto.il, "2026-10-21");
+  assert.strictEqual(letto.s.profilo.nome, "Niccolò D'Angelo");
+  assert.deepStrictEqual(letto.s.gare, [firenze]);
+  assert.strictEqual(letto.s.gruppo.token, "a".repeat(64));
+  for (const k of ["push", "bannerHomeDopo", "prova", "traslocato"]) assert.ok(!(k in letto.s), k);
+  // spezzato su più righe dagli appunti: vale lo stesso
+  assert.ok(L.leggiPacchetto(p.slice(0, 40) + "\n" + p.slice(40)));
+  // non è un pacchetto, o è rovinato
+  assert.strictEqual(L.leggiPacchetto("K7MPQ2XA"), null);
+  assert.strictEqual(L.leggiPacchetto(L.PACCHETTO + "%%%"), null);
+  assert.strictEqual(L.leggiPacchetto(L.PACCHETTO + Buffer.from('{"s":[1]}').toString("base64")), null);
+  assert.strictEqual(L.leggiPacchetto(L.PACCHETTO + Buffer.from('{"s":{"gare":"x"}}').toString("base64")), null);
+
+  // riassunto per scegliere quali dati tenere
+  assert.strictEqual(L.riassuntoDati({ gare: [firenze, roma], pb: { "21": {} }, gruppo: { dentro: true } }, "2026-10-21"), "1 gara in programma · 1 gara corsa · 1 personale · nel gruppo");
+  assert.strictEqual(L.riassuntoDati({ gare: [] }, "2026-10-21"), "nessun dato");
+
+  // chi resta nel gruppo dopo il pacchetto
+  const A = { gruppo: { token: "A".repeat(64), dentro: true } }, B = { gruppo: { token: "B".repeat(64), dentro: true } }, fuori = { gruppo: { token: "C".repeat(64) } };
+  assert.deepStrictEqual(L.gruppoDopoTrasloco(A, B), { gruppo: A.gruppo, unisci: { tieni: A.gruppo.token, altro: B.gruppo.token } }, "doppione: si fonde");
+  assert.deepStrictEqual(L.gruppoDopoTrasloco(fuori, A), { gruppo: A.gruppo, unisci: null }, "i dati tenuti prendono l'identità del gruppo");
+  assert.deepStrictEqual(L.gruppoDopoTrasloco(A, fuori), { gruppo: A.gruppo, unisci: null });
+  assert.deepStrictEqual(L.gruppoDopoTrasloco(A, A), { gruppo: A.gruppo, unisci: null }, "stesso codice: niente da fondere");
+  assert.deepStrictEqual(L.gruppoDopoTrasloco({}, {}), { gruppo: null, unisci: null });
+
+  // telefono nuovo: cosa torna dall'online
+  const gruppo = { io: { id: "m1" },
+    gare: [{ gara_id: "FI-42", nome: "Firenze Marathon", data: "2026-11-29", luogo: "Firenze", distanza: "42", membro_id: "m1", ruolo: "obiettivo", tempo: "3:30:00" },
+      { gara_id: "RM-10", nome: "Corri Roma", data: "2026-11-08", distanza: "10", membro_id: "m2", ruolo: "obiettivo" },
+      { gara_id: "VE-21", nome: "Ieri", data: "2026-10-20", distanza: "21", membro_id: "m1" }],
+    classifica: [{ distanza: "21", tempo: "1:40:00", secondi: 6000, gara_nome: "Mezza di Roma", data_gara: "2026-03-01", mio: true },
+      { distanza: "10", tempo: "0:40:00", secondi: 2400, mio: false }] };
+  const classifiche = { miei: [
+    { data: "2026-03-01", distanza: "21", gara_nome: "Mezza di Roma", esito: "arrivato", secondi: 6000, fonte: "gpl", stato: "certificato" },
+    { data: "2026-05-10", distanza: "10", gara_nome: "Corri per il Verde", esito: "ritirato", stato: "dichiarato" },
+    { data: "2026-06-01", distanza: "10", gara_nome: "In coda", esito: "arrivato", secondi: 2900, stato: "in_approvazione" },
+    { data: "2026-09-20", distanza: "42", esito: "arrivato", secondi: 13000, fonte: "fidal", stato: "certificato" }] };
+  const r0 = L.ripristinoDaOnline(gruppo, classifiche, { gare: [], pb: {} }, "2026-10-21");
+  assert.deepStrictEqual(r0.gare, [{ id: "FI-42", nome: "Firenze Marathon", data: "2026-11-29", luogo: "Firenze", distanza: "42", ruolo: "obiettivo", tempo: "3:30:00", aggiunta: "2026-10-21" }], "solo le mie, in programma");
+  assert.deepStrictEqual(r0.n, { gare: 1, corse: 3, pb: 1 });
+  const mezza = r0.archivio.find((g) => g.id === "R20260301-21");
+  assert.strictEqual(mezza.archiviata, "2026-03-01");
+  assert.deepStrictEqual(r0.risultati["R20260301-21"], { tempo: "1:40:00", secondi: 6000, testo: "", pb: false, precedente: null, salvato: "2026-03-01", fonte: "gpl" });
+  assert.strictEqual(r0.archivio.find((g) => g.id === "R20260510-10").esito, "dnf", "esito senza tempo");
+  assert.ok(!r0.archivio.some((g) => g.nome === "In coda"), "in approvazione: non torna");
+  assert.strictEqual(r0.archivio.find((g) => g.id === "R20260920-42").nome, "Maratona del 20 set", "senza nome della gara");
+  assert.strictEqual(r0.risultati["R20260920-42"].tempo, "3:36:40");
+  assert.deepStrictEqual(r0.pb, { "21": { tempo: "1:40:00", secondi: 6000, gara: "Mezza di Roma", data: "2026-03-01" } });
+  // quello che è già sul telefono non si duplica, e un personale migliore resta
+  const r1 = L.ripristinoDaOnline(gruppo, classifiche, { gare: [{ id: "FI-42" }, { id: "x", data: "2026-03-01", distanza: "21" }], pb: { "21": { secondi: 5900 } } }, "2026-10-21");
+  assert.deepStrictEqual(r1.n, { gare: 0, corse: 2, pb: 0 });
+  // senza classifiche (non partecipa): solo le gare condivise
+  assert.deepStrictEqual(L.ripristinoDaOnline(gruppo, null, {}, "2026-10-21").n, { gare: 1, corse: 0, pb: 1 });
+}
+
 console.log("ok");
