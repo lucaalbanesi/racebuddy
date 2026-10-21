@@ -1472,6 +1472,10 @@
   // (docs/supabase_stagione.sql), calcoli in logic.js. Le percentuali per età arrivano già fatte: l'età non esce mai.
   const ST = () => (S.gruppo && S.gruppo.st) || {};
   const gareSoc = () => ST().gare_societa || [];
+  // Fuori misura (es. 9,9 km come 10 km): vale per Gare corse e arrivo Impegno, non per PB e Albo d'oro
+  const kmReali = (r) => `${String(r.km_reali).replace(".", ",")} km`;
+  const notaFuori = (r) => (L.fuoriMisura(r) ? ` · ${kmReali(r)}, fuori misura` : "");
+  const PERCHE_FUORI = (r) => `${kmReali(r)}, fuori misura: vale per Gare corse e arrivo Impegno, non per PB e Albo d'oro`;
   // Bollino in Gare: solo le gare della propria società (le altre società non si vedono mai)
   const garaSoc = (g) => (clAttive() ? L.garaSocDi(gareSoc(), g) : null);
   const pillSoc = (g) => (garaSoc(g) ? `<span class="pill navy-pill">★ Gara della società</span>` : "");
@@ -1595,7 +1599,7 @@
         const lista = scelti.length ? L.daRecuperare(L.tempiUniti(P, scelti), cl.io, cl.miei) : [];
         const n = lista.filter((r) => !REC_NO.has(r.id)).length;
         corpo = chi + (scelti.length ? `<section class="card" style="gap:0"><div class="between" style="margin-bottom:4px"><h2>Le tue gare</h2><span class="small muted">${n} di ${lista.length}</span></div>
-          ${lista.length ? lista.map((r) => `<label class="check"><input type="checkbox" data-act-change="rec-tog" data-id="${esc(r.id)}" ${REC_NO.has(r.id) ? "" : "checked"}><span style="flex:1"><span class="t">${esc(L.nomeRisultato(r))}</span><br><span class="d">${esc(L.DIST_LABEL[r.distanza])} · ${esc(L.fmtBreve(r.data))} ${esc(r.data.slice(0, 4))} · ${esc(FONTE_TEMPI[r.fonte])}</span></span><b class="pb-tempo">${esc(fmtSec(r.secondi))}</b></label>`).join("") : `<span class="small">Niente da recuperare: le gare trovate sono già certificate.</span>`}</section>
+          ${lista.length ? lista.map((r) => `<label class="check"><input type="checkbox" data-act-change="rec-tog" data-id="${esc(r.id)}" ${REC_NO.has(r.id) ? "" : "checked"}><span style="flex:1"><span class="t">${esc(L.nomeRisultato(r))}</span><br><span class="d">${esc(L.DIST_LABEL[r.distanza])}${esc(notaFuori(r))} · ${esc(L.fmtBreve(r.data))} ${esc(r.data.slice(0, 4))} · ${esc(FONTE_TEMPI[r.fonte])}</span></span><b class="pb-tempo">${esc(fmtSec(r.secondi))}</b></label>`).join("") : `<span class="small">Niente da recuperare: le gare trovate sono già certificate.</span>`}</section>
           ${n ? `<button class="btn block" data-act="cl-recupera">Recupera ${n} ${n === 1 ? "gara" : "gare"}</button>` : ""}
           <p class="sub">Togli la spunta alle gare che non sono tue (con gli omonimi può capitare). Se il nome in classifica è quello con cui sei nel gruppo sono certificate subito, altrimenti le approva il referente.</p>` : "");
       }
@@ -1635,7 +1639,7 @@
     if (c === "obiettivo") {
       const id = ioId(), { risultati } = datiSt(), ob = ST().obiettivi || [];
       const { quasi } = L.classificaObiettivo({ risultati, obiettivi: ob }, { anno, nomi: nomiCl(), io: id });
-      const mie = risultati.filter((r) => r.mio && r.data.startsWith(anno)).map((r) => ({ r, o: ob.find((x) => x.membro_id === id && x.data === r.data && x.distanza === r.distanza) }))
+      const mie = L.esatte(risultati).filter((r) => r.mio && r.data.startsWith(anno)).map((r) => ({ r, o: ob.find((x) => x.membro_id === id && x.data === r.data && x.distanza === r.distanza) }))
         .filter((x) => x.o).sort((a, b) => (a.r.data < b.r.data ? 1 : -1)).slice(0, 5);
       extra = `${quasi.length ? `<section class="card" style="gap:6px"><h2>Non ancora in classifica</h2>${quasi.map((x) => `<div class="between small"><span>${esc(x.mio ? "Tu" : x.membro)}</span><span class="muted">${x.mancano === 1 ? "manca 1 gara" : `mancano ${x.mancano} gare`} con obiettivo</span></div>`).join("")}</section>` : ""}
         ${mie.length ? `<section class="card" style="gap:0"><h2 style="margin-bottom:4px">Le tue ultime gare</h2>${mie.map(({ r, o: x }) => { const s = L.scartoObiettivo(r.secondi, x.secondi);
@@ -1749,7 +1753,7 @@
     const online = (ST().obiettivi || []).find((o) => o.membro_id === id && o.data === g.data && o.distanza === g.distanza);
     const sec = !aperto && online ? online.secondi : g.tempo ? L.leggiTempo(g.distanza, g.tempo).secondi : null;
     const margine = sec ? Math.floor(sec * L.CENTRATO / 100) : 0;
-    const miei = datiSt().risultati.filter((r) => r.mio && r.distanza === g.distanza && r.data < g.data);
+    const miei = L.esatte(datiSt().risultati).filter((r) => r.mio && r.distanza === g.distanza && r.data < g.data);
     const pb = miei.length ? Math.min(...miei.map((r) => r.secondi)) : null;
     const ob = sec ? `<div class="row" style="align-items:baseline;gap:10px"><span class="big" style="font-size:34px;color:var(--fg)">${esc(fmtSec(sec))}</span><span class="small muted">${aperto ? "si blocca alle 23:59 della vigilia" : "bloccato"}</span></div>
         <span class="small">Vale per Obiettivo centrato: tra ${esc(fmtSec(sec - margine))} e ${esc(fmtSec(sec + margine))} è centrato.</span>`
@@ -1768,7 +1772,7 @@
     const { risultati, eventi } = datiSt(), id = ioId();
     const r = risultati.find((x) => x.mio && x.data === g.data && x.distanza === g.distanza) || { ...m, mio: true };
     const o = (ST().obiettivi || []).find((x) => x.membro_id === id && x.data === g.data && x.distanza === g.distanza);
-    const sc = o ? L.scartoObiettivo(r.secondi, o.secondi) : null, mig = L.miglioramento12(risultati.filter((x) => x.mio), r);
+    const sc = o && !L.fuoriMisura(r) ? L.scartoObiettivo(r.secondi, o.secondi) : null, mig = L.miglioramento12(risultati.filter((x) => x.mio), r);
     const soc = L.garaDellaSocieta(gareSoc(), g.data, g.distanza);
     const ev = eventi.filter((e) => e.membro_id === id && e.data === g.data && e.distanza === g.distanza);
     const prima = new Set(badgeMiei({ prima: g.data }).filter((b) => b.preso).map((b) => b.k)), nuovi = badgeMiei({ fino: g.data }).filter((b) => b.preso && !prima.has(b.k));
@@ -1821,6 +1825,7 @@
       storico: `Stagione ${anno}: vale per Albo d'oro e PB`, attesa: "La vede il referente del gruppo",
       rifiutato: x.nota || "Il referente non l'ha approvata", esito: "Senza tempo: non dà posizioni",
       locale: x.secondi ? "Nell'app, ma non ancora nelle classifiche" : "Manca il tempo", vecchia: "Corsa prima della tua adesione: non entra più" }[x.stato];
+    const percheF = L.fuoriMisura(x) && (x.stato === "conta" || x.stato === "storico") ? PERCHE_FUORI(x) : perche;
     const azioni = [];
     if (x.stato === "locale" && x.secondi) {
       if (C().tempi && x.gid) azioni.push(`<a class="btn small" href="#/tempi?gara=${encodeURIComponent(x.gid)}">Cerca il tempo ufficiale</a>`);
@@ -1830,7 +1835,7 @@
     if ((x.stato === "attesa" || x.stato === "rifiutato") && x.id) azioni.push(`<button class="btn ghost small" data-act="cl-togli" data-id="${esc(x.id)}">Togli</button>`);
     return `<div class="post cl-mia cl-${x.stato}"><span style="flex:1;min-width:0"><b>${esc(titolo)}</b><br><span class="small muted">${esc(L.DIST_LABEL[x.distanza])} · ${esc(L.fmtBreve(x.data))} ${esc(anno)}</span></span>
       <span class="cl-mia-dx">${x.secondi ? `<b class="pb-tempo">${esc(fmtSec(x.secondi))}</b>` : ""}<span class="pill ${cls}">${esc(etichetta || L.ESITO_LABEL[x.esito] || "Senza tempo")}</span></span>
-      <span class="small cl-mia-perche">${esc(perche)}</span>${azioni.length ? `<span class="cl-mia-azioni">${azioni.join("")}</span>` : ""}</div>`;
+      <span class="small cl-mia-perche">${esc(percheF)}</span>${azioni.length ? `<span class="cl-mia-azioni">${azioni.join("")}</span>` : ""}</div>`;
   }
   function listaMie(q, periodo) {
     const l = L.cercaMieGare(mieGare(), q, { periodo, oggi: oggi() });
@@ -1879,7 +1884,7 @@
     const cl3 = (nome, cosa, parita) => `<div class="regola-cl"><b>${nome}</b><span>${cosa}</span><span class="small muted">${parita}</span></div>`;
     return `${bannerProva()}<header class="head-back">${back(torna)}<div><span class="eyebrow">${esc(GD() ? GD().gruppo.nome : "Il gruppo")} · stagione ${esc(anno)}</span><h1 style="font-size:28px">Come funzionano le classifiche</h1></div></header>
       ${sez("Chi partecipa", `${voceOk("Solo chi sceglie <b>Partecipo</b>. Chi non partecipa usa l'app come sempre e non compare.")}${voceOk("Puoi uscire quando vuoi da Io → Gruppo: i tuoi risultati online si cancellano, sul telefono restano.")}`)}
-      ${sez("Quali gare contano", `${voceOk("<b>10 km, mezza e maratona</b> su strada, con il tempo della classifica ufficiale.")}${voceOk("La stagione va dal <b>1 gennaio al 31 dicembre</b>. L'Albo d'oro invece vale per sempre.")}${voceOk("Contano solo i tempi <b>certificati</b>. Ritirato, non partito e annullata si vedono nella tua storia, ma non danno posizioni.")}${io.partecipa && param.da !== "mie" ? `<a class="btn ghost" href="#/gruppo/mie?da=regole">Vedi le tue gare: quali contano</a>` : ""}`)}
+      ${sez("Quali gare contano", `${voceOk("<b>10 km, mezza e maratona</b> su strada, con il tempo della classifica ufficiale.")}${voceOk("<b>Fuori misura</b>: se la classifica ufficiale dice poco meno o poco più (10 km tra 9,8 e 10,2; mezza e maratona entro 400 metri), la gara vale per Gare corse e per l'arrivo e la Borsa nell'Impegno, ma non per personali, PB, Albo d'oro, obiettivo e percentuale per età.")}${voceOk("La stagione va dal <b>1 gennaio al 31 dicembre</b>. L'Albo d'oro invece vale per sempre.")}${voceOk("Contano solo i tempi <b>certificati</b>. Ritirato, non partito e annullata si vedono nella tua storia, ma non danno posizioni.")}${io.partecipa && param.da !== "mie" ? `<a class="btn ghost" href="#/gruppo/mie?da=regole">Vedi le tue gare: quali contano</a>` : ""}`)}
       ${sez("Come entra un tempo", `${voceOk("<b>Dalle classifiche ufficiali</b> (Gare Podistiche Lazio e FIDAL): in «Com'è andata?» tocchi <b>Cerca nelle classifiche</b> e poi <b>Usa</b>. Se il nome in classifica è quello con cui sei nel gruppo, è certificato subito.")}
         ${voceOk("<b>Nome diverso, gara non trovata o classifica solo in PDF</b>: tocchi <b>Manda al referente</b> con il link o una nota. Lo approva l'amministratore o un organizzatore (il tuo tempo, se sei referente, lo approva un altro). Al massimo 5 in attesa.")}
         ${voceOk("Un tempo sbagliato, per esempio di un omonimo, lo può annullare l'amministratore.")}
@@ -1944,13 +1949,14 @@
     const perche = { conta: x.fonte === "manuale" ? `Approvata${x.deciso_da ? ` da ${x.deciso_da}` : " dal referente"}` : `Dalla classifica di ${FONTE_TEMPI[x.fonte] || x.fonte}`,
       storico: `Stagione ${anno}: vale per Albo d'oro e PB`, attesa: x.fonte === "manuale" ? "Mandata a mano: aspetta il referente" : "Nome diverso in classifica: aspetta il referente",
       rifiutato: `${x.nota || "Non approvata"}${x.deciso_da && !x.nota.includes("referente") ? ` · ${x.deciso_da}` : ""}`, esito: "Senza tempo: non dà posizioni" }[x.stato];
+    const percheF = L.fuoriMisura(x) && (x.stato === "conta" || x.stato === "storico") ? PERCHE_FUORI(x) : perche;
     const azioni = [];
     if (x.stato === "attesa") azioni.push(`<button class="btn small" data-act="cl-decidi" data-id="${esc(x.id)}" data-ok="1">Approva</button><button class="btn ghost small" data-act="cl-decidi" data-id="${esc(x.id)}" data-ok="0">Rifiuta</button>`);
     if (x.stato === "conta" || x.stato === "storico") azioni.push(`<button class="btn ghost small" data-act="cl-annulla" data-id="${esc(x.id)}" data-nome="${esc(x.mio ? "te" : x.membro)}">Annulla</button>`);
     if (x.link && /^https?:\/\//.test(x.link)) azioni.push(`<a class="btn ghost small" href="${esc(x.link)}" rel="noopener" target="_blank">Apri la classifica</a>`);
     return `<div class="post cl-mia cl-${x.stato}"><span style="flex:1;min-width:0">${conNome ? `<span class="small" style="font-weight:700">${esc(x.mio ? "Tu" : x.membro)}</span><br>` : ""}<b>${esc(titolo)}</b><br><span class="small muted">${esc(L.DIST_LABEL[x.distanza])} · ${esc(L.fmtBreve(x.data))} ${esc(anno)}${x.categoria ? ` · ${esc(x.categoria)}` : ""}</span></span>
       <span class="cl-mia-dx">${x.secondi ? `<b class="pb-tempo">${esc(fmtSec(x.secondi))}</b>` : ""}<span class="pill ${cls}">${esc(etichetta || L.ESITO_LABEL[x.esito] || "Senza tempo")}</span></span>
-      <span class="small cl-mia-perche">${esc(perche)}</span>${azioni.length ? `<span class="cl-mia-azioni">${azioni.join("")}</span>` : ""}</div>`;
+      <span class="small cl-mia-perche">${esc(percheF)}</span>${azioni.length ? `<span class="cl-mia-azioni">${azioni.join("")}</span>` : ""}</div>`;
   }
   function listaGM(q, periodo, m) {
     const base = righeGM().filter((x) => !m || x.membro_id === m);
@@ -2179,7 +2185,7 @@
           <div class="tre-tempi">${DISTANZE.map((d) => { const c = per[d][0]; return `<div><b>${c ? esc(fmtSec(c.secondi)) : "—"}</b><span>${esc(L.DIST_LABEL[d])}</span></div>`; }).join("")}</div>
           ${voceOk("I tuoi personali su 10 km, mezza e maratona", "restano sul telefono e, se scegli di comparire, nei personali del gruppo")}
           ${partecipo() ? (rec.length ? `${voceOk(`<b>${n} ${n === 1 ? "gara" : "gare"}</b> nelle classifiche del gruppo`, "certificate subito se il nome è quello del gruppo, altrimenti le approva il referente")}
-            <details><summary class="small">Controlla le gare (con gli omonimi può capitare un errore)</summary>${rec.map((r) => `<label class="check"><input type="checkbox" data-act-change="rec-tog" data-id="${esc(r.id)}" ${REC_NO.has(r.id) ? "" : "checked"}><span style="flex:1"><span class="t">${esc(L.nomeRisultato(r))}</span><br><span class="d">${esc(L.DIST_LABEL[r.distanza])} · ${esc(L.fmtBreve(r.data))} ${esc(r.data.slice(0, 4))}</span></span><b class="pb-tempo">${esc(fmtSec(r.secondi))}</b></label>`).join("")}</details>` : voceOk("Le tue gare sono già nelle classifiche del gruppo")) : ""}
+            <details><summary class="small">Controlla le gare (con gli omonimi può capitare un errore)</summary>${rec.map((r) => `<label class="check"><input type="checkbox" data-act-change="rec-tog" data-id="${esc(r.id)}" ${REC_NO.has(r.id) ? "" : "checked"}><span style="flex:1"><span class="t">${esc(L.nomeRisultato(r))}</span><br><span class="d">${esc(L.DIST_LABEL[r.distanza])}${esc(notaFuori(r))} · ${esc(L.fmtBreve(r.data))} ${esc(r.data.slice(0, 4))}</span></span><b class="pb-tempo">${esc(fmtSec(r.secondi))}</b></label>`).join("")}</details>` : voceOk("Le tue gare sono già nelle classifiche del gruppo")) : ""}
           ${cat ? voceOk(`Categoria ${esc(cat)}`, "dalla classifica ufficiale, per uomini e donne nell'Albo d'oro") : ""}</section>${P.length ? altroNome : ""}`;
         pronto = true;
       }

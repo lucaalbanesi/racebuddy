@@ -35,6 +35,9 @@ create table if not exists public.risultati_gruppo (
   check ((esito = 'arrivato') = (secondi is not null))
 );
 create index if not exists risultati_gruppo_membro on public.risultati_gruppo (membro_id);
+-- Fuori misura (ottobre 2026): percorso vicino alla distanza ma non esatto (es. la Corsa di Miguel, 9,9 km come 10 km).
+-- Vale per Gare corse e punti di arrivo Impegno; per personali, PB, Albo d'oro, obiettivo e percentuale per età no (app/logic.js).
+alter table public.risultati_gruppo add column if not exists km_reali numeric(6,3) check (km_reali between 5 and 50);
 alter table public.risultati_gruppo enable row level security;
 
 -- ------------------------------------------------------------------ supporto (non esposte)
@@ -93,11 +96,11 @@ end $$;
 
 -- ------------------------------------------------------------------ risultati certificati (solo dalla funzione "tempi")
 -- p_hash: impronta del codice del telefono; p_nome: nome e cognome cercati; p_righe: [{data, distanza, secondi, gara_nome,
--- fonte, categoria, societa}] trovati dalla funzione nelle classifiche ufficiali. Se il nome cercato è quello del membro il
+-- fonte, categoria, societa[, km_reali]}] trovati dalla funzione nelle classifiche ufficiali (km_reali = fuori misura). Se il nome cercato è quello del membro il
 -- risultato è certificato, altrimenti va al referente.
 create or replace function public._registra_certificati(p_hash text, p_nome text, p_righe jsonb) returns json
 language plpgsql security definer set search_path = '' as $$
-declare m public.membri; x jsonb; stesso boolean; st text; d date; dist text; sec int; ok int := 0; attesa int := 0; saltati int := 0;
+declare m public.membri; x jsonb; stesso boolean; st text; d date; dist text; sec int; kmr numeric; ok int := 0; attesa int := 0; saltati int := 0;
 begin
   select * into m from public.membri where token_hash = p_hash order by creato limit 1;
   if m.id is null then raise exception 'non sei in un gruppo'; end if;
@@ -109,17 +112,22 @@ begin
     begin d := (x->>'data')::date; exception when others then d := null; end;
     dist := x->>'distanza';
     sec := case when x->>'secondi' ~ '^\d{1,6}$' then (x->>'secondi')::int end;
+    -- fuori misura: solo vicino alla distanza dichiarata (10 km ±200 m, mezza e maratona ±400 m), altrimenti si scarta
+    kmr := case when x->>'km_reali' ~ '^\d{1,2}(\.\d{1,3})?$' then (x->>'km_reali')::numeric end;
+    if kmr is not null and abs(kmr - (case dist when '10' then 10 when '21' then 21.0975 when '42' then 42.195 else 0 end)) > (case dist when '10' then 0.2 else 0.4 end) then
+      saltati := saltati + 1; continue;
+    end if;
     if d is null or dist not in ('10', '21', '42') or not public._passo_ok(dist, sec) or coalesce(x->>'fonte', '') not in ('gpl', 'fidal')
        or not public._puo_registrare(m, d)
        or exists (select 1 from public.risultati_gruppo r where r.membro_id = m.id and r.data = d and r.distanza = dist and r.stato = 'certificato' and (r.secondi = sec or not stesso)) then
       saltati := saltati + 1; continue;
     end if;
-    insert into public.risultati_gruppo (membro_id, data, distanza, gara_nome, esito, secondi, fonte, categoria, societa, stato, nota)
+    insert into public.risultati_gruppo (membro_id, data, distanza, gara_nome, esito, secondi, fonte, categoria, societa, stato, nota, km_reali)
     values (m.id, d, dist, nullif(left(trim(x->>'gara_nome'), 120), ''), 'arrivato', sec, x->>'fonte', nullif(left(trim(x->>'categoria'), 12), ''),
-            nullif(left(trim(x->>'societa'), 120), ''), st, case when not stesso then left('Nome nella classifica: ' || coalesce(p_nome, ''), 280) end)
+            nullif(left(trim(x->>'societa'), 120), ''), st, case when not stesso then left('Nome nella classifica: ' || coalesce(p_nome, ''), 280) end, kmr)
     on conflict (membro_id, data, distanza) do update set gara_nome = excluded.gara_nome, esito = 'arrivato', secondi = excluded.secondi,
       fonte = excluded.fonte, categoria = excluded.categoria, societa = excluded.societa, stato = excluded.stato, nota = excluded.nota,
-      link = null, deciso_da = null, creato = now();
+      link = null, deciso_da = null, creato = now(), km_reali = excluded.km_reali;
     if stesso then ok := ok + 1; else attesa := attesa + 1; end if;
   end loop;
   return json_build_object('certificati', ok, 'in_approvazione', attesa, 'saltati', saltati);
@@ -145,7 +153,7 @@ begin
   values (m.id, d, dist, nullif(left(trim(p->>'gara_nome'), 120), ''), 'arrivato', sec, 'manuale', 'in_approvazione',
           nullif(left(trim(p->>'link'), 300), ''), nullif(left(trim(p->>'nota'), 280), ''))
   on conflict (membro_id, data, distanza) do update set gara_nome = excluded.gara_nome, esito = 'arrivato', secondi = excluded.secondi,
-    fonte = 'manuale', categoria = null, societa = null, stato = 'in_approvazione', link = excluded.link, nota = excluded.nota, deciso_da = null, creato = now()
+    fonte = 'manuale', categoria = null, societa = null, stato = 'in_approvazione', link = excluded.link, nota = excluded.nota, deciso_da = null, creato = now(), km_reali = null
   returning id into r;
   return r;
 end $$;
@@ -165,7 +173,7 @@ begin
   insert into public.risultati_gruppo (membro_id, data, distanza, gara_nome, esito, secondi, fonte, stato)
   values (m.id, d, dist, nullif(left(trim(p->>'gara_nome'), 120), ''), e, null, 'manuale', 'dichiarato')
   on conflict (membro_id, data, distanza) do update set gara_nome = excluded.gara_nome, esito = excluded.esito, secondi = null, fonte = 'manuale',
-    categoria = null, societa = null, stato = 'dichiarato', link = null, nota = null, deciso_da = null, creato = now();
+    categoria = null, societa = null, stato = 'dichiarato', link = null, nota = null, deciso_da = null, creato = now(), km_reali = null;
 end $$;
 
 create or replace function public.togli_risultato(p_token text, p_id uuid) returns void
@@ -226,7 +234,7 @@ begin
         order by x.nome), '[]') from public.membri x where x.gruppo_id = m.gruppo_id),
     'risultati', (select coalesce(json_agg(json_build_object('id', r.id, 'membro_id', x.id, 'membro', x.nome, 'mio', x.id = m.id, 'data', r.data,
         'distanza', r.distanza, 'gara_nome', r.gara_nome, 'esito', r.esito, 'secondi', r.secondi, 'fonte', r.fonte, 'categoria', r.categoria,
-        'stato', r.stato, 'nota', r.nota, 'link', r.link, 'deciso_da', d.nome) order by r.data desc), '[]')
+        'stato', r.stato, 'nota', r.nota, 'link', r.link, 'deciso_da', d.nome, 'km_reali', r.km_reali) order by r.data desc), '[]')
       from public.risultati_gruppo r join public.membri x on x.id = r.membro_id left join public.membri d on d.id = r.deciso_da
       where x.gruppo_id = m.gruppo_id));
 end $$;
@@ -245,12 +253,12 @@ begin
     'membri', (select count(*) from public.membri x where x.gruppo_id = m.gruppo_id),
     'partecipanti', (select count(*) from public.membri x where x.gruppo_id = m.gruppo_id and x.partecipa),
     'risultati', case when vede then (select coalesce(json_agg(json_build_object('id', r.id, 'membro_id', x.id, 'membro', x.nome, 'mio', x.id = m.id,
-        'data', r.data, 'distanza', r.distanza, 'secondi', r.secondi, 'gara_nome', r.gara_nome, 'categoria', r.categoria, 'fonte', r.fonte) order by r.data), '[]')
+        'data', r.data, 'distanza', r.distanza, 'secondi', r.secondi, 'gara_nome', r.gara_nome, 'categoria', r.categoria, 'fonte', r.fonte, 'km_reali', r.km_reali) order by r.data), '[]')
       from (select r0.* from public.risultati_gruppo r0 join public.membri x0 on x0.id = r0.membro_id
             where x0.gruppo_id = m.gruppo_id and x0.partecipa and r0.stato = 'certificato' and r0.esito = 'arrivato' order by r0.data desc limit 5000) r
       join public.membri x on x.id = r.membro_id) else '[]'::json end,
     'miei', (select coalesce(json_agg(json_build_object('id', r.id, 'data', r.data, 'distanza', r.distanza, 'gara_nome', r.gara_nome, 'esito', r.esito,
-        'secondi', r.secondi, 'fonte', r.fonte, 'stato', r.stato, 'nota', r.nota) order by r.data desc), '[]')
+        'secondi', r.secondi, 'fonte', r.fonte, 'stato', r.stato, 'nota', r.nota, 'km_reali', r.km_reali) order by r.data desc), '[]')
       from public.risultati_gruppo r where r.membro_id = m.id),
     'da_approvare', case when m.ruolo in ('admin', 'organizzatore') then (select count(*) from public.risultati_gruppo r join public.membri x on x.id = r.membro_id
       where x.gruppo_id = m.gruppo_id and x.partecipa and r.stato = 'in_approvazione') else 0 end

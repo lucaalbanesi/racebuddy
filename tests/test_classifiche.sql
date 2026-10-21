@@ -108,6 +108,16 @@ begin
   perform public.segna_esito(b, '{"data":"2026-10-25","distanza":"42","esito":"nessuno"}');
   assert not exists (select 1 from public.risultati_gruppo where data = '2026-10-25'), 'esito tolto';
 
+  -- fuori misura (es. la Corsa di Miguel, 9,9 km): entra come 10 km con km_reali; troppo lontana dalla distanza no
+  j := public._registra_certificati(hb, 'Giulia Neri', '[
+    {"data":"2026-01-18","distanza":"10","secondi":2474,"gara_nome":"La Corsa di Miguel","fonte":"gpl","km_reali":9.9},
+    {"data":"2026-04-19","distanza":"21","secondi":5118,"gara_nome":"Appia Run","fonte":"gpl","km_reali":19}]');
+  assert (j->>'certificati')::int = 1 and (j->>'saltati')::int = 1, 'fuori misura: ' || j::text;
+  assert (select km_reali from public.risultati_gruppo where data = '2026-01-18') = 9.9, 'km_reali salvato';
+  assert exists (select 1 from json_array_elements(public.stato_classifiche(a)->'risultati') x where x->>'data' = '2026-01-18' and (x->>'km_reali')::numeric = 9.9), 'km_reali in classifica';
+  assert exists (select 1 from json_array_elements(public.stato_classifiche(b)->'miei') x where x->>'data' = '2026-01-18' and (x->>'km_reali')::numeric = 9.9), 'km_reali nei miei';
+  assert (select count(*) from json_array_elements(public.stato_classifiche(a)->'risultati') x where x->>'km_reali' is not null) = 1, 'le esatte senza km_reali';
+
   -- dopo i 30 giorni del recupero: le gare vecchie no, le nuove sì
   update public.membri set partecipa_dal = now() - interval '40 days' where nome = 'Giulia Neri';
   j := public._registra_certificati(hb, 'Giulia Neri', format('[{"data":"2024-04-07","distanza":"21","secondi":6500,"fonte":"gpl"},{"data":"%s","distanza":"10","secondi":2650,"fonte":"gpl"}]', current_date - 1)::jsonb);

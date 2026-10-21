@@ -80,6 +80,11 @@ begin
   assert json_array_length(j->'eta') = 2, 'due percentuali: ' || (j->'eta')::text;
   assert (select (e->>'ag')::numeric from json_array_elements(j->'eta') e where e->>'sesso' = 'M') = 70.5, 'Roberto 70,5% dall''anno';
   assert (select (e->>'circa')::boolean from json_array_elements(j->'eta') e where e->>'sesso' = 'F'), 'Elena dalla categoria: circa';
+  -- fuori misura: nessuna percentuale per età
+  j := public._registra_certificati(hb, 'Roberto Bianchi', jsonb_build_array(jsonb_build_object('data', current_date - 3, 'distanza', '10', 'secondi', 2500,
+    'fonte', 'gpl', 'categoria', 'SM55', 'km_reali', 9.9)));
+  assert (j->>'certificati')::int = 1, 'fuori misura certificata';
+  assert json_array_length(public.stato_stagione(a)->'eta') = 2, 'fuori misura senza percentuale per età';
 
   -- inviti personali: info e ingresso con il codice personale
   mio := public.mio_invito(a);

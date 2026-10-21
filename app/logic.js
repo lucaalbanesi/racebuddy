@@ -125,15 +125,19 @@
     for (const r of tutti) { const k = `${r.data}:${r.distanza}`; if (visti.has(k)) continue; visti.add(k); out.push(r); }
     return out.sort((a, b) => (a.data < b.data ? 1 : a.data > b.data ? -1 : 0));
   }
-  /** Per distanza, dal più veloce. */
+  /** Fuori misura: percorso vicino alla distanza ma non esatto (km_reali, es. la Corsa di Miguel a 9,9 km). Vale per Gare
+   *  corse, punti di arrivo e Borsa Impegno e badge di presenza; mai per personali, PB, Albo d'oro, obiettivo, età. */
+  const fuoriMisura = (r) => !!(r && r.km_reali != null);
+  const esatte = (l) => (l || []).filter((r) => !fuoriMisura(r));
+  /** Per distanza, dal più veloce (solo le esatte: sono i personali). */
   function tempiPerDistanza(risultati) {
     const out = { "10": [], "21": [], "42": [] };
-    for (const r of risultati) if (out[r.distanza]) out[r.distanza].push(r);
+    for (const r of esatte(risultati)) if (out[r.distanza]) out[r.distanza].push(r);
     for (const d of Object.keys(out)) out[d].sort((a, b) => a.secondi - b.secondi);
     return out;
   }
   /** Il tempo di una gara seguita: stesso giorno e stessa distanza. */
-  const tempiDellaGara = (risultati, gara) => risultati.filter((r) => r.data === gara.data && r.distanza === gara.distanza);
+  const tempiDellaGara = (risultati, gara) => esatte(risultati).filter((r) => r.data === gara.data && r.distanza === gara.distanza);
   /** Nome della gara da mostrare: FIDAL non lo dà, solo la città. */
   const nomeRisultato = (r) => r.gara || (r.luogo ? `Gara a ${r.luogo.toLowerCase().replace(/(^|[\s/'-])(\p{L})/gu, (m, a, c) => a + c.toUpperCase())}` : "Gara");
 
@@ -730,7 +734,7 @@
    *  distanza (anche di anni prima). La prima gara su una distanza fissa il riferimento e non conta. A parità vince chi è
    *  migliorato di più in percentuale (somma dei miglioramenti). */
   function classificaPBStagione(risultati, anno) {
-    const l = perMembro(risultati).map((m) => {
+    const l = perMembro(esatte(risultati)).map((m) => {
       let n = 0, perc = 0;
       for (const d of ["10", "21", "42"]) {
         const gare = m.lista.filter((r) => r.distanza === d).sort((a, b) => (a.data < b.data ? -1 : a.data > b.data ? 1 : 0));
@@ -747,14 +751,14 @@
   /** Albo d'oro: il miglior tempo di sempre di ogni atleta su una distanza, dal più veloce. sesso "M"/"F" filtra con la
    *  categoria della gara (chi non ha categoria compare solo in "tutti"). */
   function alboDoro(risultati, distanza, sesso = "") {
-    const l = perMembro((risultati || []).filter((r) => r.distanza === distanza && (!sesso || sessoCategoria(r.categoria) === sesso)))
+    const l = perMembro(esatte(risultati).filter((r) => r.distanza === distanza && (!sesso || sessoCategoria(r.categoria) === sesso)))
       .map((m) => { const b = m.lista.reduce((x, y) => (y.secondi < x.secondi || (y.secondi === x.secondi && y.data < x.data) ? y : x)); return { membro_id: m.membro_id, membro: m.membro, mio: m.mio, secondi: b.secondi, data: b.data, gara_nome: b.gara_nome || "", categoria: b.categoria || "" }; });
     return conPosizioni(l.sort((a, b) => a.secondi - b.secondi || (a.data < b.data ? -1 : 1)), (x) => x.secondi);
   }
   /** Record del gruppo per categoria su una distanza: il tempo più veloce di ogni categoria, in ordine di categoria. */
   function recordCategorie(risultati, distanza) {
     const m = new Map();
-    for (const r of (risultati || []).filter((x) => x.distanza === distanza && x.categoria)) {
+    for (const r of esatte(risultati).filter((x) => x.distanza === distanza && x.categoria)) {
       const c = String(r.categoria).toUpperCase(), b = m.get(c);
       if (!b || r.secondi < b.secondi || (r.secondi === b.secondi && r.data < b.data)) m.set(c, { categoria: c, membro: r.membro, mio: !!r.mio, secondi: r.secondi, data: r.data, gara_nome: r.gara_nome || "" });
     }
@@ -812,12 +816,13 @@
       if (s) {
         const ev = (tipo) => out.push({ membro_id: r.membro_id, data: r.data, distanza: r.distanza, tipo, punti: PUNTI[tipo], gara: s.nome, risultato_id: r.id });
         ev("arrivo");
-        if (prima != null && r.secondi < prima) ev("pb");
+        const fm = fuoriMisura(r); // fuori misura: solo arrivo e Borsa
+        if (!fm && prima != null && r.secondi < prima) ev("pb");
         const o = ob.get(chiaveGara(r.membro_id, r.data, r.distanza));
-        if (o && scartoObiettivo(r.secondi, o) <= CENTRATO) ev("obiettivo");
+        if (!fm && o && scartoObiettivo(r.secondi, o) <= CENTRATO) ev("obiettivo");
         if (bo.has(chiaveGara(r.membro_id, r.data, r.distanza))) ev("borsa");
       }
-      if (prima == null || r.secondi < prima) meglio.set(km, r.secondi);
+      if (!fuoriMisura(r) && (prima == null || r.secondi < prima)) meglio.set(km, r.secondi);
     }
     for (const i of inviti || []) {
       const d = primo.get(i.invitato_id);
@@ -855,7 +860,7 @@
   function classificaObiettivo({ risultati, obiettivi } = {}, { anno, nomi = {}, io } = {}) {
     const ob = new Map((obiettivi || []).map((o) => [chiaveGara(o.membro_id, o.data, o.distanza), o.secondi]));
     const m = new Map();
-    for (const r of risultati || []) {
+    for (const r of esatte(risultati)) {
       const o = ob.get(chiaveGara(r.membro_id, r.data, r.distanza));
       if (!o || !nelPeriodo(r.data, { anno }) || !(r.membro_id in nomi)) continue;
       if (!m.has(r.membro_id)) m.set(r.membro_id, { membro_id: r.membro_id, membro: nomi[r.membro_id], mio: r.membro_id === io, scarti: [] });
@@ -871,7 +876,7 @@
    *  sesso "M"/"F" filtra col sesso usato per le tabelle. */
   function alboEta(risultati, distanza, sesso = "") {
     const l = new Map();
-    for (const r of risultati || []) {
+    for (const r of esatte(risultati)) {
       if (r.ag == null || (distanza !== "tutte" && r.distanza !== distanza) || (sesso && r.sesso_ag !== sesso)) continue;
       const b = l.get(r.membro_id);
       if (!b || r.ag > b.ag || (r.ag === b.ag && r.data < b.data)) l.set(r.membro_id, r);
@@ -882,8 +887,9 @@
   }
   /** Miglioramento sul miglior tempo dei 12 mesi prima, stessa distanza (positivo = più veloce); null se non c'è. */
   function miglioramento12(miei, r) {
+    if (fuoriMisura(r)) return null;
     const dal = addDays(r.data, -365);
-    const prima = (miei || []).filter((x) => x.distanza === r.distanza && x.data < r.data && x.data >= dal && x.secondi > 0);
+    const prima = esatte(miei).filter((x) => x.distanza === r.distanza && x.data < r.data && x.data >= dal && x.secondi > 0);
     if (!prima.length) return null;
     const best = Math.min(...prima.map((x) => x.secondi));
     return Math.round(((best - r.secondi) / best) * 1000) / 10;
@@ -893,14 +899,15 @@
    *  soci = nuovi soci portati, record = primo in un Albo d'oro. Ognuno: k, nome, cosa, preso, progresso. */
   function badgeAtleta({ miei = [], gareSoc = [], obiettivi = [], borse = [], soci = 0, record = false, oggi } = {}) {
     oggi = oggi || todayISO();
-    const ord = [...miei].sort((a, b) => (a.data < b.data ? -1 : a.data > b.data ? 1 : 0));
-    const ha = (d) => ord.some((r) => r.distanza === d);
-    const anni = [...new Set(ord.map((r) => r.data.slice(0, 4)))];
-    const tris = anni.some((a) => ["10", "21", "42"].every((d) => ord.some((r) => r.distanza === d && r.data.startsWith(a))));
-    const mancaQuest = ["10", "21", "42"].filter((d) => !ord.some((r) => r.distanza === d && r.data.startsWith(oggi.slice(0, 4))));
+    const ord = [...miei].sort((a, b) => (a.data < b.data ? -1 : a.data > b.data ? 1 : 0)), es = esatte(ord);
+    // le distanze (prima 10 km, mezza, maratona, tris) e l'obiettivo vogliono la misura esatta; presenze e borse no
+    const ha = (d) => es.some((r) => r.distanza === d);
+    const anni = [...new Set(es.map((r) => r.data.slice(0, 4)))];
+    const tris = anni.some((a) => ["10", "21", "42"].every((d) => es.some((r) => r.distanza === d && r.data.startsWith(a))));
+    const mancaQuest = ["10", "21", "42"].filter((d) => !es.some((r) => r.distanza === d && r.data.startsWith(oggi.slice(0, 4))));
     const ob = new Map(obiettivi.map((o) => [`${o.data}|${o.distanza}`, o.secondi]));
     let fila = 0, maxFila = 0;
-    for (const r of ord) { const o = ob.get(`${r.data}|${r.distanza}`); if (!o) continue; fila = scartoObiettivo(r.secondi, o) <= CENTRATO ? fila + 1 : 0; maxFila = Math.max(maxFila, fila); }
+    for (const r of es) { const o = ob.get(`${r.data}|${r.distanza}`); if (!o) continue; fila = scartoObiettivo(r.secondi, o) <= CENTRATO ? fila + 1 : 0; maxFila = Math.max(maxFila, fila); }
     const bs = new Set(borse.map((b) => `${b.data}|${b.distanza}`));
     const nBorse = ord.filter((r) => bs.has(`${r.data}|${r.distanza}`)).length;
     const mesi = [...new Set(ord.map((r) => r.data.slice(0, 7)))].sort();
@@ -909,7 +916,7 @@
     const socAnno = (a) => gareSoc.filter((s) => s.data.startsWith(a));
     const corseSoc = (a) => socAnno(a).filter((s) => ord.some((r) => r.data === s.data && r.distanza === s.distanza)).length;
     const fedele = anni.some((a) => socAnno(a).length >= 3 && corseSoc(a) === socAnno(a).length);
-    const annoOra = oggi.slice(0, 4), agMax = Math.max(0, ...ord.map((r) => r.ag || 0));
+    const annoOra = oggi.slice(0, 4), agMax = Math.max(0, ...es.map((r) => r.ag || 0));
     const b = (k, nome, cosa, preso, progresso = "") => ({ k, nome, cosa, preso: !!preso, progresso: preso ? "" : progresso });
     return [
       b("prima10", "Prima 10 km", "Una 10 km certificata", ha("10")),
@@ -951,7 +958,7 @@
       online.add(k);
       const stato = statoOnline(m, anno);
       out.push({ chiave: k, id: m.id, gid: g ? g.id : null, data: m.data, distanza: m.distanza, nome: m.gara_nome || (g && g.nome) || "",
-        secondi: m.secondi || null, fonte: m.fonte, nota: m.nota || "", esito: m.esito, stato, luogo: (g && g.luogo) || "" });
+        secondi: m.secondi || null, fonte: m.fonte, nota: m.nota || "", esito: m.esito, stato, luogo: (g && g.luogo) || "", km_reali: m.km_reali ?? null });
     }
     for (const [k, g] of locali) {
       if (online.has(k)) continue;
@@ -971,7 +978,7 @@
     const anno = String(oggi || todayISO()).slice(0, 4);
     return (risultati || []).map((m) => ({ chiave: `${m.membro_id}:${m.data}:${m.distanza}`, id: m.id, gid: null, data: m.data, distanza: m.distanza,
       nome: m.gara_nome || "", secondi: m.secondi || null, fonte: m.fonte, nota: m.nota || "", esito: m.esito || "arrivato", stato: statoOnline(m, anno),
-      luogo: "", membro: m.membro || "", membro_id: m.membro_id, mio: !!m.mio, link: m.link || "", deciso_da: m.deciso_da || "", categoria: m.categoria || "" }))
+      luogo: "", membro: m.membro || "", membro_id: m.membro_id, mio: !!m.mio, link: m.link || "", deciso_da: m.deciso_da || "", categoria: m.categoria || "", km_reali: m.km_reali ?? null }))
       .sort((a, b) => (a.data < b.data ? 1 : a.data > b.data ? -1 : 0));
   }
   /** Un riepilogo per membro (tutti i membri del gruppo, anche chi non partecipa): quante gare per stato nella stagione
@@ -1006,7 +1013,7 @@
     return n;
   }
 
-  const api = { PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, daRecuperare, PASSI_ENTRA, passiEntra, prossimoEntra };
+  const api = { fuoriMisura, esatte, PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, daRecuperare, PASSI_ENTRA, passiEntra, prossimoEntra };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);

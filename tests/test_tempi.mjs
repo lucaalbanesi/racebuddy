@@ -20,6 +20,14 @@ assert.strictEqual(T.secondi("10,000"), null);
 assert.strictEqual(T.hms(6689), "1:51:29");
 assert.strictEqual(T.distanzaDaKm(21.097), "21");
 assert.strictEqual(T.distanzaDaKm(9.9), null);
+// fuori misura: vicino alla distanza (9,8-10,2; mezza e maratona ±400 m), entra con km_reali
+assert.strictEqual(T.distanzaCirca(9.9), "10");
+assert.strictEqual(T.distanzaCirca(10.2), "10");
+assert.strictEqual(T.distanzaCirca(10.05), null, "esatta: non è fuori misura");
+assert.strictEqual(T.distanzaDaKm(10.05), "10", "10,050 km è esatta (±50 m)");
+assert.strictEqual(T.distanzaCirca(9.7), null);
+assert.strictEqual(T.distanzaCirca(21.4), "21");
+assert.strictEqual(T.distanzaCirca(19), null);
 assert.strictEqual(T.distanzaFidal("MARATONINA A"), "21");
 assert.strictEqual(T.distanzaFidal("MARATONA A"), "42");
 assert.strictEqual(T.distanzaFidal("Corsa strada Km 10"), "10");
@@ -38,14 +46,16 @@ assert.strictEqual(p.fonte, "gpl");
 assert.strictEqual(p.societa, "Podistica Esempio");
 assert.ok(p.risultati.every((r) => ["10", "21", "42"].includes(r.distanza)));
 assert.ok(!p.risultati.some((r) => r.gara === "6 Ore di Roma"));
-assert.ok(!p.risultati.some((r) => r.gara === "La Corsa di Miguel")); // 9,9 km
+const miguel = p.risultati.find((r) => r.gara === "La Corsa di Miguel"); // 9,9 km: fuori misura
+assert.ok(miguel && miguel.distanza === "10" && miguel.km_reali === 9.9, "la Corsa di Miguel entra come 10 km fuori misura");
+assert.deepStrictEqual(p.risultati.filter((r) => r.km_reali).map((r) => r.km_reali).sort(), [10.1, 42.4, 9.9], "solo le fuori misura hanno km_reali");
 assert.ok(p.risultati.some((r) => r.gara === "Run Rome The Marathon" && r.tempo === "5:29:26" && r.distanza === "42"));
 assert.ok(p.risultati.some((r) => r.data.startsWith("2025")));
 assert.ok(p.risultati[0].data >= p.risultati[p.risultati.length - 1].data, "dalla più recente");
 // omonimi nella stessa pagina: una persona per società
 const om = T.personeGpl(T.leggiGpl(f("gpl_omonimi.html")), "Mario Rossi");
 assert.deepStrictEqual(om.map((x) => x.societa), ["Societa Uno", "Societa Due", "Societa Tre"]);
-assert.deepStrictEqual(om[0].risultati.map((r) => `${r.distanza} ${r.tempo}`), ["21 1:43:29"]);
+assert.deepStrictEqual(om[0].risultati.map((r) => `${r.distanza} ${r.tempo}${r.km_reali ? ` (${r.km_reali} km)` : ""}`), ["21 1:43:29", "10 1:01:53 (9.9 km)"]);
 
 // FIDAL: ricerca → omonimi con società e codice
 const c = T.leggiFidalCerca(f("fidal_cerca.html"));

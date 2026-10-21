@@ -44,7 +44,15 @@ export const hms = (sec) => `${Math.floor(sec / 3600)}:${String(Math.floor((sec 
 
 /** Distanza in km → "10" | "21" | "42", solo se è proprio quella (le gare da 9,9 o 21,5 km non sono personali). */
 export function distanzaDaKm(km) {
-  for (const [d, v] of Object.entries(DISTANZE)) if (Math.abs(km - v) <= 0.05) return d;
+  for (const [d, v] of Object.entries(DISTANZE)) if (Math.abs(km - v) <= 0.05 + 1e-9) return d; // 1e-9: 10,050 - 10 in virgola mobile è 0,0500000000000007
+  return null;
+}
+// Fuori misura: percorsi vicini alla distanza (es. la Corsa di Miguel, 9,9 km). Entrano con km_reali e valgono solo per
+// Gare corse e punti di arrivo Impegno, mai per personali, PB, Albo d'oro, obiettivo e percentuale per età.
+const TOLLERANZA = { "10": 0.2, "21": 0.4, "42": 0.4 };
+export function distanzaCirca(km) {
+  if (distanzaDaKm(km)) return null;
+  for (const [d, v] of Object.entries(DISTANZE)) if (Math.abs(km - v) <= TOLLERANZA[d] + 1e-9) return d;
   return null;
 }
 // Passi impossibili (errori di inserimento, es. una 6 ore registrata come 10 km in 21 minuti): fuori.
@@ -110,10 +118,10 @@ export function leggiFidalAtleta(html) {
   return out;
 }
 
-/** Tiene solo 10 km, mezza e maratona con un passo credibile, dalla più recente. */
+/** Tiene solo 10 km, mezza e maratona (anche fuori misura, con km_reali) con un passo credibile, dalla più recente. */
 function soloGara(lista, fonte) {
   return lista
-    .map((r) => ({ ...r, distanza: r.distanza || distanzaDaKm(r.km) }))
+    .map((r) => { if (r.distanza || !r.km) return r; const d = distanzaDaKm(r.km), c = distanzaCirca(r.km); return { ...r, distanza: d || c, ...(c ? { km_reali: r.km } : {}) }; })
     .filter((r) => r.distanza && r.secondi && passoPlausibile(r.secondi, r.distanza))
     .map(({ km, societa, ...r }) => ({ ...r, fonte, id: `${fonte}:${r.data}:${r.distanza}:${r.secondi}` }))
     .sort((x, y) => (x.data < y.data ? 1 : -1));
@@ -192,7 +200,7 @@ export function crea(env = {}, fetchImpl = fetch, adesso = () => new Date()) {
         const k = `${r.data}:${r.distanza}`;
         if (viste.has(k)) continue;
         viste.add(k);
-        righe.push({ data: r.data, distanza: r.distanza, secondi: r.secondi, gara_nome: r.gara || r.luogo || "", fonte: r.fonte, categoria: r.categoria || p.categoria || "", societa: p.societa || "" });
+        righe.push({ data: r.data, distanza: r.distanza, secondi: r.secondi, gara_nome: r.gara || r.luogo || "", fonte: r.fonte, categoria: r.categoria || p.categoria || "", societa: p.societa || "", ...(r.km_reali ? { km_reali: r.km_reali } : {}) });
       }
     }
     if (!righe.length) return json({ certificati: 0, in_approvazione: 0, saltati: 0, righe: 0 });

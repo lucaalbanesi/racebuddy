@@ -256,7 +256,7 @@ begin
       from public.risultati_gruppo r join public.membri x on x.id = r.membro_id
       cross join lateral (select coalesce(x.sesso, case when upper(coalesce(r.categoria, '')) ~ '^[A-Z][MF]' then substr(upper(r.categoria), 2, 1) end) as sesso) s
       cross join lateral (select s.sesso, public._age_grade(s.sesso, r.distanza, public._eta(x.anno_nascita, r.categoria, r.data), r.secondi) as ag) a
-      where x.gruppo_id = m.gruppo_id and x.partecipa and r.stato = 'certificato' and r.esito = 'arrivato' and a.ag is not null) else '[]'::json end
+      where x.gruppo_id = m.gruppo_id and x.partecipa and r.stato = 'certificato' and r.esito = 'arrivato' and r.km_reali is null and a.ag is not null) else '[]'::json end
   );
 end $$;
 

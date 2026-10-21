@@ -653,4 +653,28 @@ assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10",
   assert.strictEqual(L.garaSocDi([], { id: "F123", data: "2026-11-15", distanza: "21" }), null);
 }
 
+{ // fuori misura (km_reali, es. la Corsa di Miguel a 9,9 km): Gare corse e arrivo Impegno sì; PB, Albo, obiettivo, personali no
+  const r = (id, data, sec, extra = {}) => ({ id, membro_id: "m1", membro: "Antonio", mio: true, data, distanza: "10", secondi: sec, categoria: "SM", ...extra });
+  const ris = [r("a", "2025-10-05", 2500), r("b", "2026-01-18", 2400, { km_reali: 9.9 }), r("c", "2026-05-24", 2450)];
+  assert.ok(L.fuoriMisura(ris[1]) && !L.fuoriMisura(ris[0]));
+  assert.strictEqual(L.classificaGareCorse(ris, { anno: "2026" })[0].n, 2, "la fuori misura conta tra le gare corse");
+  assert.strictEqual(L.alboDoro(ris, "10")[0].secondi, 2450, "l'Albo ignora la fuori misura più veloce");
+  assert.strictEqual(L.recordCategorie(ris, "10")[0].secondi, 2450);
+  const pbs = L.classificaPBStagione(ris, "2026");
+  assert.strictEqual(pbs[0].n, 1, "PB della stagione: solo la 2450 sulla 2500");
+  const soc = [{ data: "2026-01-18", distanza: "10", nome: "La Corsa di Miguel" }, { data: "2026-05-24", distanza: "10", nome: "Corri Maccarese" }];
+  const ob = [{ membro_id: "m1", data: "2026-01-18", distanza: "10", secondi: 2400 }];
+  const bo = [{ membro_id: "m1", data: "2026-01-18", distanza: "10" }];
+  const ev = L.eventiPunti({ risultati: ris, gareSoc: soc, obiettivi: ob, borse: bo });
+  const tipi = (d) => ev.filter((e) => e.data === d).map((e) => e.tipo).sort();
+  assert.deepStrictEqual(tipi("2026-01-18"), ["arrivo", "borsa"], "fuori misura: solo arrivo e Borsa");
+  assert.deepStrictEqual(tipi("2026-05-24"), ["arrivo", "pb"], "il PB si misura sulla 2500, non sulla 2400 fuori misura");
+  assert.strictEqual(L.classificaObiettivo({ risultati: ris, obiettivi: ob }, { anno: "2026", nomi: { m1: "Antonio" } }).quasi.length, 0, "niente obiettivo sulla fuori misura");
+  assert.strictEqual(L.miglioramento12(ris, ris[1]), null);
+  assert.deepStrictEqual(L.tempiPerDistanza(ris)["10"].map((x) => x.id), ["c", "a"], "personali: solo le esatte");
+  assert.strictEqual(L.tempiDellaGara(ris, { data: "2026-01-18", distanza: "10" }).length, 0);
+  const bd = L.badgeAtleta({ miei: [ris[1]], oggi: "2026-10-21" });
+  assert.ok(!bd.find((b) => b.k === "prima10").preso, "Prima 10 km vuole la misura esatta");
+}
+
 console.log("ok");
