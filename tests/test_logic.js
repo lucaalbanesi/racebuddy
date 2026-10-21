@@ -519,4 +519,47 @@ assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10",
   assert.strictEqual(L.prossimoEntra(L.passiEntra({ documenti: true, ora: true, zona: true, garaFutura: true, notifiche: true })), null);
 }
 
+// le mie gare in classifica: online + nell'app, stato di ognuna, ricerca
+{
+  const io = { partecipa: true, dal: "2026-09-01T10:00:00Z", recupero_fino: "2026-10-01T10:00:00Z" };
+  const dopo = new Date("2026-10-21T10:00:00Z");
+  assert.ok(L.registrabile(io, "2026-08-25", "2026-10-21", dopo));      // 7 giorni prima dell'adesione
+  assert.ok(!L.registrabile(io, "2026-08-24", "2026-10-21", dopo));     // recupero chiuso
+  assert.ok(L.registrabile(io, "2025-05-01", "2026-09-10", new Date("2026-09-10T10:00:00Z"))); // nei 30 giorni
+  assert.ok(!L.registrabile(io, "2026-10-23", "2026-10-21", dopo));     // oltre domani
+  assert.ok(!L.registrabile({ partecipa: false }, "2026-10-18", "2026-10-21", dopo));
+  const miei = [
+    { id: "a", data: "2026-10-18", distanza: "21", gara_nome: "Rome Half Marathon", esito: "arrivato", secondi: 5700, fonte: "fidal", stato: "certificato" },
+    { id: "b", data: "2025-03-16", distanza: "42", gara_nome: "Maratona di Roma", esito: "arrivato", secondi: 12600, fonte: "gpl", stato: "certificato" },
+    { id: "c", data: "2026-09-21", distanza: "10", gara_nome: "Corsa dei Santi", esito: "arrivato", secondi: 2580, fonte: "manuale", stato: "in_approvazione" },
+    { id: "d", data: "2026-09-07", distanza: "10", gara_nome: "", esito: "arrivato", secondi: 2700, fonte: "manuale", stato: "rifiutato", nota: "Annullato dal referente" },
+    { id: "e", data: "2026-06-02", distanza: "21", gara_nome: "Mezza di Ostia", esito: "ritirato", secondi: null, fonte: "manuale", stato: "dichiarato" },
+  ];
+  const gare = [
+    { id: "RM-21", nome: "Rome Half Marathon", data: "2026-10-18", distanza: "21", luogo: "Roma" },
+    { id: "X-10", nome: "Trofeo del Parco", data: "2026-09-07", distanza: "10" },
+    { id: "AP-10", nome: "Appia Run", data: "2026-10-12", distanza: "10", luogo: "Roma" },
+    { id: "VE-10", nome: "Vecchia 10", data: "2026-08-10", distanza: "10" },
+    { id: "TR-30", nome: "Trail", data: "2026-10-01", distanza: "30" },
+    { id: "FI-42", nome: "Firenze Marathon", data: "2026-11-29", distanza: "42" },
+    { id: "NT-10", nome: "Senza tempo", data: "2026-10-04", distanza: "10" },
+  ];
+  const lista = L.mieGareClassifica(miei, gare, { "AP-10": { secondi: 2490 }, "VE-10": { secondi: 2600 } }, { oggi: "2026-10-21", io, adesso: dopo });
+  assert.deepStrictEqual(lista.map((x) => `${x.data} ${x.stato}`), ["2026-10-18 conta", "2026-10-12 locale", "2026-10-04 locale", "2026-09-21 attesa", "2026-09-07 rifiutato", "2026-08-10 vecchia", "2026-06-02 esito", "2025-03-16 storico"]);
+  assert.strictEqual(lista[0].gid, "RM-21");                       // la gara online ritrova quella nell'app
+  assert.strictEqual(lista.find((x) => x.id === "d").nome, "Trofeo del Parco"); // nome dall'app se online manca
+  assert.strictEqual(lista[1].secondi, 2490);
+  assert.strictEqual(lista[2].secondi, null);                      // corsa senza tempo
+  assert.ok(!lista.some((x) => x.gid === "FI-42" || x.gid === "TR-30")); // futura e distanza non in classifica
+  assert.deepStrictEqual(L.riepilogoMie(L.cercaMieGare(lista, "", { oggi: "2026-10-21" })), { conta: 1, storico: 0, attesa: 1, rifiutato: 1, esito: 1, locale: 2, vecchia: 1 });
+  assert.strictEqual(L.cercaMieGare(lista, "", { periodo: "tutte", oggi: "2026-10-21" }).length, 8);
+  assert.deepStrictEqual(L.cercaMieGare(lista, "roma", { periodo: "tutte", oggi: "2026-10-21" }).map((x) => x.id || x.gid), ["a", "AP-10", "b"]);
+  assert.deepStrictEqual(L.cercaMieGare(lista, "MEZZA", { oggi: "2026-10-21" }).map((x) => x.id), ["a", "e"]);
+  assert.deepStrictEqual(L.cercaMieGare(lista, "in approvazione", { oggi: "2026-10-21" }).map((x) => x.id), ["c"]);
+  assert.deepStrictEqual(L.cercaMieGare(lista, "12 ott", { oggi: "2026-10-21" }).map((x) => x.gid), ["AP-10"]);
+  assert.deepStrictEqual(L.cercaMieGare(lista, "settembre", { oggi: "2026-10-21" }).map((x) => x.id), ["c", "d"]);
+  assert.deepStrictEqual(L.cercaMieGare(lista, "2025", { periodo: "tutte", oggi: "2026-10-21" }).map((x) => x.id), ["b"]);
+  assert.deepStrictEqual(L.cercaMieGare(lista, "ritirato", { oggi: "2026-10-21" }).map((x) => x.id), ["e"]);
+}
+
 console.log("ok");

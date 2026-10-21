@@ -775,7 +775,63 @@
     return (trovati || []).filter((r) => !gia.has(`${r.data}:${r.distanza}:${r.secondi}`) && (recuperoAperto(io, adesso) || (dal && r.data >= dal)));
   }
 
-  const api = { diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, daRecuperare, PASSI_ENTRA, passiEntra, prossimoEntra };
+  /** Si può ancora mandare un tempo per una gara di questa data (come _puo_registrare nel database): mai oltre domani;
+   *  nei 30 giorni del recupero qualsiasi gara passata, poi solo da 7 giorni prima dell'adesione in avanti. */
+  function registrabile(io, data, oggiISO, adesso = new Date()) {
+    if (!io || !io.partecipa || !io.dal || !data || data > addDays(oggiISO, 1)) return false;
+    return recuperoAperto(io, adesso) || data >= addDays(String(io.dal).slice(0, 10), -7);
+  }
+  const ESITO_LABEL = { ritirato: "Ritirato", non_partito: "Non partito", annullata: "Annullata" };
+  /** Le mie gare per le classifiche: quelle online (miei, da stato_classifiche) e quelle corse nell'app ma non ancora
+   *  online (10 km, mezza e maratona fino a oggi), dalla più recente. stato:
+   *  conta (certificata nella stagione) · storico (certificata negli anni prima: Albo d'oro e PB) · attesa (dal referente) ·
+   *  rifiutato · esito (ritirato, non partito, annullata) · locale (nell'app, non certificata) · vecchia (nell'app, ma
+   *  prima dell'adesione: non si può più mandare). gid = id della gara nell'app, se c'è. */
+  function mieGareClassifica(miei, gare, risultati, { oggi, io, adesso = new Date() } = {}) {
+    const anno = String(oggi || todayISO()).slice(0, 4), chiave = (d, dist) => `${d}:${dist}`;
+    const locali = new Map();
+    for (const g of gare || []) if (g && ["10", "21", "42"].includes(g.distanza) && g.data && g.data <= oggi) locali.set(chiave(g.data, g.distanza), g);
+    const online = new Set(), out = [];
+    for (const m of miei || []) {
+      const k = chiave(m.data, m.distanza), g = locali.get(k);
+      online.add(k);
+      const stato = m.stato === "certificato" ? (m.data.slice(0, 4) === anno ? "conta" : "storico")
+        : m.stato === "in_approvazione" ? "attesa" : m.stato === "rifiutato" ? "rifiutato" : "esito";
+      out.push({ chiave: k, id: m.id, gid: g ? g.id : null, data: m.data, distanza: m.distanza, nome: m.gara_nome || (g && g.nome) || "",
+        secondi: m.secondi || null, fonte: m.fonte, nota: m.nota || "", esito: m.esito, stato, luogo: (g && g.luogo) || "" });
+    }
+    for (const [k, g] of locali) {
+      if (online.has(k)) continue;
+      const r = (risultati || {})[g.id] || {};
+      const stato = g.esito ? "esito" : registrabile(io, g.data, oggi, adesso) ? "locale" : "vecchia";
+      out.push({ chiave: k, id: null, gid: g.id, data: g.data, distanza: g.distanza, nome: g.nome || "", secondi: g.esito ? null : r.secondi || null,
+        fonte: null, nota: "", esito: g.esito || "arrivato", stato, luogo: g.luogo || "" });
+    }
+    return out.sort((a, b) => (a.data < b.data ? 1 : a.data > b.data ? -1 : 0));
+  }
+  const STATO_MIE = { conta: "conta", storico: "albo e pb", attesa: "in approvazione", rifiutato: "non approvata", esito: "senza tempo", locale: "non certificata", vecchia: "fuori tempo" };
+  const MESI_LUNGHI = ["gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"];
+  const senzaAccenti = (s) => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+  /** Ricerca tra le mie gare: periodo "stagione" (anno di oggi) o "tutte"; ogni parola deve trovarsi nel nome, nella
+   *  distanza ("mezza", "10 km"), nella data ("18 ott", "ottobre", "2025") o nello stato ("conta", "in approvazione"). */
+  function cercaMieGare(lista, q, { periodo = "stagione", oggi } = {}) {
+    const anno = String(oggi || todayISO()).slice(0, 4), parole = senzaAccenti(q).split(/\s+/).filter(Boolean);
+    return (lista || []).filter((x) => {
+      if (periodo !== "tutte" && x.data.slice(0, 4) !== anno) return false;
+      if (!parole.length) return true;
+      const testo = senzaAccenti([x.nome, x.luogo, DIST_LABEL[x.distanza], x.distanza === "42" ? "42 km" : x.distanza === "21" ? "21 km" : "", fmtBreve(x.data), MESI_LUNGHI[Number(x.data.slice(5, 7)) - 1], x.data.slice(0, 4),
+        STATO_MIE[x.stato], ESITO_LABEL[x.esito] || ""].join(" "));
+      return parole.every((p) => testo.includes(p));
+    });
+  }
+  /** Quante gare per stato, per il riepilogo in cima. */
+  function riepilogoMie(lista) {
+    const n = { conta: 0, storico: 0, attesa: 0, rifiutato: 0, esito: 0, locale: 0, vecchia: 0 };
+    for (const x of lista || []) n[x.stato]++;
+    return n;
+  }
+
+  const api = { registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, daRecuperare, PASSI_ENTRA, passiEntra, prossimoEntra };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);
