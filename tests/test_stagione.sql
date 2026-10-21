@@ -109,6 +109,10 @@ begin
   -- direttivo toglie
   perform public.gare_societa_togli(a, gid);
   assert json_array_length(public.stato_stagione(a)->'gare_societa') = 1, 'gara tolta';
+
+  -- pulizia: le prove successive (statistiche) partono da un database senza membri
+  delete from public.gruppi where nome = 'Stagione Roma';
+  assert not exists (select 1 from public.inviti_personali), 'inviti tolti con il gruppo';
 end $$;
 
 -- permessi: le tabelle non si leggono da fuori, le funzioni di supporto non si chiamano
