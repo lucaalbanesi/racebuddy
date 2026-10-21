@@ -2,6 +2,356 @@
  "aggiornato": "2026-10-21",
  "contenuti": [
   {
+   "id": "f24d090f8e26",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Valeria Straneo intervista Valeria Straneo: tra ieri e oggi",
+   "estratto": "Cosa si direbbero la ex vicecampionessa mondiale e la runner di oggi? Valeria Straneo svela il suo cambio di passo, dal cronometro al puro piacere di correre",
+   "link": "https://www.runnersworld.com/it/vip/a74193975/valeria-straneo-ieri-e-oggi/",
+   "data": "2026-10-21",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/28bd4e07-3227-4e14-bd68-7d9ab05983ca.jpg",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "098b6a2c5c37",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Uscire dal doomscrolling e dallo scorrere ansioso delle notizie",
+   "estratto": "Lo scorrimento continuo delle notizie risponde a una dinamica visiva precisa: riconoscerla ti permette di stabilire confini chiari con lo schermo. pIl doomscrolling indica la…",
+   "link": "https://runlovers.it/2026/doomscrolling-notizie-ansia-smettere/",
+   "data": "2026-10-21",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/04-20261021-0715-Doomscrolling-W-Unsplash-Rapha-Wilde.jpeg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "ce922f0922d2",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Trecentodieci chilometri per vedere Venezia la prima volta",
+   "estratto": "A febbraio, Luca Masoero aveva già corso cento chilometri su un anello di centocinquanta metri. Con The Long Way to Venice, il progetto Kiprun che lo ha portato da Milano a…",
+   "link": "https://runlovers.it/2026/kiprun-long-way-to-venice-luca-masoero-milano-venezia/",
+   "data": "2026-10-21",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/kiprun-lucamasoero-02.jpg?resize=1160%2C773&quality=75&ssl=1",
+   "argomenti": [
+    "racconti"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "e22930547bcd",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Tre atleti Brooks e la sfida dei 21K: il dietro le quinte della preparazione verso la Mezza Maratona di Roma",
+   "estratto": "Nicolò Bedini, Melissa Fracassini e Thomas D’Este ci accompagnano in un viaggio tra passione, infortuni e ripartenze condividendo consigli per superare i propri limiti",
+   "link": "https://www.runnersworld.com/it/vip/a74092748/tre-atleti-brooks-e-la-sfida-dei-21k-il-dietro-le-quinte-della-preparazione-verso-la-mezza-maratona-di-roma/",
+   "data": "2026-10-21",
+   "immagine": "https://hips.hearstapps.com/vidthumb/d27686f7-a310-4c02-8c0e-9212d27ed1bb/thumb_1920x1080.0000001.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
+   "id": "5b09c1354f07",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Suunto Race 3S: il nuovo sportwatch per il trail running con AI coach",
+   "estratto": "38 ore di autonomia con GPS dual-band, mappe offline gratuite, vetro zaffiro e 56 grammi di peso: lo sportwatch è pensato per accompagnare il runner anche nelle uscite più lunghe",
+   "link": "https://www.runnersworld.com/it/equipment/tech/a74190540/suunto-race-3s-sportwatch-trail-running-ai-coach/",
+   "data": "2026-10-21",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/87c0d79f-2c21-48c3-8ec2-1ab6018f481e.jpg",
+   "argomenti": [
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "0b1bb38ec114",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "Protetto: Skechers AERO Elite™, la “super” scarpa da gara per tutte le distanze",
+   "estratto": "Questo contenuto è protetto da password. Per visualizzarlo inserisci la password qui sotto. Password: L'articolo Protetto: Skechers AERO Elite™, la “super” scarpa da gara per…",
+   "link": "https://correre.it/skechers-aero-elite/",
+   "data": "2026-10-21",
+   "immagine": "https://correre.it/wp-content/uploads/2026/10/skechers_aero_elite_cover.jpg",
+   "argomenti": [
+    "scarpe",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "299ed6fd9728",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "Novità 2027: il 28 febbraio ritorna la Ferrara Marathon",
+   "estratto": "Il 2027 sarà l’anno di Ferrara Città Europea dello Sport . È in questo contesto che domenica 28 febbraio si svolgerà la nuova versione della Ferrara Marathon (41ª edizione), della…",
+   "link": "https://correre.it/ferrara-marathon-2027/",
+   "data": "2026-10-21",
+   "immagine": "https://correre.it/wp-content/uploads/2026/10/Ferrara_Marathon_2027_medaglia.jpg",
+   "argomenti": [
+    "gara",
+    "abbigliamento",
+    "racconti"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "gara"
+   ]
+  },
+  {
+   "id": "9216226ebf12",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona di Berlino 2026: 42 km per sentirsi local con Zalando",
+   "estratto": "Run Like a Local. Dalla Maratona di Berlino alle run crew locali, Zalando investe nel running tra performance, innovazione e community, con l’obiettivo di diventare un riferimento…",
+   "link": "https://www.runnersworld.com/it/news/a74199697/maratona-berlino-corsa-run-like-local-zalando/",
+   "data": "2026-10-21",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/827a50fb-d531-4e81-8313-a35b536c2140.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
+   "id": "6c61ee760b10",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Le gare da correre nel weekend del 25 ottobre",
+   "estratto": "Fine settimana ricco di gare: mezze maratone, dieci chilometri e trail, il 25 ottobre si corre ovunque!",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74191632/gare-da-correre-weekend-25-ottobre/",
+   "data": "2026-10-21",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/bb42b913-9759-4a1c-94cd-1e7b2a2c9399.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "cf20d5e1efa8",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "In Italia si corre sempre di più, ma gli italiani sono davvero pronti alla corsa?",
+   "estratto": "In Italia si corre sempre di più, ma non tutti sembrano pronti a fare spazio ai runner. Dai 40mila di Roma ai disagi nelle città, il boom della corsa apre una nuova sfida",
+   "link": "https://www.runnersworld.com/it/news/a74170545/italia-boom-running-gare-sold-out-citta/",
+   "data": "2026-10-21",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/7aa8c880-76b9-4272-93ab-bbf6dc43062f.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "0e7afe6a4c10",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Il miele di Sawe: che cosa c’è dietro una colazione così semplice?",
+   "estratto": "Il Guardian ha raccontato la colazione di Sawe prima del record mondiale: pane e miele. Un dettaglio che riaccende la curiosità su un alimento semplice, proprio nel pieno della…",
+   "link": "https://podisti.net/il-miele-di-sawe-che-cosa-ce-dietro-una-colazione-cosi-semplice/",
+   "data": "2026-10-21",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/SaweMaratonaDiLondra2026ColazioneConMieleFotoConIA.jpg",
+   "argomenti": [
+    "alimentazione",
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
+   "id": "2ff3f9282cfb",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Gli esercizi di forza per le gambe di chi corre",
+   "estratto": "Sei esercizi con un manubrio, due sedute da mezz’ora a settimana e un mese di progressione: il lavoro di forza che serve alle gambe quando l’uscita si allunga. Perché le gambe…",
+   "link": "https://runlovers.it/2026/esercizi-forza-gambe-runner/",
+   "data": "2026-10-21",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/forza-gambe-runner-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "gara"
+   ]
+  },
+  {
+   "id": "760a83416913",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Gli anziani tornano al parco giochi, e non per i nipoti",
+   "estratto": "I parchi pubblici smettono di dividere le generazioni e portano la mobilità dell’età avanzata fuori dagli ambulatori per trasformarla in infrastruttura urbana condivisa. A Houston…",
+   "link": "https://runlovers.it/2026/parchi-giochi-anziani-movimento-citta/",
+   "data": "2026-10-21",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/05-20261021-1730-Anziani-C-Unsplash-N1ce.jpeg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "alimentazione",
+    "allenamento",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
+   "id": "32f9520293c6",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Foliage nelle Marche: i Sibillini e i boschi dove l'autunno dà il meglio di sé",
+   "estratto": "Dalla Gola del Furlo ai Monti Sibillini, scopri i percorsi marchigiani dove il foliage accende il paesaggio",
+   "link": "https://www.runnersworld.com/it/travel/a65979307/foliage-marche-cammini-autunno/",
+   "data": "2026-10-21",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/6946b590-b98e-4ce2-9093-be88e1804825.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "548cf67e0ad3",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Foliage in Svizzera: treni panoramici e sentieri per vivere l'autunno tra Ticino e Alpi",
+   "estratto": "Scopri itinerari unici tra laghi, boschi e montagne che si tingono di calde sfumature nel magico autunno delle Alpi",
+   "link": "https://www.runnersworld.com/it/travel/a66022568/foliage-svizzera-cammini-autunno/",
+   "data": "2026-10-21",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/0ad14e98-41db-4940-885a-e4c0596efbb5.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "b8e3d04840ac",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Foliage in Molise: l'autunno autentico tra faggete, tratturi e borghi",
+   "estratto": "Percorsi immersi in boschi incantati, tra panorami quieti e la luce soffusa della stagione più poetica",
+   "link": "https://www.runnersworld.com/it/travel/a66022140/foliage-molise-cammini-autunno/",
+   "data": "2026-10-21",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/890e39ef-f6c8-427c-915b-2c83c0a61526.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "583ad55dbf01",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Circuito di core stability: 5 esercizi per rafforzare addome e schiena",
+   "estratto": "Un core forte e stabile aiuta a controllare il movimento e a mantenere una postura efficace durante la corsa. Scopri come allenare addome, schiena e muscoli stabilizzatori…",
+   "link": "https://www.runnersworld.com/it/allenamento/coach-del-mese-allenamenti/a74191652/core-stability-esercizi-runner-addome-schiena/",
+   "data": "2026-10-21",
+   "immagine": "https://hips.hearstapps.com/vidthumb/7837f619-0970-4376-9c03-c2305e7c15ff/ca0edddf-ca27-4946-9fd1-67551de7a710.jpg",
+   "argomenti": [
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "43afbbbd33fb",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Assumere carboidrati in gara è scienza, non una moda del momento. PUNTO.",
+   "estratto": "Assumere carboidrati in gara è scienza, non una moda del momento. PUNTO. La scorsa settimana è uscito un video dove trattiamo…",
+   "link": "https://www.youtube.com/shorts/cFTOKPr8Wo8",
+   "data": "2026-10-21",
+   "immagine": "https://i4.ytimg.com/vi/cFTOKPr8Wo8/hqdefault.jpg",
+   "argomenti": [
+    "rifornimento",
+    "alimentazione",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "b121b6243f76",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "3 segnali concreti che indicano che stai migliorando nella corsa",
+   "estratto": "Utilizza questi suggerimenti per capire se è arrivato il momento di modificare i tuoi obiettivi di allenamento",
+   "link": "https://www.runnersworld.com/it/allenamento/a74188111/segnali-stai-migliorando-corsa/",
+   "data": "2026-10-21",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/af753dc2-296c-44eb-b170-3104ab195df8.jpg",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
    "id": "ba914a87d9b7",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -182,6 +532,22 @@
    ]
   },
   {
+   "id": "48d89292a463",
+   "tipo": "video",
+   "fonte": "Riccardo Bugari · Running Bug",
+   "fonteId": "yt_runningbug",
+   "titolo": "First half marathon with my little baby #halfmarathon #running #daughter",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/uLbDoAKG4sQ",
+   "data": "2026-10-20",
+   "immagine": "https://i2.ytimg.com/vi/uLbDoAKG4sQ/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
    "id": "533bf5881c4a",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -216,6 +582,24 @@
     "21"
    ],
    "fasi": []
+  },
+  {
+   "id": "c10d56782b15",
+   "tipo": "video",
+   "fonte": "Andrea Vignone",
+   "fonteId": "yt_crazyvigno",
+   "titolo": "DAKAR 2027, CLAMOROSO! SI TORNA IN AFRICA? 😱 La notizia che cambia tutto",
+   "estratto": "DAKAR 2027, CLAMOROSO! SI TORNA IN AFRICA? 😱 La notizia che cambia tutto 🚨 CLAMOROSO: LA DAKAR 2027 POTREBBE LASCIARE L'ARABIA SAUDITA! 🏁…",
+   "link": "https://www.youtube.com/watch?v=gwk_99HVK30",
+   "data": "2026-10-20",
+   "immagine": "https://i4.ytimg.com/vi/gwk_99HVK30/hqdefault.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "gara"
+   ]
   },
   {
    "id": "85ae4ba7635b",
@@ -1945,26 +2329,6 @@
    "distanze": [],
    "fasi": [
     "dopo"
-   ]
-  },
-  {
-   "id": "e22930547bcd",
-   "tipo": "articolo",
-   "fonte": "Runner's World Italia",
-   "fonteId": "runnersworld",
-   "titolo": "Tre atleti Brooks e la sfida dei 21K: il dietro le quinte della preparazione verso la Mezza Maratona di Roma",
-   "estratto": "Nicolò Bedini, Melissa Fracassini e Thomas D’Este ci accompagnano in un viaggio tra passione, infortuni e ripartenze condividendo consigli per superare i propri limiti",
-   "link": "https://www.runnersworld.com/it/vip/a74092748/tre-atleti-brooks-e-la-sfida-dei-21k-il-dietro-le-quinte-della-preparazione-verso-la-mezza-maratona-di-roma/",
-   "data": "2026-10-14",
-   "immagine": "https://hips.hearstapps.com/vidthumb/d27686f7-a310-4c02-8c0e-9212d27ed1bb/thumb_1920x1080.0000001.jpg",
-   "argomenti": [
-    "gara"
-   ],
-   "distanze": [
-    "21"
-   ],
-   "fasi": [
-    "si_parte"
    ]
   },
   {
