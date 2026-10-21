@@ -1502,13 +1502,27 @@
     if (tab === "albo") return L.alboDoro(ris, dist === "tutte" ? "21" : dist, sesso).map((x) => ({ ...x, html: (y) => rigaCl(y, fmtSec(y.secondi), [titoloGara(y.gara_nome || ""), L.fmtBreve(y.data) + " " + y.data.slice(0, 4), y.categoria].filter(Boolean).map(esc).join(" · ")) }));
     return L.classificaGareCorse(ris, per).map((x) => ({ ...x, html: (y) => rigaCl(y, `${y.n} <span class="small muted" style="font-weight:500">${y.n === 1 ? "gara" : "gare"}</span>`, y.mio ? "le tue gare" : "", y.mio ? "#/gruppo/mie?da=classifiche" : "") }));
   }
+  // Gare della società in Gruppo, per tutti (anche chi non partecipa): la prossima e il link all'elenco completo.
+  // La prossima può essere anche dell'anno dopo (a fine stagione il direttivo prepara già il calendario nuovo).
+  function cardGareSoc(io, org) {
+    const o = oggi(), anno = o.slice(0, 4), tutte = gareSoc(), soc = tutte.filter((s) => s.data.slice(0, 4) === anno), prox = tutte.find((s) => s.data >= o);
+    const daCorrere = tutte.filter((s) => s.data >= o).length;
+    if (!prox) return org ? `<a class="card soft link-card" href="#/gruppo/societa"><span class="title">${soc.length ? "Aggiungi le prossime gare della società" : "Scegli le gare della società"}</span><span class="small">Le sceglie il direttivo: solo queste fanno punti nella classifica Impegno.</span><span class="small" style="color:var(--accent);font-weight:700">Gare della società ›</span></a>`
+      : soc.length ? `<a class="card soft link-card" href="#/gruppo/societa"><span class="title">Gare della società</span><span class="small">Quelle del ${esc(anno)} sono già corse: le prossime le sceglie il direttivo.</span><span class="small" style="color:var(--accent);font-weight:700">Vedi l'elenco ›</span></a>` : "";
+    const socProx = tutte.filter((s) => s.data.slice(0, 4) === prox.data.slice(0, 4)), altroAnno = prox.data.slice(0, 4) !== anno, n = ciSonoSoc(prox);
+    return `<section class="card" style="gap:8px" aria-label="Gare della società"><div class="between"><span class="eyebrow">Gare della società</span><span class="small muted">la ${socProx.indexOf(prox) + 1}ª di ${socProx.length}${altroAnno ? ` del ${esc(prox.data.slice(0, 4))}` : ""}</span></div>
+      <a class="link-card" href="${hrefSoc(prox)}" style="display:flex;flex-direction:column;gap:2px;color:inherit;text-decoration:none"><span class="small muted">La prossima</span>
+        <span class="title">${esc(titoloGara(prox.nome))} · ${esc(L.DIST_LABEL[prox.distanza])}</span><span class="small muted">${esc(L.fmtGiorno(prox.data))}${altroAnno ? ` ${esc(prox.data.slice(0, 4))}` : ""}${n ? ` · ${n === 1 ? "c'è 1 del gruppo" : `ci sono ${n} del gruppo`}` : ""}</span>
+        ${io.partecipa ? `<span class="small" style="color:var(--accent-strong);font-weight:700">In palio fino a ${L.PUNTI.arrivo + L.PUNTI.pb + L.PUNTI.obiettivo + L.PUNTI.borsa} punti Impegno</span>` : ""}</a>
+      <a class="btn ghost block" href="#/gruppo/societa">${daCorrere === 1 ? "L'elenco delle gare della società" : `Tutte le ${daCorrere} gare da correre`} ›</a></section>`;
+  }
   // In cima a Gruppo: invito a partecipare, oppure la tua stagione, la prossima gara della società e le classifiche
   function cardStagione(d) {
     if (!clAttive()) return cardClassifica(d);
     const cl = CL(), io = cl.io || {}, org = io.ruolo === "admin" || io.ruolo === "organizzatore", o = oggi(), anno = o.slice(0, 4);
     if (!io.partecipa) return `<section class="card dark"><span class="eyebrow">Novità nel gruppo</span><span style="font:700 26px/1.05 var(--display)">Le classifiche della stagione</span>
       <span class="small" style="color:var(--navy-muted)">Impegno nelle gare della società, Obiettivo centrato e Albo d'oro, con i tempi presi dalle classifiche ufficiali. ${cl.partecipanti} ${cl.partecipanti === 1 ? "runner partecipa" : "runner partecipano"} su ${cl.membri}.</span>
-      <div class="row" style="gap:14px;align-items:center"><a class="btn" style="flex:1" href="#/entra/classifiche">Partecipo</a><a href="#/gruppo/regole" style="color:var(--accent-on-dark)">Come funzionano</a></div></section>${cardClassifica(d)}`;
+      <div class="row" style="gap:14px;align-items:center"><a class="btn" style="flex:1" href="#/entra/classifiche">Partecipo</a><a href="#/gruppo/regole" style="color:var(--accent-on-dark)">Come funzionano</a></div></section>${cardGareSoc(io, org)}${cardClassifica(d)}`;
     const { risultati: ris, eventi } = datiSt(), nomi = nomiCl(), id = ioId();
     const imp = L.classificaImpegno(eventi, { anno, nomi, io: id }).find((x) => x.mio);
     const obc = L.classificaObiettivo({ risultati: ris, obiettivi: ST().obiettivi }, { anno, nomi, io: id }).lista.find((x) => x.mio);
@@ -1519,12 +1533,8 @@
       <span class="small" style="color:var(--navy-muted)">${esc(posizioni)}</span>
       <div class="between" style="border-top:1px solid #FFFFFF26;padding-top:10px"><b>La tua carriera <span class="small" style="font-weight:500;color:var(--navy-muted)">· livello e badge</span></b><span class="small" style="color:var(--accent-on-dark);font-weight:700">Apri ›</span></div></a>`;
     // la prossima può essere anche dell'anno dopo (a fine stagione il direttivo prepara già il calendario nuovo)
-    const soc = gareSoc().filter((s) => s.data.slice(0, 4) === anno), prox = gareSoc().find((s) => s.data >= o);
-    const socProx = prox ? gareSoc().filter((s) => s.data.slice(0, 4) === prox.data.slice(0, 4)) : [], altroAnno = prox && prox.data.slice(0, 4) !== anno;
-    const prossima = prox ? `<a class="card link-card" href="${hrefSoc(prox)}" style="gap:4px"><div class="between"><span class="eyebrow">Prossima gara della società</span><span class="small muted">la ${socProx.indexOf(prox) + 1}ª di ${socProx.length}${altroAnno ? ` del ${esc(prox.data.slice(0, 4))}` : ""}</span></div>
-        <span class="title">${esc(titoloGara(prox.nome))} · ${esc(L.DIST_LABEL[prox.distanza])}</span><span class="small muted">${esc(L.fmtGiorno(prox.data))}${altroAnno ? ` ${esc(prox.data.slice(0, 4))}` : ""}${ciSonoSoc(prox) ? ` · ${ciSonoSoc(prox) === 1 ? "c'è 1 del gruppo" : `ci sono ${ciSonoSoc(prox)} del gruppo`}` : ""}</span>
-        <span class="small" style="color:var(--accent-strong);font-weight:700">In palio fino a ${L.PUNTI.arrivo + L.PUNTI.pb + L.PUNTI.obiettivo + L.PUNTI.borsa} punti Impegno</span></a>`
-      : org ? `<a class="card soft link-card" href="#/gruppo/societa"><span class="title">${soc.length ? "Aggiungi le prossime gare della società" : "Scegli le gare della società"}</span><span class="small">Le sceglie il direttivo: solo queste fanno punti nella classifica Impegno.</span><span class="small" style="color:var(--accent);font-weight:700">Gare della società ›</span></a>` : "";
+    const soc = gareSoc().filter((s) => s.data.slice(0, 4) === anno);
+    const prossima = cardGareSoc(io, org);
     const tab = PRINCIPALI.includes(tabCl) ? tabCl : "impegno";
     const l = righeCl(tab), { primi, tu } = L.primiETu(l);
     const chip = (k) => `<button class="chip" data-act="cl-tab" data-t="${k}" aria-pressed="${k === tab}">${k === "obiettivo" ? "Obiettivo" : TAB_CL[k]}</button>`;
