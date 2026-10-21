@@ -35,8 +35,9 @@ create table if not exists public.risultati_gruppo (
   check ((esito = 'arrivato') = (secondi is not null))
 );
 create index if not exists risultati_gruppo_membro on public.risultati_gruppo (membro_id);
--- Fuori misura (ottobre 2026): percorso vicino alla distanza ma non esatto (es. la Corsa di Miguel, 9,9 km come 10 km).
--- Vale per Gare corse e punti di arrivo Impegno; per personali, PB, Albo d'oro, obiettivo e percentuale per età no (app/logic.js).
+-- Altre distanze (ottobre 2026): ogni gara tra 5 e 50 km che non è una classica esatta (la Corsa di Miguel a 9,9 km,
+-- l'Appia Run a 16 o 19 km) ha km_reali e come distanza la classica più vicina. Vale per Gare corse e arrivo e Borsa
+-- Impegno; per personali, PB, Albo d'oro, obiettivo e percentuale per età no (app/logic.js).
 alter table public.risultati_gruppo add column if not exists km_reali numeric(6,3) check (km_reali between 5 and 50);
 alter table public.risultati_gruppo enable row level security;
 
@@ -48,6 +49,21 @@ language sql immutable set search_path = '' as $$
   from unnest(regexp_split_to_array(trim(regexp_replace(
     translate(lower(coalesce(t, '')), 'àáâäãèéêëìíîïòóôöõùúûüçñ', 'aaaaaeeeeiiiiooooouuuucn'), '[^a-z]+', ' ', 'g')), '\s+')) w
   where w <> '';
+$$;
+
+-- Altre distanze: la classica più vicina a quei km (come la funzione "tempi" e il calendario) e il passo sui km reali.
+create or replace function public._base_km(km numeric) returns text
+language sql immutable set search_path = '' as $$
+  select case when km < 15.5 then '10' when km < 31.6 then '21' else '42' end;
+$$;
+create or replace function public._km_ok(dist text, km numeric, sec int) returns boolean
+language sql immutable set search_path = '' as $$
+  select km is not null and km between 5 and 50 and public._base_km(km) = dist and coalesce(sec / km between 150 and 900, false);
+$$;
+-- km_reali da un json: numero tra 5 e 50 con al massimo 3 decimali, altrimenti null
+create or replace function public._km_json(v text) returns numeric
+language sql immutable set search_path = '' as $$
+  select case when v ~ '^\d{1,2}(\.\d{1,3})?$' then v::numeric end;
 $$;
 
 -- Passo credibile tra 2:30 e 15:00 al km, come nella funzione "tempi" (fuori, per esempio, una "6 ore" registrata come 10 km).
@@ -112,12 +128,12 @@ begin
     begin d := (x->>'data')::date; exception when others then d := null; end;
     dist := x->>'distanza';
     sec := case when x->>'secondi' ~ '^\d{1,6}$' then (x->>'secondi')::int end;
-    -- fuori misura: solo vicino alla distanza dichiarata (10 km ±200 m, mezza e maratona ±400 m), altrimenti si scarta
-    kmr := case when x->>'km_reali' ~ '^\d{1,2}(\.\d{1,3})?$' then (x->>'km_reali')::numeric end;
-    if kmr is not null and abs(kmr - (case dist when '10' then 10 when '21' then 21.0975 when '42' then 42.195 else 0 end)) > (case dist when '10' then 0.2 else 0.4 end) then
+    -- altra distanza: km_reali tra 5 e 50, coerenti con la distanza (la classica più vicina) e con un passo credibile
+    kmr := public._km_json(x->>'km_reali');
+    if x->>'km_reali' is not null and not public._km_ok(dist, kmr, sec) then
       saltati := saltati + 1; continue;
     end if;
-    if d is null or dist not in ('10', '21', '42') or not public._passo_ok(dist, sec) or coalesce(x->>'fonte', '') not in ('gpl', 'fidal')
+    if d is null or dist not in ('10', '21', '42') or (kmr is null and not public._passo_ok(dist, sec)) or coalesce(x->>'fonte', '') not in ('gpl', 'fidal')
        or not public._puo_registrare(m, d)
        or exists (select 1 from public.risultati_gruppo r where r.membro_id = m.id and r.data = d and r.distanza = dist and r.stato = 'certificato' and (r.secondi = sec or not stesso)) then
       saltati := saltati + 1; continue;
@@ -137,11 +153,14 @@ end $$;
 -- Tempo non trovato nelle classifiche: va al referente con link o nota. Al massimo 5 in attesa per volta.
 create or replace function public.invia_risultato(p_token text, p jsonb) returns uuid
 language plpgsql security definer set search_path = '' as $$
-declare m public.membri := public._io_classifiche(p_token); d date; dist text := p->>'distanza'; sec int; r uuid;
+declare m public.membri := public._io_classifiche(p_token); d date; dist text := p->>'distanza'; sec int; r uuid; kmr numeric := public._km_json(p->>'km_reali');
 begin
   begin d := (p->>'data')::date; exception when others then raise exception 'data non valida'; end;
   sec := public._secondi(p->>'tempo');
-  if d is null or dist is null or dist not in ('10', '21', '42') or not public._passo_ok(dist, sec) then raise exception 'tempo non valido'; end if;
+  if d is null or dist is null or dist not in ('10', '21', '42') then raise exception 'tempo non valido'; end if;
+  -- altra distanza (km_reali): km coerenti con la distanza e passo sui km reali
+  if p->>'km_reali' is not null and not public._km_ok(dist, kmr, sec) then raise exception 'tempo o km non validi'; end if;
+  if kmr is null and not public._passo_ok(dist, sec) then raise exception 'tempo non valido'; end if;
   if not public._puo_registrare(m, d) then raise exception 'gara troppo vecchia: dopo i primi 30 giorni si aggiungono solo le gare nuove'; end if;
   if exists (select 1 from public.risultati_gruppo x where x.membro_id = m.id and x.data = d and x.distanza = dist and x.stato = 'certificato') then
     raise exception 'questa gara ha già un tempo certificato';
@@ -149,11 +168,11 @@ begin
   if (select count(*) from public.risultati_gruppo x where x.membro_id = m.id and x.stato = 'in_approvazione' and not (x.data = d and x.distanza = dist)) >= 5 then
     raise exception 'hai già 5 tempi in attesa del referente';
   end if;
-  insert into public.risultati_gruppo (membro_id, data, distanza, gara_nome, esito, secondi, fonte, stato, link, nota)
+  insert into public.risultati_gruppo (membro_id, data, distanza, gara_nome, esito, secondi, fonte, stato, link, nota, km_reali)
   values (m.id, d, dist, nullif(left(trim(p->>'gara_nome'), 120), ''), 'arrivato', sec, 'manuale', 'in_approvazione',
-          nullif(left(trim(p->>'link'), 300), ''), nullif(left(trim(p->>'nota'), 280), ''))
+          nullif(left(trim(p->>'link'), 300), ''), nullif(left(trim(p->>'nota'), 280), ''), kmr)
   on conflict (membro_id, data, distanza) do update set gara_nome = excluded.gara_nome, esito = 'arrivato', secondi = excluded.secondi,
-    fonte = 'manuale', categoria = null, societa = null, stato = 'in_approvazione', link = excluded.link, nota = excluded.nota, deciso_da = null, creato = now(), km_reali = null
+    fonte = 'manuale', categoria = null, societa = null, stato = 'in_approvazione', link = excluded.link, nota = excluded.nota, deciso_da = null, creato = now(), km_reali = excluded.km_reali
   returning id into r;
   return r;
 end $$;
@@ -190,7 +209,7 @@ declare m public.membri := public._io(p_token);
 begin
   if m.ruolo not in ('admin', 'organizzatore') then raise exception 'solo per amministratori e organizzatori'; end if;
   return (select coalesce(json_agg(json_build_object('id', r.id, 'membro', x.nome, 'mio', x.id = m.id, 'data', r.data, 'distanza', r.distanza,
-            'gara_nome', r.gara_nome, 'secondi', r.secondi, 'fonte', r.fonte, 'categoria', r.categoria, 'societa', r.societa, 'link', r.link, 'nota', r.nota)
+            'gara_nome', r.gara_nome, 'secondi', r.secondi, 'fonte', r.fonte, 'categoria', r.categoria, 'societa', r.societa, 'link', r.link, 'nota', r.nota, 'km_reali', r.km_reali)
           order by r.creato), '[]')
     from public.risultati_gruppo r join public.membri x on x.id = r.membro_id
     where x.gruppo_id = m.gruppo_id and r.stato = 'in_approvazione' and x.partecipa);
@@ -279,7 +298,7 @@ $$;
 revoke all on function public.info_invito(text) from public;
 grant execute on function public.info_invito(text) to anon;
 
-revoke all on function public._norm_nome(text), public._passo_ok(text, int), public._puo_registrare(public.membri, date), public._io_classifiche(text) from public, anon, authenticated;
+revoke all on function public._norm_nome(text), public._passo_ok(text, int), public._base_km(numeric), public._km_ok(text, numeric, int), public._km_json(text), public._puo_registrare(public.membri, date), public._io_classifiche(text) from public, anon, authenticated;
 revoke all on function public._registra_certificati(text, text, jsonb) from public, anon, authenticated;
 grant execute on function public._registra_certificati(text, text, jsonb) to service_role;
 do $$

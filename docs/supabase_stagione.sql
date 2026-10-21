@@ -29,6 +29,8 @@ create table if not exists public.gare_societa (
   unique (gruppo_id, data, distanza)
 );
 alter table public.gare_societa enable row level security;
+-- altra distanza (ottobre 2026): i km reali, con la classica più vicina come distanza (es. Appia Run 19 km → '21')
+alter table public.gare_societa add column if not exists km numeric(6,3) check (km between 5 and 50);
 
 -- tempo obiettivo: si scrive fino alla mezzanotte (ora di Roma) del giorno della gara, poi resta com'è
 create table if not exists public.obiettivi_gara (
@@ -163,17 +165,18 @@ end $$;
 -- ------------------------------------------------------------------ gare della società (direttivo)
 create or replace function public.gare_societa_aggiungi(p_token text, p jsonb) returns uuid
 language plpgsql security definer set search_path = '' as $$
-declare m public.membri := public._io_stagione(p_token); d date; dist text := p->>'distanza'; r uuid;
+declare m public.membri := public._io_stagione(p_token); d date; dist text := p->>'distanza'; r uuid; km numeric := public._km_json(p->>'km');
 begin
   if m.ruolo not in ('admin', 'organizzatore') then raise exception 'solo per il direttivo'; end if;
   begin d := (p->>'data')::date; exception when others then raise exception 'data non valida'; end;
   if d is null or dist is null or dist not in ('10', '21', '42') or nullif(trim(p->>'nome'), '') is null then raise exception 'gara non valida'; end if;
+  if p->>'km' is not null and (km is null or km not between 5 and 50 or public._base_km(km) <> dist) then raise exception 'km non validi'; end if;
   if (select count(*) from public.gare_societa x where x.gruppo_id = m.gruppo_id and extract(year from x.data) = extract(year from d)) >= 40 then
     raise exception 'al massimo 40 gare della società in un anno';
   end if;
-  insert into public.gare_societa (gruppo_id, data, distanza, nome, luogo, gara_id, aggiunta_da)
-  values (m.gruppo_id, d, dist, left(trim(p->>'nome'), 120), nullif(left(trim(p->>'luogo'), 80), ''), nullif(left(p->>'gara_id', 40), ''), m.id)
-  on conflict (gruppo_id, data, distanza) do update set nome = excluded.nome, luogo = excluded.luogo, gara_id = excluded.gara_id
+  insert into public.gare_societa (gruppo_id, data, distanza, nome, luogo, gara_id, aggiunta_da, km)
+  values (m.gruppo_id, d, dist, left(trim(p->>'nome'), 120), nullif(left(trim(p->>'luogo'), 80), ''), nullif(left(p->>'gara_id', 40), ''), m.id, km)
+  on conflict (gruppo_id, data, distanza) do update set nome = excluded.nome, luogo = excluded.luogo, gara_id = excluded.gara_id, km = excluded.km
   returning id into r;
   return r;
 end $$;
@@ -243,7 +246,7 @@ begin
     'partecipanti', case when vede then (select coalesce(json_agg(json_build_object('id', x.id, 'nome', x.nome) order by x.nome), '[]')
       from public.membri x where x.gruppo_id = m.gruppo_id and x.partecipa) else '[]'::json end,
     'gare_societa', (select coalesce(json_agg(json_build_object('id', s.id, 'data', s.data, 'distanza', s.distanza, 'nome', s.nome, 'luogo', s.luogo,
-        'gara_id', s.gara_id) order by s.data), '[]') from public.gare_societa s where s.gruppo_id = m.gruppo_id),
+        'gara_id', s.gara_id, 'km', s.km) order by s.data), '[]') from public.gare_societa s where s.gruppo_id = m.gruppo_id),
     'obiettivi', case when vede then (select coalesce(json_agg(json_build_object('membro_id', o.membro_id, 'data', o.data, 'distanza', o.distanza,
         'secondi', o.secondi)), '[]') from public.obiettivi_gara o join public.membri x on x.id = o.membro_id
       where x.gruppo_id = m.gruppo_id and x.partecipa and (o.membro_id = m.id or not public._aperta(o.data))) else '[]'::json end,

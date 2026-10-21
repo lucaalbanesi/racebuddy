@@ -6,7 +6,9 @@ Uso:
     python scripts/import_fidal.py --mesi 6   # solo i prossimi 6 mesi
     python scripts/import_fidal.py --file feed.ics  # usa un file locale (test)
 
-Scarica il calendario nazionale e regionale. Tiene solo le gare su strada di 10 km, mezza maratona e maratona.
+Scarica il calendario nazionale e regionale. Tiene le gare su strada di 10 km, mezza maratona e maratona e, da ottobre
+2026, anche quelle di altra distanza tra 5 e 50 km dichiarata nel nome (es. Appia Run 16 km): hanno "km" con i
+chilometri reali e come "distanza" la classica più vicina (10/21/42), che serve a preparazione e avvisi.
 Le gare annullate restano nell'elenco con "annullata": true, così l'app
 può avvisare chi le aveva scelte.
 Fonte dati: calendario pubblico FIDAL (https://www.fidal.it/calendario.php).
@@ -85,6 +87,44 @@ def _classe(val: float) -> str | None:
     return None
 
 
+# Altre distanze: da 5 a 50 km. "distanza" = la classica più vicina (fino a 15,5 km la 10, fino a 31,6 la mezza).
+KM_MIN, KM_MAX = 5.0, 50.0
+
+
+def base_km(val: float) -> str:
+    return "10" if val < 15.5 else "21" if val < 31.6 else "42"
+
+
+def classifica_km(val: float) -> tuple[str, float | None] | None:
+    """("10"|"21"|"42", None) per le distanze classiche, (classica più vicina, km) per le altre tra 5 e 50 km."""
+    c = _classe(val)
+    if c:
+        return c, None
+    if KM_MIN <= val <= KM_MAX:
+        return base_km(val), round(val, 3)
+    return None
+
+
+def _valori_km(testo: str) -> list[float]:
+    valori = [float((a or b).replace(",", ".")) for a, b in KM.findall(testo)]
+    for elenco in re.findall(r"\bkm\.?\s*((?:\d+(?:[.,]\d+)?\s*/\s*)+\d+(?:[.,]\d+)?)", testo, re.I):
+        valori += [float(v.replace(",", ".")) for v in re.split(r"\s*/\s*", elenco)]
+    return valori
+
+
+def altre_distanze(nome: str) -> list[float]:
+    """Le altre distanze (5-50 km, non classiche) dichiarate nel nome. Solo il nome: la descrizione cita spesso
+    gare collaterali (camminate, non competitive)."""
+    if ESCLUSI.search(nome):
+        return []
+    out: list[float] = []
+    for v in _valori_km(nome):
+        c = classifica_km(v)
+        if c and c[1] is not None and c[1] not in out:
+            out.append(c[1])
+    return out
+
+
 def _da_km(testo: str) -> tuple[bool, list[str]]:
     """(trovato_km, distanze) dai chilometri scritti nel testo.
     Gestisce anche gli elenchi del calendario regionale: "Km. 42,195/33/21,0975/10"."""
@@ -140,13 +180,14 @@ def codice_fidal(*testi: str) -> str | None:
 
 
 def to_gare(ev: dict) -> list[dict]:
-    """Una voce per ciascuna distanza di interesse dell'evento."""
+    """Una voce per ciascuna distanza di interesse dell'evento (classiche e altre)."""
     nome = ev.get("SUMMARY", "").strip()
     descr = ev.get("DESCRIPTION", "")
     data = parse_date(ev.get("DTSTART"))
     if not nome or not data:
         return []
-    return [g for g in (_gara(ev, nome, descr, data, d) for d in distanze(nome, descr)) if g]
+    classiche = [g for g in (_gara(ev, nome, descr, data, d) for d in distanze(nome, descr)) if g]
+    return classiche + [g for g in (_gara(ev, nome, descr, data, base_km(k), k) for k in altre_distanze(nome)) if g]
 
 
 def to_gara(ev: dict) -> dict | None:
@@ -154,7 +195,12 @@ def to_gara(ev: dict) -> dict | None:
     return g[0] if g else None
 
 
-def _gara(ev: dict, nome: str, descr: str, data: str, dist: str) -> dict | None:
+def id_km(km: float) -> str:
+    """Suffisso dell'id per le altre distanze: 16 → "k16", 8,5 → "k8.5"."""
+    return "k" + f"{km:g}"
+
+
+def _gara(ev: dict, nome: str, descr: str, data: str, dist: str, km: float | None = None) -> dict | None:
     annullata = bool(re.match(r"\s*annullat[ao]\b", nome, re.I))
     nome_pulito = re.sub(r"^\s*annullat[ao]\s*[-–]\s*", "", nome, flags=re.I)
     url = ev.get("URL", "")
@@ -162,8 +208,8 @@ def _gara(ev: dict, nome: str, descr: str, data: str, dist: str) -> dict | None:
     luogo = ev.get("LOCATION", "").strip()
     # L'UID del feed cambia a ogni download: usiamo il codice FIDAL o un hash stabile
     base = cod or "H" + hashlib.sha1(f"{data}|{nome_pulito}|{luogo}".encode()).hexdigest()[:10]
-    gid = f"{base}-{dist}"
-    return {
+    gid = f"{base}-{id_km(km) if km else dist}"
+    g = {
         "id": gid,
         "nome": nome_pulito,
         "data": data,
@@ -173,6 +219,9 @@ def _gara(ev: dict, nome: str, descr: str, data: str, dist: str) -> dict | None:
         "fonte": "FIDAL",
         "url": url or (f"https://www.fidal.it/calendario/x/{cod}" if cod else "https://www.fidal.it/calendario.php"),
     }
+    if km:
+        g["km"] = km
+    return g
 
 
 def chiave_luogo(luogo: str) -> str:
@@ -253,7 +302,7 @@ def deduplica(gare: dict[str, dict]) -> dict[str, dict]:
     scelte: dict[tuple, dict] = {}
     # a parità, vince il calendario iCal FIDAL rispetto al PDF di maratone e mezze (prima esce, poi resta)
     for g in gare.values():
-        k = (g["data"], chiave_luogo(g["luogo"]), g["distanza"])
+        k = (g["data"], chiave_luogo(g["luogo"]), g["distanza"], g.get("km"))
         cur = scelte.get(k)
         rank = lambda x: (x["annullata"], x.get("fonte") != "FIDAL", len(x["nome"]))
         if cur is None or rank(cur) > rank(g):
@@ -333,7 +382,7 @@ def main() -> int:
     if not args.file and not args.senza_lazio:
         import calendario_gpl as GPL
         pagine = GPL.scarica()
-        lazio = [g for p in pagine for g in GPL.leggi(p, _classe, ESCLUSI)]
+        lazio = [g for p in pagine for g in GPL.leggi(p, classifica_km, ESCLUSI)]
         if not pagine and OUT.exists():  # sito non raggiungibile: restano le gare del Lazio già note
             lazio = [g for g in json.loads(OUT.read_text(encoding="utf-8")).get("gare", []) if g.get("fonte") == GPL.FONTE]
         nuove = GPL.unisci(gare, lazio, chiave_luogo, oggi.isoformat())

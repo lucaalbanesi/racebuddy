@@ -108,15 +108,26 @@ begin
   perform public.segna_esito(b, '{"data":"2026-10-25","distanza":"42","esito":"nessuno"}');
   assert not exists (select 1 from public.risultati_gruppo where data = '2026-10-25'), 'esito tolto';
 
-  -- fuori misura (es. la Corsa di Miguel, 9,9 km): entra come 10 km con km_reali; troppo lontana dalla distanza no
+  -- altre distanze (Corsa di Miguel 9,9 km, Appia Run 19 km): entrano con km_reali e la classica più vicina; km
+  -- incoerenti con la distanza, fuori dai 5-50 km o passo impossibile sui km reali no
   j := public._registra_certificati(hb, 'Giulia Neri', '[
     {"data":"2026-01-18","distanza":"10","secondi":2474,"gara_nome":"La Corsa di Miguel","fonte":"gpl","km_reali":9.9},
-    {"data":"2026-04-19","distanza":"21","secondi":5118,"gara_nome":"Appia Run","fonte":"gpl","km_reali":19}]');
-  assert (j->>'certificati')::int = 1 and (j->>'saltati')::int = 1, 'fuori misura: ' || j::text;
+    {"data":"2026-04-19","distanza":"21","secondi":5118,"gara_nome":"Appia Run","fonte":"gpl","km_reali":19},
+    {"data":"2026-04-26","distanza":"10","secondi":5118,"fonte":"gpl","km_reali":19},
+    {"data":"2026-05-03","distanza":"10","secondi":900,"fonte":"gpl","km_reali":4},
+    {"data":"2026-05-10","distanza":"21","secondi":1500,"fonte":"gpl","km_reali":19}]');
+  assert (j->>'certificati')::int = 2 and (j->>'saltati')::int = 3, 'altre distanze: ' || j::text;
+  assert (select km_reali from public.risultati_gruppo where data = '2026-04-19') = 19, 'Appia Run 19 km';
   assert (select km_reali from public.risultati_gruppo where data = '2026-01-18') = 9.9, 'km_reali salvato';
   assert exists (select 1 from json_array_elements(public.stato_classifiche(a)->'risultati') x where x->>'data' = '2026-01-18' and (x->>'km_reali')::numeric = 9.9), 'km_reali in classifica';
   assert exists (select 1 from json_array_elements(public.stato_classifiche(b)->'miei') x where x->>'data' = '2026-01-18' and (x->>'km_reali')::numeric = 9.9), 'km_reali nei miei';
-  assert (select count(*) from json_array_elements(public.stato_classifiche(a)->'risultati') x where x->>'km_reali' is not null) = 1, 'le esatte senza km_reali';
+  assert (select count(*) from json_array_elements(public.stato_classifiche(a)->'risultati') x where x->>'km_reali' is not null) = 2, 'le esatte senza km_reali';
+  -- mandata a mano con i km: va al referente con i km; km incoerenti no
+  perform public.invia_risultato(b, '{"data":"2026-09-27","distanza":"21","tempo":"1:30:00","gara_nome":"Giro di prova","km_reali":"16"}');
+  assert (select km_reali from public.risultati_gruppo where data = '2026-09-27') = 16, 'km dalla mano';
+  begin perform public.invia_risultato(b, '{"data":"2026-09-20","distanza":"10","tempo":"1:30:00","km_reali":"16"}'); assert false, 'km incoerenti';
+  exception when others then if sqlerrm not like '%km non validi%' then raise; end if; end;
+  perform public.togli_risultato(b, (select id from public.risultati_gruppo where data = '2026-09-27'));
 
   -- dopo i 30 giorni del recupero: le gare vecchie no, le nuove sì
   update public.membri set partecipa_dal = now() - interval '40 days' where nome = 'Giulia Neri';

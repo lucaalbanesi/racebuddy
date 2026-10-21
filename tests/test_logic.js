@@ -673,6 +673,23 @@ assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10",
   assert.strictEqual(L.miglioramento12(ris, ris[1]), null);
   assert.deepStrictEqual(L.tempiPerDistanza(ris)["10"].map((x) => x.id), ["c", "a"], "personali: solo le esatte");
   assert.strictEqual(L.tempiDellaGara(ris, { data: "2026-01-18", distanza: "10" }).length, 0);
+  assert.strictEqual(L.tempiDellaGara(ris, { data: "2026-01-18", distanza: "10", km: 9.9 }).length, 1, "gara di altra distanza: il suo tempo");
+  // altre distanze: etichetta, tempi sui km reali, ricerca nel calendario
+  assert.strictEqual(L.etichettaDist({ distanza: "21", km: 19 }), "19 km");
+  assert.strictEqual(L.etichettaDist({ distanza: "10", km_reali: 9.9 }), "9,9 km");
+  assert.strictEqual(L.etichettaDist({ distanza: "21" }), "Mezza");
+  assert.strictEqual(L.baseKm(16), "21"); assert.strictEqual(L.baseKm(12), "10"); assert.strictEqual(L.baseKm(35), "42");
+  assert.strictEqual(L.leggiTempo({ distanza: "21", km: 16 }, "0:52:00").tempo, "0:52:00", "16 km in 52 minuti: giusto anche se sotto i limiti della mezza");
+  assert.ok(L.leggiTempo("21", "0:52:00").errore, "per una mezza 52 minuti no");
+  assert.ok(L.leggiTempo({ distanza: "21", km: 16 }, "0:30:00").errore.includes("16 km"));
+  assert.ok(L.leggiTempo("21", "1:05:00").tempo, "senza km restano i limiti della mezza");
+  const cal = [{ id: "a", nome: "Mezza", data: "2026-11-01", distanza: "21" }, { id: "b", nome: "Appia Run", data: "2026-11-01", distanza: "21", km: 19 }];
+  assert.deepStrictEqual(L.cercaGare(cal, "", "21", "2026-10-01").map((g) => g.id), ["a"], "la mezza non comprende i 19 km");
+  assert.deepStrictEqual(L.cercaGare(cal, "", "altra", "2026-10-01").map((g) => g.id), ["b"]);
+  assert.deepStrictEqual(L.cercaGare(cal, "", "", "2026-10-01").map((g) => g.id), ["a", "b"]);
+  const corse = [{ metri: 19100, secondi: 5400 }, { metri: 21150, secondi: 6000 }];
+  assert.strictEqual(L.corsaDellaGara(corse, { distanza: "21", km: 19 }).scelta.metri, 19100, "Strava: la corsa di 19 km per la gara di 19 km");
+  assert.strictEqual(L.corsaDellaGara(corse, "21").scelta.metri, 21150, "e la mezza per la mezza");
   const bd = L.badgeAtleta({ miei: [ris[1]], oggi: "2026-10-21" });
   assert.ok(!bd.find((b) => b.k === "prima10").preso, "Prima 10 km vuole la misura esatta");
 }

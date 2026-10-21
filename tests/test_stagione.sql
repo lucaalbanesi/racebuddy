@@ -32,6 +32,13 @@ begin
     assert false, 'un membro aggiunge una gara della società';
   exception when others then if sqlerrm not like '%direttivo%' then raise; end if; end;
   gid := public.gare_societa_aggiungi(a, jsonb_build_object('data', domani, 'distanza', '10', 'nome', 'Corsa dei Santi', 'luogo', 'ROMA', 'gara_id', 'X1'));
+  -- altra distanza: i km reali con la classica più vicina; km incoerenti no
+  perform public.gare_societa_aggiungi(a, jsonb_build_object('data', domani + 7, 'distanza', '21', 'nome', 'Appia Run', 'km', 19));
+  assert (select km from public.gare_societa where nome = 'Appia Run') = 19, 'km della gara della società';
+  assert exists (select 1 from json_array_elements(public.stato_stagione(a)->'gare_societa') x where x->>'nome' = 'Appia Run' and (x->>'km')::numeric = 19), 'km in stato_stagione';
+  begin perform public.gare_societa_aggiungi(a, jsonb_build_object('data', domani + 7, 'distanza', '10', 'nome', 'Appia Run', 'km', 19)); assert false, 'km incoerenti';
+  exception when others then if sqlerrm not like '%km non validi%' then raise; end if; end;
+  delete from public.gare_societa where nome = 'Appia Run';
   assert public.gare_societa_aggiungi(a, jsonb_build_object('data', domani, 'distanza', '10', 'nome', 'Corsa dei Santi 2026')) = gid, 'stessa gara: aggiornata';
   perform public.gare_societa_aggiungi(a, jsonb_build_object('data', '2026-03-15', 'distanza', '42', 'nome', 'Maratona di Roma'));
   begin perform public.gare_societa_aggiungi(a, '{"data":"2026-03-15","distanza":"5","nome":"x"}'); assert false, 'distanza non valida';

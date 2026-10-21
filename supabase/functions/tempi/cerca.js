@@ -47,16 +47,20 @@ export function distanzaDaKm(km) {
   for (const [d, v] of Object.entries(DISTANZE)) if (Math.abs(km - v) <= 0.05 + 1e-9) return d; // 1e-9: 10,050 - 10 in virgola mobile è 0,0500000000000007
   return null;
 }
-// Fuori misura: percorsi vicini alla distanza (es. la Corsa di Miguel, 9,9 km). Entrano con km_reali e valgono solo per
-// Gare corse e punti di arrivo Impegno, mai per personali, PB, Albo d'oro, obiettivo e percentuale per età.
-const TOLLERANZA = { "10": 0.2, "21": 0.4, "42": 0.4 };
+// Altre distanze (ottobre 2026): ogni gara tra 5 e 50 km che non è una classica esatta (la Corsa di Miguel a 9,9 km,
+// l'Appia Run a 16 o 19 km). Entra con km_reali e come distanza la classica più vicina (come il calendario: fino a
+// 15,5 km la 10, fino a 31,6 la mezza); vale solo per Gare corse e arrivo e Borsa Impegno, mai per personali, PB,
+// Albo d'oro, obiettivo e percentuale per età.
+export const KM_MIN = 5, KM_MAX = 50;
+export const baseKm = (km) => (km < 15.5 ? "10" : km < 31.6 ? "21" : "42");
+// Come le parole escluse del calendario, più le gare a tempo ("6 Ore di Roma"): per le altre distanze non sono corse su strada a distanza
+export const ESCLUSE_ALTRE = /\b(trail|montagna|cross|pista|marcia|nordic|staffetta|ultra|vertical|skyrace|indoor|ore)\b|\b\d+\s*x\s*\d/i;
 export function distanzaCirca(km) {
-  if (distanzaDaKm(km)) return null;
-  for (const [d, v] of Object.entries(DISTANZE)) if (Math.abs(km - v) <= TOLLERANZA[d] + 1e-9) return d;
-  return null;
+  if (!(km >= KM_MIN && km <= KM_MAX) || distanzaDaKm(km)) return null;
+  return baseKm(km);
 }
 // Passi impossibili (errori di inserimento, es. una 6 ore registrata come 10 km in 21 minuti): fuori.
-export const passoPlausibile = (sec, d) => { const p = sec / DISTANZE[d]; return p >= 150 && p <= 900; };
+export const passoPlausibile = (sec, d, km) => { const p = sec / (km || DISTANZE[d]); return p >= 150 && p <= 900; };
 
 /** Gare Podistiche Lazio: le gare di una pagina atleta (scheda o elenco di un anno). */
 export function leggiGpl(html) {
@@ -100,11 +104,19 @@ export function distanzaFidal(gara) {
   if (/\bkm 10\b/.test(g) && /strada/.test(g) || /^10 km strada/.test(g)) return "10";
   return null;
 }
+/** FIDAL, altre distanze su strada: "Corsa strada Km 15" → 15 (5-50 km, non classiche). */
+export function kmFidal(gara) {
+  const t = String(gara || "");
+  if (!/strada/i.test(t) || distanzaFidal(t)) return null;
+  const m = t.match(/\bkm\.?\s*(\d+(?:[.,]\d+)?)/i) || t.match(/(\d+(?:[.,]\d+)?)\s*km\b/i);
+  const km = m ? Number(m[1].replace(",", ".")) : null;
+  return km && distanzaCirca(km) ? km : null;
+}
 export function leggiFidalAtleta(html) {
   const h = String(html || ""), a = h.indexOf('id="tab2"'), b = h.indexOf('id="tab3"', a);
   const sez = a < 0 ? "" : h.slice(a, b < 0 ? undefined : b), out = [];
   for (const m of sez.matchAll(/<h2 class="title-table">([\s\S]*?)<\/h2>([\s\S]*?)<\/table>/gi)) {
-    const d = distanzaFidal(testo(m[1]));
+    const titolo = testo(m[1]), kmA = kmFidal(titolo), d = distanzaFidal(titolo) || (kmA ? baseKm(kmA) : null);
     if (!d) continue;
     for (const r of m[2].match(/<tr>[\s\S]*?<\/tr>/gi) || []) {
       const c = (r.match(/<td[^>]*>[\s\S]*?<\/td>/gi) || []).map(testo);
@@ -112,17 +124,17 @@ export function leggiFidalAtleta(html) {
       if (!/^\d{4}$/.test(anno || "") || !/^\d{2}\/\d{2}$/.test(gm || "") || tipo === "I") continue;
       const sec = secondi(prest);
       if (!sec) continue;
-      out.push({ data: `${anno}-${gm.slice(3, 5)}-${gm.slice(0, 2)}`, gara: "", luogo: citta || "", distanza: d, tempo: hms(sec), secondi: sec, categoria: cat || "" });
+      out.push({ data: `${anno}-${gm.slice(3, 5)}-${gm.slice(0, 2)}`, gara: "", luogo: citta || "", distanza: d, tempo: hms(sec), secondi: sec, categoria: cat || "", ...(kmA ? { km_reali: kmA } : {}) });
     }
   }
   return out;
 }
 
-/** Tiene solo 10 km, mezza e maratona (anche fuori misura, con km_reali) con un passo credibile, dalla più recente. */
+/** Tiene 10 km, mezza e maratona e le altre distanze 5-50 km (con km_reali) con un passo credibile, dalla più recente. */
 function soloGara(lista, fonte) {
   return lista
-    .map((r) => { if (r.distanza || !r.km) return r; const d = distanzaDaKm(r.km), c = distanzaCirca(r.km); return { ...r, distanza: d || c, ...(c ? { km_reali: r.km } : {}) }; })
-    .filter((r) => r.distanza && r.secondi && passoPlausibile(r.secondi, r.distanza))
+    .map((r) => { if (r.distanza || !r.km) return r; const d = distanzaDaKm(r.km), c = !d && !ESCLUSE_ALTRE.test(r.gara || "") ? distanzaCirca(r.km) : null; return { ...r, distanza: d || c, ...(c ? { km_reali: r.km } : {}) }; })
+    .filter((r) => r.distanza && r.secondi && passoPlausibile(r.secondi, r.distanza, r.km_reali))
     .map(({ km, societa, ...r }) => ({ ...r, fonte, id: `${fonte}:${r.data}:${r.distanza}:${r.secondi}` }))
     .sort((x, y) => (x.data < y.data ? 1 : -1));
 }

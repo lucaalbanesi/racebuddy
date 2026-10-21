@@ -18,6 +18,14 @@
   const fmtBreve = (iso) => { const d = new Date(toUTC(iso)); return `${d.getUTCDate()} ${MESI[d.getUTCMonth()]}`; };
   const fmtGiorno = (iso) => { const d = new Date(toUTC(iso)); return `${GIORNI[d.getUTCDay()]} ${d.getUTCDate()} ${MESI[d.getUTCMonth()]}`; };
   const DIST_LABEL = { "10": "10 km", "21": "Mezza", "42": "Maratona" };
+  /** Altre distanze (ottobre 2026): una gara di 5-50 km che non è una classica ha "km" (calendario, mie gare, gare
+   *  della società) o "km_reali" (risultati) e come "distanza" la classica più vicina, che serve a preparazione e avvisi. */
+  const kmAltra = (x) => (x && (x.km || x.km_reali)) || null;
+  const fmtKm = (km) => String(Math.round(km * 100) / 100).replace(".", ",");
+  /** Etichetta della distanza: "10 km", "Mezza", "Maratona" o, per le altre distanze, i km reali ("19 km", "9,9 km"). */
+  const etichettaDist = (x) => (kmAltra(x) ? `${fmtKm(kmAltra(x))} km` : DIST_LABEL[x && x.distanza] || "");
+  /** La classica più vicina a quei km, come calendario e funzione tempi (fino a 15,5 km la 10, fino a 31,6 la mezza). */
+  const baseKm = (km) => (km < 15.5 ? "10" : km < 31.6 ? "21" : "42");
   const RUOLO_LABEL = { obiettivo: "Obiettivo", tappa: "Tappa", divertimento: "Per divertimento" };
 
   /** Fase in cui si trova una gara a una certa data. */
@@ -137,7 +145,10 @@
     return out;
   }
   /** Il tempo di una gara seguita: stesso giorno e stessa distanza. */
-  const tempiDellaGara = (risultati, gara) => esatte(risultati).filter((r) => r.data === gara.data && r.distanza === gara.distanza);
+  /** Il tempo di una gara seguita: stesso giorno e stessa distanza. Per una classica solo i tempi esatti (un fuori misura
+   *  non diventa un personale); per una gara di altra distanza (km) solo quelli di altra distanza con quei km (±1 km). */
+  const tempiDellaGara = (risultati, gara) => (gara.km ? (risultati || []).filter((r) => r.km_reali && Math.abs(r.km_reali - gara.km) <= 1) : esatte(risultati))
+    .filter((r) => r.data === gara.data && r.distanza === gara.distanza);
   /** Nome della gara da mostrare: FIDAL non lo dà, solo la città. */
   const nomeRisultato = (r) => r.gara || (r.luogo ? `Gara a ${r.luogo.toLowerCase().replace(/(^|[\s/'-])(\p{L})/gu, (m, a, c) => a + c.toUpperCase())}` : "Gara");
 
@@ -164,7 +175,7 @@
     let extra, come, nGare = 0;
     if (s.tipo === "gara") {
       const prima = (ctx.gare || []).filter((g) => g.id !== gara.id && g.data >= oggi && g.data < gara.data && !g.archiviata);
-      nGare = prima.length; extra = prima.reduce((t, g) => t + (KM_GARA[g.distanza] || 0), 0); come = "gare";
+      nGare = prima.length; extra = prima.reduce((t, g) => t + (g.km || KM_GARA[g.distanza] || 0), 0); come = "gare";
     } else {
       const r = kmAlGiorno(s.storia, oggi), sett = Number(ctx.kmSettimana) || 0;
       if (r != null) { extra = r * giorni; come = "storia"; }
@@ -404,7 +415,8 @@
     const q = (testo || "").trim().toLowerCase();
     return gare
       .filter((g) => g.data >= oggi && !g.annullata)
-      .filter((g) => !distanza || g.distanza === distanza)
+      // "altra" = le gare di altra distanza; le classiche non comprendono quelle con i km (un 16 km non è una mezza)
+      .filter((g) => !distanza || (distanza === "altra" ? !!g.km : g.distanza === distanza && !g.km))
       .filter((g) => !q || `${g.nome} ${g.luogo}`.toLowerCase().includes(q))
       .slice(0, limite);
   }
@@ -459,7 +471,10 @@
    *  Accetta h:mm:ss, mm:ss o h:mm (due parti: si sceglie la lettura plausibile per la distanza), anche con i punti. */
   const LIMITI_TEMPO = { "10": [25 * 60, 2.5 * 3600], "21": [55 * 60, 4.5 * 3600], "42": [118 * 60, 8 * 3600] };
   function leggiTempo(distanza, testo) {
-    const lim = LIMITI_TEMPO[distanza];
+    // con una gara (oggetto) di altra distanza i limiti vengono dai km reali: passo tra 2:30 e 15:00 al km
+    const km = typeof distanza === "object" && distanza ? kmAltra(distanza) : null;
+    if (typeof distanza === "object" && distanza) distanza = distanza.distanza;
+    const lim = km ? [Math.round(150 * km), Math.round(900 * km)] : LIMITI_TEMPO[distanza];
     const t = String(testo || "").trim().replace(/[.,]/g, ":");
     if (!lim || !/^\d{1,2}:\d{2}(:\d{2})?$/.test(t)) return { errore: "Scrivi il tempo come ore:minuti:secondi, es. 1:45:00" };
     const p = t.split(":").map(Number);
@@ -467,7 +482,7 @@
     const ok = (s) => s >= lim[0] && s <= lim[1];
     const candidati = p.length === 3 ? [p[0] * 3600 + p[1] * 60 + p[2]] : [p[0] * 60 + p[1], p[0] * 3600 + p[1] * 60];
     const secondi = candidati.find(ok);
-    if (secondi == null) return { errore: `Il tempo non sembra giusto per ${{ "10": "un 10 km", "21": "una mezza", "42": "una maratona" }[distanza]}: ricontrollalo` };
+    if (secondi == null) return { errore: `Il tempo non sembra giusto per ${km ? `una gara di ${fmtKm(km)} km` : { "10": "un 10 km", "21": "una mezza", "42": "una maratona" }[distanza]}: ricontrollalo` };
     const h = Math.floor(secondi / 3600), m = Math.floor((secondi % 3600) / 60), s = secondi % 60;
     return { tempo: `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`, secondi };
   }
@@ -497,10 +512,14 @@
   }
   /** Le corse di Strava del giorno della gara → quella che è la gara (segnata come gara, o con la distanza più giusta), più le altre. */
   function corsaDellaGara(corse, distanza) {
-    const ufficiale = { "10": 10000, "21": 21097, "42": 42195 }[distanza];
-    const giuste = (corse || []).filter((a) => distanzaDi(a.metri || 0) === distanza && a.secondi > 0 && leggiTempo(distanza, hms(a.secondi)).tempo);
+    // con una gara (oggetto) di altra distanza: le corse entro il 7% dei suoi km
+    const km = typeof distanza === "object" && distanza ? kmAltra(distanza) : null, gara = distanza;
+    if (typeof distanza === "object" && distanza) distanza = distanza.distanza;
+    const ufficiale = km ? km * 1000 : { "10": 10000, "21": 21097, "42": 42195 }[distanza];
+    const giusta = (a) => (km ? Math.abs((a.metri || 0) - ufficiale) <= ufficiale * 0.07 : distanzaDi(a.metri || 0) === distanza);
+    const giuste = (corse || []).filter((a) => giusta(a) && a.secondi > 0 && leggiTempo(gara, hms(a.secondi)).tempo);
     const scelta = giuste.find((a) => a.gara) || [...giuste].sort((x, y) => Math.abs(x.metri - ufficiale) - Math.abs(y.metri - ufficiale))[0] || null;
-    return { scelta: scelta ? { ...scelta, tempo: leggiTempo(distanza, hms(scelta.secondi)).tempo } : null, altre: (corse || []).filter((a) => a !== scelta && a.secondi > 0) };
+    return { scelta: scelta ? { ...scelta, tempo: leggiTempo(gara, hms(scelta.secondi)).tempo } : null, altre: (corse || []).filter((a) => a !== scelta && a.secondi > 0) };
   }
 
   /** Swipe tra le sezioni della gara. SEZIONI_GARA è l'ordine della barra a segmenti ("" = Panoramica).
@@ -687,12 +706,12 @@
     const righe = [`Oggi: ${oggi}.`];
     const { tutte, obiettivo } = fasi ? gareAttive(gare, fasi, oggi, risultati) : { tutte: [], obiettivo: null };
     const descr = (g) => {
-      const sec = secondiTempo(g.tempo), km = KM_DIST[g.distanza];
-      return `${g.nome} (${DIST_LABEL[g.distanza] || g.distanza}), ${g.data}, tra ${g.mancano} giorni${g.fase && g.fase.nome ? `, fase: ${g.fase.nome}` : ""}${sec && km ? `, tempo obiettivo ${g.tempo} (passo ${fmtPasso(sec / km)})` : ", tempo obiettivo non indicato"}`;
+      const sec = secondiTempo(g.tempo), km = g.km || KM_DIST[g.distanza];
+      return `${g.nome} (${etichettaDist(g) || g.distanza}), ${g.data}, tra ${g.mancano} giorni${g.fase && g.fase.nome ? `, fase: ${g.fase.nome}` : ""}${sec && km ? `, tempo obiettivo ${g.tempo} (passo ${fmtPasso(sec / km)})` : ", tempo obiettivo non indicato"}`;
     };
     if (obiettivo) righe.push(`Gara obiettivo: ${descr(obiettivo)}.`);
     // ritmi di riferimento dal passo obiettivo (stime prudenti, per tenere coerenti i numeri del piano)
-    const secO = obiettivo ? secondiTempo(obiettivo.tempo) : 0, kmO = obiettivo ? KM_DIST[obiettivo.distanza] : 0;
+    const secO = obiettivo ? secondiTempo(obiettivo.tempo) : 0, kmO = obiettivo ? obiettivo.km || KM_DIST[obiettivo.distanza] : 0;
     if (secO && kmO) {
       const p = secO / kmO, pm = obiettivo.distanza === "42" ? p : obiettivo.distanza === "21" ? p * 1.05 : p * 1.12;
       righe.push(`Ritmi di riferimento (dal tempo obiettivo): lento ${fmtPasso(pm + 60)}-${fmtPasso(pm + 80)}, medio ${fmtPasso(pm + 20)}, passo maratona ${fmtPasso(pm)}, soglia ${fmtPasso(pm - 15)}, ripetute ${fmtPasso(pm - 30)}.`);
@@ -796,7 +815,7 @@
   const garaSocDi = (gareSoc, g) => (g && (gareSoc || []).find((s) => {
     if (s.data !== g.data || s.distanza !== g.distanza) return false;
     if (s.gara_id === g.id || String(g.id || "").startsWith("M")) return true;
-    if (s.gara_id) return false;
+    if (s.gara_id || !s.km !== !g.km) return false; // a mano: una mezza non è la gara di 19 km dello stesso giorno
     const a = paroleNome(s.nome); return [...paroleNome(g.nome)].some((w) => a.has(w));
   })) || null;
   /** L'obiettivo è ancora modificabile online: fino alla mezzanotte del giorno della gara (ora del telefono). */
@@ -1001,7 +1020,7 @@
     return (lista || []).filter((x) => {
       if (periodo !== "tutte" && x.data.slice(0, 4) !== anno) return false;
       if (!parole.length) return true;
-      const testo = senzaAccenti([x.nome, x.luogo, x.membro || "", DIST_LABEL[x.distanza], x.distanza === "42" ? "42 km" : x.distanza === "21" ? "21 km" : "", fmtBreve(x.data), MESI_LUNGHI[Number(x.data.slice(5, 7)) - 1], x.data.slice(0, 4),
+      const testo = senzaAccenti([x.nome, x.luogo, x.membro || "", etichettaDist(x), x.distanza === "42" ? "42 km" : x.distanza === "21" ? "21 km" : "", fmtBreve(x.data), MESI_LUNGHI[Number(x.data.slice(5, 7)) - 1], x.data.slice(0, 4),
         STATO_MIE[x.stato], ESITO_LABEL[x.esito] || ""].join(" "));
       return parole.every((p) => testo.includes(p));
     });
@@ -1013,7 +1032,7 @@
     return n;
   }
 
-  const api = { fuoriMisura, esatte, PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, daRecuperare, PASSI_ENTRA, passiEntra, prossimoEntra };
+  const api = { fuoriMisura, esatte, kmAltra, fmtKm, etichettaDist, baseKm, PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, daRecuperare, PASSI_ENTRA, passiEntra, prossimoEntra };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);

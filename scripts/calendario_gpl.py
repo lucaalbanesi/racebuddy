@@ -2,8 +2,9 @@
 
 Due pagine pubbliche: i prossimi mesi (gare-lazio.php) e l'anno successivo (gare-anno-successivo.php?tipo=0).
 Ogni riga: data e ora (o "Annullata" / "Rinviata al …"), nome, km, località (provincia), termine iscrizione, quota,
-scheda gara, sito e Facebook. Si tengono le gare su strada di 10 km, mezza e maratona con le stesse regole del
-calendario FIDAL (stessi chilometri, stesse parole escluse; fuori i trail, che hanno il dislivello nei km).
+scheda gara, sito e Facebook. Si tengono le gare su strada di 10 km, mezza e maratona e quelle di altra distanza tra
+5 e 50 km (con "km" e la classica più vicina come "distanza") con le stesse regole del calendario FIDAL (stesse parole
+escluse; fuori i trail, che hanno il dislivello nei km).
 
 Una gara già nel calendario FIDAL (stessa data, luogo e distanza) resta quella FIDAL, con il suo id: si aggiungono
 solo i dati che FIDAL non ha (ora di partenza, quota, iscrizioni, sito). Le altre entrano con fonte
@@ -33,8 +34,9 @@ def testo(s: str) -> str:
 
 
 def leggi(pagina: str, classe, esclusi) -> list[dict]:
-    """Le gare di interesse di una pagina del calendario. `classe(km) -> "10"|"21"|"42"|None` ed `esclusi` (regex)
-    sono quelli del calendario FIDAL, così le due fonti seguono le stesse regole."""
+    """Le gare di interesse di una pagina del calendario. `classe(km)` (`classifica_km` del calendario FIDAL:
+    (distanza, km reali o None) o None) ed `esclusi` (regex) sono quelli del calendario FIDAL, così le due fonti
+    seguono le stesse regole."""
     out = []
     for riga in RIGA.findall(pagina):
         celle = CELLA.findall(riga)
@@ -44,7 +46,8 @@ def leggi(pagina: str, classe, esclusi) -> list[dict]:
         if "D+" in km_txt.upper() or "+" in km_txt or esclusi.search(nome):
             continue
         m = re.match(r"^\s*(\d+(?:[.,]\d+)?)", km_txt.replace(".", "").replace(",", "."))
-        dist = classe(float(m.group(1))) if m else None
+        c = classe(float(m.group(1))) if m else None
+        dist, km = (c if isinstance(c, tuple) else (c, None)) if c else (None, None)
         date = DATA.findall(quando)
         if not dist or not date:
             continue
@@ -59,10 +62,12 @@ def leggi(pagina: str, classe, esclusi) -> list[dict]:
         scad = DATA.search(iscr)
         h = hashlib.sha1(f"{data}|{nome}|{luogo}".encode()).hexdigest()[:10]
         gara = {
-            "id": f"L{h}-{dist}", "nome": nome, "data": data, "luogo": luogo.upper(), "provincia": prov, "distanza": dist,
+            "id": f"L{h}-{'k' + format(km, 'g') if km else dist}", "nome": nome, "data": data, "luogo": luogo.upper(), "provincia": prov, "distanza": dist,
             "annullata": "annullat" in quando.lower(), "fonte": FONTE,
             "url": BASE + html.unescape(scheda) if scheda else BASE + "gare-lazio.php",
         }
+        if km:
+            gara["km"] = km
         if ora:
             gara["ora"] = ora.group(1).replace(".", ":")
         if quota and "non disponibile" not in quota.lower():
@@ -96,7 +101,7 @@ def stessa(fidal: dict, lazio: dict, quante_lazio: int) -> bool:
 
 def unisci(gare: dict[str, dict], lazio: list[dict], chiave_luogo, oggi: str) -> int:
     """Aggiunge le gare di Gare Podistiche Lazio a quelle FIDAL. Ritorna quante sono nuove."""
-    k = lambda g: (g["data"], chiave_luogo(g["luogo"]), g["distanza"])
+    k = lambda g: (g["data"], chiave_luogo(g["luogo"]), g["distanza"], g.get("km"))
     fidal: dict[tuple, list[dict]] = {}
     for g in gare.values():
         if g.get("fonte") != FONTE:
