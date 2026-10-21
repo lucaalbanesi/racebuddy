@@ -1506,7 +1506,7 @@
   // La prossima può essere anche dell'anno dopo (a fine stagione il direttivo prepara già il calendario nuovo).
   function cardGareSoc(io, org) {
     const o = oggi(), anno = o.slice(0, 4), tutte = gareSoc(), soc = tutte.filter((s) => s.data.slice(0, 4) === anno), prox = tutte.find((s) => s.data >= o);
-    const daCorrere = tutte.filter((s) => s.data >= o).length;
+    const daCorrere = soc.filter((s) => s.data >= o).length; // solo la stagione in corso
     if (!prox) return org ? `<a class="card soft link-card" href="#/gruppo/societa"><span class="title">${soc.length ? "Aggiungi le prossime gare della società" : "Scegli le gare della società"}</span><span class="small">Le sceglie il direttivo: solo queste fanno punti nella classifica Impegno.</span><span class="small" style="color:var(--accent);font-weight:700">Gare della società ›</span></a>`
       : soc.length ? `<a class="card soft link-card" href="#/gruppo/societa"><span class="title">Gare della società</span><span class="small">Quelle del ${esc(anno)} sono già corse: le prossime le sceglie il direttivo.</span><span class="small" style="color:var(--accent);font-weight:700">Vedi l'elenco ›</span></a>` : "";
     const socProx = tutte.filter((s) => s.data.slice(0, 4) === prox.data.slice(0, 4)), altroAnno = prox.data.slice(0, 4) !== anno, n = ciSonoSoc(prox);
@@ -1514,7 +1514,7 @@
       <a class="link-card" href="${hrefSoc(prox)}" style="display:flex;flex-direction:column;gap:2px;color:inherit;text-decoration:none"><span class="small muted">La prossima</span>
         <span class="title">${esc(titoloGara(prox.nome))} · ${esc(L.DIST_LABEL[prox.distanza])}</span><span class="small muted">${esc(L.fmtGiorno(prox.data))}${altroAnno ? ` ${esc(prox.data.slice(0, 4))}` : ""}${n ? ` · ${n === 1 ? "c'è 1 del gruppo" : `ci sono ${n} del gruppo`}` : ""}</span>
         ${io.partecipa ? `<span class="small" style="color:var(--accent-strong);font-weight:700">In palio fino a ${L.PUNTI.arrivo + L.PUNTI.pb + L.PUNTI.obiettivo + L.PUNTI.borsa} punti Impegno</span>` : ""}</a>
-      <a class="btn ghost block" href="#/gruppo/societa">${daCorrere === 1 ? "L'elenco delle gare della società" : `Tutte le ${daCorrere} gare da correre`} ›</a></section>`;
+      <a class="btn ghost block" href="#/gruppo/societa">${daCorrere > 1 ? `Le ${daCorrere} gare da correre nel ${esc(anno)}` : "L'elenco delle gare della società"} ›</a></section>`;
   }
   // In cima a Gruppo: invito a partecipare, oppure la tua stagione, la prossima gara della società e le classifiche
   function cardStagione(d) {
@@ -1664,16 +1664,16 @@
     const io = CL().io || {}, dir = io.ruolo === "admin" || io.ruolo === "organizzatore", o = oggi(), anno = o.slice(0, 4);
     // la stagione è l'anno in corso; "Da correre" mostra anche le gare già scelte per gli anni dopo (con l'anno)
     const tutte = gareSoc().filter((s) => s.data.slice(0, 4) === anno), future = gareSoc().filter((s) => s.data >= o), corse = tutte.filter((s) => s.data < o).reverse();
-    const futureAnno = future.filter((s) => s.data.slice(0, 4) === anno).length;
+    const futureAnno = future.filter((s) => s.data.slice(0, 4) === anno), anniDopo = [...new Set(future.map((s) => s.data.slice(0, 4)))].filter((a) => a > anno).sort();
     const { risultati } = datiSt();
     const arrivati = (s) => new Set(risultati.filter((r) => r.data === s.data && r.distanza === s.distanza).map((r) => r.membro_id)).size;
     const riga = (s, passata) => { const n = passata ? arrivati(s) : ciSonoSoc(s), mia = S.gare.some((x) => x.data === s.data && x.distanza === s.distanza);
-      return `<div class="post"><span style="flex:1;min-width:0"><a href="${hrefSoc(s)}" style="font-weight:700;color:inherit">${esc(titoloGara(s.nome))}</a><br><span class="small muted">${esc(L.DIST_LABEL[s.distanza])} · ${esc(L.fmtGiorno(s.data))}${s.data.slice(0, 4) !== anno ? ` ${esc(s.data.slice(0, 4))}` : ""}${s.luogo ? " · " + esc(nomeLuogo(s.luogo)) : ""}${n ? ` · ${n} ${passata ? "al traguardo" : n === 1 ? "c'è" : "ci sono"}` : ""}${!passata && mia ? " · ci sei" : ""}</span></span>
+      return `<div class="post"><span style="flex:1;min-width:0"><a href="${hrefSoc(s)}" style="font-weight:700;color:inherit">${esc(titoloGara(s.nome))}</a><br><span class="small muted">${esc(L.DIST_LABEL[s.distanza])} · ${esc(L.fmtGiorno(s.data))}${s.luogo ? " · " + esc(nomeLuogo(s.luogo)) : ""}${n ? ` · ${n} ${passata ? "al traguardo" : n === 1 ? "c'è" : "ci sono"}` : ""}${!passata && mia ? " · ci sei" : ""}</span></span>
         ${dir ? `<button class="btn ghost small" data-act="gs-togli" data-id="${esc(s.id)}" data-nome="${esc(titoloGara(s.nome))}" aria-label="Togli ${esc(titoloGara(s.nome))}">Togli</button>` : ""}</div>`; };
     const perDist = DISTANZE.map((d) => [d, tutte.filter((s) => s.distanza === d).length]).filter((x) => x[1]).map(([d, n]) => `${n} ${d === "10" ? "da 10 km" : d === "21" ? (n === 1 ? "mezza" : "mezze") : n === 1 ? "maratona" : "maratone"}`).join(" · ");
     return `<header class="head-back">${back(dir && param.da === "admin" ? "#/gruppo/admin" : "#/gruppo")}<div><span class="eyebrow">${esc(GD() ? GD().gruppo.nome : "Il gruppo")} · stagione ${esc(anno)}</span><h1 style="font-size:28px">Gare della società</h1></div></header>
       <p class="sub">Le sceglie il direttivo (amministratore e organizzatori). Solo queste fanno punti nella classifica Impegno.</p>
-      <section class="card" style="gap:6px"><div class="between" style="align-items:baseline"><span class="big" style="font-size:30px;color:var(--fg)">${tutte.length} ${tutte.length === 1 ? "gara" : "gare"}</span><span class="small muted">${corse.length} ${corse.length === 1 ? "corsa" : "corse"} · ${futureAnno} da correre</span></div>
+      <section class="card" style="gap:6px"><div class="between" style="align-items:baseline"><span class="big" style="font-size:30px;color:var(--fg)">${tutte.length} ${tutte.length === 1 ? "gara" : "gare"}</span><span class="small muted">${corse.length} ${corse.length === 1 ? "corsa" : "corse"} · ${futureAnno.length} da correre</span></div>
         <div class="meter" aria-hidden="true"><div style="width:${tutte.length ? Math.round((corse.length / tutte.length) * 100) : 0}%"></div></div>${perDist ? `<span class="small muted">${perDist}</span>` : ""}</section>
       ${dir ? `<section class="card" style="gap:8px"><div class="field"><label for="gs-cerca">Aggiungi dal calendario o dalle tue gare</label><input class="input" id="gs-cerca" type="search" value="${esc(param.q || "")}" placeholder="es. Villa Ada, Ostia, dicembre" autocomplete="off"></div>
         <div id="gs-risultati" style="display:flex;flex-direction:column">${listaCandidatiSoc(param.q || "")}</div>
@@ -1683,7 +1683,8 @@
           <div class="field"><label for="gm-dist">Distanza</label><select class="input" id="gm-dist">${DISTANZE.map((x) => `<option value="${x}" ${x === "21" ? "selected" : ""}>${esc(L.DIST_LABEL[x])}</option>`).join("")}</select></div></div>
           <button class="btn" type="submit">Aggiungi</button></form></details>
         <span class="small muted">Anche una gara già corsa della stagione: i punti si ricalcolano per tutti.</span></section>` : ""}
-      <section class="card" style="gap:0"><h2 style="margin-bottom:4px">Da correre</h2>${future.length ? future.map((s) => riga(s, false)).join("") : `<span class="small">${dir ? "Nessuna gara in programma: aggiungi le prossime." : "Nessuna gara in programma, per ora."}</span>`}</section>
+      <section class="card" style="gap:0"><h2 style="margin-bottom:4px">Da correre · ${esc(anno)}</h2>${futureAnno.length ? futureAnno.map((s) => riga(s, false)).join("") : `<span class="small">${dir ? "Nessuna gara in programma: aggiungi le prossime." : "Nessuna gara in programma, per ora."}</span>`}</section>
+      ${anniDopo.map((a) => { const l = future.filter((s) => s.data.slice(0, 4) === a); return `<section class="card" style="gap:0"><div class="between" style="align-items:baseline"><h2 style="margin-bottom:4px">Stagione ${esc(a)}</h2><span class="small muted">${l.length} ${l.length === 1 ? "gara" : "gare"}</span></div>${l.map((s) => riga(s, false)).join("")}</section>`; }).join("")}
       ${corse.length ? `<details class="card" style="gap:0"><summary>Già corse · ${corse.length}</summary>${corse.map((s) => riga(s, true)).join("")}</details>` : ""}
       ${dir ? `<p class="sub">Consiglio: 8-12 gare l'anno, distribuite nei mesi e tra le distanze, così chi non può a una data ha altre occasioni.</p>` : ""}
       <a class="link-regole" href="#/gruppo/classifiche?c=impegno">La classifica Impegno ›</a>`;
