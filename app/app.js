@@ -1423,10 +1423,17 @@
   const clAttive = () => !!(clOn() && CL() && CL().attive);
   const partecipo = () => !!(clAttive() && CL().io && CL().io.partecipa);
   const fmtSec = (s) => { s = Math.round(s); const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), x = s % 60; return h ? `${h}:${String(m).padStart(2, "0")}:${String(x).padStart(2, "0")}` : `${m}:${String(x).padStart(2, "0")}`; };
-  let caricandoCl = false;
-  async function aggiornaClassifiche() {
-    if (!clOn() || caricandoCl) return;
-    caricandoCl = true;
+  // In coda, non saltato: se un caricamento è già partito (per esempio prima di un'aggiunta), ne parte un altro dopo,
+  // così i dati appena scritti arrivano sempre. Al massimo uno in corso e uno in attesa.
+  let clCoda = Promise.resolve(), clAttese = 0;
+  function aggiornaClassifiche() {
+    if (!clOn()) return Promise.resolve();
+    if (clAttese > 1) return clCoda;
+    clAttese++;
+    clCoda = clCoda.then(caricaClassifiche).finally(() => { clAttese--; });
+    return clCoda;
+  }
+  async function caricaClassifiche() {
     try {
       const [d, st] = await Promise.all([rpc("stato_classifiche", { p_token: token() }), rpc("stato_stagione", { p_token: token() }).catch(() => null)]);
       const prima = JSON.stringify([CL(), S.gruppo.st || null]);
@@ -1434,7 +1441,7 @@
       sincronizzaStagione();
       proponiEntra();
       if (prima !== JSON.stringify([d, S.gruppo.st || null]) && (!location.hash || /^#\/(gruppo|risultato|io|entra|oggi)/.test(location.hash))) rerender();
-    } catch (e) { /* database non ancora aggiornato o rete assente: restano i dati di prima */ } finally { caricandoCl = false; }
+    } catch (e) { /* database non ancora aggiornato o rete assente: restano i dati di prima */ }
   }
   // Certificazione: la funzione "tempi" rifà la ricerca e registra solo i risultati che esistono davvero.
   async function certificaRisultati({ nome, cognome, anno, persone, risultati }) {
@@ -1511,9 +1518,11 @@
       <div class="row" style="align-items:baseline;gap:8px"><span class="big" style="font-size:48px;color:var(--accent-on-dark)">${imp ? imp.punti : 0}</span><span style="font-weight:600">punti Impegno</span></div>
       <span class="small" style="color:var(--navy-muted)">${esc(posizioni)}</span>
       <div class="between" style="border-top:1px solid #FFFFFF26;padding-top:10px"><b>La tua carriera <span class="small" style="font-weight:500;color:var(--navy-muted)">· livello e badge</span></b><span class="small" style="color:var(--accent-on-dark);font-weight:700">Apri ›</span></div></a>`;
-    const soc = gareSoc().filter((s) => s.data.slice(0, 4) === anno), prox = soc.find((s) => s.data >= o);
-    const prossima = prox ? `<a class="card link-card" href="${hrefSoc(prox)}" style="gap:4px"><div class="between"><span class="eyebrow">Prossima gara della società</span><span class="small muted">la ${soc.indexOf(prox) + 1}ª di ${soc.length}</span></div>
-        <span class="title">${esc(titoloGara(prox.nome))} · ${esc(L.DIST_LABEL[prox.distanza])}</span><span class="small muted">${esc(L.fmtGiorno(prox.data))}${ciSonoSoc(prox) ? ` · ${ciSonoSoc(prox) === 1 ? "c'è 1 del gruppo" : `ci sono ${ciSonoSoc(prox)} del gruppo`}` : ""}</span>
+    // la prossima può essere anche dell'anno dopo (a fine stagione il direttivo prepara già il calendario nuovo)
+    const soc = gareSoc().filter((s) => s.data.slice(0, 4) === anno), prox = gareSoc().find((s) => s.data >= o);
+    const socProx = prox ? gareSoc().filter((s) => s.data.slice(0, 4) === prox.data.slice(0, 4)) : [], altroAnno = prox && prox.data.slice(0, 4) !== anno;
+    const prossima = prox ? `<a class="card link-card" href="${hrefSoc(prox)}" style="gap:4px"><div class="between"><span class="eyebrow">Prossima gara della società</span><span class="small muted">la ${socProx.indexOf(prox) + 1}ª di ${socProx.length}${altroAnno ? ` del ${esc(prox.data.slice(0, 4))}` : ""}</span></div>
+        <span class="title">${esc(titoloGara(prox.nome))} · ${esc(L.DIST_LABEL[prox.distanza])}</span><span class="small muted">${esc(L.fmtGiorno(prox.data))}${altroAnno ? ` ${esc(prox.data.slice(0, 4))}` : ""}${ciSonoSoc(prox) ? ` · ${ciSonoSoc(prox) === 1 ? "c'è 1 del gruppo" : `ci sono ${ciSonoSoc(prox)} del gruppo`}` : ""}</span>
         <span class="small" style="color:var(--accent-strong);font-weight:700">In palio fino a ${L.PUNTI.arrivo + L.PUNTI.pb + L.PUNTI.obiettivo + L.PUNTI.borsa} punti Impegno</span></a>`
       : org ? `<a class="card soft link-card" href="#/gruppo/societa"><span class="title">${soc.length ? "Aggiungi le prossime gare della società" : "Scegli le gare della società"}</span><span class="small">Le sceglie il direttivo: solo queste fanno punti nella classifica Impegno.</span><span class="small" style="color:var(--accent);font-weight:700">Gare della società ›</span></a>` : "";
     const tab = PRINCIPALI.includes(tabCl) ? tabCl : "impegno";
@@ -1643,16 +1652,18 @@
   function vistaSocieta(param = {}) {
     if (!clAttive()) return vistaGruppo();
     const io = CL().io || {}, dir = io.ruolo === "admin" || io.ruolo === "organizzatore", o = oggi(), anno = o.slice(0, 4);
-    const tutte = gareSoc().filter((s) => s.data.slice(0, 4) === anno), future = tutte.filter((s) => s.data >= o), corse = tutte.filter((s) => s.data < o).reverse();
+    // la stagione è l'anno in corso; "Da correre" mostra anche le gare già scelte per gli anni dopo (con l'anno)
+    const tutte = gareSoc().filter((s) => s.data.slice(0, 4) === anno), future = gareSoc().filter((s) => s.data >= o), corse = tutte.filter((s) => s.data < o).reverse();
+    const futureAnno = future.filter((s) => s.data.slice(0, 4) === anno).length;
     const { risultati } = datiSt();
     const arrivati = (s) => new Set(risultati.filter((r) => r.data === s.data && r.distanza === s.distanza).map((r) => r.membro_id)).size;
     const riga = (s, passata) => { const n = passata ? arrivati(s) : ciSonoSoc(s), mia = S.gare.some((x) => x.data === s.data && x.distanza === s.distanza);
-      return `<div class="post"><span style="flex:1;min-width:0"><a href="${hrefSoc(s)}" style="font-weight:700;color:inherit">${esc(titoloGara(s.nome))}</a><br><span class="small muted">${esc(L.DIST_LABEL[s.distanza])} · ${esc(L.fmtGiorno(s.data))}${s.luogo ? " · " + esc(nomeLuogo(s.luogo)) : ""}${n ? ` · ${n} ${passata ? "al traguardo" : n === 1 ? "c'è" : "ci sono"}` : ""}${!passata && mia ? " · ci sei" : ""}</span></span>
+      return `<div class="post"><span style="flex:1;min-width:0"><a href="${hrefSoc(s)}" style="font-weight:700;color:inherit">${esc(titoloGara(s.nome))}</a><br><span class="small muted">${esc(L.DIST_LABEL[s.distanza])} · ${esc(L.fmtGiorno(s.data))}${s.data.slice(0, 4) !== anno ? ` ${esc(s.data.slice(0, 4))}` : ""}${s.luogo ? " · " + esc(nomeLuogo(s.luogo)) : ""}${n ? ` · ${n} ${passata ? "al traguardo" : n === 1 ? "c'è" : "ci sono"}` : ""}${!passata && mia ? " · ci sei" : ""}</span></span>
         ${dir ? `<button class="btn ghost small" data-act="gs-togli" data-id="${esc(s.id)}" data-nome="${esc(titoloGara(s.nome))}" aria-label="Togli ${esc(titoloGara(s.nome))}">Togli</button>` : ""}</div>`; };
     const perDist = DISTANZE.map((d) => [d, tutte.filter((s) => s.distanza === d).length]).filter((x) => x[1]).map(([d, n]) => `${n} ${d === "10" ? "da 10 km" : d === "21" ? (n === 1 ? "mezza" : "mezze") : n === 1 ? "maratona" : "maratone"}`).join(" · ");
     return `<header class="head-back">${back(dir && param.da === "admin" ? "#/gruppo/admin" : "#/gruppo")}<div><span class="eyebrow">${esc(GD() ? GD().gruppo.nome : "Il gruppo")} · stagione ${esc(anno)}</span><h1 style="font-size:28px">Gare della società</h1></div></header>
       <p class="sub">Le sceglie il direttivo (amministratore e organizzatori). Solo queste fanno punti nella classifica Impegno.</p>
-      <section class="card" style="gap:6px"><div class="between" style="align-items:baseline"><span class="big" style="font-size:30px;color:var(--fg)">${tutte.length} ${tutte.length === 1 ? "gara" : "gare"}</span><span class="small muted">${corse.length} ${corse.length === 1 ? "corsa" : "corse"} · ${future.length} da correre</span></div>
+      <section class="card" style="gap:6px"><div class="between" style="align-items:baseline"><span class="big" style="font-size:30px;color:var(--fg)">${tutte.length} ${tutte.length === 1 ? "gara" : "gare"}</span><span class="small muted">${corse.length} ${corse.length === 1 ? "corsa" : "corse"} · ${futureAnno} da correre</span></div>
         <div class="meter" aria-hidden="true"><div style="width:${tutte.length ? Math.round((corse.length / tutte.length) * 100) : 0}%"></div></div>${perDist ? `<span class="small muted">${perDist}</span>` : ""}</section>
       ${dir ? `<section class="card" style="gap:8px"><div class="field"><label for="gs-cerca">Aggiungi dal calendario o dalle tue gare</label><input class="input" id="gs-cerca" type="search" value="${esc(param.q || "")}" placeholder="es. Villa Ada, Ostia, dicembre" autocomplete="off"></div>
         <div id="gs-risultati" style="display:flex;flex-direction:column">${listaCandidatiSoc(param.q || "")}</div>
