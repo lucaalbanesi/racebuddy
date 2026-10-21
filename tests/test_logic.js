@@ -584,4 +584,62 @@ assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10",
   assert.deepStrictEqual(L.cercaMieGare(righe, "luca maratona", { periodo: "tutte", oggi: "2026-10-21" }).map((x) => x.id), ["4"]);
 }
 
+// stagione: punti Impegno nelle gare della società, Obiettivo centrato, età, livelli e badge
+{
+  const gareSoc = [{ data: "2026-04-12", distanza: "10", nome: "Appia Run" }, { data: "2026-10-18", distanza: "21", nome: "Rome Half" }, { data: "2026-11-01", distanza: "10", nome: "Corsa dei Santi" }];
+  const R = (id, m, data, distanza, secondi, x = {}) => ({ id, membro_id: m, membro: m === "m1" ? "Luca" : "Giulia", mio: m === "m1", data, distanza, secondi, ...x });
+  const risultati = [
+    R("a", "m1", "2025-11-02", "10", 2600), R("b", "m1", "2026-04-12", "10", 2550), R("c", "m1", "2026-10-18", "21", 5700, { ag: 66.2, sesso_ag: "M" }),
+    R("d", "m1", "2026-11-01", "10", 2561, { ag: 64.1, sesso_ag: "M" }), R("e", "m2", "2026-04-12", "10", 2500, { ag: 71.5, sesso_ag: "F", circa: true }), R("f", "m2", "2026-10-18", "21", 6000),
+  ];
+  const obiettivi = [{ membro_id: "m1", data: "2026-04-12", distanza: "10", secondi: 2560 }, { membro_id: "m1", data: "2026-10-18", distanza: "21", secondi: 5650 },
+    { membro_id: "m1", data: "2026-11-01", distanza: "10", secondi: 2550 }, { membro_id: "m2", data: "2026-10-18", distanza: "21", secondi: 6300 }];
+  const borse = [{ membro_id: "m1", data: "2026-10-18", distanza: "21" }, { membro_id: "m2", data: "2026-11-01", distanza: "10" }];
+  const ev = L.eventiPunti({ risultati, gareSoc, obiettivi, borse, inviti: [{ invitante_id: "m1", invitato_id: "m2" }] });
+  assert.deepStrictEqual(ev.filter((e) => e.membro_id === "m1").map((e) => `${e.data} ${e.tipo}`),
+    ["2026-04-12 arrivo", "2026-04-12 pb", "2026-04-12 obiettivo", "2026-10-18 arrivo", "2026-10-18 obiettivo", "2026-10-18 borsa", "2026-11-01 arrivo", "2026-11-01 obiettivo", "2026-04-12 socio"]);
+  assert.ok(!ev.some((e) => e.data === "2025-11-02"));                           // non è una gara della società
+  assert.ok(!ev.some((e) => e.membro_id === "m2" && e.tipo === "pb"));          // il primo tempo non è un nuovo personale
+  assert.ok(!ev.some((e) => e.membro_id === "m2" && e.tipo === "borsa"));       // borsa pronta ma non arrivata
+  const nomi = { m1: "Luca", m2: "Giulia" };
+  const imp = L.classificaImpegno(ev, { anno: 2026, nomi, io: "m1" });
+  assert.deepStrictEqual(imp.map((x) => `${x.pos} ${x.membro} ${x.punti} ${x.gare}`), ["1 Luca 330 3", "2 Giulia 100 2"]);
+  assert.deepStrictEqual(imp[0].dettaglio, { arrivo: 3, pb: 1, obiettivo: 3, borsa: 1, socio: 1 });
+  assert.ok(imp[0].mio && !imp[1].mio);
+  assert.deepStrictEqual(L.classificaImpegno(ev, { mese: "2026-10", nomi }).map((x) => `${x.membro} ${x.punti}`), ["Luca 100", "Giulia 50"]);
+  assert.strictEqual(L.classificaImpegno(ev, { anno: 2026, nomi: { m2: "Giulia" } }).length, 1);   // chi non è nel gruppo non compare
+  assert.strictEqual(L.puntiCarriera(ev, "m1"), 330);
+  assert.deepStrictEqual([L.livello(0).nome, L.livello(299).nome, L.livello(300).nome, L.livello(5200).nome], ["Esordiente", "Esordiente", "Promessa", "Leggenda"]);
+  assert.strictEqual(L.livello(1750).quota, 0.5);
+  assert.strictEqual(L.livello(5200).prossimo, null);
+  // obiettivo centrato: almeno 3 gare; scarto in più o in meno
+  assert.strictEqual(Math.round(L.scartoObiettivo(2540, 2560) * 100) / 100, 0.78);
+  assert.strictEqual(L.scartoObiettivo(2580, 2560), L.scartoObiettivo(2540, 2560));
+  const ob = L.classificaObiettivo({ risultati, obiettivi }, { anno: 2026, nomi, io: "m1" });
+  assert.deepStrictEqual(ob.lista.map((x) => `${x.pos} ${x.membro} ${x.media} ${x.n} ${x.centrate}`), ["1 Luca 0.6 3 3"]);
+  assert.deepStrictEqual(ob.quasi.map((x) => `${x.membro} ${x.mancano}`), ["Giulia 2"]);
+  // obiettivo aperto fino alla mezzanotte del giorno della gara
+  assert.ok(L.obiettivoAperto("2026-11-01", new Date(2026, 9, 31, 23, 59)) && !L.obiettivoAperto("2026-11-01", new Date(2026, 10, 1, 0, 1)));
+  // Albo d'oro per età
+  assert.deepStrictEqual(L.alboEta(risultati, "tutte").map((x) => `${x.pos} ${x.membro} ${x.ag}`), ["1 Giulia 71.5", "2 Luca 66.2"]);
+  assert.deepStrictEqual(L.alboEta(risultati, "10", "M").map((x) => `${x.membro} ${x.ag}`), ["Luca 64.1"]);
+  assert.ok(L.alboEta(risultati, "10")[0].circa);
+  // miglioramento sul meglio dei 12 mesi
+  const miei = risultati.filter((r) => r.mio);
+  assert.strictEqual(L.miglioramento12(miei, miei[3]), -0.4);
+  assert.strictEqual(L.miglioramento12(miei, miei[1]), 1.9);
+  assert.strictEqual(L.miglioramento12(miei, miei[0]), null);
+  // badge
+  const bd = L.badgeAtleta({ miei, gareSoc, obiettivi: obiettivi.filter((o) => o.membro_id === "m1"), borse: borse.filter((o) => o.membro_id === "m1"), soci: 1, oggi: "2026-11-02" });
+  const preso = (k) => bd.find((x) => x.k === k);
+  assert.strictEqual(bd.length, 13);
+  assert.deepStrictEqual(bd.filter((x) => x.preso).map((x) => x.k), ["prima10", "prima21", "cecchino", "fedele"]);
+  assert.strictEqual(preso("tris").progresso, "manca la maratona nel 2026");
+  assert.strictEqual(preso("borsa5").progresso, "1 di 5");
+  assert.strictEqual(preso("mesi6").progresso, "2 mesi di fila");
+  assert.strictEqual(preso("chioccia").progresso, "1 di 3 nuovi soci");
+  assert.strictEqual(preso("oltre70").progresso, "meglio finora 66,2%");
+  assert.ok(L.badgeAtleta({ miei: [...miei, R("z", "m1", "2026-12-06", "42", 12600, { ag: 70.5 })], oggi: "2026-12-07" }).find((x) => x.k === "oltre70").preso);
+}
+
 console.log("ok");

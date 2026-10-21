@@ -598,3 +598,26 @@ body.chat-on .app { padding-bottom: 150px; }
 .cl-mia-azioni { flex-basis: 100%; display: flex; gap: 8px; flex-wrap: wrap; padding-top: 2px; }
 .cl-mia-azioni .btn { flex: 0 1 auto; }
 .cl-vecchia, .cl-esito { opacity: .75; }
+
+/* Stagione (fase 2): scheda post-gara, carriera, badge */
+.tile-dark { background: #FFFFFF14; border-radius: 12px; padding: 10px 8px; display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center; }
+.tile-dark b { font: 700 24px/1 var(--display); color: #fff; }
+.tile-dark span { font-size: 12px; line-height: 1.25; color: var(--navy-muted); }
+.tiles-1, .tiles-2, .tiles-3 { display: grid; gap: 8px; }
+.tiles-1 { grid-template-columns: minmax(0, 1fr); }
+.tiles-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.tiles-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.livelli { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; text-align: center; font-size: 12px; color: var(--muted); }
+.livelli b { display: block; font-size: 11px; letter-spacing: -.01em; color: var(--fg); overflow-wrap: anywhere; }
+.livelli .on b { color: var(--accent); }
+.punti-voce { display: grid; grid-template-columns: minmax(0, 1fr) 48px; gap: 8px; align-items: center; font-size: 14px; }
+.punti-voce b { text-align: right; }
+.punti-voce .meter { margin-top: 4px; }
+.badge-griglia { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 6px; }
+.badge { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+.badge-ico { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--navy); color: var(--accent-on-dark); flex: none; font-size: 24px; }
+.badge.off .badge-ico { background: transparent; color: var(--muted); border: 2px dashed var(--line); box-sizing: border-box; }
+.badge-nome { font-size: 12px; font-weight: 700; line-height: 1.2; }
+.badge-prog { font-size: 11px; color: var(--muted); line-height: 1.2; }
+.badge-ico.grande { width: 56px; height: 56px; }
+.card.dark .pill { white-space: nowrap; }

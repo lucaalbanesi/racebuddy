@@ -775,6 +775,149 @@
     return (trovati || []).filter((r) => !gia.has(`${r.data}:${r.distanza}:${r.secondi}`) && (recuperoAperto(io, adesso) || (dal && r.data >= dal)));
   }
 
+  // ---------------------------------------------------------------- stagione (fase 2): Impegno, Obiettivo, età, badge
+  // Dati da stato_stagione: gare della società, obiettivi e borse (degli altri solo a gara iniziata), inviti, età.
+  const PUNTI = { arrivo: 50, pb: 40, obiettivo: 30, borsa: 20, socio: 30 };
+  const CENTRATO = 1; // scarto massimo in % per dire "obiettivo centrato"
+  const chiaveGara = (m, d, dist) => `${m}|${d}|${dist}`;
+  /** Scarto dall'obiettivo in %, in più o in meno. */
+  const scartoObiettivo = (secondi, obiettivo) => (obiettivo > 0 && secondi > 0 ? (Math.abs(secondi - obiettivo) / obiettivo) * 100 : null);
+  /** La gara della società di quella data e distanza, se c'è. */
+  const garaDellaSocieta = (gareSoc, data, distanza) => (gareSoc || []).find((s) => s.data === data && s.distanza === distanza) || null;
+  /** L'obiettivo è ancora modificabile online: fino alla mezzanotte del giorno della gara (ora del telefono). */
+  const obiettivoAperto = (data, adesso = new Date()) => todayISO(adesso) < data;
+  /** Tutti gli eventi che fanno punti Impegno, per membro: solo nelle gare della società (arrivo, nuovo personale, obiettivo
+   *  centrato, Borsa pronta) più i nuovi soci (alla data del loro primo risultato certificato). Il personale è "nuovo" se
+   *  batte il miglior tempo certificato precedente sulla stessa distanza, in qualunque gara; la prima volta non conta.
+   *  La Borsa conta solo se poi si arriva. */
+  function eventiPunti({ risultati, gareSoc, obiettivi, borse, inviti } = {}) {
+    const ob = new Map((obiettivi || []).map((o) => [chiaveGara(o.membro_id, o.data, o.distanza), o.secondi]));
+    const bo = new Set((borse || []).map((b) => chiaveGara(b.membro_id, b.data, b.distanza)));
+    const ord = [...(risultati || [])].sort((a, b) => (a.data < b.data ? -1 : a.data > b.data ? 1 : 0));
+    const meglio = new Map(), primo = new Map(), out = [];
+    for (const r of ord) {
+      if (!primo.has(r.membro_id)) primo.set(r.membro_id, r.data);
+      const km = `${r.membro_id}|${r.distanza}`, prima = meglio.get(km), s = garaDellaSocieta(gareSoc, r.data, r.distanza);
+      if (s) {
+        const ev = (tipo) => out.push({ membro_id: r.membro_id, data: r.data, distanza: r.distanza, tipo, punti: PUNTI[tipo], gara: s.nome, risultato_id: r.id });
+        ev("arrivo");
+        if (prima != null && r.secondi < prima) ev("pb");
+        const o = ob.get(chiaveGara(r.membro_id, r.data, r.distanza));
+        if (o && scartoObiettivo(r.secondi, o) <= CENTRATO) ev("obiettivo");
+        if (bo.has(chiaveGara(r.membro_id, r.data, r.distanza))) ev("borsa");
+      }
+      if (prima == null || r.secondi < prima) meglio.set(km, r.secondi);
+    }
+    for (const i of inviti || []) {
+      const d = primo.get(i.invitato_id);
+      if (d && i.invitante_id) out.push({ membro_id: i.invitante_id, data: d, tipo: "socio", punti: PUNTI.socio, invitato_id: i.invitato_id });
+    }
+    return out;
+  }
+  const nelPeriodo = (data, { anno, mese } = {}) => (mese ? data.slice(0, 7) === mese : anno ? data.slice(0, 4) === String(anno) : true);
+  /** Classifica Impegno: somma dei punti nel periodo (anno o mese "AAAA-MM"). nomi = { id: nome }, io = il mio id.
+   *  Ogni riga: punti, gare (arrivi in gare della società) e il dettaglio per tipo. Chi ha zero punti non compare. */
+  function classificaImpegno(eventi, { anno, mese, nomi = {}, io } = {}) {
+    const m = new Map();
+    for (const e of eventi || []) {
+      if (!nelPeriodo(e.data, { anno, mese }) || !(e.membro_id in nomi)) continue;
+      if (!m.has(e.membro_id)) m.set(e.membro_id, { membro_id: e.membro_id, membro: nomi[e.membro_id], mio: e.membro_id === io, punti: 0, gare: 0,
+        dettaglio: { arrivo: 0, pb: 0, obiettivo: 0, borsa: 0, socio: 0 } });
+      const x = m.get(e.membro_id);
+      x.punti += e.punti; x.dettaglio[e.tipo]++; if (e.tipo === "arrivo") x.gare++;
+    }
+    const l = [...m.values()].sort((a, b) => b.punti - a.punti || String(a.membro).localeCompare(String(b.membro), "it"));
+    return conPosizioni(l, (x) => x.punti);
+  }
+  /** Punti di carriera: tutti gli eventi di un membro, di ogni stagione. */
+  const puntiCarriera = (eventi, id) => (eventi || []).filter((e) => e.membro_id === id).reduce((s, e) => s + e.punti, 0);
+  const LIVELLI = [["Esordiente", 0], ["Promessa", 300], ["Titolare", 1000], ["Veterano", 2500], ["Leggenda", 5000]];
+  /** Livello atleta dai punti di carriera: nome, prossimo livello e quota della strada (0-1). */
+  function livello(punti) {
+    let i = 0;
+    while (i + 1 < LIVELLI.length && punti >= LIVELLI[i + 1][1]) i++;
+    const [nome, soglia] = LIVELLI[i], prox = LIVELLI[i + 1];
+    return { nome, soglia, prossimo: prox ? prox[0] : null, prossimaSoglia: prox ? prox[1] : null, quota: prox ? (punti - soglia) / (prox[1] - soglia) : 1 };
+  }
+  /** Obiettivo centrato: per ogni gara certificata con un obiettivo, lo scarto. lista = chi ha almeno 3 gare, dallo scarto
+   *  medio più basso (a parità, più gare); quasi = chi ne ha 1 o 2, con quante mancano. */
+  function classificaObiettivo({ risultati, obiettivi } = {}, { anno, nomi = {}, io } = {}) {
+    const ob = new Map((obiettivi || []).map((o) => [chiaveGara(o.membro_id, o.data, o.distanza), o.secondi]));
+    const m = new Map();
+    for (const r of risultati || []) {
+      const o = ob.get(chiaveGara(r.membro_id, r.data, r.distanza));
+      if (!o || !nelPeriodo(r.data, { anno }) || !(r.membro_id in nomi)) continue;
+      if (!m.has(r.membro_id)) m.set(r.membro_id, { membro_id: r.membro_id, membro: nomi[r.membro_id], mio: r.membro_id === io, scarti: [] });
+      m.get(r.membro_id).scarti.push(scartoObiettivo(r.secondi, o));
+    }
+    const tutti = [...m.values()].map((x) => ({ ...x, n: x.scarti.length, centrate: x.scarti.filter((s) => s <= CENTRATO).length,
+      media: Math.round((x.scarti.reduce((a, b) => a + b, 0) / x.scarti.length) * 10) / 10 }));
+    const lista = tutti.filter((x) => x.n >= 3).sort((a, b) => a.media - b.media || b.n - a.n || String(a.membro).localeCompare(String(b.membro), "it"));
+    const quasi = tutti.filter((x) => x.n < 3).map((x) => ({ ...x, mancano: 3 - x.n })).sort((a, b) => a.mancano - b.mancano || String(a.membro).localeCompare(String(b.membro), "it"));
+    return { lista: conPosizioni(lista, (x) => `${x.media}|${x.n}`), quasi };
+  }
+  /** Albo d'oro per età: la percentuale migliore di ognuno su una distanza ("tutte" = la migliore su qualunque distanza).
+   *  sesso "M"/"F" filtra col sesso usato per le tabelle. */
+  function alboEta(risultati, distanza, sesso = "") {
+    const l = new Map();
+    for (const r of risultati || []) {
+      if (r.ag == null || (distanza !== "tutte" && r.distanza !== distanza) || (sesso && r.sesso_ag !== sesso)) continue;
+      const b = l.get(r.membro_id);
+      if (!b || r.ag > b.ag || (r.ag === b.ag && r.data < b.data)) l.set(r.membro_id, r);
+    }
+    const lista = [...l.values()].map((r) => ({ membro_id: r.membro_id, membro: r.membro, mio: !!r.mio, ag: r.ag, circa: !!r.circa, secondi: r.secondi,
+      data: r.data, distanza: r.distanza, gara_nome: r.gara_nome || "", categoria: r.categoria || "" }));
+    return conPosizioni(lista.sort((a, b) => b.ag - a.ag || (a.data < b.data ? -1 : 1)), (x) => x.ag);
+  }
+  /** Miglioramento sul miglior tempo dei 12 mesi prima, stessa distanza (positivo = più veloce); null se non c'è. */
+  function miglioramento12(miei, r) {
+    const dal = addDays(r.data, -365);
+    const prima = (miei || []).filter((x) => x.distanza === r.distanza && x.data < r.data && x.data >= dal && x.secondi > 0);
+    if (!prima.length) return null;
+    const best = Math.min(...prima.map((x) => x.secondi));
+    return Math.round(((best - r.secondi) / best) * 1000) / 10;
+  }
+  const NOMI_DIST = { "10": "la 10 km", "21": "la mezza", "42": "la maratona" };
+  /** I 13 badge di un atleta. miei = i suoi risultati certificati (con ag se c'è), obiettivi e borse = i suoi,
+   *  soci = nuovi soci portati, record = primo in un Albo d'oro. Ognuno: k, nome, cosa, preso, progresso. */
+  function badgeAtleta({ miei = [], gareSoc = [], obiettivi = [], borse = [], soci = 0, record = false, oggi } = {}) {
+    oggi = oggi || todayISO();
+    const ord = [...miei].sort((a, b) => (a.data < b.data ? -1 : a.data > b.data ? 1 : 0));
+    const ha = (d) => ord.some((r) => r.distanza === d);
+    const anni = [...new Set(ord.map((r) => r.data.slice(0, 4)))];
+    const tris = anni.some((a) => ["10", "21", "42"].every((d) => ord.some((r) => r.distanza === d && r.data.startsWith(a))));
+    const mancaQuest = ["10", "21", "42"].filter((d) => !ord.some((r) => r.distanza === d && r.data.startsWith(oggi.slice(0, 4))));
+    const ob = new Map(obiettivi.map((o) => [`${o.data}|${o.distanza}`, o.secondi]));
+    let fila = 0, maxFila = 0;
+    for (const r of ord) { const o = ob.get(`${r.data}|${r.distanza}`); if (!o) continue; fila = scartoObiettivo(r.secondi, o) <= CENTRATO ? fila + 1 : 0; maxFila = Math.max(maxFila, fila); }
+    const bs = new Set(borse.map((b) => `${b.data}|${b.distanza}`));
+    const nBorse = ord.filter((r) => bs.has(`${r.data}|${r.distanza}`)).length;
+    const mesi = [...new Set(ord.map((r) => r.data.slice(0, 7)))].sort();
+    let mf = 0, mMax = 0, prec = null;
+    for (const m of mesi) { const succ = prec && addDays(`${prec}-15`, 31).slice(0, 7) === m; mf = succ ? mf + 1 : 1; mMax = Math.max(mMax, mf); prec = m; }
+    const socAnno = (a) => gareSoc.filter((s) => s.data.startsWith(a));
+    const corseSoc = (a) => socAnno(a).filter((s) => ord.some((r) => r.data === s.data && r.distanza === s.distanza)).length;
+    const fedele = anni.some((a) => socAnno(a).length >= 3 && corseSoc(a) === socAnno(a).length);
+    const annoOra = oggi.slice(0, 4), agMax = Math.max(0, ...ord.map((r) => r.ag || 0));
+    const b = (k, nome, cosa, preso, progresso = "") => ({ k, nome, cosa, preso: !!preso, progresso: preso ? "" : progresso });
+    return [
+      b("prima10", "Prima 10 km", "Una 10 km certificata", ha("10")),
+      b("prima21", "Prima mezza", "Una mezza certificata", ha("21")),
+      b("prima42", "Prima maratona", "Una maratona certificata", ha("42")),
+      b("tris", "Tris", "10 km, mezza e maratona nello stesso anno", tris,
+        mancaQuest.length === 1 ? `manca ${NOMI_DIST[mancaQuest[0]]} nel ${annoOra}` : `ne mancano ${mancaQuest.length} nel ${annoOra}`),
+      b("cecchino", "Cecchino", "3 obiettivi centrati di fila", maxFila >= 3, `${fila} di 3 di fila`),
+      b("borsa5", "Borsa di bronzo", "Borsa pronta alla vigilia in 5 gare", nBorse >= 5, `${nBorse} di 5`),
+      b("borsa10", "Borsa d'argento", "Borsa pronta alla vigilia in 10 gare", nBorse >= 10, `${nBorse} di 10`),
+      b("borsa20", "Borsa d'oro", "Borsa pronta alla vigilia in 20 gare", nBorse >= 20, `${nBorse} di 20`),
+      b("mesi6", "Sempre in gara", "Almeno una gara al mese per 6 mesi di fila", mMax >= 6, `${mf} ${mf === 1 ? "mese" : "mesi"} di fila`),
+      b("fedele", "Fedelissimo", "Tutte le gare della società di una stagione", fedele, `${corseSoc(annoOra)} di ${socAnno(annoOra).length} gare della società`),
+      b("chioccia", "Chioccia", "3 nuovi soci portati nel gruppo", soci >= 3, `${soci} di 3 nuovi soci`),
+      b("record", "Record di società", "Primo nell'Albo d'oro, assoluto o per età", record, "primo nell'Albo d'oro"),
+      b("oltre70", "Oltre il 70%", "Una gara al 70% per età", agMax >= 70, agMax ? `meglio finora ${String(agMax).replace(".", ",")}%` : "serve un tempo certificato"),
+    ];
+  }
+
   /** Si può ancora mandare un tempo per una gara di questa data (come _puo_registrare nel database): mai oltre domani;
    *  nei 30 giorni del recupero qualsiasi gara passata, poi solo da 7 giorni prima dell'adesione in avanti. */
   function registrabile(io, data, oggiISO, adesso = new Date()) {
@@ -852,7 +995,7 @@
     return n;
   }
 
-  const api = { gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, daRecuperare, PASSI_ENTRA, passiEntra, prossimoEntra };
+  const api = { PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, daRecuperare, PASSI_ENTRA, passiEntra, prossimoEntra };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);

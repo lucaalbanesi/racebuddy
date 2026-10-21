@@ -15,7 +15,7 @@
   const salva = () => {
     try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast("Non riesco a salvare sul telefono"); }
     if (S.push && S.push.attivo) { clearTimeout(timerPush); timerPush = setTimeout(() => sincronizzaPush(), 2000); }
-    if (S.gruppo && S.gruppo.dentro) { clearTimeout(timerGareGruppo); timerGareGruppo = setTimeout(() => { sincronizzaGareGruppo(); sincronizzaPBGruppo(); }, 2500); }
+    if (S.gruppo && S.gruppo.dentro) { clearTimeout(timerGareGruppo); timerGareGruppo = setTimeout(() => { sincronizzaGareGruppo(); sincronizzaPBGruppo(); sincronizzaStagione(); }, 2500); }
   };
   let timerGareGruppo;
 
@@ -1106,6 +1106,7 @@
         ${n >= 0 ? `${barraFasi(g, true)}<span class="sub">${f.id === "prima" ? "Preparazione non ancora iniziata" : `Fase: <b style="color:#fff">${esc(f.nome)}</b>`}</span>` : ""}</section>
       ${corsa(g, o) ? `<a class="card soft" href="#/risultato/${encodeURIComponent(g.id)}" style="text-decoration:none;color:inherit;font-weight:inherit"><span class="title">${ris ? `Il tuo tempo: ${esc(ris.tempo)}${ris.pb ? " · personale!" : ""}` : g.esito ? ESITO[g.esito] : "Com'è andata?"}</span><span class="small">${ris ? "Modifica o condividi ›" : g.esito ? "Cambia ›" : "Segna il tuo tempo ›"}</span></a>` : ""}
       ${n >= 0 ? riquadriTop(g, false) : ""}
+      ${cardStagioneGara(g, fatte, tot)}
       ${riquadroNovita(g)}
       ${n >= 0 ? avvisoDocumenti(g) : ""}
       ${n >= 0 ? `<a class="card link-card" href="${urlGara(g.id, "preparazione")}"><div class="between"><h2>Preparazione</h2><span class="small" style="color:var(--accent);font-weight:700">Tutta ›</span></div>
@@ -1427,11 +1428,12 @@
     if (!clOn() || caricandoCl) return;
     caricandoCl = true;
     try {
-      const d = await rpc("stato_classifiche", { p_token: token() });
-      const prima = JSON.stringify(CL());
-      S.gruppo.cl = d; localStorage.setItem(KEY, JSON.stringify(S));
+      const [d, st] = await Promise.all([rpc("stato_classifiche", { p_token: token() }), rpc("stato_stagione", { p_token: token() }).catch(() => null)]);
+      const prima = JSON.stringify([CL(), S.gruppo.st || null]);
+      S.gruppo.cl = d; if (st) S.gruppo.st = st; localStorage.setItem(KEY, JSON.stringify(S));
+      sincronizzaStagione();
       proponiEntra();
-      if (prima !== JSON.stringify(d) && (!location.hash || /^#\/(gruppo|risultato|io|entra|oggi)/.test(location.hash))) rerender();
+      if (prima !== JSON.stringify([d, S.gruppo.st || null]) && (!location.hash || /^#\/(gruppo|risultato|io|entra|oggi)/.test(location.hash))) rerender();
     } catch (e) { /* database non ancora aggiornato o rete assente: restano i dati di prima */ } finally { caricandoCl = false; }
   }
   // Certificazione: la funzione "tempi" rifà la ricerca e registra solo i risultati che esistono davvero.
@@ -1446,40 +1448,101 @@
   const esitoCertifica = (j) => j.certificati ? `${j.certificati === 1 ? "Tempo certificato" : `${j.certificati} gare certificate`}: contano per le classifiche`
     : j.in_approvazione ? "Il nome in classifica è diverso da quello nel gruppo: lo approva il referente" : "Già certificato";
   const rigaCl = (x, destra, sotto = "", href = "") => { const tag = href ? "a" : "div"; return `<${tag} class="post ${x.mio ? "mio" : ""}${href ? " link-card" : ""}"${href ? ` href="${href}"` : ""}><span class="pos">${x.pos}</span>${avatar(x.membro, 30)}<span style="flex:1;min-width:0"><b>${esc(x.mio ? "Tu" : x.membro)}</b>${sotto ? `<br><span class="small muted">${sotto}</span>` : ""}</span><b style="font:700 18px var(--display)">${destra}</b>${href ? `<span class="muted" aria-hidden="true">›</span>` : ""}</${tag}>`; };
-  const TAB_CL = { gare: "Gare corse", pb: "PB della stagione", albo: "Albo d'oro" };
-  let tabCl = "gare", distAlbo = "21";
-  // le righe di una classifica, già calcolate
-  function righeCl(tab, { periodo = "stagione", dist = distAlbo, sesso = "" } = {}) {
-    const ris = (CL() && CL().risultati) || [], o = oggi();
-    if (tab === "pb") return L.classificaPBStagione(ris, o.slice(0, 4)).map((x) => ({ ...x, html: (y) => rigaCl(y, `${y.n} PB`, `+${String(y.perc).replace(".", ",")}% di miglioramento`) }));
-    if (tab === "albo") return L.alboDoro(ris, dist, sesso).map((x) => ({ ...x, html: (y) => rigaCl(y, fmtSec(y.secondi), [titoloGara(y.gara_nome || ""), L.fmtBreve(y.data) + " " + y.data.slice(0, 4), y.categoria].filter(Boolean).map(esc).join(" · ")) }));
-    return L.classificaGareCorse(ris, periodo === "mese" ? { mese: o.slice(0, 7) } : { anno: o.slice(0, 4) }).map((x) => ({ ...x, html: (y) => rigaCl(y, `${y.n} <span class="small muted" style="font-weight:500">${y.n === 1 ? "gara" : "gare"}</span>`, y.mio ? "le tue gare" : "", y.mio ? "#/gruppo/mie?da=classifiche" : "") }));
+  // Classifiche: le tre principali (Impegno, Obiettivo centrato, Albo d'oro) e le altre (Gare corse, PB della stagione)
+  const TAB_CL = { impegno: "Impegno", obiettivo: "Obiettivo centrato", albo: "Albo d'oro", gare: "Gare corse", pb: "PB della stagione" };
+  const PRINCIPALI = ["impegno", "obiettivo", "albo"];
+  let tabCl = "impegno", distAlbo = "21";
+  const pct = (n) => `${Number(n).toFixed(1).replace(".", ",")}%`;
+  // ---------------------------------------------------------------- stagione (fase 2): dati da stato_stagione
+  // (docs/supabase_stagione.sql), calcoli in logic.js. Le percentuali per età arrivano già fatte: l'età non esce mai.
+  const ST = () => (S.gruppo && S.gruppo.st) || {};
+  const gareSoc = () => ST().gare_societa || [];
+  const ioId = () => (CL() && CL().io && CL().io.id) || (GD() && GD().io && GD().io.id) || null;
+  const nomiCl = () => { const n = {}; for (const r of (CL() || {}).risultati || []) n[r.membro_id] = r.membro; for (const p of ST().partecipanti || []) n[p.id] = p.nome; return n; };
+  let memoSt = null;
+  function datiSt() {
+    const cl = CL() || {}, st = ST();
+    if (memoSt && memoSt.cl === cl && memoSt.st === st) return memoSt.v;
+    const eta = new Map((st.eta || []).map((e) => [e.id, e]));
+    const risultati = (cl.risultati || []).map((r) => { const e = eta.get(r.id); return e ? { ...r, ag: Number(e.ag), circa: !!e.circa, sesso_ag: e.sesso } : r; });
+    const eventi = L.eventiPunti({ risultati, gareSoc: st.gare_societa || [], obiettivi: st.obiettivi || [], borse: st.borse || [], inviti: st.inviti || [] });
+    memoSt = { cl, st, v: { risultati, eventi } };
+    return memoSt.v;
   }
-  // In cima a Gruppo: invito a partecipare, oppure le classifiche (prime 3 e la tua riga)
+  // I miei badge; con fino/prima si guardano solo le gare fino a quella data (o prima), per la scheda post-gara
+  function badgeMiei({ fino, prima } = {}) {
+    const { risultati, eventi } = datiSt(), id = ioId(), st = ST();
+    const miei = risultati.filter((r) => r.mio && (!fino || r.data <= fino) && (!prima || r.data < prima));
+    const primo = (l) => l.length && l[0].mio && l[0].pos === 1;
+    const record = DISTANZE.some((d) => primo(L.alboDoro(risultati, d)) || primo(L.alboEta(risultati, d)));
+    return L.badgeAtleta({ miei, gareSoc: gareSoc(), obiettivi: (st.obiettivi || []).filter((o) => o.membro_id === id), borse: (st.borse || []).filter((b) => b.membro_id === id),
+      soci: eventi.filter((e) => e.membro_id === id && e.tipo === "socio" && (!fino || e.data <= fino) && (!prima || e.data < prima)).length, record, oggi: fino || oggi() });
+  }
+  // dove porta una gara della società: alla mia gara se l'ho in Gare, altrimenti all'elenco
+  const hrefSoc = (s) => { const g = S.gare.find((x) => x.data === s.data && x.distanza === s.distanza); return g ? urlGara(g.id) : "#/gruppo/societa"; };
+  const ciSonoSoc = (s) => new Set(((GD() && GD().gare) || []).filter((x) => x.data === s.data && x.distanza === s.distanza).map((x) => x.membro_id)).size;
+  // le righe di una classifica, già calcolate
+  function righeCl(tab, { periodo = "stagione", dist = distAlbo, sesso = "", vista = "assoluto" } = {}) {
+    const { risultati: ris, eventi } = datiSt(), o = oggi(), nomi = nomiCl(), io = ioId();
+    const per = periodo === "mese" ? { mese: o.slice(0, 7) } : { anno: o.slice(0, 4) };
+    if (tab === "impegno") return L.classificaImpegno(eventi, { ...per, nomi, io }).map((x) => ({ ...x,
+      html: (y) => rigaCl(y, `${y.punti} <span class="small muted" style="font-weight:500">pt</span>`, `${y.gare} ${y.gare === 1 ? "gara" : "gare"} della società`, y.mio ? "#/gruppo/carriera" : "") }));
+    if (tab === "obiettivo") return L.classificaObiettivo({ risultati: ris, obiettivi: ST().obiettivi }, { anno: o.slice(0, 4), nomi, io }).lista.map((x) => ({ ...x,
+      html: (y) => rigaCl(y, pct(y.media), `${y.n} gare · ${y.centrate} ${y.centrate === 1 ? "centrata" : "centrate"}`) }));
+    if (tab === "pb") return L.classificaPBStagione(ris, o.slice(0, 4)).map((x) => ({ ...x, html: (y) => rigaCl(y, `${y.n} PB`, `+${String(y.perc).replace(".", ",")}% di miglioramento`) }));
+    if (tab === "albo" && vista === "eta") return L.alboEta(ris, dist, sesso).map((x) => ({ ...x,
+      html: (y) => rigaCl(y, `${y.circa ? "≈ " : ""}${pct(y.ag)}`, [fmtSec(y.secondi), dist === "tutte" ? L.DIST_LABEL[y.distanza] : "", titoloGara(y.gara_nome || ""), y.data.slice(0, 4)].filter(Boolean).map(esc).join(" · ")) }));
+    if (tab === "albo") return L.alboDoro(ris, dist === "tutte" ? "21" : dist, sesso).map((x) => ({ ...x, html: (y) => rigaCl(y, fmtSec(y.secondi), [titoloGara(y.gara_nome || ""), L.fmtBreve(y.data) + " " + y.data.slice(0, 4), y.categoria].filter(Boolean).map(esc).join(" · ")) }));
+    return L.classificaGareCorse(ris, per).map((x) => ({ ...x, html: (y) => rigaCl(y, `${y.n} <span class="small muted" style="font-weight:500">${y.n === 1 ? "gara" : "gare"}</span>`, y.mio ? "le tue gare" : "", y.mio ? "#/gruppo/mie?da=classifiche" : "") }));
+  }
+  // In cima a Gruppo: invito a partecipare, oppure la tua stagione, la prossima gara della società e le classifiche
   function cardStagione(d) {
     if (!clAttive()) return cardClassifica(d);
-    const cl = CL(), io = cl.io || {}, org = io.ruolo === "admin" || io.ruolo === "organizzatore";
+    const cl = CL(), io = cl.io || {}, org = io.ruolo === "admin" || io.ruolo === "organizzatore", o = oggi(), anno = o.slice(0, 4);
     if (!io.partecipa) return `<section class="card dark"><span class="eyebrow">Novità nel gruppo</span><span style="font:700 26px/1.05 var(--display)">Le classifiche della stagione</span>
-      <span class="small" style="color:var(--navy-muted)">Gare corse, PB della stagione e Albo d'oro, con i tempi presi dalle classifiche ufficiali. ${cl.partecipanti} ${cl.partecipanti === 1 ? "runner partecipa" : "runner partecipano"} su ${cl.membri}.</span>
+      <span class="small" style="color:var(--navy-muted)">Impegno nelle gare della società, Obiettivo centrato e Albo d'oro, con i tempi presi dalle classifiche ufficiali. ${cl.partecipanti} ${cl.partecipanti === 1 ? "runner partecipa" : "runner partecipano"} su ${cl.membri}.</span>
       <div class="row" style="gap:14px;align-items:center"><a class="btn" style="flex:1" href="#/entra/classifiche">Partecipo</a><a href="#/gruppo/regole" style="color:var(--accent-on-dark)">Come funzionano</a></div></section>${cardClassifica(d)}`;
-    const l = righeCl(tabCl), { primi, tu } = L.primiETu(l);
-    const chip = (k) => `<button class="chip" data-act="cl-tab" data-t="${k}" aria-pressed="${k === tabCl}">${TAB_CL[k]}</button>`;
+    const { risultati: ris, eventi } = datiSt(), nomi = nomiCl(), id = ioId();
+    const imp = L.classificaImpegno(eventi, { anno, nomi, io: id }).find((x) => x.mio);
+    const obc = L.classificaObiettivo({ risultati: ris, obiettivi: ST().obiettivi }, { anno, nomi, io: id }).lista.find((x) => x.mio);
+    const liv = L.livello(L.puntiCarriera(eventi, id)), nBadge = badgeMiei().filter((b) => b.preso).length;
+    const posizioni = [imp && `${imp.pos}° Impegno`, obc && `${obc.pos}° Obiettivo centrato`, `${nBadge} badge`].filter(Boolean).join(" · ");
+    const stagione = `<a class="card dark link-card" href="#/gruppo/carriera" style="gap:6px"><div class="between"><span class="eyebrow">La tua stagione ${esc(anno)}</span><span class="pill navy">${esc(liv.nome)}</span></div>
+      <div class="row" style="align-items:baseline;gap:8px"><span class="big" style="font-size:48px;color:var(--accent-on-dark)">${imp ? imp.punti : 0}</span><span style="font-weight:600">punti Impegno</span></div>
+      <span class="small" style="color:var(--navy-muted)">${esc(posizioni)}</span>
+      <div class="between" style="border-top:1px solid #FFFFFF26;padding-top:10px"><b>La tua carriera <span class="small" style="font-weight:500;color:var(--navy-muted)">· livello e badge</span></b><span class="small" style="color:var(--accent-on-dark);font-weight:700">Apri ›</span></div></a>`;
+    const soc = gareSoc().filter((s) => s.data.slice(0, 4) === anno), prox = soc.find((s) => s.data >= o);
+    const prossima = prox ? `<a class="card link-card" href="${hrefSoc(prox)}" style="gap:4px"><div class="between"><span class="eyebrow">Prossima gara della società</span><span class="small muted">la ${soc.indexOf(prox) + 1}ª di ${soc.length}</span></div>
+        <span class="title">${esc(titoloGara(prox.nome))} · ${esc(L.DIST_LABEL[prox.distanza])}</span><span class="small muted">${esc(L.fmtGiorno(prox.data))}${ciSonoSoc(prox) ? ` · ${ciSonoSoc(prox) === 1 ? "c'è 1 del gruppo" : `ci sono ${ciSonoSoc(prox)} del gruppo`}` : ""}</span>
+        <span class="small" style="color:var(--accent-strong);font-weight:700">In palio fino a ${L.PUNTI.arrivo + L.PUNTI.pb + L.PUNTI.obiettivo + L.PUNTI.borsa} punti Impegno</span></a>`
+      : org ? `<a class="card soft link-card" href="#/gruppo/societa"><span class="title">${soc.length ? "Aggiungi le prossime gare della società" : "Scegli le gare della società"}</span><span class="small">Le sceglie il direttivo: solo queste fanno punti nella classifica Impegno.</span><span class="small" style="color:var(--accent);font-weight:700">Gare della società ›</span></a>` : "";
+    const tab = PRINCIPALI.includes(tabCl) ? tabCl : "impegno";
+    const l = righeCl(tab), { primi, tu } = L.primiETu(l);
+    const chip = (k) => `<button class="chip" data-act="cl-tab" data-t="${k}" aria-pressed="${k === tab}">${k === "obiettivo" ? "Obiettivo" : TAB_CL[k]}</button>`;
     const chipD = (x) => `<button class="chip" data-act="cl-dist" data-d="${x}" aria-pressed="${x === distAlbo}">${esc(L.DIST_LABEL[x])}</button>`;
-    const vuoto = tabCl === "pb" ? "Nessun personale migliorato quest'anno, per ora." : tabCl === "albo" ? `Nessun tempo certificato sulla ${esc(L.DIST_LABEL[distAlbo].toLowerCase())}.` : "Nessuna gara certificata quest'anno, per ora.";
+    const sotto = { impegno: "Punti nelle gare della società", obiettivo: "Scarto medio dall'obiettivo · almeno 3 gare", albo: "Il miglior tempo di sempre" }[tab];
+    const vuoto = { impegno: soc.length ? "Ancora nessun punto: arrivano con le gare della società." : "Ancora nessuna gara della società: le sceglie il direttivo.", obiettivo: "Nessuno ha ancora 3 gare con un obiettivo fissato.", albo: `Nessun tempo certificato sulla ${esc(L.DIST_LABEL[distAlbo].toLowerCase())}.` }[tab];
     const recupero = L.recuperoAperto(io) ? `<a class="card soft link-card" href="#/gruppo/recupero"><span class="title">Recupera le gare già corse</span><span class="small">Le prendiamo dalle classifiche ufficiali. Puoi farlo fino al ${esc(L.fmtBreve(String(io.recupero_fino).slice(0, 10)))}.</span><span class="small" style="color:var(--accent);font-weight:700">Cerca le mie gare ›</span></a>` : "";
     const coda = org && cl.da_approvare ? `<a class="card link-card" href="#/gruppo/admin"><div class="between"><span class="title">Da approvare</span><span class="pill">${cl.da_approvare}</span></div><span class="small">Tempi non trovati nelle classifiche: li approvate tu e gli altri referenti.</span><span class="small" style="color:var(--accent);font-weight:700">Apri la coda ›</span></a>` : "";
-    return `${recupero}${coda}<section class="card" aria-label="Le classifiche della stagione"><div class="between"><h2>Le classifiche · ${esc(oggi().slice(0, 4))}</h2><span class="small muted">${cl.partecipanti} runner</span></div>
-      <div class="chips">${Object.keys(TAB_CL).map(chip).join("")}</div>
-      ${tabCl === "albo" ? `<div class="chips">${DISTANZE.map(chipD).join("")}</div>` : ""}
+    const capo = (k) => { const x = righeCl(k)[0]; return x ? `${x.mio ? "Tu" : x.membro.split(/\s+/)[0]} · ${k === "pb" ? x.n : x.n}` : "nessuno, per ora"; };
+    const nConta = L.riepilogoMie(L.cercaMieGare(mieGare(), "", { oggi: o })).conta;
+    const altra = (href, t, d, ultima) => `<a class="between link-card" href="${href}" style="min-height:44px;${ultima ? "" : "border-bottom:1px solid var(--line2);"}"><span style="font-weight:600">${t}</span><span class="small muted">${esc(d)}</span></a>`;
+    return `${recupero}${coda}${stagione}${prossima}<section class="card" aria-label="Le classifiche della stagione"><div class="between"><h2>Le classifiche · ${esc(anno)}</h2><span class="small muted">${cl.partecipanti} runner</span></div>
+      <div class="chips">${PRINCIPALI.map(chip).join("")}</div>
+      ${tab === "albo" ? `<div class="chips">${DISTANZE.map(chipD).join("")}</div>` : ""}
+      <span class="small muted">${sotto}</span>
       <div>${l.length ? primi.map((x) => x.html(x)).join("") + (tu ? `<div class="post small muted" style="justify-content:center;padding:2px 0">···</div>${tu.html(tu)}` : "") : `<span class="small">${vuoto}</span>`}</div>
-      <a class="btn ghost block" href="#/gruppo/classifiche?c=${tabCl}${tabCl === "albo" ? `&d=${distAlbo}` : ""}">Classifica completa ›</a><a class="btn ghost block" href="#/gruppo/mie">Le mie gare in classifica ›</a><a class="link-regole" href="#/gruppo/regole">Come funzionano le classifiche ›</a></section>`;
+      <a class="btn ghost block" href="#/gruppo/classifiche?c=${tab}${tab === "albo" ? `&d=${distAlbo}` : ""}">Classifica completa ›</a></section>
+      <section class="card" style="gap:0;padding-top:8px;padding-bottom:8px" aria-label="Altre classifiche"><span class="eyebrow" style="padding:4px 0 6px">Altre classifiche</span>
+        ${altra("#/gruppo/classifiche?c=gare", "Gare corse", capo("gare"))}${altra("#/gruppo/classifiche?c=pb", "PB della stagione", capo("pb"))}${altra("#/gruppo/societa", "Gare della società", `${soc.length} nel ${anno}`)}${altra("#/gruppo/mie", "Le mie gare in classifica", `${nConta} ${nConta === 1 ? "conta" : "contano"}`, true)}</section>
+      <a class="link-regole" href="#/gruppo/regole">Come funzionano le classifiche ›</a>`;
   }
   function vistaPartecipa() {
     if (!clAttive()) return vistaGruppo();
     const voce = (t, ok = true) => `<div class="row" style="align-items:flex-start;gap:10px"><span aria-hidden="true" style="color:${ok ? "var(--ok)" : "var(--muted)"};font-weight:700">${ok ? "✓" : "•"}</span><span class="small">${t}</span></div>`;
     return `<header class="head-back">${back("#/gruppo")}<div><span class="eyebrow">Partecipo alle classifiche</span><h1 style="font-size:30px">Cosa vedono i compagni</h1></div></header>
       <p class="sub">Solo i runner di ${esc(GD() ? GD().gruppo.nome : "questo gruppo")} che partecipano, e solo finché partecipi. ${CL().partecipanti} su ${CL().membri} partecipano già.</p>
-      <section class="card"><h2>Va online</h2>${voce("I risultati delle tue gare su 10 km, mezza e maratona, presi dalle classifiche ufficiali: gara, data, tempo, categoria e società")}${voce("Gli esiti senza tempo (ritirato, non partito, annullata)")}${voce("I tempi che mandi al referente, con il link o la nota")}</section>
+      <section class="card"><h2>Va online</h2>${voce("I risultati delle tue gare su 10 km, mezza e maratona, presi dalle classifiche ufficiali: gara, data, tempo, categoria e società")}${voce("Gli esiti senza tempo (ritirato, non partito, annullata)")}${voce("I tempi che mandi al referente, con il link o la nota")}${voce("Il tempo obiettivo e se la Borsa è pronta: i compagni li vedono solo dopo il via")}${voce("Anno di nascita e sesso, se li indichi per la percentuale per età: i compagni vedono solo la percentuale")}</section>
       <section class="card"><h2>Resta sul telefono</h2>${voce("Tessera, certificato, scarpe, preparazione, bilancio delle gare e posizione", false)}</section>
       <p class="sub">Puoi smettere quando vuoi da Io → Gruppo: i tuoi risultati online si cancellano, sul telefono restano.</p>
       <button class="btn block" data-act="cl-partecipa">Partecipo</button><a class="btn ghost block" href="#/gruppo">Non ora</a>`;
@@ -1515,23 +1578,200 @@
   }
   function vistaClassifiche(param = {}) {
     if (!partecipo()) return vistaGruppo();
-    const c = TAB_CL[param.c] ? param.c : "gare", periodo = param.p === "mese" ? "mese" : "stagione", dist = DISTANZE.includes(param.d) ? param.d : distAlbo, sesso = ["M", "F"].includes(param.s) ? param.s : "";
-    const url = (o) => { const q = { c, p: periodo, d: dist, s: sesso, ...o }; return `#/gruppo/classifiche?c=${q.c}${q.c === "gare" ? `&p=${q.p}` : ""}${q.c === "albo" ? `&d=${q.d}${q.s ? `&s=${q.s}` : ""}` : ""}`; };
+    const c = TAB_CL[param.c] ? param.c : "impegno", periodo = param.p === "mese" ? "mese" : "stagione", vista = param.v === "eta" ? "eta" : "assoluto";
+    const dist = DISTANZE.includes(param.d) || (vista === "eta" && param.d === "tutte") ? param.d : distAlbo, sesso = ["M", "F"].includes(param.s) ? param.s : "";
+    const url = (o) => { const q = { c, p: periodo, d: dist, s: sesso, v: vista, ...o }; if (q.v !== "eta" && q.d === "tutte") q.d = "21";
+      return `#/gruppo/classifiche?c=${q.c}${["gare", "impegno"].includes(q.c) ? `&p=${q.p}` : ""}${q.c === "albo" ? `&v=${q.v}&d=${q.d}${q.s ? `&s=${q.s}` : ""}` : ""}`; };
     const chip = (href, on, l) => `<a class="chip" href="${href}" aria-pressed="${on}" style="display:inline-flex;align-items:center;text-decoration:none;color:inherit">${l}</a>`;
-    const l = righeCl(c, { periodo, dist, sesso });
-    const filtri = c === "gare" ? `<div class="chips">${chip(url({ p: "stagione" }), periodo === "stagione", "Stagione")}${chip(url({ p: "mese" }), periodo === "mese", "Questo mese")}</div>`
-      : c === "albo" ? `<div class="chips">${DISTANZE.map((x) => chip(url({ d: x }), x === dist, esc(L.DIST_LABEL[x]))).join("")}</div><div class="chips">${chip(url({ s: "" }), !sesso, "Tutti")}${chip(url({ s: "M" }), sesso === "M", "Uomini")}${chip(url({ s: "F" }), sesso === "F", "Donne")}</div>` : "";
-    const rec = c === "albo" ? L.recordCategorie(CL().risultati || [], dist) : [];
+    const l = righeCl(c, { periodo, dist, sesso, vista }), o = oggi(), anno = o.slice(0, 4);
+    const filtri = ["gare", "impegno"].includes(c) ? `<div class="chips">${chip(url({ p: "stagione" }), periodo === "stagione", "Stagione")}${chip(url({ p: "mese" }), periodo === "mese", "Questo mese")}</div>`
+      : c === "albo" ? `<div class="chips">${chip(url({ v: "assoluto" }), vista === "assoluto", "Assoluto")}${chip(url({ v: "eta" }), vista === "eta", "Per età")}</div>
+        <div class="chips">${[...DISTANZE, ...(vista === "eta" ? ["tutte"] : [])].map((x) => chip(url({ d: x }), x === dist, x === "tutte" ? "Tutte" : esc(L.DIST_LABEL[x]))).join("")}</div>
+        <div class="chips">${chip(url({ s: "" }), !sesso, "Tutti")}${chip(url({ s: "M" }), sesso === "M", "Uomini")}${chip(url({ s: "F" }), sesso === "F", "Donne")}</div>` : "";
+    const rec = c === "albo" && vista === "assoluto" ? L.recordCategorie(CL().risultati || [], dist) : [];
     const spiega = { gare: "Le gare concluse con un tempo certificato: dalla classifica ufficiale o approvato dal referente. A parità di gare, stessa posizione.",
       pb: "Quante volte migliori il tuo miglior tempo certificato su 10 km, mezza o maratona. La prima gara su una distanza fissa il riferimento e non conta. A parità vince chi è migliorato di più.",
-      albo: "Il miglior tempo certificato di sempre di ognuno. Uomini e donne dalla categoria della classifica ufficiale." }[c];
-    return `<header class="head-back">${back("#/gruppo")}<div><span class="eyebrow">${esc(GD() ? GD().gruppo.nome : "Il gruppo")} · ${c === "albo" ? "di sempre" : esc(oggi().slice(0, 4))}</span><h1 style="font-size:28px">${TAB_CL[c]}</h1></div></header>
-      <div class="chips">${Object.keys(TAB_CL).map((k) => chip(`#/gruppo/classifiche?c=${k}`, k === c, TAB_CL[k])).join("")}</div>
+      albo: vista === "eta" ? "" : "Il miglior tempo certificato di sempre di ognuno. Uomini e donne dalla categoria della classifica ufficiale.",
+      impegno: "", obiettivo: "" }[c];
+    let extra = "";
+    if (c === "impegno") extra = `<section class="card" style="gap:0"><h2 style="margin-bottom:4px">Come si fanno i punti</h2>
+      ${[["Arrivo in una gara della società", L.PUNTI.arrivo], ["Nuovo personale in una gara della società", L.PUNTI.pb], ["Obiettivo centrato (entro l'1%) in una gara della società", L.PUNTI.obiettivo],
+        ["Borsa pronta entro la vigilia di una gara della società, se poi arrivi", L.PUNTI.borsa], ["Nuovo socio portato da te, al suo primo tempo certificato", L.PUNTI.socio]]
+        .map(([t, p]) => `<div class="post"><span style="flex:1;min-width:0">${t}</span><b>+${p}</b></div>`).join("")}
+      <span class="small muted" style="padding-top:8px">Le altre gare valgono per Gare corse, PB, Obiettivo centrato e Albo d'oro, ma non fanno punti. Niente punti per i km: nessuno corre più del suo piano per salire.</span>
+      <a class="small" href="#/gruppo/societa" style="font-weight:700;padding-top:8px">Le gare della società ›</a></section>`;
+    if (c === "obiettivo") {
+      const id = ioId(), { risultati } = datiSt(), ob = ST().obiettivi || [];
+      const { quasi } = L.classificaObiettivo({ risultati, obiettivi: ob }, { anno, nomi: nomiCl(), io: id });
+      const mie = risultati.filter((r) => r.mio && r.data.startsWith(anno)).map((r) => ({ r, o: ob.find((x) => x.membro_id === id && x.data === r.data && x.distanza === r.distanza) }))
+        .filter((x) => x.o).sort((a, b) => (a.r.data < b.r.data ? 1 : -1)).slice(0, 5);
+      extra = `${quasi.length ? `<section class="card" style="gap:6px"><h2>Non ancora in classifica</h2>${quasi.map((x) => `<div class="between small"><span>${esc(x.mio ? "Tu" : x.membro)}</span><span class="muted">${x.mancano === 1 ? "manca 1 gara" : `mancano ${x.mancano} gare`} con obiettivo</span></div>`).join("")}</section>` : ""}
+        ${mie.length ? `<section class="card" style="gap:0"><h2 style="margin-bottom:4px">Le tue ultime gare</h2>${mie.map(({ r, o: x }) => { const s = L.scartoObiettivo(r.secondi, x.secondi);
+          return `<div class="post"><span style="flex:1;min-width:0"><b>${esc(titoloGara(r.gara_nome || "") || L.DIST_LABEL[r.distanza])}</b><br><span class="small muted">Obiettivo ${esc(fmtSec(x.secondi))} · arrivo ${esc(fmtSec(r.secondi))}</span></span><span class="pill ${s <= L.CENTRATO ? "ok" : "grigio"}">${pct(s)}${s <= L.CENTRATO ? " · centrato" : ""}</span></div>`; }).join("")}</section>` : ""}
+        <details class="card"><summary>Come si calcola</summary><span class="small">Fissi il tempo obiettivo nella gara (Ruolo e tempo obiettivo), entro le 23:59 della vigilia: poi si blocca. Dopo l'arrivo, lo scarto è la differenza tra tempo ufficiale e obiettivo, in più o in meno, divisa per l'obiettivo. Andare molto più forte conta come andare più piano.</span>
+          <span class="small">Valgono tutte le gare certificate con un obiettivo fissato; servono almeno 3 gare. Entro l'1% è centrato: in una gara della società vale anche +${L.PUNTI.obiettivo} punti Impegno.</span></details>`;
+    }
+    if (c === "albo" && vista === "eta") extra = `<details class="card" open><summary>Cos'è la percentuale per età</summary><span class="small">Ogni tempo diventa una percentuale del miglior tempo possibile per la tua età e il tuo sesso su quella distanza: un 70% vale un 70% a 30 come a 65 anni. Per orientarti: 60% livello locale, 70% regionale, 80% nazionale.</span>
+      <span class="small muted">Tabelle stradali 2025 di Alan Jones, approvate da USATF. Età dall'anno di nascita (La mia carriera); se non c'è, dall'inizio della categoria FIDAL, e il valore è segnato con ≈.</span></details>`;
+    const vuoto = { impegno: "Ancora nessun punto in questo periodo.", obiettivo: "Nessuno ha ancora 3 gare con un obiettivo fissato quest'anno." }[c] || "Nessun tempo in questa classifica, per ora.";
+    return `<header class="head-back">${back("#/gruppo")}<div><span class="eyebrow">${esc(GD() ? GD().gruppo.nome : "Il gruppo")} · ${c === "albo" ? "di sempre" : esc(anno)}</span><h1 style="font-size:28px">${TAB_CL[c]}</h1></div></header>
+      <div class="chips chips-scorri">${Object.keys(TAB_CL).map((k) => chip(`#/gruppo/classifiche?c=${k}`, k === c, TAB_CL[k])).join("")}</div>
       ${filtri}
-      ${l.length ? `<section class="card" style="gap:0">${l.map((x) => x.html(x)).join("")}</section>` : `<p class="sub">Nessun tempo in questa classifica, per ora.</p>`}
+      ${l.length ? `<section class="card" style="gap:0">${l.map((x) => x.html(x)).join("")}</section>` : `<p class="sub">${vuoto}</p>`}
       ${rec.length ? `<section class="card" style="gap:0"><h2 style="margin-bottom:4px">Record per categoria</h2>${rec.map((x) => `<div class="post ${x.mio ? "mio" : ""}"><span style="width:52px;font-weight:700">${esc(x.categoria)}</span><span style="flex:1;min-width:0"><b>${esc(x.mio ? "Tu" : x.membro)}</b><br><span class="small muted">${esc(titoloGara(x.gara_nome || ""))} · ${esc(x.data.slice(0, 4))}</span></span><b style="font:700 18px var(--display)">${esc(fmtSec(x.secondi))}</b></div>`).join("")}</section>` : ""}
-      <p class="sub">${spiega}</p><a class="btn ghost block" href="#/gruppo/mie?da=classifiche">Le mie gare in classifica ›</a><a class="link-regole" href="#/gruppo/regole?da=classifiche">Tutte le regole delle classifiche ›</a>`;
+      ${extra}${spiega ? `<p class="sub">${spiega}</p>` : ""}<a class="btn ghost block" href="#/gruppo/mie?da=classifiche">Le mie gare in classifica ›</a><a class="link-regole" href="#/gruppo/regole?da=classifiche">Tutte le regole delle classifiche ›</a>`;
   }
+
+  // Gare della società (#/gruppo/societa?q=…): le vedono tutti; il direttivo (amministratore e organizzatori) le aggiunge
+  // dal calendario, dalle proprie gare o a mano, e le toglie. Solo queste fanno punti Impegno.
+  function candidatiSoc(q) {
+    const anno = oggi().slice(0, 4), gia = new Set(gareSoc().map((s) => `${s.data}|${s.distanza}`)), visti = new Set();
+    const parole = String(q || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").split(/\s+/).filter(Boolean);
+    const testo = (g) => `${g.nome} ${g.luogo || ""} ${L.fmtBreve(g.data)} ${L.DIST_LABEL[g.distanza]}`.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+    return [...S.gare, ...(D.gare || [])].filter((g) => g && DISTANZE.includes(g.distanza) && g.data && g.data.slice(0, 4) >= anno && !g.annullata && !gia.has(`${g.data}|${g.distanza}`))
+      .filter((g) => parole.every((p) => testo(g).includes(p)))
+      .filter((g) => { const k = `${g.data}|${g.distanza}|${g.nome}`; if (visti.has(k)) return false; visti.add(k); return true; })
+      .sort((a, b) => (a.data < b.data ? -1 : 1)).slice(0, 8);
+  }
+  function listaCandidatiSoc(q) {
+    if (!String(q || "").trim()) return `<span class="small muted">Scrivi il nome della gara, la città o il mese.</span>`;
+    const l = candidatiSoc(q);
+    return l.length ? l.map((g) => `<div class="post"><span style="flex:1;min-width:0"><b>${esc(titoloGara(g.nome))}</b><br><span class="small muted">${esc(L.DIST_LABEL[g.distanza])} · ${esc(L.fmtGiorno(g.data))} ${esc(g.data.slice(0, 4))}${g.luogo ? " · " + esc(nomeLuogo(g.luogo)) : ""}</span></span>
+      <button class="btn small" data-act="gs-add" data-data="${esc(g.data)}" data-dist="${esc(g.distanza)}" data-nome="${esc(g.nome)}" data-luogo="${esc(g.luogo || "")}" data-gid="${esc(g.id || "")}">Aggiungi</button></div>`).join("")
+      : `<span class="small">Nessuna gara trovata per «${esc(q)}». Puoi aggiungerla a mano qui sotto.</span>`;
+  }
+  function vistaSocieta(param = {}) {
+    if (!clAttive()) return vistaGruppo();
+    const io = CL().io || {}, dir = io.ruolo === "admin" || io.ruolo === "organizzatore", o = oggi(), anno = o.slice(0, 4);
+    const tutte = gareSoc().filter((s) => s.data.slice(0, 4) === anno), future = tutte.filter((s) => s.data >= o), corse = tutte.filter((s) => s.data < o).reverse();
+    const { risultati } = datiSt();
+    const arrivati = (s) => new Set(risultati.filter((r) => r.data === s.data && r.distanza === s.distanza).map((r) => r.membro_id)).size;
+    const riga = (s, passata) => { const n = passata ? arrivati(s) : ciSonoSoc(s), mia = S.gare.some((x) => x.data === s.data && x.distanza === s.distanza);
+      return `<div class="post"><span style="flex:1;min-width:0"><a href="${hrefSoc(s)}" style="font-weight:700;color:inherit">${esc(titoloGara(s.nome))}</a><br><span class="small muted">${esc(L.DIST_LABEL[s.distanza])} · ${esc(L.fmtGiorno(s.data))}${s.luogo ? " · " + esc(nomeLuogo(s.luogo)) : ""}${n ? ` · ${n} ${passata ? "al traguardo" : n === 1 ? "c'è" : "ci sono"}` : ""}${!passata && mia ? " · ci sei" : ""}</span></span>
+        ${dir ? `<button class="btn ghost small" data-act="gs-togli" data-id="${esc(s.id)}" data-nome="${esc(titoloGara(s.nome))}" aria-label="Togli ${esc(titoloGara(s.nome))}">Togli</button>` : ""}</div>`; };
+    const perDist = DISTANZE.map((d) => [d, tutte.filter((s) => s.distanza === d).length]).filter((x) => x[1]).map(([d, n]) => `${n} ${d === "10" ? "da 10 km" : d === "21" ? (n === 1 ? "mezza" : "mezze") : n === 1 ? "maratona" : "maratone"}`).join(" · ");
+    return `<header class="head-back">${back(dir && param.da === "admin" ? "#/gruppo/admin" : "#/gruppo")}<div><span class="eyebrow">${esc(GD() ? GD().gruppo.nome : "Il gruppo")} · stagione ${esc(anno)}</span><h1 style="font-size:28px">Gare della società</h1></div></header>
+      <p class="sub">Le sceglie il direttivo (amministratore e organizzatori). Solo queste fanno punti nella classifica Impegno.</p>
+      <section class="card" style="gap:6px"><div class="between" style="align-items:baseline"><span class="big" style="font-size:30px;color:var(--fg)">${tutte.length} ${tutte.length === 1 ? "gara" : "gare"}</span><span class="small muted">${corse.length} ${corse.length === 1 ? "corsa" : "corse"} · ${future.length} da correre</span></div>
+        <div class="meter" aria-hidden="true"><div style="width:${tutte.length ? Math.round((corse.length / tutte.length) * 100) : 0}%"></div></div>${perDist ? `<span class="small muted">${perDist}</span>` : ""}</section>
+      ${dir ? `<section class="card" style="gap:8px"><div class="field"><label for="gs-cerca">Aggiungi dal calendario o dalle tue gare</label><input class="input" id="gs-cerca" type="search" value="${esc(param.q || "")}" placeholder="es. Villa Ada, Ostia, dicembre" autocomplete="off"></div>
+        <div id="gs-risultati" style="display:flex;flex-direction:column">${listaCandidatiSoc(param.q || "")}</div>
+        <details><summary class="small">Non la trovi? Aggiungila a mano</summary><form id="gs-mano" style="display:flex;flex-direction:column;gap:10px;padding-top:10px">
+          <div class="field"><label for="gm-nome">Nome della gara</label><input class="input" id="gm-nome" required maxlength="120"></div>
+          <div class="grid2"><div class="field"><label for="gm-data">Data</label><input class="input" id="gm-data" type="date" required min="${anno}-01-01"></div>
+          <div class="field"><label for="gm-dist">Distanza</label><select class="input" id="gm-dist">${DISTANZE.map((x) => `<option value="${x}" ${x === "21" ? "selected" : ""}>${esc(L.DIST_LABEL[x])}</option>`).join("")}</select></div></div>
+          <button class="btn" type="submit">Aggiungi</button></form></details>
+        <span class="small muted">Anche una gara già corsa della stagione: i punti si ricalcolano per tutti.</span></section>` : ""}
+      <section class="card" style="gap:0"><h2 style="margin-bottom:4px">Da correre</h2>${future.length ? future.map((s) => riga(s, false)).join("") : `<span class="small">${dir ? "Nessuna gara in programma: aggiungi le prossime." : "Nessuna gara in programma, per ora."}</span>`}</section>
+      ${corse.length ? `<details class="card" style="gap:0"><summary>Già corse · ${corse.length}</summary>${corse.map((s) => riga(s, true)).join("")}</details>` : ""}
+      ${dir ? `<p class="sub">Consiglio: 8-12 gare l'anno, distribuite nei mesi e tra le distanze, così chi non può a una data ha altre occasioni.</p>` : ""}
+      <a class="link-regole" href="#/gruppo/classifiche?c=impegno">La classifica Impegno ›</a>`;
+  }
+
+  // La mia carriera (#/gruppo/carriera): livello dai punti di carriera, punti della stagione, badge, dati per l'età,
+  // link personale per portare un amico.
+  function vistaCarriera() {
+    if (!partecipo()) return vistaGruppo();
+    const { eventi } = datiSt(), id = ioId(), anno = oggi().slice(0, 4), car = L.puntiCarriera(eventi, id), liv = L.livello(car);
+    const stag = eventi.filter((e) => e.membro_id === id && e.data.startsWith(anno)), tot = stag.reduce((s, e) => s + e.punti, 0);
+    const bd = badgeMiei(), presi = bd.filter((b) => b.preso).length, io = ST().io || {};
+    const voci = [["arrivo", "Arrivi in gare della società"], ["obiettivo", "Obiettivi centrati"], ["borsa", "Borsa pronta"], ["socio", "Nuovi soci"], ["pb", "Nuovi personali"]]
+      .map(([k, t]) => { const l = stag.filter((e) => e.tipo === k); return { t, n: l.length, p: l.reduce((s, e) => s + e.punti, 0) }; });
+    const max = Math.max(1, ...voci.map((v) => v.p));
+    const ICO_B = { prima10: "bandiera", prima21: "bandiera", prima42: "bandiera", tris: "bandiera", cecchino: "bersaglio", borsa5: "borsa", borsa10: "borsa", borsa20: "borsa",
+      mesi6: "calendario", fedele: "stella", chioccia: "persona", record: "coppa", oltre70: "freccia" };
+    const SVG = { bandiera: '<path d="M6 21V4h11l-2 4 2 4H6"/>', bersaglio: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/>', borsa: '<path d="M5 8h14l-1 12H6L5 8zM9 8V6a3 3 0 0 1 6 0v2"/>',
+      calendario: '<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>', stella: '<path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4l-5.2 2.7 1-5.8L3.5 9.2l5.9-.9L12 3z"/>',
+      persona: '<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M19 8v6M16 11h6"/>', coppa: '<path d="M8 4h8v5a4 4 0 0 1-8 0V4zM8 6H5a3 3 0 0 0 3 3M16 6h3a3 3 0 0 1-3 3M12 13v4M9 20h6"/>',
+      freccia: '<path d="M4 18l6-6 4 4 6-8M15 8h5v5"/>' };
+    const badge = (b) => `<div class="badge ${b.preso ? "" : "off"}" title="${esc(b.cosa)}"><span class="badge-ico" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${SVG[ICO_B[b.k]]}</svg></span>
+      <span class="badge-nome">${esc(b.nome)}</span><span class="badge-prog">${esc(b.preso ? b.cosa : b.progresso)}</span></div>`;
+    const annoMax = Number(anno) - 8;
+    return `<header class="head-back">${back("#/gruppo")}<div><span class="eyebrow">La mia carriera</span><h1 style="font-size:28px">${esc(GD() ? GD().io.nome : "")}</h1></div></header>
+      <section class="card dark" style="gap:8px"><div class="between" style="align-items:flex-end"><span class="big" style="font-size:40px">${esc(liv.nome)}</span>${liv.prossimo ? `<span class="small" style="color:var(--navy-muted)">prossimo: ${esc(liv.prossimo)}</span>` : ""}</div>
+        <div class="meter acc" aria-hidden="true" style="background:#FFFFFF33"><div style="width:${Math.round(liv.quota * 100)}%"></div></div>
+        <span class="small" style="color:var(--navy-muted)">${car.toLocaleString("it-IT")} punti di carriera${liv.prossimo ? ` · ${esc(liv.prossimo)} a ${liv.prossimaSoglia.toLocaleString("it-IT")}` : " · il livello più alto"}</span>
+        <div class="grid2" style="padding-top:4px"><div class="tile-dark"><b>${tot}</b><span>punti stagione ${esc(anno)}</span></div><div class="tile-dark"><b>${presi} di ${bd.length}</b><span>badge</span></div></div></section>
+      <section class="card" style="gap:8px"><h2>I livelli</h2><div class="livelli">${L.LIVELLI.map(([n, s]) => `<span class="${n === liv.nome ? "on" : ""}"><b>${esc(n)}</b>${s.toLocaleString("it-IT")}</span>`).join("")}</div>
+        <span class="small muted">I punti di carriera sono la somma dei punti Impegno di tutte le stagioni: il livello non scende mai.</span></section>
+      <section class="card" style="gap:8px"><h2>Come hai fatto i punti · ${esc(anno)}</h2>${tot ? voci.filter((v) => v.n).map((v) => `<div class="punti-voce"><div>${esc(v.t)} · ${v.n}<div class="meter acc" aria-hidden="true"><div style="width:${Math.round((v.p / max) * 100)}%"></div></div></div><b>${v.p}</b></div>`).join("")
+        : `<span class="small">Ancora nessun punto quest'anno: arrivano con le <a href="#/gruppo/societa">gare della società</a>.</span>`}</section>
+      <section class="card"><div class="between"><h2>Badge</h2><span class="small muted">${presi} di ${bd.length}</span></div><div class="badge-griglia">${bd.map(badge).join("")}</div></section>
+      <section class="card" style="gap:8px"><h2>Porta un amico</h2><span class="small">Con il tuo link personale, chi entra nel gruppo risulta portato da te: al suo primo tempo certificato prendi +${L.PUNTI.socio} punti.</span>
+        <button class="btn ghost" data-act="mio-invito">Condividi il tuo link</button></section>
+      <form id="eta-form" class="card" style="gap:10px"><h2>Per la percentuale per età</h2>
+        <div class="grid2"><div class="field"><label for="eta-anno">Anno di nascita</label><input class="input" id="eta-anno" type="number" inputmode="numeric" min="1920" max="${annoMax}" value="${esc(io.anno_nascita || "")}" placeholder="es. 1980"></div>
+        <div class="field"><label for="eta-sesso">Sesso nelle tabelle</label><select class="input" id="eta-sesso"><option value="">Non indicato</option><option value="M" ${io.sesso === "M" ? "selected" : ""}>Uomo</option><option value="F" ${io.sesso === "F" ? "selected" : ""}>Donna</option></select></div></div>
+        <span class="small muted">Facoltativi: i compagni vedono solo la percentuale. Senza, si usa l'inizio della tua categoria FIDAL.</span>
+        <button class="btn" type="submit">Salva</button></form>
+      <p class="sub">Per smettere di partecipare: Io → Gruppo. I tuoi risultati online si cancellano; sul telefono restano.</p>`;
+  }
+
+  // In La gara (Panoramica), per chi partecipa: obiettivo che si blocca alla vigilia e, nelle gare della società, i punti in palio
+  function cardStagioneGara(g, fatte, tot) {
+    if (!partecipo() || !DISTANZE.includes(g.distanza) || g.data < oggi()) return "";
+    const soc = L.garaDellaSocieta(gareSoc(), g.data, g.distanza), aperto = L.obiettivoAperto(g.data), id = ioId();
+    const online = (ST().obiettivi || []).find((o) => o.membro_id === id && o.data === g.data && o.distanza === g.distanza);
+    const sec = !aperto && online ? online.secondi : g.tempo ? L.leggiTempo(g.distanza, g.tempo).secondi : null;
+    const margine = sec ? Math.floor(sec * L.CENTRATO / 100) : 0;
+    const miei = datiSt().risultati.filter((r) => r.mio && r.distanza === g.distanza && r.data < g.data);
+    const pb = miei.length ? Math.min(...miei.map((r) => r.secondi)) : null;
+    const ob = sec ? `<div class="row" style="align-items:baseline;gap:10px"><span class="big" style="font-size:34px;color:var(--fg)">${esc(fmtSec(sec))}</span><span class="small muted">${aperto ? "si blocca alle 23:59 della vigilia" : "bloccato"}</span></div>
+        <span class="small">Vale per Obiettivo centrato: tra ${esc(fmtSec(sec - margine))} e ${esc(fmtSec(sec + margine))} è centrato.</span>`
+      : aperto ? `<span class="small">Fissa il tempo obiettivo entro le 23:59 della vigilia: vale per la classifica Obiettivo centrato.</span><a class="btn ghost" href="${urlGara(g.id)}?modifica=1">Imposta l'obiettivo</a>`
+      : `<span class="small muted">Nessun obiettivo fissato per questa gara.</span>`;
+    const riga = (t, p, sotto = "") => `<div class="post" style="flex-wrap:wrap"><span style="flex:1;min-width:0">${t}${sotto ? `<br><span class="small muted">${sotto}</span>` : ""}</span><b>+${p}</b></div>`;
+    const punti = soc ? `<div style="display:flex;flex-direction:column;margin-top:4px"><div class="between"><span class="eyebrow">Punti in palio</span><span class="small muted">fino a ${L.PUNTI.arrivo + L.PUNTI.pb + L.PUNTI.obiettivo + L.PUNTI.borsa}</span></div>
+        ${riga("Arrivo", L.PUNTI.arrivo)}${riga("Borsa pronta entro la vigilia", L.PUNTI.borsa, `${fatte} di ${tot} pronte · <a href="${urlGara(g.id, "borsa")}">Apri la Borsa</a>`)}
+        ${riga("Obiettivo centrato", L.PUNTI.obiettivo, sec ? `tra ${esc(fmtSec(sec - margine))} e ${esc(fmtSec(sec + margine))}` : "serve un obiettivo")}${riga("Nuovo personale", L.PUNTI.pb, pb ? `sotto il tuo ${esc(fmtSec(pb))}` : "dalla seconda gara certificata sulla distanza")}
+        <span class="small muted" style="padding-top:6px">Il tempo conta quando è certificato dalla classifica ufficiale.</span></div>` : "";
+    return `<section class="card" style="gap:8px">${soc ? `<span class="pill navy-pill" style="align-self:flex-start">Gara della società</span>` : ""}<span class="eyebrow">Il tuo obiettivo</span>${ob}${punti}</section>`;
+  }
+
+  // Scheda post-gara: in "Com'è andata?", quando il tempo è certificato
+  function schedaPostGara(g, m) {
+    const { risultati, eventi } = datiSt(), id = ioId();
+    const r = risultati.find((x) => x.mio && x.data === g.data && x.distanza === g.distanza) || { ...m, mio: true };
+    const o = (ST().obiettivi || []).find((x) => x.membro_id === id && x.data === g.data && x.distanza === g.distanza);
+    const sc = o ? L.scartoObiettivo(r.secondi, o.secondi) : null, mig = L.miglioramento12(risultati.filter((x) => x.mio), r);
+    const soc = L.garaDellaSocieta(gareSoc(), g.data, g.distanza);
+    const ev = eventi.filter((e) => e.membro_id === id && e.data === g.data && e.distanza === g.distanza);
+    const prima = new Set(badgeMiei({ prima: g.data }).filter((b) => b.preso).map((b) => b.k)), nuovi = badgeMiei({ fino: g.data }).filter((b) => b.preso && !prima.has(b.k));
+    const tile = (v, t) => `<div class="tile-dark"><b>${v}</b><span>${t}</span></div>`;
+    const tiles = [sc != null && tile(pct(sc), `dall'obiettivo ${esc(fmtSec(o.secondi))}${sc <= L.CENTRATO ? " · centrato" : ""}`), r.ag && tile(`${r.circa ? "≈ " : ""}${pct(r.ag)}`, "per età"),
+      mig != null && tile(`${mig > 0 ? "+" : ""}${pct(mig)}`, "sul tuo meglio dei 12 mesi")].filter(Boolean);
+    const NOMI_EV = { arrivo: "Arrivo", pb: "Nuovo personale", obiettivo: "Obiettivo centrato", borsa: "Borsa pronta entro la vigilia" };
+    return `<section class="card dark" style="gap:10px"><div class="between"><span class="eyebrow">Classifiche del gruppo</span>${soc ? `<span class="pill navy">Gara della società</span>` : ""}</div>
+        <span class="big" style="font-size:48px;color:var(--accent-on-dark)">${esc(fmtSec(r.secondi))}</span>
+        <span class="small" style="color:var(--navy-muted)">✓ Certificato ${r.fonte === "manuale" ? "dal referente" : `dalla classifica di ${esc(FONTE_TEMPI[r.fonte] || r.fonte)}`}${r.categoria ? ` · categoria ${esc(r.categoria)}` : ""}</span>
+        ${tiles.length ? `<div class="tiles-${tiles.length}">${tiles.join("")}</div>` : ""}</section>
+      ${soc ? `<section class="card" style="gap:0"><h2 style="margin-bottom:4px">Punti Impegno</h2>${ev.length ? ev.map((e) => `<div class="post"><span style="flex:1">${NOMI_EV[e.tipo]}</span><b>+${e.punti}</b></div>`).join("") : ""}
+        <div class="between" style="padding-top:8px"><b>Totale</b><b style="color:var(--accent);font-size:20px">+${ev.reduce((s, e) => s + e.punti, 0)}</b></div></section>` : ""}
+      ${nuovi.map((b) => `<section class="card" style="flex-direction:row;align-items:center;gap:14px"><span class="badge-ico grande" aria-hidden="true">★</span><span style="display:flex;flex-direction:column"><span class="eyebrow">Nuovo badge</span><b style="font-size:17px">${esc(b.nome)}</b><span class="small muted">${esc(b.cosa)}</span></span></section>`).join("")}
+      <a class="btn ghost block" href="#/gruppo">Le classifiche ›</a>`;
+  }
+
+  // Obiettivo e Borsa pronta online, per chi partecipa: solo quando cambiano e solo prima del via
+  let timerSt;
+  function sincronizzaStagione() {
+    if (!partecipo()) return;
+    clearTimeout(timerSt);
+    timerSt = setTimeout(async () => {
+      const inv = (S.gruppo.stInviati = S.gruppo.stInviati || {});
+      for (const g of S.gare) {
+        if (!DISTANZE.includes(g.distanza) || !L.obiettivoAperto(g.data)) continue;
+        const ck = L.checklist(D.percorso, g, S.personali), pronta = ck.borsa.length > 0 && ck.borsa.every((v) => S.spunte[v.chiave]);
+        const tempo = g.tempo ? L.leggiTempo(g.distanza, g.tempo).tempo || "" : "", k = `${g.data}|${g.distanza}`;
+        const prima = String(inv[k] || "|").split("|");
+        try { if (prima[0] !== tempo) { await rpc("fissa_obiettivo", { p_token: token(), p: { data: g.data, distanza: g.distanza, tempo } }); prima[0] = tempo; } } catch (e) { /* riprova al prossimo salvataggio */ }
+        try { if (prima[1] !== String(pronta)) { await rpc("segna_borsa", { p_token: token(), p: { data: g.data, distanza: g.distanza, pronta } }); prima[1] = String(pronta); } } catch (e) { /* idem */ }
+        inv[k] = prima.join("|");
+      }
+      for (const k of Object.keys(inv)) if (!L.obiettivoAperto(k.slice(0, 10))) delete inv[k];
+      try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* niente */ }
+    }, 3000);
+  }
+
   // Le mie gare in classifica (#/gruppo/mie?p=stagione|tutte&q=…&da=…): quali contano, quali aspettano il referente,
   // quali mancano e perché; ricerca nell'elenco, ricerca nelle classifiche ufficiali (recupero) e aggiunta a mano.
   const PILL_MIE = { conta: ["ok", "Conta"], storico: ["grigio", "Albo e PB"], attesa: ["", "In approvazione"], rifiutato: ["doc-urgente", "Non approvata"],
@@ -1611,10 +1851,15 @@
         ${voceOk("Tempi impossibili non entrano: il passo deve stare tra 2:30 e 15:00 al km.")}`)}
       ${sez("Le gare già corse", `${voceOk("Nei <b>primi 30 giorni</b> da quando partecipi recuperi tutte le gare trovate nelle classifiche, anche degli anni scorsi: servono per l'Albo d'oro e per i PB.")}${voceOk("Dopo, si aggiungono solo le gare dalla settimana prima della tua adesione in avanti.")}
         ${L.recuperoAperto(io) ? `<a class="btn ghost" href="#/gruppo/recupero">Recupera le tue gare · fino al ${esc(L.fmtBreve(String(io.recupero_fino).slice(0, 10)))}</a>` : ""}`)}
-      ${sez("Le tre classifiche", `${cl3("Gare corse", `Quante gare concludi nella stagione con un tempo certificato. C'è anche la vista del mese.`, "A pari gare, pari posizione.")}
+      ${sez("Le gare della società", `${voceOk("Le sceglie il <b>direttivo</b> (amministratore e organizzatori) in Gestione, anche durante la stagione: i punti si ricalcolano.")}${voceOk("Solo queste fanno punti nella classifica <b>Impegno</b>. Le altre gare valgono per tutte le altre classifiche.")}<a class="btn ghost" href="#/gruppo/societa">Le gare della società</a>`)}
+      ${sez("Le classifiche", `${cl3("Impegno", `Punti nelle gare della società: arrivo +${L.PUNTI.arrivo}, nuovo personale +${L.PUNTI.pb}, obiettivo centrato +${L.PUNTI.obiettivo}, Borsa pronta entro la vigilia +${L.PUNTI.borsa} (se poi arrivi). In più +${L.PUNTI.socio} per ogni nuovo socio portato col tuo link, al suo primo tempo certificato. C'è anche la vista del mese.`, "Niente punti per i km. A pari punti, pari posizione.")}
+        ${cl3("Obiettivo centrato", "Lo scarto medio tra tempo ufficiale e tempo obiettivo, in più o in meno, su tutte le gare certificate con un obiettivo. L'obiettivo si fissa nella gara e si blocca alle 23:59 della vigilia. Servono almeno 3 gare; entro l'1% è centrato.", "Vince lo scarto più basso; a parità, chi ha più gare.")}
+        ${cl3("Albo d'oro", "Il miglior tempo di sempre di ognuno, per distanza, con i record per categoria. Nella vista <b>Per età</b> ogni tempo diventa una percentuale del migliore possibile per età e sesso (tabelle stradali 2025 di Alan Jones, USATF): così un 70% vale lo stesso a 30 e a 65 anni.", "Uomini e donne dalla categoria ufficiale o da quanto indichi in La mia carriera.")}
+        ${cl3("Gare corse", `Quante gare concludi nella stagione con un tempo certificato. C'è anche la vista del mese.`, "A pari gare, pari posizione.")}
         ${cl3("PB della stagione", "Quante volte quest'anno migliori il tuo miglior tempo di sempre su 10 km, mezza o maratona. La prima gara su una distanza fissa il riferimento e non conta.", "A pari PB vince chi è migliorato di più, in percentuale.")}
-        ${cl3("Albo d'oro", "Il miglior tempo di sempre di ognuno, per distanza, con i filtri uomini e donne (dalla categoria della classifica ufficiale) e i record per categoria.", "Conta solo il tempo: niente punti.")}`)}
-      ${sez("Cosa vedono i compagni", `${voceOk("Gara, data, distanza, tempo, categoria e società della classifica ufficiale.")}${voceOk("L'<b>amministratore</b> vede tutte le tue gare online, anche quelle in approvazione o non approvate, per controllarle e sistemarle.")}<div class="voce-ok"><span class="spunta muto" aria-hidden="true">${ICO.lucchetto}</span><span>Tessera, certificato, scarpe, preparazione e posizione restano sul tuo telefono.</span></div>`)}`;
+`)}
+      ${sez("Livelli e badge", `${voceOk(`I punti Impegno di tutte le stagioni fanno i <b>punti di carriera</b>: ${L.LIVELLI.map(([n, p]) => `${n} ${p.toLocaleString("it-IT")}`).join(", ")}. Il livello non scende mai.`)}${voceOk("13 <b>badge</b> per le prime volte, la costanza, la Borsa, gli obiettivi centrati, i nuovi soci e i record: li trovi in La mia carriera.")}`)}
+      ${sez("Cosa vedono i compagni", `${voceOk("Gara, data, distanza, tempo, categoria e società della classifica ufficiale.")}${voceOk("Il tuo tempo obiettivo e la Borsa pronta, ma solo dopo il via. Dell'età solo la percentuale, mai l'anno di nascita.")}${voceOk("L'<b>amministratore</b> vede tutte le tue gare online, anche quelle in approvazione o non approvate, per controllarle e sistemarle.")}<div class="voce-ok"><span class="spunta muto" aria-hidden="true">${ICO.lucchetto}</span><span>Tessera, certificato, scarpe, preparazione e posizione restano sul tuo telefono.</span></div>`)}`;
   }
 
   // In Gestione: interruttore del gruppo, coda del referente, ultimi tempi certificati (l'amministratore li può annullare)
@@ -1635,13 +1880,15 @@
         <span class="small muted">La stagione va dal 1 gennaio al 31 dicembre. Chi partecipa recupera le gare già corse: in Oggi gli compare un percorso guidato.</span></section>`;
     if (!cl.attive) return interr;
     if (CODA === null) setTimeout(caricaCoda, 0);
+    const nSoc = gareSoc().filter((s) => s.data.slice(0, 4) === oggi().slice(0, 4)).length;
+    const soc = `<a class="card link-card ${nSoc ? "" : "evid"}" href="#/gruppo/societa?da=admin"><div class="between"><span class="title">Gare della società</span><span class="pill">${nSoc}</span></div><span class="small">${nSoc ? "Le gare scelte dal direttivo: solo queste fanno punti nella classifica Impegno." : "Scegli le gare della stagione: solo queste fanno punti nella classifica Impegno."}</span><span class="small" style="color:var(--accent);font-weight:700">${nSoc ? "Gestisci" : "Scegli le gare"} ›</span></a>`;
     const altri = d.membri.filter((m) => m.id !== io.id && (m.ruolo === "admin" || m.ruolo === "organizzatore")).map((m) => m.nome.split(/\s+/)[0]);
     const coda = (CODA || []).map((x) => `<div class="coda-voce"><div class="between"><b>${esc(x.membro)}</b><span class="small muted">${x.fonte === "manuale" ? "mandato a mano" : "nome diverso in classifica"}</span></div>
       <span class="small">${esc(x.gara_nome ? titoloGara(x.gara_nome) : L.DIST_LABEL[x.distanza])} · ${esc(L.DIST_LABEL[x.distanza])} · ${esc(L.fmtBreve(x.data))} ${esc(String(x.data).slice(0, 4))}</span>
       <div class="row" style="gap:10px;align-items:baseline"><b style="font:700 28px var(--display)">${esc(fmtSec(x.secondi))}</b>${x.link && /^https?:\/\//.test(x.link) ? `<a class="small" href="${esc(x.link)}" rel="noopener" target="_blank">Apri la classifica</a>` : ""}</div>
       ${x.nota ? `<span class="small muted">Nota: «${esc(x.nota)}»</span>` : ""}
       <div class="grid2"><button class="btn" data-act="cl-decidi" data-id="${esc(x.id)}" data-ok="1">Approva</button><button class="btn ghost" data-act="cl-decidi" data-id="${esc(x.id)}" data-ok="0">Rifiuta</button></div></div>`).join("");
-    return `${interr}<section class="card ${CODA && CODA.length ? "evid" : ""}"><div class="between"><span class="title">Da approvare</span>${CODA && CODA.length ? `<span class="pill">${CODA.length}</span>` : ""}</div>
+    return `${interr}${soc}<section class="card ${CODA && CODA.length ? "evid" : ""}"><div class="between"><span class="title">Da approvare</span>${CODA && CODA.length ? `<span class="pill">${CODA.length}</span>` : ""}</div>
       ${CODA === null ? `<span class="small muted">Carico…</span>` : CODA.length ? `<span class="small muted">Tempi non trovati nelle classifiche ufficiali. Li vedete tu${altri.length ? ` e ${esc(altri.join(", "))}` : ""}.</span>${coda}` : `<span class="small">Niente in attesa. Qui arrivano i tempi non trovati nelle classifiche ufficiali.</span>`}</section>
       ${admin ? `<a class="card link-card" href="#/gruppo/gare"><span class="title">Le gare di tutti</span><span class="small">Ogni gara dei membri: quali contano, quali aspettano, quali non sono approvate. Da qui annulli un tempo sbagliato.</span><span class="small" style="color:var(--accent);font-weight:700">Apri ›</span></a>` : ""}`;
   }
@@ -1710,6 +1957,7 @@
   function cardRisultatoCl(g, r) {
     if (!partecipo() || !DISTANZE.includes(g.distanza)) return "";
     const m = (CL().miei || []).find((x) => x.data === g.data && x.distanza === g.distanza);
+    if (m && m.stato === "certificato" && m.esito === "arrivato") return schedaPostGara(g, m);
     if (m && m.stato === "certificato") return `<section class="card" style="gap:4px"><span class="title">Classifiche del gruppo</span><span class="small"><b style="color:var(--ok)">✓ Certificato</b> · ${esc(fmtSec(m.secondi))} ${m.fonte === "manuale" ? "approvato dal referente" : `dalla classifica di ${esc(FONTE_TEMPI[m.fonte] || m.fonte)}`}</span></section>`;
     if (m && m.stato === "in_approvazione") return `<section class="card" style="gap:4px"><span class="title">Classifiche del gruppo</span><span class="small"><span class="pill">In approvazione</span> ${esc(fmtSec(m.secondi))}: lo vede il referente del gruppo.</span></section>`;
     const rifiutato = m && m.stato === "rifiutato" ? `<span class="small" style="color:var(--warn)">Il referente non ha approvato il tempo che hai mandato.</span>` : "";
@@ -2569,7 +2817,7 @@
       ${acc("notifiche", "Notifiche", on ? '<span class="pill ok">attive</span>' : sp === "ok" ? "da attivare" : sp === "non-pronto" ? "in arrivo" : "non disponibili", cardPush(false, true))}
       ${acc("gruppo", "Gruppo", inG ? `${esc(GD().gruppo.nome)} · ${esc(RUOLI_G[GD().io.ruolo].toLowerCase())}` : "non sei in un gruppo", inG ? `<span class="small">Sei in <b>${esc(GD().gruppo.nome)}</b> come «${esc(GD().io.nome)}».</span>${S.profilo.nome && S.profilo.nome.trim() !== GD().io.nome ? `<button class="btn ghost small" data-act="g-usa-nome" style="align-self:flex-start">Fatti vedere come «${esc(S.profilo.nome.trim())}»</button>` : ""}
         <label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="io-mostra" ${GD().io.mostra_gare ? "checked" : ""}><span><span class="t">Mostra al gruppo le mie gare</span><br><span class="d">Nome della gara, ruolo e tempo obiettivo.</span></span></label>
-        ${clAttive() ? `<label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="cl-partecipo" ${partecipo() ? "checked" : ""}><span><span class="t">Partecipo alle classifiche</span><br><span class="d">${partecipo() ? "Spegnendo, i tuoi risultati online si cancellano; sul telefono restano." : "Gare corse, PB della stagione e Albo d'oro del gruppo."}</span></span></label>${partecipo() ? `<a class="btn ghost" href="#/gruppo/mie?da=io">Le mie gare in classifica</a>` : ""}<a class="link-regole" href="#/gruppo/regole?da=io">Come funzionano le classifiche ›</a>` : ""}
+        ${clAttive() ? `<label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="cl-partecipo" ${partecipo() ? "checked" : ""}><span><span class="t">Partecipo alle classifiche</span><br><span class="d">${partecipo() ? "Spegnendo, i tuoi risultati online si cancellano; sul telefono restano." : "Gare corse, PB della stagione e Albo d'oro del gruppo."}</span></span></label>${partecipo() ? `<a class="btn ghost" href="#/gruppo/carriera">La mia carriera</a><a class="btn ghost" href="#/gruppo/mie?da=io">Le mie gare in classifica</a>` : ""}<a class="link-regole" href="#/gruppo/regole?da=io">Come funzionano le classifiche ›</a>` : ""}
         <a class="btn ghost" href="#/gruppo/admin">${GD().io.ruolo === "membro" ? "Membri del gruppo" : "Gestisci il gruppo"}</a><button class="btn ghost" type="button" data-act="g-esci">Esci dal gruppo</button>` : `<span class="small">Entra nel gruppo della tua società con il link d'invito, oppure crealo se sei il presidente.</span><a class="btn ghost" href="#/gruppo">Vai al gruppo</a>`)}
       ${acc("personali", "I miei personali", esc(riassuntoPB()) || "da inserire", sezionePB())}
       ${C().strava ? acc("strava", "Strava", STRAVA_STATO && STRAVA_STATO.collegato ? '<span class="pill ok">collegato</span>' : "in prova", sezioneStrava()) : ""}
@@ -2691,7 +2939,7 @@
       case "checklist": html = vistaBorsa(parts[1]); break;
       case "gruppo":
         html = parts[1] === "gara" ? vistaGaraGruppo(parts[2]) : parts[1] === "classifica" ? vistaClassifica(param) : parts[1] === "admin" ? vistaAdmin()
-          : parts[1] === "partecipa" ? vistaEntra("classifiche") : parts[1] === "regole" ? vistaRegole(param) : parts[1] === "recupero" ? vistaRecupero(param) : parts[1] === "classifiche" ? vistaClassifiche(param) : parts[1] === "mie" ? vistaMieGare(param) : parts[1] === "gare" ? vistaGareMembri(param) : vistaGruppo();
+          : parts[1] === "partecipa" ? vistaEntra("classifiche") : parts[1] === "regole" ? vistaRegole(param) : parts[1] === "recupero" ? vistaRecupero(param) : parts[1] === "classifiche" ? vistaClassifiche(param) : parts[1] === "mie" ? vistaMieGare(param) : parts[1] === "societa" ? vistaSocieta(param) : parts[1] === "carriera" ? vistaCarriera() : parts[1] === "gare" ? vistaGareMembri(param) : vistaGruppo();
         break;
       case "invito": html = vistaInvito(parts[1], param); break;
       case "entra": html = vistaEntra(parts[1]); break;
@@ -2813,6 +3061,26 @@
       certificaRisultati({ nome, cognome, anno: null, persone: TEMPI.scelti || [], risultati: ids })
         .then(async (j) => { toast(j.in_approvazione && j.certificati ? `${j.certificati} certificate, ${j.in_approvazione} al referente` : esitoCertifica(j)); await aggiornaClassifiche(); location.hash = /[?&]da=mie/.test(location.hash) ? "#/gruppo/mie" : "#/gruppo"; })
         .catch((e) => { toast(e.message); rerender(); });
+      return;
+    }
+    if (act === "gs-add") {
+      t.disabled = true;
+      rpc("gare_societa_aggiungi", { p_token: token(), p: { data: t.dataset.data, distanza: t.dataset.dist, nome: t.dataset.nome, luogo: t.dataset.luogo, gara_id: t.dataset.gid } })
+        .then(async () => { toast("Aggiunta alle gare della società"); await aggiornaClassifiche(); const c = document.getElementById("gs-cerca"); location.hash = `#/gruppo/societa${c && c.value.trim() ? `?q=${encodeURIComponent(c.value.trim())}` : ""}`; rerender(); })
+        .catch((e) => { t.disabled = false; toast(e.message || "Non riuscito"); });
+      return;
+    }
+    if (act === "gs-togli") {
+      confirmBox(t, `Togli ${t.dataset.nome} dalle gare della società? I punti si ricalcolano.`, () => azioneGruppo(async () => { await rpc("gare_societa_togli", { p_token: token(), p_id: t.dataset.id }); await aggiornaClassifiche(); }, "Gara tolta"));
+      return;
+    }
+    if (act === "mio-invito") {
+      t.disabled = true;
+      (S.gruppo.mioInvito ? Promise.resolve(S.gruppo.mioInvito) : rpc("mio_invito", { p_token: token() })).then((c) => {
+        S.gruppo.mioInvito = c; salva(); t.disabled = false;
+        const link = linkInvito(c), testo = `Ciao! Corri con noi in ${GD().gruppo.nome}: su RaceBuddy ci sono le nostre gare e le classifiche della società. Ci vogliono 3 minuti: tieni a portata la tessera FIDAL (anche il PDF). Apri il link dal telefono:`;
+        if (navigator.share) navigator.share({ title: "RaceBuddy", text: testo, url: link }).catch(() => {}); else copia(`${testo} ${link}`, "Messaggio");
+      }).catch((e) => { t.disabled = false; toast(e.message || "Non riuscito"); });
       return;
     }
     if (act === "cl-togli") {
@@ -3216,6 +3484,13 @@
         if (box && (m || v)) { box.innerHTML = listaGM(v, p, decodeURIComponent(m)); history.replaceState(null, "", url); }
         else { history.replaceState(null, "", url); rerender(); const f = document.getElementById("gm-cerca"); if (f) { f.focus(); f.setSelectionRange(f.value.length, f.value.length); } }
       }, 150);
+    } else if (e.target.id === "gs-cerca") {
+      clearTimeout(timerMie);
+      timerMie = setTimeout(() => {
+        const box = document.getElementById("gs-risultati"); if (!box) return;
+        box.innerHTML = listaCandidatiSoc(e.target.value);
+        history.replaceState(null, "", `#/gruppo/societa${e.target.value.trim() ? `?q=${encodeURIComponent(e.target.value.trim())}` : ""}`);
+      }, 150);
     } else if (e.target.id === "ma-nome") {
       // nome di una gara dell'app: data e distanza si compilano da sole
       const g = (S.gare || []).find((x) => x.nome === e.target.value && DISTANZE.includes(x.distanza) && x.data <= oggi());
@@ -3307,6 +3582,19 @@
       const cambiato = (S.tempi || {}).nome !== nome || (S.tempi || {}).cognome !== cognome;
       S.tempi = { nome, cognome, scelti: cambiato ? [] : (S.tempi || {}).scelti || [] }; salva();
       cercaTempi(nome, cognome, f.dataset.anno ? Number(f.dataset.anno) : null);
+    } else if (f.id === "gs-mano") {
+      const nome = v("gm-nome").trim(), data = v("gm-data"), dist = v("gm-dist");
+      if (!nome || !/^\d{4}-\d{2}-\d{2}$/.test(data)) { toast("Scrivi nome e data della gara"); return; }
+      const btn = f.querySelector("button[type=submit]"); if (btn) btn.disabled = true;
+      rpc("gare_societa_aggiungi", { p_token: token(), p: { data, distanza: dist, nome } })
+        .then(async () => { toast("Aggiunta alle gare della società"); await aggiornaClassifiche(); rerender(); })
+        .catch((e) => { if (btn) btn.disabled = false; toast(e.message || "Non riuscito"); });
+    } else if (f.id === "eta-form") {
+      const a = v("eta-anno").trim(), sx = v("eta-sesso");
+      const btn = f.querySelector("button[type=submit]"); if (btn) btn.disabled = true;
+      rpc("dati_eta", { p_token: token(), p_anno: a ? Number(a) : null, p_sesso: sx || null })
+        .then(async () => { toast("Salvato: le percentuali si ricalcolano"); await aggiornaClassifiche(); rerender(); })
+        .catch((e) => { if (btn) btn.disabled = false; toast(e.message || "Non riuscito"); });
     } else if (f.id === "mie-aggiungi") {
       const nome = v("ma-nome").trim().replace(/\s+/g, " "), data = v("ma-data"), dist = v("ma-dist"), link = v("ma-link").trim();
       if (!nome) { toast("Scrivi il nome della gara"); return; }
