@@ -3022,7 +3022,8 @@
       <details class="card"><summary>Strumenti di prova</summary>
         <form id="prova" style="display:flex;flex-direction:column;gap:10px"><div class="field"><label for="d-prova">Fai finta che oggi sia</label><input class="input" id="d-prova" type="date" value="${esc(S.prova)}"></div>
         <div class="grid2"><button class="btn" type="submit">Applica</button><button class="btn ghost" type="button" data-act="prova-off">Torna a oggi</button></div></form>
-        <div class="row" style="gap:18px"><a class="small" href="#/statistiche">Statistiche ›</a><a class="small" href="#/super">Superamministratore ›</a><a class="small" href="#/salute">Stato dell'app ›</a></div>
+        <div class="strumenti">${[["#/salute", "Stato dell'app", "Job, dati e servizi, e gli avvisi se qualcosa è KO"], ["#/statistiche", "Statistiche", "Attivi al giorno, notifiche inviate, gare più seguite"], ["#/super", "Superamministratore", "Entra in qualunque gruppo come amministratore"]]
+          .map(([h, t, d]) => `<a class="link-card riga-percorso" href="${h}"><span><b>${t}</b><br><span class="small muted">${d}</span></span><span aria-hidden="true">›</span></a>`).join("")}</div>
         <div id="reset-box" style="display:flex;flex-direction:column;gap:8px"><button class="btn ghost" type="button" data-act="reset-ask">Cancella tutti i miei dati</button></div></details>
       <section class="card" aria-label="Rivedi i percorsi guidati" style="gap:0"><span class="eyebrow" style="margin-bottom:4px">Rivedi i percorsi guidati</span>
         <a class="link-card riga-percorso" href="#/benvenuto"><span><b>Benvenuto</b><br><span class="small muted">Le 5 schermate del primo avvio</span></span><span aria-hidden="true">›</span></a>
