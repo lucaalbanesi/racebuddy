@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-10-21",
+ "aggiornato": "2026-10-22",
  "contenuti": [
   {
    "id": "f24d090f8e26",
@@ -101,6 +101,27 @@
    "argomenti": [
     "scarpe",
     "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "bf2a6257396d",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Polpacci contratti durante la corsa: 3 esercizi, anche da 1 minuto, per prevenirli",
+   "estratto": "Scarpe e stretching non risolvevano il problema. Una fisioterapista spiega perché rinforzare polpacci e tendini può aiutare a evitare rigidità e fastidi durante la corsa",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a74191884/polpacci-contratti-corsa-esercizi/",
+   "data": "2026-10-21",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/d2a5bcb1-ca51-4273-8378-09a8a23a6f4c.jpg",
+   "argomenti": [
+    "scarpe",
+    "forza"
    ],
    "distanze": [],
    "fasi": [
