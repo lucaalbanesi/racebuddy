@@ -96,11 +96,12 @@ async function main() {
     } catch (e) { falliti++; console.error("Errore", String(e.message || e).slice(0, 200)); }
   }
   if (scaduti) perTipo.scadute = scaduti;
+  if (falliti && !PROVA) perTipo.falliti = falliti; // letti dal controllo salute (scripts/salute.js)
   if (Object.keys(perTipo).length) {
     const c = await sb("rpc/conta_invii", { method: "POST", body: JSON.stringify({ p: perTipo }) }).catch(() => null);
     if (!c || !c.ok) console.log("Statistiche degli invii non salvate (funzione conta_invii non ancora sul database?)");
   }
-  const tipi = Object.entries(perTipo).filter(([k]) => k !== "scadute").map(([k, n]) => `${k} ${n}`).join(", ");
+  const tipi = Object.entries(perTipo).filter(([k]) => k !== "scadute" && k !== "falliti").map(([k, n]) => `${k} ${n}`).join(", ");
   const riepilogo = `${OGGI} ore ${ORA}${PROVA ? " (prova)" : ""}: iscritti ${iscritti.length}, valutati ${valutati}, inviati ${inviati}${tipi ? ` (${tipi})` : ""}, falliti ${falliti}, iscrizioni scadute rimosse ${scaduti}`;
   console.log(riepilogo);
   // Evidenza degli invii: annotazione del giro (leggibile dall'API di GitHub) e riepilogo nella pagina del giro. Solo totali.

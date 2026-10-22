@@ -1,0 +1,37 @@
+name: Controllo salute
+# Ogni ora dalle 6 alle 23 circa (ora di Roma). Parte dal cron di GitHub e non dall'innesco di Supabase, così si accorge
+# anche se l'innesco si ferma. Esito in Supabase (pagina #/salute dell'app) e push al superamministratore solo se è KO.
+on:
+  schedule:
+    - cron: "41 4-21 * * *"
+  workflow_dispatch:
+    inputs:
+      tutto:
+        description: "Prova anche la ricerca tempi (FIDAL e GPL)"
+        type: boolean
+        default: false
+permissions:
+  actions: read
+  contents: read
+concurrency:
+  group: controllo-salute
+  cancel-in-progress: false
+jobs:
+  controlla:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Test delle regole
+        run: node tests/test_salute.js
+      - run: npm install --no-save web-push@3.6.7
+      - name: Controlla
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+          TUTTO: ${{ inputs.tutto && '1' || '0' }}
+        run: node scripts/salute.js

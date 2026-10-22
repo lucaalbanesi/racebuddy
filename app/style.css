@@ -643,3 +643,16 @@ body.chat-on .app { padding-bottom: 150px; }
 .cl-det > summary::-webkit-details-marker { display: none; }
 .cl-det-lista { display: flex; flex-direction: column; padding: 2px 0 10px 64px; }
 .cl-det-riga { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-top: 1px solid var(--line2); }
+
+/* Stato dell'app (#/salute) */
+.sal-riga { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-top: 1px solid var(--line2); }
+.sal-riga:first-of-type { border-top: 0; }
+.sal-dot { flex: none; width: 12px; height: 12px; border-radius: 50%; margin-top: 5px; }
+.sal-ok { background: var(--ok); }
+.sal-attenzione { background: var(--warn-bar); }
+.sal-ko { background: #DC2626; }
+.sal-testo-ko { color: #B91C1C; font-weight: 600; }
+.sal-storia { display: flex; gap: 3px; padding-top: 6px; }
+.sal-cella { flex: 1; height: 18px; border-radius: 3px; max-width: 14px; }
+.card.dark.sal-testa-ko { background: #7F1D1D; }
+@media (prefers-color-scheme: dark) { .sal-testo-ko { color: #F87171; } }

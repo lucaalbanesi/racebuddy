@@ -63,6 +63,13 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f tests/test_statistiche.sql > esito3.txt 2>&1 || true
           cat esito3.txt
           if ! grep -q "permessi statistiche ok" esito3.txt; then echo "::error::statistiche: $(grep -iE 'error|errore|assert|context|line' esito3.txt | head -6 | tr '\n' ' ')"; exit 1; fi
+      - name: Controllo salute
+        run: |
+          psql -v ON_ERROR_STOP=1 -f docs/supabase_salute.sql
+          psql -v ON_ERROR_STOP=1 -f docs/supabase_salute.sql   # ripetibile
+          psql -v ON_ERROR_STOP=1 -f tests/test_salute.sql > esito10.txt 2>&1 || true
+          cat esito10.txt
+          if ! grep -q "permessi salute ok" esito10.txt; then echo "::error::salute: $(grep -iE 'error|errore|assert|context|line' esito10.txt | head -6 | tr '\n' ' ')"; exit 1; fi
       - name: Buddy
         run: |
           psql -v ON_ERROR_STOP=1 -f tests/test_buddy.sql > esito6.txt 2>&1 || true

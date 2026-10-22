@@ -2353,6 +2353,49 @@
         ${g.qui && g.ruolo === "admin" ? `<span class="pill ok">Sei qui · admin</span>` : g.qui ? `<button class="btn small" data-act="super-vai" data-qui="1" data-id="${esc(g.id)}" data-nome="${esc(g.nome)}">Torna admin</button>` : `<button class="btn ghost small" data-act="super-vai" data-id="${esc(g.id)}" data-nome="${esc(g.nome)}">Entra</button>`}</div>`).join("") : `<span class="small">Nessun gruppo.</span>`}</section>`;
   }
 
+  // ---------------------------------------------------------------- stato dell'app (superamministratore)
+  // Esito del controllo orario (workflow "Controllo salute", scripts/salute.js): job, dati e servizi, e gli avvisi push
+  // su questo telefono quando qualcosa è KO. docs/supabase_salute.sql
+  let SALUTE = null;
+  async function caricaSalute() {
+    SALUTE = { carico: true };
+    try { const ep = await endpointPush(); SALUTE = { ...(await rpc("stato_salute", { p_token: token(), p_endpoint: ep })), endpoint: ep }; }
+    catch (e) { SALUTE = { errore: /superamministratore/.test(e.message || "") ? "Questa pagina è solo per il telefono del superamministratore." : "Non riesco a leggere lo stato adesso: riprova tra poco." }; }
+    if (/^#\/salute/.test(location.hash)) rerender();
+  }
+  function vistaSalute() {
+    if (!SALUTE) setTimeout(caricaSalute, 0);
+    const testa = `<header class="head-back">${back("#/io")}<div><span class="eyebrow">Strumenti di prova</span><h1 style="font-size:28px">Stato dell'app</h1></div></header>`;
+    if (!SALUTE || SALUTE.carico) return `${testa}<p class="sub">Leggo l'ultimo controllo…</p>`;
+    if (SALUTE.errore) return `${testa}<section class="card"><span class="small">${esc(SALUTE.errore)}</span></section>`;
+    const l = SALUTE.controlli || [], u = l[0];
+    if (!u) return `${testa}<section class="card"><span class="small">Ancora nessun controllo: il primo arriva entro un'ora (workflow «Controllo salute»).</span></section>`;
+    const c = (u.dati || {}).controlli || [], nKo = c.filter((x) => x.stato === "ko").length, nAtt = c.filter((x) => x.stato === "attenzione").length;
+    const fa = (Date.now() - new Date(u.creato)) / 36e5, ora = new Date(u.creato).toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Rome" });
+    const h = Number(new Date().toLocaleString("en-GB", { hour: "2-digit", hourCycle: "h23", timeZone: "Europe/Rome" }));
+    const fermo = fa > (h >= 7 && h <= 23 ? 2.5 : 9); // il controllo stesso non gira
+    const titolo = fermo ? "Il controllo non gira" : nKo ? `${nKo} ${nKo === 1 ? "problema" : "problemi"}` : nAtt ? "Tutto ok, con una nota" : "Tutto ok";
+    const pallino = (st) => `<span class="sal-dot sal-${st}" aria-hidden="true"></span>`;
+    const ETI = { ok: "ok", attenzione: "attenzione", ko: "KO" };
+    const riga = (x) => `<div class="sal-riga">${pallino(x.stato)}<span style="flex:1;min-width:0"><b>${esc(x.nome)}</b><span class="sr"> · ${ETI[x.stato]}</span><br><span class="small ${x.stato === "ko" ? "sal-testo-ko" : "muted"}">${esc(x.dettaglio || "")}</span></span>${x.link ? `<a class="small" href="${esc(x.link)}" target="_blank" rel="noopener">Apri</a>` : ""}</div>`;
+    const gruppo = (k, t) => { const g = c.filter((x) => x.gruppo === k); return g.length ? `<section class="card" style="gap:0"><h2 style="margin-bottom:4px">${t}</h2>${g.map(riga).join("")}</section>` : ""; };
+    const storia = l.slice(0, 24).reverse().map((x) => { const st = !x.ok ? "ko" : ((x.dati || {}).controlli || []).some((y) => y.stato === "attenzione") ? "attenzione" : "ok";
+      return `<span class="sal-cella sal-${st}" title="${esc(new Date(x.creato).toLocaleString("it-IT", { timeZone: "Europe/Rome", day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }))}"></span>`; }).join("");
+    const on = S.push && S.push.attivo;
+    const avvisi = !on ? `<span class="small muted">Per ricevere gli avvisi attiva prima le notifiche su questo telefono (Io → Notifiche).</span>`
+      : SALUTE.avvisi ? `<span class="small">Ti scrivo su questo telefono solo quando qualcosa è KO: la prima volta, quando si aggiunge un problema e poi al massimo una volta al giorno.</span><button class="btn ghost" type="button" data-act="salute-avvisi" data-on="0">Spegni gli avvisi</button>`
+      : `<span class="small">Una push solo quando qualcosa è KO: niente se va tutto bene.</span><button class="btn" type="button" data-act="salute-avvisi" data-on="1">Ricevi gli avvisi qui</button>`;
+    return `${testa}
+      <section class="card dark sal-testa sal-testa-${fermo || nKo ? "ko" : nAtt ? "attenzione" : "ok"}" style="gap:6px"><span class="eyebrow">Ultimo controllo ${esc(ora)}${fa >= 1 ? ` · ${Math.round(fa)} ${Math.round(fa) === 1 ? "ora" : "ore"} fa` : ""}</span>
+        <span style="font:700 34px/1 var(--display)">${esc(titolo)}</span>
+        <span class="small" style="color:var(--navy-muted)">${fermo ? "Il controllo orario non è partito: guarda il workflow «Controllo salute» su GitHub." : `${c.length} controlli: job programmati, dati e servizi.`}</span>
+        <div class="sal-storia" aria-label="Ultimi 24 controlli">${storia}</div><span class="small" style="color:var(--navy-muted)">Ultimi controlli, dal più vecchio</span></section>
+      ${gruppo("job", "Job programmati")}${gruppo("servizi", "Servizi")}${gruppo("dati", "Dati")}
+      <section class="card" style="gap:10px"><div class="between"><h2>Avvisi push</h2>${SALUTE.avvisi ? `<span class="pill ok">attivi</span>` : ""}</div>${avvisi}</section>
+      <button class="btn ghost block" type="button" data-act="salute-ricarica">Aggiorna</button>
+      <p class="sub">Il controllo gira ogni ora dalle 6 alle 23 su GitHub, indipendente dall'innesco dei job. La ricerca tempi su FIDAL e GPL si prova una volta al giorno.</p>`;
+  }
+
   function gareInComune() {
     const d = GD(), mie = new Set(S.gare.map((g) => g.id)), per = {};
     // i km delle gare di altra distanza non vanno online: si riprendono dal calendario (stesso id)
@@ -2979,7 +3022,7 @@
       <details class="card"><summary>Strumenti di prova</summary>
         <form id="prova" style="display:flex;flex-direction:column;gap:10px"><div class="field"><label for="d-prova">Fai finta che oggi sia</label><input class="input" id="d-prova" type="date" value="${esc(S.prova)}"></div>
         <div class="grid2"><button class="btn" type="submit">Applica</button><button class="btn ghost" type="button" data-act="prova-off">Torna a oggi</button></div></form>
-        <div class="row" style="gap:18px"><a class="small" href="#/statistiche">Statistiche ›</a><a class="small" href="#/super">Superamministratore ›</a></div>
+        <div class="row" style="gap:18px"><a class="small" href="#/statistiche">Statistiche ›</a><a class="small" href="#/super">Superamministratore ›</a><a class="small" href="#/salute">Stato dell'app ›</a></div>
         <div id="reset-box" style="display:flex;flex-direction:column;gap:8px"><button class="btn ghost" type="button" data-act="reset-ask">Cancella tutti i miei dati</button></div></details>
       <section class="card" aria-label="Rivedi i percorsi guidati" style="gap:0"><span class="eyebrow" style="margin-bottom:4px">Rivedi i percorsi guidati</span>
         <a class="link-card riga-percorso" href="#/benvenuto"><span><b>Benvenuto</b><br><span class="small muted">Le 5 schermate del primo avvio</span></span><span aria-hidden="true">›</span></a>
@@ -3099,6 +3142,7 @@
       case "condividi": html = vistaCondividi(parts[1]); break;
       case "statistiche": html = vistaStatistiche(); break;
       case "super": html = vistaSuper(); break;
+      case "salute": html = vistaSalute(); break;
       case "buddy": html = C().buddy ? vistaBuddy() : vistaOggi(); break;
       case "risultato": html = vistaRisultato(parts[1], param); break;
       case "io": if (param.strava) { ritornoStrava(param.strava); history.replaceState(null, "", "#/io"); }
@@ -3253,6 +3297,14 @@
     }
     if (act === "cl-annulla") {
       confirmBox(t, `Annulli il tempo di ${t.dataset.nome}? Esce dalle classifiche.`, () => azioneGruppo(async () => { await rpc("annulla_risultato", { p_token: token(), p_id: t.dataset.id }); if (GM) await caricaGareMembri(); await aggiornaClassifiche(); }, "Tempo annullato"));
+      return;
+    }
+    if (act === "salute-ricarica") { SALUTE = null; rerender(); return; }
+    if (act === "salute-avvisi") {
+      t.disabled = true;
+      endpointPush().then((ep) => { if (!ep) throw new Error("Attiva prima le notifiche su questo telefono"); return rpc("salute_avvisi_imposta", { p_token: token(), p_endpoint: ep, p_on: t.dataset.on === "1" }); })
+        .then(() => { toast(t.dataset.on === "1" ? "Avvisi attivi su questo telefono" : "Avvisi spenti"); SALUTE = null; rerender(); })
+        .catch((e) => { t.disabled = false; toast(e.message || "Non riuscito"); });
       return;
     }
     if (act === "gm-ricarica") {
