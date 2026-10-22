@@ -558,28 +558,33 @@
   }
 
   /** Funnel "Entra nel gruppo" (dal link d'invito, o per chi è già nel gruppo quando si accendono le classifiche).
-   *  Sei passi in ordine; quelli già fatti si saltano. Obbligatori: tessera e certificato (salvo non tesserati), quando e dove
-   *  corri. Le classifiche ci sono solo se il gruppo le ha accese, i tempi solo se la ricerca nelle classifiche è attiva.
-   *  x = { classifiche, partecipa, documenti, nonTesserato, tempi, tempiFatti, ora, zona, garaFutura, notifiche, saltati } */
+   *  Prima quello che si riceve, poi quello che si dà: classifiche, i tuoi tempi (gare fatte), la prossima gara (gare da
+   *  correre), le notifiche come scelta dei temi (gara, scadenze, meteo), poi solo i dati che servono ai temi scelti:
+   *  scadenze → tessera e certificato, meteo → quando e dove corri. Chi non li vuole li salta e li ritrova in Oggi
+   *  (scheda Prepara). Le classifiche ci sono solo se il gruppo le ha accese, i tempi solo se la ricerca è attiva.
+   *  x = { classifiche, partecipa, documenti, nonTesserato, tempi, tempiFatti, ora, zona, garaFutura, notifiche, temi, saltati }
+   *  temi = { gara, documenti, meteo } dopo la scelta (undefined = non ancora scelto: i passi dei dati restano in lista). */
   const PASSI_ENTRA = [
     { k: "classifiche", titolo: "Le classifiche della stagione", obbligatorio: false },
-    { k: "documenti", titolo: "Tessera e certificato", obbligatorio: true },
     { k: "tempi", titolo: "I tuoi tempi dalle classifiche", obbligatorio: false },
-    { k: "uscita", titolo: "Quando e dove corri", obbligatorio: true },
     { k: "gara", titolo: "La tua prossima gara", obbligatorio: false },
-    { k: "notifiche", titolo: "Le notifiche", obbligatorio: false },
+    { k: "notifiche", titolo: "Cosa vuoi ricevere", obbligatorio: false },
+    { k: "documenti", titolo: "Tessera e certificato", obbligatorio: true },
+    { k: "uscita", titolo: "Quando e dove corri", obbligatorio: true },
   ];
   function passiEntra(x = {}) {
-    const sal = x.saltati || {};
+    const sal = x.saltati || {}, temi = x.temi || null;
     const fatto = {
       classifiche: !!x.partecipa || !!sal.classifiche,
-      documenti: !!x.documenti || !!x.nonTesserato || !!sal.documenti,
       tempi: !!x.tempiFatti || !!sal.tempi,
-      uscita: !!x.ora && !!x.zona,
       gara: !!x.garaFutura || !!sal.gara,
-      notifiche: !!x.notifiche || !!sal.notifiche,
+      notifiche: !!temi || !!x.notifiche || !!sal.notifiche,
+      documenti: !!x.documenti || !!x.nonTesserato || !!sal.documenti,
+      uscita: (!!x.ora && !!x.zona) || !!sal.uscita,
     };
-    const passi = PASSI_ENTRA.filter((p) => (p.k !== "classifiche" || x.classifiche) && (p.k !== "tempi" || x.tempi))
+    // i dati si chiedono solo per i temi scelti (se mancano)
+    const serve = { documenti: !temi || !!temi.documenti || fatto.documenti, uscita: !temi || !!temi.meteo || fatto.uscita };
+    const passi = PASSI_ENTRA.filter((p) => (p.k !== "classifiche" || x.classifiche) && (p.k !== "tempi" || x.tempi) && serve[p.k] !== false)
       .map((p) => ({ ...p, obbligatorio: p.obbligatorio && !(p.k === "documenti" && x.nonTesserato), fatto: fatto[p.k] }));
     const fatti = passi.filter((p) => p.fatto).length;
     return { passi, fatti, totale: passi.length, completo: passi.every((p) => p.fatto), obbligatoriFatti: passi.every((p) => !p.obbligatorio || p.fatto) };

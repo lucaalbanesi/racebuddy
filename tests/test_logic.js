@@ -488,33 +488,51 @@ assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10",
   assert.strictEqual(L.recuperoAperto({ partecipa: false, recupero_fino: "2099-01-01" }), false);
 }
 
-// funnel "Entra nel gruppo"
+// funnel "Entra nel gruppo": prima quello che si riceve (tempi, gare), poi i temi delle notifiche, poi i dati che servono
 {
   const nuovo = L.passiEntra({ classifiche: true, tempi: true });
-  assert.deepStrictEqual(nuovo.passi.map((p) => p.k), ["classifiche", "documenti", "tempi", "uscita", "gara", "notifiche"]);
+  assert.deepStrictEqual(nuovo.passi.map((p) => p.k), ["classifiche", "tempi", "gara", "notifiche", "documenti", "uscita"]);
   assert.strictEqual(nuovo.totale, 6); assert.strictEqual(nuovo.fatti, 0);
   assert.strictEqual(L.prossimoEntra(nuovo), "classifiche");
-  assert.strictEqual(L.prossimoEntra(nuovo, "classifiche"), "documenti");
+  assert.strictEqual(L.prossimoEntra(nuovo, "classifiche"), "tempi");
+  assert.strictEqual(L.prossimoEntra(nuovo, "tempi"), "gara");
+  assert.strictEqual(L.prossimoEntra(nuovo, "gara"), "notifiche");
   // senza classifiche accese e senza ricerca dei tempi: quattro passi
-  assert.deepStrictEqual(L.passiEntra({}).passi.map((p) => p.k), ["documenti", "uscita", "gara", "notifiche"]);
+  assert.deepStrictEqual(L.passiEntra({}).passi.map((p) => p.k), ["gara", "notifiche", "documenti", "uscita"]);
+  // tutti i temi: si chiedono tessera e poi quando e dove corri
+  const tutti = L.passiEntra({ saltati: { gara: true }, temi: { gara: true, documenti: true, meteo: true } });
+  assert.deepStrictEqual(tutti.passi.map((p) => p.k), ["gara", "notifiche", "documenti", "uscita"]);
+  assert.strictEqual(L.prossimoEntra(tutti, "notifiche"), "documenti");
+  // solo la gara: niente tessera né uscita, si arriva in fondo
+  const soloGara = L.passiEntra({ garaFutura: true, temi: { gara: true, documenti: false, meteo: false } });
+  assert.deepStrictEqual(soloGara.passi.map((p) => p.k), ["gara", "notifiche"]);
+  assert.ok(soloGara.completo); assert.strictEqual(L.prossimoEntra(soloGara, "notifiche"), null);
+  // solo il meteo: si salta la tessera
+  const meteo = L.passiEntra({ garaFutura: true, temi: { gara: false, documenti: false, meteo: true } });
+  assert.strictEqual(L.prossimoEntra(meteo, "notifiche"), "uscita");
+  // niente notifiche: i dati si saltano (li ritrova in Oggi)
+  const niente = L.passiEntra({ garaFutura: true, saltati: { notifiche: true }, temi: { gara: false, documenti: false, meteo: false } });
+  assert.deepStrictEqual(niente.passi.map((p) => p.k), ["gara", "notifiche"]);
+  // i dati già inseriti restano contati anche se il tema non è scelto
+  assert.deepStrictEqual(L.passiEntra({ documenti: true, temi: { documenti: false, meteo: false } }).passi.map((p) => p.k), ["gara", "notifiche", "documenti"]);
   // chi è già nel gruppo e ha già fatto tutto vede solo le classifiche e i tempi
   const vecchio = L.passiEntra({ classifiche: true, tempi: true, documenti: true, ora: true, zona: true, garaFutura: true, notifiche: true });
   assert.strictEqual(vecchio.fatti, 4);
   assert.strictEqual(L.prossimoEntra(vecchio), "classifiche");
   assert.strictEqual(L.prossimoEntra(vecchio, "classifiche"), "tempi");
   assert.strictEqual(L.prossimoEntra(vecchio, "tempi"), null);
-  // saltati: valgono come fatti; gli obbligatori rimasti indietro tornano in fondo
-  const s1 = L.passiEntra({ classifiche: true, tempi: true, saltati: { classifiche: true, tempi: true, gara: true }, notifiche: true });
-  assert.strictEqual(L.prossimoEntra(s1, "notifiche"), "documenti");
-  assert.strictEqual(L.prossimoEntra(s1, "documenti"), "uscita");
+  // gli obbligatori rimasti indietro tornano in fondo
+  const s1 = L.passiEntra({ temi: { gara: true, documenti: true, meteo: true }, saltati: { gara: true } });
+  assert.strictEqual(L.prossimoEntra(s1, "uscita"), "documenti");
   assert.strictEqual(s1.obbligatoriFatti, false);
-  // "Lo faccio più tardi" sulla tessera: non blocca, non torna in fondo al funnel
-  const dd = L.passiEntra({ ora: true, zona: true, saltati: { documenti: true } });
-  assert.ok(dd.passi[0].fatto && dd.obbligatoriFatti);
+  // "Lo faccio più tardi" su tessera e uscita: non blocca, non torna in fondo al funnel
+  const dd = L.passiEntra({ garaFutura: true, notifiche: true, saltati: { documenti: true, uscita: true } });
+  assert.ok(dd.completo && dd.obbligatoriFatti);
   assert.strictEqual(L.prossimoEntra(dd, "notifiche"), null);
   // non tesserato: il passo dei documenti è fatto e non obbligatorio
   const nt = L.passiEntra({ nonTesserato: true, ora: true, zona: true });
-  assert.ok(nt.passi[0].fatto && !nt.passi[0].obbligatorio && nt.obbligatoriFatti);
+  const ntDoc = nt.passi.find((p) => p.k === "documenti");
+  assert.ok(ntDoc.fatto && !ntDoc.obbligatorio && nt.obbligatoriFatti);
   assert.strictEqual(L.prossimoEntra(nt), "gara");
   assert.strictEqual(L.prossimoEntra(L.passiEntra({ documenti: true, ora: true, zona: true, garaFutura: true, notifiche: true })), null);
 }

@@ -2040,7 +2040,8 @@
   function statoEntra() {
     const e = (S.gruppo && S.gruppo.entra) || {}, f = Object.fromEntries(statoPrepara().passi.map((x) => [x.k, x.fatto]));
     return L.passiEntra({ classifiche: clAttive(), partecipa: partecipo(), documenti: f.documenti, nonTesserato: !!S.nonTesserato, tempi: !!C().tempi,
-      tempiFatti: !!e.tempi, ora: f.ora, zona: f.zona, garaFutura: f.gara, notifiche: pushChiusa(), saltati: e.saltati || {} });
+      tempiFatti: !!e.tempi, ora: f.ora, zona: f.zona, garaFutura: f.gara, notifiche: !!(S.push && S.push.attivo), temi: RIVEDI ? null : e.temi,
+      saltati: e.saltati || {} });
   }
   function prossimoEntra(st, dopo) {
     if (RIVEDI !== "entra") return L.prossimoEntra(st, dopo);
@@ -2150,18 +2151,34 @@
         <form id="prepara-form" data-passo="uscita" data-funnel="entra" class="funnel-form">
           <div class="card"><div class="field"><label for="pf-ora">A che ora esci di solito</label><input class="input" id="pf-ora" type="time" step="900" required value="${esc(oraInput(S.profilo.ora) || "07:00")}" style="max-width:180px"></div></div>
           <div class="card"><div class="field"><span class="title" style="font-size:16px">Dove corri di solito</span>${bottoneGps("pf-citta")}<label for="pf-citta" class="small muted">oppure scrivi la città</label><input class="input" id="pf-citta" placeholder="es. Roma" value="${esc(S.profilo.citta || "")}" autocomplete="address-level2"><span class="small muted">Online va solo la zona, circa 1 km.</span></div></div>
-          <div class="piede"><button class="btn block" type="submit">Avanti</button></div></form>`;
+          <div class="piede"><button class="btn block" type="submit">Avanti</button><button class="btn ghost block" type="button" data-act="entra-salta" data-k="uscita">Lo faccio più tardi</button>
+            <p class="small muted centro">Nessun problema: te lo ricordo in Oggi.</p></div></form>`;
     } else if (k === "gara") corpo = passoGara();
-    else {
-      const sp = supportoPush();
-      const azione = sp === "ok" ? `<button class="btn block" type="button" data-act="entra-push">Attiva le notifiche</button><button class="btn ghost block" type="button" data-act="entra-salta" data-k="notifiche">Non ora</button>`
-        : sp === "ios-home" ? `<section class="card soft"><span class="small">Su iPhone le notifiche arrivano solo se RaceBuddy è nella Home: in Safari tocca <b>Condividi</b> → <b>Aggiungi alla schermata Home</b>, poi le attivi da Io.</span></section><button class="btn ghost block" type="button" data-act="entra-salta" data-k="notifiche">Lo faccio dopo</button>`
-        : `<p class="sub">${sp === "negato" ? "Le notifiche sono bloccate per questa app: puoi riattivarle dalle impostazioni del telefono." : "Su questo telefono le notifiche non sono disponibili."}</p><button class="btn block" type="button" data-act="entra-salta" data-k="notifiche">Avanti</button>`;
-      corpo = `<h1>Attiva le notifiche</h1><p class="sub">Ti scrivo solo quando c'è qualcosa di nuovo, al massimo una volta al mattino. Mai di notte.</p>
-        <section class="card vantaggi-lista">${vantaggio(ICO.tessera, "Tessera e certificato", "30, 15 e 2 giorni prima della scadenza")}${vantaggio(ICO.sole, "Il meteo della tua uscita", "solo quando cambia davvero")}${vantaggio(ICO.bandiera, "La tua gara", "novità ufficiali, vigilia, mattina del via, com'è andata")}</section>
-        <div class="piede">${azione}<p class="small muted centro">Per mandarle salviamo online orario, zona e le tue gare, senza il tuo nome.</p></div>`;
-    }
+    else corpo = passoTemi();
     return `${bannerRivedi()}${testa}<div class="funnel funnel-pieno">${corpo}</div>`;
+  }
+
+  // Per riconoscere la propria società tra gli omonimi: la tessera, o se manca il nome del gruppo
+  const tessProposte = (tess) => (tess && (tess.codiceSocieta || tess.societa)) || !GD() ? tess || {} : { societa: GD().gruppo.nome };
+  // Passo "Cosa vuoi ricevere": i temi decidono quali dati chiedere dopo (scadenze → tessera, meteo → quando e dove corri)
+  const TEMI_ENTRA = [
+    ["gara", ICO.bandiera, "La tua gara", "novità ufficiali, vigilia, mattina del via, com'è andata"],
+    ["documenti", ICO.tessera, "Scadenze di tessera e certificato", "30, 15 e 2 giorni prima"],
+    ["meteo", ICO.sole, "Il meteo della tua uscita", "solo quando cambia davvero"],
+  ];
+  function passoTemi() {
+    const sp = supportoPush(), on = S.push && S.push.attivo, pr = S.prefPush || {}, scelti = (S.gruppo.entra || {}).temi || {};
+    const sel = (k) => (k in scelti ? scelti[k] : pr[k] !== false);
+    const nota = on ? `<p class="sub"><span class="pill ok">attive</span> Scegli cosa ricevere: lo cambi quando vuoi da Io.</p>`
+      : sp === "ios-home" ? `<section class="card soft"><span class="small">Su iPhone le notifiche arrivano solo se RaceBuddy è nella Home: intanto scegli, poi le attivi da Io dopo averla aggiunta (Safari → <b>Condividi</b> → <b>Aggiungi alla schermata Home</b>).</span></section>`
+      : sp === "negato" ? `<p class="sub">Le notifiche sono bloccate per questa app: scegli comunque, poi riattivale dalle impostazioni del telefono.</p>`
+      : sp !== "ok" ? `<p class="sub">Su questo telefono le notifiche non sono disponibili: quello che scegli lo trovi comunque in Oggi.</p>` : "";
+    return `<h1>Cosa vuoi ricevere?</h1><p class="sub">Ti scrivo solo quando c'è qualcosa di nuovo, al massimo una volta al mattino. Mai di notte.</p>
+      <section class="card scelte" id="entra-temi">${TEMI_ENTRA.map(([k, ico, t, d]) => `<label class="check" style="cursor:pointer"><input type="checkbox" name="tema" value="${k}" ${sel(k) ? "checked" : ""}><span class="vantaggio" style="flex:1"><span class="ico" aria-hidden="true">${ico}</span><span><b>${t}</b><br><span class="small muted">${d}</span></span></span></label>`).join("")}</section>
+      ${nota}
+      <div class="piede"><button class="btn block" type="button" data-act="entra-temi">${sp === "ok" && !on ? "Attiva le notifiche" : "Avanti"}</button>
+        <button class="btn ghost block" type="button" data-act="entra-niente">Niente notifiche</button>
+        <p class="small muted centro">Per mandarle salviamo online orario, zona e le tue gare, senza il tuo nome. Tessera e orario te li chiedo solo se servono.</p></div>`;
   }
 
   // Passo "Sei tu?": la ricerca parte da sola con il nome del gruppo; con un tocco personali e gare nelle classifiche
@@ -2179,7 +2196,7 @@
     else if (!TEMPI.persone.length) corpo = `<section class="card"><span class="title">Non ti trovo</span><span class="small">Nessuna gara a nome di <b>${esc(nome)} ${esc(cognome)}</b> su Gare Podistiche Lazio e FIDAL. Se ci sei con un altro nome, cercalo qui sotto.</span></section>${altroNome}`;
     else {
       const P = TEMPI.persone, scelti = TEMPI.scelti || [], tess = (S.documenti || {}).tessera || {};
-      const proposte = new Set(L.personeProposte(P, tess));
+      const proposte = new Set(L.personeProposte(P, tessProposte(tess)));
       const ultima = (p) => p.risultati.reduce((m, r) => (r.data > m ? r.data : m), "");
       corpo = `<h2>${P.length > 1 ? `Trovati ${P.length} runner con questo nome` : "Ti ho trovato qui"}</h2>
         <div class="scelte">${P.map((p) => `<label class="scelta"><input type="checkbox" data-act-change="tempi-persona" data-id="${esc(p.id)}" ${scelti.includes(p.id) ? "checked" : ""}><span><b>${esc(p.societa || "Senza società")}${p.categoria ? " · " + esc(p.categoria) : ""}</b><br><span class="small muted">${p.risultati.length} ${p.risultati.length === 1 ? "gara" : "gare"}${ultima(p) ? `, l'ultima nel ${ultima(p).slice(0, 4)}` : ""} · ${esc(FONTE_TEMPI[p.fonte])}${proposte.has(p.id) && P.length > 1 ? " · la tua società" : ""}</span></span></label>`).join("")}</div>`;
@@ -2234,7 +2251,8 @@
     if (g) { const n = L.diffDays(g.data, o), con = d ? d.gare.filter((x) => x.gara_id === g.id && x.membro_id !== (d.io || {}).id).map((x) => x.membro) : [];
       righe.push(riga(true, `${titoloGara(g.nome)} ${n === 0 ? "oggi" : n === 1 ? "domani" : `tra ${n} giorni`}`, [con.length ? `con ${con.slice(0, 2).join(", ")}${con.length > 2 ? ` e altri ${con.length - 2}` : ""}` : "", g.tempo ? `obiettivo ${g.tempo}` : ""].filter(Boolean).join(" · "))); }
     const on = S.push && S.push.attivo;
-    righe.push(riga(on, on ? "Notifiche attive" : "Notifiche spente", on ? `domani alle ${oraMessaggio()} il meteo della tua uscita` : "le attivi quando vuoi da Io"));
+    const temi = TEMI_ENTRA.filter(([k]) => (e.temi || {})[k]).map(([, , t]) => t.toLowerCase());
+    righe.push(riga(on, on ? "Notifiche attive" : "Notifiche spente", on ? (temi.length ? temi.join(", ").replace(/, ([^,]*)$/, " e $1") : "le scegli da Io") : "le attivi quando vuoi da Io"));
     return `<section class="invito entra-fine"><span class="eyebrow">${esc(d ? d.gruppo.nome : "Il gruppo")}</span><h1>Sei dentro${nome ? `,<br><span style="color:var(--accent-on-dark)">${esc(nome)}</span>` : ""}</h1>
       <ul class="arrivo">${righe.join("")}</ul>
       <div class="piede"><a class="btn block" href="#/gruppo">Vai al gruppo</a><a class="btn ghost-dark block" href="#/oggi">Vai a Oggi</a></div></section>`;
@@ -2753,7 +2771,7 @@
       const j = await r.json().catch(() => ({}));
       if (!r.ok) throw new Error(j.errore || "");
       const persone = j.persone || [], noti = ((S.tempi || {}).scelti || []).filter((id) => persone.some((x) => x.id === id));
-      TEMPI = { chiave, persone, fonti: j.fonti || {}, scelti: noti.length ? noti : L.personeProposte(persone, tess), ricordati: noti.length > 0 };
+      TEMPI = { chiave, persone, fonti: j.fonti || {}, scelti: noti.length ? noti : L.personeProposte(persone, tessProposte(tess)), ricordati: noti.length > 0 };
     } catch (e) { TEMPI = { chiave, errore: "Le classifiche non rispondono adesso: riprova tra poco." }; }
     if (/^#\/(tempi|gruppo\/recupero|entra)/.test(location.hash)) rerender();
   }
@@ -3076,7 +3094,20 @@
     }
     if (act === "entra-salta") { saltaEntra(t.dataset.k); return; }
     if (act === "entra-dopo") { ENTRA().dopo = oggi(); salva(); toast("Lo ritrovi qui tra qualche giorno, o in Gruppo"); rerender(); return; }
-    if (act === "entra-push") { attivaPush(t).then(() => { if (S.push && S.push.attivo) vaiEntra("notifiche"); }); return; }
+    if (act === "entra-temi" || act === "entra-niente") {
+      const box = document.getElementById("entra-temi"), temi = {};
+      for (const [k] of TEMI_ENTRA) temi[k] = act === "entra-temi" && !!(box && box.querySelector(`input[value="${k}"]`).checked);
+      if (RIVEDI) { vaiEntra("notifiche"); return; }
+      const nessuno = !Object.values(temi).some(Boolean);
+      ENTRA().temi = temi;
+      S.prefPush = { ...(S.prefPush || {}), gara: temi.gara, novita: temi.gara, documenti: temi.documenti, meteo: temi.meteo };
+      if (nessuno) ENTRA().saltati = { ...(ENTRA().saltati || {}), notifiche: true };
+      salva();
+      // il permesso va chiesto subito, nel tocco; anche se lo nega si va avanti con i dati dei temi scelti
+      if (!nessuno && supportoPush() === "ok" && !(S.push && S.push.attivo)) attivaPush(t).finally(() => vaiEntra("notifiche"));
+      else vaiEntra("notifiche");
+      return;
+    }
     if (act === "entra-tempi") {
       if (!TEMPI || !TEMPI.persone) return;
       const uniti = L.tempiUniti(TEMPI.persone, TEMPI.scelti || []), per = L.tempiPerDistanza(uniti);
