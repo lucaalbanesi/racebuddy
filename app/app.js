@@ -1559,7 +1559,8 @@
     const chipD = (x) => `<button class="chip" data-act="cl-dist" data-d="${x}" aria-pressed="${x === distAlbo}">${esc(L.DIST_LABEL[x])}</button>`;
     const sotto = { impegno: "Punti nelle gare della società", obiettivo: "Scarto medio dall'obiettivo · almeno 3 gare", albo: "Il miglior tempo di sempre" }[tab];
     const vuoto = { impegno: soc.length ? "Ancora nessun punto: arrivano con le gare della società." : "Ancora nessuna gara della società: le sceglie il direttivo.", obiettivo: "Nessuno ha ancora 3 gare con un obiettivo fissato.", albo: `Nessun tempo certificato sulla ${esc(L.DIST_LABEL[distAlbo].toLowerCase())}.` }[tab];
-    const recupero = L.recuperoAperto(io) ? `<a class="card soft link-card" href="#/gruppo/recupero"><span class="title">Recupera le gare già corse</span><span class="small">Le prendiamo dalle classifiche ufficiali. Puoi farlo fino al ${esc(L.fmtBreve(String(io.recupero_fino).slice(0, 10)))}.</span><span class="small" style="color:var(--accent);font-weight:700">Cerca le mie gare ›</span></a>` : "";
+    const evid = L.recuperoInEvidenza(io, cl.miei, !!(S.gruppo && (S.gruppo.recuperoFatto || (S.gruppo.entra || {}).tempi))), fino = esc(L.fmtBreve(String(io.recupero_fino || "").slice(0, 10)));
+    const recupero = evid === "cima" || evid === "ultimi" ? `<a class="card soft link-card" href="#/gruppo/recupero"><span class="title">${evid === "ultimi" ? "Ultimi giorni per recuperare le gare già corse" : "Recupera le gare già corse"}</span><span class="small">Le prendiamo dalle classifiche ufficiali. Puoi farlo fino al ${fino}: dopo entrano solo le gare nuove.</span><span class="small" style="color:var(--accent);font-weight:700">Cerca le mie gare ›</span></a>` : "";
     const coda = org && cl.da_approvare ? `<a class="card link-card" href="#/gruppo/admin"><div class="between"><span class="title">Da approvare</span><span class="pill">${cl.da_approvare}</span></div><span class="small">Tempi non trovati nelle classifiche: li approvate tu e gli altri referenti.</span><span class="small" style="color:var(--accent);font-weight:700">Apri la coda ›</span></a>` : "";
     const capo = (k) => { const x = righeCl(k)[0]; return x ? `${x.mio ? "Tu" : x.membro.split(/\s+/)[0]} · ${k === "pb" ? x.n : x.n}` : "nessuno, per ora"; };
     const nConta = L.riepilogoMie(L.cercaMieGare(mieGare(), "", { oggi: o })).conta;
@@ -1571,7 +1572,7 @@
       <div>${l.length ? primi.map((x) => x.html(x)).join("") + (tu ? `<div class="post small muted" style="justify-content:center;padding:2px 0">···</div>${tu.html(tu)}` : "") : `<span class="small">${vuoto}</span>`}</div>
       <a class="btn ghost block" href="#/gruppo/classifiche?c=${tab}${tab === "albo" ? `&d=${distAlbo}` : ""}">Classifica completa ›</a></section>
       <section class="card" style="gap:0;padding-top:8px;padding-bottom:8px" aria-label="Altre classifiche"><span class="eyebrow" style="padding:4px 0 6px">Altre classifiche</span>
-        ${altra("#/gruppo/classifiche?c=gare", "Gare corse", capo("gare"))}${altra("#/gruppo/classifiche?c=pb", "PB della stagione", capo("pb"))}${altra("#/gruppo/societa", "Gare della società", `${soc.length} nel ${anno}`)}${altra("#/gruppo/mie", "Le mie gare in classifica", `${nConta} ${nConta === 1 ? "conta" : "contano"}`, true)}</section>
+        ${altra("#/gruppo/classifiche?c=gare", "Gare corse", capo("gare"))}${altra("#/gruppo/classifiche?c=pb", "PB della stagione", capo("pb"))}${altra("#/gruppo/societa", "Gare della società", `${soc.length} nel ${anno}`)}${altra("#/gruppo/mie", "Le mie gare in classifica", `${nConta} ${nConta === 1 ? "conta" : "contano"}`, evid !== "discreto")}${evid === "discreto" ? altra("#/gruppo/recupero", "Recupera altre gare già corse", `fino al ${L.fmtBreve(String(io.recupero_fino).slice(0, 10))}`, true) : ""}</section>
       <a class="link-regole" href="#/gruppo/regole">Come funzionano le classifiche ›</a>`;
   }
   function vistaPartecipa() {
@@ -1598,6 +1599,7 @@
       else {
         const chi = `<section class="card" style="gap:0"><h2 style="margin-bottom:4px">${P.length > 1 ? "Quale sei tu?" : "Ti ho trovato qui"}</h2>${P.map((p) => `<label class="check"><input type="checkbox" data-act-change="tempi-persona" data-id="${esc(p.id)}" ${scelti.includes(p.id) ? "checked" : ""}><span><span class="t">${esc(p.societa || "Senza società")}${p.categoria ? " · " + esc(p.categoria) : ""}</span><br><span class="d">${esc(FONTE_TEMPI[p.fonte])} · ${p.risultati.length} ${p.risultati.length === 1 ? "gara" : "gare"} su 10 km, mezza o maratona</span></span></label>`).join("")}</section>`;
         const lista = scelti.length ? L.daRecuperare(L.tempiUniti(P, scelti), cl.io, cl.miei) : [];
+        if (scelti.length && !lista.length && !S.gruppo.recuperoFatto) { S.gruppo.recuperoFatto = oggi(); salva(); } // niente da recuperare: fatto
         const n = lista.filter((r) => !REC_NO.has(r.id)).length;
         corpo = chi + (scelti.length ? `<section class="card" style="gap:0"><div class="between" style="margin-bottom:4px"><h2>Le tue gare</h2><span class="small muted">${n} di ${lista.length}</span></div>
           ${lista.length ? lista.map((r) => `<label class="check"><input type="checkbox" data-act-change="rec-tog" data-id="${esc(r.id)}" ${REC_NO.has(r.id) ? "" : "checked"}><span style="flex:1"><span class="t">${esc(L.nomeRisultato(r))}</span><br><span class="d">${esc(L.etichettaDist(r))}${esc(notaFuori(r))} · ${esc(L.fmtBreve(r.data))} ${esc(r.data.slice(0, 4))} · ${esc(FONTE_TEMPI[r.fonte])}</span></span><b class="pb-tempo">${esc(fmtSec(r.secondi))}</b></label>`).join("") : `<span class="small">Niente da recuperare: le gare trovate sono già certificate.</span>`}</section>
@@ -1936,7 +1938,7 @@
       <div class="grid2"><button class="btn" data-act="cl-decidi" data-id="${esc(x.id)}" data-ok="1">Approva</button><button class="btn ghost" data-act="cl-decidi" data-id="${esc(x.id)}" data-ok="0">Rifiuta</button></div></div>`).join("");
     return `${interr}${soc}<section class="card ${CODA && CODA.length ? "evid" : ""}"><div class="between"><span class="title">Da approvare</span>${CODA && CODA.length ? `<span class="pill">${CODA.length}</span>` : ""}</div>
       ${CODA === null ? `<span class="small muted">Carico…</span>` : CODA.length ? `<span class="small muted">Tempi non trovati nelle classifiche ufficiali. Li vedete tu${altri.length ? ` e ${esc(altri.join(", "))}` : ""}.</span>${coda}` : `<span class="small">Niente in attesa. Qui arrivano i tempi non trovati nelle classifiche ufficiali.</span>`}</section>
-      ${admin ? `<a class="card link-card" href="#/gruppo/gare"><span class="title">Le gare di tutti</span><span class="small">Ogni gara dei membri: quali contano, quali aspettano, quali non sono approvate. Da qui annulli un tempo sbagliato.</span><span class="small" style="color:var(--accent);font-weight:700">Apri ›</span></a>` : ""}`;
+      ${admin ? `<a class="card link-card" href="#/gruppo/gare"><span class="title">Le gare di tutti</span><span class="small">Ogni gara dei membri: quali contano, quali aspettano, quali non sono approvate. Da qui annulli un tempo sbagliato o ne inserisci uno a mano.</span><span class="small" style="color:var(--accent);font-weight:700">Apri ›</span></a>` : ""}`;
   }
   // Le gare di tutti (#/gruppo/gare?m=<id membro>&p=stagione|tutte&q=…), solo per l'amministratore: ogni risultato online
   // di ogni membro, in ogni stato (gare_membri), con le azioni del referente (approva, rifiuta, annulla).
@@ -1971,6 +1973,20 @@
     if (l.length) return l.map((x) => rigaGM(x, !m)).join("");
     return `<span class="small">${q ? `Nessuna gara trovata per «${esc(q)}».` : periodo === "tutte" ? "Nessuna gara online, per ora." : `Nessuna gara nella stagione ${esc(oggi().slice(0, 4))}, per ora.`}</span>`;
   }
+  // Inserimento a mano dell'amministratore (admin_inserisci_risultato): certificato subito, anche oltre i 30 giorni del
+  // recupero; sostituisce il risultato di quella gara. Per i tempi che la ricerca non trova o per correggere un errore.
+  function formInserisci(m) {
+    return `<details class="card"><summary>Inserisci un tempo a mano</summary>
+      <form id="gm-inserisci" data-m="${esc(m.id)}" style="display:flex;flex-direction:column;gap:10px;margin-top:10px">
+        <div class="field"><label for="gi-nome">Gara</label><input class="input" id="gi-nome" required maxlength="120" placeholder="es. Maratona di Roma"></div>
+        <div class="grid2"><div class="field"><label for="gi-data">Data</label><input class="input" id="gi-data" type="date" required max="${oggi()}"></div>
+        <div class="field"><label for="gi-dist">Distanza</label><select class="input" id="gi-dist" required>${DISTANZE.map((x) => `<option value="${x}">${esc(L.DIST_LABEL[x])}</option>`).join("")}</select></div></div>
+        <div class="field"><label for="gi-tempo">Tempo ufficiale</label><input class="input" id="gi-tempo" required inputmode="numeric" placeholder="es. 1:45:00" style="max-width:160px"></div>
+        <div class="field"><label for="gi-link">Link alla classifica <span class="muted">(facoltativo)</span></label><input class="input" id="gi-link" type="url" inputmode="url" maxlength="300" placeholder="https://…"></div>
+        <div class="field"><label for="gi-nota">Nota <span class="muted">(facoltativa)</span></label><input class="input" id="gi-nota" maxlength="280" placeholder="es. tempo corretto dal PDF ufficiale"></div>
+        <button class="btn" type="submit">Inserisci</button>
+        <span class="small muted">Conta subito nelle classifiche, anche per gare vecchie. Se ${esc(m.mio ? "hai" : "ha")} già un tempo per quella gara, lo sostituisce. Resta scritto che l'hai inserito tu.</span></form></details>`;
+  }
   function vistaGareMembri(param = {}) {
     const d = GD(); if (!d || d.io.ruolo !== "admin" || !clAttive()) return vistaAdmin();
     if (GM === null) setTimeout(caricaGareMembri, 0);
@@ -1996,6 +2012,7 @@
     };
     return `${testa}
       <section class="card dark" style="gap:4px"><span style="font:700 34px/1 var(--display)">${conta} ${conta === 1 ? "gara conta" : "gare contano"}</span><span class="small" style="color:var(--navy-muted)">${esc(sotto)}</span></section>
+      ${m && m.partecipa ? formInserisci(m) : ""}
       ${cerca}
       ${m || q ? lista : `<section class="card" style="gap:0"><span class="eyebrow" style="margin-bottom:4px">Membri · ${riep.length}</span>${riep.map(persona).join("")}</section>`}
       <p class="sub">Le vedi solo tu come amministratore. Approva e rifiuta valgono come nella coda «Da approvare»; Annulla toglie dalle classifiche un tempo certificato sbagliato (per esempio di un omonimo).</p>`;
@@ -3142,7 +3159,7 @@
       if (!ids.length) return;
       t.disabled = true; t.textContent = "Recupero…";
       certificaRisultati({ nome, cognome, anno: null, persone: TEMPI.scelti || [], risultati: ids })
-        .then(async (j) => { toast(j.in_approvazione && j.certificati ? `${j.certificati} certificate, ${j.in_approvazione} al referente` : esitoCertifica(j)); await aggiornaClassifiche(); location.hash = /[?&]da=mie/.test(location.hash) ? "#/gruppo/mie" : "#/gruppo"; })
+        .then(async (j) => { S.gruppo.recuperoFatto = oggi(); salva(); toast(j.in_approvazione && j.certificati ? `${j.certificati} certificate, ${j.in_approvazione} al referente` : esitoCertifica(j)); await aggiornaClassifiche(); location.hash = /[?&]da=mie/.test(location.hash) ? "#/gruppo/mie" : "#/gruppo"; })
         .catch((e) => { toast(e.message); rerender(); });
       return;
     }
@@ -3605,6 +3622,16 @@
         const c = doc("certificato"); c.scadenza = v("pf-cert-scadenza"); c.tipo = c.tipo || "agonistico (atletica leggera)";
       }
       salva(); if (f.dataset.funnel === "entra") vaiEntra(passo); else vaiPasso(passo); return;
+    }
+    if (f.id === "gm-inserisci") {
+      const dist = v("gi-dist"), t = L.leggiTempo(dist, v("gi-tempo")), mid = f.dataset.m;
+      if (t.errore) { toast(t.errore); return; }
+      const nome = ((GM && GM.membri) || []).find((x) => x.id === mid) || {};
+      confirmBox(f.querySelector('button[type="submit"]'), `Inserisci ${t.tempo} a ${nome.mio ? "te" : nome.nome || "questo membro"}?`, () => azioneGruppo(async () => {
+        await rpc("admin_inserisci_risultato", { p_token: token(), p: { membro_id: mid, gara_nome: v("gi-nome").trim(), data: v("gi-data"), distanza: dist, tempo: t.tempo, link: v("gi-link").trim(), nota: v("gi-nota").trim() } });
+        await caricaGareMembri(); await aggiornaClassifiche();
+      }, "Tempo inserito"));
+      return;
     }
     if (f.id === "entra-gare") {
       const scelte = [...f.querySelectorAll('input[name="eg"]:checked')];

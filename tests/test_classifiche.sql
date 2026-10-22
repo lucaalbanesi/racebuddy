@@ -133,6 +133,31 @@ begin
   update public.membri set partecipa_dal = now() - interval '40 days' where nome = 'Giulia Neri';
   j := public._registra_certificati(hb, 'Giulia Neri', format('[{"data":"2024-04-07","distanza":"21","secondi":6500,"fonte":"gpl"},{"data":"%s","distanza":"10","secondi":2650,"fonte":"gpl"}]', current_date - 1)::jsonb);
   assert (j->>'certificati')::int = 1 and (j->>'saltati')::int = 1, 'recupero chiuso: ' || j::text;
+  -- correzione dopo i 30 giorni: una gara che ha già un risultato si rimanda (dalla ricerca o al referente), una nuova no
+  begin perform public.invia_risultato(b, '{"data":"2024-05-05","distanza":"10","tempo":"0:50:00"}'); assert false, 'gara nuova dal passato';
+  exception when others then if sqlerrm not like '%troppo vecchia%' then raise; end if; end;
+  perform public.annulla_risultato(a, (select id from public.risultati_gruppo where data = '2025-03-16'));
+  perform public.invia_risultato(b, '{"data":"2025-03-16","distanza":"42","tempo":"4:00:00","nota":"era un omonimo"}');
+  assert (select stato from public.risultati_gruppo where data = '2025-03-16') = 'in_approvazione', 'correzione al referente';
+  j := public._registra_certificati(hb, 'Giulia Neri', '[{"data":"2025-03-16","distanza":"42","secondi":14300,"fonte":"fidal"}]');
+  assert (j->>'certificati')::int = 1, 'correzione dalla ricerca: ' || j::text;
+
+  -- inserimento a mano: solo l'amministratore, anche oltre i 30 giorni, certificato subito con traccia
+  begin perform public.admin_inserisci_risultato(b, json_build_object('membro_id', (select id from public.membri where nome = 'Giulia Neri'), 'data', '2023-10-01', 'distanza', '21', 'tempo', '1:45:00')::jsonb); assert false, 'organizzatore inserisce';
+  exception when others then if sqlerrm not like '%amministratori%' then raise; end if; end;
+  begin perform public.admin_inserisci_risultato(a, json_build_object('membro_id', (select id from public.membri where nome = 'Paolo'), 'data', '2023-10-01', 'distanza', '21', 'tempo', '1:45:00')::jsonb); assert false, 'a chi non partecipa';
+  exception when others then if sqlerrm not like '%non partecipa%' then raise; end if; end;
+  begin perform public.admin_inserisci_risultato(a, json_build_object('membro_id', (select id from public.membri where nome = 'Giulia Neri'), 'data', '2023-10-01', 'distanza', '21', 'tempo', '0:20:00')::jsonb); assert false, 'passo impossibile';
+  exception when others then if sqlerrm not like '%tempo non valido%' then raise; end if; end;
+  begin perform public.admin_inserisci_risultato(a, json_build_object('membro_id', (select id from public.membri where nome = 'Giulia Neri'), 'data', current_date + 3, 'distanza', '21', 'tempo', '1:45:00')::jsonb); assert false, 'gara futura';
+  exception when others then if sqlerrm not like '%data non valida%' then raise; end if; end;
+  rid := public.admin_inserisci_risultato(a, json_build_object('membro_id', (select id from public.membri where nome = 'Giulia Neri'), 'data', '2023-10-01', 'distanza', '21', 'tempo', '1:45:00', 'gara_nome', 'Mezza di prova')::jsonb);
+  assert (select stato = 'certificato' and fonte = 'manuale' and nota = 'Inserito dal referente' and deciso_da = (select id from public.membri where nome = 'Luca Albanesi') from public.risultati_gruppo where id = rid), 'inserito a mano';
+  -- sopra un certificato: lo sostituisce
+  perform public.admin_inserisci_risultato(a, json_build_object('membro_id', (select id from public.membri where nome = 'Giulia Neri'), 'data', '2025-03-16', 'distanza', '42', 'tempo', '3:58:00', 'nota', 'tempo ufficiale dal PDF')::jsonb);
+  assert (select secondi from public.risultati_gruppo where data = '2025-03-16') = 14280, 'certificato corretto';
+  -- il proprio: solo se non c'è un altro amministratore
+  perform public.admin_inserisci_risultato(a, json_build_object('membro_id', (select id from public.membri where nome = 'Luca Albanesi'), 'data', '2023-10-01', 'distanza', '10', 'tempo', '0:45:00')::jsonb);
 
   -- togliere un proprio risultato; uscire dalle classifiche cancella i risultati online
   perform public.togli_risultato(b, (select id from public.risultati_gruppo where data = '2024-04-07' or data = current_date - 1 limit 1));

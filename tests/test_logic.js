@@ -488,6 +488,18 @@ assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10",
   assert.strictEqual(L.recuperoAperto({ partecipa: false, recupero_fino: "2099-01-01" }), false);
 }
 
+// recupero in Gruppo: in cima finché non è fatto, poi discreto; negli ultimi 3 giorni lo ricorda
+{
+  const adesso = new Date("2026-10-22T12:00:00Z"), io = { partecipa: true, dal: "2026-10-10T08:00:00Z", recupero_fino: "2026-11-09T08:00:00Z" };
+  assert.strictEqual(L.recuperoInEvidenza(io, [], false, adesso), "cima");
+  assert.strictEqual(L.recuperoInEvidenza(io, [], true, adesso), "discreto");
+  assert.strictEqual(L.recuperoInEvidenza(io, [{ data: "2025-03-16" }], false, adesso), "discreto"); // fatto su un altro telefono
+  assert.strictEqual(L.recuperoInEvidenza(io, [{ data: "2026-10-18" }], false, adesso), "cima"); // solo gare nuove: non conta
+  assert.strictEqual(L.recuperoInEvidenza(io, [], false, new Date("2026-11-07T12:00:00Z")), "ultimi");
+  assert.strictEqual(L.recuperoInEvidenza(io, [], true, new Date("2026-11-07T12:00:00Z")), "discreto");
+  assert.strictEqual(L.recuperoInEvidenza(io, [], false, new Date("2026-11-10T12:00:00Z")), null);
+}
+
 // funnel "Entra nel gruppo": prima quello che si riceve (tempi, gare), poi i temi delle notifiche, poi i dati che servono
 {
   const nuovo = L.passiEntra({ classifiche: true, tempi: true });

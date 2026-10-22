@@ -78,6 +78,12 @@ language sql stable set search_path = '' as $$
   select m.partecipa_dal is not null and d <= current_date + 1
     and (d >= (m.partecipa_dal at time zone 'Europe/Rome')::date - 7 or now() <= m.partecipa_dal + interval '30 days');
 $$;
+-- Correzione (ottobre 2026): una gara che ha già un risultato del membro (anche annullato o rifiutato) si può rimandare
+-- anche dopo i 30 giorni del recupero; gare nuove dal passato no.
+create or replace function public._puo_correggere(m public.membri, d date, dist text) returns boolean
+language sql stable set search_path = '' as $$
+  select m.partecipa_dal is not null and exists (select 1 from public.risultati_gruppo r where r.membro_id = m.id and r.data = d and r.distanza = dist);
+$$;
 
 create or replace function public._io_classifiche(p_token text) returns public.membri
 language plpgsql security definer set search_path = '' as $$
@@ -134,7 +140,7 @@ begin
       saltati := saltati + 1; continue;
     end if;
     if d is null or dist not in ('10', '21', '42') or (kmr is null and not public._passo_ok(dist, sec)) or coalesce(x->>'fonte', '') not in ('gpl', 'fidal')
-       or not public._puo_registrare(m, d)
+       or not (public._puo_registrare(m, d) or public._puo_correggere(m, d, dist))
        or exists (select 1 from public.risultati_gruppo r where r.membro_id = m.id and r.data = d and r.distanza = dist and r.stato = 'certificato' and (r.secondi = sec or not stesso)) then
       saltati := saltati + 1; continue;
     end if;
@@ -161,7 +167,7 @@ begin
   -- altra distanza (km_reali): km coerenti con la distanza e passo sui km reali
   if p->>'km_reali' is not null and not public._km_ok(dist, kmr, sec) then raise exception 'tempo o km non validi'; end if;
   if kmr is null and not public._passo_ok(dist, sec) then raise exception 'tempo non valido'; end if;
-  if not public._puo_registrare(m, d) then raise exception 'gara troppo vecchia: dopo i primi 30 giorni si aggiungono solo le gare nuove'; end if;
+  if not (public._puo_registrare(m, d) or public._puo_correggere(m, d, dist)) then raise exception 'gara troppo vecchia: dopo i primi 30 giorni si aggiungono solo le gare nuove'; end if;
   if exists (select 1 from public.risultati_gruppo x where x.membro_id = m.id and x.data = d and x.distanza = dist and x.stato = 'certificato') then
     raise exception 'questa gara ha già un tempo certificato';
   end if;
@@ -241,6 +247,38 @@ begin
   if not found then raise exception 'tempo non trovato'; end if;
 end $$;
 
+-- Inserimento a mano (ottobre 2026): l'amministratore mette un tempo certificato a un membro che partecipa, per i casi
+-- che la ricerca nelle classifiche non trova o per correggere un errore, anche oltre i 30 giorni del recupero.
+-- Sostituisce il risultato di quella gara (anche un certificato). Resta traccia: fonte manuale, deciso_da, nota.
+-- Il proprio tempo lo inserisce un altro amministratore, se nel gruppo ce n'è un altro.
+create or replace function public.admin_inserisci_risultato(p_token text, p jsonb) returns uuid
+language plpgsql security definer set search_path = '' as $$
+declare m public.membri := public._io(p_token); x public.membri; d date; dist text := p->>'distanza'; sec int; r uuid; kmr numeric := public._km_json(p->>'km_reali');
+begin
+  if m.ruolo <> 'admin' then raise exception 'solo per gli amministratori'; end if;
+  if not (select g.classifiche from public.gruppi g where g.id = m.gruppo_id) then raise exception 'classifiche spente nel gruppo'; end if;
+  begin select * into x from public.membri where id = (p->>'membro_id')::uuid and gruppo_id = m.gruppo_id; exception when others then x := null; end;
+  if x.id is null then raise exception 'membro non trovato'; end if;
+  if not x.partecipa then raise exception 'questo membro non partecipa alle classifiche'; end if;
+  if x.id = m.id and exists (select 1 from public.membri o where o.gruppo_id = m.gruppo_id and o.id <> m.id and o.ruolo = 'admin') then
+    raise exception 'il tuo tempo lo inserisce un altro amministratore';
+  end if;
+  begin d := (p->>'data')::date; exception when others then raise exception 'data non valida'; end;
+  if d is null or d > current_date then raise exception 'data non valida'; end if;
+  sec := public._secondi(p->>'tempo');
+  if dist is null or dist not in ('10', '21', '42') then raise exception 'tempo non valido'; end if;
+  if p->>'km_reali' is not null and not public._km_ok(dist, kmr, sec) then raise exception 'tempo o km non validi'; end if;
+  if kmr is null and not public._passo_ok(dist, sec) then raise exception 'tempo non valido'; end if;
+  insert into public.risultati_gruppo (membro_id, data, distanza, gara_nome, esito, secondi, fonte, stato, link, nota, deciso_da, km_reali)
+  values (x.id, d, dist, nullif(left(trim(p->>'gara_nome'), 120), ''), 'arrivato', sec, 'manuale', 'certificato',
+          nullif(left(trim(p->>'link'), 300), ''), left(coalesce(nullif(trim(p->>'nota'), ''), 'Inserito dal referente'), 280), m.id, kmr)
+  on conflict (membro_id, data, distanza) do update set gara_nome = excluded.gara_nome, esito = 'arrivato', secondi = excluded.secondi,
+    fonte = 'manuale', categoria = null, societa = null, stato = 'certificato', link = excluded.link, nota = excluded.nota,
+    deciso_da = m.id, creato = now(), km_reali = excluded.km_reali
+  returning id into r;
+  return r;
+end $$;
+
 -- Le gare di tutti: l'amministratore vede ogni risultato online di ogni membro, in ogni stato (certificato, in
 -- approvazione, rifiutato, esito senza tempo), anche se lui non partecipa. Serve a controllare e sistemare.
 create or replace function public.gare_membri(p_token text) returns json
@@ -298,7 +336,7 @@ $$;
 revoke all on function public.info_invito(text) from public;
 grant execute on function public.info_invito(text) to anon;
 
-revoke all on function public._norm_nome(text), public._passo_ok(text, int), public._base_km(numeric), public._km_ok(text, numeric, int), public._km_json(text), public._puo_registrare(public.membri, date), public._io_classifiche(text) from public, anon, authenticated;
+revoke all on function public._norm_nome(text), public._passo_ok(text, int), public._base_km(numeric), public._km_ok(text, numeric, int), public._km_json(text), public._puo_registrare(public.membri, date), public._puo_correggere(public.membri, date, text), public._io_classifiche(text) from public, anon, authenticated;
 revoke all on function public._registra_certificati(text, text, jsonb) from public, anon, authenticated;
 grant execute on function public._registra_certificati(text, text, jsonb) to service_role;
 do $$
@@ -306,7 +344,7 @@ declare f text;
 begin
   foreach f in array array[
     'admin_classifiche(text,boolean)', 'partecipa_classifiche(text,boolean)', 'invia_risultato(text,jsonb)', 'segna_esito(text,jsonb)',
-    'togli_risultato(text,uuid)', 'da_approvare(text)', 'decidi_risultato(text,uuid,boolean)', 'annulla_risultato(text,uuid)', 'gare_membri(text)', 'stato_classifiche(text)']
+    'togli_risultato(text,uuid)', 'da_approvare(text)', 'decidi_risultato(text,uuid,boolean)', 'annulla_risultato(text,uuid)', 'admin_inserisci_risultato(text,jsonb)', 'gare_membri(text)', 'stato_classifiche(text)']
   loop
     execute format('revoke all on function public.%s from public', f);
     execute format('grant execute on function public.%s to anon', f);
