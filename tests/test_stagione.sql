@@ -123,6 +123,20 @@ begin
   assert json_array_length(public.stato_stagione(a)->'gare_societa') = 1, 'gara tolta';
 
   -- pulizia: le prove successive (statistiche) partono da un database senza membri
+  -- eliminare un risultato di prova: solo l'amministratore; via anche obiettivo e borsa di quella gara
+  insert into public.risultati_gruppo (membro_id, data, distanza, esito, secondi, fonte, stato)
+    select id, current_date - 3, '10', 'arrivato', 2500, 'manuale', 'certificato' from public.membri where token_hash = hb;
+  insert into public.obiettivi_gara (membro_id, data, distanza, secondi) select id, current_date - 3, '10', 2510 from public.membri where token_hash = hb;
+  insert into public.borse_pronte (membro_id, data, distanza) select id, current_date - 3, '10' from public.membri where token_hash = hb;
+  begin perform public.admin_elimina_risultato(b, (select r.id from public.risultati_gruppo r join public.membri x on x.id = r.membro_id where x.token_hash = hb and r.data = current_date - 3)); assert false, 'un membro elimina';
+  exception when others then if sqlerrm not like '%amministratori%' then raise; end if; end;
+  perform public.admin_elimina_risultato(a, (select r.id from public.risultati_gruppo r join public.membri x on x.id = r.membro_id where x.token_hash = hb and r.data = current_date - 3));
+  assert not exists (select 1 from public.risultati_gruppo r join public.membri x on x.id = r.membro_id where x.token_hash = hb and r.data = current_date - 3), 'risultato eliminato';
+  assert not exists (select 1 from public.obiettivi_gara o join public.membri x on x.id = o.membro_id where x.token_hash = hb and o.data = current_date - 3), 'obiettivo eliminato';
+  assert not exists (select 1 from public.borse_pronte o join public.membri x on x.id = o.membro_id where x.token_hash = hb and o.data = current_date - 3), 'borsa eliminata';
+  begin perform public.admin_elimina_risultato(a, gen_random_uuid()); assert false, 'risultato inesistente';
+  exception when others then if sqlerrm not like '%non trovato%' then raise; end if; end;
+
   delete from public.gruppi where nome = 'Stagione Roma';
   assert not exists (select 1 from public.inviti_personali), 'inviti tolti con il gruppo';
 end $$;

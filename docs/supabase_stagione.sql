@@ -263,6 +263,21 @@ begin
   );
 end $$;
 
+-- Eliminare davvero un risultato (ottobre 2026): solo l'amministratore, per una prova o un errore. Toglie il risultato
+-- (in ogni stato) e, della stessa gara del membro, l'obiettivo e la Borsa pronta: così non restano punti, PB di
+-- riferimento o badge. "Annulla" invece lascia il risultato come non approvato.
+create or replace function public.admin_elimina_risultato(p_token text, p_id uuid) returns void
+language plpgsql security definer set search_path = '' as $$
+declare m public.membri := public._io(p_token); r public.risultati_gruppo;
+begin
+  if m.ruolo <> 'admin' then raise exception 'solo per gli amministratori'; end if;
+  select x.* into r from public.risultati_gruppo x join public.membri y on y.id = x.membro_id where x.id = p_id and y.gruppo_id = m.gruppo_id;
+  if r.id is null then raise exception 'risultato non trovato'; end if;
+  delete from public.obiettivi_gara where membro_id = r.membro_id and data = r.data and distanza = r.distanza;
+  delete from public.borse_pronte where membro_id = r.membro_id and data = r.data and distanza = r.distanza;
+  delete from public.risultati_gruppo where id = r.id;
+end $$;
+
 -- ------------------------------------------------------------------ permessi
 revoke all on function public._aperta(date), public._eta(int, text, date), public._age_grade(text, text, int, int),
   public._io_stagione(text), public._gruppo_da_codice(text), public._fuori_stagione() from public, anon, authenticated;
@@ -273,7 +288,7 @@ declare f text;
 begin
   foreach f in array array[
     'entra_gruppo(text,text,text,boolean)', 'mio_invito(text)', 'gare_societa_aggiungi(text,jsonb)', 'gare_societa_togli(text,uuid)',
-    'fissa_obiettivo(text,jsonb)', 'segna_borsa(text,jsonb)', 'dati_eta(text,int,text)', 'stato_stagione(text)']
+    'fissa_obiettivo(text,jsonb)', 'segna_borsa(text,jsonb)', 'dati_eta(text,int,text)', 'stato_stagione(text)', 'admin_elimina_risultato(text,uuid)']
   loop
     execute format('revoke all on function public.%s from public', f);
     execute format('grant execute on function public.%s to anon', f);

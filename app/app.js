@@ -2018,6 +2018,7 @@
     const azioni = [];
     if (x.stato === "attesa") azioni.push(`<button class="btn small" data-act="cl-decidi" data-id="${esc(x.id)}" data-ok="1">Approva</button><button class="btn ghost small" data-act="cl-decidi" data-id="${esc(x.id)}" data-ok="0">Rifiuta</button>`);
     if (x.stato === "conta" || x.stato === "storico") azioni.push(`<button class="btn ghost small" data-act="cl-annulla" data-id="${esc(x.id)}" data-nome="${esc(x.mio ? "te" : x.membro)}">Annulla</button>`);
+    azioni.push(`<button class="btn ghost small" data-act="cl-elimina" data-id="${esc(x.id)}" data-nome="${esc(x.mio ? "te" : x.membro)}" data-gara="${esc(titolo)}">Elimina</button>`);
     if (x.link && /^https?:\/\//.test(x.link)) azioni.push(`<a class="btn ghost small" href="${esc(x.link)}" rel="noopener" target="_blank">Apri la classifica</a>`);
     return `<div class="post cl-mia cl-${x.stato}"><span style="flex:1;min-width:0">${conNome ? `<span class="small" style="font-weight:700">${esc(x.mio ? "Tu" : x.membro)}</span><br>` : ""}<b>${esc(titolo)}</b><br><span class="small muted">${esc(L.etichettaDist(x))} · ${esc(L.fmtBreve(x.data))} ${esc(anno)}${x.categoria ? ` · ${esc(x.categoria)}` : ""}</span></span>
       <span class="cl-mia-dx">${x.secondi ? `<b class="pb-tempo">${esc(fmtSec(x.secondi))}</b>` : ""}<span class="pill ${cls}">${esc(etichetta || L.ESITO_LABEL[x.esito] || "Senza tempo")}</span></span>
@@ -2072,7 +2073,7 @@
       ${m && m.partecipa ? formInserisci(m) : ""}
       ${cerca}
       ${m || q ? lista : `<section class="card" style="gap:0"><span class="eyebrow" style="margin-bottom:4px">Membri · ${riep.length}</span>${riep.map(persona).join("")}</section>`}
-      <p class="sub">Le vedi solo tu come amministratore. Approva e rifiuta valgono come nella coda «Da approvare»; Annulla toglie dalle classifiche un tempo certificato sbagliato (per esempio di un omonimo).</p>`;
+      <p class="sub">Le vedi solo tu come amministratore. Approva e rifiuta valgono come nella coda «Da approvare»; Annulla toglie dalle classifiche un tempo certificato sbagliato (per esempio di un omonimo) e lo lascia come non approvato; Elimina lo cancella del tutto, con obiettivo e borsa di quella gara (per le prove).</p>`;
   }
   // In "Com'è andata?": stato del tempo per le classifiche e invio al referente
   function cardRisultatoCl(g, r) {
@@ -3294,6 +3295,11 @@
       t.disabled = true;
       rpc("decidi_risultato", { p_token: token(), p_id: t.dataset.id, p_ok: t.dataset.ok === "1" }).then(async () => { toast(t.dataset.ok === "1" ? "Approvato: entra in classifica" : "Rifiutato"); CODA = null; if (GM) await caricaGareMembri(); await aggiornaClassifiche(); rerender(); })
         .catch((e) => { toast(e.message || "Non riuscito"); rerender(); });
+      return;
+    }
+    if (act === "cl-elimina") {
+      confirmBox(t, `Elimini del tutto «${t.dataset.gara}» di ${t.dataset.nome}? Spariscono tempo, obiettivo e borsa di quella gara, e i punti si ricalcolano. Non si torna indietro.`,
+        () => azioneGruppo(async () => { await rpc("admin_elimina_risultato", { p_token: token(), p_id: t.dataset.id }); if (GM) await caricaGareMembri(); await aggiornaClassifiche(); }, "Risultato eliminato"));
       return;
     }
     if (act === "cl-annulla") {
