@@ -1761,7 +1761,10 @@
       ? `<section class="card" style="gap:0"><h2 style="margin-bottom:4px">Al traguardo · ${arrivati.length}</h2>${arrivati.length ? arrivati.map((r) => persona(nomi[r.membro_id] || r.membro || "", fmtSec(r.secondi), r.membro_id === ioId())).join("") : `<span class="small">Ancora nessun tempo certificato per questa gara.</span>`}</section>`
       : `<section class="card" style="gap:0"><h2 style="margin-bottom:4px">Chi corre · ${chi.length}</h2>${chi.length ? chi.map((x) => persona(x.membro, [L.RUOLO_LABEL[x.ruolo], x.tempo && `obiettivo ${x.tempo}`].filter(Boolean).join(" · "), x.membro_id === (GD().io || {}).id)).join("") : `<span class="small">Nessuno del gruppo l'ha ancora aggiunta alle sue gare.</span>`}</section>`;
     const cal = s.gara_id && (D.gare || []).some((g) => g.id === s.gara_id);
-    const azione = mia ? `<a class="btn block" href="${urlGara(mia.id)}">La mia scheda gara</a>` : !passata && cal ? `<a class="btn block" href="#/aggiungi/${encodeURIComponent(s.gara_id)}">Corro anch'io: aggiungila</a>` : "";
+    // una gara della società aggiunta a mano non è nel calendario: si aggiunge alle proprie gare con i suoi dati
+    const azione = mia ? `<a class="btn block" href="${urlGara(mia.id)}">La mia scheda gara</a><span class="small muted centro">Lì fissi il tempo obiettivo e segni la borsa pronta, entro la vigilia.</span>`
+      : passata ? "" : cal ? `<a class="btn block" href="#/aggiungi/${encodeURIComponent(s.gara_id)}">Corro anch'io: aggiungila</a>`
+      : `<button class="btn block" type="button" data-act="soc-corro" data-id="${esc(s.id)}">Corro anch'io: aggiungila</button>`;
     return `${bannerProva()}<header class="head-back">${back("#/gruppo/societa")}<div><span class="eyebrow">Gara della società · la ${stag.indexOf(s) + 1}ª di ${stag.length} nel ${esc(anno)}</span><h1 style="font-size:28px">${esc(titoloGara(s.nome))}</h1></div></header>
       <section class="card" style="gap:4px"><span class="title">${esc(L.etichettaDist(s))} · ${esc(L.fmtGiorno(s.data))} ${esc(anno)}</span>${s.luogo ? `<span class="small muted">${esc(nomeLuogo(s.luogo))}</span>` : ""}
         ${!passata && io.partecipa ? `<span class="small" style="color:var(--accent-strong);font-weight:700">In palio fino a ${L.PUNTI.arrivo + L.PUNTI.pb + L.PUNTI.obiettivo + L.PUNTI.borsa} punti Impegno</span>` : ""}</section>
@@ -3305,6 +3308,12 @@
     if (act === "cl-annulla") {
       confirmBox(t, `Annulli il tempo di ${t.dataset.nome}? Esce dalle classifiche.`, () => azioneGruppo(async () => { await rpc("annulla_risultato", { p_token: token(), p_id: t.dataset.id }); if (GM) await caricaGareMembri(); await aggiornaClassifiche(); }, "Tempo annullato"));
       return;
+    }
+    if (act === "soc-corro") {
+      const g = gareSoc().find((x) => x.id === t.dataset.id); if (!g) return;
+      const id = "M" + Date.now().toString(36);
+      S._bozza = { id, nome: g.nome, data: g.data, distanza: g.distanza, ...(g.km ? { km: Number(g.km) } : {}), luogo: g.luogo || "", fonte: "manuale" };
+      salva(); location.hash = `#/aggiungi/${id}`; return;
     }
     if (act === "salute-ricarica") { SALUTE = null; rerender(); return; }
     if (act === "salute-avvisi") {
