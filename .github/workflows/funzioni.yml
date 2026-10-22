@@ -50,7 +50,11 @@ jobs:
         if: env.SALTA != '1'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-        run: supabase functions deploy strava --project-ref "$REF" --no-verify-jwt
+        run: |
+          if ! out=$(supabase functions deploy strava --project-ref "$REF" --no-verify-jwt 2>&1); then
+            echo "$out"; echo "::error::strava: $(echo "$out" | grep -v '^\s*$' | tail -4 | tr '\n' ' ' | cut -c1-600)"; exit 1
+          fi
+          echo "$out"
       - name: Tabelle del Buddy e delle classifiche (prima delle statistiche, che le leggono)
         if: env.SALTA != '1'
         env:
