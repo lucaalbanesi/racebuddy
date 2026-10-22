@@ -621,3 +621,18 @@ body.chat-on .app { padding-bottom: 150px; }
 .badge-prog { font-size: 11px; color: var(--muted); line-height: 1.2; }
 .badge-ico.grande { width: 56px; height: 56px; }
 .card.dark .pill { white-space: nowrap; }
+
+/* Classifiche in Gruppo: una riga per classifica, in due blocchi (stagione, di sempre) */
+.cl-card { gap: 0; padding-bottom: 4px; }
+.cl-tit { font: 700 22px/1.1 var(--display); }
+.cl-blocco { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 12px 0 2px; }
+.cl-blocco-sep { border-top: 1px solid var(--line); margin-top: 2px; }
+.cl-riga { display: flex; gap: 12px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line2); color: inherit; text-decoration: none; font-weight: inherit; }
+.cl-riga.ultima { border-bottom: 0; }
+.cl-riga-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.cl-riga-txt b { font-size: 17px; }
+.cl-testa { font-size: 13px; color: var(--muted); }
+.cl-pos { display: flex; flex-direction: column; align-items: flex-end; line-height: 1; }
+.cl-pos b { font: 700 30px/1 var(--display); color: var(--accent); }
+.cl-pos span { font-size: 13px; color: var(--muted); }
+.cl-pos-testo { max-width: 84px; text-align: right; font-size: 13px; font-weight: 700; color: var(--accent-strong); line-height: 1.2; }
