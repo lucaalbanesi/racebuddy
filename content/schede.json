@@ -273,5 +273,28 @@
   ],
   "verificato": "2026-10-15",
   "edizione": "2026"
+ },
+ "L12edf35333-10": {
+  "partenza": "9:10",
+  "luogoPartenza": "Ritrovo dalle 7:00 allo Stadio dei Marmi Pietro Mennea; partenza in Lungotevere Maresciallo Diaz, arrivo allo Stadio Olimpico.",
+  "griglia": "Griglie per il miglior tempo sui 10 km dichiarato all'iscrizione; senza tempo si va nell'ultima griglia competitiva.",
+  "mappa": "Lungotevere Maresciallo Diaz, Roma",
+  "sito": "https://www.lacorsadimiguel.it/",
+  "canali": {
+   "notizie": "https://www.lacorsadimiguel.it/feed/",
+   "instagram": "https://www.instagram.com/lacorsadimiguel/",
+   "facebook": "https://www.facebook.com/lacorsadimiguel/"
+  },
+  "nomi": [
+   "Corsa di Miguel",
+   "La Corsa di Miguel"
+  ],
+  "note": "28ª edizione, 9,9 km. Iscrizioni su ENDU fino all'8/1/2027 (17 € fino al 31/10, poi 20 €). Ritiro pettorali, deposito, ristori e percorso dell'edizione 2027 non ancora pubblicati.",
+  "fonti": [
+   "https://www.lacorsadimiguel.it/regolamento/",
+   "https://www.lacorsadimiguel.it/"
+  ],
+  "verificato": "2026-10-22",
+  "edizione": "2027"
  }
 }
