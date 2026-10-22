@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-10-21",
+ "aggiornato": "2026-10-22",
  "gare": [
   {
    "id": "L2bda4b848d-10",
@@ -9,8 +9,8 @@
    "distanza": "10",
    "fonte": "FIDAL",
    "prima_aggiunta": "2026-10-18",
-   "aggiunte": 1,
-   "ultima_aggiunta": "2026-10-18"
+   "aggiunte": 4,
+   "ultima_aggiunta": "2026-10-21"
   },
   {
    "id": "H0e7dc2579e-21",
@@ -31,8 +31,8 @@
    "distanza": "42",
    "fonte": "FIDAL",
    "prima_aggiunta": "2026-10-14",
-   "aggiunte": 5,
-   "ultima_aggiunta": "2026-10-20"
+   "aggiunte": 7,
+   "ultima_aggiunta": "2026-10-21"
   },
   {
    "id": "H90a44ed91b-10",
@@ -42,8 +42,19 @@
    "distanza": "10",
    "fonte": "FIDAL",
    "prima_aggiunta": "2026-10-14",
-   "aggiunte": 4,
-   "ultima_aggiunta": "2026-10-20"
+   "aggiunte": 6,
+   "ultima_aggiunta": "2026-10-21"
+  },
+  {
+   "id": "L12edf35333-10",
+   "nome": "La Corsa di Miguel",
+   "data": "2027-01-17",
+   "luogo": "ROMA",
+   "distanza": "10",
+   "fonte": "FIDAL",
+   "prima_aggiunta": "2026-10-21",
+   "aggiunte": 1,
+   "ultima_aggiunta": "2026-10-21"
   },
   {
    "id": "P8cb521dda8-42",
@@ -53,8 +64,8 @@
    "distanza": "42",
    "fonte": "FIDAL",
    "prima_aggiunta": "2026-10-14",
-   "aggiunte": 4,
-   "ultima_aggiunta": "2026-10-20"
+   "aggiunte": 6,
+   "ultima_aggiunta": "2026-10-21"
   },
   {
    "id": "E-copenaghen-mezza-21-2027",
