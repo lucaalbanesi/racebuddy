@@ -636,3 +636,10 @@ body.chat-on .app { padding-bottom: 150px; }
 .cl-pos b { font: 700 30px/1 var(--display); color: var(--accent); }
 .cl-pos span { font-size: 13px; color: var(--muted); }
 .cl-pos-testo { max-width: 84px; text-align: right; font-size: 13px; font-weight: 700; color: var(--accent-strong); line-height: 1.2; }
+
+/* PB della stagione: ogni riga si apre sulle gare che hanno contato */
+.cl-det > summary { list-style: none; cursor: pointer; color: var(--fg); font-weight: inherit; padding: 0; }
+.cl-det > summary b { color: var(--fg); }
+.cl-det > summary::-webkit-details-marker { display: none; }
+.cl-det-lista { display: flex; flex-direction: column; padding: 2px 0 10px 64px; }
+.cl-det-riga { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-top: 1px solid var(--line2); }

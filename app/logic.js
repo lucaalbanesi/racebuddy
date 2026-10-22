@@ -754,21 +754,34 @@
     const l = perMembro(risultati).map((m) => ({ membro_id: m.membro_id, membro: m.membro, mio: m.mio, n: m.lista.filter(dentro).length })).filter((x) => x.n > 0);
     return conPosizioni(l.sort((a, b) => b.n - a.n || ordineNome(a, b)), (x) => x.n);
   }
-  /** PB della stagione: quante volte nell'anno un atleta migliora il suo miglior tempo certificato precedente sulla stessa
-   *  distanza (anche di anni prima). La prima gara su una distanza fissa il riferimento e non conta. A parità vince chi è
-   *  migliorato di più in percentuale (somma dei miglioramenti). */
-  function classificaPBStagione(risultati, anno) {
-    const l = perMembro(esatte(risultati)).map((m) => {
-      let n = 0, perc = 0;
+  /** I PB della stagione di ogni atleta, uno per evento: su ogni distanza (10, mezza, maratona esatte) ogni gara dell'anno
+   *  che batte il suo miglior tempo certificato precedente (anche di anni prima). La prima gara su una distanza fissa il
+   *  riferimento e non conta. Ritorna Map membro_id → [{ distanza, data, gara_nome, secondi, prima: {secondi, data,
+   *  gara_nome}, perc }], dalla più recente. */
+  function pbEventi(risultati, anno) {
+    const out = new Map();
+    for (const m of perMembro(esatte(risultati))) {
+      const ev = [];
       for (const d of ["10", "21", "42"]) {
         const gare = m.lista.filter((r) => r.distanza === d).sort((a, b) => (a.data < b.data ? -1 : a.data > b.data ? 1 : 0));
         let meglio = null;
         for (const r of gare) {
-          if (meglio !== null && r.secondi < meglio && r.data.slice(0, 4) === String(anno)) { n++; perc += ((meglio - r.secondi) / meglio) * 100; }
-          if (meglio === null || r.secondi < meglio) meglio = r.secondi;
+          if (meglio !== null && r.secondi < meglio.secondi && r.data.slice(0, 4) === String(anno))
+            ev.push({ distanza: d, data: r.data, gara_nome: r.gara_nome || "", secondi: r.secondi, prima: { secondi: meglio.secondi, data: meglio.data, gara_nome: meglio.gara_nome || "" },
+              perc: Math.round(((meglio.secondi - r.secondi) / meglio.secondi) * 1000) / 10 });
+          if (meglio === null || r.secondi < meglio.secondi) meglio = r;
         }
       }
-      return { membro_id: m.membro_id, membro: m.membro, mio: m.mio, n, perc: Math.round(perc * 10) / 10 };
+      out.set(m.membro_id, ev.sort((a, b) => (a.data < b.data ? 1 : -1)));
+    }
+    return out;
+  }
+  /** PB della stagione: quanti PB (pbEventi) nell'anno; a parità vince chi è migliorato di più (somma delle percentuali). */
+  function classificaPBStagione(risultati, anno) {
+    const ev = pbEventi(risultati, anno);
+    const l = perMembro(esatte(risultati)).map((m) => {
+      const e = ev.get(m.membro_id) || [], perc = e.reduce((t, x) => t + ((x.prima.secondi - x.secondi) / x.prima.secondi) * 100, 0);
+      return { membro_id: m.membro_id, membro: m.membro, mio: m.mio, n: e.length, perc: Math.round(perc * 10) / 10, eventi: e };
     }).filter((x) => x.n > 0);
     return conPosizioni(l.sort((a, b) => b.n - a.n || b.perc - a.perc || ordineNome(a, b)), (x) => `${x.n}|${x.perc}`);
   }
@@ -1047,7 +1060,7 @@
     return n;
   }
 
-  const api = { fuoriMisura, esatte, kmAltra, fmtKm, etichettaDist, baseKm, PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, recuperoInEvidenza, daRecuperare, PASSI_ENTRA, passiEntra, prossimoEntra };
+  const api = { fuoriMisura, esatte, kmAltra, fmtKm, etichettaDist, baseKm, PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, pbEventi, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, recuperoInEvidenza, daRecuperare, PASSI_ENTRA, passiEntra, prossimoEntra };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);

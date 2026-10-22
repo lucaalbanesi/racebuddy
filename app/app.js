@@ -1473,7 +1473,7 @@
     obiettivo: "Quanto arrivi vicino al tempo che ti eri dato", albo: "Il miglior tempo di ognuno, per distanza" };
   const COSA_CL_LUNGO = { impegno: "Punti che fai nelle gare scelte dal direttivo: arrivo, personale, obiettivo centrato, borsa pronta, nuovo socio.",
     gare: "Le gare concluse con un tempo certificato, dalla classifica ufficiale o approvato dal referente. A parità di gare, stessa posizione.",
-    pb: "Quante volte migliori il tuo miglior tempo certificato su 10 km, mezza o maratona. La prima gara su una distanza fissa il riferimento. A parità vince chi è migliorato di più.",
+    pb: "Ogni gara dell'anno che batte il tuo miglior tempo certificato precedente sulla stessa distanza (10 km, mezza o maratona, anche di anni prima) è un PB. La prima gara su una distanza fa da riferimento. A parità vince chi è migliorato di più. Tocca un nome per vedere quali gare hanno contato.",
     obiettivo: "Lo scarto medio tra il tempo ufficiale e il tempo obiettivo fissato prima del via, in più o in meno. Servono almeno 3 gare con un obiettivo.",
     albo: "Il miglior tempo certificato di ognuno su quella distanza, di tutti gli anni." };
   const VAL_CL = { impegno: (x) => `${x.punti} pt`, gare: (x) => `${x.n} ${x.n === 1 ? "gara" : "gare"}`, pb: (x) => `${x.n} PB`, obiettivo: (x) => `${pct(x.media)} di scarto`,
@@ -1534,7 +1534,8 @@
       html: (y) => rigaCl(y, `${y.punti} <span class="small muted" style="font-weight:500">pt</span>`, `${y.gare} ${y.gare === 1 ? "gara" : "gare"} della società`, y.mio ? "#/gruppo/carriera" : "") }));
     if (tab === "obiettivo") return L.classificaObiettivo({ risultati: ris, obiettivi: ST().obiettivi }, { anno: o.slice(0, 4), nomi, io }).lista.map((x) => ({ ...x,
       html: (y) => rigaCl(y, pct(y.media), `${y.n} gare · ${y.centrate} ${y.centrate === 1 ? "centrata" : "centrate"}`) }));
-    if (tab === "pb") return L.classificaPBStagione(ris, o.slice(0, 4)).map((x) => ({ ...x, html: (y) => rigaCl(y, `${y.n} PB`, `+${String(y.perc).replace(".", ",")}% di miglioramento`) }));
+    if (tab === "pb") return L.classificaPBStagione(ris, o.slice(0, 4)).map((x) => ({ ...x, html: (y) => `<details class="cl-det"><summary>${rigaCl(y, `${y.n} PB`, `+${String(y.perc).replace(".", ",")}% in tutto · quali gare ▾`)}</summary>
+      <div class="cl-det-lista">${y.eventi.map((e) => `<div class="cl-det-riga"><span style="flex:1;min-width:0"><b>${esc(L.DIST_LABEL[e.distanza])} · ${esc(titoloGara(e.gara_nome) || "gara")}</b><br><span class="small muted">${esc(L.fmtBreve(e.data))} · prima ${esc(fmtSec(e.prima.secondi))}${e.prima.gara_nome ? ` (${esc(titoloGara(e.prima.gara_nome))}, ${esc(e.prima.data.slice(0, 4))})` : ` (${esc(e.prima.data.slice(0, 4))})`}</span></span><span style="text-align:right"><b style="font:700 17px var(--display)">${esc(fmtSec(e.secondi))}</b><br><span class="small" style="color:var(--ok);font-weight:700">−${String(e.perc).replace(".", ",")}%</span></span></div>`).join("")}</div></details>` }));
     if (tab === "albo" && vista === "eta") return L.alboEta(ris, dist, sesso).map((x) => ({ ...x,
       html: (y) => rigaCl(y, `${y.circa ? "≈ " : ""}${pct(y.ag)}`, [fmtSec(y.secondi), dist === "tutte" ? L.etichettaDist(y) : "", titoloGara(y.gara_nome || ""), y.data.slice(0, 4)].filter(Boolean).map(esc).join(" · ")) }));
     if (tab === "albo") return L.alboDoro(ris, dist === "tutte" ? "21" : dist, sesso).map((x) => ({ ...x, html: (y) => rigaCl(y, fmtSec(y.secondi), [titoloGara(y.gara_nome || ""), L.fmtBreve(y.data) + " " + y.data.slice(0, 4), y.categoria].filter(Boolean).map(esc).join(" · ")) }));

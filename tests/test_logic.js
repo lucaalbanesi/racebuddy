@@ -500,6 +500,17 @@ assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10",
   assert.strictEqual(L.recuperoInEvidenza(io, [], false, new Date("2026-11-10T12:00:00Z")), null);
 }
 
+// PB della stagione: il dettaglio di ogni PB, con il tempo battuto
+{
+  const r = (data, d, sec, g) => ({ membro_id: "m1", membro: "Luca", data, distanza: d, secondi: sec, gara_nome: g, esito: "arrivato", stato: "certificato" });
+  const ris = [r("2025-03-16", "21", 5800, "Roma-Ostia"), r("2026-03-01", "21", 5600, "Roma-Ostia"), r("2026-05-10", "21", 5700, "Mezza lenta"), r("2026-09-20", "21", 5500, "Mezza veloce"), r("2026-02-01", "10", 2700, "Primo 10")];
+  const ev = L.pbEventi(ris, "2026").get("m1");
+  assert.deepStrictEqual(ev.map((x) => `${x.gara_nome} ${x.prima.secondi}`), ["Mezza veloce 5600", "Roma-Ostia 5800"]); // il primo 10 km fa da riferimento
+  assert.strictEqual(ev[1].perc, 3.4);
+  const cl = L.classificaPBStagione(ris, "2026");
+  assert.strictEqual(cl[0].n, 2); assert.strictEqual(cl[0].eventi.length, 2);
+}
+
 // funnel "Entra nel gruppo": prima quello che si riceve (tempi, gare), poi i temi delle notifiche, poi i dati che servono
 {
   const nuovo = L.passiEntra({ classifiche: true, tempi: true });
