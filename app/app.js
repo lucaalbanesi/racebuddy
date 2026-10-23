@@ -2241,7 +2241,7 @@
       <form id="g-entra" data-codice="${esc(codice)}" ${infoProva ? 'data-anteprima="1"' : ""} class="piede">
         <div class="card"><div class="field"><label for="g-io">Nome e cognome</label><input class="input" id="g-io" required maxlength="40" value="${esc(S.profilo.nome || "")}" placeholder="es. Mario Rossi" autocomplete="name"><span class="small muted">Così ti riconoscono i compagni e troviamo i tuoi tempi nelle classifiche.</span></div></div>
         <button class="btn block" type="submit">Entra nel gruppo</button>
-        <p class="small muted centro">Tieni a portata la tessera FIDAL. Niente email né password: le tue gare e i personali si vedono nel gruppo, puoi cambiarlo da Io.</p></form></section>`;
+        <p class="small muted centro">Ci vogliono 3 minuti. Niente email né password: le tue gare e i personali si vedono nel gruppo, puoi cambiarlo da Io.</p></form></section>`;
   }
 
   function vistaEntra(passo) {
@@ -3326,7 +3326,7 @@
       t.disabled = true;
       (S.gruppo.mioInvito ? Promise.resolve(S.gruppo.mioInvito) : rpc("mio_invito", { p_token: token() })).then((c) => {
         S.gruppo.mioInvito = c; salva(); t.disabled = false;
-        const link = linkInvito(c), testo = `Ciao! Corri con noi in ${GD().gruppo.nome}: su RaceBuddy ci sono le nostre gare e le classifiche della società. Ci vogliono 3 minuti: tieni a portata la tessera FIDAL (anche il PDF). Apri il link dal telefono:`;
+        const link = linkInvito(c), testo = `Ciao! Corri con noi in ${GD().gruppo.nome}: su RaceBuddy ci sono le nostre gare e le classifiche della società. Ci vogliono 3 minuti, apri il link dal telefono:`;
         if (navigator.share) navigator.share({ title: "RaceBuddy", text: testo, url: link }).catch(() => {}); else copia(`${testo} ${link}`, "Messaggio");
       }).catch((e) => { t.disabled = false; toast(e.message || "Non riuscito"); });
       return;
@@ -3403,7 +3403,7 @@
     } else if (act === "g-nuovocodice") {
       confirmBox(t, "Creo un link nuovo? Quello vecchio smette di funzionare.", () => azioneGruppo(() => rpc("admin_gruppo", { p_token: token(), p_nome: null, p_nuovo_codice: true }), "Nuovo link creato"));
     } else if (act === "g-condividi") {
-      const testo = `Ciao! Ti aspetto in ${GD().gruppo.nome} su RaceBuddy, l'app del gruppo per gare${clAttive() ? " e classifiche" : ""}. Ci vogliono 3 minuti: tieni a portata la tessera FIDAL (anche il PDF). Apri il link dal telefono:`;
+      const testo = `Ciao! Ti aspetto in ${GD().gruppo.nome} su RaceBuddy, l'app del gruppo per gare${clAttive() ? " e classifiche" : ""}. Ci vogliono 3 minuti, apri il link dal telefono:`;
       if (navigator.share) navigator.share({ title: "RaceBuddy", text: testo, url: t.dataset.link }).catch(() => {});
       else copia(`${testo} ${t.dataset.link}`, "Messaggio");
     } else if (act === "g-copia") {
