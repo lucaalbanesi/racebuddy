@@ -15,31 +15,25 @@ jobs:
           UA="Mozilla/5.0 (RaceBuddy verifica fonti)"
           mkdir -p out && cd out
           exec > >(tee esito.txt) 2>&1
-          get() { echo "=== $1"; curl -sSL -m 30 -A "$UA" -o "$2" -w "HTTP %{http_code} %{content_type} %{size_download}B\n" "$1" || echo "ERRORE"; }
-          for h in tds.sport www.tds-live.com svc.tds-live.com marathonview.net; do get "https://$h/robots.txt" "robots_$h.txt"; echo "--- robots $h"; head -c 3000 "robots_$h.txt"; echo; done
-          get "https://tds.sport/en/race/12354" tds_race.html
-          head -c 4000 tds_race.html; echo
-          grep -oE '(src|href)="[^"]+\.js[^"]*"' tds_race.html | head -20
-          for s in $(grep -oE 'src="[^"]+\.js[^"]*"' tds_race.html | sed 's/src="//;s/"$//' | head -8); do
-            case "$s" in http*) u="$s";; /*) u="https://tds.sport$s";; *) u="https://tds.sport/$s";; esac
-            get "$u" bundle.js
-            echo "--- url nel bundle $u"; grep -oE 'https?://[a-zA-Z0-9./_-]+' bundle.js | sort -u | head -60
-            echo "--- percorsi api"; grep -oE '"/?(api|ws|svc|rest)[a-zA-Z0-9/_.{}$-]*' bundle.js | sort -u | head -80
-            grep -oiE '.{60}(search|cerca|athlete|atleta|ranking|classific)[a-zA-Z]*.{60}' bundle.js | head -40
+          curl -sSL -A "$UA" https://tds.sport/it > home.html
+          for f in $(grep -oE '/js/(app|views-Race|views-Home|components-Classifica|components-BaseRace|views-Circuiti|components-ListaIscritti|lang-it-json)[^ >"]*\.js' home.html | sort -u); do
+            n=$(basename "$f"); curl -sSL -A "$UA" "https://tds.sport$f" > "js_$n"
+            echo "=== $f $(wc -c < js_$n)B"
+            echo "--- url"; grep -oE 'https?://[a-zA-Z0-9./_-]+' "js_$n" | grep -v -E 'w3.org|vuejs|github|google|facebook|cdn' | sort -u | head -40
+            echo "--- chiamate"; grep -oE '.{0,40}(\.get|\.post|axios|fetch|baseURL|apiUrl|endpoint)\(?[^;]{0,160}' "js_$n" | head -60
           done
-          get "https://www.tds-live.com/ns/index.jsp?id=8252&pageType=1" tdslive.html; head -c 3000 tdslive.html; echo
-          for p in terms privacy termini condizioni; do get "https://tds.sport/it/$p" "tds_$p.html"; done
-          get "https://marathonview.net/" mv_home.html
-          echo "--- form"; grep -oiE '<form[^>]*>|<input[^>]*>' mv_home.html | head -20
-          get "https://marathonview.net/marathon-results-of-Lorenzo-Lotti" mv_runner.html
-          sed 's/<[^>]*>/ /g' mv_runner.html | tr -s ' \n' | head -c 4000; echo
-          grep -oiE '(fetch|ajax|\$\.get|\$\.post)\([^)]{0,200}' mv_runner.html | head -20
-          get "https://marathonview.net/race/98795" mv_race.html
-          grep -oiE '(fetch|ajax|\$\.get|\$\.post)\([^)]{0,200}' mv_race.html | head -20
-          grep -oiE 'remaining anonymous[^<]{0,100}' mv_runner.html mv_race.html | head
+          echo "=== lang it (testi su ricerca e condizioni)"; grep -oiE '"[a-z_]*":"[^"]*(cerca|ricerca|atleta|condizion|termini|riprodu|dati)[^"]*"' js_lang-it-json*.js | head -40
+      - name: Prova API
+        run: |
+          cd out
+          exec > >(tee -a esito.txt) 2>&1
+          for b in $(grep -ohE 'https?://[a-zA-Z0-9.-]*(tds|enternow)[a-zA-Z0-9.-]*\.[a-z]+(/[a-zA-Z0-9._/-]*)?' js_*.js | sort -u | head -15); do
+            echo "=== $b"; curl -sS -m 20 -o /dev/null -w "HTTP %{http_code} %{content_type}\n" "$b" || true
+            h=$(echo "$b" | sed -E 's#(https?://[^/]+).*#\1#'); curl -sS -m 20 "$h/robots.txt" | head -c 400; echo
+          done
       - name: Salva l'esito sul ramo
         run: |
           mkdir -p verifica && cp out/esito.txt verifica/esito.txt
-          for f in out/*.html out/robots_*.txt; do head -c 200000 "$f" > "verifica/$(basename "$f")"; done
+          for f in out/js_*.js; do cp "$f" verifica/; done
           git config user.name "Luca Albanesi"; git config user.email "luca.alba8@gmail.com"
           git add verifica && git commit -m "Esito sonda [esito]" && git push
