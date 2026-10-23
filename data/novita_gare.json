@@ -1,6 +1,20 @@
 {
- "aggiornato": "2026-10-22T04:50Z",
+ "aggiornato": "2026-10-23T03:50Z",
  "novita": [
+  {
+   "id": "n81586ca603b",
+   "gara": "La92f52eec5-k19.5",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Tre atleti Brooks e la sfida dei 21K: il dietro le quinte della preparazione verso la Mezza Maratona di Roma",
+   "link": "https://www.runnersworld.com/it/vip/a74092748/tre-atleti-brooks-e-la-sfida-dei-21k-il-dietro-le-quinte-della-preparazione-verso-la-mezza-maratona-di-roma/",
+   "data": "2026-10-21",
+   "fonte": "Runner's World Italia",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://hips.hearstapps.com/vidthumb/d27686f7-a310-4c02-8c0e-9212d27ed1bb/thumb_1920x1080.0000001.jpg",
+   "trovato": "2026-10-23T03:50Z"
+  },
   {
    "id": "n32a30ae3033",
    "gara": "P8cb521dda8-42",
@@ -14,6 +28,20 @@
    "tipo": "articolo",
    "immagine": "https://hips.hearstapps.com/vidthumb/d27686f7-a310-4c02-8c0e-9212d27ed1bb/thumb_1920x1080.0000001.jpg",
    "trovato": "2026-10-15T08:36Z"
+  },
+  {
+   "id": "nb2b881a81c9",
+   "gara": "La92f52eec5-k19.5",
+   "tema": "risultati",
+   "urgenza": "mattino",
+   "titolo": "Mezza Maratona di Roma, i risultati degli italiani",
+   "link": "https://www.runnersworld.com/it/news/a74169776/mezza-maratona-roma-risultati-italiani/",
+   "data": "2026-10-18",
+   "fonte": "Runner's World Italia",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/gettyimages-1639674174-65eacc7dc044d.jpg",
+   "trovato": "2026-10-23T03:50Z"
   },
   {
    "id": "n23b64c5b536",
