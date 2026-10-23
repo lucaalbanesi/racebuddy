@@ -1,0 +1,312 @@
+=== /js/app.26fab566.js 134969B
+--- url
+http://maps.apple.com/
+http://www.weareorigami.com
+https://api.tds.sport/rest/jrest.svc
+https://enternow.it
+https://enternow.it/uploads/tds/evodata.background.jpg
+https://enternow.it/uploads/tds/evodata.png
+https://evodata.it
+https://tds.sport
+https://www.cam.tv/tds_it
+https://www.enternow.it
+https://www.enternow.it/
+https://www.enternow.it/tds-api/v1
+https://www.instagram.com/timingdataservice/
+https://www.youtube.com/channel/UCToCwQCgrxpWz8pQam8z3HA
+--- chiamate
+"31d6cfe0"}[e]+".css",a=l.p+n,s=document.getElementsByTagName("link"),r=0
+;r<s.length;r++){var c=s[r],u=c.getAttribute("data-href")||c.getAttribute("href")
+(u===n||u===a))return t()}var d=document.getElementsByTagName("style")
+;for(r=0;r<d.length;r++){c=d[r],u=c.getAttribute("data-href")
+veChild(p),i(s)},p.href=a;var h=document.getElementsByTagName("head")[0]
+on d(e,t){var i=Object.keys(e);if(Object.getOwnPropertySymbols){var n=Object.getOwnPropertySymbols(e)
+&&(n=n.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),i.push.apply(i,n)}return i}function p(e){for(var t=1
+on(t){Object(n["a"])(e,t,i[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(i)):d(Object(i)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnP
+,getUserSupportedLang:function(){var e=h.getUserLang()
+ge(n).then((function(){return i()})):i(h.getUserSupportedLang())},i18nRoute:function(e){return p(p({},e),{},{params:p({lang:this.currentLanguage},e.params)})}}},"0f01":function(e,t,i){"use strict"
+d:{loading:function(){return this.$store.getters.loading},menu_isOpen:function(){return this.$store.getters.menu_open}}},l=r,c=(i("156a"),i("2877")),u=Object(c["a"])(l,n,o,!1,null,null,null)
+th:"*",redirect:function(){return s["a"].getUserSupportedLang()}}]
+|e.in_recovery},on:{ok:e.doAction,show:e.getRegisterData},scopedSlots:e._u([{key:"modal-footer",fn:function(i){var n=i.ok
+-MM-YYYY"),this.disableLogin=this.$store.getters.disableLogin,c["a"].$on("open_login",(function(){t.openLogin()}))
+ed:{logged:function(){return this.$store.getters.logged},country:function(){return this.optsFromTable(this.opt.country)},region:function(){return this.optsFromTable(this.opt.region)},disciplines:function(
+,user_name:function(){return this.$store.getters.user_name},user_surname:function(){return this.$store.getters.user_surname}},methods:{doAction:function(e){this.in_register?this.doRegister(e):this.in_edit
+store.commit("loading",!0),n=this.$store.getters.base_url+"/"+this.$store.getters.locale+"/adduser",e.next=25,this.$http.post(n,this.register)
+store.commit("loading",!0),n=this.$store.getters.url+"edituser",e.next=16,this.$http.post(n,this.edit)
+ase 0:if(setTimeout((function(){document.getElementById("login_email")&&document.getElementById("login_email").focus()}),100),!(this.opt.country.length>0)){e.next=3
+"return",!0);case 3:return e.next=5,this.get(["table/country","table/region","table/discipline"])
+store.commit("loading",!0),i=this.$store.getters.base_url+"/login/"+this.$store.getters.locale+"/"+this.email+"/web",e.next=5,this.$http.post(i,{password:this.password})
+store.commit("loading",!0),i=this.$store.getters.base_url,n="/"+this.$store.getters.locale+"/resetpassword/"+this.email,e.next=6,this.get(n,!0,i)
+store.commit("loading",!0),t=this.$store.getters.base_url,i="/logout/"+this.$store.getters.locale+"/"+this.$store.getters.token,e.next=5,this.get(i,!0,t)
+prev=e.next){case 0:return e.next=2,this.getRegisterData()
+dit=!0,this.in_recovery=!1,e.next=8,this.get("edituser")
+f(l<1)return!1;$(i,function(e){if((!t||e.getAttribute("data-intro-group")===t)&&"none"!==e.style.display){var i=parseInt(e.getAttribute("data-step"),10)
+;o="undefined"!==typeof e.getAttribute("data-disable-interaction")?!!e.getAttribute("data-disable-interaction"):this._options.disableInteraction,i>0&&(n[i-1]={element:e,intro:e.getAttribute
+("data-intro"),step:parseInt(e.getAttribute("data-step"),10),tooltipClass:e.getAttribute("data-tooltipclass"),highlightClass:e.getAttribute("data-highlightclass"),position:e.getAttribute("data-p
+this._options.tooltipPosition,scrollTo:e.getAttribute("data-scrollto")||this._options.scrollTo,disableInteraction:o})}}.bind(this))
+;var c=0;$(i,function(e){if((!t||e.getAttribute("data-intro-group")===t)&&null===e.getAttribute("data-step")){while(1){if("undefined"===typeof n[c])break
+;c++}o="undefined"!==typeof e.getAttribute("data-disable-interaction")?!!e.getAttribute("data-disable-interaction"):this._options.disableInteraction,n[c]={element:e,intro:e.getAttribute("data-i
+ntro"),step:c+1,tooltipClass:e.getAttribute("data-tooltipclass"),highlightClass:e.getAttribute("data-highlightclass"),position:e.getAttribute("data-position")||this._options.tooltipPosition,scro
+llTo:e.getAttribute("data-scrollto")||this._options.scrollTo,disableInteraction:o}}}.bind(this))}for(var d=[],p=0
+),m.call(this,this._targetElement)):i&&i.getAttribute("data-stepnumber")?i.click():u.call(this),e.preventDefault?e.preventDefault():e.returnValue=!1}}else m.call(this,this._targetElement)}function r(e){if
+D(),a=Q(t).height+10,s=Q(t).width+20,r=e.getBoundingClientRect(),l="floating"
+blist");var z=function(){a.goToStep(this.getAttribute("data-stepnumber"))}
+ions.scrollToElement&&(n="tooltip"===e?i.getBoundingClientRect():t.element.getBoundingClientRect(),!R(t.element)))){var o=D().height,a=n.bottom-(n.bottom-n.top)
+e,t){if(e instanceof SVGElement){var i=e.getAttribute("class")||""
+e,t){if(e instanceof SVGElement){var i=e.getAttribute("class")||""
+cument.defaultView&&document.defaultView.getComputedStyle&&(i=document.defaultView.getComputedStyle(e,null).getPropertyValue(t)),i&&i.toLowerCase?i.toLowerCase():i}function A(e){var t=e.parentNode
+ht:e.clientHeight}}function R(e){var t=e.getBoundingClientRect()
+(".introjs-hintReference");if(e){var t=e.getAttribute("data-step")
+.length)return!1;$(t,function(e){var t=e.getAttribute("data-hintanimation")
+,this._introItems.push({element:e,hint:e.getAttribute("data-hint"),hintPosition:e.getAttribute("data-hintposition")||this._options.hintPosition,hintAnimation:t,tooltipClass:e.getAttribute("data-tooltipcla
+ss"),position:e.getAttribute("data-position")||this._options.tooltipPosition})}.bind(this))}W.call(this),N.on(document,"click",O,this,!1),N.on(window,"resize",q,this,!0)}function 
+ojs-hint");$(e,function(e){H.call(this,e.getAttribute("data-step"))}.bind(this))}function Y(){var e=B(".introjs-hint")
+&&e.length?$(e,function(e){F.call(this,e.getAttribute("data-step"))}.bind(this)):M.call(this,this._targetElement)}function F(e){var t=B('.introjs-hint[data-step="'+e+'"]')[0]
+ojs-hint");$(e,function(e){G.call(this,e.getAttribute("data-step"))}.bind(this))}function G(e){var t=B('.introjs-hint[data-step="'+e+'"]')[0]
+(s),o.appendChild(a),this._currentStep=t.getAttribute("data-step"),r.className="introjs-tooltipReferenceLayer introjs-hintReference",r.setAttribute("data-step",t.getAttribute("data-step")),w.call(this,r),
+eXOffset||i.scrollLeft||t.scrollLeft,a=e.getBoundingClientRect()
+eft:a.left+o}}function X(e){var t=window.getComputedStyle(e),i="absolute"===t.position,n=/(auto|scroll)/
+r(var o=e;o=o.parentElement;)if(t=window.getComputedStyle(o),(!i||"static"!==t.position)&&n.test(t.overflow+t.overflowY+t.overflowX))return o
+n=e.disableToken,!0;var i=sessionStorage.getItem("user")
+;if(i||(i=localStorage.getItem("user")),i){i=JSON.parse(i),e.user=i,e.token=e.user.Token
+puted:{url:function(){return this.$store.getters.url},logged:function(){return this.$store.getters.logged},admin:function(){return this.$store.getters.admin},enow:function(){return this.$store.getters.eno
+e.commit("loading",!0),n||(n=this.$store.getters.url),!Array.isArray(t)){e.next=15
+=[],a=0;a<t.length;a++)o.push(this.$http.get(n+t[a]))
+(r));case 15:return e.next=17,this.$http.get(n+t)
+=== /js/components-BaseRace-vue.20ecb6b9.js 3080B
+--- url
+http://maps.apple.com/
+https://www.getpica.com
+--- chiamate
+ded=!1,this.id=e.params.id,t.next=4,this.get(this.id+"/light",!0)
+s.id=this.$route.params.id,t.next=3,this.get(this.id+"/light",!0)
+s.data=e.RaceDetails,this.loaded=!0,this.getInfoIscrizioni(),t.next=9,this.$nextTick()
+prev=t.next){case 0:return t.next=2,this.getEnow("/race/subscription/"+this.data.ID)
+prev=t.next){case 0:return t.next=2,this.get([this.id+"/ads/web.race"])
+data||!this.data.Services)&&"https://www.getpica.com"===this.data.Services.PhotoUrl},currentLanguage:function(){return r["a"].currentLanguage},hasResults:function(){return null!==this.data&&(!this.data.Se
+=== /js/components-Classifica-vue.f67a354c.js 48581B
+--- url
+https://www.getpica.com
+--- chiamate
+Category,a.Name),window.open(this.$store.getters.url+"certificate/"+e.ID+"/"+i+"/"+s.BibNumber),t.abrupt("return",!0)
+)?e("span",[t._v(t._s(t.$t("boxs_wrapper.getpica.coming_soon")))]):t._e(),t.isActiveAndInThePast(t.data.Services.Photo)?e("span",[t._v(t._s(t.$t("boxs_wrapper.getpica.available")))]):t._e()])]),t.isActive
+--wrapper--cta",attrs:{href:"https://www.getpica.com",target:"_blank"}},[e("span",{staticClass:"getpica-box--wrapper--cta--text"},[t._v(t._s(t.$t("boxs_wrapper.getpica.cta")))]),e("img",{staticClass:"ml-2
+ta--text"},[t._v(t._s(t.$t("boxs_wrapper.getpica.cta")))]),e("img",{staticClass:"ml-2",attrs:{src:a("de93"),height:"8",alt:""}})])])])]):t._e()])]),e("DownloadCertificate",{ref:"cert"})],1):t._e()},i=[],n
+data||!this.data.Services)&&"https://www.getpica.com"===this.data.Services.PhotoUrl}}},c=l,o=a("2877"),d=Object(o["a"])(c,s,i,!1,null,null,null)
+ifica.numPerPage,limit:"4"},on:{change:t.getClassifica},model:{value:t.classifica.pag,callback:function(e){t.$set(t.classifica,"pag",e)},expression:"classifica.pag"}})],1)]):t._e()]):t._e()]),t.sel_downlo
+data||!this.data.Services)&&"https://www.getpica.com"===this.data.Services.PhotoUrl},event:function(){if(this.events.length<=0)return{}
+c["a"].$on("event_changed",(function(){t.getRankings()})),c["a"].$on("ranking_changed",(function(){t.updateClassifica()})),this.getResultType()},methods:{downloadCertificate:function(){var t=Object(n["a"]
+.gesture.div||(this.gesture.div=document.getElementById("gesture_div"))
+cument.body.scrollTop,s=this.gesture.div.getBoundingClientRect(),i=s.top+this.gesture.offsetBegin+a,n=s.bottom+this.gesture.offsetEnd+a
+Tick();case 2:this.classifica.pag=1,this.getClassifica(this.classifica.pag)
+is.classifica.md5search=a,t.next=14,this.get(a,!0)
+s.$forceUpdate(),this.$scrollTo(document.getElementById("classifica_head")),i=this.makeUrl(this.classifica.sesso,this.classifica.agegroup,this.classifica.country),i!==this.classifica.md5url){t.next=24
+ this.classifica.md5url=i,t.next=27,this.get([this.makeUrl(this.classifica.sesso,-1,this.classifica.country)+"/@agegroup",this.makeUrl(this.classifica.sesso,this.classifica.agegroup,-1)+"/@country",this.ma
+gCategory,this.event.Name),t.next=5,this.get(this.data.ID+"/athlete/r/"+this.classifica.id+"/"+e.BibNumber)
+prev=t.next){case 0:return t.next=2,this.get("table/result")
+prev=t.next){case 0:return t.next=2,this.get(this.data.ID+"/rankings/"+this.event.ID)
+)},popClose:function(){this.pop1=!1,this.getClassifica()},changePage:function(){var t=Math.ceil(this.classifica.tot/this.classifica.numPerPage)
+ca.pag=t,this.arrow_active_class=!1,this.getClassifica(this.classifica.pag)):(this.classifica.pag=this.cambioPagina,this.arrow_active_class=!1,this.getClassifica(this.classifica.pag))},titoloModale:functi
+=== /js/components-ListaIscritti-vue.c3798fbf.js 15593B
+--- url
+--- chiamate
+e":t.classifica.numPerPage},on:{change:t.getClassifica},model:{value:t.classifica.pag,callback:function(e){t.$set(t.classifica,"pag",e)},expression:"classifica.pag"}}),e("div",{staticClass:"col-md-12 text
+urn this.classifica.pag=1,t.next=23,this.getClassifica(this.classifica.pag)
+Tick();case 2:this.classifica.pag=1,this.getClassifica(this.classifica.pag)
+is.classifica.md5search=s,t.next=11,this.get(s,!0)
+ this.classifica.md5url=i,t.next=21,this.get([this.makeUrl(this.classifica.sesso,-1,this.classifica.country)+"/agegroup",this.makeUrl(this.classifica.sesso,this.classifica.agegroup,-1)+"/country",this.make
+=== /js/lang-it-json.5e571bd7.js 55435B
+--- url
+http://www.weareorigami.com
+https://enternow.it
+https://tds.sport
+https://www.cam.tv/tds_it
+https://www.instagram.com/timingdataservice/
+https://www.youtube.com/channel/UCToCwQCgrxpWz8pQam8z3HA
+--- chiamate
+=== /js/views-Circuiti-vue.f83a73af.js 36670B
+--- url
+--- chiamate
+k=o),e.size!=t.size&&!A)return!1;var D=O.get(e)
+r("4245");function i(e){return n(this,e).get(e)}e.exports=i},2524:function(e,t,r){var n=r("6044"),i="__lodash_hash_undefined__"
+totype,c=a.propertyIsEnumerable,s=Object.getOwnPropertySymbols,o=s?function(e){return null==e?[]:(e=Object(e),n(s(e),(function(t){return c.call(e,t)})))}:i
+ar=n,o.prototype["delete"]=i,o.prototype.get=a,o.prototype.has=c,o.prototype.set=s,e.exports=o},6044:function(e,t,r){var n=r("0b07"),i=n(Object,"create")
+ar=n,o.prototype["delete"]=i,o.prototype.get=a,o.prototype.has=c,o.prototype.set=s,e.exports=o},"7b97":function(e,t,r){var n=r("7e64"),i=r("a2be"),a=r("1c3c"),c=r("b1e5"),s=r("42a2"),o=r("6747"),u=r("0d24
+ar=i,u.prototype["delete"]=a,u.prototype.get=c,u.prototype.has=s,u.prototype.set=o,e.exports=u},"7ed2":function(e,t){var r="__lodash_hash_undefined__"
+(e,t){function r(e){return this.__data__.get(e)}e.exports=r},"85e3":function(e,t){function r(e,t,r){switch(r.length){case 0:return e.call(t)
+ngth;if(f!=p&&!(v&&p>f))return!1;var d=l.get(e),b=l.get(t)
+!(u?b in t:c.call(t,b)))return!1}var _=o.get(e),h=o.get(t)
+is.$route.params.id,this.anno=(new Date).getFullYear(),this.anni=[{value:this.anno-1,text:this.anno-1},{value:this.anno,text:this.anno},{value:this.anno+1,text:this.anno+1}],this.updateSeries()
+prev=e.next){case 0:return e.next=2,this.get("series/"+this.anno,!0)
+ar=n,o.prototype["delete"]=i,o.prototype.get=a,o.prototype.has=c,o.prototype.set=s,e.exports=o},e2c0:function(e,t,r){var n=r("e2e4"),i=r("d370"),a=r("6747"),c=r("c098"),s=r("b218"),o=r("f4d6")
+s,n):n[0],a=r.cache;if(a.has(i))return a.get(i)
+=== /js/views-Home-vue.94f3d6c8.js 115482B
+--- url
+https://player.vimeo.com/external/371158010.hd.mp4
+--- chiamate
+);var a={},s=r&&(document.head||document.getElementsByTagName("head")[0]),o=null,c=0,l=!1,u=function(){},d=null,h="data-vue-ssr-id",f="undefined"!=typeof navigator&&/msie [6-9]\b/.test(navigator.userAgent
+:!0,value:e})}},function(t,e){e.f=Object.getOwnPropertySymbols},function(t,e,n){var i=n(48),r=n(33).concat("length","prototype")
+;e.f=Object.getOwnPropertyNames||function(t){return i(t,r)}},function(t,e,n){var i=n(22),r=n(14),a=n(12),s=n(20),o=n(9),c=n(40),l=Object.getOwnPropertyDescriptor
+n(0)("iterator"),a=n(18);t.exports=n(11).getIteratorMethod=function(t){if(void 0!=t)return t[r]||t["@@iterator"]||a[i(t)]}},function(t,e,n){var i=n(19),r=n(0)("toStringTag"),a="Arguments"==i(function(){re
+TO"),s=Object.prototype;t.exports=Object.getPrototypeOf||function(t){return t=r(t),i(t,a)?t[a]:"function"==typeof t.constructor&&t instanceof t.constructor?t.constructor.prototype:t instanceof Object?s:nu
+="object"==typeof window&&window&&Object.getOwnPropertyNames?Object.getOwnPropertyNames(window):[]
+"aria-hidden":"false",role:"tab",title:e.getDotTitle(n),value:e.getDotTitle(n),"aria-label":e.getDotTitle(n),"aria-selected":e.isCurrentDot(n)?"true":"false"},on:{click:function(t){e.goToPage(n)}}})})))])
+is.canAdvanceBackward?this.goToPage(this.getPreviousPage(),"navigation"):(!t||t&&"backward"!==t)&&this.canAdvanceForward&&this.goToPage(this.getNextPage(),"navigation")},goToLastSlide:function(){var t=thi
+Object.keys(n);"function"==typeof Object.getOwnPropertySymbols&&(i=i.concat(Object.getOwnPropertySymbols(n).filter((function(t){return Object.getOwnPropertyDescriptor(n,t).enumerable})))),i.forEach((funct
+)})),this.$parent.$el)for(var i=this.$el.getElementsByClassName("VueCarousel-inner"),r=0
+ouselWidth:function(){for(var t=this.$el.getElementsByClassName("VueCarousel-inner"),e=0
+entPerPage)).map((function(n,i){return t.getSlide(e+i)})).reduce((function(t,e){return Math.max(t,e&&e.$el.clientHeight||0)}),0)
+h)},computeCarouselWidth:function(){this.getSlideCount(),this.getBrowserWidth(),this.getCarouselWidth(),this.setCurrentPageInBounds()},computeCarouselHeight:function(){this.getCarouselHeight()},setCurrent
+window.removeEventListener("resize",this.getBrowserWidth),this.$refs["VueCarousel-inner"].removeEventListener(this.transitionstart,this.handleTransitionStart),this.$refs["VueCarousel-inner"].removeEventLi
+n(1),s=n.n(a),o=function(t){var e=11===t.getMonth(),n=e?0:t.getMonth()+1,i=e?t.getFullYear()+1:t.getFullYear()
+w Date(i,n,1)},c=function(t){var e=0===t.getMonth(),n=e?11:t.getMonth()-1,i=e?t.getFullYear()-1:t.getFullYear()
+eturn r()({},e,t)},d=function(t){var e=t.getMonth()+1
+;return t.getFullYear()+(e<10?"0":"")+e}},function(t,e){var n=t.exports={version:"2.5.1"}
+ange-month",{month:this.currentMonthDate.getMonth(),year:this.currentMonthDate.getFullYear()})},dayClass:function(t){var e=new Date(t)
+is.end).setHours(0,0,0,0),"start-date":e.getTime()===n.getTime(),"end-date":e.getTime()===i.getTime(),disabled:this.minDate&&r()(e).startOf("day").isBefore(r()(this.minDate).startOf("day"))||this.maxDate&
+.locale.monthNames[this.currentMonthDate.getMonth()]},year:{get:function(){return this.currentMonthDate.getFullYear()},set:function(t){var e=n.i(a.d)(new Date(t,this.month,1),this.minDate,this.maxDate)
+;this.$emit("change-month",{month:e.getMonth(),year:e.getFullYear()})}},month:{get:function(){return this.currentMonthDate.getMonth()},set:function(t){var e=n.i(a.d)(new Date(this.year,t,1),this.minD
+Date);this.$emit("change-month",{month:e.getMonth(),year:e.getFullYear()})}},calendar:function(){for(var t=this.month,e=this.currentMonthDate.getFullYear(),n=new Date(e,t,0).getDate(),i=new Date(e,t,1),a=
+").year(),o=r()([s,a]).daysInMonth(),c=i.getDay(),l=[],u=0
+axDate&&this.minDate){var e=this.maxDate.getFullYear()-this.minDate.getFullYear()
+){var n=[];if(e<1)for(var i=this.minDate.getMonth()
+;i<=this.maxDate.getMonth()
+push(i);else{for(var r=0;r<=this.maxDate.getMonth()
+;r++)n.push(r);for(var a=this.minDate.getMonth()
+urrentTime?this.currentTime:new Date,e=t.getHours()
+urn{hour:this.hour24?e:e%12||12,minute:t.getMinutes()-t.getMinutes()%this.miniuteIncrement,second:t.getSeconds(),ampm:e<12?"AM":"PM"}},computed:{hours:function(){for(var t=[],e=this.hour24?24:12,n=0
+nction(){this.$emit("update",{hours:this.getHour(),minutes:this.minute,seconds:this.second})}}}},function(t,e,n){"use strict"
+return this.timePicker&&e&&(n.setHours(e.getHours()),n.setMinutes(e.getMinutes()),n.setSeconds(e.getSeconds()),n.setMilliseconds(e.getMilliseconds())),n},dateClick:function(t){this.in_selection?(this.in_s
+is.maxDate);this.changeLeftMonth({year:t.getFullYear(),month:t.getMonth()})},maxDate:function(){var t=n.i(d.d)(this.nextMonthDate,this.minDate,this.maxDate||new Date)
+;this.changeRightMonth({year:t.getFullYear(),month:t.getMonth()})},"dateRange.startDate":function(t){this.start=t&&!this.isClear?new Date(t):null,this.isClear?(this.start=null,this.end=null):(th
+e]=n.value),t}},function(t,e){e.f=Object.getOwnPropertySymbols},function(t,e,n){var i=n(29),r=n(11),a=n(23)(!1),s=n(39)("IE_PROTO")
+w.adsbygoogle || []).push({});",document.getElementsByTagName("body")[0].appendChild(t)}}},s=a,o=n("2877"),c=Object(o["a"])(s,i,r,!1,null,null,null)
+btn-lg btn-gare-precedenti"},on:{click:t.getMoreResults}},[e("span",[t._v(t._s(t.$t("altri_eventi")))])])],1):t._e(),t.calendario.tot>t.calendario.numPerPage?e("div",{staticClass:"col-12"},[e("div",{stati
+prev=t.next){case 0:return e=this.$store.getters["home/calendario"],e&&(this.calendario=e,this.search_isOpen=e.search_isOpen),sessionStorage.getItem("hideBanner")&&(this.hideBanner=!0),this.screenSize=win
+this.headScroll),this.makePeriodi(),this.getBanner(),t.next=12,this.getCalendario(this.calendario.pag)
+anner_link:function(){return this.$store.getters.banner_link},banner_image:function(){return this.$store.getters.banner_image},background_image:function(){return this.$store.getters.background_image},gare
+e){t.next=27;break}return t.next=16,this.get(n,!0)
+his.calendario.loading=!0,t.next=30,this.get(n,!1)
+=1,t.next=5,this.$nextTick();case 5:this.getCalendario(this.calendario.pag)
+r",t.next=7,this.$nextTick();case 7:this.getCalendario(this.calendario.pag)
+ts:function(){this.calendario.pag++,this.getCalendario(this.calendario.pag)},updateTextCalendario:d()((function(){this.updateCalendario()}),800),getBanner:function(){var t=Object(a["a"])(regeneratorRuntim
+prev=t.next){case 0:return t.next=2,this.get(["/ads/web.home","/ads/web.top"])
+body.scrollTo,r=document.documentElement.getBoundingClientRect(),a=r.height+r.top
+(t.prev=t.next){case 0:if(e=localStorage.getItem("intro_done"),this.introDone=e,!e){t.next=4
+is.$t("intro.step_search")}),this.$store.getters.disableLogin||e.addStep({element:document.querySelectorAll("#intro-login")[0],intro:this.$t("intro.step_login")})):(e.addStep({element:document.querySelect
+is.$t("intro.step_search")}),this.$store.getters.disableLogin||e.addStep({element:document.querySelectorAll("#intro-login")[0],intro:this.$t("intro.step_login")})),e.addStep({element:document.querySelecto
+ilter.this_year")});for(var t=(new Date).getFullYear(),e=t-1
+=== /js/views-Race-vue.f52c5f1a.js 55748B
+--- url
+http://maps.apple.com/
+https://www.getpica.com
+--- chiamate
+rn t.next=2,this.$nextTick();case 2:this.getBanner(),this.getNews(),d["a"].$on("event_changed",(function(){e.updateEvent(),e.getEventNews()}))
+prev=t.next){case 0:return t.next=2,this.get(this.id+"/news/generic")
+prev=t.next){case 0:return t.next=2,this.get(this.id+"/news/"+this.event.ID)
+y.scrollTop,s=this.$refs.newsListGeneric.getBoundingClientRect()
+ t=this;c["a"].$on("login",(function(){t.getInfoIscrizioni()})),c["a"].$on("logout",(function(){t.getInfoIscrizioni()})),this.getInfoIscrizioni()},methods:{getInfoIscrizioni:function(){var t=Object(n["a"]
+prev=t.next){case 0:return t.next=2,this.getEnow("/race/subscription/"+this.data.ID)
+eturn this.hiddenForm.action=this.$store.getters.eno+a,this.hiddenForm.id=e,this.hiddenForm.token=this.$store.getters.token,t.next=5,this.$nextTick()
+ded=!1,this.id=e.params.id,t.next=4,this.get(this.id+"/light",!0)
+s.id=this.$route.params.id,t.next=3,this.get(this.id+"/light",!0)
+s.data=e.RaceDetails,this.loaded=!0,this.getInfoIscrizioni(),t.next=9,this.$nextTick()
+prev=t.next){case 0:return t.next=2,this.getEnow("/race/subscription/"+this.data.ID)
+prev=t.next){case 0:return t.next=2,this.get([this.id+"/ads/web.race"])
+data||!this.data.Services)&&"https://www.getpica.com"===this.data.Services.PhotoUrl},currentLanguage:function(){return r["a"].currentLanguage},hasResults:function(){return null!==this.data&&(!this.data.Se
+e":t.classifica.numPerPage},on:{change:t.getClassifica},model:{value:t.classifica.pag,callback:function(e){t.$set(t.classifica,"pag",e)},expression:"classifica.pag"}}),e("div",{staticClass:"col-md-12 text
+urn this.classifica.pag=1,t.next=23,this.getClassifica(this.classifica.pag)
+Tick();case 2:this.classifica.pag=1,this.getClassifica(this.classifica.pag)
+is.classifica.md5search=a,t.next=11,this.get(a,!0)
+ this.classifica.md5url=i,t.next=21,this.get([this.makeUrl(this.classifica.sesso,-1,this.classifica.country)+"/agegroup",this.makeUrl(this.classifica.sesso,this.classifica.agegroup,-1)+"/country",this.make
+/"+this.atleti.numPerPage,t.next=10,this.get(a)
+=== lang it (testi su ricerca e condizioni)
+"description":"Purtroppo non siamo riusciti a trovare la pagina che stavi cercando."
+"step_menu":"Tocca qui aprire lo strumento di ricerca per vedere gli eventi futuri e le classifiche degli eventi trascorsi."
+"step_date":"Per ricercare un evento di tuo interesse tocca le date e seleziona il periodo di riferimento. <br>Premi su <strong>“Gare Recenti”</strong> per impostare la selezione sull’ultima settimana.<br>Premi su <strong>“Gare future”</strong> per consultare gli eventi futuri a partire da oggi, per un anno.<br>Premi su <strong>“Ultimo mese”</strong> per consultare gli eventi conclusi degli ultimi 30 giorni."
+"step_search":"Una volta impostata la ricerca premi qui per filtrare i risultati."
+"testo_uso_portale":"Consento alla gestione dei dati per utilizzo nel portale TDS (obbligatorio)"
+"testo_comunicazioni":"Consento alla gestione dei dati per l\'invio di comunicazioni da parte di TDS (facoltativo)"
+"subtitle":"Purtroppo non è stato possibile trovare alcun risultato per la ricerca che hai apppena fatto, cerca di nuovo."
+"text_old":"<h1>Informativa protezione dei dati personali (D.Lgs 196/03)</h1>\\n<p>Gentile cliente, ai sensi dell\'articolo 13 del Codice in materia di protezione dei dati personali (D.Lgs 196/03) Le forniamo, qui di seguito, l\'informativa riguardante il trattamento(1) dei Suoi dati personali(2) che sara\' effettuato da questa Societa\' in relazione al servizio di gestione iscrizioni a manifestazioni sportive che Le sara\' fornito, ivi compresi gli eventuali servizi supplementari.</p>\\n<p><br>\\n  1) I Suoi dati personali saranno trattati per le seguenti finalita\' connesse all\'esecuzione del contratto per la fornitura dei servizi sotto indicati:</p>\\n<p>a) erogazione del servizio di iscrizione a manifestazioni sportive,</p>\\n<p>b) manutenzione e assistenza tecnica relativa all\'utilizzo del servizio,</p>\\n<p>c) fatturazione del costo del servizio e degli eventuali servizi supplementari,</p>\\n<p>d) gestione di eventuali reclami e contenziosi,</p>\\n<p>e) tutela ed eventuale recupero del credito, anche attraverso soggetti terzi (Agenzie/Societa\' di recupero credito) ai quali saranno comunicati i dati necessari per tali scopi,</p>\\n<p>f) cessione del credito a Societa\' autorizzate,</p>\\n<p>Relativamente alle finalita\' connesse all\'analisi dei rischi, alla prevenzione di possibili frodi, nonche\' alla tutela del credito, la nostra Societa\' si avvarra\' anche di una Banca dati di cui e\' titolare Timing Data Service S.r.l. con sede in via delle Macchine 14 - 30038 Spinea (VE).<br>\\n  Tali dati verranno trattati da Timing Data Service S.r.l. con l\'ausilio di strumenti informatici, telematici e cartacei. I dati contenuti nella suddetta Banca Dati non verranno comunicati o diffusi a terzi ma potranno essere utilizzati dagli Incaricati deputati al perseguimento delle suddette finalita\'.<br>\\n  Il conferimento dei Suoi dati e\' obbligatorio per il conseguimento delle finalita\' di cui sopra; il loro mancato, parziale o inesatto conferimento potrebbe avere come conseguenza l\'impossibilita\' di fornirLe i servizi richiesti.<br>\\n  In osservanza delle disposizioni normative in vigore, ai sensi del D.Lgs 196/03 e successive modifiche, i dati relativi al traffico telematico (dati relativi all\'ubicazione ed alle connessione ad Internet c.d. file di log ) sono conservati per sei (6) mesi ai fini dell\'erogazione, della fatturazione o della pretesa del pagamento, come previsto dall\'articolo 123 del suddetto D.Lgs 196/03 e successive modifiche. Il periodo decorre dalla data di scadenza della registrazione al servizio.</p>\\n<p>2) Inoltre, fino alla revoca del consenso, i Suoi dati personali saranno trattati per le seguenti ulteriori finalita\':</p>\\n<p>a) elaborare studi e ricerche statistiche e di mercato,</p>\\n<p>b) inviare, anche tramite SMS, posta elettronica, canali telefonici materiale pubblicitario, informativo e informazioni commerciali,</p>\\n<p>c) effettuare comunicazioni commerciali interattive,</p>\\n<p>d) effettuare rilevazioni del grado di soddisfazione della clientela sulla qualita\' dei servizi forniti (anche attraverso soggetti terzi).</p>\\n<p>Lei potra\' revocare il consenso fornito per tali finalita\' in qualsiasi momento attraverso la gestione del proprio profilo utente oppure, per quanto non previsto dal portale, scrivendo una mail a privacy@tds.sport.<br>\\n  I trattamenti di cui ai precedenti punti 1) e 2), saranno effettuati manualmente (ad esempio, su supporto cartaceo) e/o attraverso strumenti automatizzati (ad esempio, utilizzando procedure e supporti elettronici) e comunque in conformita\' alle disposizioni normative vigenti in materia.</p>\\n<p><br>\\n  All\'interno della Societa\' i Suoi dati personali saranno trattati dai dipendenti delle Funzioni di Customer Care, Commerciale, Marketing, Fatturazione e Tecnologie . Detti dipendenti, che operano sotto la diretta autorita\' del \'\'Responsabile del trattamento\'\', sono stati designati Incaricati del trattamento ed hanno ricevuto, al riguardo, adeguate istruzioni operative.</p>\\n<p><br>\\n  Oltre che dai dipendenti della Societa\', alcuni trattamenti dei Suoi dati personali potranno essere effettuati anche da soggetti terzi, con sede in Italia e/o all\'estero, ai quali Timing Data Service S.r.l. affida talune attivita\' (o parte di esse) funzionali alla fornitura dei servizi sopra citati. In tal caso gli stessi soggetti opereranno in qualita\' di Titolari autonomi o saranno designati come Responsabili o Incaricati del trattamento. I Responsabili o gli Incaricati eventualmente designati riceveranno adeguate istruzioni operative, con particolare riferimento all\'adozione delle misure minime di sicurezza, al fine di poter garantire la riservatezza e la sicurezza dei dati. I soggetti terzi sopra citati sono essenzialmente ricompresi nelle seguenti categorie: Societa\' di recupero credito, Societa\' che elaborano dati per la fatturazione, Societa\' incaricate per la stampa e la spedizione delle fatture ai clienti, Societa\' di Consulenza, Societa\' cessionarie dei crediti, Societa\' che svolgono attivita\' di telemarketing e call center, Agenti e Procacciatori, franchisee.</p>\\n<p>Il Titolare dei trattamenti dei Suoi dati personali e\' Timing Data Service S.r.l., con sede in via delle Macchine, 14 - 30038 Spinea (VE). Il Responsabile dei trattamenti medesimi e\' il Sig. Alessandro Vedovetto, domiciliato presso Timing Data Service S.r.l..<br>\\n  In relazione ai trattamenti dei dati che La riguardano, Lei potra\' rivolgersi al suddetto Responsabile per esercitare i Suoi diritti ai sensi dell\'articolo 7 del Codice sopra citato, diritti che, per comodita\', Le riepiloghiamo di segiuto la presente informativa.<br>\\n  <br>\\n  Diritto di accesso ai dati personali ed altri diritti ai sensi dell\'articolo 7 del Codice in materia di protezione dei dati personali (D.Lgs 196/03)<br>\\n  <br>\\n  L\'interessato ha diritto di ottenere la conferma dell\'esistenza o meno di dati personali che lo riguardano, anche se non ancora registrati, e la loro comunicazione in forma intelligibile.<br>\\n  Inoltre, l\'interessato ha diritto di ottenere:</p>\\n<p>- l\'indicazione dell\'origine dei dati personali;</p>\\n<p>- l\'indicazione delle finalita\' e modalita\' del trattamento;</p>\\n<p>- l\'indicazione della logica applicata in caso di trattamento effettuato con l\'ausilio di strumenti elettronici;</p>\\n<p>- l\'indicazione degli estremi identificativi del titolare, dei responsabili e del rappresentante designato nel territorio dello Stato Italiano, ove previsto;</p>\\n<p>- l\'indicazione dei soggetti o delle categorie di soggetti ai quali i dati personali possono essere comunicati o che possono venirne a conoscenza in qualita\' di rappresentante designato nel territorio dello Stato Italiano, di responsabili o incaricati;</p>\\n<p>- l\'aggiornamento, la rettificazione ovvero, quando vi ha interesse, l\'integrazione dei dati;</p>\\n<p>- la cancellazione, la trasformazione in forma anonima o il blocco dei dati trattati in violazione di legge, compresi quelli di cui non e\' necessaria la conservazione in relazione agli scopi per i quali i dati sono stati raccolti o successivamente trattati;</p>\\n<p>- l\'attestazione che le operazioni di cui ai precedenti ultimi due punti sono state portate a conoscenza, anche per quanto riguarda il loro contenuto, di coloro ai quali i dati sono stati comunicati o diffusi, eccettuato il caso in cui tale adempimento si rivela impossibile o comporta un impiego di mezzi manifestamente sproporzionato rispetto al diritto tutelato.</p>\\n<p>L\'interessato ha diritto, altresi\', di opporsi in tutto o in parte:</p>\\n<p>- per motivi legittimi al trattamento dei dati personali che lo riguardano, ancorche\' pertinenti allo scopo della raccolta;</p>\\n<p>- al trattamento di dati personali che lo riguardano a fini di invio di materiale pubblicitario o di vendita diretta o per il compimento di ricerche di mercato o di comunicazione commerciale.</p>\\n<p>L\'esercizio dei diritti di cui sopra puo\' essere esercitato direttamente o conferendo, per iscritto, delega o procura a persone fisiche o ad associazioni.</p>\\n<h1>Consenso al trattamento dei dati</h1>\\n<p>Ai sensi dell\'articolo 23 del Codice in materia di protezione dei dati personali (D.Lgs 196/03), il Cliente dichiara di aver preso visione della sopra indicata informativa e da\' il Suo consenso a Timing Data Service S.r.l., in qualita\' di Titolare, all\'utilizzo dei Suoi dati personali, anche tramite una o piu\' tecniche di comunicazione a distanza (e-mail, telefono, sistemi automatizzati di chiamata senza l\'intervento di un operatore o del fax) oltre che per le finalita\' di cui al punto 1) dell\'informativa anche per le finalita\' di cui al punto 2), non strettamente collegate all\'erogazione dei servizi richiesti, ovvero per:</p>\\n<p>a) iniziative promozionali su prodotti e/o servizi di Timing Data Service S.r.l.;</p>\\n<p>b) invio, anche tramite SMS, posta elettronica e/o canali telefonici di materiale pubblicitario, informativo e informazioni commerciali;</p>\\n<p>c) attivita\' di vendite e di collocamento dirette ed indirette mediante differenti canali di vendita,</p>\\n<p>d) comunicazioni commerciali interattive;</p>\\n<p>e) rilevazioni del grado di soddisfazione della clientela sulla qualita\' dei servizi forniti (anche attraverso soggetti terzi);</p>\\n<p>f) iniziative promozionali su prodotti e/o servizi di societa\' terze;</p>\\n<p>g) studi e ricerche statistiche e di mercato.</p>\\n<div>\\n  <div>\\n    <h1>INFORMATIVA COOKIES</h1>\\n  </div>\\n</div>\\n<div>\\n  <div>\\n    <div>\\n      <div>\\n        <h3><strong>Informativa ai sensi dell\'art. 13 del d.lgs. n. 196/2003 (c.d. codice privacy)<br>\\n          <br>\\n        </strong></h3>\\n        <p>Timing Data Service S.r.l., con sede in via delle Macchine, 14 - 30038 Spinea (VE), informa, ai sensi dell’art. 13 del Codice Privacy ed in ottemperanza alle prescrizioni del Provvedimento 229/2014 del Garante per la Protezione dei Dati Personali, che il presente sito utilizza le seguenti tipologie di cookie (ossia dei piccoli file di testo che i siti visitati inviano al tuo device, dove vengono poi memorizzati al fine di essere ritrasmessi agli stessi siti alla visita successiva):</p>\\n      </div>\\n    </div>\\n    <div>\\n      <div>\\n        <h3><strong><br type=\\"
+"text":"<h1>INFORMATIVA AI SENSI DEL REGOLAMENTO (UE) 679/2016</h1><p>Timing Data Service S.r.l., in qualità di Titolare del trattamento, desidera informarLa che il Regolamento (UE) 2016/679 “Regolamento generale sulla protezione dei dati” – GDPR è un insieme di disposizioni che armonizzano la protezione dei dati personali in tutti gli stati membri dell\'Unione Europea. In Italia, tale Regolamento si applica congiuntamente al D.Lgs. 196/2003 come modificato dal D.Lgs. 101/2018. </p><p>Conformemente a quanto disposto dagli artt. 13 e 14 del Regolamento GDPR, Le forniamo, pertanto, le presenti informazioni che Le permetteranno di conoscere le nostre politiche sul trattamento dei dati che raccogliamo, sia per capire come le Sue informazioni personali vengono gestite quando utilizza i nostri servizi, sia quando fruisce dei servizi on-line messi a disposizione sui ns. siti <a href=\\"
+"text":"</div>\\n</div>\\n<div>\\n<div>\\n<div>\\n<div>\\n<h3><strong>Informativa ai sensi dell\'art. 13 del d.lgs. n. 196/2003 (c.d. codice privacy)<br>\\n<br>\\n</strong></h3>\\n<p>Timing Data Service S.r.l., con sede in via delle Macchine, 14 - 30038 Spinea (VE), informa, ai sensi dell’art. 13 del Codice Privacy ed in ottemperanza alle prescrizioni del Provvedimento 229/2014 del Garante per la Protezione dei Dati Personali, che il presente sito utilizza le seguenti tipologie di cookie (ossia dei piccoli file di testo che i siti visitati inviano al tuo device, dove vengono poi memorizzati al fine di essere ritrasmessi agli stessi siti alla visita successiva):</p>\\n</div>\\n</div>\\n<div>\\n<div>\\n<h3><strong><br type=\\"
+"title":"Dettaglio atleta"
+"placeholder":"Ricerca per nome/cognome/società/numero gara"
+"athlete":"Atleta"
+"only_bibstring":"Ricerca effettuata solo sul numero gara"
+"search_in_progress":"Ricerca in corso…"
+"back_to_search":"Torna alla ricerca"
+"advanced_search":"Ricerca avanzata"
+"free_search":"Ricerca"
+"help_text_min_characters":"Inserisci almeno 3 caratteri per continuare la ricerca"
+"search_events":"Cerca eventi"
+"check_portale":"Devi confermare l\'utilizzo dei tuoi dati da parte di TDS"
+"placeholder_ricerca":"Ricerca per testo"
+"free_search":"Ricerca per testo"
+"error":"Verifica di aver inserito i dati correttamente"
+"check_privacy":"Devi dare il consenso privacy per l\'utilizzo dei tuoi dati "
+"check_privacy":"Autorizzo TDS al trattamento dei miei dati personali"
+"error":"Verifica di aver inserito i dati correttamente"
+"tecnico_gara_txt":"È una persona a cui piace lavorare in gruppo e contribuire sempre a raggiungere il massimo risultato. Normalmente impegnato nei weekend, lavora in campo gara occupandosi del montaggio dei sistemi di cronometraggio e di settarli al meglio. Effettua il sopralluogo logistico pre-gara e si relaziona con l\'organizzatore raccogliendo tutte le informazioni necessarie per soddisfarne le richieste. Durante la gara, secondo le proprie conoscenze ed esperienze, può occuparsi di sovrintendere i sistemi oppure di elaborare i dati e stilare le classifiche. Deve avere la situazione sotto controllo e deve essere sempre pronto ad intervenire in caso di emergenza. È curioso e non si accontenta di imparare le procedure, le fa sue per eliminare ogni rischio prevedibile. All\'inizio della sua carriera di Timer viene formato sia nella teoria che nella pratica con alcune uscite di esercitazione."
+"addetto_distribuzione_pettorali_txt":"Opera direttamente in campo gara, tipicamente il giorno dell\'evento e uno/due giorni prima. Si occupa di accogliere gli atleti, verificare la loro identità e consegnare loro la busta tecnica, fornendo anche informazioni specifiche sulla manifestazione. Conosce regolamenti e normative sanitarie ed è in grado di riconoscere e gestire le anomalie relative alle iscrizioni. In caso di documentazione mancante, la richiede e la archivia. E\' affabile e amichevole, ma anche fermo: in mancanza di tutti i requisiti richiesti, blocca la partecipazione di una atleta all\'evento. Sedi disponibili: Venezia, Roma, Catania."
+"check_privacy":"Autorizzo TDS al trattamento dei miei dati personali per soli fini inerenti alla ricerca del personale"
+=== https://api.tds.sport/rest/jrest.svc
+HTTP 200 text/html; charset=UTF-8
+# www.robotstxt.org/
+# www.google.com/support/webmasters/bin/answer.py?hl=en&answer=156449
+
+User-agent: *
+Disallow:
+
+=== https://enternow.it
+HTTP 302 text/html; charset=UTF-8
+# www.robotstxt.org/
+# www.google.com/support/webmasters/bin/answer.py?hl=en&answer=156449
+
+User-agent: *
+Disallow:
+
+=== https://enternow.it/uploads/tds/evodata.background.jpg
+HTTP 200 image/jpeg
+# www.robotstxt.org/
+# www.google.com/support/webmasters/bin/answer.py?hl=en&answer=156449
+
+User-agent: *
+Disallow:
+
+=== https://enternow.it/uploads/tds/evodata.png
+HTTP 200 image/png
+# www.robotstxt.org/
+# www.google.com/support/webmasters/bin/answer.py?hl=en&answer=156449
+
+User-agent: *
+Disallow:
+
+=== https://tds.sport
+HTTP 200 text/html
+<!DOCTYPE html><html translate=no><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="user-scalable=no,width=device-width,height=device-height,target-densitydpi=device-dpi"><link rel=icon href=/favicon.ico><title>TDS.Sport</title><link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i|Roboto+C
+=== https://www.enternow.it
+HTTP 302 text/html; charset=UTF-8
+# www.robotstxt.org/
+# www.google.com/support/webmasters/bin/answer.py?hl=en&answer=156449
+
+User-agent: *
+Disallow:
+
+=== https://www.enternow.it/
+HTTP 302 text/html; charset=UTF-8
+# www.robotstxt.org/
+# www.google.com/support/webmasters/bin/answer.py?hl=en&answer=156449
+
+User-agent: *
+Disallow:
+
+=== https://www.enternow.it/tds-api/v1
+HTTP 404 application/json
+# www.robotstxt.org/
+# www.google.com/support/webmasters/bin/answer.py?hl=en&answer=156449
+
+User-agent: *
+Disallow:
+
