@@ -1,0 +1,17 @@
+--- senza cookie, 6 volte
+HTTP 200 rimaste: 2 · risultati: 43
+HTTP 200 rimaste: 2 · risultati: 43
+HTTP 200 rimaste: 2 · risultati: 43
+HTTP 200 rimaste: 2 · risultati: 43
+HTTP 200 rimaste: 2 · risultati: 43
+HTTP 200 rimaste: 2 · risultati: 43
+--- con cookie conservati, 6 volte
+HTTP 200 rimaste: 2 · risultati: 43
+HTTP 200 rimaste: nessun avviso · risultati: 43
+HTTP 200 rimaste: nessun avviso · risultati: 43
+HTTP 302 rimaste: nessun avviso · risultati: nessun json
+HTTP 302 rimaste: nessun avviso · risultati: nessun json
+HTTP 302 rimaste: nessun avviso · risultati: nessun json
+--- nomi dei cookie:
+PHPSESSID
+qcount
