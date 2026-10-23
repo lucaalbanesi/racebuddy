@@ -16,25 +16,39 @@ jobs:
           exec > >(tee esito.txt) 2>&1
           B=https://api.tds.sport/rest/jrest.svc/0-TDS-Anonymous-TDS-0/it
           UA="Mozilla/5.0 (RaceBuddy verifica fonti)"
-          g() { echo "=== GET $1"; curl -sS -m 30 -A "$UA" -H "Accept: application/json" -w "\nHTTP %{http_code}\n" "$B/$1" | head -c ${2:-3000}; echo; }
           D=$(date +%F)
-          g "search/race/d/$D/r/-364/Roma/1/10/desc" 6000
-          g "search/race/d/$D/r/-364/maratona/1/10/desc" 4000
-          ID=$(curl -sS -A "$UA" "$B/search/race/d/$D/r/-364/Roma/1/10/desc" | jq -r '[..|objects|select(has("ID"))][0].ID' 2>/dev/null)
-          echo "ID scelto: $ID"
-          g "$ID/light" 4000
-          g "$ID/rankings" 3000
-          curl -sS -A "$UA" "$B/$ID/light" > light.json
-          EV=$(jq -r '[..|objects|select(has("Events"))][0].Events[0].ID // empty' light.json)
-          echo "EV: $EV"
-          g "$ID/rankings/$EV" 4000
-          curl -sS -A "$UA" "$B/$ID/rankings/$EV" > rk.json
-          RID=$(jq -r '[..|objects|select(has("ID"))][0].ID // empty' rk.json)
-          echo "RID: $RID"
-          for sp in Arrivo 0 FINISH; do g "$ID/ranking/$RID/$EV/filter/Rossi/$sp/1/5" 2500; done
+          : > gare.jsonl
+          for p in 1 21 41 61 81 101 121 141 161 181 201 221 241 261 281; do
+            curl -sS -m 30 -A "$UA" "$B/search/race/d/$D/r/-364/$p/20/desc" | jq -c '.RaceList[]? | {ID, d:.RaceDate, n:.Description, c:.Country, luogo:(.Location // .City // .Place // null), res:.Services.Result, url:.Services.ResultUrl, ev:[.Events[]?|{ID,Name,Distance,DistanceUOM}]}' >> gare.jsonl
+            sleep 1
+          done
+          echo "gare: $(wc -l < gare.jsonl)"
+          echo "chiavi gara:"; curl -sS -A "$UA" "$B/search/race/d/$D/r/-364/1/1/desc" | jq -c '.RaceList[0] | keys'
+          echo "per dominio dei risultati:"; jq -r '.url // "" | if .=="" then "(su TDS o nessuno)" else (capture("https?://(?<h>[^/]+)").h) end' gare.jsonl | sort | uniq -c | sort -rn
+          echo "con parole Roma/Lazio:"; grep -iE 'roma|lazio|ostia|appia|tivoli|frascati|viterbo|latina|rieti|frosinone|castelli' gare.jsonl | jq -c '{ID,d,n,url}' | head -30
+      - name: Ricerca in una classifica TDS
+        run: |
+          cd out
+          exec > >(tee -a esito.txt) 2>&1
+          B=https://api.tds.sport/rest/jrest.svc/0-TDS-Anonymous-TDS-0/it
+          UA="Mozilla/5.0 (RaceBuddy verifica fonti)"
+          for ID in $(jq -r 'select((.url // "")=="" and (.n|test("mezza|maratona|maratonina|half|10 ?k";"i"))) | .ID' gare.jsonl | head -4); do
+            echo "##### gara $ID $(jq -r "select(.ID==$ID)|.d+\" \"+.n" gare.jsonl)"
+            curl -sS -A "$UA" "$B/$ID/light" > light_$ID.json
+            for EV in $(jq -r '.RaceDetails.Events[]?.ID' light_$ID.json | head -3); do
+              echo "--- evento $EV"; curl -sS -A "$UA" "$B/$ID/rankings/$EV" > rk.json; jq -c '.Rankings[]? | {ID, Name, Description, Splits:(.Splits // .RaceSplits // null)}' rk.json | head -5; jq -c .Status rk.json
+              RID=$(jq -r '.Rankings[0].ID // empty' rk.json)
+              [ -z "$RID" ] && continue
+              jq -c '.Rankings[0] | keys' rk.json
+              for sp in $(jq -r '.Rankings[0] | (.Splits // .RaceSplits // [])[]? | (.ID // .Name // .)' rk.json | head -3) 0 Arrivo; do
+                echo ">> split $sp"; curl -sS -A "$UA" "$B/$ID/ranking/$RID/$EV/filter/Rossi/$sp/1/3" | head -c 1500; echo
+              done
+              break
+            done
+          done
       - name: Salva l'esito sul ramo
         run: |
           mkdir -p verifica && cp out/esito.txt verifica/esito.txt
-          cp out/*.json verifica/ 2>/dev/null || true
+          cp out/gare.jsonl verifica/ 2>/dev/null || true
           git config user.name "Luca Albanesi"; git config user.email "luca.alba8@gmail.com"
           git add verifica && git commit -m "Esito sonda [esito]" && git push
