@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-10-23T03:50Z",
+ "aggiornato": "2026-10-23T04:50Z",
  "novita": [
   {
    "id": "n81586ca603b",
@@ -352,6 +352,20 @@
    "trovato": "2026-10-18T18:50Z"
   },
   {
+   "id": "n9cd36496b34",
+   "gara": "L0c212379c2-21",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "La Wizz Air Rome Half Marathon fa tappa in Brasile: successo per il tour a Rio de Janeiro tra sport e istituzioni",
+   "link": "https://romaostia.it/la-wizz-air-rome-half-marathon-fa-tappa-in-brasile-successo-per-il-tour-a-rio-de-janeiro-tra-sport-e-istituzioni/",
+   "data": "2026-06-17",
+   "fonte": "Sito ufficiale",
+   "ufficiale": true,
+   "tipo": "articolo",
+   "immagine": "https://romaostia.it/wp-content/uploads/2026/06/FOTO-1.jpeg",
+   "trovato": "2026-10-23T04:50Z"
+  },
+  {
    "id": "n7c044cb6df0",
    "gara": "H88b48310e5-42",
    "tema": "altro",
@@ -378,6 +392,20 @@
    "tipo": "articolo",
    "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/06/SOLD-OUT-NOTTURNA.png",
    "trovato": "2026-10-18T18:50Z"
+  },
+  {
+   "id": "n7ec2c6a30b3",
+   "gara": "L0c212379c2-21",
+   "tema": "risultati",
+   "urgenza": "mattino",
+   "titolo": "Risultati e Record",
+   "link": "https://romaostia.it/breakdance-39217/",
+   "data": "2026-05-18",
+   "fonte": "Sito ufficiale",
+   "ufficiale": true,
+   "tipo": "articolo",
+   "immagine": "https://romaostia.it/wp-content/uploads/2026/03/Roma-Ostia-@alessandro_annaloro-0354.jpg",
+   "trovato": "2026-10-23T04:50Z"
   },
   {
    "id": "nd11d50f2202",
