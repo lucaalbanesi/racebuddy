@@ -64,6 +64,17 @@ assert.strictEqual(L.ciclo(roma, "2026-10-17"), "attiva");
 assert.strictEqual(L.ciclo(roma, "2026-10-18"), "attiva");
 // il giorno della gara si passa al post-gara alle 12 (le gare sono di mattina)
 assert.strictEqual(L.ciclo(roma, "2026-10-18", null, "11:59"), "attiva");
+// il giorno della gara si segna il tempo prima delle 12, appena la gara può essere finita
+{
+  const g10 = { id: "x", data: "2026-10-23", distanza: "10" };
+  assert.strictEqual(L.finitaPrima(g10, "2026-10-23", "08:29", "8:00"), false);
+  assert.strictEqual(L.finitaPrima(g10, "2026-10-23", "08:30", "8:00"), true);
+  assert.strictEqual(L.finitaPrima(g10, "2026-10-23", "07:59", null), false); // senza partenza: dalle 7:30
+  assert.strictEqual(L.finitaPrima(g10, "2026-10-23", "08:00", null), true);
+  assert.strictEqual(L.finitaPrima({ ...g10, distanza: "42" }, "2026-10-23", "10:00", "08:30"), false);
+  assert.strictEqual(L.finitaPrima({ ...g10, distanza: "42" }, "2026-10-23", "10:35", "08:30"), true);
+  assert.strictEqual(L.finitaPrima(g10, "2026-10-22", "10:00", "8:00"), false); // non è oggi
+}
 assert.strictEqual(L.ciclo(roma, "2026-10-18", null, "12:00"), "postgara");
 assert.strictEqual(L.ciclo(roma, "2026-10-18", null, "9:30"), "attiva");
 assert.strictEqual(L.ciclo(roma, "2026-10-18", { tempo: "1:45:00", salvato: "2026-10-18" }, "19:00"), "postgara");

@@ -1067,6 +1067,8 @@
   const oraAdesso = () => { const d = new Date(); return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`; };
   const cicloGara = (g, o = oggi()) => L.ciclo(g, o, (S.risultati || {})[g.id], oraAdesso());
   const corsa = (g, o = oggi()) => cicloGara(g, o) !== "attiva"; // gara già corsa (anche oggi, dopo le 12)
+  // si può già segnare il tempo: gara corsa, oppure oggi e già finita (dalla partenza + il tempo minimo)
+  const daSegnare = (g, o = oggi()) => corsa(g, o) || L.finitaPrima(g, o, oraAdesso(), oraPartenza(g));
   const nonArchiviata = (g) => cicloGara(g) !== "archiviata";
   const ESITO = { dnf: "Ritirato", dns: "Non partito", annullata: "Annullata" };
   // Dove cercare il meteo di una gara: le estere in tutto il mondo (ore locali del posto), le italiane in Italia.
@@ -1114,7 +1116,7 @@
         <span class="sub">${esc(nomeLuogo(g.luogo) || "Luogo da indicare")}${g.tempo ? " · obiettivo " + esc(g.tempo) : ""}</span></div>
         <div style="text-align:right">${n > 0 ? `<div class="big" style="font-size:44px">${n}</div><span class="sub">${n === 1 ? "giorno" : "giorni"}</span>` : `<span class="pill navy">${n === 0 ? "oggi!" : "conclusa"}</span>`}</div></div>
         ${n >= 0 ? `${barraFasi(g, true)}<span class="sub">${f.id === "prima" ? "Preparazione non ancora iniziata" : `Fase: <b style="color:#fff">${esc(f.nome)}</b>`}</span>` : ""}</section>
-      ${corsa(g, o) ? `<a class="card soft" href="#/risultato/${encodeURIComponent(g.id)}" style="text-decoration:none;color:inherit;font-weight:inherit"><span class="title">${ris ? `Il tuo tempo: ${esc(ris.tempo)}${ris.pb ? " · personale!" : ""}` : g.esito ? ESITO[g.esito] : "Com'è andata?"}</span><span class="small">${ris ? "Modifica o condividi ›" : g.esito ? "Cambia ›" : "Segna il tuo tempo ›"}</span></a>` : ""}
+      ${daSegnare(g, o) ? `<a class="card soft" href="#/risultato/${encodeURIComponent(g.id)}" style="text-decoration:none;color:inherit;font-weight:inherit"><span class="title">${ris ? `Il tuo tempo: ${esc(ris.tempo)}${ris.pb ? " · personale!" : ""}` : g.esito ? ESITO[g.esito] : "Com'è andata?"}</span><span class="small">${ris ? "Modifica o condividi ›" : g.esito ? "Cambia ›" : "Segna il tuo tempo ›"}</span></a>` : ""}
       ${n >= 0 ? riquadriTop(g, false) : ""}
       ${cardStagioneGara(g, fatte, tot)}
       ${riquadroNovita(g)}
@@ -2490,7 +2492,7 @@
   const fmtDiff = (s) => { s = Math.abs(s); const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), x = s % 60; return h ? `${h}:${String(m).padStart(2, "0")}:${String(x).padStart(2, "0")}` : `${m}:${String(x).padStart(2, "0")}`; };
   function garaDaRaccontare() {
     const o = oggi();
-    return S.gare.filter((g) => cicloGara(g, o) === "postgara" && !(S.risultati || {})[g.id] && !g.esito).sort((a, b) => (a.data < b.data ? 1 : -1))[0] || null;
+    return S.gare.filter((g) => (cicloGara(g, o) === "postgara" || (g.data === o && daSegnare(g, o))) && !(S.risultati || {})[g.id] && !g.esito).sort((a, b) => (a.data < b.data ? 1 : -1))[0] || null;
   }
   // ---------------------------------------------------------------- immagine del risultato da condividere
   // Tutto sul telefono: la foto scelta e l'immagine non vanno online.
