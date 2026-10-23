@@ -1849,7 +1849,7 @@
     const tiles = [sc != null && tile(pct(sc), `dall'obiettivo ${esc(fmtSec(o.secondi))}${sc <= L.CENTRATO ? " · centrato" : ""}`), r.ag && tile(`${r.circa ? "≈ " : ""}${pct(r.ag)}`, "per età"),
       mig != null && tile(`${mig > 0 ? "+" : ""}${pct(mig)}`, "sul tuo meglio dei 12 mesi")].filter(Boolean);
     const NOMI_EV = { arrivo: "Arrivo", pb: "Nuovo personale", obiettivo: "Obiettivo centrato", borsa: "Borsa pronta entro la vigilia" };
-    return `<section class="card dark" style="gap:10px"><div class="between"><span class="eyebrow">Classifiche del gruppo</span>${soc ? `<span class="pill navy">Gara della società</span>` : ""}</div>
+    return `<section class="card dark" id="scheda-cl" style="gap:10px;scroll-margin-top:12px"><div class="between"><span class="eyebrow">Classifiche del gruppo</span>${soc ? `<span class="pill navy">Gara della società</span>` : ""}</div>
         <span class="big" style="font-size:48px;color:var(--accent-on-dark)">${esc(fmtSec(r.secondi))}</span>
         <span class="small" style="color:var(--navy-muted)">✓ Certificato ${r.fonte === "manuale" ? "dal referente" : `dalla classifica di ${esc(FONTE_TEMPI[r.fonte] || r.fonte)}`}${r.categoria ? ` · categoria ${esc(r.categoria)}` : ""}</span>
         ${tiles.length ? `<div class="tiles-${tiles.length}">${tiles.join("")}</div>` : ""}</section>
@@ -1897,6 +1897,11 @@
       locale: x.secondi ? "Nell'app, ma non ancora nelle classifiche" : "Manca il tempo", vecchia: "Corsa prima della tua adesione: non entra più" }[x.stato];
     const percheF = L.fuoriMisura(x) && (x.stato === "conta" || x.stato === "storico") ? PERCHE_FUORI(x) : perche;
     const azioni = [];
+    // Gara certificata: i punti Impegno (se è della società) e il link alla scheda post-gara in "Com'è andata?"
+    const certa = x.stato === "conta" || x.stato === "storico";
+    const soc = certa && L.garaDellaSocieta(gareSoc(), x.data, x.distanza);
+    const pt = soc ? datiSt().eventi.filter((e) => e.membro_id === ioId() && e.data === x.data && e.distanza === x.distanza).reduce((t, e) => t + e.punti, 0) : 0;
+    if (certa && x.gid && x.esito === "arrivato") azioni.push(`<a class="btn ghost small" href="#/risultato/${encodeURIComponent(x.gid)}?da=mie">${soc ? "Vedi i punti" : "Vedi la scheda"} ›</a>`);
     if (x.stato === "locale" && x.secondi) {
       if (C().tempi && x.gid) azioni.push(`<a class="btn small" href="#/tempi?gara=${encodeURIComponent(x.gid)}">Cerca il tempo ufficiale</a>`);
       azioni.push(`<a class="btn ghost small" href="${urlAggiungiMia(x)}">Manda al referente</a>`);
@@ -1905,7 +1910,7 @@
     if ((x.stato === "attesa" || x.stato === "rifiutato") && x.id) azioni.push(`<button class="btn ghost small" data-act="cl-togli" data-id="${esc(x.id)}">Togli</button>`);
     return `<div class="post cl-mia cl-${x.stato}"><span style="flex:1;min-width:0"><b>${esc(titolo)}</b><br><span class="small muted">${esc(L.etichettaDist(x))} · ${esc(L.fmtBreve(x.data))} ${esc(anno)}</span></span>
       <span class="cl-mia-dx">${x.secondi ? `<b class="pb-tempo">${esc(fmtSec(x.secondi))}</b>` : ""}<span class="pill ${cls}">${esc(etichetta || L.ESITO_LABEL[x.esito] || "Senza tempo")}</span></span>
-      <span class="small cl-mia-perche">${esc(percheF)}</span>${azioni.length ? `<span class="cl-mia-azioni">${azioni.join("")}</span>` : ""}</div>`;
+      <span class="small cl-mia-perche">${esc(percheF)}${soc ? ` · <b style="color:var(--accent-strong)">Gara della società: +${pt} pt Impegno</b>` : ""}</span>${azioni.length ? `<span class="cl-mia-azioni">${azioni.join("")}</span>` : ""}</div>`;
   }
   function listaMie(q, periodo) {
     const l = L.cercaMieGare(mieGare(), q, { periodo, oggi: oggi() });
@@ -2021,13 +2026,18 @@
       rifiutato: `${x.nota || "Non approvata"}${x.deciso_da && !x.nota.includes("referente") ? ` · ${x.deciso_da}` : ""}`, esito: "Senza tempo: non dà posizioni" }[x.stato];
     const percheF = L.fuoriMisura(x) && (x.stato === "conta" || x.stato === "storico") ? PERCHE_FUORI(x) : perche;
     const azioni = [];
+    // Gara certificata: i punti Impegno (se è della società) e il link alla scheda post-gara in "Com'è andata?"
+    const certa = x.stato === "conta" || x.stato === "storico";
+    const soc = certa && L.garaDellaSocieta(gareSoc(), x.data, x.distanza);
+    const pt = soc ? datiSt().eventi.filter((e) => e.membro_id === ioId() && e.data === x.data && e.distanza === x.distanza).reduce((t, e) => t + e.punti, 0) : 0;
+    if (certa && x.gid && x.esito === "arrivato") azioni.push(`<a class="btn ghost small" href="#/risultato/${encodeURIComponent(x.gid)}?da=mie">${soc ? "Vedi i punti" : "Vedi la scheda"} ›</a>`);
     if (x.stato === "attesa") azioni.push(`<button class="btn small" data-act="cl-decidi" data-id="${esc(x.id)}" data-ok="1">Approva</button><button class="btn ghost small" data-act="cl-decidi" data-id="${esc(x.id)}" data-ok="0">Rifiuta</button>`);
     if (x.stato === "conta" || x.stato === "storico") azioni.push(`<button class="btn ghost small" data-act="cl-annulla" data-id="${esc(x.id)}" data-nome="${esc(x.mio ? "te" : x.membro)}">Annulla</button>`);
     azioni.push(`<button class="btn ghost small" data-act="cl-elimina" data-id="${esc(x.id)}" data-nome="${esc(x.mio ? "te" : x.membro)}" data-gara="${esc(titolo)}">Elimina</button>`);
     if (x.link && /^https?:\/\//.test(x.link)) azioni.push(`<a class="btn ghost small" href="${esc(x.link)}" rel="noopener" target="_blank">Apri la classifica</a>`);
     return `<div class="post cl-mia cl-${x.stato}"><span style="flex:1;min-width:0">${conNome ? `<span class="small" style="font-weight:700">${esc(x.mio ? "Tu" : x.membro)}</span><br>` : ""}<b>${esc(titolo)}</b><br><span class="small muted">${esc(L.etichettaDist(x))} · ${esc(L.fmtBreve(x.data))} ${esc(anno)}${x.categoria ? ` · ${esc(x.categoria)}` : ""}</span></span>
       <span class="cl-mia-dx">${x.secondi ? `<b class="pb-tempo">${esc(fmtSec(x.secondi))}</b>` : ""}<span class="pill ${cls}">${esc(etichetta || L.ESITO_LABEL[x.esito] || "Senza tempo")}</span></span>
-      <span class="small cl-mia-perche">${esc(percheF)}</span>${azioni.length ? `<span class="cl-mia-azioni">${azioni.join("")}</span>` : ""}</div>`;
+      <span class="small cl-mia-perche">${esc(percheF)}${soc ? ` · <b style="color:var(--accent-strong)">Gara della società: +${pt} pt Impegno</b>` : ""}</span>${azioni.length ? `<span class="cl-mia-azioni">${azioni.join("")}</span>` : ""}</div>`;
   }
   function listaGM(q, periodo, m) {
     const base = righeGM().filter((x) => !m || x.membro_id === m);
@@ -2571,7 +2581,9 @@
     const inGruppo = S.gruppo && S.gruppo.dentro;
     setTimeout(() => stravaRisultato(id), 0);
     if (clOn()) setTimeout(aggiornaClassifiche, 0);
-    return `${bannerProva()}<header class="head-back">${back("#/oggi")}<div><span class="eyebrow">${esc(titoloGara(g.nome))} · ${esc(L.fmtGiorno(g.data))}</span><h1 style="font-size:30px">Com'è andata?</h1></div></header>
+    // Da "Le mie gare in classifica": la freccia torna lì e la pagina scorre fino alla scheda con i punti
+    if (param.da === "mie") setTimeout(() => { const el = document.getElementById("scheda-cl"); if (el) el.scrollIntoView({ block: "start", behavior: "smooth" }); }, 60);
+    return `${bannerProva()}<header class="head-back">${back(param.da === "mie" ? "#/gruppo/mie" : "#/oggi")}<div><span class="eyebrow">${esc(titoloGara(g.nome))} · ${esc(L.fmtGiorno(g.data))}</span><h1 style="font-size:30px">Com'è andata?</h1></div></header>
       <form id="risultato" data-id="${esc(id)}" style="display:flex;flex-direction:column;gap:12px">
       <section class="card" style="align-items:center;text-align:center"><span class="eyebrow" id="ris-tempo-l">Il tuo tempo ufficiale</span>
         ${campoTempo("ris-tempo", g, param.t || r.tempo, "ris-tempo-l", true)}
