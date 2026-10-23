@@ -1,6 +1,17 @@
 {
- "aggiornato": "2026-10-22",
+ "aggiornato": "2026-10-23",
  "gare": [
+  {
+   "id": "Mmvk2snbp",
+   "nome": "Gara test 23 ott",
+   "data": "2026-10-23",
+   "luogo": "",
+   "distanza": "10",
+   "fonte": "manuale",
+   "prima_aggiunta": "2026-10-22",
+   "aggiunte": 1,
+   "ultima_aggiunta": "2026-10-22"
+  },
   {
    "id": "L2bda4b848d-10",
    "nome": "Corsa dei Santi",
@@ -9,8 +20,19 @@
    "distanza": "10",
    "fonte": "FIDAL",
    "prima_aggiunta": "2026-10-18",
-   "aggiunte": 4,
-   "ultima_aggiunta": "2026-10-21"
+   "aggiunte": 5,
+   "ultima_aggiunta": "2026-10-22"
+  },
+  {
+   "id": "L950d7c45f5-10",
+   "nome": "Corri alla Garbatella",
+   "data": "2026-11-22",
+   "luogo": "ROMA",
+   "distanza": "10",
+   "fonte": "FIDAL",
+   "prima_aggiunta": "2026-10-22",
+   "aggiunte": 1,
+   "ultima_aggiunta": "2026-10-22"
   },
   {
    "id": "H0e7dc2579e-21",
@@ -42,8 +64,8 @@
    "distanza": "10",
    "fonte": "FIDAL",
    "prima_aggiunta": "2026-10-14",
-   "aggiunte": 6,
-   "ultima_aggiunta": "2026-10-21"
+   "aggiunte": 7,
+   "ultima_aggiunta": "2026-10-22"
   },
   {
    "id": "L12edf35333-10",
@@ -53,8 +75,19 @@
    "distanza": "10",
    "fonte": "FIDAL",
    "prima_aggiunta": "2026-10-21",
-   "aggiunte": 1,
-   "ultima_aggiunta": "2026-10-21"
+   "aggiunte": 2,
+   "ultima_aggiunta": "2026-10-22"
+  },
+  {
+   "id": "L0c212379c2-21",
+   "nome": "Roma Ostia Half Marathon",
+   "data": "2027-02-28",
+   "luogo": "OSTIA - ROMA",
+   "distanza": "21",
+   "fonte": "FIDAL",
+   "prima_aggiunta": "2026-10-22",
+   "aggiunte": 2,
+   "ultima_aggiunta": "2026-10-22"
   },
   {
    "id": "P8cb521dda8-42",
@@ -66,6 +99,17 @@
    "prima_aggiunta": "2026-10-14",
    "aggiunte": 6,
    "ultima_aggiunta": "2026-10-21"
+  },
+  {
+   "id": "La92f52eec5-k19.5",
+   "nome": "Appia Run",
+   "data": "2027-04-11",
+   "luogo": "ROMA",
+   "distanza": "21",
+   "fonte": "FIDAL",
+   "prima_aggiunta": "2026-10-22",
+   "aggiunte": 1,
+   "ultima_aggiunta": "2026-10-22"
   },
   {
    "id": "E-copenaghen-mezza-21-2027",
