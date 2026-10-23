@@ -2,6 +2,251 @@
  "aggiornato": "2026-10-23",
  "contenuti": [
   {
+   "id": "651e6fb219f1",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Positiva all'EPO, sospesa Peres Jepchirchir, campionessa del mondo di maratona",
+   "estratto": "Solo un anno fa un altro stop per doping clamoroso inflitto a Ruth Chepngetich. Ora un'altra top rischia grosso",
+   "link": "https://www.runnersworld.com/it/news/a74229412/peres-jepchirchir-sospesa-doping/",
+   "data": "2026-10-23",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/206e4a54-345f-442f-a70b-50d33917180b.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "1e4296f571dc",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Mezza maratona di Valencia con Bekele e Selvarolo: al via 10 atleti sotto i 60’",
+   "estratto": "Come sempre starting list di altissimo livello per la mezza di Valencia, ci sono l'azzurro Selvarolo e l'eterno Bekele. Il favorito? Un europeo",
+   "link": "https://www.runnersworld.com/it/news/a74229477/mezza-maratona-valencia-2026/",
+   "data": "2026-10-23",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/6bf6d139-8212-4dcd-af73-f50be79869ff.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "8ce5f92dcf1c",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona e carboidrati: quanti ne servono quando aumentano i chilometri?",
+   "estratto": "Quando il volume degli allenamenti aumenta, anche l'alimentazione deve cambiare. L'esperto in nutrizione sportiva Giorgio Tassone spiega come utilizzare Strapasta Garofalo durante…",
+   "link": "https://www.runnersworld.com/it/alimentazione/food-drink/a74144801/maratona-carboidrati-consigli-nutrizionista-roadto42k/",
+   "data": "2026-10-23",
+   "immagine": "https://hips.hearstapps.com/vidthumb/3fca6b4a-3834-43a6-ad56-7b34c80d4a84/19f83474-5dc9-4950-b305-a03056b3b3ca.png",
+   "argomenti": [
+    "rifornimento",
+    "alimentazione",
+    "allenamento",
+    "recupero"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "dopo"
+   ]
+  },
+  {
+   "id": "6520daea1c87",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona di Venezia, è qui la festa: al via la 40ª edizione dei record",
+   "estratto": "Domenica 25 ottobre la Venicemarathon festeggia il suo quarantesimo anniversario con 24.000 runner al via e il tutto esaurito su maratona, mezza maratona e 10 km",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74213164/maratona-venezia-quarantesima-edizione/",
+   "data": "2026-10-23",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/5f4f6b59-95ab-4a80-a549-09f58f51238a.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42",
+    "21",
+    "10"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "c255425ff64f",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "L’impronta ambientale di una maratona è il volo di chi va a correrla",
+   "estratto": "Il pettorale e la carta d’imbarco Erano nella stessa busta di plastica, quella trasparente che all’expo ti consegnano con dentro le spille da balia e l’adesivo per la sacca del…",
+   "link": "https://runlovers.it/2026/impronta-carbonica-maratone-viaggio-runner/",
+   "data": "2026-10-23",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/impronta-ambientale-maratona-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "rifornimento",
+    "scarpe",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "0766ba98e766",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Le scarpe da gara costano troppo considerando quanto poco durano?",
+   "estratto": "Le scarpe da gara costano troppo considerando quanto poco durano? Nel video youtube parliamo proprio di questo; della loro durata e se ci…",
+   "link": "https://www.youtube.com/shorts/2WdhbiuV0QM",
+   "data": "2026-10-23",
+   "immagine": "https://i3.ytimg.com/vi/2WdhbiuV0QM/hqdefault.jpg",
+   "argomenti": [
+    "scarpe",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "e8b3e25b9843",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Karpos: «Questa giacca è inutile. Finché non decidi di usarla.»",
+   "estratto": "Karpos dedica la campagna d’autunno alla decisione di uscire con quello che si ha già, e la decisione più difficile arriva il venerdì sera, davanti alle nuvole in quota. Lo slogan…",
+   "link": "https://runlovers.it/2026/karpos-giacca-inutile-decidere-usarla/",
+   "data": "2026-10-23",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/karpos-giacca-inutile-foto.jpg?fit=1920%2C1281&quality=75&ssl=1",
+   "argomenti": [
+    "scarpe",
+    "allenamento",
+    "abbigliamento",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "8376caf1c069",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Il running a Genova è ZÜN",
+   "estratto": "Tra social run per le vie cittadine e lavori in pista, la crew di ZÜN Zena Run Club ridefinisce la cultura del running contemporaneo nel capoluogo ligure",
+   "link": "https://www.runnersworld.com/it/vip/a74216308/zun-zena-run-club-running-a-genova/",
+   "data": "2026-10-23",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/64c7544b-24fc-4145-8513-1b3f1b0101c7.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "439358fce673",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Come correre più veloce dopo i 50 anni, grazie ai consigli di chi ci è riuscito",
+   "estratto": "Punti a battere il record personale dopo i 50 anni? Questi consigli hanno aiutato i runner a migliorare il loro allenamento",
+   "link": "https://www.runnersworld.com/it/allenamento/a74225349/correre-piu-veloce-dopo-50-anni/",
+   "data": "2026-10-23",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/9530aad5-5f89-4e25-b694-a8996329ea98.jpeg",
+   "argomenti": [
+    "allenamento",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "3b24ec073183",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Cambio dell’ora e sonno, adattarsi all’ora solare senza fatica",
+   "estratto": "Il ritorno all’ora solare concede sessanta minuti solo sulla carta: allineare sonno e pasti evita lo sfasamento circadiano azzerando la stanchezza diurna. Domenica 25 ottobre alle…",
+   "link": "https://runlovers.it/2026/cambio-ora-solare-sonno-adattarsi/",
+   "data": "2026-10-23",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/08-20261023-1235-Cambio-ora-W-Unssplah-Husam-el-Haq.jpeg?fit=1920%2C1278&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "recupero",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "dopo"
+   ]
+  },
+  {
+   "id": "f04381e000dc",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Backyard Ultra, due belgi firmano il record del mondo ma non vincono il Mondiale",
+   "estratto": "La beffa per Merijn Geerts e Ivo Steyaert: dopo oltre 800 km e il record mondiale, non portano il Belgio all’oro. In gara anche l’Italia",
+   "link": "https://www.runnersworld.com/it/news/a74225997/backyard-ultra-record-mondo/",
+   "data": "2026-10-23",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/fb3f3447-fd9d-4d9f-946d-5e5bc36523ab.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "gara"
+   ]
+  },
+  {
+   "id": "e07456829a05",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Arriva nelle sale cinematografiche il docufilm sul trekking più lungo del mondo",
+   "estratto": "Si intitola “Va’ Sentiero” ed è un vero e proprio viaggio all'interno di un'Italia che non conosci",
+   "link": "https://www.runnersworld.com/it/news/a74217872/va-sentiero-docufilm/",
+   "data": "2026-10-23",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/dabac2bb-34ec-42da-958f-1a6dee1aa0b0.jpeg",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
    "id": "b3061d888019",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -141,6 +386,31 @@
     "si_parte",
     "costruzione",
     "picco"
+   ]
+  },
+  {
+   "id": "73cfb202b3c5",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "QUASI DISTRUTTO: 29 KM con 1000D+ | Ultimo lungo sulla Diga del Vajont 🏔️ | VERSO LA 100K #4",
+   "estratto": "#100km #trailrunning #dolomitifriulane *Mancano solo due settimane alla 100K. Questo è il mio ultimo lungo prima della sfida!* 🏔️🔥 Quarto…",
+   "link": "https://www.youtube.com/watch?v=YzX21k0Dw5Q",
+   "data": "2026-10-22",
+   "immagine": "https://i2.ytimg.com/vi/YzX21k0Dw5Q/hqdefault.jpg",
+   "argomenti": [
+    "allenamento",
+    "gara",
+    "mente",
+    "abbigliamento"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "costruzione",
+    "scarico",
+    "gara"
    ]
   },
   {
