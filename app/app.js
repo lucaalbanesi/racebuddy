@@ -1573,6 +1573,11 @@
     const prossima = cardGareSoc(io, org);
     const evid = L.recuperoInEvidenza(io, cl.miei, !!(S.gruppo && (S.gruppo.recuperoFatto || (S.gruppo.entra || {}).tempi))), fino = esc(L.fmtBreve(String(io.recupero_fino || "").slice(0, 10)));
     const recupero = evid === "cima" || evid === "ultimi" ? `<a class="card soft link-card" href="#/gruppo/recupero"><span class="title">${evid === "ultimi" ? "Ultimi giorni per recuperare le gare già corse" : "Recupera le gare già corse"}</span><span class="small">Le prendiamo dalle classifiche ufficiali. Puoi farlo fino al ${fino}: dopo entrano solo le gare nuove.</span><span class="small" style="color:var(--accent);font-weight:700">Cerca le mie gare ›</span></a>` : "";
+    // Nuove fonti per le gare (fonti_tempi): per 30 giorni da lì si recuperano anche gli anni scorsi; la scheda resta finché non la usi
+    const nf = L.nuoveFontiInEvidenza(io, (S.gruppo || {}).fontiViste);
+    const nuoveFonti = nf ? `<a class="card soft link-card" href="#/gruppo/recupero?da=fonti"><span class="title">Nuove fonti per le gare: ${esc(nf.fonti.map((f) => f.nome).join(", "))}</span>
+      <span class="small">${esc(nf.fonti.map((f) => `Da ${f.nome} arrivano ${f.cosa}`).join(". "))}. ${nf.ultimi ? "Ultimi giorni" : "Fino al " + esc(L.fmtBreve(String(nf.fino).slice(0, 10)))} per recuperare anche quelle degli anni scorsi.</span>
+      <span class="small" style="color:var(--accent);font-weight:700">Cerca le mie gare ›</span></a>` : "";
     const coda = org && cl.da_approvare ? `<a class="card link-card" href="#/gruppo/admin"><div class="between"><span class="title">Da approvare</span><span class="pill">${cl.da_approvare}</span></div><span class="small">Tempi non trovati nelle classifiche: li approvate tu e gli altri referenti.</span><span class="small" style="color:var(--accent);font-weight:700">Apri la coda ›</span></a>` : "";
     // una riga per classifica: cosa conta, chi è in testa, il tuo valore e la tua posizione
     const mancanoOb = (L.classificaObiettivo({ risultati: ris, obiettivi: ST().obiettivi }, { anno, nomi, io: id }).quasi || []).find((x) => x.mio);
@@ -1588,7 +1593,7 @@
     };
     const nConta = L.riepilogoMie(L.cercaMieGare(mieGare(), "", { oggi: o })).conta;
     const altra = (href, t, d, ultima) => `<a class="between link-card" href="${href}" style="min-height:44px;${ultima ? "" : "border-bottom:1px solid var(--line2);"}"><span style="font-weight:600">${t}</span><span class="small muted">${esc(d)} ›</span></a>`;
-    return `${recupero}${coda}${stagione}${prossima}
+    return `${recupero}${nuoveFonti}${coda}${stagione}${prossima}
       <section class="card cl-card" aria-label="Le classifiche"><div class="between" style="align-items:baseline"><span class="cl-tit">Le classifiche</span><span class="small muted">${cl.partecipanti} ${cl.partecipanti === 1 ? "partecipa" : "partecipano"}</span></div>
         <span class="cl-blocco">Stagione ${esc(anno)}</span>${["impegno", "gare", "pb", "obiettivo"].map((k, i) => riga(k, i === 3)).join("")}
         <span class="cl-blocco cl-blocco-sep">Di sempre</span>${riga("albo", true)}</section>
@@ -1606,21 +1611,33 @@
       <p class="sub">Puoi smettere quando vuoi da Io → Gruppo: i tuoi risultati online si cancellano, sul telefono restano.</p>
       <button class="btn block" data-act="cl-partecipa">Partecipo</button><a class="btn ghost block" href="#/gruppo">Non ora</a>`;
   }
+  // "3 gare su 10 km, mezza o maratona"; per MarathonView "3 maratone all'estero"
+  const quanteGare = (p, n) => (p.fonte === "mview" ? `${n} ${n === 1 ? "maratona" : "maratone"} all'estero` : `${n} ${n === 1 ? "gara" : "gare"} su 10 km, mezza o maratona`);
   const REC_NO = new Set();
+  // Le fonti nuove aperte, una volta usate per il recupero, non tornano nella scheda di Gruppo (sul telefono)
+  function segnaFontiViste() {
+    const aperte = L.fontiNuove(CL() && CL().io);
+    if (!aperte.length || !S.gruppo) return;
+    S.gruppo.fontiViste = S.gruppo.fontiViste || {};
+    let nuove = false;
+    for (const f of aperte) if (!S.gruppo.fontiViste[f.fonte]) { S.gruppo.fontiViste[f.fonte] = oggi(); nuove = true; }
+    if (nuove) salva();
+  }
   function vistaRecupero(param = {}) {
     if (!partecipo()) return vistaPartecipa();
     const { nome, cognome } = nomeTempi(), cl = CL();
     if (nome && cognome && (!TEMPI || TEMPI.chiave !== `${nome}|${cognome}|`)) setTimeout(() => cercaTempi(nome, cognome, null), 0);
     let corpo = "";
-    if (TEMPI && TEMPI.carico) corpo = `<section class="card" aria-busy="true"><div class="row" style="gap:10px"><span class="spinner" aria-hidden="true"></span><span class="title">Cerco nelle classifiche</span></div><span class="small muted">Gare Podistiche Lazio dal 2019 e FIDAL: qualche secondo.</span></section>`;
+    if (TEMPI && TEMPI.carico) corpo = `<section class="card" aria-busy="true"><div class="row" style="gap:10px"><span class="spinner" aria-hidden="true"></span><span class="title">Cerco nelle classifiche</span></div><span class="small muted">Gare Podistiche Lazio dal 2019, FIDAL e, per le maratone all'estero, MarathonView: qualche secondo.</span></section>`;
     else if (TEMPI && TEMPI.errore) corpo = `<section class="card"><span class="small">${esc(TEMPI.errore)}</span></section>`;
     else if (TEMPI && TEMPI.persone) {
       const P = TEMPI.persone, scelti = TEMPI.scelti || [];
       if (!P.length) corpo = `<section class="card"><span class="title">Nessun risultato</span><span class="small">Non trovo gare a nome di <b>${esc(nome)} ${esc(cognome)}</b>. Controlla come sei scritto nelle classifiche.</span></section>`;
       else {
-        const chi = `<section class="card" style="gap:0"><h2 style="margin-bottom:4px">${P.length > 1 ? "Quale sei tu?" : "Ti ho trovato qui"}</h2>${P.map((p) => `<label class="check"><input type="checkbox" data-act-change="tempi-persona" data-id="${esc(p.id)}" ${scelti.includes(p.id) ? "checked" : ""}><span><span class="t">${esc(p.societa || "Senza società")}${p.categoria ? " · " + esc(p.categoria) : ""}</span><br><span class="d">${esc(FONTE_TEMPI[p.fonte])} · ${p.risultati.length} ${p.risultati.length === 1 ? "gara" : "gare"} su 10 km, mezza o maratona</span></span></label>`).join("")}</section>`;
+        const chi = `<section class="card" style="gap:0"><h2 style="margin-bottom:4px">${P.length > 1 ? "Quale sei tu?" : "Ti ho trovato qui"}</h2>${P.map((p) => `<label class="check"><input type="checkbox" data-act-change="tempi-persona" data-id="${esc(p.id)}" ${scelti.includes(p.id) ? "checked" : ""}><span><span class="t">${esc(p.societa || p.descr || "Senza società")}${p.categoria ? " · " + esc(p.categoria) : ""}</span><br><span class="d">${esc(FONTE_TEMPI[p.fonte])} · ${quanteGare(p, p.risultati.length)}</span></span></label>`).join("")}</section>`;
         const lista = scelti.length ? L.daRecuperare(L.tempiUniti(P, scelti), cl.io, cl.miei) : [];
         if (scelti.length && !lista.length && !S.gruppo.recuperoFatto) { S.gruppo.recuperoFatto = oggi(); salva(); } // niente da recuperare: fatto
+        if (scelti.length && !lista.length) segnaFontiViste();
         const n = lista.filter((r) => !REC_NO.has(r.id)).length;
         corpo = chi + (scelti.length ? `<section class="card" style="gap:0"><div class="between" style="margin-bottom:4px"><h2>Le tue gare</h2><span class="small muted">${n} di ${lista.length}</span></div>
           ${lista.length ? lista.map((r) => `<label class="check"><input type="checkbox" data-act-change="rec-tog" data-id="${esc(r.id)}" ${REC_NO.has(r.id) ? "" : "checked"}><span style="flex:1"><span class="t">${esc(L.nomeRisultato(r))}</span><br><span class="d">${esc(L.etichettaDist(r))}${esc(notaFuori(r))} · ${esc(L.fmtBreve(r.data))} ${esc(r.data.slice(0, 4))} · ${esc(FONTE_TEMPI[r.fonte])}</span></span><b class="pb-tempo">${esc(fmtSec(r.secondi))}</b></label>`).join("") : `<span class="small">Niente da recuperare: le gare trovate sono già certificate.</span>`}</section>
@@ -1633,8 +1650,15 @@
         <div class="grid2"><div class="field"><label for="tc-nome">Nome</label><input class="input" id="tc-nome" required maxlength="40" autocomplete="given-name" value="${esc(nome)}"></div>
         <div class="field"><label for="tc-cognome">Cognome</label><input class="input" id="tc-cognome" required maxlength="40" autocomplete="family-name" value="${esc(cognome)}"></div></div>
         <button class="btn ghost" type="submit">${TEMPI && TEMPI.persone ? "Cerca di nuovo" : "Cerca"}</button>
-        <span class="small muted">Scrivili come nelle classifiche. ${L.recuperoAperto(cl.io) ? `Fino al ${esc(L.fmtBreve(String(cl.io.recupero_fino).slice(0, 10)))} recuperi anche le gare degli anni scorsi; dopo, solo quelle nuove.` : "Il recupero degli anni scorsi è chiuso: si aggiungono solo le gare nuove."}</span></form>
+        <span class="small muted">Scrivili come nelle classifiche. ${L.recuperoAperto(cl.io) ? `Fino al ${esc(L.fmtBreve(String(cl.io.recupero_fino).slice(0, 10)))} recuperi anche le gare degli anni scorsi; dopo, solo quelle nuove.` : "Il recupero degli anni scorsi è chiuso: si aggiungono solo le gare nuove."}</span>
+        ${fontiNuoveRiga(cl.io)}</form>
       ${corpo}`;
+  }
+  // "Nuove fonti per le gare: …" con fino a quando si recuperano anche gli anni scorsi (recupero, Le mie gare, regole)
+  function fontiNuoveRiga(io) {
+    const f = L.fontiNuove(io);
+    if (!f.length || L.recuperoAperto(io)) return "";
+    return `<span class="small" style="color:var(--accent-strong);font-weight:700">Nuove fonti per le gare: ${esc(f.map((x) => `${x.nome} (${x.cosa})`).join(", "))}. Fino al ${esc(L.fmtBreve(String(f.map((x) => x.fino).sort()[0]).slice(0, 10)))} da lì recuperi anche le gare degli anni scorsi.</span>`;
   }
   function vistaClassifiche(param = {}) {
     if (!partecipo()) return vistaGruppo();
@@ -1936,7 +1960,8 @@
       <div class="chips">${chip("stagione", `Stagione ${esc(anno)}`)}${chip("tutte", "Tutti gli anni")}</div>
       <section class="card" style="gap:0" id="mie-lista" data-p="${periodo}">${listaMie(q, periodo)}</section>
       <section class="card" style="gap:10px"><span class="title">Manca una gara?</span>
-        <span class="small">Cercala nelle classifiche ufficiali (Gare Podistiche Lazio e FIDAL): se il nome è quello con cui sei nel gruppo conta subito. Se non c'è, aggiungila a mano: la approva il referente.</span>
+        <span class="small">Cercala nelle classifiche ufficiali (Gare Podistiche Lazio, FIDAL e, per le maratone all'estero, MarathonView): se il nome è quello con cui sei nel gruppo conta subito. Se non c'è, aggiungila a mano: la approva il referente.</span>
+        ${fontiNuoveRiga(cl.io)}
         <a class="btn block" href="#/gruppo/recupero?da=mie">Cerca nelle classifiche</a></section>
       <details class="card" id="mie-aggiungi-box" ${aperto ? "open" : ""}><summary><span class="title" style="font-size:16px">Aggiungi a mano</span></summary>
         <form id="mie-aggiungi" style="display:flex;flex-direction:column;gap:10px;margin-top:10px">
@@ -1960,12 +1985,12 @@
     return `${bannerProva()}<header class="head-back">${back(torna)}<div><span class="eyebrow">${esc(GD() ? GD().gruppo.nome : "Il gruppo")} · stagione ${esc(anno)}</span><h1 style="font-size:28px">Come funzionano le classifiche</h1></div></header>
       ${sez("Chi partecipa", `${voceOk("Solo chi sceglie <b>Partecipo</b>. Chi non partecipa usa l'app come sempre e non compare.")}${voceOk("Puoi uscire quando vuoi da Io → Gruppo: i tuoi risultati online si cancellano, sul telefono restano.")}`)}
       ${sez("Quali gare contano", `${voceOk("<b>10 km, mezza e maratona</b> su strada, con il tempo della classifica ufficiale.")}${voceOk("<b>Altre distanze</b>: le gare tra 5 e 50 km che non sono una 10 km, una mezza o una maratona esatte (la Corsa di Miguel a 9,9 km, l'Appia Run a 16 o 19 km) valgono per Gare corse e per l'arrivo e la Borsa nell'Impegno, ma non per personali, PB, Albo d'oro, obiettivo e percentuale per età.")}${voceOk("La stagione va dal <b>1 gennaio al 31 dicembre</b>. L'Albo d'oro invece vale per sempre.")}${voceOk("Contano solo i tempi <b>certificati</b>. Ritirato, non partito e annullata si vedono nella tua storia, ma non danno posizioni.")}${io.partecipa && param.da !== "mie" ? `<a class="btn ghost" href="#/gruppo/mie?da=regole">Vedi le tue gare: quali contano</a>` : ""}`)}
-      ${sez("Come entra un tempo", `${voceOk("<b>Dalle classifiche ufficiali</b> (Gare Podistiche Lazio e FIDAL): in «Com'è andata?» tocchi <b>Cerca nelle classifiche</b> e poi <b>Usa</b>. Se il nome in classifica è quello con cui sei nel gruppo, è certificato subito.")}
+      ${sez("Come entra un tempo", `${voceOk("<b>Dalle classifiche ufficiali</b> (Gare Podistiche Lazio e FIDAL; le maratone all'estero da MarathonView): in «Com'è andata?» tocchi <b>Cerca nelle classifiche</b> e poi <b>Usa</b>. Se il nome in classifica è quello con cui sei nel gruppo, è certificato subito.")}
         ${voceOk("<b>Nome diverso, gara non trovata o classifica solo in PDF</b>: tocchi <b>Manda al referente</b> con il link o una nota. Lo approva l'amministratore o un organizzatore (il tuo tempo, se sei referente, lo approva un altro). Al massimo 5 in attesa.")}
         ${voceOk("Un tempo sbagliato, per esempio di un omonimo, lo può annullare l'amministratore.")}
         ${voceOk("Tempi impossibili non entrano: il passo deve stare tra 2:30 e 15:00 al km.")}`)}
-      ${sez("Le gare già corse", `${voceOk("Nei <b>primi 30 giorni</b> da quando partecipi recuperi tutte le gare trovate nelle classifiche, anche degli anni scorsi: servono per l'Albo d'oro e per i PB.")}${voceOk("Dopo, si aggiungono solo le gare dalla settimana prima della tua adesione in avanti.")}
-        ${L.recuperoAperto(io) ? `<a class="btn ghost" href="#/gruppo/recupero">Recupera le tue gare · fino al ${esc(L.fmtBreve(String(io.recupero_fino).slice(0, 10)))}</a>` : ""}`)}
+      ${sez("Le gare già corse", `${voceOk("Nei <b>primi 30 giorni</b> da quando partecipi recuperi tutte le gare trovate nelle classifiche, anche degli anni scorsi: servono per l'Albo d'oro e per i PB.")}${voceOk("Dopo, si aggiungono solo le gare dalla settimana prima della tua adesione in avanti.")}${voceOk("<b>Nuove fonti</b>: quando aggiungiamo una fonte di classifiche, per 30 giorni da lì recuperi anche le gare degli anni scorsi, anche se il tuo recupero è chiuso. Te lo dice la scheda «Nuove fonti per le gare» in Gruppo.")}${fontiNuoveRiga(io)}
+        ${L.recuperoAperto(io) ? `<a class="btn ghost" href="#/gruppo/recupero">Recupera le tue gare · fino al ${esc(L.fmtBreve(String(io.recupero_fino).slice(0, 10)))}</a>` : L.fontiNuove(io).length ? `<a class="btn ghost" href="#/gruppo/recupero?da=fonti">Recupera dalle nuove fonti</a>` : ""}`)}
       ${sez("Le gare della società", `${voceOk("Le sceglie il <b>direttivo</b> (amministratore e organizzatori) in Gestione, anche durante la stagione: i punti si ricalcolano.")}${voceOk("Solo queste fanno punti nella classifica <b>Impegno</b>. Le altre gare valgono per tutte le altre classifiche.")}<a class="btn ghost" href="#/gruppo/societa">Le gare della società</a>`)}
       ${sez("Le classifiche", `${cl3("Impegno", `Punti nelle gare della società: arrivo +${L.PUNTI.arrivo}, nuovo personale +${L.PUNTI.pb}, obiettivo centrato +${L.PUNTI.obiettivo}, Borsa pronta entro la vigilia +${L.PUNTI.borsa} (se poi arrivi). In più +${L.PUNTI.socio} per ogni nuovo socio portato col tuo link, al suo primo tempo certificato. C'è anche la vista del mese.`, "Niente punti per i km. A pari punti, pari posizione.")}
         ${cl3("Obiettivo centrato", "Lo scarto medio tra tempo ufficiale e tempo obiettivo, in più o in meno, su tutte le gare certificate con un obiettivo. L'obiettivo si fissa nella gara e si blocca alle 23:59 della vigilia. Servono almeno 3 gare; entro l'1% è centrato.", "Vince lo scarto più basso; a parità, chi ha più gare.")}
@@ -2281,15 +2306,15 @@
     const salta = `<button class="btn ghost block" type="button" data-act="entra-salta" data-k="tempi">Non mi trovo, salta</button>`;
     let corpo = "", pronto = false;
     if (!nome || !cognome) corpo = altroNome.replace("<details ", "<details open ");
-    else if (!TEMPI || TEMPI.carico) corpo = `<section class="card" aria-busy="true"><div class="row" style="gap:10px"><span class="spinner" aria-hidden="true"></span><span class="title">Cerco nelle classifiche</span></div><span class="small muted">Gare Podistiche Lazio dal 2019 e FIDAL: qualche secondo.</span><div class="meter attesa" aria-hidden="true"><div></div></div></section>`;
+    else if (!TEMPI || TEMPI.carico) corpo = `<section class="card" aria-busy="true"><div class="row" style="gap:10px"><span class="spinner" aria-hidden="true"></span><span class="title">Cerco nelle classifiche</span></div><span class="small muted">Gare Podistiche Lazio dal 2019, FIDAL e, per le maratone all'estero, MarathonView: qualche secondo.</span><div class="meter attesa" aria-hidden="true"><div></div></div></section>`;
     else if (TEMPI.errore) corpo = `<section class="card"><span class="small">${esc(TEMPI.errore)}</span><button class="btn ghost" data-act="tempi-riprova">Riprova</button></section>`;
-    else if (!TEMPI.persone.length) corpo = `<section class="card"><span class="title">Non ti trovo</span><span class="small">Nessuna gara a nome di <b>${esc(nome)} ${esc(cognome)}</b> su Gare Podistiche Lazio e FIDAL. Se ci sei con un altro nome, cercalo qui sotto.</span></section>${altroNome}`;
+    else if (!TEMPI.persone.length) corpo = `<section class="card"><span class="title">Non ti trovo</span><span class="small">Nessuna gara a nome di <b>${esc(nome)} ${esc(cognome)}</b> su Gare Podistiche Lazio, FIDAL e MarathonView. Se ci sei con un altro nome, cercalo qui sotto.</span></section>${altroNome}`;
     else {
       const P = TEMPI.persone, scelti = TEMPI.scelti || [], tess = (S.documenti || {}).tessera || {};
       const proposte = new Set(L.personeProposte(P, tessProposte(tess)));
       const ultima = (p) => p.risultati.reduce((m, r) => (r.data > m ? r.data : m), "");
       corpo = `<h2>${P.length > 1 ? `Trovati ${P.length} runner con questo nome` : "Ti ho trovato qui"}</h2>
-        <div class="scelte">${P.map((p) => `<label class="scelta"><input type="checkbox" data-act-change="tempi-persona" data-id="${esc(p.id)}" ${scelti.includes(p.id) ? "checked" : ""}><span><b>${esc(p.societa || "Senza società")}${p.categoria ? " · " + esc(p.categoria) : ""}</b><br><span class="small muted">${p.risultati.length} ${p.risultati.length === 1 ? "gara" : "gare"}${ultima(p) ? `, l'ultima nel ${ultima(p).slice(0, 4)}` : ""} · ${esc(FONTE_TEMPI[p.fonte])}${proposte.has(p.id) && P.length > 1 ? " · la tua società" : ""}</span></span></label>`).join("")}</div>`;
+        <div class="scelte">${P.map((p) => `<label class="scelta"><input type="checkbox" data-act-change="tempi-persona" data-id="${esc(p.id)}" ${scelti.includes(p.id) ? "checked" : ""}><span><b>${esc(p.societa || p.descr || "Senza società")}${p.categoria ? " · " + esc(p.categoria) : ""}</b><br><span class="small muted">${p.risultati.length} ${p.risultati.length === 1 ? "gara" : "gare"}${ultima(p) ? `, l'ultima nel ${ultima(p).slice(0, 4)}` : ""} · ${esc(FONTE_TEMPI[p.fonte])}${proposte.has(p.id) && P.length > 1 ? " · la tua società" : ""}</span></span></label>`).join("")}</div>`;
       if (scelti.length) {
         const uniti = L.tempiUniti(P, scelti), per = L.tempiPerDistanza(uniti);
         const cat = (P.find((p) => scelti.includes(p.id) && p.categoria) || {}).categoria;
@@ -2303,7 +2328,7 @@
         pronto = true;
       }
     }
-    return `<h1>Sei tu?</h1><p class="sub">${nome && cognome ? `Ho cercato <b>${esc(nome)} ${esc(cognome)}</b> nelle classifiche di Gare Podistiche Lazio e FIDAL.` : "Scrivi nome e cognome come nelle classifiche."}</p>${corpo}
+    return `<h1>Sei tu?</h1><p class="sub">${nome && cognome ? `Ho cercato <b>${esc(nome)} ${esc(cognome)}</b> nelle classifiche di Gare Podistiche Lazio e FIDAL e, per le maratone all'estero, su MarathonView.` : "Scrivi nome e cognome come nelle classifiche."}</p>${corpo}
       <div class="piede">${pronto ? `<button class="btn block" type="button" data-act="entra-tempi">Sono io: usa questi dati</button>` : ""}${salta}
         <p class="small muted centro">I personali restano sul tuo telefono anche se esci dal gruppo.</p></div>`;
   }
@@ -2593,7 +2618,7 @@
           ${C().tempi ? `<a class="chip" href="#/tempi?gara=${encodeURIComponent(id)}">Classifiche</a>` : ""}
           ${S.strava && S.strava.attivo ? `<button type="button" class="chip" data-act="ris-strava-cerca" data-id="${esc(id)}">Strava</button>` : ""}
           <a class="chip" href="https://www.endu.net/it/results" rel="noopener">ENDU ↗</a></div>
-          <span class="small muted">Classifiche: Gare Podistiche Lazio e FIDAL. ENDU si apre nel browser: torni qui con Fine o indietro.</span></div>`}
+          <span class="small muted">Classifiche: Gare Podistiche Lazio, FIDAL e, per le maratone all'estero, MarathonView. ENDU si apre nel browser: torni qui con Fine o indietro.</span></div>`}
         <span class="small muted" id="ris-pb">${g.km ? `Gara di ${esc(L.etichettaDist(g))}: il tempo resta qui, non diventa un personale` : pb ? `Il tuo personale: ${esc(L.leggiTempo(g, pb.tempo).tempo || pb.tempo)}` : "Solo numeri: si passa da solo alla casella dopo"}</span></section>
       <div class="field"><label for="ris-testo">Due parole <span class="muted">(facoltativo)</span></label><textarea class="input" id="ris-testo" maxlength="280" placeholder="es. Crisi al 16, poi il traguardo mi ha tirato su.">${esc(r.testo || "")}</textarea></div>
       ${bilancio(r.debrief || {})}
@@ -2887,11 +2912,12 @@
       <p class="sub">I tempi da Strava restano sul telefono. Entrano nella classifica del gruppo solo quelli che salvi, e solo se hai scelto di comparire.</p>`;
   }
   // ---------------------------------------------------------------- tempi dalle classifiche
-  // Una sola ricerca su due fonti (Gare Podistiche Lazio e FIDAL) con la funzione "tempi", che non salva niente.
+  // Una sola ricerca su tre fonti (Gare Podistiche Lazio, FIDAL e, solo per le maratone all'estero, MarathonView) con la
+  // funzione "tempi", che non salva niente.
   // Si apre da I tuoi personali (#/tempi) e da "Com'è andata?" (#/tempi?gara=id). Chi sei tra gli omonimi lo sceglie
   // l'utente; nome, cognome e scelta restano sul telefono (S.tempi) per la volta dopo.
   let TEMPI = null; // { chiave, carico, errore, persone, fonti, scelti }
-  const FONTE_TEMPI = { gpl: "Gare Podistiche Lazio", fidal: "FIDAL", strava: "Strava" };
+  const FONTE_TEMPI = { gpl: "Gare Podistiche Lazio", fidal: "FIDAL", mview: "MarathonView", strava: "Strava" };
   function nomeTempi() {
     const t = S.tempi || {};
     if (t.nome || t.cognome) return { nome: t.nome || "", cognome: t.cognome || "" };
@@ -2917,7 +2943,7 @@
     // con il nome già noto, la ricerca parte da sola
     if (nome && cognome && (S.tempi || {}).nome && (!TEMPI || TEMPI.chiave !== `${nome}|${cognome}|${anno || ""}`)) setTimeout(() => cercaTempi(nome, cognome, anno), 0);
     let corpo = "";
-    if (TEMPI && TEMPI.carico) corpo = `<section class="card" aria-live="polite" aria-busy="true"><div class="row" style="gap:10px"><span class="spinner" aria-hidden="true"></span><span class="title">Cerco nelle classifiche</span></div><span class="small muted">Gare Podistiche Lazio${g ? ` (${anno})` : " dal 2019"} e FIDAL: qualche secondo.</span><div class="meter attesa" aria-hidden="true"><div></div></div></section>`;
+    if (TEMPI && TEMPI.carico) corpo = `<section class="card" aria-live="polite" aria-busy="true"><div class="row" style="gap:10px"><span class="spinner" aria-hidden="true"></span><span class="title">Cerco nelle classifiche</span></div><span class="small muted">Gare Podistiche Lazio${g ? ` (${anno})` : " dal 2019"}, FIDAL e MarathonView: qualche secondo.</span><div class="meter attesa" aria-hidden="true"><div></div></div></section>`;
     else if (TEMPI && TEMPI.errore) corpo = `<section class="card"><span class="small">${esc(TEMPI.errore)}</span></section>`;
     else if (TEMPI && TEMPI.persone) corpo = risultatiTempi(g);
     return `${bannerProva()}<header class="head-back">${back(g ? `#/risultato/${encodeURIComponent(g.id)}` : "#/pb")}<div><span class="eyebrow">${g ? esc(titoloGara(g.nome)) + " · " + esc(L.fmtGiorno(g.data)) : "I tuoi personali"}</span><h1 style="font-size:28px">Trova i tuoi tempi</h1></div></header>
@@ -2925,7 +2951,7 @@
         <div class="grid2"><div class="field"><label for="tc-nome">Nome</label><input class="input" id="tc-nome" required maxlength="40" autocomplete="given-name" value="${esc(nome)}"></div>
         <div class="field"><label for="tc-cognome">Cognome</label><input class="input" id="tc-cognome" required maxlength="40" autocomplete="family-name" value="${esc(cognome)}"></div></div>
         <button class="btn" type="submit">${TEMPI && TEMPI.persone ? "Cerca di nuovo" : "Cerca"}</button>
-        <span class="small muted">Scrivili come nelle classifiche. Cerco su Gare Podistiche Lazio (anche le non competitive) e su FIDAL; il nome serve solo alla ricerca e online non resta.</span></form>
+        <span class="small muted">Scrivili come nelle classifiche. Cerco su Gare Podistiche Lazio (anche le non competitive), su FIDAL e, per le maratone all'estero, su MarathonView; il nome serve solo alla ricerca e online non resta.</span></form>
       ${corpo}`;
   }
   function risultatiTempi(g) {
@@ -2934,16 +2960,16 @@
     const avviso = giu.length ? `<span class="small" style="color:var(--warn)">${esc(giu.join(" e "))} non ${giu.length > 1 ? "rispondono" : "risponde"} adesso: riprova più tardi per avere tutto.</span>` : "";
     if (!P.length) return `<section class="card"><span class="title">Nessun risultato</span><span class="small">Non trovo gare a nome di <b>${esc(nomeTempi().nome)} ${esc(nomeTempi().cognome)}</b>. Controlla come sei scritto nelle classifiche (un secondo nome, un cognome doppio).</span>${avviso}</section>`;
     const quante = (p) => p.risultati.length;
-    const chiuso = TEMPI.ricordati && scelti.length, nomiScelti = P.filter((p) => scelti.includes(p.id)).map((p) => p.societa || FONTE_TEMPI[p.fonte]);
+    const chiuso = TEMPI.ricordati && scelti.length, nomiScelti = P.filter((p) => scelti.includes(p.id)).map((p) => p.societa || p.descr || FONTE_TEMPI[p.fonte]);
     const chi = `<${chiuso ? "details" : "section"} class="card" style="gap:0">${chiuso ? `<summary><span>Sei tu: <span style="font-weight:600;color:var(--fg)">${esc(nomiScelti.join(", "))}</span> · cambia</span></summary>` : ""}<h2 style="margin-bottom:4px">${P.length > 1 ? "Quale sei tu?" : "Ti ho trovato qui"}</h2>
       ${P.length > 1 ? `<span class="small muted" style="margin-bottom:6px">Ci sono più persone con questo nome: spunta quelle che sei tu (anche più di una, se hai cambiato società).</span>` : ""}
-      ${P.map((p) => { const u = p.risultati[0]; return `<label class="check"><input type="checkbox" data-act-change="tempi-persona" data-id="${esc(p.id)}" ${scelti.includes(p.id) ? "checked" : ""}><span><span class="t">${esc(p.societa || "Senza società")}${p.categoria ? " · " + esc(p.categoria) : ""}</span><br><span class="d">${esc(FONTE_TEMPI[p.fonte])} · ${quante(p) ? `${quante(p)} ${quante(p) === 1 ? "gara" : "gare"} su 10 km, mezza o maratona${u ? `, l'ultima ${esc(L.nomeRisultato(u))} (${esc(L.fmtBreve(u.data))} ${esc(u.data.slice(0, 4))})` : ""}` : `${p.gare} ${p.gare === 1 ? "gara" : "gare"}, nessuna su 10 km, mezza o maratona`}</span></span></label>`; }).join("")}${avviso}</${chiuso ? "details" : "section"}>`;
+      ${P.map((p) => { const u = p.risultati[0]; return `<label class="check"><input type="checkbox" data-act-change="tempi-persona" data-id="${esc(p.id)}" ${scelti.includes(p.id) ? "checked" : ""}><span><span class="t">${esc(p.societa || p.descr || "Senza società")}${p.categoria ? " · " + esc(p.categoria) : ""}</span><br><span class="d">${esc(FONTE_TEMPI[p.fonte])} · ${quante(p) ? `${quanteGare(p, quante(p))}${u ? `, l'ultima ${esc(L.nomeRisultato(u))} (${esc(L.fmtBreve(u.data))} ${esc(u.data.slice(0, 4))})` : ""}` : `${p.gare} ${p.gare === 1 ? "gara" : "gare"}, nessuna su 10 km, mezza o maratona`}</span></span></label>`; }).join("")}${avviso}</${chiuso ? "details" : "section"}>`;
     if (!scelti.length) return chi;
     const uniti = L.tempiUniti(P, scelti), riga = (r, bottone) => `<div class="between" style="gap:10px;padding:6px 0"><span style="min-width:0"><b>${esc(L.nomeRisultato(r))}</b><br><span class="small muted">${esc(L.fmtBreve(r.data))} ${esc(r.data.slice(0, 4))} · ${esc(FONTE_TEMPI[r.fonte])}</span></span><span class="row" style="gap:8px"><b class="pb-tempo">${esc(L.leggiTempo(r.distanza, r.tempo).tempo || r.tempo)}</b>${bottone}</span></div>`;
     if (g) {
       const trovati = L.tempiDellaGara(uniti, g);
       return chi + (trovati.length ? `<section class="card soft"><span class="eyebrow" style="color:var(--accent-strong)">Il tuo tempo ufficiale</span>${trovati.map((r) => riga(r, `<button class="btn small" data-act="tempi-usa" data-gara="${esc(g.id)}" data-id="${esc(r.id)}">Usa</button>`)).join("")}</section>`
-        : `<section class="card"><span class="title">Non c'è ancora</span><span class="small">La ${esc(titoloGara(g.nome))} del ${esc(L.fmtGiorno(g.data))} non è ancora nelle classifiche. Gare Podistiche Lazio di solito la pubblica in giornata o il giorno dopo, FIDAL dopo qualche giorno.</span><button class="btn ghost" data-act="tempi-riprova">Riprova</button></section>`);
+        : `<section class="card"><span class="title">Non c'è ancora</span><span class="small">La ${esc(titoloGara(g.nome))} del ${esc(L.fmtGiorno(g.data))} non è ancora nelle classifiche. ${/^E-/.test(g.id) ? "Le maratone all'estero arrivano da MarathonView, di solito entro qualche giorno." : "Gare Podistiche Lazio di solito la pubblica in giornata o il giorno dopo, FIDAL dopo qualche giorno."}</span><button class="btn ghost" data-act="tempi-riprova">Riprova</button></section>`);
     }
     const per = L.tempiPerDistanza(uniti);
     return chi + DISTANZE.map((d) => {
@@ -3280,7 +3306,7 @@
       if (!ids.length) return;
       t.disabled = true; t.textContent = "Recupero…";
       certificaRisultati({ nome, cognome, anno: null, persone: TEMPI.scelti || [], risultati: ids })
-        .then(async (j) => { S.gruppo.recuperoFatto = oggi(); salva(); toast(j.in_approvazione && j.certificati ? `${j.certificati} certificate, ${j.in_approvazione} al referente` : esitoCertifica(j)); await aggiornaClassifiche(); location.hash = /[?&]da=mie/.test(location.hash) ? "#/gruppo/mie" : "#/gruppo"; })
+        .then(async (j) => { S.gruppo.recuperoFatto = oggi(); salva(); segnaFontiViste(); toast(j.in_approvazione && j.certificati ? `${j.certificati} certificate, ${j.in_approvazione} al referente` : esitoCertifica(j)); await aggiornaClassifiche(); location.hash = /[?&]da=mie/.test(location.hash) ? "#/gruppo/mie" : "#/gruppo"; })
         .catch((e) => { toast(e.message); rerender(); });
       return;
     }

@@ -2,7 +2,7 @@
    Supabase che controlla). Verifica:
    - job programmati: partiti quando dovevano e finiti bene (API di GitHub Actions);
    - dati: data di aggiornamento dei file del calendario, dei contenuti, delle gare seguite e delle gare estere;
-   - servizi: sito, database, invii push di oggi, funzione buddy e (una volta al giorno) la ricerca tempi su FIDAL e GPL.
+   - servizi: sito, database, invii push di oggi, funzione buddy e (una volta al giorno) la ricerca tempi su FIDAL, GPL e MarathonView.
    Scrive l'esito in Supabase (salute_controlli, letto dalla pagina #/salute del superamministratore) e manda una push ai
    telefoni in salute_avvisi solo se qualcosa è KO: alla prima volta, quando si aggiunge un problema nuovo, e poi al
    massimo una volta al giorno finché resta. Stati: ok, attenzione (solo nella pagina), ko (pagina e push).
@@ -145,11 +145,14 @@ async function main() {
   // la ricerca tempi interroga FIDAL e Gare Podistiche Lazio: una volta al giorno, alle 8, o se l'ultima volta era KO
   const tempiPrima = precedente && (precedente.controlli || []).find((c) => c.id === "tempi");
   if (oraRoma(adesso) === 8 || !tempiPrima || tempiPrima.stato !== "ok" || process.env.TUTTO === "1") {
-    await servizio("tempi", "Ricerca tempi (FIDAL e GPL)", async () => {
+    await servizio("tempi", "Ricerca tempi (FIDAL, GPL e MarathonView)", async () => {
       const r = await fetch(`${URL_SB}/functions/v1/tempi`, { method: "POST", headers: { apikey: PUB, "Content-Type": "application/json" }, body: JSON.stringify({ nome: "Yemaneberhan", cognome: "Crippa" }) });
       const j = await r.json().catch(() => ({})), f = j.fonti || {}, n = (j.persone || []).reduce((t, p) => t + (p.risultati || []).length, 0);
       const giu = ["gpl", "fidal"].filter((k) => f[k] !== "ok").map((k) => (k === "gpl" ? "Gare Podistiche Lazio" : "FIDAL"));
-      return giu.length ? { stato: "ko", dettaglio: `Non risponde: ${giu.join(" e ")}` } : { stato: "ok", dettaglio: `FIDAL e GPL rispondono · ${n} risultati di prova`, provato: adesso.toISOString() };
+      if (giu.length) return { stato: "ko", dettaglio: `Non risponde: ${giu.join(" e ")}` };
+      // MarathonView serve solo per le maratone all'estero: se manca è un'attenzione, non un KO
+      if (f.mview !== "ok") return { stato: "attenzione", dettaglio: `FIDAL e GPL rispondono, MarathonView no · ${n} risultati di prova`, provato: adesso.toISOString() };
+      return { stato: "ok", dettaglio: `FIDAL, GPL e MarathonView rispondono · ${n} risultati di prova`, provato: adesso.toISOString() };
     });
   } else servizi.push({ ...tempiPrima, dettaglio: tempiPrima.dettaglio.replace(/ · provato .*$/, "") + ` · provato ${quando(tempiPrima.provato || adesso.toISOString(), adesso)}` });
 

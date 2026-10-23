@@ -346,6 +346,17 @@ assert.deepStrictEqual(un.map((r) => r.id), ["g1", "f2"]); // la mezza su entram
 assert.strictEqual(L.nomeRisultato(un[1]), "Gara a Reggio Emilia");
 assert.deepStrictEqual(L.tempiPerDistanza(un)["42"].map((r) => r.id), ["f2"]);
 assert.deepStrictEqual(L.tempiDellaGara(un, roma).map((r) => r.id), ["g1"]);
+// MarathonView (maratone all'estero): l'unica persona italiana è proposta; la stessa gara su FIDAL vince su MarathonView
+const MV = [
+  { id: "mview:ita-M", fonte: "mview", paese: "ita", societa: "", risultati: [{ id: "m1", data: "2026-09-27", distanza: "42", secondi: 10259, tempo: "2:50:59", fonte: "mview", gara: "Berlin Marathon 2026", luogo: "DEU" },
+    { id: "m2", data: "2025-03-16", distanza: "42", secondi: 14010, tempo: "3:53:30", fonte: "mview", gara: "Doppione", luogo: "ITA" }] },
+  { id: "mview:usa-M", fonte: "mview", paese: "usa", societa: "", risultati: [] },
+];
+assert.deepStrictEqual(L.personeProposte([...PER, ...MV], { codiceSocieta: "rm123", societa: "A.S.D. Podistica Solidarietà" }), ["gpl:a", "fidal:x", "mview:ita-M"]);
+assert.deepStrictEqual(L.personeProposte([MV[1]], {}), ["mview:usa-M"], "l'unica persona, anche se non italiana");
+assert.deepStrictEqual(L.personeProposte([MV[1], { ...MV[1], id: "mview:fra-M", paese: "fra" }], {}), [], "due straniere: decide il runner");
+const unMv = L.tempiUniti([...MV, ...PER], ["mview:ita-M", "fidal:x"]);
+assert.deepStrictEqual(unMv.map((r) => r.id), ["f1", "m1", "f2"], "stessa data e distanza su FIDAL e MarathonView: vince FIDAL");
 
 // gare estere: elenco curato, circuiti, benvenuto
 const ESTERO = JSON.parse(fs.readFileSync(path.join(root, "content/estero.json"), "utf8"));
@@ -497,6 +508,23 @@ assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10",
   assert.deepStrictEqual(L.daRecuperare(trovati, io, [], new Date("2026-12-10")).map((x) => x.data), ["2026-10-18", "2026-11-30"]);
   assert.strictEqual(L.daRecuperare(trovati, io, [{ data: "2026-10-18", distanza: "21", secondi: 6350, stato: "certificato" }], new Date("2026-10-21")).length, 2, "già certificati esclusi");
   assert.strictEqual(L.recuperoAperto({ partecipa: false, recupero_fino: "2099-01-01" }), false);
+  // fonti nuove: per 30 giorni da quando sono accese si recuperano da lì anche le gare vecchie, solo da quella fonte
+  const ioF = { ...io, fonti_nuove: [{ fonte: "mview", nome: "MarathonView", cosa: "le maratone all'estero", dal: "2026-12-01T10:00:00Z", fino: "2026-12-31T10:00:00Z" }] };
+  const conFonte = [...trovati, { data: "2023-09-24", distanza: "42", secondi: 13000, fonte: "mview" }, { data: "2023-10-08", distanza: "42", secondi: 13100, fonte: "gpl" }];
+  assert.deepStrictEqual(L.daRecuperare(conFonte, ioF, [], new Date("2026-12-10")).map((x) => x.data), ["2026-10-18", "2026-11-30", "2023-09-24"], "la vecchia di MarathonView sì, quella di GPL no");
+  assert.deepStrictEqual(L.daRecuperare(conFonte, ioF, [], new Date("2027-01-05")).map((x) => x.data), ["2026-10-18", "2026-11-30"], "dopo i 30 giorni della fonte no");
+  assert.deepStrictEqual(L.fontiNuove(ioF, new Date("2026-12-10")).map((f) => f.fonte), ["mview"]);
+  assert.deepStrictEqual(L.fontiNuove({ ...ioF, partecipa: false }, new Date("2026-12-10")), []);
+  assert.ok(L.fonteAperta(ioF, "mview", new Date("2026-12-10")) && !L.fonteAperta(ioF, "gpl", new Date("2026-12-10")));
+  // scheda in Gruppo: solo a recupero personale chiuso e finché il runner non l'ha usata
+  assert.strictEqual(L.nuoveFontiInEvidenza(ioF, {}, new Date("2026-11-01")), null, "nel proprio recupero la scheda del recupero basta");
+  const ev = L.nuoveFontiInEvidenza(ioF, {}, new Date("2026-12-10"));
+  assert.deepStrictEqual(ev.fonti.map((f) => f.nome), ["MarathonView"]);
+  assert.strictEqual(ev.ultimi, false);
+  assert.strictEqual(L.nuoveFontiInEvidenza(ioF, {}, new Date("2026-12-29")).ultimi, true);
+  assert.strictEqual(L.nuoveFontiInEvidenza(ioF, { mview: "2026-12-11" }, new Date("2026-12-12")), null, "già usata");
+  assert.strictEqual(L.nuoveFontiInEvidenza(ioF, {}, new Date("2027-01-05")), null, "chiusa");
+  assert.strictEqual(L.nuoveFontiInEvidenza({ ...io, fonti_nuove: undefined }, {}, new Date("2026-12-10")), null);
 }
 
 // recupero in Gruppo: in cima finché non è fatto, poi discreto; negli ultimi 3 giorni lo ricorda

@@ -122,7 +122,7 @@
 
   /** Tempi dalle classifiche (funzione "tempi"): quali persone proporre come "sei tu" tra gli omonimi.
       FIDAL: quella con il codice società della tessera; Gare Podistiche Lazio: quella con la società della tessera
-      (nome simile); se una fonte ha una sola persona, quella. `tessera` = { codiceSocieta, societa }. */
+      (nome simile); se una fonte ha una sola persona, quella. MarathonView: l'unica italiana, o l'unica. `tessera` = { codiceSocieta, societa }. */
   const chiaveNome = (s) => String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\b(a\.?s\.?d\.?|s\.?s\.?d\.?|asd|ssd|ass|associazione|sportiva|dilettantistica|atletica|atl|polisportiva|pol|g\.?s\.?|podistica|team|club)\b/g, " ").replace(/[^a-z0-9]+/g, " ").trim();
   function personeProposte(persone, tessera = {}) {
     const cod = String(tessera.codiceSocieta || "").toUpperCase(), soc = chiaveNome(tessera.societa);
@@ -132,13 +132,17 @@
       const mia = qui.filter((p) => (fonte === "fidal" && cod && p.codice === cod) || (soc && chiaveNome(p.societa) && (chiaveNome(p.societa).includes(soc) || soc.includes(chiaveNome(p.societa)))));
       (mia.length ? mia : qui.length === 1 ? qui : []).forEach((p) => out.add(p.id));
     }
+    // MarathonView (maratone all'estero, senza società): la sola persona di nazionalità italiana, o la sola persona
+    const mv = persone.filter((p) => p.fonte === "mview"), ita = mv.filter((p) => p.paese === "ita");
+    (ita.length === 1 ? ita : mv.length === 1 ? mv : []).forEach((p) => out.add(p.id));
     return [...out];
   }
-  /** I risultati delle persone scelte, senza doppioni (la stessa gara su entrambe le fonti: vince Gare Podistiche Lazio,
-      che ha il nome della gara), dalla più recente. */
+  /** I risultati delle persone scelte, senza doppioni (la stessa gara su più fonti: vince Gare Podistiche Lazio, che ha
+      il nome della gara, poi FIDAL, poi MarathonView), dalla più recente. */
+  const ORDINE_FONTI = ["gpl", "fidal", "mview"];
   function tempiUniti(persone, scelti) {
-    const tutti = persone.filter((p) => scelti.includes(p.id)).flatMap((p) => p.risultati)
-      .sort((a, b) => (a.fonte === b.fonte ? 0 : a.fonte === "gpl" ? -1 : 1));
+    const ord = (f) => { const i = ORDINE_FONTI.indexOf(f); return i < 0 ? 9 : i; };
+    const tutti = persone.filter((p) => scelti.includes(p.id)).flatMap((p) => p.risultati).sort((a, b) => ord(a.fonte) - ord(b.fonte));
     const visti = new Set(), out = [];
     for (const r of tutti) { const k = `${r.data}:${r.distanza}`; if (visti.has(k)) continue; visti.add(k); out.push(r); }
     return out.sort((a, b) => (a.data < b.data ? 1 : a.data > b.data ? -1 : 0));
@@ -833,7 +837,21 @@
   function daRecuperare(trovati, io, miei = [], adesso = new Date()) {
     const dal = io && io.dal ? addDays(String(io.dal).slice(0, 10), -7) : null;
     const gia = new Set((miei || []).filter((m) => m.stato === "certificato").map((m) => `${m.data}:${m.distanza}:${m.secondi}`));
-    return (trovati || []).filter((r) => !gia.has(`${r.data}:${r.distanza}:${r.secondi}`) && (recuperoAperto(io, adesso) || (dal && r.data >= dal)));
+    return (trovati || []).filter((r) => !gia.has(`${r.data}:${r.distanza}:${r.secondi}`) && (recuperoAperto(io, adesso) || (dal && r.data >= dal) || fonteAperta(io, r.fonte, adesso)));
+  }
+  /** Fonti nuove dei tempi (stato_classifiche → io.fonti_nuove: { fonte, nome, cosa, dal, fino }) con il recupero ancora
+   *  aperto: per 30 giorni da quando sono accese si recuperano da lì anche le gare degli anni scorsi (come _puo_registrare_fonte). */
+  const fontiNuove = (io, adesso = new Date()) => (io && io.partecipa ? (io.fonti_nuove || []).filter((f) => f && f.fonte && f.fino && new Date(f.fino) >= adesso) : []);
+  const fonteAperta = (io, fonte, adesso = new Date()) => !!fonte && fontiNuove(io, adesso).some((f) => f.fonte === fonte);
+  /** Scheda "Nuove fonti per le gare" in Gruppo: le fonti nuove aperte che il runner non ha ancora usato per il recupero
+   *  (viste = { fonte: giorno }, sul telefono). Solo a recupero personale chiuso: nei suoi 30 giorni la scheda del recupero
+   *  cerca già in tutte. null se non c'è niente da dire; ultimi = mancano 3 giorni o meno alla prima che chiude. */
+  function nuoveFontiInEvidenza(io, viste = {}, adesso = new Date()) {
+    if (recuperoAperto(io, adesso)) return null;
+    const fonti = fontiNuove(io, adesso).filter((f) => !(viste || {})[f.fonte]);
+    if (!fonti.length) return null;
+    const fino = fonti.map((f) => f.fino).sort()[0];
+    return { fonti, fino, ultimi: new Date(fino) - adesso <= 3 * 864e5 };
   }
 
   // ---------------------------------------------------------------- stagione (fase 2): Impegno, Obiettivo, età, badge
@@ -1070,7 +1088,7 @@
     return n;
   }
 
-  const api = { fuoriMisura, esatte, kmAltra, fmtKm, etichettaDist, baseKm, PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, finitaPrima, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, pbEventi, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, recuperoInEvidenza, daRecuperare, PASSI_ENTRA, passiEntra, prossimoEntra };
+  const api = { fuoriMisura, esatte, kmAltra, fmtKm, etichettaDist, baseKm, PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, finitaPrima, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, pbEventi, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, recuperoInEvidenza, daRecuperare, fontiNuove, fonteAperta, nuoveFontiInEvidenza, PASSI_ENTRA, passiEntra, prossimoEntra };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);

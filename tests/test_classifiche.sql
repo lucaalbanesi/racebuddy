@@ -133,6 +133,27 @@ begin
   update public.membri set partecipa_dal = now() - interval '40 days' where nome = 'Giulia Neri';
   j := public._registra_certificati(hb, 'Giulia Neri', format('[{"data":"2024-04-07","distanza":"21","secondi":6500,"fonte":"gpl"},{"data":"%s","distanza":"10","secondi":2650,"fonte":"gpl"}]', current_date - 1)::jsonb);
   assert (j->>'certificati')::int = 1 and (j->>'saltati')::int = 1, 'recupero chiuso: ' || j::text;
+  -- fonti nuove (fonti_tempi): nei 30 giorni da quando sono accese si recuperano anche le gare vecchie, ma solo da quella fonte
+  j := public.stato_classifiche(b);
+  assert exists (select 1 from json_array_elements(j->'io'->'fonti_nuove') x where x->>'fonte' = 'mview' and x->>'nome' = 'MarathonView' and x->>'fino' is not null), 'MarathonView tra le fonti nuove: ' || (j->'io')::text;
+  j := public._registra_certificati(hb, 'Giulia Neri', '[
+    {"data":"2024-09-29","distanza":"42","secondi":13500,"gara_nome":"Berlin Marathon 2024","fonte":"mview","categoria":"W35"},
+    {"data":"2024-11-03","distanza":"42","secondi":13600,"fonte":"gpl"},
+    {"data":"2024-04-14","distanza":"42","secondi":13700,"fonte":"boh"}]');
+  assert (j->>'certificati')::int = 1 and (j->>'saltati')::int = 2, 'fonte nuova aperta, le altre restano chiuse: ' || j::text;
+  assert (select fonte = 'mview' and gara_nome = 'Berlin Marathon 2024' and stato = 'certificato' from public.risultati_gruppo where data = '2024-09-29'), 'certificato da MarathonView';
+  assert exists (select 1 from json_array_elements(public.stato_classifiche(a)->'risultati') x where x->>'fonte' = 'mview'), 'in classifica con la sua fonte';
+  -- dopo i 30 giorni della fonte: chiusa anche quella, e non è più tra le nuove
+  update public.fonti_tempi set attiva_dal = now() - interval '31 days' where fonte = 'mview';
+  assert json_array_length(public.stato_classifiche(b)->'io'->'fonti_nuove') = 0, 'nessuna fonte nuova aperta';
+  j := public._registra_certificati(hb, 'Giulia Neri', '[{"data":"2023-09-24","distanza":"42","secondi":13400,"fonte":"mview"}]');
+  assert (j->>'saltati')::int = 1, 'fonte nuova chiusa: ' || j::text;
+  -- le gare nuove da quella fonte entrano sempre
+  j := public._registra_certificati(hb, 'Giulia Neri', format('[{"data":"%s","distanza":"42","secondi":13300,"fonte":"mview"}]', current_date - 2)::jsonb);
+  assert (j->>'certificati')::int = 1, 'gara nuova dalla fonte nuova: ' || j::text;
+  update public.fonti_tempi set attiva_dal = now() where fonte = 'mview';
+  begin insert into public.fonti_tempi (fonte, nome, cosa) values ('gpl', 'x', 'x'); assert false, 'fonte di partenza tra le nuove';
+  exception when check_violation then null; end;
   -- correzione dopo i 30 giorni: una gara che ha già un risultato si rimanda (dalla ricerca o al referente), una nuova no
   begin perform public.invia_risultato(b, '{"data":"2024-05-05","distanza":"10","tempo":"0:50:00"}'); assert false, 'gara nuova dal passato';
   exception when others then if sqlerrm not like '%troppo vecchia%' then raise; end if; end;
@@ -176,6 +197,8 @@ do $$ begin
   begin perform 1 from public.risultati_gruppo; assert false, 'anon legge risultati'; exception when insufficient_privilege then null; end;
   begin perform public._registra_certificati('x', 'x', '[]'); assert false, 'anon certifica'; exception when insufficient_privilege then null; end;
   begin perform public._io_classifiche(repeat('a', 40)); assert false, 'anon chiama _io_classifiche'; exception when insufficient_privilege then null; end;
+  begin perform 1 from public.fonti_tempi; assert false, 'anon legge fonti_tempi'; exception when insufficient_privilege then null; end;
+  begin perform public._puo_registrare_fonte(null, current_date, 'mview'); assert false, 'anon chiama _puo_registrare_fonte'; exception when insufficient_privilege then null; end;
   raise notice 'permessi classifiche ok';
 end $$;
 reset role;

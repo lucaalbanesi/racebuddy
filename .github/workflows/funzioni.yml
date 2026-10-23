@@ -91,6 +91,6 @@ jobs:
           R=$(curl -s --max-time 60 -X POST "https://$REF.supabase.co/functions/v1/tempi" -H "apikey: $KEY" -H "Content-Type: application/json" -d '{"nome":"Yemaneberhan","cognome":"Crippa"}')
           SINTESI=$(echo "$R" | python3 -c "import json,sys
           j=json.load(sys.stdin); p=j.get('persone',[])
-          print('fonti', j.get('fonti'), '| persone', len(p), '| risultati', sum(len(x['risultati']) for x in p), '| maratone', sum(1 for x in p for r in x['risultati'] if r['distanza']=='42'))" 2>&1 || echo "risposta non valida: ${R:0:200}")
+          print('fonti', j.get('fonti'), '| persone', len(p), '| risultati', sum(len(x['risultati']) for x in p), '| maratone', sum(1 for x in p for r in x['risultati'] if r['distanza']=='42'), '| estere MarathonView', sum(len(x['risultati']) for x in p if x['fonte']=='mview'))" 2>&1 || echo "risposta non valida: ${R:0:200}")
           echo "$SINTESI"
-          case "$SINTESI" in *"'gpl': 'ok'"*"'fidal': 'ok'"*) echo "::notice title=Funzione tempi::$SINTESI";; *) echo "::warning title=Funzione tempi::$SINTESI";; esac
+          case "$SINTESI" in *"'gpl': 'ok'"*"'fidal': 'ok'"*"'mview': 'ok'"*) echo "::notice title=Funzione tempi::$SINTESI";; *) echo "::warning title=Funzione tempi::$SINTESI";; esac

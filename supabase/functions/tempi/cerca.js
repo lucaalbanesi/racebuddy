@@ -5,9 +5,15 @@
 //   - Gare Podistiche Lazio (garepodistichelazio.it): una pagina per nome, dal 2019, anche le non competitive.
 //     Gli omonimi finiscono nella stessa pagina: si separano per società.
 //   - FIDAL (fidal.it): ricerca atleti, poi la scheda di ognuno con lo stesso nome (gare FIDAL dal 2005).
+//   - MarathonView (marathonview.net, da ottobre 2026): una pagina per nome con tutte le maratone; teniamo SOLO quelle
+//     all'estero (Major e grandi gare che FIDAL non ha): per le italiane MarathonView ricopia altre fonti, tra cui ENDU,
+//     che non usiamo. Una richiesta semplice senza cookie, una per ricerca (il sito conta le ricerche anonime per cookie):
+//     va bene finché siamo pochi; se si cresce, va chiesto il permesso al sito o usato un account.
+//     Niente società: gli omonimi si separano per nazionalità e sesso, e la scelta resta al runner.
 //   `anno` (facoltativo) limita Gare Podistiche Lazio a quell'anno (per il tempo di una gara appena corsa).
 //   `codice` (facoltativo) è il codice della società sulla tessera (es. RM123): mette quella persona davanti in FIDAL.
-//   Risposta: { persone: [{ id, fonte, nome, societa, codice, categoria, risultati: [...] }], fonti: { gpl, fidal } }
+//   Risposta: { persone: [{ id, fonte, nome, societa, codice, categoria, risultati: [...] }], fonti: { gpl, fidal, mview } }
+//   (le persone di MarathonView hanno anche `paese`, la nazionalità in tre lettere, e `descr` da mostrare al posto della società)
 //
 // Il nome serve solo alla ricerca: non si salva da nessuna parte. Si interroga una pagina per volta, solo su richiesta.
 //
@@ -20,9 +26,11 @@
 
 export const GPL = "https://www.garepodistichelazio.it";
 export const FIDAL = "https://www.fidal.it";
+export const MVIEW = "https://marathonview.net";
 export const PRIMO_ANNO_GPL = 2019;
 const UA = "Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126 Mobile Safari/537.36 RaceBuddy";
 const MAX_SCHEDE_FIDAL = 4;
+const ORDINE_FONTI = ["gpl", "fidal", "mview"];
 const DISTANZE = { "10": 10, "21": 21.0975, "42": 42.195 };
 
 const ENT = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " ", agrave: "à", egrave: "è", eacute: "é", igrave: "ì", ograve: "ò", ugrave: "ù", raquo: "»", laquo: "«" };
@@ -130,6 +138,43 @@ export function leggiFidalAtleta(html) {
   return out;
 }
 
+/** MarathonView: le maratone di una pagina atleta (JSON scritto nella pagina: `const json={...};`). Solo maratone (42,0-42,4
+ *  km) corse all'estero e con il nome cercato; tempo = quello personale (netto) se c'è, altrimenti quello ufficiale. */
+export function leggiMview(html, nome) {
+  const m = String(html || "").match(/const json=(\{.*\});\s*$/m);
+  let j = null;
+  try { j = m ? JSON.parse(m[1]) : null; } catch (_e) { j = null; }
+  const voglio = parole(nome), out = [];
+  for (const r of (j && j.data && j.data.results) || []) {
+    if (!r || parole(`${r.first_name || ""} ${r.last_name || ""}`) !== voglio) continue;
+    const paeseGara = String(r.event_country || "").toLowerCase();
+    if (!paeseGara || paeseGara === "ita") continue;               // solo all'estero
+    if (!(r.distance >= 42000 && r.distance <= 42400)) continue;    // solo maratone
+    const sec = Number(r.personal_time != null && r.personal_time < r.result ? r.personal_time : r.result);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(r.date || "") || !(sec > 0)) continue;
+    out.push({ data: r.date, gara: String(r.event_name || "").trim().slice(0, 120), luogo: paeseGara.toUpperCase(), distanza: "42", tempo: hms(sec), secondi: sec,
+      categoria: String(r.category || "").slice(0, 12), paese: String(r.country || "").toLowerCase(), sesso: r.gender === "F" ? "F" : r.gender === "M" ? "M" : "" });
+  }
+  return out;
+}
+// "Maria Grazia D'Angelo" = "d angelo grazia maria": parole senza accenti, in ordine (come _norm_nome nel database)
+const parole = (s) => chiave(s).split(" ").filter(Boolean).sort().join(" ");
+const PAESI = { ita: "Italia", usa: "Stati Uniti", deu: "Germania", fra: "Francia", gbr: "Regno Unito", esp: "Spagna", sui: "Svizzera", che: "Svizzera", aut: "Austria", nld: "Paesi Bassi", bel: "Belgio", jpn: "Giappone" };
+/** MarathonView: una "persona" per nazionalità e sesso (non c'è la società). Prima chi è italiano e chi ha più gare. */
+export function personeMview(gare, nome) {
+  const per = new Map();
+  for (const g of gare) {
+    const k = `${g.paese || "x"}-${g.sesso || "x"}`;
+    if (!per.has(k)) per.set(k, { paese: g.paese, tutte: [] });
+    per.get(k).tutte.push(g);
+  }
+  return [...per.entries()].map(([k, p]) => {
+    const risultati = soloGara(p.tutte, "mview").map(({ paese, sesso, ...r }) => r);
+    return { id: `mview:${k}`, fonte: "mview", nome, societa: "", codice: "", categoria: (risultati[0] || {}).categoria || "", paese: p.paese || "",
+      descr: `Maratone all'estero${p.paese ? ` · nazionalità ${PAESI[p.paese] || p.paese.toUpperCase()}` : ""}`, gare: risultati.length, risultati };
+  }).sort((a, b) => (b.paese === "ita") - (a.paese === "ita") || b.gare - a.gare);
+}
+
 /** Tiene 10 km, mezza e maratona e le altre distanze 5-50 km (con km_reali) con un passo credibile, dalla più recente. */
 function soloGara(lista, fonte) {
   return lista
@@ -182,10 +227,18 @@ export function crea(env = {}, fetchImpl = fetch, adesso = () => new Date()) {
     }));
   }
 
+  // Una richiesta, senza cookie (fetch non li conserva): il nome come nell'indirizzo del sito, con i trattini
+  async function cercaMview(nome, cognome, anno) {
+    const chi = `${nome} ${cognome}`, url = `${MVIEW}/marathon-results-of-${encodeURIComponent(chi.replace(/\s+/g, "-"))}`;
+    const gare = leggiMview(await pagina(url), chi).filter((g) => !anno || g.data.startsWith(String(anno)));
+    return personeMview(gare, chi);
+  }
+
   async function cerca(nome, cognome, anno, codice) {
-    const [gpl, fidal] = await Promise.allSettled([cercaGpl(nome, cognome, anno), cercaFidal(nome, cognome, codice)]);
-    const persone = [...(gpl.status === "fulfilled" ? gpl.value : []), ...(fidal.status === "fulfilled" ? fidal.value : [])].filter((p) => p.gare > 0);
-    return { persone, fonti: { gpl: gpl.status === "fulfilled" ? "ok" : "errore", fidal: fidal.status === "fulfilled" ? "ok" : "errore" } };
+    const fonti = { gpl: cercaGpl(nome, cognome, anno), fidal: cercaFidal(nome, cognome, codice), mview: cercaMview(nome, cognome, anno) };
+    const esiti = await Promise.allSettled(Object.values(fonti)), stato = {}, persone = [];
+    Object.keys(fonti).forEach((k, i) => { stato[k] = esiti[i].status === "fulfilled" ? "ok" : "errore"; if (esiti[i].status === "fulfilled") persone.push(...esiti[i].value); });
+    return { persone: persone.filter((p) => p.gare > 0), fonti: stato };
   }
 
   // impronta del codice segreto del telefono, come public._hash nel database (sha256 esadecimale)
@@ -205,9 +258,9 @@ export function crea(env = {}, fetchImpl = fetch, adesso = () => new Date()) {
     const chiRisultati = Array.isArray(b.risultati) ? b.risultati.filter(idOk).slice(0, 200) : [];
     if (!chiPersone.length || !chiRisultati.length) return json({ errore: "scegli persone e risultati" }, 400);
     const { persone } = await cerca(nome, cognome, anno, codice);
-    // Gare Podistiche Lazio prima di FIDAL: a parità di gara vince quella con il nome della gara
+    // Gare Podistiche Lazio prima di FIDAL (ha il nome della gara), poi MarathonView: a parità di gara vince la prima
     const righe = [], viste = new Set();
-    for (const p of persone.filter((x) => chiPersone.includes(x.id)).sort((x, y) => (x.fonte === "gpl" ? -1 : 0) - (y.fonte === "gpl" ? -1 : 0))) {
+    for (const p of persone.filter((x) => chiPersone.includes(x.id)).sort((x, y) => ORDINE_FONTI.indexOf(x.fonte) - ORDINE_FONTI.indexOf(y.fonte))) {
       for (const r of p.risultati.filter((x) => chiRisultati.includes(x.id))) {
         const k = `${r.data}:${r.distanza}`;
         if (viste.has(k)) continue;

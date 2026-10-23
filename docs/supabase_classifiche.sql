@@ -22,7 +22,7 @@ create table if not exists public.risultati_gruppo (
   gara_nome text check (char_length(gara_nome) <= 120),
   esito text not null default 'arrivato' check (esito in ('arrivato', 'ritirato', 'non_partito', 'annullata')),
   secondi integer check (secondi > 0),
-  fonte text not null check (fonte in ('gpl', 'fidal', 'manuale')),
+  fonte text not null check (fonte ~ '^[a-z]{2,12}$'),   -- gpl, fidal, manuale o una delle fonti_tempi (sotto)
   categoria text check (char_length(categoria) <= 12),
   societa text check (char_length(societa) <= 120),
   -- certificato: dalla classifica ufficiale o approvato dal referente; in_approvazione: in coda; rifiutato; dichiarato: esito senza tempo
@@ -40,6 +40,24 @@ create index if not exists risultati_gruppo_membro on public.risultati_gruppo (m
 -- Impegno; per personali, PB, Albo d'oro, obiettivo e percentuale per età no (app/logic.js).
 alter table public.risultati_gruppo add column if not exists km_reali numeric(6,3) check (km_reali between 5 and 50);
 alter table public.risultati_gruppo enable row level security;
+
+-- Fonti dei tempi aggiunte dopo Gare Podistiche Lazio e FIDAL (ottobre 2026: MarathonView, le maratone all'estero).
+-- Una riga = una fonte accettata da _registra_certificati. Per 30 giorni da quando è accesa (attiva_dal) chi partecipa
+-- recupera da quella fonte anche le gare degli anni scorsi, anche se il suo recupero è chiuso; nell'app la scheda
+-- "Nuove fonti per le gare: …" (stato_classifiche → io.fonti_nuove). Per una fonte nuova basta una riga qui (e la
+-- ricerca nella funzione "tempi").
+create table if not exists public.fonti_tempi (
+  fonte text primary key check (fonte ~ '^[a-z]{2,12}$' and fonte not in ('gpl', 'fidal', 'manuale')),
+  nome text not null check (char_length(nome) <= 60),
+  cosa text not null check (char_length(cosa) <= 120),
+  attiva_dal timestamptz not null default now()
+);
+alter table public.fonti_tempi enable row level security;
+revoke all on public.fonti_tempi from anon, authenticated;
+insert into public.fonti_tempi (fonte, nome, cosa) values ('mview', 'MarathonView', 'le maratone all''estero') on conflict (fonte) do nothing;
+-- il vincolo sulla fonte non è più un elenco fisso (le tabelle già create avevano gpl, fidal, manuale)
+alter table public.risultati_gruppo drop constraint if exists risultati_gruppo_fonte_check;
+alter table public.risultati_gruppo add constraint risultati_gruppo_fonte_check check (fonte ~ '^[a-z]{2,12}$');
 
 -- ------------------------------------------------------------------ supporto (non esposte)
 -- Nome per confronto: minuscole, senza accenti né segni, parole in ordine ("D'Angelo Maria" = "maria d angelo").
@@ -77,6 +95,23 @@ create or replace function public._puo_registrare(m public.membri, d date) retur
 language sql stable set search_path = '' as $$
   select m.partecipa_dal is not null and d <= current_date + 1
     and (d >= (m.partecipa_dal at time zone 'Europe/Rome')::date - 7 or now() <= m.partecipa_dal + interval '30 days');
+$$;
+-- Fonte accettata per i certificati: le due di partenza o una di fonti_tempi.
+create or replace function public._fonte_ok(f text) returns boolean
+language sql stable set search_path = '' as $$
+  select coalesce(f in ('gpl', 'fidal') or exists (select 1 from public.fonti_tempi t where t.fonte = f), false);
+$$;
+-- Come _puo_registrare, più le gare di qualsiasi anno da una fonte nuova nei suoi primi 30 giorni.
+create or replace function public._puo_registrare_fonte(m public.membri, d date, f text) returns boolean
+language sql stable set search_path = '' as $$
+  select public._puo_registrare(m, d) or (m.partecipa_dal is not null and d <= current_date + 1
+    and exists (select 1 from public.fonti_tempi t where t.fonte = f and now() <= t.attiva_dal + interval '30 days'));
+$$;
+-- Le fonti nuove con il recupero ancora aperto, per la scheda dell'app.
+create or replace function public._fonti_nuove() returns json
+language sql stable set search_path = '' as $$
+  select coalesce(json_agg(json_build_object('fonte', t.fonte, 'nome', t.nome, 'cosa', t.cosa, 'dal', t.attiva_dal, 'fino', t.attiva_dal + interval '30 days') order by t.attiva_dal), '[]')
+  from public.fonti_tempi t where now() <= t.attiva_dal + interval '30 days';
 $$;
 -- Correzione (ottobre 2026): una gara che ha già un risultato del membro (anche annullato o rifiutato) si può rimandare
 -- anche dopo i 30 giorni del recupero; gare nuove dal passato no.
@@ -139,8 +174,8 @@ begin
     if x->>'km_reali' is not null and not public._km_ok(dist, kmr, sec) then
       saltati := saltati + 1; continue;
     end if;
-    if d is null or dist not in ('10', '21', '42') or (kmr is null and not public._passo_ok(dist, sec)) or coalesce(x->>'fonte', '') not in ('gpl', 'fidal')
-       or not (public._puo_registrare(m, d) or public._puo_correggere(m, d, dist))
+    if d is null or dist not in ('10', '21', '42') or (kmr is null and not public._passo_ok(dist, sec)) or not public._fonte_ok(x->>'fonte')
+       or not (public._puo_registrare_fonte(m, d, x->>'fonte') or public._puo_correggere(m, d, dist))
        or exists (select 1 from public.risultati_gruppo r where r.membro_id = m.id and r.data = d and r.distanza = dist and r.stato = 'certificato' and (r.secondi = sec or not stesso)) then
       saltati := saltati + 1; continue;
     end if;
@@ -306,7 +341,8 @@ begin
   vede := g.classifiche and m.partecipa;
   return json_build_object(
     'attive', g.classifiche,
-    'io', json_build_object('id', m.id, 'partecipa', m.partecipa, 'dal', m.partecipa_dal, 'recupero_fino', m.partecipa_dal + interval '30 days', 'ruolo', m.ruolo),
+    'io', json_build_object('id', m.id, 'partecipa', m.partecipa, 'dal', m.partecipa_dal, 'recupero_fino', m.partecipa_dal + interval '30 days', 'ruolo', m.ruolo,
+      'fonti_nuove', public._fonti_nuove()),
     'membri', (select count(*) from public.membri x where x.gruppo_id = m.gruppo_id),
     'partecipanti', (select count(*) from public.membri x where x.gruppo_id = m.gruppo_id and x.partecipa),
     'risultati', case when vede then (select coalesce(json_agg(json_build_object('id', r.id, 'membro_id', x.id, 'membro', x.nome, 'mio', x.id = m.id,
@@ -336,7 +372,8 @@ $$;
 revoke all on function public.info_invito(text) from public;
 grant execute on function public.info_invito(text) to anon;
 
-revoke all on function public._norm_nome(text), public._passo_ok(text, int), public._base_km(numeric), public._km_ok(text, numeric, int), public._km_json(text), public._puo_registrare(public.membri, date), public._puo_correggere(public.membri, date, text), public._io_classifiche(text) from public, anon, authenticated;
+revoke all on function public._norm_nome(text), public._passo_ok(text, int), public._base_km(numeric), public._km_ok(text, numeric, int), public._km_json(text), public._puo_registrare(public.membri, date), public._puo_correggere(public.membri, date, text), public._io_classifiche(text),
+  public._fonte_ok(text), public._puo_registrare_fonte(public.membri, date, text), public._fonti_nuove() from public, anon, authenticated;
 revoke all on function public._registra_certificati(text, text, jsonb) from public, anon, authenticated;
 grant execute on function public._registra_certificati(text, text, jsonb) to service_role;
 do $$

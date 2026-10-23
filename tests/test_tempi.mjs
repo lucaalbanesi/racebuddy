@@ -81,12 +81,29 @@ assert.ok(s.some((r) => r.distanza === "21" && r.tempo === "0:59:01"));
 assert.ok(s.filter((r) => r.secondi < 900).every((r) => r.km_reali === 5 && r.distanza === "10"), "le 5 km su strada come altra distanza");
 assert.strictEqual(s.filter((r) => r.km_reali === 5).length, 2, "i 5000 metri in pista restano fuori");
 
+// MarathonView: solo maratone all'estero con il nome cercato; tempo netto se c'è
+const mv = T.leggiMview(f("mview_atleta.html"), "Luigi Verdi");
+assert.deepStrictEqual(mv.map((x) => `${x.data} ${x.luogo} ${x.secondi}`), ["2026-10-11 USA 11180", "2026-09-27 DEU 10259", "2025-11-02 USA 9243", "2024-04-07 FRA 13050", "2023-10-08 USA 5000", "2024-04-15 USA 12000"],
+  "fuori la maratona di Roma (Italia), la Comrades (100 km) e Luigino Verdi");
+assert.strictEqual(mv[0].gara, "Bank of America Chicago Marathon 2026");
+assert.ok(mv.every((x) => x.distanza === "42"));
+assert.deepStrictEqual(T.leggiMview(f("mview_atleta.html"), "Verdi Luigi").length, 6, "nome e cognome in qualsiasi ordine");
+assert.deepStrictEqual(T.leggiMview(f("mview_vuoto.html"), "Luigi Verdi"), []);
+assert.deepStrictEqual(T.leggiMview("<html>niente</html>", "Luigi Verdi"), []);
+// una persona per nazionalità e sesso: prima l'italiano; passo impossibile fuori (Chicago 2023 in 1h23)
+const pmv = T.personeMview(mv, "Luigi Verdi");
+assert.deepStrictEqual(pmv.map((x) => `${x.id} ${x.gare}`), ["mview:ita-M 4", "mview:usa-M 1"]);
+assert.strictEqual(pmv[0].descr, "Maratone all'estero · nazionalità Italia");
+assert.strictEqual(pmv[0].risultati[0].id, "mview:2026-10-11:42:11180");
+assert.ok(pmv.every((x) => x.societa === "" && x.risultati.every((r) => !("paese" in r) && !("sesso" in r) && r.fonte === "mview")));
+
 // la funzione intera, con la rete finta
 const chiamate = [];
 const finta = async (url) => {
   chiamate.push(url);
   const pag = url.includes("garepodistichelazio") ? (url.includes("anno=2026") ? f("gpl_atleta.html") : url.includes("anno=2025") ? f("gpl_anno.html") : f("gpl_vuoto.html"))
-    : url.includes("result.php") ? f("fidal_cerca.html") : url.includes("/atleta/") ? f("fidal_atleta.html") : "";
+    : url.includes("result.php") ? f("fidal_cerca.html") : url.includes("/atleta/") ? f("fidal_atleta.html")
+    : url.includes("marathonview") ? (url.endsWith("Luigi-Verdi") ? f("mview_atleta.html") : f("mview_vuoto.html")) : "";
   return new Response(pag, { status: 200 });
 };
 const h = T.crea({}, finta, () => new Date("2026-10-18T19:00:00"));
@@ -95,7 +112,10 @@ const post = (corpo) => h(new Request("https://x/functions/v1/tempi", { method: 
 let r = await post({ nome: "Luigi", cognome: "Verdi", codice: "MI704" });
 let j = await r.json();
 assert.strictEqual(r.status, 200);
-assert.deepStrictEqual(j.fonti, { gpl: "ok", fidal: "ok" });
+assert.deepStrictEqual(j.fonti, { gpl: "ok", fidal: "ok", mview: "ok" });
+assert.strictEqual(chiamate.filter((u) => u.includes("marathonview")).length, 1, "una sola pagina MarathonView");
+assert.ok(chiamate.includes("https://marathonview.net/marathon-results-of-Luigi-Verdi"));
+assert.deepStrictEqual(j.persone.filter((x) => x.fonte === "mview").map((x) => x.id), ["mview:ita-M", "mview:usa-M"]);
 assert.ok(chiamate.some((u) => u.includes("na=VERDI%20LUIGI") && u.includes("anno=2019")), "tutti gli anni dal 2019");
 assert.strictEqual(chiamate.filter((u) => u.includes("garepodistichelazio")).length, 8);
 assert.strictEqual(chiamate.filter((u) => u.includes("/atleta/")).length, 4, "al massimo 4 schede FIDAL");
@@ -109,11 +129,16 @@ chiamate.length = 0;
 j = await (await post({ nome: "Luigi", cognome: "Verdi", anno: 2026 })).json();
 assert.strictEqual(chiamate.filter((u) => u.includes("garepodistichelazio")).length, 1);
 assert.ok(j.persone.find((x) => x.fonte === "gpl").risultati.some((y) => y.data === "2026-10-18" && y.distanza === "21"));
+assert.deepStrictEqual(j.persone.filter((x) => x.fonte === "mview").flatMap((x) => x.risultati.map((y) => y.data)), ["2026-10-11", "2026-09-27"], "MarathonView solo quell'anno");
+// senza cookie: nessuna intestazione Cookie, nessun credentials
+const intest = [];
+await T.crea({}, async (u, opt = {}) => { intest.push(opt); return finta(u); }, () => new Date("2026-10-18T19:00:00"))(new Request("https://x", { method: "POST", body: JSON.stringify({ nome: "Luigi", cognome: "Verdi", anno: 2026 }) }));
+assert.ok(intest.every((o) => !Object.keys(o.headers || {}).some((k) => k.toLowerCase() === "cookie") && !o.credentials), "mai cookie");
 
 // una fonte che non risponde non ferma l'altra
 const mezza = T.crea({}, async (u) => (u.includes("fidal") ? new Response("", { status: 503 }) : finta(u)), () => new Date("2026-10-18T19:00:00"));
 j = await (await mezza(new Request("https://x", { method: "POST", body: JSON.stringify({ nome: "Luigi", cognome: "Verdi" }) }))).json();
-assert.deepStrictEqual(j.fonti, { gpl: "ok", fidal: "errore" });
+assert.deepStrictEqual(j.fonti, { gpl: "ok", fidal: "errore", mview: "ok" });
 assert.ok(j.persone.length > 0);
 
 // input non valido
@@ -158,6 +183,13 @@ r = await certifica({ nome: "Luigi", cognome: "Verdi", persone: [pf.id], risulta
 assert.strictEqual(r.status, 200);
 assert.strictEqual(scritte[0].corpo.p_righe[0].gara_nome, rf.luogo);
 assert.strictEqual(scritte[0].corpo.p_righe[0].fonte, "fidal");
+// MarathonView: il nome della gara è quello dell'evento, la fonte mview
+j = await (await post({ nome: "Luigi", cognome: "Verdi" })).json();
+const pm = j.persone.find((x) => x.id === "mview:ita-M"), rm = pm.risultati.find((x) => x.data === "2026-09-27");
+scritte.length = 0;
+r = await certifica({ nome: "Luigi", cognome: "Verdi", persone: [pm.id], risultati: [rm.id] });
+assert.strictEqual(r.status, 200);
+assert.deepStrictEqual(scritte[0].corpo.p_righe, [{ data: "2026-09-27", distanza: "42", secondi: 10259, gara_nome: "Berlin Marathon 2026", fonte: "mview", categoria: "M45-49", societa: "" }]);
 // senza codice del telefono, senza scelte, senza database
 assert.strictEqual((await certifica({ nome: "Luigi", cognome: "Verdi", persone: [pg.id], risultati: [scelto.id] }, "")).status, 401);
 assert.strictEqual((await certifica({ nome: "Luigi", cognome: "Verdi", persone: [], risultati: [scelto.id] })).status, 400);
