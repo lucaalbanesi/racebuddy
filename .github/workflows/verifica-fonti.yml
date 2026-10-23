@@ -10,30 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Ricerca in classifica TDS
+      - name: Limite ricerche MarathonView
         run: |
-          mkdir -p out && cd out
-          exec > >(tee esito.txt) 2>&1
-          B=https://api.tds.sport/rest/jrest.svc/0-TDS-Anonymous-TDS-0/it
+          mkdir -p out
+          exec > >(tee out/esito.txt) 2>&1
           UA="Mozilla/5.0 (RaceBuddy verifica fonti)"
-          for ID in 19282 18953 18100 19022 19040 18643 18176; do
-            curl -sS -A "$UA" "$B/$ID/light" > l.json
-            echo "##### $ID $(jq -r '.RaceDetails | .RaceDate+" "+.Description+" · "+(.Location//""|tostring)' l.json) · ResultUrl=$(jq -r '.RaceDetails.Events[0].Services.ResultUrl // "-"' l.json) · Result=$(jq -r '.RaceDetails.Events[0].Services.Result' l.json)"
-            for EV in $(jq -r '.RaceDetails.Events[]?.ID' l.json | head -3); do
-              SP=$(jq -r ".RaceDetails.Events[]|select(.ID==$EV)|(.RaceSplits|if length>0 then .[-1].ID else 0 end)" l.json)
-              DIST=$(jq -r ".RaceDetails.Events[]|select(.ID==$EV)|\"\(.Name) \(.Distance)\(.DistanceUOM)\"" l.json)
-              CODE=$(curl -sS -A "$UA" "$B/$ID/rankings/$EV" | jq -r '.Rankings[0].Code // empty')
-              echo "--- evento $EV ($DIST) ranking=$CODE split=$SP"
-              [ -z "$CODE" ] && continue
-              for q in Rossi Bianchi; do
-                curl -sS -A "$UA" "$B/$ID/ranking/$CODE/$EV/filter/$q/$SP/1/3" > r.json
-                echo ">> $q: $(jq -c '.Status|{Code,Description,RecordCount}' r.json)"
-                jq -c '.Results[0] // empty | keys' r.json | head -1
-                jq -c '.Results[0:2][]? | with_entries(select(.key|test("Name|Surname|Team|Club|Society|Category|AgeGroup|Time|Bib|Position|Rank|Gender|Sex|Year|Nation|Real|Gun|Net";"i")))' r.json
-              done
-              break
-            done
-          done
+          U="https://marathonview.net/marathon-results-of-Lorenzo-Lotti"
+          echo "--- senza cookie, 6 volte"
+          for i in 1 2 3 4 5 6; do curl -sS -A "$UA" -o p.html -w "HTTP %{http_code} " "$U"; python3 verifica_conta.py p.html; sleep 2; done
+          echo "--- con cookie conservati, 6 volte"
+          for i in 1 2 3 4 5 6; do curl -sS -A "$UA" -c jar -b jar -o p.html -w "HTTP %{http_code} " "$U"; python3 verifica_conta.py p.html; sleep 2; done
+          echo "--- nomi dei cookie:"; grep -v '^#' jar | awk 'NF{print $6}'
       - name: Salva l'esito sul ramo
         run: |
           mkdir -p verifica && cp out/esito.txt verifica/esito.txt
