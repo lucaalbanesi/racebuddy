@@ -10,38 +10,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Prova API TDS
+      - name: Ricerca in classifica TDS
         run: |
           mkdir -p out && cd out
           exec > >(tee esito.txt) 2>&1
           B=https://api.tds.sport/rest/jrest.svc/0-TDS-Anonymous-TDS-0/it
           UA="Mozilla/5.0 (RaceBuddy verifica fonti)"
-          D=$(date +%F)
-          : > gare.jsonl
-          for p in 1 21 41 61 81 101 121 141 161 181 201 221 241 261 281; do
-            curl -sS -m 30 -A "$UA" "$B/search/race/d/$D/r/-364/$p/20/desc" | jq -c '.RaceList[]? | {ID, d:.RaceDate, n:.Description, c:.Country, luogo:(.Location // .City // .Place // null), res:.Services.Result, url:.Services.ResultUrl, ev:[.Events[]?|{ID,Name,Distance,DistanceUOM}]}' >> gare.jsonl
-            sleep 1
-          done
-          echo "gare: $(wc -l < gare.jsonl)"
-          echo "chiavi gara:"; curl -sS -A "$UA" "$B/search/race/d/$D/r/-364/1/1/desc" | jq -c '.RaceList[0] | keys'
-          echo "per dominio dei risultati:"; jq -r '.url // "" | if .=="" then "(su TDS o nessuno)" else (capture("https?://(?<h>[^/]+)").h) end' gare.jsonl | sort | uniq -c | sort -rn
-          echo "con parole Roma/Lazio:"; grep -iE 'roma|lazio|ostia|appia|tivoli|frascati|viterbo|latina|rieti|frosinone|castelli' gare.jsonl | jq -c '{ID,d,n,url}' | head -30
-      - name: Ricerca in una classifica TDS
-        run: |
-          cd out
-          exec > >(tee -a esito.txt) 2>&1
-          B=https://api.tds.sport/rest/jrest.svc/0-TDS-Anonymous-TDS-0/it
-          UA="Mozilla/5.0 (RaceBuddy verifica fonti)"
-          for ID in $(jq -r 'select((.url // "")=="" and (.n|test("mezza|maratona|maratonina|half|10 ?k";"i"))) | .ID' gare.jsonl | head -4); do
-            echo "##### gara $ID $(jq -r "select(.ID==$ID)|.d+\" \"+.n" gare.jsonl)"
-            curl -sS -A "$UA" "$B/$ID/light" > light_$ID.json
-            for EV in $(jq -r '.RaceDetails.Events[]?.ID' light_$ID.json | head -3); do
-              echo "--- evento $EV"; curl -sS -A "$UA" "$B/$ID/rankings/$EV" > rk.json; jq -c '.Rankings[]? | {ID, Name, Description, Splits:(.Splits // .RaceSplits // null)}' rk.json | head -5; jq -c .Status rk.json
-              RID=$(jq -r '.Rankings[0].ID // empty' rk.json)
-              [ -z "$RID" ] && continue
-              jq -c '.Rankings[0] | keys' rk.json
-              for sp in $(jq -r '.Rankings[0] | (.Splits // .RaceSplits // [])[]? | (.ID // .Name // .)' rk.json | head -3) 0 Arrivo; do
-                echo ">> split $sp"; curl -sS -A "$UA" "$B/$ID/ranking/$RID/$EV/filter/Rossi/$sp/1/3" | head -c 1500; echo
+          for ID in 19282 18953 18100 19022 19040 18643 18176; do
+            curl -sS -A "$UA" "$B/$ID/light" > l.json
+            echo "##### $ID $(jq -r '.RaceDetails | .RaceDate+" "+.Description+" · "+(.Location//""|tostring)' l.json) · ResultUrl=$(jq -r '.RaceDetails.Events[0].Services.ResultUrl // "-"' l.json) · Result=$(jq -r '.RaceDetails.Events[0].Services.Result' l.json)"
+            for EV in $(jq -r '.RaceDetails.Events[]?.ID' l.json | head -3); do
+              SP=$(jq -r ".RaceDetails.Events[]|select(.ID==$EV)|(.RaceSplits|if length>0 then .[-1].ID else 0 end)" l.json)
+              DIST=$(jq -r ".RaceDetails.Events[]|select(.ID==$EV)|\"\(.Name) \(.Distance)\(.DistanceUOM)\"" l.json)
+              CODE=$(curl -sS -A "$UA" "$B/$ID/rankings/$EV" | jq -r '.Rankings[0].Code // empty')
+              echo "--- evento $EV ($DIST) ranking=$CODE split=$SP"
+              [ -z "$CODE" ] && continue
+              for q in Rossi Bianchi; do
+                curl -sS -A "$UA" "$B/$ID/ranking/$CODE/$EV/filter/$q/$SP/1/3" > r.json
+                echo ">> $q: $(jq -c '.Status|{Code,Description,RecordCount}' r.json)"
+                jq -c '.Results[0] // empty | keys' r.json | head -1
+                jq -c '.Results[0:2][]? | with_entries(select(.key|test("Name|Surname|Team|Club|Society|Category|AgeGroup|Time|Bib|Position|Rank|Gender|Sex|Year|Nation|Real|Gun|Net";"i")))' r.json
               done
               break
             done
@@ -49,6 +37,6 @@ jobs:
       - name: Salva l'esito sul ramo
         run: |
           mkdir -p verifica && cp out/esito.txt verifica/esito.txt
-          cp out/gare.jsonl verifica/ 2>/dev/null || true
+          true
           git config user.name "Luca Albanesi"; git config user.email "luca.alba8@gmail.com"
           git add verifica && git commit -m "Esito sonda [esito]" && git push
