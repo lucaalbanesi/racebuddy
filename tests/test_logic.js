@@ -517,7 +517,7 @@ assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10",
   assert.deepStrictEqual(L.fontiNuove({ ...ioF, partecipa: false }, new Date("2026-12-10")), []);
   assert.ok(L.fonteAperta(ioF, "mview", new Date("2026-12-10")) && !L.fonteAperta(ioF, "gpl", new Date("2026-12-10")));
   // scheda in Gruppo: solo a recupero personale chiuso e finché il runner non l'ha usata
-  assert.strictEqual(L.nuoveFontiInEvidenza(ioF, {}, new Date("2026-11-01")), null, "nel proprio recupero la scheda del recupero basta");
+  assert.deepStrictEqual(L.nuoveFontiInEvidenza({ ...ioF, fonti_nuove: [{ ...ioF.fonti_nuove[0], fino: "2026-11-20T10:00:00Z" }] }, {}, new Date("2026-11-01")).fonti.map((f) => f.fonte), ["mview"], "anche durante il proprio recupero");
   const ev = L.nuoveFontiInEvidenza(ioF, {}, new Date("2026-12-10"));
   assert.deepStrictEqual(ev.fonti.map((f) => f.nome), ["MarathonView"]);
   assert.strictEqual(ev.ultimi, false);

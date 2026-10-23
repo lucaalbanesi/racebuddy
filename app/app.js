@@ -1576,7 +1576,7 @@
     // Nuove fonti per le gare (fonti_tempi): per 30 giorni da lì si recuperano anche gli anni scorsi; la scheda resta finché non la usi
     const nf = L.nuoveFontiInEvidenza(io, (S.gruppo || {}).fontiViste);
     const nuoveFonti = nf ? `<a class="card soft link-card" href="#/gruppo/recupero?da=fonti"><span class="title">Nuove fonti per le gare: ${esc(nf.fonti.map((f) => f.nome).join(", "))}</span>
-      <span class="small">${esc(nf.fonti.map((f) => `Da ${f.nome} arrivano ${f.cosa}`).join(". "))}. ${nf.ultimi ? "Ultimi giorni" : "Fino al " + esc(L.fmtBreve(String(nf.fino).slice(0, 10)))} per recuperare anche quelle degli anni scorsi.</span>
+      <span class="small">${esc(nf.fonti.map((f) => `Da ${f.nome} arrivano ${f.cosa}`).join(". "))}. ${L.recuperoAperto(io) ? "Cercale ora: entrano anche quelle degli anni scorsi." : `${nf.ultimi ? "Ultimi giorni" : "Fino al " + esc(L.fmtBreve(String(nf.fino).slice(0, 10)))} per recuperare anche quelle degli anni scorsi.`}</span>
       <span class="small" style="color:var(--accent);font-weight:700">Cerca le mie gare ›</span></a>` : "";
     const coda = org && cl.da_approvare ? `<a class="card link-card" href="#/gruppo/admin"><div class="between"><span class="title">Da approvare</span><span class="pill">${cl.da_approvare}</span></div><span class="small">Tempi non trovati nelle classifiche: li approvate tu e gli altri referenti.</span><span class="small" style="color:var(--accent);font-weight:700">Apri la coda ›</span></a>` : "";
     // una riga per classifica: cosa conta, chi è in testa, il tuo valore e la tua posizione
@@ -1657,8 +1657,9 @@
   // "Nuove fonti per le gare: …" con fino a quando si recuperano anche gli anni scorsi (recupero, Le mie gare, regole)
   function fontiNuoveRiga(io) {
     const f = L.fontiNuove(io);
-    if (!f.length || L.recuperoAperto(io)) return "";
-    return `<span class="small" style="color:var(--accent-strong);font-weight:700">Nuove fonti per le gare: ${esc(f.map((x) => `${x.nome} (${x.cosa})`).join(", "))}. Fino al ${esc(L.fmtBreve(String(f.map((x) => x.fino).sort()[0]).slice(0, 10)))} da lì recuperi anche le gare degli anni scorsi.</span>`;
+    if (!f.length) return "";
+    const coda = L.recuperoAperto(io) ? " Le trovi già nella ricerca." : ` Fino al ${L.fmtBreve(String(f.map((x) => x.fino).sort()[0]).slice(0, 10))} da lì recuperi anche le gare degli anni scorsi.`;
+    return `<span class="small" style="color:var(--accent-strong);font-weight:700">Nuove fonti per le gare: ${esc(f.map((x) => `${x.nome} (${x.cosa})`).join(", "))}.${esc(coda)}</span>`;
   }
   function vistaClassifiche(param = {}) {
     if (!partecipo()) return vistaGruppo();

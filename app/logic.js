@@ -844,10 +844,9 @@
   const fontiNuove = (io, adesso = new Date()) => (io && io.partecipa ? (io.fonti_nuove || []).filter((f) => f && f.fonte && f.fino && new Date(f.fino) >= adesso) : []);
   const fonteAperta = (io, fonte, adesso = new Date()) => !!fonte && fontiNuove(io, adesso).some((f) => f.fonte === fonte);
   /** Scheda "Nuove fonti per le gare" in Gruppo: le fonti nuove aperte che il runner non ha ancora usato per il recupero
-   *  (viste = { fonte: giorno }, sul telefono). Solo a recupero personale chiuso: nei suoi 30 giorni la scheda del recupero
-   *  cerca già in tutte. null se non c'è niente da dire; ultimi = mancano 3 giorni o meno alla prima che chiude. */
+   *  (viste = { fonte: giorno }, sul telefono), anche durante il suo recupero personale. null se non c'è niente da dire;
+   *  ultimi = mancano 3 giorni o meno alla prima che chiude. */
   function nuoveFontiInEvidenza(io, viste = {}, adesso = new Date()) {
-    if (recuperoAperto(io, adesso)) return null;
     const fonti = fontiNuove(io, adesso).filter((f) => !(viste || {})[f.fonte]);
     if (!fonti.length) return null;
     const fino = fonti.map((f) => f.fino).sort()[0];
