@@ -189,6 +189,12 @@ assert.ok(L.leggiTempo("5", "20:00").errore);
 assert.strictEqual(L.tempoDaParti("1", "44", "10"), "1:44:10");
 assert.strictEqual(L.tempoDaParti("", "47", "30"), "0:47:30");
 assert.strictEqual(L.tempoDaParti("3", "5", ""), "3:05:00");
+// passo e distanza sotto il tempo obiettivo
+assert.deepStrictEqual(L.passoObiettivo("10", "0:50:00"), { km: "10", passo: "5:00/km" });
+assert.deepStrictEqual(L.passoObiettivo("21", "1:45:00"), { km: "21,1", passo: "4:59/km" });
+assert.deepStrictEqual(L.passoObiettivo("42", "3:30:00"), { km: "42,2", passo: "4:59/km" });
+assert.deepStrictEqual(L.passoObiettivo({ distanza: "21", km: 19 }, "1:35:00"), { km: "19", passo: "5:00/km" }, "altra distanza: km reali");
+assert.deepStrictEqual(L.passoObiettivo("21", ""), { km: "21,1", passo: "" }, "senza tempo si vede solo la distanza");
 assert.strictEqual(L.tempoDaParti("", "", ""), "");
 assert.strictEqual(L.tempoDaParti("1", "4a", "0"), "");
 assert.ok(L.leggiTempo("21", L.tempoDaParti("1", "75", "00")).errore);

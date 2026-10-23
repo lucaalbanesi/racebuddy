@@ -10,7 +10,7 @@ Nasce per il suo gruppo di amici/società (pochi utenti), ma deve poter crescere
 - Segreti solo nei GitHub Secrets (`SUPABASE_SECRET_KEY`, `VAPID_PRIVATE_KEY`), mai nel codice o in chat. In `app/config.js` solo valori pubblici (URL Supabase, chiave publishable, chiave pubblica VAPID).
 - Privacy: profilo, preparazione, spunte, scarpe, personali (online solo se in classifica: tempo, gara, data), documenti (tessera, certificato medico e foto) restano sul telefono (localStorage / IndexedDB). Online va solo il minimo necessario (vedi sotto). Statistiche d'uso solo come contatori anonimi (nessun identificativo).
 - Manutenzione bassa: HTML/JS statico senza build né dipendenze, Supabase piano gratuito, GitHub Actions per i job.
-- Inserimento dati: ogni tempo (durata: personali, tempo obiettivo, risultato) con le tre caselle ore · min · sec (`campoTempo`, mai da scrivere con i due punti); ogni orario (uscita, partenza della gara) con `type="time"` (orologio del telefono).
+- Inserimento dati: ogni tempo (durata: personali, tempo obiettivo, risultato) con le tre caselle ore · min · sec (`campoTempo`, mai da scrivere con i due punti; sotto il tempo obiettivo la riga «Distanza · passo» con `rigaPasso`/`L.passoObiettivo`, km reali per le altre distanze, aggiornata mentre si scrive e solo a minuti completi); ogni orario (uscita, partenza della gara) con `type="time"` (orologio del telefono).
 - Prima di pubblicare: prova nel browser a larghezza telefono (390px), `node tests/test_logic.js`, `node tests/test_notifiche.js` (e `node tests/test_tempi.mjs` se tocchi la funzione tempi).
 
 ## Struttura

@@ -1026,7 +1026,7 @@
         ${r("obiettivo", "Obiettivo", "Costruisco la preparazione su questa gara", !ha)}
         ${r("tappa", "Tappa", "Una gara di passaggio verso l'obiettivo", ha)}
         ${r("divertimento", "Per divertimento", "Solo checklist e promemoria", false)}</fieldset>
-      <div class="field"><span class="lbl" id="a-tempo-l">Tempo obiettivo <span class="muted">(facoltativo)</span></span>${campoTempo("a-tempo", g, "", "a-tempo-l")}</div>
+      <div class="field"><span class="lbl" id="a-tempo-l">Tempo obiettivo <span class="muted">(facoltativo)</span></span>${campoTempo("a-tempo", g, "", "a-tempo-l")}${rigaPasso("a-tempo", g, "")}</div>
       ${P.citta ? "" : `<span class="title">Due cose su di te <span class="muted small" style="font-weight:500">· puoi saltarle</span></span>
       <div class="field">${bottoneGps("a-citta")}</div>
       <div class="grid2"><div class="field"><label for="a-citta">Dove corri di solito</label><input class="input" id="a-citta" placeholder="es. Roma"></div>
@@ -1135,7 +1135,7 @@
       <details class="card" ${param.modifica ? "open" : ""}><summary>Ruolo e tempo obiettivo</summary>
         <form id="gara-imp" data-id="${esc(g.id)}" style="display:flex;flex-direction:column;gap:10px">
         <div class="field"><label for="gi-ruolo">Ruolo</label><select class="input" id="gi-ruolo">${["obiettivo", "tappa", "divertimento"].map((r) => `<option value="${r}" ${g.ruolo === r ? "selected" : ""}>${L.RUOLO_LABEL[r]}</option>`).join("")}</select></div>
-        <div class="field"><span class="lbl" id="gi-tempo-l">Tempo obiettivo <span class="muted">(facoltativo)</span></span>${campoTempo("gi-tempo", g, g.tempo || "", "gi-tempo-l")}</div>
+        <div class="field"><span class="lbl" id="gi-tempo-l">Tempo obiettivo <span class="muted">(facoltativo)</span></span>${campoTempo("gi-tempo", g, g.tempo || "", "gi-tempo-l")}${rigaPasso("gi-tempo", g, g.tempo || "")}</div>
         <button class="btn" type="submit">Salva</button></form></details>
       ${corsa(g, o) ? (() => {
         const c = cicloGara(g, o), torna = g.archiviata && L.ciclo({ ...g, archiviata: null }, o, ris) !== "archiviata";
@@ -2342,7 +2342,7 @@
     return `<h1>La tua prossima gara</h1><p class="sub">${fut.length ? "Partiamo da quelle del gruppo." : "Nessuno del gruppo ha ancora condiviso una gara."} <span class="pill grigio">facoltativo</span></p>
       <form id="entra-gare" class="funnel-form">
         ${fut.map((g, i) => `<div class="card entra-gara"><label class="between" style="gap:10px;cursor:pointer"><input type="checkbox" name="eg" value="${esc(g.gara_id)}" data-i="${i}" class="sr"><span style="min-width:0"><span class="title">${esc(titoloGara(g.nome))}${g.distanza ? ` · ${esc(L.etichettaDist(g) || g.distanza + " km")}` : ""}</span><br><span class="small muted">${esc(L.fmtGiorno(g.data))} · ${esc(chi(g.chi))}</span></span><span class="ci-sono">Ci sono</span></label>
-          ${DISTANZE.includes(g.distanza) ? `<div class="entra-obiettivo"><span class="small" id="eg-l-${i}"><b>Tempo obiettivo</b> <span class="muted">(facoltativo)</span></span>${campoTempo(`eg-${i}`, g, "", `eg-l-${i}`)}</div>` : ""}</div>`).join("")}
+          ${DISTANZE.includes(g.distanza) ? `<div class="entra-obiettivo"><span class="small" id="eg-l-${i}"><b>Tempo obiettivo</b> <span class="muted">(facoltativo)</span></span>${campoTempo(`eg-${i}`, g, "", `eg-l-${i}`)}${rigaPasso(`eg-${i}`, g, "")}</div>` : ""}</div>`).join("")}
         <a href="#/gare?v=italia">Cerca un'altra gara nel calendario</a>
         <div class="piede">${fut.length ? `<button class="btn block" type="submit">Avanti</button>` : ""}<button class="btn ghost block" type="button" data-act="entra-salta" data-k="gara">Non ho gare in programma</button></div></form>`;
   }
@@ -2734,6 +2734,19 @@
       : { "10": ["0", "47", "30"], "21": ["1", "45", "00"], "42": ["3", "45", "00"] }[typeof distanza === "object" ? distanza.distanza : distanza];
     const box = (k, v, max, p, nome) => `<input class="input" id="${id}-${k}" inputmode="numeric" pattern="[0-9]*" maxlength="${max}" autocomplete="off" placeholder="${p}" value="${esc(v)}" aria-label="${nome}">`;
     return `<div class="tempo3${grande ? " grande" : ""}" role="group" aria-labelledby="${etichetta}">${box("h", h, 1, ph[0], "Ore")}<span>h</span>${box("m", m, 2, ph[1], "Minuti")}<span>min</span>${box("s", s, 2, ph[2], "Secondi")}<span>s</span></div>`;
+  }
+  // Sotto il tempo obiettivo: distanza della gara e passo al km, che si aggiorna mentre si scrive.
+  // tempo = "h:mm:ss" ancora da controllare ("" = non scritto o non finito di scrivere)
+  function testoPasso(gara, tempo) {
+    const ok = tempo ? L.leggiTempo(gara, tempo).tempo : "", r = L.passoObiettivo(gara, ok || "");
+    if (!r.km) return "";
+    const coda = ok && r.passo ? `passo <b>${esc(r.passo)}</b>` : tempo ? "il tempo non torna con la distanza" : "scrivi il tempo per vedere il passo";
+    return `Distanza <b>${esc(r.km)} km</b> · ${coda}`;
+  }
+  function rigaPasso(id, gara, valore) {
+    const g = typeof gara === "object" && gara ? gara : { distanza: gara };
+    const t = valore || "";
+    return `<span class="small passo-ob" id="${id}-passo" aria-live="polite" data-dist="${esc(g.distanza || "")}" data-km="${esc(g.km || "")}">${testoPasso(g, t)}</span>`;
   }
   // Tempo facoltativo: caselle tutte vuote = nessun tempo; altrimenti come leggiCampoTempo.
   function leggiTempoFacoltativo(id, distanza) {
@@ -3716,6 +3729,15 @@
     if (pulito !== el.value) el.value = pulito;
     const dopo = tutte[tutte.indexOf(el) + 1];
     if (pulito.length === el.maxLength && dopo) dopo.focus();
+    // tempo obiettivo: distanza e passo si aggiornano mentre si scrive
+    const riga = document.getElementById(el.id.replace(/-[hms]$/, "") + "-passo");
+    if (riga) {
+      const base = el.id.replace(/-[hms]$/, ""), val = (k) => (document.getElementById(`${base}-${k}`) || {}).value || "";
+      const gara = { distanza: riga.dataset.dist, km: Number(riga.dataset.km) || undefined };
+      // il passo compare quando i minuti sono scritti: con la sola ora (es. "1" per una mezza) uscirebbe un passo assurdo
+      const finito = /-s$/.test(el.id) || (/-m$/.test(el.id) ? pulito.length === 2 : val("m").length === 2);
+      riga.innerHTML = testoPasso(gara, finito ? L.tempoDaParti(val("h"), val("m"), val("s")) : "");
+    }
   });
   document.addEventListener("keydown", (e) => {
     const tutte = caselleTempo(e.target);

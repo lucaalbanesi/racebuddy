@@ -267,6 +267,8 @@ body.onboarding .app { padding: 0; max-width: 480px; min-height: 100dvh; }
 .tempo3.grande { justify-content: center; }
 .tempo3.grande .input { height: 60px; font-size: 32px; width: 2.1em; }
 .tempo3.grande .input:first-child { width: 1.5em; }
+.passo-ob { color: var(--muted); }
+.passo-ob b { color: var(--fg); font-weight: 700; }
 .invito { min-height: 100dvh; display: flex; flex-direction: column; gap: 18px; padding: 24px; padding-top: calc(24px + env(safe-area-inset-top, 0px)); color: #fff; box-sizing: border-box; }
 .invito h1 { font-size: 36px; color: #fff; }
 .invito .eyebrow { color: var(--accent-on-dark); }
