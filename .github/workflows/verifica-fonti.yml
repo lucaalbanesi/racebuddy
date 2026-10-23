@@ -10,30 +10,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Sonda
+      - name: Prova API TDS
         run: |
-          UA="Mozilla/5.0 (RaceBuddy verifica fonti)"
           mkdir -p out && cd out
           exec > >(tee esito.txt) 2>&1
-          curl -sSL -A "$UA" https://tds.sport/it > home.html
-          for f in $(grep -oE '/js/(app|views-Race|views-Home|components-Classifica|components-BaseRace|views-Circuiti|components-ListaIscritti|lang-it-json)[^ >"]*\.js' home.html | sort -u); do
-            n=$(basename "$f"); curl -sSL -A "$UA" "https://tds.sport$f" > "js_$n"
-            echo "=== $f $(wc -c < js_$n)B"
-            echo "--- url"; grep -oE 'https?://[a-zA-Z0-9./_-]+' "js_$n" | grep -v -E 'w3.org|vuejs|github|google|facebook|cdn' | sort -u | head -40
-            echo "--- chiamate"; grep -oE '.{0,40}(\.get|\.post|axios|fetch|baseURL|apiUrl|endpoint)\(?[^;]{0,160}' "js_$n" | head -60
-          done
-          echo "=== lang it (testi su ricerca e condizioni)"; grep -oiE '"[a-z_]*":"[^"]*(cerca|ricerca|atleta|condizion|termini|riprodu|dati)[^"]*"' js_lang-it-json*.js | head -40
-      - name: Prova API
-        run: |
-          cd out
-          exec > >(tee -a esito.txt) 2>&1
-          for b in $(grep -ohE 'https?://[a-zA-Z0-9.-]*(tds|enternow)[a-zA-Z0-9.-]*\.[a-z]+(/[a-zA-Z0-9._/-]*)?' js_*.js | sort -u | head -15); do
-            echo "=== $b"; curl -sS -m 20 -o /dev/null -w "HTTP %{http_code} %{content_type}\n" "$b" || true
-            h=$(echo "$b" | sed -E 's#(https?://[^/]+).*#\1#'); curl -sS -m 20 "$h/robots.txt" | head -c 400; echo
-          done
+          B=https://api.tds.sport/rest/jrest.svc/0-TDS-Anonymous-TDS-0/it
+          UA="Mozilla/5.0 (RaceBuddy verifica fonti)"
+          g() { echo "=== GET $1"; curl -sS -m 30 -A "$UA" -H "Accept: application/json" -w "\nHTTP %{http_code}\n" "$B/$1" | head -c ${2:-3000}; echo; }
+          D=$(date +%F)
+          g "search/race/d/$D/r/-364/Roma/1/10/desc" 6000
+          g "search/race/d/$D/r/-364/maratona/1/10/desc" 4000
+          ID=$(curl -sS -A "$UA" "$B/search/race/d/$D/r/-364/Roma/1/10/desc" | jq -r '[..|objects|select(has("ID"))][0].ID' 2>/dev/null)
+          echo "ID scelto: $ID"
+          g "$ID/light" 4000
+          g "$ID/rankings" 3000
+          curl -sS -A "$UA" "$B/$ID/light" > light.json
+          EV=$(jq -r '[..|objects|select(has("Events"))][0].Events[0].ID // empty' light.json)
+          echo "EV: $EV"
+          g "$ID/rankings/$EV" 4000
+          curl -sS -A "$UA" "$B/$ID/rankings/$EV" > rk.json
+          RID=$(jq -r '[..|objects|select(has("ID"))][0].ID // empty' rk.json)
+          echo "RID: $RID"
+          for sp in Arrivo 0 FINISH; do g "$ID/ranking/$RID/$EV/filter/Rossi/$sp/1/5" 2500; done
       - name: Salva l'esito sul ramo
         run: |
           mkdir -p verifica && cp out/esito.txt verifica/esito.txt
-          for f in out/js_*.js; do cp "$f" verifica/; done
+          cp out/*.json verifica/ 2>/dev/null || true
           git config user.name "Luca Albanesi"; git config user.email "luca.alba8@gmail.com"
           git add verifica && git commit -m "Esito sonda [esito]" && git push
