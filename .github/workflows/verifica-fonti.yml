@@ -2,14 +2,19 @@ name: Verifica fonti tempi (prova)
 on:
   push:
     branches: [verifica-fonti]
+permissions:
+  contents: write
 jobs:
   sonda:
+    if: "!contains(github.event.head_commit.message, '[esito]')"
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Sonda
         run: |
           UA="Mozilla/5.0 (RaceBuddy verifica fonti)"
           mkdir -p out && cd out
+          exec > >(tee esito.txt) 2>&1
           get() { echo "=== $1"; curl -sSL -m 30 -A "$UA" -o "$2" -w "HTTP %{http_code} %{content_type} %{size_download}B\n" "$1" || echo "ERRORE"; }
           for h in tds.sport www.tds-live.com svc.tds-live.com marathonview.net; do get "https://$h/robots.txt" "robots_$h.txt"; echo "--- robots $h"; head -c 3000 "robots_$h.txt"; echo; done
           get "https://tds.sport/en/race/12354" tds_race.html
@@ -32,5 +37,9 @@ jobs:
           get "https://marathonview.net/race/98795" mv_race.html
           grep -oiE '(fetch|ajax|\$\.get|\$\.post)\([^)]{0,200}' mv_race.html | head -20
           grep -oiE 'remaining anonymous[^<]{0,100}' mv_runner.html mv_race.html | head
-      - uses: actions/upload-artifact@v4
-        with: { name: sonda, path: out }
+      - name: Salva l'esito sul ramo
+        run: |
+          mkdir -p verifica && cp out/esito.txt verifica/esito.txt
+          for f in out/*.html out/robots_*.txt; do head -c 200000 "$f" > "verifica/$(basename "$f")"; done
+          git config user.name "Luca Albanesi"; git config user.email "luca.alba8@gmail.com"
+          git add verifica && git commit -m "Esito sonda [esito]" && git push
