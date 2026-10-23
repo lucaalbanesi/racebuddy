@@ -296,5 +296,56 @@
   ],
   "verificato": "2026-10-22",
   "edizione": "2027"
+ },
+ "L950d7c45f5-10": {
+  "partenza": "9:30 o 8:30, da confermare",
+  "luogoPartenza": "Partenza da Viale Guglielmo Massaia 31 (Garbatella); ritrovo dalle 8:00.",
+  "pettorale": "Agenzia Allianz Roma Ostiense 499, Circonvallazione Ostiense 171: sabato 21/11 10-19. Serve tessera FIDAL, o certificato medico per EPS e Runcard.",
+  "deposito": "Compreso nella quota, solo per la gara competitiva; luogo non indicato.",
+  "ristori": "Un ristoro d'acqua al passaggio del primo giro, più ristoro all'arrivo.",
+  "mappa": "Viale Guglielmo Massaia 31, Roma",
+  "sito": "https://www.rionegarbatella.it/eventi/corri-alla-garbatella",
+  "canali": {
+   "instagram": "https://www.instagram.com/rionegarbatella.it/"
+  },
+  "nomi": [
+   "Corri alla Garbatella"
+  ],
+  "note": "32ª edizione, 9,8 km (anche non competitiva di 4,9 km). Iscrizioni fino alle 20 del 17/11 o a 1.000 iscritti: 15 € fino al 10/11, poi 20 €; niente iscrizioni il giorno della gara. Planimetria 2026 non ancora pubblicata. Orario: il regolamento dice 9:30, la scheda dell'evento 8:30.",
+  "fonti": [
+   "https://www.rionegarbatella.it/articoli/corri-alla-garbatella-2026-regolamento",
+   "https://www.rionegarbatella.it/eventi/corri-alla-garbatella",
+   "https://www.rionegarbatella.it/"
+  ],
+  "verificato": "2026-10-23",
+  "edizione": "2026"
+ },
+ "L0c212379c2-21": {
+  "partenza": "9:00",
+  "luogoPartenza": "Partenza in Via Cristoforo Colombo davanti al PalaEUR (Viale dell'Umanesimo), arrivo a Ostia in Piazzale Cristoforo Colombo (Rotonda).",
+  "pettorale": "Ritiro di pettorale e pacco gara al villaggio Casa RomaOstia; date e orari non ancora pubblicati.",
+  "griglia": "Partenza a onde dalle 9:00, griglie per tempo dichiarato (colore del pettorale); i Fitwalker nelle ultime. Classifica in tempo reale.",
+  "deposito": "Sacche gratuite sui camion in zona partenza, da consegnare entro le 7:45.",
+  "ristori": "Tre rifornimenti, posizioni comunicate in seguito.",
+  "mappa": "PalaEUR, Viale dell'Umanesimo, Roma",
+  "percorsoLink": "https://romaostia.it/percorso/",
+  "percorsoDescrizione": "Primi km in piano nell'EUR, poi Via Colombo verso il mare; salita del Camping tra il km 10 e il 14, discesa fino al 15 e arrivo sul lungomare di Ostia. Stesso percorso delle ultime edizioni.",
+  "sito": "https://romaostia.it/",
+  "canali": {
+   "notizie": "https://romaostia.it/feed/"
+  },
+  "nomi": [
+   "RomaOstia",
+   "Roma-Ostia",
+   "RomaOstia Half Marathon"
+  ],
+  "note": "52ª edizione. Ritrovo alle 7:30. Tempo massimo 3h30, cancelli al km 10 (1:40) e al km 15 (2:30). Pacer previsti, dettagli in arrivo.",
+  "fonti": [
+   "https://romaostia.it/regolamento/",
+   "https://romaostia.it/percorso/",
+   "https://romaostia.it/"
+  ],
+  "verificato": "2026-10-23",
+  "edizione": "2027"
  }
 }
