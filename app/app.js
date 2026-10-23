@@ -2736,14 +2736,16 @@
     return `<div class="tempo3${grande ? " grande" : ""}" role="group" aria-labelledby="${etichetta}">${box("h", h, 1, ph[0], "Ore")}<span>h</span>${box("m", m, 2, ph[1], "Minuti")}<span>min</span>${box("s", s, 2, ph[2], "Secondi")}<span>s</span></div>`;
   }
   // Sotto il tempo obiettivo: distanza della gara e passo al km, che si aggiorna mentre si scrive.
+  // tempo = "h:mm:ss" ancora da controllare ("" = non scritto o non finito di scrivere)
   function testoPasso(gara, tempo) {
-    const r = L.passoObiettivo(gara, tempo), ok = tempo && L.leggiTempo(gara, tempo).tempo;
+    const ok = tempo ? L.leggiTempo(gara, tempo).tempo : "", r = L.passoObiettivo(gara, ok || "");
     if (!r.km) return "";
-    return `Distanza <b>${esc(r.km)} km</b> · ${ok && r.passo ? `passo <b>${esc(r.passo)}</b>` : "scrivi il tempo per vedere il passo"}`;
+    const coda = ok && r.passo ? `passo <b>${esc(r.passo)}</b>` : tempo ? "il tempo non torna con la distanza" : "scrivi il tempo per vedere il passo";
+    return `Distanza <b>${esc(r.km)} km</b> · ${coda}`;
   }
   function rigaPasso(id, gara, valore) {
     const g = typeof gara === "object" && gara ? gara : { distanza: gara };
-    const t = valore ? L.leggiTempo(g, valore).tempo || "" : "";
+    const t = valore || "";
     return `<span class="small passo-ob" id="${id}-passo" aria-live="polite" data-dist="${esc(g.distanza || "")}" data-km="${esc(g.km || "")}">${testoPasso(g, t)}</span>`;
   }
   // Tempo facoltativo: caselle tutte vuote = nessun tempo; altrimenti come leggiCampoTempo.
@@ -3730,9 +3732,11 @@
     // tempo obiettivo: distanza e passo si aggiornano mentre si scrive
     const riga = document.getElementById(el.id.replace(/-[hms]$/, "") + "-passo");
     if (riga) {
+      const base = el.id.replace(/-[hms]$/, ""), val = (k) => (document.getElementById(`${base}-${k}`) || {}).value || "";
       const gara = { distanza: riga.dataset.dist, km: Number(riga.dataset.km) || undefined };
-      const t = L.tempoDaParti(...["h", "m", "s"].map((k) => (document.getElementById(`${el.id.replace(/-[hms]$/, "")}-${k}`) || {}).value || ""));
-      riga.innerHTML = testoPasso(gara, t ? L.leggiTempo(gara, t).tempo || "" : "");
+      // il passo compare quando i minuti sono scritti: con la sola ora (es. "1" per una mezza) uscirebbe un passo assurdo
+      const finito = /-s$/.test(el.id) || (/-m$/.test(el.id) ? pulito.length === 2 : val("m").length === 2);
+      riga.innerHTML = testoPasso(gara, finito ? L.tempoDaParti(val("h"), val("m"), val("s")) : "");
     }
   });
   document.addEventListener("keydown", (e) => {
