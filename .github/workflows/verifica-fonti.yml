@@ -1,0 +1,36 @@
+name: Verifica fonti tempi (prova)
+on:
+  push:
+    branches: [verifica-fonti]
+jobs:
+  sonda:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sonda
+        run: |
+          UA="Mozilla/5.0 (RaceBuddy verifica fonti)"
+          mkdir -p out && cd out
+          get() { echo "=== $1"; curl -sSL -m 30 -A "$UA" -o "$2" -w "HTTP %{http_code} %{content_type} %{size_download}B\n" "$1" || echo "ERRORE"; }
+          for h in tds.sport www.tds-live.com svc.tds-live.com marathonview.net; do get "https://$h/robots.txt" "robots_$h.txt"; echo "--- robots $h"; head -c 3000 "robots_$h.txt"; echo; done
+          get "https://tds.sport/en/race/12354" tds_race.html
+          head -c 4000 tds_race.html; echo
+          grep -oE '(src|href)="[^"]+\.js[^"]*"' tds_race.html | head -20
+          for s in $(grep -oE 'src="[^"]+\.js[^"]*"' tds_race.html | sed 's/src="//;s/"$//' | head -8); do
+            case "$s" in http*) u="$s";; /*) u="https://tds.sport$s";; *) u="https://tds.sport/$s";; esac
+            get "$u" bundle.js
+            echo "--- url nel bundle $u"; grep -oE 'https?://[a-zA-Z0-9./_-]+' bundle.js | sort -u | head -60
+            echo "--- percorsi api"; grep -oE '"/?(api|ws|svc|rest)[a-zA-Z0-9/_.{}$-]*' bundle.js | sort -u | head -80
+            grep -oiE '.{60}(search|cerca|athlete|atleta|ranking|classific)[a-zA-Z]*.{60}' bundle.js | head -40
+          done
+          get "https://www.tds-live.com/ns/index.jsp?id=8252&pageType=1" tdslive.html; head -c 3000 tdslive.html; echo
+          for p in terms privacy termini condizioni; do get "https://tds.sport/it/$p" "tds_$p.html"; done
+          get "https://marathonview.net/" mv_home.html
+          echo "--- form"; grep -oiE '<form[^>]*>|<input[^>]*>' mv_home.html | head -20
+          get "https://marathonview.net/marathon-results-of-Lorenzo-Lotti" mv_runner.html
+          sed 's/<[^>]*>/ /g' mv_runner.html | tr -s ' \n' | head -c 4000; echo
+          grep -oiE '(fetch|ajax|\$\.get|\$\.post)\([^)]{0,200}' mv_runner.html | head -20
+          get "https://marathonview.net/race/98795" mv_race.html
+          grep -oiE '(fetch|ajax|\$\.get|\$\.post)\([^)]{0,200}' mv_race.html | head -20
+          grep -oiE 'remaining anonymous[^<]{0,100}' mv_runner.html mv_race.html | head
+      - uses: actions/upload-artifact@v4
+        with: { name: sonda, path: out }
