@@ -1,0 +1,2916 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+
+ 
+  	<base href='https://marathonview.net/'></base>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet" >
+<script src="js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css"/>
+<link rel="stylesheet" type='text/css' href="css/main.css.php">
+<link rel="stylesheet" type='text/css' href="css/search_button.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Material+Icons" />
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css" />
+<link rel="icon" href="./image/logo24-24.png"/>
+	<link rel="stylesheet" type='text/css' href="css/autocomplete.css">
+    <title>Maratona di Roma 2019 </title>
+	
+	<style>
+	
+
+	.medians 
+	{
+		margin-top: 2em;
+		margin-left:10%
+		margin-right: 10%;
+		width: 50%;
+		line-height: 150%;
+	}
+	
+	
+	
+	.medians th
+	{
+		text-align: center;
+	}
+	
+	.medians .label
+	{
+		font-weight: bold;
+	}
+	
+	.medians .data
+	{
+		text-align: right;
+	}
+	
+	.leaders 
+	{
+		width: 100%;
+		line-height: 1.0;
+	}
+	
+	#divNotFullInfo
+	{
+		margin-top: 1em;
+		border: 1px solid #6ab446;
+		padding: 0.5em;
+	}
+	
+	#search_race
+	{
+		height: 2rem;
+		display: inline;
+		width: auto;
+		border: var(--mv-search-border-width) solid var(--mv-search-border-color);
+    border-radius: 45px;
+		padding-inline: 1rem;
+		outline: none;
+	}
+	
+	#search_race_label
+	{
+		font-size: var(--mv-h3-font-size);
+    color: var(--mv-h2-color);
+		font-weight: 500;
+	}
+	
+
+	
+	.race_finishers
+	{
+		display: grid;
+    grid-template-columns: 6rem 3rem 1fr;
+		margin-bottom: 1rem;
+	}
+	
+	.race_finishers > div:nth-child(3n+1)
+	{
+		color: var(--mv-h2-color);
+		font-weight : 500;
+	}
+	
+	.race_finishers > div:nth-child(3n+2)
+	{
+		text-align: right;
+	}
+
+	.race_finishers > div:nth-child(3n)
+	{
+		font-weight: 500;
+		padding-left: 1rem;
+	}	
+	
+	.medians_data
+	{
+		display: grid;
+    grid-template-columns: 8ch 1fr;
+	}
+	
+	.median_label
+	{
+		color: var(--mv-h2-color);
+		font-weight : 500;
+	}
+	
+	#div_search
+	{
+		display: grid;
+    grid-template-columns: 4rem 1fr;
+		gap: 6px;
+    align-items: center;
+		margin-bottom:1rem;
+	}
+	
+	.event-name
+	{
+		color: var(--mv-h2-color);
+		font-size : larger;
+		font-weight : 500;
+	}
+	
+	#div_categories_data
+	{
+		display : grid;
+		grid-template-columns: 1fr 1fr;
+	}
+	
+	.div_category_name
+	{
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		color: var(--mv-h2-color);
+		font-size: var( --mv-h2-font-size );
+		font-weight: 500;
+	}
+	
+		.div_category_name .div_race_name
+	{
+		padding-inline: 1rem;
+		text-align : right;
+	}
+	
+	.div_category_name .div_cat
+	{
+		padding-inline: 1rem;
+		text-align : left;
+	}
+		
+	h3 
+	{
+		margin-top: 1rem;
+	}
+	
+	</style>
+	
+	
+  </head>
+  <body>
+  
+  	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FW4KLZZ783"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FW4KLZZ783');
+  // -- History Begin --
+  // -- History End --
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js" integrity="sha256-eTyxS0rkjpLEo16uXTS0uVCS4815lc40K2iVpWDvdSY=" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://kit.fontawesome.com/5fcd3245d0.js" crossorigin="anonymous"></script>
+<script src="./js/react/react.production.min.js"></script>
+<script src="./js/react/react-dom.production.min.js"></script>
+<!-- js/exhandler.js-->
+<script>
+// https://stackoverflow.com/questions/951791/javascript-global-event-mechanism
+window.onerror = function(msg, url, line, col, error) {
+   // Note that col & error are new to the HTML 5 spec and may not be 
+   // supported in every browser.  It worked for me in Chrome.
+   let extra = !col ? '' : '\ncolumn: ' + col;
+   extra += !error ? '' : '\nerror: ' + error;
+   extra += "\n\nThis is not supposed to happen. Please contact us at info@marathonview.net and we will try to help";
+   
+
+   // You can view the information in an alert to see things working like this:
+   console.log("Error: " + msg + "\nurl: " + url + "\nline: " + line + extra);
+
+   // TODO: Report this error via ajax so you can keep track
+   //       of what pages have JS issues
+
+   let suppressErrorAlert = true;
+   // If you return true, then error alerts (like in older versions of 
+   // Internet Explorer) will be suppressed.
+   return suppressErrorAlert;
+};
+</script>
+<script>
+window.fbAsyncInit = function()
+{
+FB.init({
+appId            : '1287894264706448',
+autoLogAppEvents : true,
+xfbml            : true,
+version          : 'v4.0'
+});
+};
+</script>
+<script async defer src="https://connect.facebook.net/en_US/all.js"></script>
+<!-- Optional JavaScript -->
+<!-- js/local_storage.js-->
+<script>
+
+function set_session_data( key, value )
+{
+	sessionStorage[ key ] = value;
+}
+
+function get_session_data( key )
+{
+	return sessionStorage[ key ];
+}
+
+function clear_session_data( key )
+{
+	return sessionStorage.removeItem( key );
+}
+
+
+function set_local_data( key, value )
+{
+	localStorage.setItem( key, value );
+}
+
+function get_local_data( key )
+{
+	return localStorage.getItem(key);
+}
+
+function clear_local_data( key )
+{
+	return localStorage.removeItem( key );
+}
+
+</script>
+<!-- js/util.js-->
+<script>
+// Taken from http://www.w3schools.com/JS/js_cookies.asp
+function get_cookie(name)
+{
+    var i,x,y,cookies=document.cookie.split(";");
+    for ( i = 0 ; i<cookies.length ; i++ )
+    {
+        x=cookies[i].substr(0,cookies[i].indexOf("="));
+        y=cookies[i].substr(cookies[i].indexOf("=")+1);
+        x=x.replace(/^\s+|\s+$/g,"");
+        if (x==name)
+            return unescape(y);
+    }
+	
+	return null;
+}
+
+
+function set_cookie(name,value,exdays)
+{
+    var exdate=new Date();
+    exdate.setDate(exdate.getDate() + exdays);
+    var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+    document.cookie=name + "=" + value;
+}
+
+// https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
+function is_valid_email(email) 
+{
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
+
+// https://uibakery.io/regex-library/url
+const re_url = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/
+const is_valid_url = url  => re_url.test( url)
+
+// Returns the current language.
+// If none is set, use en (English)
+function get_lang()
+{
+	var ret = get_session_data( "lang");
+	if ( ret ) return ret;
+	
+	ret = get_cookie( "lang");
+	if ( ret ) return ret;
+	
+	set_lang("en");
+	return "en";
+}
+
+function set_lang( lang)
+{
+	$.ajax({
+		url: "php/lang_set.php?lang=" + lang
+	}).done(function( data ) 
+	{
+		var obj = JSON.parse(data.trim());
+		if ( obj["ok"])
+		{
+			set_session_data( "lang", lang);
+			set_cookie( "lang", lang, 180);
+			location.reload();
+		}
+		else
+			mv_alert( obj["message"]);
+	});	
+}
+
+
+function accept_cookies()
+{
+	set_cookie( "accept_cookies", "yes", 183 );
+	$( "#cookie_usage" ).css( "visibility", "hidden" );
+}
+
+// https://stackoverflow.com/questions/10896807/javascript-encodeuricomponent-doesnt-encode-single-quotes
+function fixedEncodeURIComponent (str) {
+  return encodeURIComponent(str).replace(/[!'()*]/g, escape);
+}
+
+var month_names_short =  ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+// 2017-05-17 00:00:00
+function parse_date( date_string ) 
+{
+	const y = date_string.substring( 0, 4);
+	const m = date_string.substring( 5, 7);
+	const d = date_string.substring( 8, 10);
+	
+	return new Date( parseInt( y ), parseInt(m)-1, parseInt(d));
+}
+
+// http://phpjs.org/functions/number_format/
+function number_format (number, decimals, dec_point, thousands_sep) {
+  number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+  var n = !isFinite(+number) ? 0 : +number,
+    prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+    sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+    dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+    s = '',
+    toFixedFix = function (n, prec) {
+      var k = Math.pow(10, prec);
+      return '' + Math.round(n * k) / k;
+    };
+  // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+  s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+  if (s[0].length > 3) {
+    s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+  }
+  if ((s[1] || '').length < prec) {
+    s[1] = s[1] || '';
+    s[1] += new Array(prec - s[1].length + 1).join('0');
+  }
+  return s.join(dec);
+}
+
+// https://stackoverflow.com/questions/1144783/how-to-replace-all-occurrences-of-a-string-in-javascript
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
+
+function convertUTCDateToLocalDate(date) {
+    var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
+
+    var offset = date.getTimezoneOffset() / 60;
+    var hours = date.getHours();
+
+    newDate.setHours(hours - offset);
+
+    return newDate;   
+}
+
+// https://stackoverflow.com/questions/196972/convert-string-to-title-case-with-javascript
+function toTitleCase(str) 
+{
+	return str.replace(
+		/\w\S*/g,
+		function(txt) {
+			return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+		}
+	);
+}
+
+const awsBucketBase = "https://marathonviewimages.s3.us-east-2.amazonaws.com";
+
+
+// Images can be either local or given using a url.
+function get_image_real_path( thisdir , image )
+{
+	const regex = RegExp('^http');
+	if ( regex.test(image) )
+		return image;
+	
+	return awsBucketBase + "/" + image;
+}
+
+
+function twoDigits( n )
+{
+	if ( n >= 0 && n < 10 )
+		return "0" + n;
+	return n;	
+}
+
+
+function showAsResult( result , resulttype )
+{
+	if ( !result) return "";
+
+	if ( resulttype == 1 )   
+		return  parseFloat( result ).toFixed( 2);
+
+	var mills = Math.floor( 100 * (result -Math.floor(result)));
+	result = Math.floor(result);
+
+	var ss;
+	var s = result % 60 ;
+	if ( s < 10 ) 
+		ss = '0' + s;
+	else
+		ss = twoDigits(s);
+
+	var ms;
+	var m = ((result - s)/60) % 60;
+	if ( m < 10 ) 
+		ms = '0' + m;
+	else
+		ms = twoDigits(m);
+
+	var h = (((result - s)/60 - m)/60) % 60;
+
+
+	var millss = "" ;
+	if ( mills < 10 ) 
+		millss = '0' + mills;
+	else
+		millss = "" + mills;
+	
+	if ( resulttype == 3 ) 
+		millss = millss.substr(1,1);
+	
+	if ( resulttype != 2  && resulttype != 3 )
+		millss = "";
+	else
+		millss = '.' + millss;
+
+	if ( h == 0 ) 
+		return ms + ':' + ss +  millss;
+	else
+		return h + ':' + ms + ':' + ss +  millss;
+}
+
+
+
+
+function get_result_to_show( res )
+{
+	var b = res["result"];
+	var n = res["personal_time"];
+	
+	if ( b && n ) return n;
+	if (n) return n;
+	return b;
+}
+
+
+var HebrewChars = new RegExp("[\u0590-\u05FF]\s*[\u0590-\u05FF]");
+
+// true if just hebrew chars and white spaces
+function isHebrew( s )
+{
+	return HebrewChars.test( s );
+}
+
+// https://stackoverflow.com/questions/5999998/check-if-a-variable-is-of-function-type
+function isFunction(functionToCheck) 
+{
+	return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
+}
+
+function show_modal( element_id )
+{
+	const m = new bootstrap.Modal(document.getElementById(element_id ), {});
+	m.show();
+	
+	$('#' + element_id ).on('hidden.bs.modal', function (e) 
+	{
+		$(this).remove();
+	})	
+	
+}
+
+
+function mv_alert( msg )
+{
+	var html = "";
+	html += "<div class='modal fade' id='modal_alert' tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true'>\n";
+	html += "<div class='modal-dialog modal-dialog-centered' role='document'>\n";
+	html += "<div class='modal-content'>\n";
+	html += "<div class='modal-header'>\n";
+	html += "<h5 class='modal-title' id='modalAcceptLabel'>" + msg + "</h5>\n";
+	html += "</div>\n";
+	html += "<div class='modal-footer'>\n";
+	html += "<button type='button' class='btn btn-primary' data-bs-dismiss='modal'>OK</button>\n";
+	html += "</div>\n";
+	html += "</div>\n";
+	html += "</div>\n";
+	html += "</div>\n";
+	
+	$("body #modal_alert").remove(); // Previous
+	$("body").append( html );
+	show_modal( 'modal_alert' );
+
+}
+
+function get_event_status_string( status )
+{
+	switch( status )
+	{
+		case 1: return "Cancelled";
+		case 2: return "Postponed";
+		case 3: return "No Results Data";
+		default: return "";
+	}
+}
+
+function get_root_url()
+{
+	const href = document.location.href.toLowerCase();
+	if ( href.includes("localhost")) return "http://localhost/marathonview/";
+	return document.location.origin;
+}
+
+
+function show_modal( element_id, remove_after = false )
+{
+	const m = new bootstrap.Modal(document.getElementById(element_id ), {});
+	m.show();
+	
+	$('#' + element_id ).on('hidden.bs.modal', function (e) 
+	{
+		if ( remove_after ) $(this).remove();
+	})	
+	
+}
+
+const el = s => document.querySelector( '#' + s ) 
+
+
+</script>
+<!-- js/show_results.js-->
+<script>
+
+
+function get_rank_html( r )
+{
+	switch ( parseInt( r ))
+	{
+		case 1: return "1 <img src='image/Gold.png'>";
+		case 2: return "2 <img src='image/Silver.png'>";
+		case 3: return "3 <img src='image/Bronze.png'>";
+		default: return r;
+	}
+}
+
+
+const showGrouped = 1;
+const showRaw = 2;
+const showCheckboxes = 3;
+
+function truncate_event_name( name, year )
+{
+	if ( year )
+	{
+		if ( name.startsWith( String(year)))
+			name = name.substr( 5 );
+		if ( name.endsWith( String(year)))
+			name = name.substr( 0, name.length-5 );
+	}
+	
+	if (  name.length > 25 && name.endsWith( "Marathon" ))
+		name = name.substr( 0, name.length-8 );
+
+	
+	if ( name.length < 25 )
+		return name;
+	
+	return name.substring(0, 22) + '...';
+}
+
+var gResultsTable = null;
+
+
+
+function find_parent( el , tag_name )
+{
+	tag_name = tag_name.toLowerCase();
+	for( ;; )
+	{
+		var p = el.parent();
+		var tn = p.prop("tagName").toLowerCase();
+		if ( tn == tag_name )
+			return p;
+		if ( tn == "body" )
+			return null;
+		el = p;
+	}
+}
+
+// https://stackoverflow.com/questions/41237486/how-to-paste-plain-text-in-a-quill-based-editor
+function assure_text_paste( quill )
+{
+	quill.clipboard.addMatcher (Node.ELEMENT_NODE, function (node, delta) 
+	{
+		var plaintext = node.innerText;
+		var Delta = Quill.import('delta');
+		return new Delta().insert(plaintext);
+	});
+}
+
+
+let gEditing = false; // will be true when we edit (or write a new ) comment.
+
+
+// If heattype is 0 we don't filter. If it's > 0, we filter according to it
+
+// showCommentTools is an object. If it's null, no comment tools are shown.
+// If it's not null it has the following boolean fields:  edit, delete, expand 
+
+function get_bests_for_heattype( stats, heattype )
+{
+	if ( stats == null || stats.bests == null) return null;
+	const bests = stats.bests;
+	switch( heattype )
+	{
+
+		case 3 : return bests.marathon;
+    case 4 : return bests.half_marathon;
+    case 1 : return bests.ten_k;
+    case 2 : return bests.five_k;
+    case 6 : return bests.fifteen_k;
+		case 7 : return bests.ironman;
+		case 8 : return  bests.half_ironman;
+		default:
+			return null;
+	
+	}
+}	
+
+function get_shown_result( res )
+{
+	if ( !res.personal_time ) return res.result;
+	return res.personal_time < res.result ? res.personal_time : res.result;
+}
+
+/*
+
+const showGrouped = 1;
+const showRaw = 2;
+const showCheckboxes = 3;
+
+Options 
+
+{
+	type : number ; // showGrouped etc
+	heattype : number ; // Default 3 marathon
+	showCommentAdd : boolean ; 
+	showCommentTools : boolean ; 
+	headers : dictionary
+	server_type : number ; // Default 1 MV
+	has_ag : boolean ; // Default false
+}
+
+
+*/
+
+const is_strava_comment = s => /www\.strava\.com/i.test( s )
+
+/* server type is 1 for MV, 2 for RV and 3 for RVAU */
+//function show_results( json , el , type, stats, heattype, showCommentAdd, showCommentTools,  headers , server_type = 1 )
+function show_results( json , el , stats, options )
+{
+	const results = json["results"];
+	const dataSet = [];
+	let havepersonal_time = false;
+	let haveGarminData = false;
+	
+	const type = options.type;
+	const heattype = options.heattype;
+	const showCommentAdd = options.showCommentAdd; 
+	const showCommentTools = options.showCommentTools;
+	const headers = options.headers; 
+	const server_type = options.server_type ?  options.server_type : 1 ; 
+	const has_ag = options.has_ag; 
+	
+	var showRaceName = ( heattype != 3 );
+	
+	if ( results && results.length)  // We have results to show
+	{
+		if ( results.length)
+		{
+			for( var i = 0 ; i < results.length ; i++ )
+			{
+				var res = results[i];
+				
+				if ( typeof g_hide_parkruns !== 'undefined' &&   g_hide_parkruns )
+				{
+					if ( res["heat_type"] == 2 && res[ "event_name" ].toUpperCase().includes("PARKRUN"))
+						continue;
+				}
+				
+				if ( heattype )
+				{
+					if ( !res["heat_type"] || res["heat_type"] != heattype )
+						continue;
+				}
+				
+				var checked =  res["included"] ? "checked" : "";
+				
+				// Check box include
+				if ( showCheckboxes )
+					var cbInclude = "<input class='cbInclude' type='checkbox' " + checked + " result=\"" + res["id"] + "\">";
+
+
+				// Date
+				switch( type )
+				{
+					case showGrouped:
+						var d = parse_date( res["date"] );
+						var year = d.getFullYear();
+						var datestring =  month_names_short[ d.getMonth() ] + " " + d.getDate()   ;
+						break;
+					default:
+						var d = parse_date( res["date"] );
+						var year = d.getFullYear();
+						var datestring =  month_names_short[ d.getMonth() ] + " " + d.getDate() + " " + year  ;
+						break;
+					
+				}
+				
+				var country = "";
+				// Country, just in checkboxes
+				if ( type == showCheckboxes && res["country"] )
+				{
+					country = "<img src='./image/flags/"  + res["country"].toLowerCase() + ".png'/>";
+				}
+				
+				
+				// Name
+				var name = res["first_name"] + " " +  res["last_name"];
+				
+				var name2 = name.replace(/ /g, "-");
+				var url = "./marathon-results-of-" + fixedEncodeURIComponent( name2 );
+				var aname = "<a href='" + url + "'>" + name + "</a>";
+				
+				// Event 
+				var event = res["event_name"];
+				
+				// Note: Here we put the race information and not the event information
+				const race_url = "./race/" + res["race_id"];
+				
+				if ( res["event_country"] )
+					var arace = "<img src='./image/flags/"  + res["event_country"].toLowerCase() + ".png'/>  <a  title='" + event.replace("'", "&rsquo;" ) + "' href='" + race_url + "'>" + truncate_event_name( event, year ) + "</a>";
+				else
+					var arace = "<a title='" + event.replace("'", "&rsquo;" ) + "'  href='" + race_url + "'>" +  truncate_event_name( event, year ) + "</a>";
+				
+				if ( showRaceName )
+				{
+					var race_name = res["race_name"];
+					var ht = parseInt(res["heat_type"]);
+					
+					if ( ht >= 1 && ht <= 10 )
+						race_name = "<img src='image/heattypes/" + ht + ".png'>";
+				}
+				
+				const bests = get_bests_for_heattype( stats, res.heat_type ); 
+				
+				const best_id =  ( bests &&  bests.personal_best ) ? bests.personal_best.id : ( bests ?   bests.result_best.id : 0 );
+				
+				// Result
+				url = "./result/" + res["id"];
+				const cls =  ( bests &&   best_id == res.id ) ?  "best_result" : "";
+				const shown_result =   "<a  title='Result'  class='" + cls + "' href='" + url + "'>" + showAsResult(  get_shown_result( res ) , res["result_type"] ) + "</a>";
+				
+				let shown_ag = null;
+				if ( has_ag )
+				{
+					const cls =  ( bests && bests.ag_best && ( bests.ag_best.id == res.id )) ?  "best_result" : "";
+					shown_ag =   "<a  title='Age Graded Result' class='" + cls + "' href='" + url + "'>" + showAsResult(  res["result_ag"] , res["result_type"] ) + "</a>";
+
+				}
+				
+				
+				var cat = res["category"] ;
+				
+				var gen = res["gender"] ;
+
+				var rank  = res["rank"];
+				if (!rank) 
+					rank = "-"
+				else 
+					rank = get_rank_html( rank );
+
+				var grank  = res["rank_gender"];
+				if (!grank) 
+					grank = "-"
+				else 
+					grank = get_rank_html( grank );
+				
+				var crank  = res["rank_category"];
+				if (!crank) 
+					crank = "-"
+				else 
+					crank = get_rank_html( crank );
+				
+				const birth_year = (server_type == 2) ? res["birth_year"] : '';
+				const pace_k = (server_type == 2) ? res["pace_k"] : '';
+	
+				var addCommentColIdx = -1;
+				
+				const result_string = `<div class='result_cell'>${shown_result}<div>` ;
+				const result_ag_string =  has_ag ? `<div class='result_cell'>${shown_ag}<div>` : '';
+				
+				let row = null;
+				const acat = cat ? "<a title='Show category details' href='" + race_url + "?category=" + fixedEncodeURIComponent( cat ) +  "'>" + cat + "</a>" : '';
+	
+			
+				switch ( type )
+				{
+					case showGrouped:
+						row = [ year, datestring, aname, arace, result_string, result_ag_string ,acat, grank, rank, crank, gen ];
+
+						addCommentColIdx = 2;
+						if ( showRaceName )
+							row.splice( 3, 0, race_name );
+						break;
+					case showRaw:		
+						row = [ datestring, aname, arace, result_string, cat,  grank, rank, crank, gen ];
+						addCommentColIdx = 1;
+						if ( showRaceName )
+							row.splice( 2, 0, race_name );
+						break;
+					case showCheckboxes:		
+						row = [ cbInclude, datestring, country, aname, arace, result_string, cat, grank, rank, crank, gen ];
+						addCommentColIdx = 2;
+						if ( showRaceName )
+							row.splice( 3, 0, race_name );
+						break;
+				}
+
+				if ( server_type == 2 ) row.push( pace_k );
+				if ( server_type == 2 ) row.push( birth_year );
+				if ( showCommentAdd && type != showCheckboxes )
+				{
+					row.splice( addCommentColIdx, 0 , get_comment_tools( res["id"], false, false, false, true, true  ) )  ;
+				}
+				dataSet.push( row );
+				
+				// Handle images
+				let images = res["images"];
+				if ( images && images.length > 0 && type != showCheckboxes  )
+				{
+					// Image Gallery. Note how we put the result in data[3]
+					const prevRowLength = dataSet[ dataSet.length - 1].length;
+					const row = [ dataSet[ dataSet.length - 1][0], "Image Gallery", "Images", res];
+					for( let j = 4 ;  j < prevRowLength ; j++ )
+						row.push( null );
+
+					dataSet.push( row );
+				}
+
+				
+				// Handle comments
+				let comments = res["comments"];
+				if ( comments  && type != showCheckboxes  )
+				{
+					for( let c = 0 ; c < comments.length ; c++ )
+					{
+						const prevRowLength = dataSet[ dataSet.length - 1].length;
+						const row = [ dataSet[ dataSet.length - 1][0], comments[c].text, "Comment", comments[c].id ];
+						for( let j = 4 ;  j < prevRowLength ; j++ )
+							row.push( null );
+
+						dataSet.push( row );
+					}
+				}
+				
+			}
+		}
+		
+		const bPaging = dataSet.length > 1000;
+		let groupColumn = 0;
+		let col_headers = null;
+
+		switch ( type )
+		{
+			case showGrouped:
+				col_headers = [ { title: headers.Year }, { title: headers.When }, { title: headers.As }, { title: headers.Where }, { title: headers.Result }  , 
+								{ title: has_ag ? "AG <a title='What is this number?' href='./pages/5335274'><i class='fa-regular fa-circle-info' aria-hidden='true'></i></a>" : ""} , 
+								{ title: headers.Category} , { title: headers.GenderRank } , { title: headers.OverallRank }, { title: headers.CategoryRank} , { title: headers.Gender } ];
+								
+				if ( showRaceName )
+					col_headers.splice( 3, 0, { title: headers.Heat } );
+				
+				const has_add_column = showCommentAdd && type != showCheckboxes;
+				if ( has_add_column )
+					col_headers.splice( addCommentColIdx, 0, { title:"" } );
+								
+				columnDefs = [ 
+				          { "visible": false, "targets": groupColumn } , 
+									{responsivePriority:1, targets: 1, width: '5%'}, /* Date */
+									{ "visible": true, "targets": has_add_column ? 5 : 4, width: '6%' }, /* Result */
+									{responsivePriority:2, targets: has_add_column ? 6 : 5} /* Result */
+									];
+				break;
+			case showRaw:		
+				col_headers = [ { title:headers.when }, {  title:headers.As }, { title:headers.Where }, { title: headers.ResultRaw  } , 
+								{ title: headers.Category} , { title:headers.GenderRank } , { title: headers.OverallRank }, { title: headers.CategoryRank} , { title:headers.Gender} ];
+				if ( showRaceName )
+					col_headers.splice( 2, 0, { title : headers.Heat } );
+				
+				if ( showCommentAdd && type != showCheckboxes)
+				{
+					col_headers.splice( addCommentColIdx, 0, { title:"" } );
+				}
+
+				
+				columnDefs = [  { "visible": true, "targets": 1 }  ];
+				break;
+			case showCheckboxes:		
+				col_headers = [ { title:"<input type='checkbox' id='cbAllNone'>&nbsp;<i class='fa fa-caret-down' aria-hidden='true'></i>" } , { title: headers.When }, { title:"" }, { title: headers.As}, { title: headers.Where }, { title: headers.ResultRaw }  , 
+								{ title:headers.Category} , { title:headers.GenderRank } , { title: headers.OverallRank }, { title: headers.CategoryRank} , { title: headers.Gender} ];
+				if ( showRaceName )
+					col_headers.splice( 3, 0, { title: headers.Heat } );
+
+				if ( showCommentAdd && type != showCheckboxes )
+				{
+					col_headers.splice( addCommentColIdx, 0, { title:"" } );
+				}
+								
+				columnDefs = [ { "visible": true, "targets": 3 }  ];
+				break;
+		}
+
+		if ( server_type == 2 ) col_headers.push(  { title:headers.Pace } );		
+		if ( server_type == 2 ) col_headers.push(  { title:headers.BirthYear } );
+
+						
+		var today = new Date();
+		var current_year = today.getFullYear();
+		
+		// We do this trick to avoid reinitialization of the grid
+		// Replace the element with a fresh copy of it.
+
+		el.empty();
+		var prnt = el.parent();
+		var c = el.clone();
+		el.replaceWith( c );
+		$('.dataTables_info').remove();
+		$('.dataTables_length').remove();
+		$('.dataTables_paginate').remove();
+		el = c;
+
+
+		gResultsTable = el.DataTable( {
+			"columnDefs": columnDefs,
+			"ordering": false, 
+			"searching": false,
+			"bInfo": false,
+			"responsive": true,
+			responsive: { details: { type: 'none' } },
+			"paging": bPaging,
+			"lengthChange": false, 
+      "pageLength":  1000,
+			"autoWidth" : false,
+			data: dataSet,
+			columns: col_headers,
+		
+      "createdRow": function( row, data, dataIndex, cells ) 
+			{
+				if ( data.length > 2 )
+				{
+					// Comment rows have nulls in index 4 and up
+					if ( data[2] == "Comment" )
+					{
+						var showDelete = showCommentTools ?  showCommentTools.delete : false;
+						var showEdit = showCommentTools ? showCommentTools.edit : false;
+						var showExpand = showCommentTools ? showCommentTools.expand : false;
+						
+						var comment_tool = get_comment_tools( data[3], showDelete, showEdit, showExpand );
+						
+						$(row).html(  "<td colspan='" + (cells.length) + "'><div class='comment_viewer' id='div_comment_" + data[3] + "'>" +  strip_html( data[1] ) + "</div>"  + comment_tool + "</td>"  );
+						$(row).addClass( 'rowComment' );
+						
+						if ( isHebrew( data[1] ))
+							$(row).addClass( "hebrew" );
+						
+						if ( is_strava_comment( data[1] ))
+							$(row).addClass( "strava" );
+						
+					}
+					
+					// Images rows have nulls in index 4 and up
+					if ( data[2] == "Images" )
+					{
+						const resultid = data[3]['id'];
+						$(row).html(  "<td colspan='" + (cells.length) + "'>" +  "<div id='images_" + resultid + "'>GGGG" + "</div></td>"  );
+						$(row).addClass( 'rowImage' );
+						
+						const imageGallery = $(row).find("div")[0];
+						if ( imageGallery ) ReactDOM.render(React.createElement(ImageGallery, { result: data[3], json: json }), imageGallery);
+						
+					}
+				}
+			},
+			
+			"drawCallback": function ( settings ) {
+				if ( type != showGrouped ) return;
+				
+				// Create a map for racd count per yer
+				
+				const year_map = new Map();
+				settings.aoData.forEach(
+					item => {
+						if ( item.anCells[1].innerText == 'Image Gallery' || item.anCells[2].innerText == 'Comment' ) return;
+						const y = item.anCells[0].innerText;
+						if ( year_map.has( y ))
+							year_map.set( y, year_map.get(y) + 1);
+						else
+							year_map.set( y, 1 );
+					}
+				)
+				
+			
+				var api = this.api();
+				var rows = api.rows( {page:'current'} ).nodes();
+				var last=null;
+ 
+				api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
+                if ( last !== group ) 
+					{
+						var header = group;
+						const count = year_map.get( String( group ) );
+						if ( String( group ) == String( current_year ))
+							header = "This year (" + current_year + ")";
+						
+						$(rows).eq( i ).before(
+							'<tr class="group"><td colspan="' +  (col_headers.length -1) + '">'+header+' (' + count + ')</td></tr>'
+						);
+	 
+						last = group;
+					}
+				} );
+			} 
+		} );
+
+
+		
+		modify_pagination();
+		gResultsTable.on( "draw", function() { modify_pagination(); } );
+		
+		$( window ).off( "orientationchange" );
+		$( window ).on( "orientationchange", function( event ) 
+		{
+			show_results( json , el , stats, options )
+		});
+		
+		// Attach d&d handler to the rows that contain "upload image" image
+		$("tr[role='row']").each( function() 
+		{
+			$(this).on("drop", function( e ) 
+			{
+				e.preventDefault();
+				console.log(e.originalEvent.dataTransfer.files);
+			});
+			
+			const commentTool = $(this).find( '.comment_tools' ); 
+			if ( commentTool.length )
+			{
+				let resultid = commentTool.attr( "data-id" );
+				const uploadBtn = commentTool.find( '.comment_tool_upload' );
+				const token = get_cookie( "access_token" );				
+				if ( uploadBtn.length && token && showCommentAdd )
+				{
+				
+					let widget = null;
+					$(this).addClass( "dm-uploader" );
+					set_dragdrop_target( $(this ), function ( e ) { widget = e;}, parseInt( resultid ), json );
+					
+				
+					$( "<input id='file_" + resultid + "_0' style='display:none' type='file' title='Click to choose a file' />" ).insertBefore( uploadBtn );
+					var fileBtn = $("#file_" + resultid + "_0" );
+					// Click the file upload button
+					uploadBtn.on("click", function( event ) 
+					{
+						fileBtn.trigger("click");
+					});
+					
+					fileBtn.on("change", function ( evt ) {
+						var files = evt.target && evt.target.files;
+						if (!files || !files.length)
+						  return;
+						widget.addFiles(files);
+					});
+				} 
+			}
+		});
+		
+	
+		
+		//
+		// Edit comment
+		//
+		$(".comment_tool_edit").on( "click", function()
+		{
+			if ( gEditing )
+			{
+				mv_alert( "You didn't finish editing another comment. It's not possible to change two comments at the same time" );
+				return;
+			}
+			
+			gEditing = true;
+			
+			var elem = $(this).parent();
+			var comment_id = elem.attr( "data-id");
+			
+			var row = find_parent( elem, "tr" );
+			row.after( get_comment_edit_area( 0, comment_id , col_headers.length ) );
+			$(row).remove();
+			
+			var commentTextarea = $("#textarea_0_" + comment_id );
+			var discardBtn = $("#discard_0_" + comment_id );
+			var publishBtn = $("#publish_0_" + comment_id );
+			
+			discardBtn.css( "right", publishBtn.parent().width() - publishBtn.position().left + 15 );
+			
+			// Find comment text
+			var comment_text = "";
+			for( var i = 0 ; i < results.length ; i++ )
+			{
+				var r = results[i];
+				if ( !r["comments"] ) 
+						r["comments"] = [];
+				for( var j = 0 ; j < r["comments"].length ; j++ )
+				{
+					var comment = r['comments'][j];
+					if ( comment.id == comment_id )
+					{
+						comment_text = comment.text;
+						break;
+					}
+				}
+			}
+			
+			let qid = "#textarea_0_" + comment_id;
+			var quill = new Quill(qid, {
+			  placeholder: '...',
+			  theme: 'bubble'  
+			});
+			
+			assure_text_paste( quill );
+
+			if ( isHebrew( comment_text ))
+			{
+				$(qid ).find(".ql-editor").css( "text-align", "right" );
+			}
+			quill.setText( comment_text );
+			
+			discardBtn.on( "click" , function () {
+				$(".comment_tool_add").css("visibility", "visible" );
+				row.next().remove();
+				gEditing = false;
+				show_results( json, el , stats, options);
+				
+			});
+			
+			publishBtn.on( "click" , function () {
+				//var comment = $("#textarea_0_" + comment_id ).val();
+				let comment = quill.getText();
+				row.next().remove();
+				if ( !comment || comment == "" ) return;
+				
+				var inserted_comment = null;
+				
+				// Modify the json 
+				for( var i = 0 ; i < results.length ; i++ )
+				{
+					var r = results[i];
+					if ( !r["comments"] )
+						r["comments"] = [];
+					for( var j = 0 ; j < r["comments"].length ; j++ )
+					{
+						var c = r['comments'][j];
+						if ( c.id == comment_id )
+						{
+							c["text"] = comment;
+							break;
+						}
+					}
+				}
+				gEditing = false;
+				show_results( json, el , stats, options );
+				do_actual_update( comment_id, comment, function ( comment_id ) 
+				{
+					// Do nothing??
+				});
+			});
+
+
+		});
+
+		
+
+		
+		//
+		// Add comment
+		//
+		$(".comment_tool_add").on( "click", function()
+		{
+			if ( gEditing )
+			{
+				mv_alert( "You didn't finish editing another comment. It's not possible to change two comments at the same time" );
+				return;
+			}
+			
+			gEditing = true;
+
+			
+			var elem = $(this).parent();
+			var resultid = elem.attr( "data-id");
+			
+			var row = find_parent( elem, "tr" );
+			row.after( get_comment_edit_area( resultid, 0 , col_headers.length ) );
+			
+			let widget = null;
+			let commentTextarea = $("#textarea_" + resultid + "_0" );
+			set_dragdrop_target( commentTextarea,  function ( e ) { widget = e;}, resultid , json );
+			
+			var quill = new Quill("#textarea_" + resultid + "_0" , {
+			  placeholder: 'Comment text here...',
+			  theme: 'bubble'  // or 'bubble'
+			});
+			
+			assure_text_paste( quill );
+
+			
+			let discardBtn = $("#discard_" + resultid + "_0" );
+			let publishBtn = $("#publish_" + resultid + "_0" );
+			
+			publishBtn.on( "click" , function () {
+				$(".comment_tool_add").css("visibility", "visible" );
+				var comment = quill.getText();
+				row.next().remove();
+				if ( !comment || comment == "" ) return;
+				
+				var inserted_comment = null;
+				
+				// Modify the json 
+				for( var i = 0 ; i < results.length ; i++ )
+				{
+					var r = results[i];
+					if ( r['id'] == resultid )
+					{
+						if ( r['comments'] )
+							r['comments'].splice( 0, 0,  {'text': comment, 'id': -1 } );
+						else
+							r['comments'] = [{'text': comment, 'id': -1 }]
+						inserted_comment = r['comments'][0];
+						// Refresh
+						gEditing = false;
+						show_results( json, el , stats, options );
+						break;
+					}
+				}
+				do_actual_add( resultid, comment, function ( comment_id ) 
+				{
+					inserted_comment['id'] = comment_id;
+					$('.comment_tools').each( function( index ) {
+						var dataid = $(this).attr( "data-id" );
+						if ( dataid == -1 )
+							$(this).attr( "data-id" , comment_id );
+					});
+				});
+			});
+
+			
+			discardBtn.css( "right", publishBtn.parent().width() - publishBtn.position().left + 15 );
+			discardBtn.on( "click" , function () {
+				gEditing = false;
+				row.next().remove();
+			});
+			
+			add_comment_for_result( resultid );
+		});
+		
+		//
+		// Delete comment
+		//
+		$(".comment_tool_delete").on( "click", function()
+		{
+			var elem = $(this).parent();
+			var comment_id = elem.attr( "data-id");
+			
+			
+			$("body").append( get_modal_element_html( "modal_delete", "Are you sure you want to delete this comment?" , "Delete", "Cancel"));
+			show_modal( 'modal_delete' );
+
+	
+			$('#modal_delete').on( "shown.bs.modal" , function()
+			{
+				$('#mbYes').on( "click" , function() 
+				{ 
+					// Modify the json 
+					for( var i = 0 ; i < results.length ; i++ )
+					{
+						var r = results[i];
+						if ( !r["comments"] ) 
+							r["comments"] = [];
+						for( var j = 0 ; j < r["comments"].length ; j++ )
+						{
+							var comment = r['comments'][j];
+							if ( comment.id == comment_id )
+							{
+								r["comments"].splice(j,1);
+								show_results( json, el , stats, options );
+								break;
+							}
+						}
+					}
+					do_actual_delete( comment_id, function () {} ) ; 
+				} );
+			});
+		
+		});
+	}
+	else  // suggestions
+	{
+		var suggestions = json["suggestions"];
+	
+		for( var i = 0 ; i < suggestions.length ; i++ )
+		{
+			var suggest = suggestions[i];
+			
+			
+			var url = "./query/" + encodeURIComponent( suggest["name"] );
+			var a = "<a href='" + url + "'>" + suggest["name"] + "</a>&nbsp(" + suggest["count"] + ")";
+			
+			var row = [ a ];
+			dataSet.push( row );
+		}
+		
+		const bPaging = dataSet.length > 1000;
+		
+		var col_headers = [  { title:"Did you mean one of these?" }  ];
+
+		$('#fetching').html("");
+		$('#resultsTable').DataTable( {
+			"ordering": false, 
+			"searching": false,
+			"lengthChange": false, 
+			"pageLength" : 50,
+			"paging": bPaging,
+			data: dataSet,
+			columns: col_headers
+		} );
+		
+	}
+
+	return true;
+
+
+}
+
+function modify_pagination()
+{
+
+	$('.paginate_button.previous').html( "<i class='fa fa-step-backward' aria-hidden='true'>" );
+	$('.paginate_button.next').html( "<i class='fa fa-step-forward' aria-hidden='true'>" );
+	$('.paginate_button').css( 'border-radius', '50%');
+	$('.paginate_button').css( 'color', 'red !important');
+	$('.paginate_button').css( 'border-style', 'none');
+	$('.paginate_button').css( 'background-image', 'none');
+	$('.paginate_button.current').css( 'background-color', '#EFEFEF');
+	
+	$( '.paginate_button' ).each(function () {
+		this.style.setProperty( 'color', 'black', 'important' );
+	});
+	
+	$( '.paginate_button' ).hover(
+		function () { this.style.setProperty( 'color', '#0069D9', 'important' );},
+		function () { this.style.setProperty( 'color', 'black', 'important' );}		
+	);
+
+	
+	
+}
+
+// This is taken from banners.ts
+function is_result_major( result ) 
+{
+    if ( !result ) return false;
+    const dt = new Date( Date.parse(  result.date ));
+    switch( result.series_id ) 
+    {
+        case 54:
+        case 55:
+        case 56: 
+        case 57:
+        case 59:   return true;
+        case 108: return true;
+       // case 108: return dt.getFullYear() >= 2012; // Tokyo
+        case 113: return dt.getFullYear() >= 2024; // Sydney
+        default: return false;
+    }
+}
+
+function count_majors(  results  ) 
+{
+	if ( !results ) return 0;
+  const my_majors = new Set()
+  results.forEach ( r  => { if (  is_result_major( r )  ) my_majors.add(   Number( r.series_id  ))  } ); 
+	return {
+		count : my_majors.size
+	}
+ 
+}
+
+/*
+
+function count_majors( data )
+{
+	if ( !data ) return null;
+	var results = data["results"];
+	if ( !results ) return null;
+	
+	var majors = { "54" : 0 , "55" : 0 , "56" : 0 , "57" : 0 , "59" : 0, "108" : 0, "113" : 0 }
+	var major_names  = { "54": "New York", "55": "Berlin", "56": "Boston", "57": "London", "59": "Chicago", "108" : "Tokyo", "113": "Sydney" };
+	
+	var majors_string = "";
+	
+	var wins = 0;
+	var podiums = 0;
+
+	
+	for( var i = 0 ; i < results.length ; i++ )
+	{
+		var res = results[i];	
+		
+		if ( res[ "series_id" ] != null )
+		{
+			var ser = String( res[ "series_id" ] );
+			switch( ser )
+			{
+				case "54" :  
+				case "55" : 
+				case "56" : 
+				case "57" : 
+				case "59" : 
+				case "108" :
+				case "113" :
+					majors[ ser ]++;
+					if ( res["rank_gender"] == 1 )
+						wins++;
+					else
+					{
+						if ( res["rank_gender"] == null && res["rank"] == 1 )
+							wins++;
+					}
+					if ( res["rank_gender"] == 1 || res["rank_gender"] == 2 || res["rank_gender"] == 3)
+						podiums++;
+					else
+					{
+						if ( res["rank_gender"] == null && (res["rank"] == 1 || res["rank"] == 2 || res["rank"] == 3 ) )
+							podiums++;
+					}
+					break;
+				default:
+					break;	
+			}
+		}			
+	}
+	
+	var mc = 0;
+	var first = true;
+	for (var ser in majors) 
+	{
+		if (majors.hasOwnProperty(ser)) 
+		{
+			if ( majors[ser] > 0 )
+			{
+				mc++;
+			
+				if ( !first )
+				{
+					majors_string += ", ";
+				}
+				else
+					first  = false;
+				majors_string += major_names[ser];
+			}
+		}	
+
+	}
+	
+	var ret = {};
+	ret.count = mc;
+	ret.string = majors_string;
+	ret.wins = wins;
+	ret.podiums = podiums;
+	return ret;
+}
+*/
+
+const real_result = res => res[ "personal_time" ] != null  ? res[ "personal_time" ] : res[ "result" ];
+
+function heat_type_details( results, heat_type )
+{
+  let personal_best = null;
+	let result_best = null;
+	let ag_best = null;
+	let min_personal = -1;
+	let min_result = -1;	
+	let min_ag = -1;	
+  
+  let count = 0;
+	
+	for( let i = 0 ; i < results.length ; i++ )
+	{
+		const res = results[i];	
+    if ( heat_type  && res["heat_type"] != heat_type  ) continue;
+    count++;
+		if ( real_result( res ) != null )
+		{
+			const m = real_result( res ) ;
+			if ( m < min_personal || min_personal == -1 )
+			{
+				personal_best = res;
+				min_personal = m;
+			}
+		}
+
+		if ( heat_type == 3 && res[ "result_ag" ] != null )
+		{
+			const m = parseInt( res[ "result_ag" ] );
+			if ( m < min_ag || min_ag == -1 )
+			{
+				ag_best = res;
+				min_ag = m;
+			}
+		}		
+		
+		if ( res[ "result" ] != null )
+		{
+			const m = parseInt( res[ "result" ] );
+			if ( m < min_result || min_result == -1 )
+			{
+				result_best = res;
+				min_result = m;
+			}
+		}
+  }
+
+	const ret = { count : count , personal_best : personal_best , result_best : result_best   };
+	if ( ag_best )
+		ret["ag_best"] = ag_best;
+  return ret; ;
+  
+}
+
+
+// returns interesting data about the data set
+// "personal_best" - results with best personal (index in array)
+// "result_best" - results with best result (index in array)
+// gender - M, F or null
+// major_count (0 to 6 )
+// Country count
+function get_stats( data, heat_type = 3  )
+{
+	if ( !data ) return null;
+	const base_results = data["results"];
+	if ( !base_results  || base_results.length == 0 ) return null;
+	
+	
+	let gender = null;
+	let major_count = 0;
+	let country_count = 0;
+	
+	const countries = [];
+	const runner_countries = [];
+	let male_count = 0;
+	let female_count = 0;
+	
+	let marathon_count = 0;
+	
+	const do_hide = ( ( typeof g_hide_parkruns !== 'undefined' ) && g_hide_parkruns );
+	
+	const results = do_hide ?  base_results.filter( res => !( res["heat_type"] == 2 && res[ "event_name" ].toUpperCase().includes("PARKRUN")) ) : base_results;
+  
+  const bests = {};
+  if ( heat_type == 0 )
+  {
+    bests.marathon = heat_type_details( results, 3 ); 
+    bests.half_marathon = heat_type_details( results, 4 ); 
+    bests.ten_k = heat_type_details( results, 1 ); 
+    bests.five_k = heat_type_details( results, 2 ); 
+    bests.fifteen_k = heat_type_details( results, 6 ); 
+		bests.ironman = heat_type_details( results, 7 ); 
+		bests.half_ironman = heat_type_details( results, 8 ); 
+  }
+	else
+    bests.marathon = heat_type_details( results, 3 ); 
+		
+	
+	for( let i = 0 ; i < results.length ; i++ )
+	{
+		const res = results[i];	
+		
+    if ( heat_type  && res["heat_type"] != heat_type  ) continue;
+		
+		if ( do_hide )
+		{
+			if ( res["heat_type"] == 2 && res[ "event_name" ].toUpperCase().includes("PARKRUN"))
+				continue;
+		}
+ 
+		marathon_count++;
+
+		const event_country = res["event_country"] ?  res["event_country"].toLowerCase() : null;
+		if ( event_country )
+		{
+			if ( !countries.includes( event_country ))
+				countries.push( event_country );
+		}
+
+		const country = res["country"] ?  res["country"].toLowerCase() : null;
+		if ( country )
+		{
+			if ( !runner_countries.includes( country ))
+				runner_countries.push( country );
+		}
+		
+		const g = res["gender"];
+		if ( g == "M" || g == "m" ) male_count++;
+		if ( g == "F" || g == "f" ) female_count++;
+		
+	}
+	
+	let virtual_gender = 'M';
+	
+	if ( male_count > 0 && !female_count ) virtual_gender = "M";
+	if ( female_count > 0 && !male_count ) virtual_gender = "F";
+	
+	return { "count" : marathon_count, "majors" : data.additional_info.majors_info , "countries": countries.length, "runner_countries" : runner_countries , "virtual_gender" : virtual_gender, bests : bests};
+}
+
+function go_home()
+{
+	window.location.href = "./";
+}
+
+function go_login()
+{
+	window.location.href = "./login.php";
+}
+
+// D&d notifications
+
+function upload_image( data, json , token )
+{
+
+
+	let result_id =  data.tag; // We use .tag to transfer the result_id
+
+	// Modify the json. Add a fake image till we get confirmation about the opload
+	
+	let images = null;
+	
+	for( let i = 0 ; i < json['results'].length ; i++ )
+	{
+		let result = json['results'][i];
+		
+		if ( result['id'] == result_id )
+		{
+			images = result['images'];
+			if ( !images )
+				images = [];
+			// Hack. We put the resultid in the location of the image id.
+			images.push(  { id:result_id , src: data.image } );	
+			break;
+		}
+		
+	}
+
+	build_person_results( json );
+	const post_data = { result_id : data.tag, image_id : data.id}
+	
+	
+
+	$.ajax( {
+	type: "POST",
+	//url: "./api/v2.0/user/" + json.additional_info.member_info.fid + "/result/image/?token=" + token, 
+	url: "./php/apicall.php?resource=user/" + json.additional_info.member_info.fid + "/result/image",
+	dataType: "json",
+	data : JSON.stringify( post_data),
+	success: function(data)
+	{	
+		for( let i = images.length - 1 ; i >= 0 ; i-- )
+		{
+			let image = images[i];
+			if ( image.id == result_id )
+			{
+				image['id'] = data['id'];
+				image['src'] = data['src'];
+			}
+		}
+		build_person_results( json );
+
+	},
+	failure: function(errMsg) 
+	{
+			mv_alert( errMsg );
+
+	},
+	error: function (e )
+	{
+		mv_alert( e.responseText );
+	}
+	});
+}
+
+function ui_add_log(message, color)
+{
+	console.log( message );
+}
+
+// Creates a new file and add it to our list
+function ui_multi_add_file(id, file)
+{
+}
+
+// Changes the status messages on our list
+function ui_multi_update_file_status(id, status, message)
+{
+}
+
+// Updates a file progress, depending on the parameters it may animate it or change the color.
+function ui_multi_update_file_progress(id, percent, color, active)
+{
+
+}
+
+
+</script>
+<!-- js/mvinit.js-->
+<script>
+
+$(function() 
+{
+
+	if ( get_cookie( "accept_cookies" ))
+	{
+		$( "#cookie_usage" ).css( "visibility", "hidden" );
+	}
+
+	// Send heartbit every minute
+	// This is done to keep the PHP session alive
+	// 2025-12-14 I don't see a need for that
+	//window.setInterval( heartbit, 60000 );	
+	
+	function heartbit()
+	{
+		var token = get_cookie("access_token");
+		if ( token ) // No need to send it if we're not logged on
+		{
+			console.log( "Sending heartbit" );
+			get_api_data( "version&token=" + token , null );
+		}
+
+	}
+
+	
+});
+
+</script>
+<!-- js/bq.js-->
+<script>
+
+/*
+
+{ bq: true, result: record, race_count: 2, gender: "M", has_gender: true, boston_age: 32, has_age, agegroup , qualifying_time:  }
+
+*/
+
+
+var gQualifyStartDate = new Date( 2018, 9, 15);
+var gBostonEdition = new Date( 2020, 4, 20);
+var gMaleQualficationTimes = [ 10800, 11100, 11400, 12000, 12300, 12900, 13800, 14700, 15600, 16500, 17400 ];
+var gMaleQualficationTimes = [ 12600, 12900, 13200, 13800, 14100, 14700, 15600, 16500, 17400, 18300, 19200 ];
+
+var gAgeGroups = [ 18, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80 ];
+var gAgeGroupNames = [ "18-34", "35-39", "40-44", "45-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80 and over" ];
+
+// https://stackoverflow.com/questions/4060004/calculate-age-given-the-birth-date-in-the-format-yyyymmdd
+function getAge( bd ) 
+{
+    var gBostonEdition = new Date();
+    var age = gBostonEdition.getFullYear() - bd.getFullYear();
+    var m = gBostonEdition.getMonth() - bd.getMonth();
+    if (m < 0 || (m === 0 && gBostonEdition.getDate() < bd.getDate())) {
+        age--;
+    }
+    return age;
+}
+
+function get_bq_data( results, bd, gender )
+{
+	var ret = {};
+	
+	var has_gender = true;
+	
+	if ( !gender )
+	{
+		has_gender = false;
+		gender = "M";
+	}
+	else
+	{
+		gender = gender.toUpperCase();
+		if ( gender != "M" && gender != "F" )
+		{
+			has_gender = false;
+			gender = "M";
+		}
+	}
+
+	ret["has_gender"] = has_gender;
+	ret["gender"] = gender;
+	
+	var has_age = true;
+	var boston_age = 18;
+	if ( !bd  || !(bd instanceof Date) )
+	{
+		has_age = false;
+	}
+	else
+	{
+		boston_age = getAge( bd );
+	}
+	
+	// Iterate over all results and find ones that are inside the window
+	// Select the one with highest delta 
+	var race_count = 0;
+	var bq_delta = -1;
+	
+	// find group age
+	var idx = 0;
+	var found = false;
+
+	if ( boston_age > 18 )	
+	{
+		for( var i = 1 ; i < gAgeGroups.length ; i++ )
+		{
+			if ( boston_age < gAgeGroups[i] )
+			{
+				found = true;
+				idx = i-1;
+				break;
+			}
+		}
+	}
+	else
+		found = true;
+	
+	if ( !found )
+		idx = gAgeGroups.length-1; // Maximal age
+	
+	var qualifying_time;
+	
+	if ( gender == "M" )
+		qualifying_time = gMaleQualficationTimes[ idx ];
+	else
+		qualifying_time = gFemaleQualficationTimes[ idx ];
+	
+	var bq = false;
+	var result = null;
+	
+	for( var i = 0 ; i < results.length ; i++ )
+	{
+		var res = results[i];
+		var event_date = parse_date( res["eventdate"] );
+		if ( event_date >= gQualifyStartDate )
+		{
+			race_count++;
+			var my_result = get_result_as_number( res );
+			if ( my_result < qualifying_time )
+			{
+				bq = true;
+				if ( ((qualifying_time - my_result) > delta) || result == null )
+				{
+					result = results[i];
+					delta = qualifying_time - my_result;
+				}
+			}
+		}
+	}
+	
+	ret[ "bq" ] = bq;
+	ret[ "result" ] = result;
+	ret[ "qualifying_time" ] = qualifying_time;
+	ret[ "agegroup" ] = gAgeGroupNames[ idx ] + gender;
+	ret["race_count"] = race_count;
+	
+	return ret;
+}</script>
+<!-- js/countries.js-->
+<script>
+const countries = {
+	"abw" : "Aruba",
+	"afg" : "Afghanistan",
+	"ago" : "Angola",
+	"aia" : "Anguilla",
+	"ala" : "Åland Islands",
+	"alb" : "Albania",
+	"and" : "Andorra",
+	"are" : "United Arab Emirates",
+	"arg" : "Argentina",
+	"arm" : "Armenia",
+	"asm" : "American Samoa",
+	"ata" : "Antarctica",
+	"atf" : "French Southern Territories",
+	"atg" : "Antigua and Barbuda",
+	"aus" : "Australia",
+	"aut" : "Austria",
+	"aze" : "Azerbaijan",
+	"bdi" : "Burundi",
+	"bel" : "Belgium",
+	"ben" : "Benin",
+	"bes" : "Bonaire",
+	"bfa" : "Burkina Faso",
+	"bgd" : "Bangladesh",
+	"bgr" : "Bulgaria",
+	"bhr" : "Bahrain",
+	"bhs" : "Bahamas",
+	"bih" : "Bosnia and Herzegovina",
+	"blm" : "Saint Barthélemy",
+	"blr" : "Belarus",
+	"blz" : "Belize",
+	"bmu" : "Bermuda",
+	"bol" : "Bolivia",
+	"bra" : "Brazil",
+	"brb" : "Barbados",
+	"brn" : "Brunei Darussalam",
+	"btn" : "Bhutan",
+	"bvt" : "Bouvet Island",
+	"bwa" : "Botswana",
+	"caf" : "Central African Republic",
+	"can" : "Canada",
+	"cck" : "Cocos (Keeling) Islands",
+	"che" : "Switzerland",
+	"chl" : "Chile",
+	"chn" : "China",
+	"civ" : "Côte d'Ivoire",
+	"cmr" : "Cameroon",
+	"cod" : "Congo (the Democratic Republic of the)",
+	"cog" : "Congo",
+	"cok" : "Cook Islands",
+	"col" : "Colombia",
+	"com" : "Comoros",
+	"cpv" : "Cabo Verde",
+	"cri" : "Costa Rica",
+	"cub" : "Cuba",
+	"cuw" : "Curaçao",
+	"cxr" : "Christmas Island",
+	"cym" : "Cayman Islands",
+	"cyp" : "Cyprus",
+	"cze" : "Czech Republic",
+	"deu" : "Germany",
+	"dji" : "Djibouti",
+	"dma" : "Dominica",
+	"dnk" : "Denmark",
+	"dom" : "Dominican Republic",
+	"dza" : "Algeria",
+	"ecu" : "Ecuador",
+	"egy" : "Egypt",
+	"eri" : "Eritrea",
+	"esh" : "Western Sahara",
+	"esp" : "Spain",
+	"est" : "Estonia",
+	"eth" : "Ethiopia",
+	"fin" : "Finland",
+	"fji" : "Fiji",
+	"flk" : "Falkland Islands",
+	"fra" : "France",
+	"fro" : "Faroe Islands",
+	"fsm" : "Micronesia (Federated States of)",
+	"gab" : "Gabon",
+	"gbr" : "United Kingdom of Great Britain and Northern Ireland",
+	"geo" : "Georgia",
+	"ggy" : "Guernsey",
+	"gha" : "Ghana",
+	"gib" : "Gibraltar",
+	"gin" : "Guinea",
+	"glp" : "Guadeloupe",
+	"gmb" : "Gambia",
+	"gnb" : "Guinea-Bissau",
+	"gnq" : "Equatorial Guinea",
+	"grc" : "Greece",
+	"grd" : "Grenada",
+	"grl" : "Greenland",
+	"gtm" : "Guatemala",
+	"guf" : "French Guiana",
+	"gum" : "Guam",
+	"guy" : "Guyana",
+	"hkg" : "Hong Kong",
+	"hmd" : "Heard Island and McDonald Islands",
+	"hnd" : "Honduras",
+	"hrv" : "Croatia",
+	"hti" : "Haiti",
+	"hun" : "Hungary",
+	"idn" : "Indonesia",
+	"imn" : "Isle of Man",
+	"ind" : "India",
+	"iot" : "British Indian Ocean Territory",
+	"irl" : "Ireland",
+	"irn" : "Iran",
+	"irq" : "Iraq",
+	"isl" : "Iceland",
+	"isr" : "Israel",
+	"ita" : "Italy",
+	"jam" : "Jamaica",
+	"jey" : "Jersey",
+	"jor" : "Jordan",
+	"jpn" : "Japan",
+	"kaz" : "Kazakhstan",
+	"ken" : "Kenya",
+	"kgz" : "Kyrgyzstan",
+	"khm" : "Cambodia",
+	"kir" : "Kiribati",
+	"kna" : "Saint Kitts and Nevis",
+	"kor" : "South Korea",
+	"kwt" : "Kuwait",
+	"lao" : "Lao People's Democratic Republic",
+	"lbn" : "Lebanon",
+	"lbr" : "Liberia",
+	"lby" : "Libya",
+	"lca" : "Saint Lucia",
+	"lie" : "Liechtenstein",
+	"lka" : "Sri Lanka",
+	"lso" : "Lesotho",
+	"ltu" : "Lithuania",
+	"lux" : "Luxembourg",
+	"lva" : "Latvia",
+	"mac" : "Macao",
+	"maf" : "Saint Martin",
+	"mar" : "Morocco",
+	"mco" : "Monaco",
+	"mda" : "Moldova",
+	"mdg" : "Madagascar",
+	"mdv" : "Maldives",
+	"mex" : "Mexico",
+	"mhl" : "Marshall Islands",
+	"mkd" : "North Macedonia",
+	"mli" : "Mali",
+	"mlt" : "Malta",
+	"mmr" : "Myanmar",
+	"mne" : "Montenegro",
+	"mng" : "Mongolia",
+	"mnp" : "Northern Mariana Islands",
+	"moz" : "Mozambique",
+	"mrt" : "Mauritania",
+	"msr" : "Montserrat",
+	"mtq" : "Martinique",
+	"mus" : "Mauritius",
+	"mwi" : "Malawi",
+	"mys" : "Malaysia",
+	"myt" : "Mayotte",
+	"nam" : "Namibia",
+	"ncl" : "New Caledonia",
+	"ner" : "Niger",
+	"nfk" : "Norfolk Island",
+	"nga" : "Nigeria",
+	"nic" : "Nicaragua",
+	"niu" : "Niue",
+	"nld" : "Netherlands",
+	"nor" : "Norway",
+	"npl" : "Nepal",
+	"nru" : "Nauru",
+	"nzl" : "New Zealand",
+	"omn" : "Oman",
+	"pak" : "Pakistan",
+	"pan" : "Panama",
+	"pcn" : "Pitcairn",
+	"per" : "Peru",
+	"phl" : "Philippines",
+	"plw" : "Palau",
+	"png" : "Papua New Guinea",
+	"pol" : "Poland",
+	"pri" : "Puerto Rico",
+	"prk" : "North Korea",
+	"prt" : "Portugal",
+	"pry" : "Paraguay",
+	"pse" : "State of Palestine",
+	"pyf" : "French Polynesia",
+	"qat" : "Qatar",
+	"reu" : "Réunion",
+	"rou" : "Romania",
+	"rus" : "Russian Federation",
+	"rwa" : "Rwanda",
+	"sau" : "Saudi Arabia",
+	"sdn" : "Sudan",
+	"sen" : "Senegal",
+	"sgp" : "Singapore",
+	"sgs" : "South Georgia and the South Sandwich Islands",
+	"shn" : "Saint Helena",
+	"sjm" : "Svalbard",
+	"slb" : "Solomon Islands",
+	"sle" : "Sierra Leone",
+	"slv" : "El Salvador",
+	"smr" : "San Marino",
+	"som" : "Somalia",
+	"spm" : "Saint Pierre and Miquelon",
+	"srb" : "Serbia",
+	"ssd" : "South Sudan",
+	"stp" : "Sao Tome and Principe",
+	"sur" : "Suriname",
+	"svk" : "Slovakia",
+	"svn" : "Slovenia",
+	"swe" : "Sweden",
+	"swz" : "Eswatini",
+	"sxm" : "Sint Maarten (Dutch part)",
+	"syc" : "Seychelles",
+	"syr" : "Syrian Arab Republic",
+	"tca" : "Turks and Caicos Islands",
+	"tcd" : "Chad",
+	"tgo" : "Togo",
+	"tha" : "Thailand",
+	"tjk" : "Tajikistan",
+	"tkl" : "Tokelau",
+	"tkm" : "Turkmenistan",
+	"tls" : "Timor-Leste",
+	"ton" : "Tonga",
+	"tto" : "Trinidad and Tobago",
+	"tun" : "Tunisia",
+	"tur" : "Turkey",
+	"tuv" : "Tuvalu",
+	"twn" : "Taiwan",
+	"tza" : "Tanzania",
+	"uga" : "Uganda",
+	"ukr" : "Ukraine",
+	"ury" : "Uruguay",
+	"usa" : "United States of America",
+	"uzb" : "Uzbekistan",
+	"vat" : "Holy See",
+	"vct" : "Saint Vincent and the Grenadines",
+	"ven" : "Venezuela",
+	"vgb" : "Virgin Islands (British)",
+	"vir" : "Virgin Islands (U.S.)",
+	"vnm" : "Viet Nam",
+	"vut" : "Vanuatu",
+	"wlf" : "Wallis and Futuna",
+	"wsm" : "Samoa",
+	"yem" : "Yemen",
+	"zaf" : "South Africa",
+	"zmb" : "Zambia",
+	"zwe" : "Zimbabwe",
+}
+
+
+function get_country_name( s )
+{
+	if ( !s ) 
+		return "Unknown";
+	s = s.toLowerCase();
+	if ( countries.hasOwnProperty( s ))
+		return countries[s];
+	return s;
+}
+</script>
+<!-- js/fetch_api.js-->
+<script>
+
+const   headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+
+async function general_get_data( url , method , obj, options )
+{
+	
+	
+	try {
+		const body = obj ? JSON.stringify( obj) : null;
+		const response = await fetch( url, {method: method, body : body ,  headers : headers} );
+		if ( response.status == 200 )
+		{
+			const data = await response.json();
+			return { status : 200 , body : data };
+		}
+		else 
+		{
+			const text = await response.text();
+			return { status : response.status, body: text };	
+		}
+		
+	}
+	catch( e )
+	{
+		return { status: 400, body : e.message }
+	}
+}
+
+
+async function get_data( url , options = {} )
+{
+	const response = await general_get_data( url , "GET", null, options );
+	return response;
+}
+
+let root_url = get_root_url();
+root_url = /\/$/.test( root_url ) ? root_url : ( root_url + '/' ) 
+
+const base_api = root_url + "php/apicall.php?resource=";
+
+async function get_api_data( url , options = {} )
+{
+	const response = await general_get_data( base_api + url , "GET", null, options );
+	return response;
+}
+
+async function delete_data( url , options = {} )
+{
+	const response = await general_get_data( url , "DELETE", null, options );
+	return response;
+}
+
+async function delete_api_data( url , options = {} )
+{
+	const response = await delete_data( base_api + url , options );
+	return response;
+}
+
+async function post_data( url , obj, options = {})
+{
+	const response = await general_get_data( url , "POST", obj, options );
+	return response;
+}
+
+async function post_api_data( url , obj , options = {} )
+{
+	const response = await post_data( base_api + url , obj, options );
+	return response;
+}
+
+async function put_data( url , obj, options = {} )
+{
+	const response = await general_get_data( url , "PUT", obj, options );
+	return response;
+}
+
+async function put_api_data( url , obj , options  = {})
+{
+	const response = await put_data( base_api + url , obj, options );
+	return response;
+}
+</script>
+<!-- js/comments.js-->
+<script>
+
+function get_comment_tools( id , can_delete, can_edit, can_expand, can_add , can_upload, class_name = 'comment_tools')
+{
+	let ret = "<span class='" + class_name + "' data-id=" + id + ">";
+	
+	if ( can_delete )
+		ret += "<button title='Delete this comment' class='btn btn-primary comment_tool comment_tool_delete'>Delete</button>";
+	if ( can_edit )
+		ret += "<button title='Edit this comment'  class='btn btn-primary comment_tool comment_tool_edit'>Edit</i>";	
+	if ( can_expand )
+		ret += "<i  title='Expand'  class='comment_tool comment_tool_expand fa fa-commenting fa-lg'>&nbsp;</i>";	
+	if ( can_add )
+		ret += "<i  title='Add Comment'  class='comment_tool comment_tool_add fa fa-commenting'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>";	
+	if ( can_upload )
+		ret += "<i  title='Upload Image'  class='comment_tool comment_tool_upload fa fa-picture-o'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>";	
+	ret += "</span>";
+	
+	return ret;
+}
+
+function get_comment_edit_area( resultid, comment_id , col_count )
+{
+	return "<tr class='comment_edit_row'><td colspan='" + col_count + "'><div class='comment_textarea_wrapper'><div class='comment_textarea'  id='textarea_" + resultid + "_" + comment_id + "'  placeholder='Comment text here...'></div><button class='btn btn-primary' id='publish_" + resultid + "_" + comment_id + "'>Publish</button><button title='Discard' class='btn btn-primary' id='discard_" + resultid + "_" + comment_id + "'>Discard</button></div></td></tr>";
+}
+
+
+function get_modal_element_html( id, text, yes_text, no_text )
+{
+	var ret = "";
+	ret += "<div class='modal fade' id='" + id + "' tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true'>\n";
+	ret += "<div class='modal-dialog modal-dialog-centered' role='document'>\n";
+	ret += "<div class='modal-content'>\n";
+	ret += "<div class='modal-header'>\n";
+	ret += "<h5 class='modal-title' id='modalAcceptLabel'>" + text + "</h5>\n";
+	ret += "</div>\n";
+	ret += "<div class='modal-footer'>\n";
+	ret += ("<button type='button' class='btn btn-primary' data-bs-dismiss='modal' id='mbYes'>" + yes_text +"</button>\n");
+	ret += ("<button type='button' class='btn btn-outline-dark' data-bs-dismiss='modal' id='mbNo' >" + no_text +"</button>\n");
+	ret += "</div>\n";
+	ret += "</div>\n";
+	ret += "</div>\n";
+	ret += "</div>\n";
+	return ret;
+}
+
+function strip_html( str )
+{
+	str=str.replace(/</gi, "&lt;");
+	str=str.replace(/>/gi, "&gt;");
+	
+	// https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url
+	var expression = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+	var regex = new RegExp(expression);
+	
+	str = str.replace( regex, "<a target='_new' href='$1'>$1</a>" );
+	
+	const lines = str.split('\n');
+	for( let i = lines.length - 1 ; i >= 0 ; i-- )
+	{
+		if ( lines[i] == "" )
+			lines.pop();
+		else
+			break;
+	}
+	
+	str = lines.join('<br>');
+	
+	return str;
+}
+
+
+
+function add_comment_for_result( resultid )
+{
+}
+
+// delete_callback is a callback function that is called after succuessful deletion 
+function delete_comment( comment_id , delete_callback)
+{
+
+}
+
+function do_actual_update( comment_id, comment, update_callback )
+{
+	const data = { "comment": comment };
+	const p = put_api_data(  "comment/" + comment_id,  data , null );
+	p.then(
+		res => {
+			if ( res.status == 200 )
+				update_callback(  res.body['id'] )
+			else
+				mv_alert( res.body );
+		},
+		e => mv_alert( e )
+	)
+}
+
+function do_actual_add( resultid, comment, add_callback )
+{
+	const data = { "resultid" : resultid, "comment": comment };
+	const p = post_api_data(  "comment",  data , null );
+	p.then(
+		res => {
+			if ( res.status == 200 )
+				add_callback(  res.body['id'] )
+			else
+				mv_alert( res.body );
+		},
+		e => mv_alert( e )
+	)
+}
+
+function do_actual_delete( comment_id, delete_callback )
+{
+	const p = delete_api_data(  "comment/" + comment_id, null );
+	p.then(
+		res => {
+			if ( res.status == 200 )
+				delete_callback( )
+			else
+				mv_alert( res.body );
+		},
+		e => mv_alert( e )
+	)
+}
+
+function do_actual_image_delete( resultid, imageid, fid, delete_callback ) 
+{
+	const p = delete_api_data(  `user/${fid}/result/image/${imageid}`, null);
+	p.then(
+		res => {
+			if ( res.status == 200 )
+				delete_callback( )
+			else
+				mv_alert( res.body );
+		},
+		e => mv_alert( e )
+	)
+
+}
+
+const token = get_cookie( "access_token" );
+
+function set_dragdrop_target( el , callback, resultid , json)
+{
+
+	el.dmUploader({ //
+	//url: 'php/upload.php?resultid=' + resultid ,
+	url: 'api/v2.0/upload/image/?token=' + token + '&tag=' + resultid,
+	maxFileSize: 3000000, // 3 Megs 
+   // allowedTypes: 'image/*',
+	onDragEnter: function(){
+	  // Happens when dragging something over the DnD area
+	  this.addClass('active');
+	},
+	onDragLeave: function(){
+	  // Happens when dragging something OUT of the DnD area
+	  this.removeClass('active');
+	},
+	onInit: function( e ){
+	  // Plugin is ready to use
+	  // The callback was added to provide a method to access "this" of the object
+	  if ( callback )
+		  callback( e );
+	},
+	onComplete: function(){
+	  // All files in the queue are processed (success or error)
+	  ui_add_log('All pending tranfers finished');
+	},
+	onNewFile: function(id, file){
+	  // When a new file is added using the file selector or the DnD area
+	  if ( !file.type || file.type.length < 5 || file.type.toUpperCase().substr(0,5) != "IMAGE" )
+	  {
+		  mv_alert( "This is not an image file");
+		  return false;
+	  }
+		if ( file.type.toUpperCase() == 'IMAGE/GIF' )
+		{
+			mv_alert( "GIF files are not supported. Please choose png, or jpeg");
+		  return false;
+		}
+	  ui_add_log('New file added #' + id);
+	  ui_multi_add_file(id, file);
+	  return true;
+	},
+	onBeforeUpload: function(id){
+	  //hide_error();
+	  //notify_upload_progress( 0 );		
+	  // about tho start uploading a file
+	  ui_add_log('Starting the upload of #' + id);
+	  ui_multi_update_file_status(id, 'uploading', 'Uploading...');
+	  ui_multi_update_file_progress(id, 0, '', true);
+	},
+	onUploadCanceled: function(id) {
+	  // Happens when a file is directly canceled by the user.
+	  ui_multi_update_file_status(id, 'warning', 'Canceled by User');
+	  ui_multi_update_file_progress(id, 0, 'warning', false);
+	},
+	onUploadProgress: function(id, percent){
+	  // Updating file progress
+	  //notify_upload_progress( percent );
+	  ui_multi_update_file_progress(id, percent);
+	},
+	onUploadSuccess: function(id, data)
+	{
+	  upload_image( data , json, token);	
+	  // A file was successfully uploaded
+	  
+	  ui_add_log('Server Response for file #' + id + ': ' + JSON.stringify(data));
+	  ui_add_log('Upload of file #' + id + ' COMPLETED', 'success');
+	  ui_multi_update_file_status(id, 'success', 'Upload Complete');
+	  ui_multi_update_file_progress(id, 100, 'success', false);
+	},
+	onUploadError: function(id, xhr, status, message){
+      mv_alert( message );
+	  ui_multi_update_file_status(id, 'danger', message);
+	  ui_multi_update_file_progress(id, 0, 'danger', false);  
+	},
+	onFallbackMode: function(){
+	  // When the browser doesn't support this plugin :(
+	  ui_add_log('Plugin cant be used here, running Fallback callback', 'danger');
+	},
+	onFileSizeError: function(file){
+		mv_alert( "This file cannot be used because it is too big. We allow file size of up to 3MB" );
+	}
+  });
+
+}
+
+</script>
+<!-- js/search_button.js-->
+<script>
+
+function set_class( elem , s )
+{
+	if( !s || s.length == 0 ) 
+	{
+		elem.removeClass('non_empty');
+		elem.addClass('empty');
+	}
+	else 
+	{
+		elem.addClass('non_empty');
+		elem.removeClass('empty');
+	}
+	
+}
+
+
+function init_search_button( id , initial_value, placeholder )
+{
+
+		if ( !document.querySelector( '#' + id ) );
+
+		const inner_html = `<input id='mv_home_search_box'  type='text' class='search_input search_box' placeholder='${placeholder}'>
+				<i id='mv_search_button' title='Click to search' class='fa fa-search fa-lg' aria-hidden='true'></i>
+				<i id='mv_clear_search_button' title='Click to clear search'  class='fa fa-xmark fa-solid fa-lg' aria-hidden='true'></i>`
+
+
+		$('#' + id).addClass( "search_box_wrapper" );
+		$('#' + id).html( inner_html );
+
+		const input_el = $( '#' + id + ' input');
+		input_el.autocomplete( { source : autocomplete_func} );
+		input_el.on( "autocompleteselect", (event,ui)  => { handle_search( ui.item.value) });
+
+		input_el.val( initial_value ? initial_value : '' );
+		set_class( $('#' + id), initial_value ? initial_value :  '' );
+		
+		input_el.on('keyup', function () 
+		{
+			const wrapper = $('#' + id);
+			set_class( wrapper, input_el.val() );
+		});
+
+		$(document).keypress(function(e) 
+		{
+			if(e.which == 13) 
+			{
+				handle_search(input_el.val());
+				e.preventDefault();
+				e.stopPropagation();
+				return false;
+			}
+		});
+	
+		$('#' + id + ' .fa-search' ).click( () => handle_search(input_el.val())); // Search
+		$('#' + id + ' .fa-solid' ).click( () =>  { input_el.val(''); input_el.focus() ;  set_class( $('#' + id), '' );   }); // Clear
+
+}
+
+// Validates the search string and if needed, modifies it.
+function validate_serach( s )
+{
+	return s;
+}
+
+function handle_search( s )
+{
+	if ( !s || s == "") 
+	{
+		$("#search_input").focus();
+		return;
+	}
+
+	s = validate_serach( s );
+	if ( !s || s == "") 
+	{
+		$("#search_input").focus();
+		return;
+	}
+	
+	s = s.trim();
+	
+	var reBlank = RegExp("\\s+");
+	
+	if ( !reBlank.test(s) ) // No blanks
+	{
+		var se = encodeURIComponent( s );
+		// Special treatment for '&'
+		se = se.replace(/%26/g, "%2526");		
+	
+		
+		if ( s[0] == "!" )
+			location.href = "query/" + se;
+		else
+			location.href = "word_search/" + encodeURIComponent(se);
+		return;
+	}
+	
+	if ( s.toLowerCase().startsWith( "event ") )
+	{
+		s = encodeURIComponent( s.substr( 6).trim() );
+		// Special treatment for '&'
+		s = s.replace(/%26/g, "%2526");			
+		
+		location.href = "event/" + s;
+		return;
+	}
+	
+	if ( s.toLowerCase().startsWith( "marathon ") )
+	{
+
+		s = encodeURIComponent( s.substr( 8).trim() );
+		// Special treatment for '&'
+		s = s.replace(/%26/g, "%2526");			
+
+		
+		location.href = "event/" + s;
+		return;
+	}
+
+	
+	if ( s.toLowerCase().startsWith( "series ") )
+	{
+		s = encodeURIComponent( s.substr( 6).trim() );
+		// Special treatment for '&'
+		s = s.replace(/%26/g, "%2526");			
+
+		location.href = "series/" + s;
+		return;
+	}
+
+	add_to_local_history(  s );
+	location.href = "./search?query=" + encodeURIComponent( s );
+
+}
+
+const MAX_HISTORY_LENGTH = 256;
+
+function get_local_history()
+{
+	const remote_history = typeof server_history !== 'undefined' ? server_history.map( item => item.name ) : [];
+	
+	const mv_local_history = localStorage.getItem('mv_local_history');
+	if ( !mv_local_history ) return [];
+	const history_obj = JSON.parse( mv_local_history ); 
+	if ( !history_obj ) return [];
+	return [ ...history_obj, ...remote_history];
+}
+
+function add_to_local_history( item )
+{
+	const history_obj = get_local_history();
+	if ( history_obj.includes( item ) ) return;
+	history_obj.push( item );
+	if ( history_obj.length > MAX_HISTORY_LENGTH )
+		history_obj.splice( 0, history_obj.length - MAX_HISTORY_LENGTH );
+	localStorage.setItem( 'mv_local_history', JSON.stringify( history_obj ));  
+}
+
+//https://api.jqueryui.com/autocomplete/#option-source
+function autocomplete_func( req, res )
+{
+	const local_history = get_local_history();
+	const filtered_history = local_history.filter( item => item.toLowerCase().includes( req.term.toLowerCase()) ); 
+	res( Array.from( new Set(  filtered_history)) );
+}
+</script>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  
+   <nav class="navbar  navbar-expand-lg navbar-dark fixed-top bg-dark mv-navbar">
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarNav">
+<ul class="navbar-nav mr-auto">
+  <li class="nav-item active">
+    <a class="nav-link mvlogobox" href="./"><img class='mvlogo' src='image/logo60-60.png' title='Home Page' /><span class="sr-only">&nbsp;</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./login">Log In</a>
+  </li>
+<li class="nav-item dropdown">
+<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+Info
+</a>
+<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+<a class="dropdown-item" href="./marathon-calendar">Marathon Calendar</a>
+<a class="dropdown-item" href="./recent-marathons-in-our-database">Recent Results</a>
+<a class="dropdown-item" href="./marathon-top-results">Top Results</a>
+<a class="dropdown-item" href="./100marathons">100 Marathons Club</a>
+<div class="dropdown-divider"></div>
+<a class="dropdown-item" href="./privacy">Privacy Policy</a>
+<a class="dropdown-item" href="./about-mview">About</a>
+</div>
+</li>
+<li class="nav-item dropdown">
+<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+Contact
+</a>
+<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+<a class="dropdown-item" href="./report_result">Report Result</a>
+<a class="dropdown-item" href="./report_event">Report Event</a>
+<div class="dropdown-divider"></div>
+<a class="dropdown-item" href="./contact-us">Contact Form</a>
+</div>
+</li>
+</div>
+<div  id='nav_search_box_container' >xxx</div></nav>
+<script>
+init_search_button( 'nav_search_box_container' , '', 'Type a name...')</script>
+ 
+
+<main role="main" class="mainContent">
+
+				
+			
+		
+  
+   <div class="container">
+	 
+	 		<h1>Maratona di Roma 2019</h1>
+		
+			 
+	 
+    <div class="row">
+      <div class="col-md-4">
+        <h2>General</h2>
+		
+		<h3>Maratona di Roma 2019</h3><div class='country-flag-large'>
+<a href='event/country%3Aita'><img src='image/flags-large/ita.png'/></a><br/></div>
+Apr 7th 2019 (About 8 years ago)<br/>Series: <a href='./series/86'>Rome Marathon</a><br/>
+Source: <a target='_new' href='http://live.eqtiming.com/'>http://live.eqtiming.com/</a><br/>
+<a href='./event/73973'>Event Details</a><br/>
+<br><h3 class=''>Marathon</h3><div class='race_finishers'>
+<div>Finishers</div><div>8,877</div><div></div><div>Females</div><div>1,874</div><div></div><div>Males</div><div>7,003</div><div></div><div>Sub 3</div><div>202</div><div>(2.28%)</div></div>	
+				
+			<div id="piechart"></div>
+			
+			<script type="text/javascript">
+				// Load google charts
+				google.charts.load('current', {'packages':['corechart']});
+				google.charts.setOnLoadCallback(drawChart);
+
+				// Draw the chart and set the chart values
+				function drawChart() {
+		 		  var data = google.visualization.arrayToDataTable([
+				  ['Task', 'Finishers'],
+				  ['Males', 7003],
+				  ['Females', 1874],
+				  ['Unassigned', 0],
+				]);
+
+			  // Optional; add a title and set the width and height of the chart
+			  var options = { title: 'Finishers By Gender' ,   backgroundColor: 'transparent'};
+
+			  // Display the chart inside the <div> element with id="piechart"
+			  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+			  chart.draw(data, options);
+			}
+			</script>
+				
+			
+						
+		
+      </div>
+	  
+	      <div class="col-md-4">
+        <h2>Times </h2>
+		  
+
+		
+		<h3>Medians</h3><div class='medians_data'>
+<div class='median_label'>Overall</div><div  class="median_data">4:07:18</div>
+<div class='median_label'>Female</div><div  class="median_data">4:30:06</div>
+<div class='median_label'>Male</div><div  class="median_data">4:00:49</div>
+</div><h3>Race Categories</h3><div id='div_categories_data'><div class='header'><a href='./race/98795?category=SM45'>SM45</a></div><div class='value'>1,463</div><div class='header'><a href='./race/98795?category=SM50'>SM50</a></div><div class='value'>1,322</div><div class='header'><a href='./race/98795?category=SM40'>SM40</a></div><div class='value'>1,136</div><div class='header'><a href='./race/98795?category=SM55'>SM55</a></div><div class='value'>833</div><div class='header'><a href='./race/98795?category=SM'>SM</a></div><div class='value'>813</div><div class='header'><a href='./race/98795?category=SM35'>SM35</a></div><div class='value'>693</div><div class='header'><a href='./race/98795?category=SF45'>SF45</a></div><div class='value'>423</div><div class='header'><a href='./race/98795?category=SM60'>SM60</a></div><div class='value'>409</div><div class='header'><a href='./race/98795?category=SF50'>SF50</a></div><div class='value'>361</div><div class='header'><a href='./race/98795?category=SF40'>SF40</a></div><div class='value'>336</div><div class='header'><a href='./race/98795?category=SF'>SF</a></div><div class='value'>269</div><div class='header'><a href='./race/98795?category=SF35'>SF35</a></div><div class='value'>222</div><div class='header'><a href='./race/98795?category=SM65'>SM65</a></div><div class='value'>186</div><div class='header'><a href='./race/98795?category=SF55'>SF55</a></div><div class='value'>166</div><div class='header'><a href='./race/98795?category=SM70'>SM70</a></div><div class='value'>77</div><div class='header'><a href='./race/98795?category=SF60'>SF60</a></div><div class='value'>55</div><div class='header'><a href='./race/98795?category=CIP'>CIP</a></div><div class='value'>45</div><div class='header'><a href='./race/98795?category=SM75'>SM75</a></div><div class='value'>27</div><div class='header'><a href='./race/98795?category=SF65'>SF65</a></div><div class='value'>21</div><div class='header'><a href='./race/98795?category=SF70'>SF70</a></div><div class='value'>9</div><div class='header'><a href='./race/98795?category=SM80'>SM80</a></div><div class='value'>7</div><div class='header'><a href='./race/98795?category=SF85'>SF85</a></div><div class='value'>1</div><div class='header'><a href='./race/98795?category=PF'>PF</a></div><div class='value'>1</div><div class='header'><a href='./race/98795?category=SM85'>SM85</a></div><div class='value'>1</div><div class='header'><a href='./race/98795?category=SF75'>SF75</a></div><div class='value'>1</div></div>		
+      </div>
+      <div class="col-md-4">
+
+      <h2>Leaderboard</h2>	  
+			<div id='div_search'>
+	    <label for="search_race" id='search_race_label' >Search</label>
+			<input type="search" id="search_race" placeholder='Finisher name...'  required autofocus>
+			</div>
+
+		
+		<table class='leaders table .table-sm'>
+<tr><th colspan="4"><h3>Female</h3></tr>
+<tr><td><img title='ETH'  src='image/flags/eth.png'/></td><td>1</td><td><a href='./marathon-results-of-Kebede-Megertu-Alemu' class=''>Kebede Megertu Alemu</a></td><td><a href='./result/44072001'>2:22:52</a></td></tr>
+<tr><td><img title='MAR'  src='image/flags/mar.png'/></td><td>1871</td><td><a href='./marathon-results-of-Amazzal-Ghizlane' class=''>Amazzal Ghizlane</a></td><td><a href='./result/44080856'>2:23:30</a></td></tr>
+<tr><td><img title='ETH'  src='image/flags/eth.png'/></td><td>2</td><td><a href='./marathon-results-of-Chekol-Muluhabt-Tsega' class=''>Chekol Muluhabt Tsega</a></td><td><a href='./result/44072004'>2:26:41</a></td></tr>
+<tr><td><img title='ETH'  src='image/flags/eth.png'/></td><td>3</td><td><a href='./marathon-results-of-Chawo%C2%A0-Chaltu-Negesse' class=''>Chawo  Chaltu Negesse</a></td><td><a href='./result/44072006'>2:30:45</a></td></tr>
+<tr><td><img title='ITA'  src='image/flags/ita.png'/></td><td>4</td><td><a href='./marathon-results-of-Laila-Soufyane' class=''>Laila Soufyane</a></td><td><a href='./result/44072011'>2:34:54</a></td></tr>
+<tr><td><img title='ETH'  src='image/flags/eth.png'/></td><td>5</td><td><a href='./marathon-results-of-Shankutie-Mestawet-Tadesse' class=''>Shankutie Mestawet Tadesse</a></td><td><a href='./result/44072013'>2:36:46</a></td></tr>
+<tr><td><img title='ETH'  src='image/flags/eth.png'/></td><td>6</td><td><a href='./marathon-results-of-Alemi-Tsegaye-Degefa' class=''>Alemi Tsegaye Degefa</a></td><td><a href='./result/44072047'>2:48:43</a></td></tr>
+<tr><td><img title='FRA'  src='image/flags/fra.png'/></td><td>7</td><td><a href='./marathon-results-of-Yudileyvis-Castillo-Tumbarel' class=''>Yudileyvis Castillo Tumbarel</a></td><td><a href='./result/44072049'>2:48:57</a></td></tr>
+<tr><td><img title='MEX'  src='image/flags/mex.png'/></td><td>8</td><td><a href='./marathon-results-of-Yolanda-Ugalde-Rodr%C3%ADguez' class=''>Yolanda Ugalde Rodríguez</a></td><td><a href='./result/44072056'>2:49:41</a></td></tr>
+<tr><td><img title='ITA'  src='image/flags/ita.png'/></td><td>9</td><td><a href='./marathon-results-of-Giovanna-Gobbi' class=''>Giovanna Gobbi</a></td><td><a href='./result/44072072'>2:51:02</a></td></tr>
+</table>
+<table class='leaders table .table-sm'>
+<tr><th colspan="4"><h3>Male</h3></tr>
+<tr><td><img title='ETH'  src='image/flags/eth.png'/></td><td>1</td><td><a href='./marathon-results-of-Tebalu-Zawude-Heyi' class=''>Tebalu Zawude Heyi</a></td><td><a href='./result/44071986'>2:08:37</a></td></tr>
+<tr><td><img title='ETH'  src='image/flags/eth.png'/></td><td>2</td><td><a href='./marathon-results-of-Tesfa-Tiruneh-Workneh' class=''>Tesfa Tiruneh Workneh</a></td><td><a href='./result/44071987'>2:09:17</a></td></tr>
+<tr><td><img title='ETH'  src='image/flags/eth.png'/></td><td>3</td><td><a href='./marathon-results-of-Yihunilign-Adane-Amsalu' class=''>Yihunilign Adane Amsalu</a></td><td><a href='./result/44071988'>2:09:53</a></td></tr>
+<tr><td><img title='ETH'  src='image/flags/eth.png'/></td><td>4</td><td><a href='./marathon-results-of-Musa-Babo-Ido' class=''>Musa Babo Ido</a></td><td><a href='./result/44071989'>2:09:55</a></td></tr>
+<tr><td><img title='ETH'  src='image/flags/eth.png'/></td><td>5</td><td><a href='./marathon-results-of-Brihanu%C2%A0teshome%C2%A0-Demisie' class=''>Brihanu teshome  Demisie</a></td><td><a href='./result/44071990'>2:10:31</a></td></tr>
+<tr><td><img title='RWA'  src='image/flags/rwa.png'/></td><td>6</td><td><a href='./marathon-results-of-Felicien-Muhitira' class=''>Felicien Muhitira</a></td><td><a href='./result/44071991'>2:10:58</a></td></tr>
+<tr><td><img title='ETH'  src='image/flags/eth.png'/></td><td>7</td><td><a href='./marathon-results-of-Melaku-Belachew-Bizuneh' class=''>Melaku Belachew Bizuneh</a></td><td><a href='./result/44071992'>2:13:51</a></td></tr>
+<tr><td><img title='BDI'  src='image/flags/bdi.png'/></td><td>8</td><td><a href='./marathon-results-of-Onesphore-Nzikwkunda' class=''>Onesphore Nzikwkunda</a></td><td><a href='./result/44071993'>2:15:04</a></td></tr>
+<tr><td><img title='ETH'  src='image/flags/eth.png'/></td><td>9</td><td><a href='./marathon-results-of-Haimanot-Mateb-Muluneh' class=''>Haimanot Mateb Muluneh</a></td><td><a href='./result/44071994'>2:15:10</a></td></tr>
+<tr><td><img title='KEN'  src='image/flags/ken.png'/></td><td>10</td><td><a href='./marathon-results-of-Alfred-Kimeli-Ronoh' class=''>Alfred Kimeli Ronoh</a></td><td><a href='./result/44071995'>2:16:44</a></td></tr>
+</table>
+		
+      </div>
+
+  
+  
+</div>
+
+<script>
+
+
+
+$(function() 
+{
+	$('.leaders td').each( function() 
+	{
+		var s = $(this).text();
+		if ( isHebrew( s )) 
+			$(this).css( "text-align",  "right" );
+	});
+	
+	$("#search_race").keydown(function(event){
+    if(event.keyCode == 13) {
+			
+      if($("#search_race").val().length==0) {
+          event.preventDefault();
+          return false;
+      }
+    }
+ });
+	
+
+  $("#search_race").autocomplete({
+	source: "./suggest?raceid=98795",
+	minLength: 2,
+	select: function(event, ui) 
+	{ 
+		document.location = "./result/" + ui.item.result_id;
+	},
+  }).data( "ui-autocomplete" )._renderItem = function( ul, item ) 
+  {
+	  let s = item.value;
+		
+		if ( item.bib )	
+			s += (' <b>' + item.bib + '</b>') ;
+		
+	  if ( item.result )
+		s += " (" + item.result + ")";
+	
+	
+	
+	   return $( "<li>" )
+	   .append(  "<a href='./result/" + item.result_id + "'>" + s + "</a>" )
+	   .appendTo( ul );
+  };
+
+
+	
+});
+
+</script>
+
+
+<img src='image/BottomIllustration.svg' id='imgBottom'>
+
+</main>
+
+	<div class="alert text-center cookiealert" role="alert">
+&#x1F36A; MarathonView is using cookies to ensure you get the best experience on our website
+<button type="button" class="btn btn-primary btn-sm acceptcookies" aria-label="Close">
+I agree
+</button>
+</div>
+<script src="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.js"></script>
+<nav id='pageFooter' class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
+<span class="navbar-brand" >© https://marathonview.net 2018-2026. Version 2.01.09.031  Test</span>
+</nav>
+  <script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a4efcbd30f7ce02b',t:'MTc5Mjc0ODU5Mw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

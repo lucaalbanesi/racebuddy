@@ -1,0 +1,587 @@
+=== https://tds.sport/robots.txt
+HTTP 200 text/html 4458B
+--- robots tds.sport
+<!DOCTYPE html><html translate=no><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="user-scalable=no,width=device-width,height=device-height,target-densitydpi=device-dpi"><link rel=icon href=/favicon.ico><title>TDS.Sport</title><link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i|Roboto+Condensed:300,300i,400,400i,700,700i&display=swap" rel=stylesheet><script async src="https://www.googletagmanager.com/gtag/js?id=G-0XG38DYP2F"></script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9081865004858391" crossorigin=anonymous></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-0XG38DYP2F');</script><script>!function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window,document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '726018381245386');
+        fbq('track', 'PageView');</script><noscript><img height=1 width=1 src="https://www.facebook.com/tr?id=726018381245386&ev=PageView
+&noscript=1"></noscript><link href=/css/components-Iscriviti-vue.4aa55ef9.css rel=prefetch><link href=/css/views-Home-vue.4f4c6552.css rel=prefetch><link href=/css/views-Race-vue.4aa55ef9.css rel=prefetch><link href=/js/components-Ads-vue.02c84f96.js rel=prefetch><link href=/js/components-Assistenza-vue.e91d8e4a.js rel=prefetch><link href=/js/components-BaseRace-vue.20ecb6b9.js rel=prefetch><link href=/js/components-BoxServizi-vue.3f3abd4a.js rel=prefetch><link href=/js/components-Card-vue.ab7e6324.js rel=prefetch><link href=/js/components-Classifica-vue.f67a354c.js rel=prefetch><link href=/js/components-DownloadCertificate-vue.5c142cd0.js rel=prefetch><link href=/js/components-Iscriviti-vue.0d89de0a.js rel=prefetch><link href=/js/components-LavoraConNoi-vue.2c6e69f9.js rel=prefetch><link href=/js/components-LinkedRace-vue.70ef6db1.js rel=prefetch><link href=/js/components-ListaIscritti-vue.c3798fbf.js rel=prefetch><link href=/js/components-Location-vue.291e6819.js rel=prefetch><link href=/js/components-RichiestaContatto-vue.6a8ed9db.js rel=prefetch><link href=/js/components-Services-vue.0b883bc7.js rel=prefetch><link href=/js/components-VerificaIscrizione-vue.b5c149d1.js rel=prefetch><link href=/js/lang-cs-json.77be2783.js rel=prefetch><link href=/js/lang-de-json.b73c2e60.js rel=prefetch><link href=/js/lang-es-json.2d064d49.js rel=prefetch><link href=/js/lang-fr-json.d894b682.js rel=prefetch><link href=/js/lang-it-json.5e571bd7.js 
+=== https://www.tds-live.com/robots.txt
+HTTP 200 text/plain 116B
+--- robots www.tds-live.com
+# www.robotstxt.org/
+# www.google.com/support/webmasters/bin/answer.py?hl=en&answer=156449
+
+User-agent: *
+Disallow:
+
+=== https://svc.tds-live.com/robots.txt
+HTTP 404 text/html 1311B
+--- robots svc.tds-live.com
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<title>404 - Impossibile trovare il file o la directory.</title>
+<style type="text/css">
+<!--
+body{margin:0;font-size:.7em;font-family:Verdana, Arial, Helvetica, sans-serif;background:#EEEEEE;}
+fieldset{padding:0 15px 10px 15px;} 
+h1{font-size:2.4em;margin:0;color:#FFF;}
+h2{font-size:1.7em;margin:0;color:#CC0000;} 
+h3{font-size:1.2em;margin:10px 0 0 0;color:#000000;} 
+#header{width:96%;margin:0 0 0 0;padding:6px 2% 6px 2%;font-family:"trebuchet MS", Verdana, sans-serif;color:#FFF;
+background-color:#555555;}
+#content{margin:0 0 0 2%;position:relative;}
+.content-container{background:#FFF;width:96%;margin-top:8px;padding:10px;position:relative;}
+-->
+</style>
+</head>
+<body>
+<div id="header"><h1>Errore del server</h1></div>
+<div id="content">
+ <div class="content-container"><fieldset>
+  <h2>404 - Impossibile trovare il file o la directory.</h2>
+  <h3>È possibile che la risorsa desiderata sia stata rimossa, che sia temporaneamente non disponibile o che il relativo nome sia stato modificato.</h3>
+ </fieldset></div>
+</div>
+</body>
+</html>
+
+=== https://marathonview.net/robots.txt
+HTTP 200 text/plain; charset=utf-8 2735B
+--- robots marathonview.net
+# As a condition of accessing this website, you agree to abide by the following
+# content signals:
+
+# (a)  If a Content-Signal = yes, you may collect content for the corresponding
+#      use.
+# (b)  If a Content-Signal = no, you may not collect content for the
+#      corresponding use.
+# (c)  If the website operator does not include a Content-Signal for a
+#      corresponding use, the website operator neither grants nor restricts
+#      permission via Content-Signal with respect to the corresponding use.
+
+# The content signals and their meanings are:
+
+# search:   building a search index and providing search results (e.g., returning
+#           hyperlinks and short excerpts from your website's contents). Search does not
+#           include providing AI-generated search summaries.
+# ai-input: inputting content into one or more AI models (e.g., retrieval
+#           augmented generation, grounding, or other real-time taking of content for
+#           generative AI search answers).
+# ai-train: training or fine-tuning AI models.
+# use:      how AI systems may consume the content (immediate, reference, or full).
+
+# ANY RESTRICTIONS EXPRESSED VIA CONTENT SIGNALS ARE EXPRESS RESERVATIONS OF
+# RIGHTS UNDER ARTICLE 4 OF THE EUROPEAN UNION DIRECTIVE 2019/790 ON COPYRIGHT
+# AND RELATED RIGHTS IN THE DIGITAL SINGLE MARKET.
+
+# BEGIN Cloudflare Managed content
+
+
+User-agent: *
+Content-Signal: search=yes,ai-train=no,use=reference
+Allow: /
+
+# Training crawlers
+User-agent: Amazonbot
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Diffbot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: omgili
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: MistralAI-Training
+Disallow: /
+
+User-agent: meta-externalagent
+Disallow: /
+
+User-agent: GoogleOther
+Disallow: /
+
+User-agent: Baiduspider
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+User-agent: AwarioSmartBot
+User-agent: AwarioRssBot
+Disallow: /
+
+User-agent: Google-CloudVertexBot
+Disallow: /
+
+User-agent: QualifiedBot
+Disallow: /
+
+User-agent: Cotoyogi
+Disallow: /
+
+User-agent: ICC-Crawler
+Disallow: /
+
+User-agent: atlassian-bot
+Disallow: /
+
+User-agent: FishBot
+Disallow: /
+
+User-agent: BorderxBot
+Disallow: /
+
+User-agent: NavuBot
+Disallow: /
+
+User-agent: SemrushBot-SWA
+Disallow: /
+
+User-agent: WARDBot
+Disallow: /
+
+User-agent: magpie-crawler
+Disallow: /
+
+User-agent: KimiBot
+Disallow: /
+
+User-agent: CitibotSiteCrawler
+Disallow: /
+
+# END Cloudflare Managed Content
+
+https://marathonview.net/marathon-results-of-Silvia-Bobeica
+=== https://tds.sport/en/race/12354
+HTTP 200 text/html 4458B
+<!DOCTYPE html><html translate=no><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="user-scalable=no,width=device-width,height=device-height,target-densitydpi=device-dpi"><link rel=icon href=/favicon.ico><title>TDS.Sport</title><link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i|Roboto+Condensed:300,300i,400,400i,700,700i&display=swap" rel=stylesheet><script async src="https://www.googletagmanager.com/gtag/js?id=G-0XG38DYP2F"></script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9081865004858391" crossorigin=anonymous></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-0XG38DYP2F');</script><script>!function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window,document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '726018381245386');
+        fbq('track', 'PageView');</script><noscript><img height=1 width=1 src="https://www.facebook.com/tr?id=726018381245386&ev=PageView
+&noscript=1"></noscript><link href=/css/components-Iscriviti-vue.4aa55ef9.css rel=prefetch><link href=/css/views-Home-vue.4f4c6552.css rel=prefetch><link href=/css/views-Race-vue.4aa55ef9.css rel=prefetch><link href=/js/components-Ads-vue.02c84f96.js rel=prefetch><link href=/js/components-Assistenza-vue.e91d8e4a.js rel=prefetch><link href=/js/components-BaseRace-vue.20ecb6b9.js rel=prefetch><link href=/js/components-BoxServizi-vue.3f3abd4a.js rel=prefetch><link href=/js/components-Card-vue.ab7e6324.js rel=prefetch><link href=/js/components-Classifica-vue.f67a354c.js rel=prefetch><link href=/js/components-DownloadCertificate-vue.5c142cd0.js rel=prefetch><link href=/js/components-Iscriviti-vue.0d89de0a.js rel=prefetch><link href=/js/components-LavoraConNoi-vue.2c6e69f9.js rel=prefetch><link href=/js/components-LinkedRace-vue.70ef6db1.js rel=prefetch><link href=/js/components-ListaIscritti-vue.c3798fbf.js rel=prefetch><link href=/js/components-Location-vue.291e6819.js rel=prefetch><link href=/js/components-RichiestaContatto-vue.6a8ed9db.js rel=prefetch><link href=/js/components-Services-vue.0b883bc7.js rel=prefetch><link href=/js/components-VerificaIscrizione-vue.b5c149d1.js rel=prefetch><link href=/js/lang-cs-json.77be2783.js rel=prefetch><link href=/js/lang-de-json.b73c2e60.js rel=prefetch><link href=/js/lang-es-json.2d064d49.js rel=prefetch><link href=/js/lang-fr-json.d894b682.js rel=prefetch><link href=/js/lang-it-json.5e571bd7.js rel=prefetch><link href=/js/pages-ChiSiamo-vue.3b95932e.js rel=prefetch><link href=/js/pages-Contatti-vue.59394cfb.js rel=prefetch><link href=/js/pages-CookiePolicy-vue.d67cfa4a.js rel=prefetch><link href=/js/pages-LavoraConNoi-vue.3baf8199.js rel=prefetch><link href=/js/pages-PrivacyPolicy-vue.1027c02f.js rel=prefetch><link href=/js/pages-Servizi-vue.b10c7445.js rel=prefetch><link href=/js/plugins-LodashPlugin-vue.2ae5aedb.js rel=prefetch><link href=/js/views-404-vue.2f9b537e.js rel=prefetch><link href=/js/views-Circuiti-vue.f83a73af.js rel=prefetch><link href=/js/views-Home-vue.94f3d6c8.js rel=prefetch><link href=/js/views-IframeRace-vue.867959c9.js rel=prefetch><link href=/js/views-IframeVerificaIscritti-vue.9a488590.js rel=prefetch><link href=/js/views-Lang-vue.2c7e9f14.js rel=prefetch><link href=/js/views-Race-vue.f52c5f1a.js rel=prefetch><link href=/css/app.63ad6871.css rel=preload as=style><link href=/css/chunk-vendors.c9dd58f2.css rel=preload as=style><link href=/js/app.26fab56
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9081865004858391"
+=== https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9081865004858391
+HTTP 200 text/javascript; charset=UTF-8 205352B
+--- url nel bundle https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9081865004858391
+https://adsense.com.
+https://googleads.g.doubleclick.net/pagead/managed/dict/
+https://pagead2.googlesyndication.com/getconfig/abg_config
+https://pagead2.googlesyndication.com/pagead/gen_204
+https://pagead2.googlesyndication.com/pagead/js/err_rep.js
+https://pagead2.googlesyndication.com/pagead/js/logging_library.js
+https://pagead2.googlesyndication.com/pagead/managed/js/adsense/
+https://pagead2.googlesyndication.com/pagead/ping
+https://securepubads.g.doubleclick.net/tag/js/gpt.js
+https://services.google.com/fh/files/helpcenter/adsense_ilar_implementation_guide.pdf
+https://www.google.com/adsense
+--- percorsi api
+ext prefetch dns-prefetch prerender preconnect preload prev search subresource".split(" ");function Le(a){return String(a).rep
+]*))?(?:#([\\s\\S]*))?$"),ag=/#|$/;function bg(a,b){var c=a.search(ag);a:{var d=0;for(var e=b.length;(d=a.indexOf(b,d))>=0&&d<
+=== https://www.tds-live.com/ns/index.jsp?id=8252&pageType=1
+HTTP 500 text/html; charset=UTF-8 37B
+Vecchia versione enternow! Non usare!
+=== https://tds.sport/it/terms
+HTTP 200 text/html 4458B
+=== https://tds.sport/it/privacy
+HTTP 200 text/html 4458B
+=== https://tds.sport/it/termini
+HTTP 200 text/html 4458B
+=== https://tds.sport/it/condizioni
+HTTP 200 text/html 4458B
+=== https://marathonview.net/
+HTTP 200 text/html; charset=UTF-8 76734B
+--- form
+<input class='cbInclude' type='checkbox' " + checked + " result=\"" + res["id"] + "\">
+<input type='checkbox' id='cbAllNone'>
+<input id='file_" + resultid + "_0' style='display:none' type='file' title='Click to choose a file' />
+<input id='mv_home_search_box'  type='text' class='search_input search_box' placeholder='${placeholder}'>
+=== https://marathonview.net/marathon-results-of-Lorenzo-Lotti
+HTTP 200 text/html; charset=UTF-8 128199B
+
+ 
+ 
+ 
+ 
+		 
+ 
+ 
+		
+ -->
+ 
+	 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+	 
+	 
+	 
+	
+ 
+		Marathon results of Lorenzo Lotti	 
+	
+	 
+	
+	tr.group,
+	tr.group:hover {
+		background-color: #ddd !important;
+		font-weight: bold;
+	}
+	
+	tr.group > td {
+		padding-left: 20px !important;
+	}
+	
+	.best_result
+	{
+		font-weight: bold;
+	}
+	
+	
+	#summaryTable 
+	{
+		margin-left: auto;
+		margin-right: auto;
+		width: 450px;
+		font-weight: bold;
+		line-height: 1;
+	}
+	
+	.name 
+	{
+ padding-right: 24px;
+ padding-left: 24px;
+	}
+	
+	#imgProfile
+	{
+		max-height: 256px;
+	}
+	
+	#rowDetails
+	{
+		margin-bottom: 3em;
+	}
+	
+	#rowDetails .row
+	{
+		margin-left: -15px;
+	}
+	
+	#rowDetails .col-sm
+	{
+		border-right: 1px solid #979797;
+		padding-left: 8px;
+	}
+	
+	#nonMemberText
+	{
+		padding-top: 1em;
+		display: block;
+			}
+	
+	#nonMemberText img
+	{
+		width: auto;
+		height: auto;
+	}
+	
+	#txtMembers {
+		padding-top: 1em;
+		display: block;
+	}
+	
+	#moreResults
+	{
+		display: block;
+	}
+	
+	@media only screen and (max-width: 720px)
+	{
+		#txtMembers
+		{
+			width: 100%;
+		}
+	}
+	
+	.country-flag-large
+	{
+		max-width: 96px;
+	}
+	
+	
+	#resultsTextContainer
+	{
+		margin-bottom: 1rem;
+	}
+	
+	#summaryContainer
+	{
+		text-align: center;
+	}
+	
+	#divYourResults
+	{
+		display: block;
+	}
+	
+	#alertWarning
+	{
+		display: none;
+	}
+	
+	#rowSummary
+	{
+		padding-top: 1.5rem;
+	}
+	
+	.col-summary 
+	{
+		text-align: center;
+		.style='width:100%';
+	}
+	
+	#rowSummary .col-sm
+	{
+		font-weight: bold;
+	}
+	
+	#rowSummary .value
+	{
+		color: #00B0CD;
+	}
+	
+	#rowSummary .delimiter
+	{
+		color: #979797;
+		padding-left: 12px;
+		display: none;
+	}
+	
+	.normal-weight
+	{
+		font-weight: normal;
+	}
+	
+	#divCompare
+	{
+		margin-top: 1.5rem;
+	}
+	
+	.group td
+	{
+		background-color:#EFEFEF;
+		color: #007487;
+	}
+	
+	.nav-tabs
+	{
+		margin-top: 1.5rem;
+	}
+	
+	.ql-tooltip
+	{
+		display: none;
+	}
+	
+	.ql-editor
+	{
+		padding: 8px 10px;
+	}
+	
+	#resultsTable th
+	{
+		text-align : center;
+	}
+ 
+ #txtBanners
+ {
+ margin-top: 1rem;
+ padding-right: 8px;
+ padding-top: 8px;
+ padding-bottom: 8px;
+ width: fit-content;
+ 
+ display: flex;
+ flex-direction: row;
+ gap: 1rem;
+ justify-content: center;
+ }
+ 
+ #txtBanners img
+ {
+ max-width: 64px;
+ }
+	
+	#resultsTable
+	{
+		font-weight: 400;
+ overflow-y: auto;
+	}
+	
+	.admin-tools
+	{
+		margin-top: 1rem;
+		display: flex;
+		gap: 1rem;
+		flex-direction: row;
+	}
+	
+	.admin-tools img
+	{
+		height: 32px;
+	}
+	
+	#extra_data
+	{
+		text-align: center;
+ margin-top: 1rem;
+ background-color: aliceblue;
+	}
+	
+	.mainContent
+	{
+		max-width: 90%;
+	}
+	
+	 
+	
+ 
+ 
+ 
+	 
+ 
+ 
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+ gtag('config', 'G-FW4KLZZ783');
+ // -- History Begin --
+ // -- History End --
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+// https://stackoverflow.com/questions/951791/javascript-global-event-mechanism
+window.onerror = function(msg, url, line, col, error) {
+ // Note that col & error are new to the HTML 5 spec and may not be 
+ // supported in every browser. It worked for me in Chrome.
+ let extra = !col ? '' : '\ncolumn: ' + col;
+ extra += !error ? '' : '\nerror: ' + error;
+ extra += "\n\nThis is not supposed to happen. Please contact us at info@marathonview.net and we will try to help";
+ 
+ // You can view the information in an alert to see things working like this:
+ console.log("Error: " + msg + "\nurl: " + url + "\nline: " + line + extra);
+ // TODO: Report this error via ajax so you can keep track
+ // of what pages have JS issues
+ let suppressErrorAlert = true;
+ // If you return true, then error alerts (like in older versions of 
+ // Internet Explorer) will be suppressed.
+ return suppressErrorAlert;
+};
+ 
+ 
+window.fbAsyncInit = function()
+{
+FB.init({
+appId : '1287894264706448',
+autoLogAppEvents : true,
+xfbml : true,
+version : 'v4.0'
+});
+};
+ 
+ 
+ 
+ 
+ 
+function set_session_data( key, value )
+{
+	sessionStorage[ key ] = value;
+}
+function get_session_data( key )
+{
+	return sessionStorage[ key ];
+}
+function clear_session_data( key )
+{
+	return sessionStorage.removeItem( key );
+}
+function set_local_data( key, value )
+{
+	localStorage.tr: write error: Broken pipe
+sed: couldn't write 48 items to stdout: Broken pipe
+
+ajax({
+ajax( {
+fetch( url, {method: method, body : body ,  headers : headers} 
+=== https://marathonview.net/race/98795
+HTTP 200 text/html; charset=UTF-8 82885B
+ajax({
+ajax( {
+fetch( url, {method: method, body : body ,  headers : headers} 
+mv_runner.html:remaining anonymous searches left. Please 
