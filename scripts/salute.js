@@ -1,5 +1,5 @@
-/* RaceBuddy – controllo salute. Gira ogni ora (workflow "Controllo salute", cron di GitHub: non dipende dall'innesco di
-   Supabase che controlla). Verifica:
+/* RaceBuddy – controllo salute. Gira ogni ora (workflow "Controllo salute", lanciato da pg_cron di Supabase come gli
+   altri job; se non gira è Supabase a essere giù). Verifica:
    - job programmati: partiti quando dovevano e finiti bene (API di GitHub Actions);
    - dati: data di aggiornamento dei file del calendario, dei contenuti, delle gare seguite e delle gare estere;
    - servizi: sito, database, invii push di oggi, funzione buddy e (una volta al giorno) la ricerca tempi su FIDAL, GPL e MarathonView.

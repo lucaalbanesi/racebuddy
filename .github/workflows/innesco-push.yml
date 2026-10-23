@@ -1,5 +1,5 @@
 name: Innesco job (Supabase)
-# Installa su Supabase il cron puntuale che lancia i job programmati (gare seguite, novità, notifiche, contenuti, calendario) (docs/supabase_cron.sql)
+# Installa su Supabase il cron puntuale che lancia i job programmati (gare seguite, schede, novità, notifiche, contenuti, calendario, gare estere, controllo salute) (docs/supabase_cron.sql)
 # e mette nel Vault il token GitHub. Servono i secret SUPABASE_ACCESS_TOKEN (c'è già) e DISPATCH_TOKEN
 # (token GitHub "fine-grained" solo per questo repo, permesso Actions: Read and write).
 # Ripetibile: rilancialo anche quando rinnovi il token.

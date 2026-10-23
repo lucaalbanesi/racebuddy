@@ -2430,7 +2430,7 @@
     return `${testa}
       <section class="card dark sal-testa sal-testa-${fermo || nKo ? "ko" : nAtt ? "attenzione" : "ok"}" style="gap:6px"><span class="eyebrow">Ultimo controllo ${esc(ora)}${fa >= 1 ? ` · ${Math.round(fa)} ${Math.round(fa) === 1 ? "ora" : "ore"} fa` : ""}</span>
         <span style="font:700 34px/1 var(--display)">${esc(titolo)}</span>
-        <span class="small" style="color:var(--navy-muted)">${fermo ? "Il controllo orario non è partito: guarda il workflow «Controllo salute» su GitHub." : `${c.length} controlli: job programmati, dati e servizi.`}</span>
+        <span class="small" style="color:var(--navy-muted)">${fermo ? "Il controllo orario non è partito: Supabase, che lo lancia ogni ora, è probabilmente giù." : `${c.length} controlli: job programmati, dati e servizi.`}</span>
         <div class="sal-storia" aria-label="Ultimi 24 controlli">${storia}</div><span class="small" style="color:var(--navy-muted)">Ultimi controlli, dal più vecchio</span></section>
       ${gruppo("job", "Job programmati")}${gruppo("servizi", "Servizi")}${gruppo("dati", "Dati")}
       <section class="card" style="gap:10px"><div class="between"><h2>Avvisi push</h2>${SALUTE.avvisi ? `<span class="pill ok">attivi</span>` : ""}</div>${avvisi}</section>

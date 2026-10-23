@@ -1,9 +1,8 @@
 name: Controllo salute
-# Ogni ora dalle 6 alle 23 circa (ora di Roma). Parte dal cron di GitHub e non dall'innesco di Supabase, così si accorge
-# anche se l'innesco si ferma. Esito in Supabase (pagina #/salute dell'app) e push al superamministratore solo se è KO.
+# Ogni ora dalle 6 alle 23 circa (ora di Roma), lanciato da pg_cron di Supabase come gli altri job (docs/supabase_cron.sql):
+# il cron di GitHub saltava quasi tutti i giri. Se il controllo non gira vuol dire che Supabase è giù (la pagina #/salute
+# lo dice). Esito in Supabase (pagina #/salute dell'app) e push al superamministratore solo se è KO.
 on:
-  schedule:
-    - cron: "41 4-21 * * *"
   workflow_dispatch:
     inputs:
       tutto:
