@@ -1,16 +1,16 @@
 {
- "aggiornato": "2026-10-23",
+ "aggiornato": "2026-10-24",
  "gare": [
   {
-   "id": "Mmvk2snbp",
-   "nome": "Gara test 23 ott",
-   "data": "2026-10-23",
-   "luogo": "",
+   "id": "L49616bcc0c-10",
+   "nome": "Corrincastagna",
+   "data": "2026-10-25",
+   "luogo": "CAVE",
    "distanza": "10",
-   "fonte": "manuale",
-   "prima_aggiunta": "2026-10-22",
+   "fonte": "FIDAL",
+   "prima_aggiunta": "2026-10-23",
    "aggiunte": 1,
-   "ultima_aggiunta": "2026-10-22"
+   "ultima_aggiunta": "2026-10-23"
   },
   {
    "id": "L2bda4b848d-10",
@@ -20,8 +20,19 @@
    "distanza": "10",
    "fonte": "FIDAL",
    "prima_aggiunta": "2026-10-18",
-   "aggiunte": 5,
-   "ultima_aggiunta": "2026-10-22"
+   "aggiunte": 7,
+   "ultima_aggiunta": "2026-10-23"
+  },
+  {
+   "id": "Hf70500d7d9-k15",
+   "nome": "XIII^ Rome 15k",
+   "data": "2026-11-08",
+   "luogo": "ROMA",
+   "distanza": "10",
+   "fonte": "FIDAL",
+   "prima_aggiunta": "2026-10-23",
+   "aggiunte": 1,
+   "ultima_aggiunta": "2026-10-23"
   },
   {
    "id": "L950d7c45f5-10",
@@ -53,8 +64,8 @@
    "distanza": "42",
    "fonte": "FIDAL",
    "prima_aggiunta": "2026-10-14",
-   "aggiunte": 7,
-   "ultima_aggiunta": "2026-10-21"
+   "aggiunte": 8,
+   "ultima_aggiunta": "2026-10-23"
   },
   {
    "id": "H90a44ed91b-10",
