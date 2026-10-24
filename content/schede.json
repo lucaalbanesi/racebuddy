@@ -193,7 +193,7 @@
    "https://followyourpassion.it/wp-content/uploads/2026/05/Reg-Milano-HM-competitiva-ITA-2026_v2.pdf",
    "https://followyourpassion.it/en/percorso-21km-milanohalfmarathon/"
   ],
-  "verificato": "2026-10-15",
+  "verificato": "2026-10-24",
   "edizione": "2026"
  },
  "P8cb521dda8-42": {
@@ -346,6 +346,84 @@
    "https://romaostia.it/"
   ],
   "verificato": "2026-10-23",
+  "edizione": "2027"
+ },
+ "L49616bcc0c-10": {
+  "partenza": "9:15",
+  "luogoPartenza": "Ritrovo in Piazza S. Croce (Monumento ai caduti); partenza e arrivo vicino alla Banca Centro Lazio.",
+  "pettorale": "Piazza S. Croce, domenica dalle 8:00 alle 8:45, con il pacco gara. Iscrizione sul posto entro le 8:45 (15 €, con certificato agonistico).",
+  "ristori": "Un ristoro lungo il percorso e uno all'arrivo, con prodotti tipici.",
+  "mappa": "Piazza Santa Croce, Cave",
+  "percorsoDescrizione": "9,6 km collinari: primi 2 km in leggera salita, poi in leggera discesa con lievi saliscendi nel finale.",
+  "canali": {
+   "facebook": "https://www.facebook.com/asdatleticacave/"
+  },
+  "nomi": [
+   "Corrincastagna"
+  ],
+  "note": "5ª edizione, organizza ASD Atletica Cave. Iscrizioni online chiuse il 23/10. Chip da restituire all'arrivo (20 € se non reso). Percorso assistito fino a 1h10 dalla partenza.",
+  "fonti": [
+   "https://www.garepodistichelazio.it/volantini_gare_lazio/regolamento-corrincastagna_ottobre_2026.pdf",
+   "https://www.garepodistichelazio.it/info-gara-Corrincastagna"
+  ],
+  "verificato": "2026-10-24",
+  "edizione": "2026"
+ },
+ "Hf70500d7d9-k15": {
+  "partenza": "9:00",
+  "luogoPartenza": "Partenza e arrivo in Viale delle Terme di Caracalla; ritrovo dalle 7:00.",
+  "pettorale": "Expo allo Stadio Terme di Caracalla: ven 6/11 12-18, sab 7/11 10-18; domenica no. Serve la lettera di conferma e un documento; delega firmata con copia del documento.",
+  "griglia": "Griglie per personale stagionale dichiarato all'iscrizione; le istruzioni arrivano agli iscritti nei 2 giorni prima.",
+  "deposito": "Nell'area riservata agli atleti, borsa propria massimo 40x20x25 cm con il numero del pettorale.",
+  "ristori": "Al 5° e al 10° km, più pacco ristoro all'arrivo.",
+  "mappa": "Viale delle Terme di Caracalla, Roma",
+  "percorsoLink": "https://youtu.be/PPz4V80TvtE",
+  "percorsoDescrizione": "Da Caracalla lungo il Tevere, Piazza del Popolo, Via del Corso, Piazza Navona, Piazza Venezia, Fori Imperiali e Colosseo, ritorno a Caracalla. Percorso ancora provvisorio.",
+  "sito": "https://www.rome15k.com/",
+  "canali": {
+   "notizie": "https://www.rome15k.com/feed/",
+   "instagram": "https://www.instagram.com/rome_15k/",
+   "facebook": "https://www.facebook.com/rome15k.race"
+  },
+  "nomi": [
+   "Rome 15K",
+   "Rome 15k"
+  ],
+  "note": "13ª edizione, organizza Forhans Team; la Rome 5K parte alle 9:10 o 9:15 (da confermare). Iscrizioni fino al 30/10 (38 €). Tempo massimo 2h30. Pacer da 1h00 a 1h36'15\" (Marathon Truppen). Medaglia ai primi 3.000 arrivati.",
+  "fonti": [
+   "https://www.rome15k.com/",
+   "https://www.rome15k.com/15k-info/",
+   "https://www.rome15k.com/wp-content/uploads/2026/10/REGOLAMENTO-XIII-ROME15K-2026_.pdf"
+  ],
+  "verificato": "2026-10-24",
+  "edizione": "2026"
+ },
+ "La92f52eec5-k19.5": {
+  "partenza": "8:30",
+  "luogoPartenza": "Partenza in Via di San Gregorio, arrivo allo Stadio Nando Martellini.",
+  "pettorale": "Luogo non ancora deciso; serve la lettera di conferma, delega scritta con copia del documento. Domenica mattina solo per chi viene da fuori provincia (da confermare).",
+  "griglia": "Partenza a onde secondo il tempo indicato all'iscrizione, con pacer.",
+  "deposito": "Nello stesso luogo del ritiro pettorali della mattina, con il talloncino numerato della busta.",
+  "ristori": "Ristoro finale all'arrivo con acqua e frutta; lungo il percorso non indicati.",
+  "mappa": "Via di San Gregorio, Roma",
+  "percorsoImmagine": "https://www.rome4runners.it/wp-content/uploads/2026/08/195.png",
+  "percorsoLink": "https://www.rome4runners.it/appia-run/",
+  "percorsoDescrizione": "19,5 km su cinque fondi: asfalto, sampietrini, basolato, sterrato e pista d'atletica.",
+  "sito": "https://www.rome4runners.it/appia-run/",
+  "canali": {
+   "instagram": "https://www.instagram.com/rome4runners",
+   "facebook": "https://www.facebook.com/rome4runners"
+  },
+  "nomi": [
+   "Appia Run",
+   "Roma Appia Run"
+  ],
+  "note": "Domenica 11 aprile 2027, anche 7,5 km. Tempo massimo 3 ore. Pagina della gara e FAQ non coincidono sul ritiro pettorali: ricontrollare.",
+  "fonti": [
+   "https://www.rome4runners.it/appia-run/",
+   "https://www.rome4runners.it/faq-appia-run/"
+  ],
+  "verificato": "2026-10-24",
   "edizione": "2027"
  }
 }
