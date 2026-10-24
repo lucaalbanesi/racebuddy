@@ -2,6 +2,159 @@
  "aggiornato": "2026-10-24",
  "contenuti": [
   {
+   "id": "a9f31431217d",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Slow jogging: correre al ritmo del sorriso",
+   "estratto": "Lo slow jogging riduce la velocità al livello di una conversazione fluida, trasformando il movimento in una struttura sostenibile per ogni corpo. La velocità coincide con il ritmo…",
+   "link": "https://runlovers.it/2026/slow-jogging-corsa-ritmo-sorriso/",
+   "data": "2026-10-24",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/09-20261024-1235-Slow-jogging-T-Unsplash-Jorgen-Hendriksen.jpeg?fit=1920%2C1281&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "racconti"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
+   "id": "6f85102e5a0c",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Nuoto o ciclismo: qual è il cross-training migliore per i runner?",
+   "estratto": "Che tu debba fare i conti con un infortunio o puntare a un record personale, ecco come si confrontano le diverse attività",
+   "link": "https://www.runnersworld.com/it/allenamento/a74192438/nuoto-ciclismo-cross-training-runner/",
+   "data": "2026-10-24",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/3b860f0e-52ce-46e8-9b07-df8a16779256.jpeg",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "5aa4b6e7cb90",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Mobilità delle spalle per i runner: 7 esercizi utili",
+   "estratto": "Stretching e movimenti di forza possono aiutare a ridurre rigidità e fastidi alle spalle e migliorare la mobilità. Ecco sette esercizi da inserire nella routine",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a74232249/esercizi-mobilita-spalle-runner-corsa/",
+   "data": "2026-10-24",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/d86d1f4c-bf7f-4ebf-8502-93224cd5b226.jpeg",
+   "argomenti": [
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "ced4a6715fc0",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Le ciaspolate d’inverno e la bellezza di camminare sulla neve",
+   "estratto": "Con un paio di ciaspole il bosco che conosci d’estate resta percorribile anche sotto la neve, e diventa un posto diverso: più silenzioso, più lento, pieno di tracce. Cosa cambia…",
+   "link": "https://runlovers.it/2026/ciaspolate-inverno-camminare-neve/",
+   "data": "2026-10-24",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/ciaspole-guida-uno-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "forza",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "effbdf318330",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "La notte prima della maratona e il sonno che non arriva",
+   "estratto": "La notte prima della maratona azzera le certezze tecniche, trasformando l’insonnia nella misura fisica di quanto quella partenza conti per la tua testa. Il tessuto sintetico e le…",
+   "link": "https://runlovers.it/2026/notte-prima-maratona-sonno/",
+   "data": "2026-10-24",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/10-20261024-1730-Notte-prima-maratona-L-Unsplash-Sasha-Kaunas.jpeg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "rifornimento",
+    "alimentazione",
+    "scarpe",
+    "recupero"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara",
+    "dopo"
+   ]
+  },
+  {
+   "id": "0653d450a6c4",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Correre al mattino o alla sera: i pro e i contro di ogni orario",
+   "estratto": "Prestazione, sonno, stress, glicemia e recupero possono cambiare in base all’orario. Esperti e studi spiegano vantaggi e svantaggi della corsa al mattino e alla sera",
+   "link": "https://www.runnersworld.com/it/allenamento/a74199877/correre-mattino-sera-momento-migliore/",
+   "data": "2026-10-24",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/48073d4c-f8ea-4d35-ae6b-a4ec1dccd515.jpeg",
+   "argomenti": [
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "dopo"
+   ]
+  },
+  {
+   "id": "20be3fd84b13",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "A 30 anni dalla vittoria alla Maratona di New York: Giacomo Leone si racconta tra ricordi e aneddoti",
+   "estratto": "Nel 1996 Giacomo Leone diventò l’ultimo uomo italiano a vincere la Maratona di New York. A trent’anni di distanza, ripercorre quella giornata: la strategia, l’attacco a Central…",
+   "link": "https://www.runnersworld.com/it/vip/a74214243/giacomo-leone-30-anni-vittoria-maratona-new-york/",
+   "data": "2026-10-24",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/df26783e-20b4-4276-9cef-3e501760090a.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "aef9efb2098a",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Sulla diga: che spettacolo! 🤩",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/URxaNeJNO_c",
+   "data": "2026-10-23",
+   "immagine": "https://i2.ytimg.com/vi/URxaNeJNO_c/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
    "id": "651e6fb219f1",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
