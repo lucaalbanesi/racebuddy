@@ -2,6 +2,235 @@
  "aggiornato": "2026-10-25",
  "contenuti": [
   {
+   "id": "10fc9b8fb872",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "World Pasta Day: la pasta giusta per ogni allenamento",
+   "estratto": "Per il World Pasta Day, una guida per runner: quale pasta scegliere, quando mangiarla e cinque ricette da abbinare ai diversi momenti dell’allenamento",
+   "link": "https://www.runnersworld.com/it/alimentazione/food-drink/a74204347/world-pasta-day-pasta-per-corsa/",
+   "data": "2026-10-25",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/11c2e38e-4813-45f8-8a2c-cd4836528e5c.jpeg",
+   "argomenti": [
+    "alimentazione",
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
+   "id": "a4b766cced7f",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "StraSalerno vista mare: Vitolo e Bruno firmano la 21K",
+   "estratto": "Marco Pascarella ed Erica Sorrentino si impongono nella 10 km, al termine di una gara disputata sul nuovo percorso cittadino, pianeggiante e affacciato sul mare. 25 ottobre…",
+   "link": "https://podisti.net/strasalerno-vista-mare-vitolo-e-bruno-firmano-la-21k/",
+   "data": "2026-10-25",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/VincitoriStrasalerno2026Fotoorganizzatori.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "10"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "26bfc20e122e",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Se la scarpa con piastra vuoi usare, il modello dell'anno precedente dovrai comprare!",
+   "estratto": "Se la scarpa con piastra vuoi usare, il modello dell'anno precedente dovrai comprare! Il segreto per avere scarpe prestanti a un prezzo…",
+   "link": "https://www.youtube.com/shorts/BXc_p74xGdw",
+   "data": "2026-10-25",
+   "immagine": "https://i3.ytimg.com/vi/BXc_p74xGdw/hqdefault.jpg",
+   "argomenti": [
+    "scarpe"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "0214a96811be",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Mezza maratona di Valencia, Kwizera da paura. Ma il suo record europeo non sarà omologato",
+   "estratto": "L'atleta burundese con passaporto spagnolo è più veloce di Almgren, ma World Athletics blocca tutto. Ottima prova per l'Italiano Selvarolo",
+   "link": "https://www.runnersworld.com/it/news/a74240536/mezza-maratona-valencia-kwizera/",
+   "data": "2026-10-25",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/df0deeb3-07da-40a9-9a93-77bd24089124.jpg",
+   "argomenti": [
+    "gara",
+    "mente",
+    "notizie"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "be3ba66e0455",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona di Venezia, Ndorobo vince con record: tutti i risultati",
+   "estratto": "Nella 40esima edizione della Maratone di Venezia è grande festa con Kenya ed Etiopia a dominare. I primi italiani e i risultati",
+   "link": "https://www.runnersworld.com/it/news/a74231930/maratona-venezia-2026-risultati/",
+   "data": "2026-10-25",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/5b25ff37-0a75-4e04-bf1e-e68dc20652fe.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "868b3b0576f5",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Il piano di recupero giorno per giorno dopo una mezza maratona o una maratona.",
+   "estratto": "Dalla fase di scarico rigenerante alla programmazione del nuovo obiettivo: come gestire il post-gara basandosi sulle evidenze scientifiche e sui consigli degli esperti",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a74195927/recupero-dopo-maratona-mezza-maratona/",
+   "data": "2026-10-25",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/0146bd31-ef2e-4a50-80ef-0c735015cea3.jpeg",
+   "argomenti": [
+    "recupero",
+    "gara"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": [
+    "si_parte",
+    "scarico",
+    "dopo"
+   ]
+  },
+  {
+   "id": "3208b6770048",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Comprare l’attrezzatura per la versione di noi che non esce mai",
+   "estratto": "Il cartellino ancora attaccato Cercavo i guanti leggeri, quelli che a fine ottobre tornano utili per le prime uscite con il fiato che fa fumo. Erano scivolati in fondo all’armadio…",
+   "link": "https://runlovers.it/2026/attrezzatura-comprata-mai-usata-identita/",
+   "data": "2026-10-25",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/attrezzatura-versione-noi-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "rifornimento",
+    "gara",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico"
+   ]
+  },
+  {
+   "id": "a0767901014a",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Come passare dai 10 km alla mezza maratona in otto settimane",
+   "estratto": "Otto settimane, tre uscite a settimana e un lungo che sale per gradini bassi: il percorso per arrivare alla prima mezza maratona partendo dai 10 km che corri già. Un programma su…",
+   "link": "https://runlovers.it/2026/da-10-km-mezza-maratona-otto-settimane/",
+   "data": "2026-10-25",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/da-10k-alla-mezza-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [
+    "21",
+    "10"
+   ],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "0e1bcaf2bdff",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Cambio dell’ora: il rituale serale di recovery a misura di runner",
+   "estratto": "Cala il buio, tu dedicati al recupero",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a74180555/cambio-ora-rituale-serale-recovery/",
+   "data": "2026-10-25",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/8c38948a-6a36-4a21-915c-a497987afaf7.jpeg",
+   "argomenti": [
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "dopo"
+   ]
+  },
+  {
+   "id": "b1aa8953cf2b",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Cambio dell’ora e corsa: cosa cambia davvero per i runner",
+   "estratto": "Dalla gestione della gara al passaggio all'ora solare e legale, fino agli allenamenti invernali al buio: come sincronizzare l'orologio biologico basandosi sulle evidenze…",
+   "link": "https://www.runnersworld.com/it/allenamento/a74240538/cambio-ora-corsa-effetti/",
+   "data": "2026-10-25",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/b15fc24a-a806-4e6b-94c1-abf0cc95bb2c.jpeg",
+   "argomenti": [
+    "allenamento",
+    "gara",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "27a7fe526da7",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "40^ Wizz Air Venicemarathon, Kwemoi da record, Jerono regina di Venezia",
+   "estratto": "Il keniano vince in 2h07’31” e riscrive il primato della maratona veneziana, con tre atleti sotto le 2h08’. Tra le donne Jackline Jerono si impone in 2h26’16”, terzo tempo di…",
+   "link": "https://podisti.net/40-wizz-air-venicemarathon-kwemoi-da-record-jerono-regina-di-venezia/",
+   "data": "2026-10-25",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/VincotoreVeniceMarathon2026FotoOrganizzatori.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42",
+    "21",
+    "10"
+   ],
+   "fasi": []
+  },
+  {
    "id": "a9f31431217d",
    "tipo": "articolo",
    "fonte": "Runlovers",
@@ -102,6 +331,20 @@
     "gara",
     "dopo"
    ]
+  },
+  {
+   "id": "3314b08e1e6f",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Correrò di notte tra le montagne! 🤯",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/EHoHaoS_sDE",
+   "data": "2026-10-24",
+   "immagine": "https://i2.ytimg.com/vi/EHoHaoS_sDE/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
   },
   {
    "id": "0653d450a6c4",
