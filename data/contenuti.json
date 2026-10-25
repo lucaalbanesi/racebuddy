@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-10-24",
+ "aggiornato": "2026-10-25",
  "contenuti": [
   {
    "id": "a9f31431217d",
@@ -119,6 +119,28 @@
    "distanze": [],
    "fasi": [
     "dopo"
+   ]
+  },
+  {
+   "id": "3c43a527f434",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Come vestirsi per correre in autunno senza avere troppo caldo o freddo",
+   "estratto": "Temperature variabili e dubbi sugli strati? I capi, le scarpe e gli accessori per affrontare gli allenamenti autunnali.",
+   "link": "https://www.runnersworld.com/it/equipment/a74178954/abbigliamento-accessori-running-autunno/",
+   "data": "2026-10-24",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/5ec5eb88-5854-4396-99c5-beb3f3e50bed.jpeg",
+   "argomenti": [
+    "scarpe",
+    "allenamento",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
    ]
   },
   {
