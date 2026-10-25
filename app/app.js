@@ -3948,7 +3948,8 @@
       const g = S.gare.find((x) => x.id === f.dataset.id);
       const tg = g ? leggiTempoFacoltativo("gi-tempo", g) : {};
       if (tg.errore) { toast(tg.errore); return; }
-      if (g) { g.ruolo = v("gi-ruolo") || g.ruolo; g.tempo = tg.tempo; salva(); toast("Salvato"); location.hash = urlGara(g.id); }
+      if (g) { g.ruolo = v("gi-ruolo") || g.ruolo; g.tempo = tg.tempo; salva(); toast("Salvato");
+        if (location.hash === urlGara(g.id)) rerender(); else location.hash = urlGara(g.id); } // stessa pagina: niente hashchange, ridisegno a mano
     } else if (f.id === "scheda") {
       const g = S.gare.find((x) => x.id === f.dataset.id);
       if (g) {
