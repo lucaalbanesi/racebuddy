@@ -1113,7 +1113,8 @@
     return `${testataGara(g, "")}
       <section class="card dark"><div class="between" style="align-items:flex-end"><div style="display:flex;flex-direction:column;gap:2px;min-width:0">
         <span style="font:700 20px/1.1 var(--display)">${esc(L.fmtGiorno(g.data))} ${esc(g.data.slice(0, 4))}${ora ? " · ore " + esc(ora) : ""}</span>
-        <span class="sub">${esc(nomeLuogo(g.luogo) || "Luogo da indicare")}${g.tempo ? " · obiettivo " + esc(g.tempo) : ""}</span></div>
+        <span class="sub">${esc(nomeLuogo(g.luogo) || "Luogo da indicare")}${g.tempo ? " · obiettivo " + esc(g.tempo) : ""}</span>
+        ${g.tempo && kmDellaGara(g) ? `<span class="sub" style="font-size:12px;opacity:.85">${esc(testoPasso(kmDellaGara(g), L.leggiTempo(g, g.tempo).tempo))}</span>` : ""}</div>
         <div style="text-align:right">${n > 0 ? `<div class="big" style="font-size:44px">${n}</div><span class="sub">${n === 1 ? "giorno" : "giorni"}</span>` : `<span class="pill navy">${n === 0 ? "oggi!" : "conclusa"}</span>`}</div></div>
         ${n >= 0 ? `${barraFasi(g, true)}<span class="sub">${f.id === "prima" ? "Preparazione non ancora iniziata" : `Fase: <b style="color:#fff">${esc(f.nome)}</b>`}</span>` : ""}</section>
       ${daSegnare(g, o) ? `<a class="card soft" href="#/risultato/${encodeURIComponent(g.id)}" style="text-decoration:none;color:inherit;font-weight:inherit"><span class="title">${ris ? `Il tuo tempo: ${esc(ris.tempo)}${ris.pb ? " · personale!" : ""}` : g.esito ? ESITO[g.esito] : "Com'è andata?"}</span><span class="small">${ris ? "Modifica o condividi ›" : g.esito ? "Cambia ›" : "Segna il tuo tempo ›"}</span></a>` : ""}
@@ -1849,7 +1850,8 @@
     const miei = L.esatte(datiSt().risultati).filter((r) => r.mio && r.distanza === g.distanza && r.data < g.data);
     const pb = miei.length ? Math.min(...miei.map((r) => r.secondi)) : null;
     const altra = !!g.km; // altra distanza: valgono solo arrivo e Borsa
-    const ob = altra ? `<span class="small">Gara di ${esc(L.etichettaDist(g))}: non vale per Obiettivo centrato né per i personali. Conta l'arrivo.</span>` : sec ? `<div class="row" style="align-items:baseline;gap:10px"><span class="big" style="font-size:34px;color:var(--fg)">${esc(fmtSec(sec))}</span><span class="small muted">${aperto ? "si blocca alle 23:59 della vigilia" : "bloccato"}</span></div>
+    const ob = altra ? `${sec ? `<div class="row" style="align-items:baseline;gap:10px"><span class="big" style="font-size:34px;color:var(--fg)">${esc(fmtSec(sec))}</span></div><span class="small muted" style="font-size:12px;margin-top:-6px">${esc(testoPassoSec(kmDellaGara(g), sec))}</span>` : ""}<span class="small">Gara di ${esc(L.etichettaDist(g))}: non vale per Obiettivo centrato né per i personali. Conta l'arrivo.</span>` : sec ? `<div class="row" style="align-items:baseline;gap:10px"><span class="big" style="font-size:34px;color:var(--fg)">${esc(fmtSec(sec))}</span><span class="small muted">${aperto ? "si blocca alle 23:59 della vigilia" : "bloccato"}</span></div>
+        <span class="small muted" style="font-size:12px;margin-top:-6px">${esc(testoPassoSec(kmDellaGara(g), sec))}</span>
         <span class="small">Vale per Obiettivo centrato: tra ${esc(fmtSec(sec - margine))} e ${esc(fmtSec(sec + margine))} è centrato.</span>`
       : aperto ? `<span class="small">Fissa il tempo obiettivo entro le 23:59 della vigilia: vale per la classifica Obiettivo centrato.</span><a class="btn ghost" href="${urlGara(g.id)}?modifica=1">Imposta l'obiettivo</a>`
       : `<span class="small muted">Nessun obiettivo fissato per questa gara.</span>`;
@@ -2740,6 +2742,9 @@
   const kmDellaGara = (g) => Number(L.kmAltra(g)) || KM_CLASSICHE[g.distanza] || 0;
   function testoPasso(km, tempo) {
     const p = String(tempo || "").split(":").map(Number), sec = p.length === 3 && p.every(Number.isFinite) ? p[0] * 3600 + p[1] * 60 + p[2] : 0;
+    return testoPassoSec(km, sec);
+  }
+  function testoPassoSec(km, sec) {
     const kmTxt = `${({ 21.0975: "21,097", 42.195: "42,195" })[km] || String(Math.round(km * 100) / 100).replace(".", ",")} km`;
     if (!sec) return `${kmTxt} · passo —`;
     const s = Math.round(sec / km);
