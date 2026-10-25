@@ -295,10 +295,10 @@ body.onboarding .app { padding: 0; max-width: 480px; min-height: 100dvh; }
 /* Le mie gare: card compatte (data più piccola, righe più strette) */
 .mia-gara { padding: 10px 12px 10px 14px; }
 .mia-gara .race { gap: 12px; align-items: center; }
-.mia-gara .race .date { width: 50px; padding-right: 10px; }
-.mia-gara .race .date b { font-size: 24px; }
-.mia-gara .race .date span { font-size: 11px; line-height: 1.2; }
-.mia-gara .race .date .m { font-size: 10.5px; }
+.mia-gara .race .date { width: 56px; padding-right: 10px; }
+.mia-gara .race .date b { font-size: 29px; }
+.mia-gara .race .date span { font-size: 12px; line-height: 1.2; }
+.mia-gara .race .date .m { font-size: 11.5px; }
 .mia-gara .race .info { gap: 2px; }
 .mia-gara .race .title { font-size: 16px; line-height: 1.25; }
 .mia-gara .race .info > .small { font-size: 13px; line-height: 1.3; }
