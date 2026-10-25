@@ -1026,7 +1026,7 @@
         ${r("obiettivo", "Obiettivo", "Costruisco la preparazione su questa gara", !ha)}
         ${r("tappa", "Tappa", "Una gara di passaggio verso l'obiettivo", ha)}
         ${r("divertimento", "Per divertimento", "Solo checklist e promemoria", false)}</fieldset>
-      <div class="field"><span class="lbl" id="a-tempo-l">Tempo obiettivo <span class="muted">(facoltativo)</span></span>${campoTempo("a-tempo", g, "", "a-tempo-l")}</div>
+      <div class="field"><span class="lbl" id="a-tempo-l">Tempo obiettivo <span class="muted">(facoltativo)</span></span>${campoTempo("a-tempo", g, "", "a-tempo-l")}${rigaPasso("a-tempo", g, "")}</div>
       ${P.citta ? "" : `<span class="title">Due cose su di te <span class="muted small" style="font-weight:500">· puoi saltarle</span></span>
       <div class="field">${bottoneGps("a-citta")}</div>
       <div class="grid2"><div class="field"><label for="a-citta">Dove corri di solito</label><input class="input" id="a-citta" placeholder="es. Roma"></div>
@@ -1135,7 +1135,7 @@
       <details class="card" ${param.modifica ? "open" : ""}><summary>Ruolo e tempo obiettivo</summary>
         <form id="gara-imp" data-id="${esc(g.id)}" style="display:flex;flex-direction:column;gap:10px">
         <div class="field"><label for="gi-ruolo">Ruolo</label><select class="input" id="gi-ruolo">${["obiettivo", "tappa", "divertimento"].map((r) => `<option value="${r}" ${g.ruolo === r ? "selected" : ""}>${L.RUOLO_LABEL[r]}</option>`).join("")}</select></div>
-        <div class="field"><span class="lbl" id="gi-tempo-l">Tempo obiettivo <span class="muted">(facoltativo)</span></span>${campoTempo("gi-tempo", g, g.tempo || "", "gi-tempo-l")}</div>
+        <div class="field"><span class="lbl" id="gi-tempo-l">Tempo obiettivo <span class="muted">(facoltativo)</span></span>${campoTempo("gi-tempo", g, g.tempo || "", "gi-tempo-l")}${rigaPasso("gi-tempo", g, g.tempo || "")}</div>
         <button class="btn" type="submit">Salva</button></form></details>
       ${corsa(g, o) ? (() => {
         const c = cicloGara(g, o), torna = g.archiviata && L.ciclo({ ...g, archiviata: null }, o, ris) !== "archiviata";
@@ -2735,6 +2735,22 @@
     const box = (k, v, max, p, nome) => `<input class="input" id="${id}-${k}" inputmode="numeric" pattern="[0-9]*" maxlength="${max}" autocomplete="off" placeholder="${p}" value="${esc(v)}" aria-label="${nome}">`;
     return `<div class="tempo3${grande ? " grande" : ""}" role="group" aria-labelledby="${etichetta}">${box("h", h, 1, ph[0], "Ore")}<span>h</span>${box("m", m, 2, ph[1], "Minuti")}<span>min</span>${box("s", s, 2, ph[2], "Secondi")}<span>s</span></div>`;
   }
+  // Sotto il tempo obiettivo: distanza fissa della gara e passo calcolato mentre si scrive (utile sulle distanze non classiche).
+  const KM_CLASSICHE = { "10": 10, "21": 21.0975, "42": 42.195 };
+  const kmDellaGara = (g) => Number(L.kmAltra(g)) || KM_CLASSICHE[g.distanza] || 0;
+  function testoPasso(km, tempo) {
+    const p = String(tempo || "").split(":").map(Number), sec = p.length === 3 && p.every(Number.isFinite) ? p[0] * 3600 + p[1] * 60 + p[2] : 0;
+    const kmTxt = `${({ 21.0975: "21,097", 42.195: "42,195" })[km] || String(Math.round(km * 100) / 100).replace(".", ",")} km`;
+    if (!sec) return `${kmTxt} · passo —`;
+    const s = Math.round(sec / km);
+    return `${kmTxt} · passo ${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}/km`;
+  }
+  function rigaPasso(id, g, valore) {
+    const km = kmDellaGara(g);
+    if (!km) return "";
+    const t = valore ? L.leggiTempo(g, valore).tempo : "";
+    return `<span class="small muted passo-ob" id="${id}-passo" data-km="${km}" aria-live="polite">${esc(testoPasso(km, t))}</span>`;
+  }
   // Tempo facoltativo: caselle tutte vuote = nessun tempo; altrimenti come leggiCampoTempo.
   function leggiTempoFacoltativo(id, distanza) {
     const vuote = ["h", "m", "s"].every((k) => !((document.getElementById(`${id}-${k}`) || {}).value || "").trim());
@@ -3716,6 +3732,8 @@
     if (pulito !== el.value) el.value = pulito;
     const dopo = tutte[tutte.indexOf(el) + 1];
     if (pulito.length === el.maxLength && dopo) dopo.focus();
+    const riga = el.closest(".field") && el.closest(".field").querySelector(".passo-ob");
+    if (riga) { const [h, m, sc] = tutte.map((x) => x.value); riga.textContent = testoPasso(Number(riga.dataset.km), L.tempoDaParti(h, m, sc)); }
   });
   document.addEventListener("keydown", (e) => {
     const tutte = caselleTempo(e.target);
