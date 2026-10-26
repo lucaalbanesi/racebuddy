@@ -7,15 +7,28 @@ e attuali, con dati veri.
 
 ## Quali modelli
 
-- Quattro tipi (classificazione RaceBuddy, campo `tipo`):
-  - `DA` **Daily**: scarpe da allenamento per km facili e lunghi facili, dalla versatile alla massima protezione
-    (es. Novablast, Pegasus, Nimbus, Clifton, Bondi, Vomero, 1080, Triumph, Glycerin, Cumulus).
-  - `ST` **Super-trainer**: schiuma da gara in una scarpa da allenamento alta e protettiva, per lunghi e lavori
-    (es. Superblast, Megablast, Vomero Plus, SC Trainer). Può avere una piastra morbida.
-  - `TE` **Tempo**: leggera e reattiva per ripetute e gare su 10 km e mezza, spesso con piastra da allenamento
-    (es. Magic Speed, Sonicblast, Zoom Fly, Deviate Nitro, Boston, Hyperion Max, Mach X, Endorphin Speed).
-  - `GA` **Gara**: piastra in carbonio e schiuma da gara (es. Vaporfly, Metaspeed, Adios Pro, Endorphin Pro,
-    Rocket X, Deviate Nitro Elite).
+- Quattro tipi (classificazione RaceBuddy, campo `tipo`). Il tipo dice **per cosa la usa un amatore**, non quanto
+  è morbida o costosa. Si decide con la regola qui sotto, nell'ordine, e mai da una fonte sola (Runnea, RunRepeat,
+  Doctors of Running o Road Trail Run, il produttore):
+  1. `GA` **Gara**: piastra in carbonio e schiuma da gara, proposta dal produttore per gareggiare
+     (es. Vaporfly, Metaspeed, Adios Pro, Endorphin Pro, Rocket X, Deviate Nitro Elite).
+  2. `TE` **Tempo**: leggera (di solito sotto i 260 g) e reattiva, per ripetute e gare su 10 km e mezza; spesso con
+     piastra in nylon, Pebax o fibra (es. Magic Speed, Sonicblast, Zoom Fly, Deviate Nitro, Boston, Endorphin Speed,
+     Mach X).
+  3. `ST` **Super-trainer**: schiuma da gara in una scarpa alta e protettiva che le recensioni promuovono **sia** per i
+     lunghi **sia** per i lavori a ritmo gara (rimbalzo, piastra o geometria rigida a dondolo: "super trainer",
+     "versatile anche per il ritmo"). Esempi: Superblast, Megablast, Skyward X.
+  4. `DA` **Daily**: tutto il resto da allenamento, dalla versatile alla massima protezione, **anche con schiuma da
+     gara** se le recensioni dicono che sul ritmo è lenta o "non ama andare forte" (es. Novablast, Pegasus, Nimbus,
+     Clifton, Bondi, Vomero, Vomero Plus, 1080, Triumph, Glycerin, Cumulus).
+  5. Nel dubbio tra due tipi conta l'uso che almeno due recensioni indipendenti consigliano (il marketing del
+     produttore pesa meno). Il dubbio va nel riepilogo.
+- Ogni modello ha `perche`: una riga sul tipo con le fonti, es. "ZoomX senza piastra, per facili e lunghi, lenta al
+  ritmo (Doctors of Running, Road Trail Run)". Ogni mese il tipo si **ricontrolla per tutti i modelli**, non solo per
+  i nuovi: se le recensioni lo smentiscono si corregge e si scrive nel riepilogo ("X passa da ST a DA, perché …").
+- Il controllo automatico (`scripts/verifica_scarpe.py`) segnala i casi sospetti (Gara senza carbonio, Super-trainer
+  senza piastra con uso "allenamento", Daily con piastra in carbonio, `perche` mancante): vanno risolti o spiegati
+  nel riepilogo.
 - Da 6 a 12 modelli per tipo, 30-45 in tutto. Solo strada: niente trail, pista, chiodate, minimaliste.
 - Le marche più diffuse tra i runner italiani: ASICS, Nike, HOKA, Adidas, Saucony, Brooks, New Balance, Puma, Mizuno,
   On. Almeno 3 marche per tipo.
@@ -27,8 +40,6 @@ e attuali, con dati veri.
   va nel riepilogo ("entra X al posto di Y, perché …").
 - Si tolgono i modelli che non si trovano più in vendita, quelli con una versione nuova uscita da più di un anno e
   quelli lanciati da più di due anni se nel tipo c'è un'alternativa recente con score uguale o migliore.
-- Nel dubbio sul tipo (es. una "tempo" alta e protettiva), si sceglie quello per cui il produttore la propone e lo
-  si scrive nel riepilogo, così Luca lo può correggere.
 
 ## Fonti
 
@@ -57,6 +68,7 @@ Mai inventare un dato: se non si trova, il campo si omette.
     { "modello": "ASICS Gel Nimbus 28", "marca": "ASICS", "linea": "nimbus", "tipo": "DA",
       "prezzo": 114, "listino": 200, "peso": 285, "drop": 8, "suola": 41, "ammortizzazione": "massima",
       "uso": "allenamento", "corporatura": "MF", "score": 9.5, "fonte": "Runnea",
+      "perche": "FF Blast Max senza piastra, massima protezione per facili e lunghi (Runnea, Doctors of Running)",
       "url": "https://www.runnea.com/zapatillas-running/asics/gel-nimbus-28/1058964/" }
   ]
 }
@@ -66,6 +78,7 @@ Mai inventare un dato: se non si trova, il campo si omette.
   (`superblast`, `nimbus`, `magic speed`): serve a riconoscere le scarpe che l'atleta ha già.
 - `prezzo` e `listino` in euro interi (arrotondati), `peso` in grammi (uomo), `drop` e `suola` in mm.
 - `uso`: `allenamento`, `gara`, `misto` o `allenamento e gara`. `corporatura`: lettere tra L, M, F.
+- `perche`: una riga sul tipo con le fonti (obbligatoria).
 - `piastra` solo se c'è: `carbonio`, `nylon`, `Pebax`, `barre in fibra`…
 - `falcata` solo per le `GA`, se il produttore lo dice: `["long"]` (per chi allunga il passo) o `["freq"]` (per chi
   aumenta la frequenza).

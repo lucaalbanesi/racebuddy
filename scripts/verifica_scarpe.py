@@ -21,7 +21,22 @@ for t in TIPI:
 nomi = [x.get("modello") for x in m]
 if len(nomi) != len(set(nomi)):
     errori.append("modelli doppi")
+# casi sospetti sul tipo: non bloccano, finiscono nel riepilogo (file avvisi_tipo.txt)
+avvisi = []
+for x in m:
+    t, piastra, uso, nome = x.get("tipo"), str(x.get("piastra") or "").lower(), str(x.get("uso") or ""), x.get("modello", "?")
+    if not x.get("perche"):
+        avvisi.append(f"{nome}: manca `perche` (motivo del tipo)")
+    if t == "GA" and "carbon" not in piastra:
+        avvisi.append(f"{nome}: Gara senza piastra in carbonio")
+    if t == "ST" and not piastra and uso == "allenamento" and not x.get("perche"):
+        avvisi.append(f"{nome}: Super-trainer senza piastra e con uso solo allenamento (forse Daily?)")
+    if t == "DA" and "carbon" in piastra:
+        avvisi.append(f"{nome}: Daily con piastra in carbonio (forse Super-trainer?)")
 if errori:
     print("\n".join(errori))
     sys.exit(1)
+if avvisi:
+    open("avvisi_tipo.txt", "w", encoding="utf-8").write("\n".join(avvisi) + "\n")
+    print("avvisi sul tipo:\n" + "\n".join(avvisi))
 print(f"ok: {len(m)} modelli")
