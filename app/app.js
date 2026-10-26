@@ -538,6 +538,7 @@
     const s = S.scarpiera; s.risp = s.risp || {}; s.attivita = s.attivita || []; s.qty = s.qty || {};
     return s;
   }
+  const scPrezzi = () => ({ ...L.SC_PREZZO, ...((D.scarpe && D.scarpe.prezzi_tipici) || {}) });
   const scSet = () => ["DA", "ST", ...(SC().te ? ["TE"] : []), ...(SC().ga ? ["GA"] : [])];
   const scQty = () => Object.fromEntries(scSet().map((t) => [t, Math.max(1, Number(SC().qty[t]) || 1)]));
   const scMieScarpe = () => (S.scarpe || []).filter((s) => !s.ritirata && L.SC_DA_APP[s.tipo]);
@@ -620,9 +621,9 @@
           <span class="small muted">La settimana prima di una mezza o di una maratona è di scarico, quella dopo di recupero.</span></section>
         ${avanti()}`;
     } else if (k === "set") {
-      const base = L.scSimula(ctx), set = scSet(), costo = L.scCosto(ctx, set);
+      const base = L.scSimula(ctx), set = scSet(), costo = L.scCosto(ctx, set, scPrezzi());
       const mie = (t) => { const m = scMieScarpe().filter((s) => L.SC_DA_APP[s.tipo] === t); return m.length ? `<span class="small"><span class="muted">Ce l'hai:</span> ${m.map((s) => esc(corto(s.nome))).join(", ")}</span>` : '<span class="small muted">Non ce l\'hai</span>'; };
-      const delta = (t) => { const con = set.includes(t) ? set : [...set, t], senza = set.filter((x) => x !== t); return L.scCosto(ctx, con).mese - L.scCosto(ctx, senza).mese; };
+      const delta = (t) => { const con = set.includes(t) ? set : [...set, t], senza = set.filter((x) => x !== t); return L.scCosto(ctx, con, scPrezzi()).mese - L.scCosto(ctx, senza, scPrezzi()).mese; };
       const AGG = { TE: ["Tempo", "Leggera e reattiva: le ripetute e le gare su 10 km e mezza le corri con una scarpa che somiglia al ritmo gara.", "Si prende veloce, 10 km e mezze: il super-trainer resta per lunghi e lunghissimi e dura di più."],
         GA: ["Gara", "Piastra in carbonio e schiuma da gara: per molti runner vale l'1-3% del tempo, qualche minuto su una maratona.", "La usi solo per le gare e per poche sedute a ritmo gara: dura circa 300 km."] };
       const agg = (t) => { const on = t === "TE" ? sc.te : sc.ga, d = delta(t); return `<button type="button" class="card sc-agg" data-act="sc-agg" data-t="${t}" aria-pressed="${on}"><span class="between" style="width:100%"><span class="title">+ ${AGG[t][0]}</span><span class="sc-switch" aria-hidden="true"><i></i></span></span><span class="small">${AGG[t][1]}</span><span class="small muted">${AGG[t][2]}</span><span class="between" style="width:100%">${mie(t)}<span class="small">${d === 0 ? "<b>stesso costo</b> al mese" : `<b>${d > 0 ? "+" : "−"}${Math.abs(d)} €</b> al mese`}</span></span></button>`; };
@@ -644,7 +645,7 @@
           ${rets.length ? `<span class="small">${rets.map((s) => `<b>${esc(corto(s.nome))}</b> finisce il ${scGiorno(ctx, s.fine)}`).join(" · ")}.${ultima && rets.length === base.S.length && rets.every((s) => s.fine < L.scSettimana(ctx, ultima.data)) ? ` Con queste sole scarpe non arrivi all'ultima gara (${esc(ultima.nome)}).` : ""}</span>` : ""}</section>
         ${avanti("Vedi il piano")}`;
     } else if (k === "piano") {
-      const set = scSet(), { piano, sim, prossimo } = L.scPiano(ctx, set, scQty()), spesa = piano.reduce((t, p) => t + L.SC_PREZZO[p.t], 0);
+      const set = scSet(), { piano, sim, prossimo } = L.scPiano(ctx, set, scQty()), spesa = piano.reduce((t, p) => t + scPrezzi()[p.t], 0);
       const motivo = (p) => {
         if (p.coppia) return p.w === 0 ? `Vuoi ${p.coppia} ${L.SC_TIPI[p.t].toLowerCase()} in alternanza: questa completa la coppia.` : `Vuoi ${p.coppia} ${L.SC_TIPI[p.t].toLowerCase()} in alternanza: questa sostituisce quella che finisce.`;
         const ruolo = p.mar ? "la maratona" : PER_RUOLO[p.r];
@@ -675,7 +676,7 @@
         if (!r.scelta || !lista.some((x) => x.c.modello === r.scelta)) r.scelta = lista[0] && lista[0].c.modello;
         const marche = [...new Set(cat.filter((c) => c.tipo === p.t).map((c) => c.marca))];
         const ric = p.causa && scMieScarpe().find((s) => s.nome === p.causa.scarpa && L.SC_DA_APP[s.tipo] === p.t);
-        const totale = piano.reduce((t, q) => { const rr = sc.risp[q.t + "@" + L.scData(ctx, q.w)], c = rr && cat.find((m) => m.modello === rr.scelta); return t + (c ? c.prezzo : L.SC_PREZZO[q.t]); }, 0);
+        const totale = piano.reduce((t, q) => { const rr = sc.risp[q.t + "@" + L.scData(ctx, q.w)], c = rr && cat.find((m) => m.modello === rr.scelta); return t + (c ? c.prezzo : scPrezzi()[q.t]); }, 0);
         const scelto = cat.find((c) => c.modello === r.scelta);
         corpo = `<h1>${TITOLI_SC.modelli}</h1><p class="sub">${piano.length === 1 ? "Una scarpa" : piano.length + " scarpe"}: circa ${totale} € con i modelli scelti. Prezzi più bassi trovati oggi.</p>
           <nav class="sc-tabs" aria-label="Scarpe da scegliere">${piano.map((q, j) => { const rr = sc.risp[q.t + "@" + L.scData(ctx, q.w)]; return `<a href="#/scarpiera/modelli?i=${j}" ${j === idx ? 'aria-current="page"' : ""}><b>${j + 1}. ${L.SC_TIPI[q.t]}</b><span class="small">${rr && rr.scelta ? esc(corto(rr.scelta)) : "entro il " + scGiorno(ctx, q.w)}</span></a>`; }).join("")}</nav>
@@ -733,7 +734,7 @@
       const ctx = scCtx(), { piano } = L.scPiano(ctx, scSet(), scQty()), cat = (D.scarpe && D.scarpe.modelli) || [];
       sc.attivita = piano.map((p, j) => {
         const key = p.t + "@" + L.scData(ctx, p.w), r = sc.risp[key] || {}, lista = L.scModelli(cat, p.t, { budget: L.SC_BUDGET[p.t], ...r }, ctx).lista;
-        const c = cat.find((m) => m.modello === r.scelta) || (lista[0] && lista[0].c) || { modello: L.SC_TIPI[p.t] + " nuova", prezzo: L.SC_PREZZO[p.t] };
+        const c = cat.find((m) => m.modello === r.scelta) || (lista[0] && lista[0].c) || { modello: L.SC_TIPI[p.t] + " nuova", prezzo: scPrezzi()[p.t] };
         const ric = p.causa && scMieScarpe().find((s) => s.nome === p.causa.scarpa && L.SC_DA_APP[s.tipo] === p.t);
         return { id: "A" + Date.now().toString(36) + j, t: p.t, modello: c.modello, prezzo: c.prezzo, url: c.url || "", fonte: c.fonte || "", entro: L.scData(ctx, p.w), pronta: L.scData(ctx, p.pronta), ricambio: ric ? corto(ric.nome) : "" };
       });

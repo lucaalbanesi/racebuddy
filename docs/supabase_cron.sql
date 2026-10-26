@@ -60,6 +60,8 @@ select cron.schedule('racebuddy-contenuti',  '41 4,15 * * *',    $$select public
 select cron.schedule('racebuddy-calendario', '17 4 * * 1',       $$select public.racebuddy_lancia('calendario.yml')$$);
 -- Gare estere (elenco curato, docs/gare-estere.md): il giorno 1 di ogni mese.
 select cron.schedule('racebuddy-estero',     '29 4 1 * *',       $$select public.racebuddy_lancia('estero.yml')$$);
+-- Catalogo scarpe della Scarpiera (docs/catalogo-scarpe.md): il giorno 15 di ogni mese.
+select cron.schedule('racebuddy-scarpe',     '31 4 15 * *',      $$select public.racebuddy_lancia('scarpe.yml')$$);
 -- Controllo salute: ogni ora (6:41-23:41 a Roma con l'ora legale). Se non gira è Supabase a essere giù:
 -- la pagina #/salute lo dice ("Il controllo non gira"), una push non può partire perché passa dal database.
 select cron.schedule('racebuddy-salute',     '41 4-21 * * *',    $$select public.racebuddy_lancia('salute.yml')$$);

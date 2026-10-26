@@ -21,6 +21,7 @@ const JOBS = [
   { id: "schede", wf: "schede.yml", nome: "Schede gara", max: () => 26 },
   { id: "calendario", wf: "calendario.yml", nome: "Calendario gare", max: () => 8 * 24 },
   { id: "estero", wf: "estero.yml", nome: "Gare estere", max: () => 32 * 24 },
+  { id: "scarpe", wf: "scarpe.yml", nome: "Catalogo scarpe", max: () => 32 * 24 },
 ];
 // File di dati e giorni massimi dall'ultimo aggiornamento (campo "aggiornato")
 const DATI = [
@@ -28,6 +29,7 @@ const DATI = [
   { id: "dati-contenuti", file: "data/contenuti.json", nome: "Articoli e video", giorni: 2 },
   { id: "dati-seguite", file: "data/gare_seguite.json", nome: "Gare seguite", giorni: 2 },
   { id: "dati-estero", file: "content/estero.json", nome: "Gare estere", giorni: 35 },
+  { id: "dati-scarpe", file: "content/scarpe.json", nome: "Catalogo scarpe", giorni: 35 },
 ];
 const FALLITO = new Set(["failure", "timed_out", "startup_failure"]);
 

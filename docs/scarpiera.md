@@ -40,9 +40,8 @@ Oggi: una scheda per scarpa da comprare (scadenza grigia, gialla entro 14 giorni
 ## Catalogo `content/scarpe.json`
 Una riga per modello: `modello`, `marca`, `linea` (per riconoscere le scarpe che l'atleta ha già), `tipo` (classificazione RaceBuddy), `prezzo` (minimo), `listino`, `peso` (g, uomo), `drop`, `suola` (mm al tallone, quando c'è), `ammortizzazione` (media/massima), `uso`, `corporatura` (L/M/F di Runnea), `piastra`, `score` (Runnea), `falcata` (solo Gara: long/freq), `precedente`, `fonte`, `url`.
 
-Aggiornamento mensile (a mano per ora): per ogni modello rileggere la scheda Runnea (prezzo "da", listino, score), aggiungere i modelli nuovi più visti per tipo e togliere quelli spariti; altezza della suola da RunRepeat (pagine `runrepeat.com/es/...`) o da recensioni; aggiornare `aggiornato` e `prezzi_tipici` (mediana dei prezzi per tipo). Il tipo di un modello nuovo si decide a mano.
+Aggiornamento: workflow "Catalogo scarpe" (`.github/workflows/scarpe.yml`, Claude Code il giorno 15 di ogni mese) secondo `docs/catalogo-scarpe.md`, con controllo di `scripts/verifica_scarpe.py` e riepilogo sull'issue "Riepilogo catalogo scarpe". `prezzi_tipici` (mediana per tipo) alimenta il costo del set nell'app.
 
 ## Da fare
 - Notifiche push a 14 e 2 giorni dalla scadenza di un acquisto (servirebbe mandare le date al server, come le scadenze dei documenti).
-- Workflow mensile del catalogo con Claude Code (schema di Gare estere).
 - Chiudere da sola l'attività quando la scarpa nuova arriva da Strava.
