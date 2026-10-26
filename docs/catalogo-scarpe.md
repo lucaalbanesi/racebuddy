@@ -19,10 +19,14 @@ e attuali, con dati veri.
 - Da 6 a 12 modelli per tipo, 30-45 in tutto. Solo strada: niente trail, pista, chiodate, minimaliste.
 - Le marche più diffuse tra i runner italiani: ASICS, Nike, HOKA, Adidas, Saucony, Brooks, New Balance, Puma, Mizuno,
   On. Almeno 3 marche per tipo.
-- Si tengono sia la versione nuova sia la precedente finché la precedente è in vendita a un buon prezzo
-  (`precedente: true`): è spesso la scelta più conveniente.
-- Si tolgono i modelli che non si trovano più in vendita o che hanno una versione nuova da più di un anno senza
-  più la vecchia in vendita.
+- Il catalogo va svecchiato ogni mese: le versioni nuove entrano sempre, anche a tipo pieno.
+- Versione nuova e precedente: la precedente resta (`precedente: true`) solo se costa almeno 20 € meno della nuova
+  e ha uno score uguale o più alto di 8,5; altrimenti la nuova la sostituisce. Mai tre versioni della stessa linea.
+- Tipo pieno (12 modelli) e un modello nuovo migliore: entra togliendo, nell'ordine, una versione precedente, poi
+  il modello con lo score più basso, poi quello in vendita da più tempo. Mai sotto 3 marche per tipo. Ogni scambio
+  va nel riepilogo ("entra X al posto di Y, perché …").
+- Si tolgono i modelli che non si trovano più in vendita, quelli con una versione nuova uscita da più di un anno e
+  quelli lanciati da più di due anni se nel tipo c'è un'alternativa recente con score uguale o migliore.
 - Nel dubbio sul tipo (es. una "tempo" alta e protettiva), si sceglie quello per cui il produttore la propone e lo
   si scrive nel riepilogo, così Luca lo può correggere.
 
@@ -71,11 +75,12 @@ Mai inventare un dato: se non si trova, il campo si omette.
 
 1. Per ogni modello: riapri la sua pagina, aggiorna prezzo, listino e score; correggi gli altri campi se cambiati.
 2. Cerca le novità del mese per tipo (Runnea "Lo más visitado", "modelos/todas/" con i filtri di uso e
-   ammortizzazione, le uscite annunciate dai produttori) e aggiungi i modelli che mancano, rispettando i limiti.
-3. Togli i modelli usciti dal mercato.
+   ammortizzazione, le uscite annunciate dai produttori, RunRepeat per le uscite recenti) e aggiungi i modelli che
+   mancano; a tipo pieno, scambia secondo le regole sopra.
+3. Togli i modelli usciti dal mercato e quelli vecchi secondo le regole sopra.
 4. Ricalcola `prezzi_tipici` e scrivi `aggiornato`.
 5. Scrivi `messaggio_commit.txt` (prima riga breve, es. "Catalogo scarpe di novembre: 3 nuovi, prezzi aggiornati")
-   e `riepilogo.md`: modelli aggiunti e tolti, prezzi cambiati di più di 15 €, dubbi sul tipo, pagine che non si
+   e `riepilogo.md`: modelli aggiunti, tolti e scambiati (con il motivo), prezzi cambiati di più di 15 €, dubbi sul tipo, pagine che non si
    aprivano. In italiano, breve.
 
 Il workflow controlla che il JSON sia valido e che ogni modello abbia `modello`, `marca`, `tipo` (DA/ST/TE/GA),
