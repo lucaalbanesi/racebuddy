@@ -726,3 +726,12 @@ body.chat-on .app { padding-bottom: 150px; }
 .km-stepper { justify-content: flex-start; gap: 8px; }
 .km-stepper .input { width: 96px; text-align: center; -moz-appearance: textfield; }
 .km-stepper .input::-webkit-inner-spin-button, .km-stepper .input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.cat-modello { gap: 8px; }
+.cat-prezzo { display: flex; flex-direction: column; align-items: flex-end; white-space: nowrap; }
+.cat-prezzo b { font: 700 22px/1.1 var(--display); }
+.cat-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.cat-filtri { display: flex; flex-direction: column; gap: 8px; }
+.cat-chips { display: flex; flex-wrap: nowrap; gap: 6px; overflow-x: auto; scrollbar-width: none; align-items: center; margin: 0 -16px; padding: 0 16px; }
+.cat-chips::-webkit-scrollbar { display: none; }
+.cat-filtri .chip { flex: none; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); font-size: 14px; color: inherit; text-decoration: none; background: var(--surface); }
+.cat-filtri .chip.on { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 700; }

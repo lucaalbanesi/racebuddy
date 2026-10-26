@@ -689,8 +689,8 @@
         corpo = `<h1>${TITOLI_SC.modelli}</h1><p class="sub">${piano.length === 1 ? "Una scarpa" : piano.length + " scarpe"}: circa ${totale} € con i modelli scelti. Prezzi più bassi trovati oggi.</p>
           <nav class="sc-tabs" aria-label="Scarpe da scegliere">${piano.map((q, j) => { const rr = sc.risp[q.t + "@" + L.scData(ctx, q.w)]; return `<a href="#/scarpiera/modelli?i=${j}" ${j === idx ? 'aria-current="page"' : ""}><b>${j + 1}. ${L.SC_TIPI[q.t]}</b><span class="small">${rr && rr.scelta ? esc(corto(rr.scelta)) : "entro il " + scGiorno(ctx, q.w)}</span></a>`; }).join("")}</nav>
           <section class="card"><div class="between"><span class="title">${L.SC_TIPI[p.t]}${ric ? ` <span class="small muted" style="font-weight:600">ricambio di ${esc(corto(ric.nome))}</span>` : ""}</span><span class="small muted">entro il ${scGiorno(ctx, p.w)}</span></div>
-            ${L.SC_DOMANDE[p.t].map((q) => `<div class="field"><span class="lbl">${q.q}</span><div class="chips">${q.o.map(([v, l]) => `<button type="button" class="chip" data-act="sc-risp" data-key="${esc(key)}" data-q="${q.k}" data-v="${v}" aria-pressed="${r[q.k] === v}">${l}</button>`).join("")}</div></div>`).join("")}
-            <div class="field"><span class="lbl">Marca</span><div class="chips"><button type="button" class="chip" data-act="sc-marca" data-key="${esc(key)}" data-m="" aria-pressed="${!r.marche.length}">Qualsiasi</button>${marche.map((m) => `<button type="button" class="chip" data-act="sc-marca" data-key="${esc(key)}" data-m="${esc(m)}" aria-pressed="${r.marche.includes(m)}">${esc(m)}</button>`).join("")}</div></div>
+            ${L.SC_DOMANDE[p.t].map((q) => `<div class="field"><span class="lbl">${q.q}</span><div class="cat-chips">${q.o.map(([v, l]) => `<button type="button" class="chip" data-act="sc-risp" data-key="${esc(key)}" data-q="${q.k}" data-v="${v}" aria-pressed="${r[q.k] === v}">${l}</button>`).join("")}</div></div>`).join("")}
+            <div class="field"><span class="lbl">Marca</span><div class="cat-chips"><button type="button" class="chip" data-act="sc-marca" data-key="${esc(key)}" data-m="" aria-pressed="${!r.marche.length}">Qualsiasi</button>${marche.map((m) => `<button type="button" class="chip" data-act="sc-marca" data-key="${esc(key)}" data-m="${esc(m)}" aria-pressed="${r.marche.includes(m)}">${esc(m)}</button>`).join("")}</div></div>
             <div class="field"><label for="sc-budget">Spesa massima per questa scarpa: <b>${r.budget} €</b></label><input id="sc-budget" type="range" min="70" max="230" step="10" value="${r.budget}" data-sc-budget="${esc(key)}"></div></section>
           ${fuoriBudget ? `<section class="card soft"><span class="small">Nessun modello entro ${r.budget} €${r.marche.length ? " per le marche scelte" : ""}: ti mostro il più economico.</span></section>` : ""}
           ${lista.map((x, j) => { const c = x.c, on = r.scelta === c.modello; return `<button type="button" class="card sc-modello" data-act="sc-scegli" data-key="${esc(key)}" data-m="${esc(c.modello)}" aria-pressed="${on}">
@@ -699,11 +699,46 @@
             <span class="small muted">${[c.peso && `${c.peso} g`, c.suola && `suola ${c.suola} mm`, c.drop != null && `drop ${String(c.drop).replace(".", ",")} mm`, `ammortizz. ${c.ammortizzazione}`, c.piastra && `piastra ${c.piastra}`, c.listino && `listino ${c.listino} €`].filter(Boolean).join(" · ")}</span>
             <span class="sc-perche">${x.pro.map((t) => `<span class="ok">✓ ${esc(t)}</span>`).join("")}${x.contro.map((t) => `<span class="ko">! ${esc(t)}</span>`).join("")}</span></button>`; }).join("") || '<section class="card"><span class="small">Nessun modello in catalogo per questo tipo.</span></section>'}
           ${scelto ? `<a class="small" href="${esc(scelto.url)}" target="_blank" rel="noopener">Vedi ${esc(scelto.modello)} su ${esc(scelto.fonte)} ›</a>` : ""}
+          <a class="small" href="#/catalogo?t=${esc(p.t)}">Vedi tutti i modelli ${esc(L.SC_TIPI[p.t])} del catalogo ›</a>
           ${idx < piano.length - 1 ? `<a class="btn block" href="#/scarpiera/modelli?i=${idx + 1}">Avanti: ${L.SC_TIPI[piano[idx + 1].t]}</a>` : `<button class="btn block" type="button" data-act="sc-in-oggi">Aggiungi a Oggi</button>`}
           <span class="small muted">Come scelgo: parto dal Runnea score e aggiungo punti per le tue risposte, il tuo peso, la marca o la linea che usi già e lo sconto. Dati tecnici dalle schede Runnea, catalogo aggiornato ogni mese. Indicazioni generali, non pubblicità.</span>`;
       }
     }
     return `${testa}<div class="funnel">${corpo}</div>`;
+  }
+
+  // Catalogo scarpe (#/catalogo?t=DA&m=marca&p=prezzo max&f=1 adatte al mio peso&o=score|prezzo|sconto): tutto content/scarpe.json da consultare
+  function vistaCatalogo(param) {
+    const cat = D.scarpe || {}, tutti = cat.modelli || [], t = L.SC_TIPI[param.t] ? param.t : "DA", peso = Number(S.profilo.peso) || 0;
+    const corp = peso >= 80 ? "F" : peso >= 65 ? "M" : "L", m = param.m || "", pmax = Number(param.p) || 0, f = param.f === "1" && peso, o = param.o || "score";
+    const url = (x) => { const q = { t, m, p: pmax || "", f: f ? "1" : "", o, ...x }; return "#/catalogo?" + Object.entries(q).filter(([, v]) => v !== "" && v != null).map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join("&"); };
+    const adatta = (c) => (c.suola && c.suola >= 40 && corp === "F") || !c.corporatura || c.corporatura.includes(corp);
+    const mie = scMieScarpe ? scMieScarpe() : [], att = ((S.scarpiera || {}).attivita) || [];
+    const nomeIn = (a, b) => { const x = String(a).toLowerCase(), y = String(b).toLowerCase(); return x.includes(y) || y.includes(x); };
+    const delTipo = tutti.filter((c) => c.tipo === t), marche = [...new Set(delTipo.map((c) => c.marca))].sort();
+    const lista = delTipo.filter((c) => (!m || c.marca === m) && (!pmax || c.prezzo <= pmax) && (!f || adatta(c)))
+      .sort((a, b) => o === "prezzo" ? a.prezzo - b.prezzo : o === "sconto" ? (b.listino ? 1 - b.prezzo / b.listino : 0) - (a.listino ? 1 - a.prezzo / a.listino : 0) : (b.score || 0) - (a.score || 0));
+    const seg = Object.keys(L.SC_TIPI).map((k) => `<a href="${url({ t: k, m: "" })}" aria-current="${k === t ? "page" : "false"}">${L.SC_TIPI[k]}</a>`).join("");
+    const chip = (on, href, txt) => `<a class="chip ${on ? "on" : ""}" href="${href}">${txt}</a>`;
+    const DESCR = { DA: "Per i km facili, il recupero e i lunghi lenti: protezione e comodità.", ST: "Per lunghi, lunghissimi e lavori a ritmo gara: schiuma reattiva, spesso con piastra.", TE: "Leggere e reattive per ripetute e gare su 10 km e mezza.", GA: "Piastra in carbonio e schiuma da gara: solo per le gare e poche sedute a ritmo." };
+    const card = (c) => {
+      const sc = c.listino && c.listino > c.prezzo ? Math.round((1 - c.prezzo / c.listino) * 100) : 0;
+      const senzaMarca = (n) => String(n).replace(/^(asics|nike|hoka|adidas|saucony|brooks|new balance|puma|mizuno|on)\s+/i, ""), ho = mie.find((x) => nomeIn(senzaMarca(x.nome), senzaMarca(c.modello))), compro = att.find((x) => x.modello === c.modello);
+      return `<article class="card cat-modello"><div class="between" style="align-items:flex-start"><div style="min-width:0;display:flex;flex-direction:column"><span class="eyebrow">${esc(c.marca)}${c.precedente ? " · versione precedente" : ""}</span><span class="title">${esc(c.modello.replace(new RegExp("^" + c.marca + "\\s+", "i"), ""))}</span></div>
+          <div class="cat-prezzo"><b>${c.prezzo} €</b>${sc ? `<span class="small muted"><s>${c.listino} €</s> −${sc}%</span>` : ""}</div></div>
+        <div class="cat-tags">${c.score ? `<span class="pill ok">Runnea ${String(c.score).replace(".", ",")}</span>` : ""}${ho ? '<span class="pill">ce l\'hai</span>' : ""}${compro ? `<span class="pill doc-presto">da comprare entro il ${esc(L.fmtBreve(compro.entro))}</span>` : ""}${peso && !adatta(c) ? '<span class="pill grigio">per corporature più leggere</span>' : ""}</div>
+        <span class="small muted">${[c.peso && `${c.peso} g`, c.suola && `suola ${c.suola} mm`, c.drop != null && `drop ${String(c.drop).replace(".", ",")} mm`, c.ammortizzazione && `ammortizzazione ${c.ammortizzazione}`, c.piastra && `piastra ${c.piastra}`, c.uso && `uso ${c.uso}`].filter(Boolean).join(" · ")}</span>
+        ${c.url ? `<a class="small" href="${esc(c.url)}" target="_blank" rel="noopener">Scheda su ${esc(c.fonte || "Runnea")} ›</a>` : ""}</article>`;
+    };
+    return `<header class="head-back">${back("#/io/scarpe")}<div style="min-width:0"><span class="eyebrow">Scarpiera</span><h1 style="font-size:28px">Catalogo scarpe</h1></div></header>
+      <span class="small muted">${tutti.length} modelli da strada, prezzi in sconto e punteggi di Runnea, suola da RunRepeat. Aggiornato il ${esc(L.fmtGiorno(cat.aggiornato || oggi()))}, ogni mese.</span>
+      <nav class="seg" aria-label="Tipo di scarpa">${seg}</nav>
+      <span class="small"><b>${delTipo.length} modelli.</b> ${DESCR[t]}</span>
+      <div class="cat-filtri"><div class="cat-chips">${chip(!m, url({ m: "" }), "Tutte")}${marche.map((x) => chip(m === x, url({ m: x }), esc(x))).join("")}</div>
+        <div class="cat-chips">${[0, 100, 130, 160].map((x) => chip(pmax === x, url({ p: x || "" }), x ? `fino a ${x} €` : "Ogni prezzo")).join("")}${peso ? chip(f, url({ f: f ? "" : "1" }), `Adatte a ${peso} kg`) : ""}</div>
+        <div class="cat-chips"><span class="small muted">Ordina:</span>${[["score", "punteggio"], ["prezzo", "prezzo"], ["sconto", "sconto"]].map(([k, n]) => chip(o === k, url({ o: k }), n)).join("")}</div></div>
+      ${lista.length ? lista.map(card).join("") : '<section class="card"><span class="small">Nessun modello con questi filtri.</span></section>'}
+      <span class="small muted">Indicazioni d'acquisto, non consigli medici. Il catalogo è curato da RaceBuddy: nessun link è pubblicità.</span>`;
   }
 
   // Piano reale: le scarpe ancora da comprare alla data promessa (in ritardo = da questa settimana). senza = id da togliere.
@@ -1981,10 +2016,10 @@
       return `#/gruppo/classifiche?c=${q.c}${["gare", "impegno"].includes(q.c) ? `&p=${q.p}` : ""}${q.c === "albo" ? `&v=${q.v}&d=${q.d}${q.s ? `&s=${q.s}` : ""}` : ""}`; };
     const chip = (href, on, l) => `<a class="chip" href="${href}" aria-pressed="${on}" style="display:inline-flex;align-items:center;text-decoration:none;color:inherit">${l}</a>`;
     const l = righeCl(c, { periodo, dist, sesso, vista }), o = oggi(), anno = o.slice(0, 4);
-    const filtri = ["gare", "impegno"].includes(c) ? `<div class="chips">${chip(url({ p: "stagione" }), periodo === "stagione", "Stagione")}${chip(url({ p: "mese" }), periodo === "mese", "Questo mese")}</div>`
+    const filtri = ["gare", "impegno"].includes(c) ? `<div class="cat-chips">${chip(url({ p: "stagione" }), periodo === "stagione", "Stagione")}${chip(url({ p: "mese" }), periodo === "mese", "Questo mese")}</div>`
       : c === "albo" ? `<section class="card" style="gap:10px" aria-label="Filtri"><nav class="seg" aria-label="Distanza">${[...DISTANZE, ...(vista === "eta" ? ["tutte"] : [])].map((x) => `<a href="${url({ d: x })}" ${x === dist ? 'aria-current="page"' : ""}>${x === "tutte" ? "Tutte" : esc(L.DIST_LABEL[x])}</a>`).join("")}</nav>
-        <div class="between" style="flex-wrap:wrap;gap:8px"><div class="chips">${chip(url({ v: "assoluto" }), vista === "assoluto", "Tempo")}${chip(url({ v: "eta" }), vista === "eta", "% per età")}</div>
-        <div class="chips">${chip(url({ s: "" }), !sesso, "Tutti")}${chip(url({ s: "M" }), sesso === "M", "U")}${chip(url({ s: "F" }), sesso === "F", "D")}</div></div></section>` : "";
+        <div class="between" style="flex-wrap:wrap;gap:8px"><div class="cat-chips">${chip(url({ v: "assoluto" }), vista === "assoluto", "Tempo")}${chip(url({ v: "eta" }), vista === "eta", "% per età")}</div>
+        <div class="cat-chips">${chip(url({ s: "" }), !sesso, "Tutti")}${chip(url({ s: "M" }), sesso === "M", "U")}${chip(url({ s: "F" }), sesso === "F", "D")}</div></div></section>` : "";
     const rec = c === "albo" && vista === "assoluto" ? L.recordCategorie(CL().risultati || [], dist) : [];
     let extra = "";
     if (c === "impegno") extra = `<details class="card" style="gap:0"><summary>Come funziona</summary>
@@ -2271,7 +2306,7 @@
       <section class="card dark" style="gap:4px"><span style="font:700 34px/1 var(--display)">${n.conta} ${n.conta === 1 ? "gara conta" : "gare contano"}</span>
         <span class="small" style="color:var(--navy-muted)">${pos ? `Sei ${pos}° in Gare corse` : "Non sei ancora in Gare corse"}${extra ? ` · ${esc(extra)}` : ""}</span></section>
       <div class="field"><label for="mie-cerca">Cerca tra le tue gare</label><input class="input" id="mie-cerca" type="search" value="${esc(q)}" placeholder="es. Roma, mezza, ottobre" autocomplete="off"></div>
-      <div class="chips">${chip("stagione", `Stagione ${esc(anno)}`)}${chip("tutte", "Tutti gli anni")}</div>
+      <div class="cat-chips">${chip("stagione", `Stagione ${esc(anno)}`)}${chip("tutte", "Tutti gli anni")}</div>
       <section class="card" style="gap:0" id="mie-lista" data-p="${periodo}">${listaMie(q, periodo)}</section>
       <section class="card" style="gap:10px"><span class="title">Manca una gara?</span>
         <span class="small">Cercala nelle classifiche ufficiali (Gare Podistiche Lazio, FIDAL e, per le maratone all'estero, MarathonView): se il nome è quello con cui sei nel gruppo conta subito. Se non c'è, aggiungila a mano: la approva il referente.</span>
@@ -2416,7 +2451,7 @@
     const sotto = m ? `${m.partecipa ? `Partecipa${m.dal ? ` dal ${L.fmtBreve(String(m.dal).slice(0, 10))} ${String(m.dal).slice(0, 4)}` : ""}` : "Non partecipa alle classifiche"}${extra ? ` · ${extra}` : ""}`
       : `${riep.filter((x) => x.partecipa).length} di ${riep.length} partecipano${extra ? ` · ${extra}` : ""}`;
     const cerca = `<div class="field"><label for="gm-cerca">${m ? `Cerca tra le gare di ${esc(m.mio ? "te" : m.nome.split(/\s+/)[0])}` : "Cerca tra le gare di tutti"}</label><input class="input" id="gm-cerca" type="search" value="${esc(q)}" placeholder="${m ? "es. mezza, ottobre, in approvazione" : "es. Giulia, Roma, in approvazione"}" autocomplete="off"></div>
-      <div class="chips">${chip("stagione", `Stagione ${esc(anno)}`)}${chip("tutte", "Tutti gli anni")}</div>`;
+      <div class="cat-chips">${chip("stagione", `Stagione ${esc(anno)}`)}${chip("tutte", "Tutti gli anni")}</div>`;
     const lista = `<section class="card" style="gap:0" id="gm-lista" data-p="${periodo}" data-m="${esc(m ? m.id : "")}">${listaGM(q, periodo, m ? m.id : "")}</section>`;
     const persona = (x) => {
       const n = x.n, bit = [n.conta && `${n.conta} ${n.conta === 1 ? "conta" : "contano"}`, n.attesa && `${n.attesa} in approvazione`, n.rifiutato && `${n.rifiutato} non ${n.rifiutato === 1 ? "approvata" : "approvate"}`, n.esito && `${n.esito} senza tempo`].filter(Boolean);
@@ -2785,7 +2820,7 @@
     const riga = (c, i) => `<div class="post ${c.mio ? "mio" : ""}"><span class="pos">${i + 1}</span>${avatar(c.membro, 30)}<span style="flex:1;min-width:0"><b>${esc(c.mio ? "Tu" : c.membro)}</b></span><b style="font:700 18px var(--display)">${esc(c.tempo)}</b></div>`;
     const chip = (x) => `<button class="chip" data-act="g-dist" data-d="${x}" aria-pressed="${x === dist}" ${per(x).length ? "" : "disabled"}>${esc(L.DIST_LABEL[x])}</button>`;
     return `<section class="card" aria-label="Classifica dei personali"><div class="between"><h2>I personali del gruppo</h2><a class="small" href="#/pb">I tuoi ›</a></div>
-      <div class="chips">${DISTANZE.map(chip).join("")}</div>
+      <div class="cat-chips">${DISTANZE.map(chip).join("")}</div>
       <div>${l.slice(0, 3).map(riga).join("")}${io >= 3 ? `<div class="post small muted" style="justify-content:center;padding:2px 0">···</div>${riga(l[io], io)}` : ""}</div>
       <a class="btn ghost block" href="#/gruppo/classifica?d=${dist}">Classifica completa · ${l.length} runner ›</a></section>`;
   }
@@ -2807,7 +2842,7 @@
     const lista = d.classifica.filter((c) => c.distanza === dist).sort((a, b) => a.secondi - b.secondi);
     const chip = (v, l) => `<a class="chip" href="#/gruppo/classifica?d=${v}" aria-pressed="${dist === v}" style="display:inline-flex;align-items:center;text-decoration:none;color:inherit">${l}</a>`;
     return `${bannerProva()}<header class="head-back">${back("#/gruppo")}<div><span class="eyebrow">${esc(d.gruppo.nome)}</span><h1 style="font-size:28px">Classifica dei PB</h1></div></header>
-      <div class="chips">${chip("10", "10 km")}${chip("21", "Mezza")}${chip("42", "Maratona")}</div>
+      <div class="cat-chips">${chip("10", "10 km")}${chip("21", "Mezza")}${chip("42", "Maratona")}</div>
       ${lista.length ? `<section class="card" style="gap:0">${lista.map((c, i) => `<div class="post ${c.mio ? "mio" : ""}"><span class="pos">${i + 1}</span>${avatar(c.membro, 32)}<span style="flex:1;min-width:0"><b>${esc(c.membro)}</b><br><span class="small muted">${esc(titoloGara(c.gara_nome || ""))} · ${esc(c.data_gara ? L.fmtBreve(c.data_gara) : "")}</span></span><b style="font:700 20px var(--display)">${esc(c.tempo)}</b></div>`).join("")}</section>` : `<p class="sub">Ancora nessun risultato condiviso su questa distanza.</p>`}
       <a class="btn ghost" href="#/pb">I tuoi personali</a>
       <p class="sub">Un personale a testa per distanza: quello che ognuno inserisce a mano o migliora dopo una gara. Ci sono solo i runner che hanno scelto di comparire.</p>`;
@@ -2928,7 +2963,7 @@
         ${campoTempo("ris-tempo", g, param.t || r.tempo, "ris-tempo-l", true)}
         ${param.t && FONTE_TEMPI[param.f] ? `<span class="small" style="color:var(--accent-strong);font-weight:700">Tempo da ${FONTE_TEMPI[param.f]}: controllalo e salva.</span>` : ""}
         <div id="ris-strava" style="width:100%"></div>
-        ${r.tempo ? "" : `<div class="trova-tempo" aria-label="Trova il tempo ufficiale"><span class="small muted">Non ce l'hai sotto mano? Cercalo:</span><div class="chips">
+        ${r.tempo ? "" : `<div class="trova-tempo" aria-label="Trova il tempo ufficiale"><span class="small muted">Non ce l'hai sotto mano? Cercalo:</span><div class="cat-chips">
           ${C().tempi ? `<a class="chip" href="#/tempi?gara=${encodeURIComponent(id)}">Classifiche</a>` : ""}
           ${S.strava && S.strava.attivo ? `<button type="button" class="chip" data-act="ris-strava-cerca" data-id="${esc(id)}">Strava</button>` : ""}
           <a class="chip" href="https://www.endu.net/it/results" rel="noopener">ENDU ↗</a></div>
@@ -3388,7 +3423,7 @@
       ${C().strava ? acc("strava", "Strava", STRAVA_STATO && STRAVA_STATO.collegato ? '<span class="pill ok">collegato</span>' : "in prova", sezioneStrava()) : ""}
       ${acc("scarpe", "Le mie scarpe", S.scarpe.length ? `${S.scarpe.length} ${stravaOn ? "da Strava" : S.scarpe.length === 1 ? "paio" : "paia"}${daCambiare ? ` · <b style="color:var(--warn)">${daCambiare} da cambiare</b>` : ""}` : "nessuna", `${sezioneRotazione()}${scarpe || `<span class="small">Nessuna scarpa ancora.</span>`}
         ${stravaOn ? `<span class="small muted">I km arrivano da Strava${S.strava.letto ? `, aggiornati alle ${esc(new Date(S.strava.letto).toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" }))}` : ""}. Una scarpa nuova si aggiunge su Strava; quelle ritirate lì spariscono da qui.</span>` : S.strava && S.strava.attivo ? `<span class="small muted">Su Strava non hai scarpe attive, quindi usiamo quelle inserite qui. Se ne aggiungi una su Strava, i km arriveranno da lì e queste andranno in Archivio.</span>` : ""}
-        ${S.scarpiera && S.scarpiera.fatto ? `<a class="btn ghost" href="#/scarpiera">Rifai il piano delle scarpe</a>` : `<a class="btn" href="#/scarpiera">Pianifica la rotazione</a><span class="small muted">Quando finiscono le tue scarpe, che rotazione ti serve fino alle gare e cosa comprare.</span>`}
+        <a class="btn ghost" href="#/catalogo">Sfoglia il catalogo scarpe</a>${S.scarpiera && S.scarpiera.fatto ? `<a class="btn ghost" href="#/scarpiera">Rifai il piano delle scarpe</a>` : `<a class="btn" href="#/scarpiera">Pianifica la rotazione</a><span class="small muted">Quando finiscono le tue scarpe, che rotazione ti serve fino alle gare e cosa comprare.</span>`}
         ${archivio.length ? `<details class="card"><summary>Archivio · ${archivio.length} ${archivio.length === 1 ? "scarpa inserita" : "scarpe inserite"} a mano</summary>${archivio.map((x) => `<div class="between" style="padding:6px 0"><span>${esc(x.nome)} <span class="small muted">· ${Math.round(Number(x.km) || 0)} km</span></span><button class="btn ghost small" data-act="arch-del" data-id="${esc(x.id)}">Elimina</button></div>`).join("")}<span class="small muted">${stravaOn ? "Non contano finché Strava è collegato." : "Se sono le stesse scarpe che hai già, eliminale."}</span></details>` : ""}
         ${stravaOn ? "" : `<details class="card"><summary>+ Aggiungi una scarpa</summary><form id="scarpa" style="display:flex;flex-direction:column;gap:10px">
         <div class="field"><label for="s-nome">Modello</label><input class="input" id="s-nome" required placeholder="es. la mia scarpa da lento"></div>
@@ -3491,7 +3526,7 @@
     const parts = path.split("/").map(decodeURIComponent);
     const param = Object.fromEntries(new URLSearchParams(query || ""));
     const tab = parts[0] || "oggi";
-    document.querySelectorAll("nav.tabs a").forEach((a) => a.setAttribute("aria-current", a.dataset.tab === ({ prepara: "oggi", aggiungi: "gare", gara: "gare", checklist: "gare", percorso: "gare", meteo: "oggi", pillole: "oggi", invito: "gruppo", entra: "gruppo", risultato: "oggi", pb: "io", tempi: "io", estera: "gare", statistiche: "io", super: "io", condividi: "gare", scarpiera: "io" }[tab] || tab) ? "page" : "false"));
+    document.querySelectorAll("nav.tabs a").forEach((a) => a.setAttribute("aria-current", a.dataset.tab === ({ prepara: "oggi", aggiungi: "gare", gara: "gare", checklist: "gare", percorso: "gare", meteo: "oggi", pillole: "oggi", invito: "gruppo", entra: "gruppo", risultato: "oggi", pb: "io", tempi: "io", estera: "gare", statistiche: "io", super: "io", condividi: "gare", scarpiera: "io", catalogo: "io" }[tab] || tab) ? "page" : "false"));
     if (D.errore) { $app.innerHTML = `<section class="card"><span class="title">Qualcosa non va</span><span class="small">${esc(D.errore)}</span></section>`; return; }
     let html;
     if (param.rivedi) { RIVEDI = tab === "prepara" ? "prepara" : "entra"; invitoInSafari = false; }
@@ -3529,6 +3564,7 @@
       case "gara": html = parts[2] === "novita" ? vistaNovitaGara(parts[1], param) : parts[2] === "preparazione" ? vistaPreparazione(parts[1]) : parts[2] === "info" ? vistaInfoGara(parts[1], param) : parts[2] === "borsa" ? vistaBorsa(parts[1]) : vistaGaraHome(parts[1], param); break;
       case "prepara": html = vistaPrepara(parts[1]); break;
       case "scarpiera": html = vistaScarpiera(parts[1], param); break;
+      case "catalogo": html = vistaCatalogo(param); break;
       case "meteo": html = vistaMeteo(); break;
       case "pillole": html = vistaPillole(parts[1]); break;
       case "perte": html = vistaPerTe(param); break;
