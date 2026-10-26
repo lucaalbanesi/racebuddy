@@ -1,6 +1,34 @@
 {
- "aggiornato": "2026-10-23T04:50Z",
+ "aggiornato": "2026-10-26T03:50Z",
  "novita": [
+  {
+   "id": "nfcc9ea6b485",
+   "gara": "E-valencia-42-2026",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Mezza maratona di Valencia, Kwizera da paura. Ma il suo record europeo non sarà omologato",
+   "link": "https://www.runnersworld.com/it/news/a74240536/mezza-maratona-valencia-kwizera/",
+   "data": "2026-10-25",
+   "fonte": "Runner's World Italia",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/df0deeb3-07da-40a9-9a93-77bd24089124.jpg",
+   "trovato": "2026-10-26T03:50Z"
+  },
+  {
+   "id": "n075029179a9",
+   "gara": "E-valencia-42-2026",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Mezza maratona di Valencia con Bekele e Selvarolo: al via 10 atleti sotto i 60’",
+   "link": "https://www.runnersworld.com/it/news/a74229477/mezza-maratona-valencia-2026/",
+   "data": "2026-10-23",
+   "fonte": "Runner's World Italia",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/6bf6d139-8212-4dcd-af73-f50be79869ff.jpeg",
+   "trovato": "2026-10-26T03:50Z"
+  },
   {
    "id": "n81586ca603b",
    "gara": "La92f52eec5-k19.5",
