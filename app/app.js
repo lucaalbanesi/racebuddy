@@ -1445,6 +1445,8 @@
       <details class="card" ${param.modifica ? "open" : ""}><summary>Ruolo e tempo obiettivo</summary>
         <form id="gara-imp" data-id="${esc(g.id)}" style="display:flex;flex-direction:column;gap:10px">
         <div class="field"><label for="gi-ruolo">Ruolo</label><select class="input" id="gi-ruolo">${["obiettivo", "tappa", "divertimento"].map((r) => `<option value="${r}" ${g.ruolo === r ? "selected" : ""}>${L.RUOLO_LABEL[r]}</option>`).join("")}</select></div>
+        <div class="field"><label for="gi-km">Distanza vera</label><div class="row"><input class="input" id="gi-km" type="number" inputmode="decimal" step="0.01" min="3" max="60" value="${String(Math.round(kmDellaGara(g) * 1000) / 1000)}" style="max-width:120px"><span class="small muted">km</span></div>
+          <span class="small muted">Se il percorso misura un po' di più o di meno (per esempio 9,9 km invece di 10), correggi qui: il passo si calcola sui km veri. Una gara non classica non vale come personale.</span></div>
         <div class="field"><span class="lbl" id="gi-tempo-l">Tempo obiettivo <span class="muted">(facoltativo)</span></span>${campoTempo("gi-tempo", g, g.tempo || "", "gi-tempo-l")}${rigaPasso("gi-tempo", g, g.tempo || "")}</div>
         <button class="btn" type="submit">Salva</button></form></details>
       ${corsa(g, o) ? (() => {
@@ -4044,6 +4046,11 @@
     e.target.style.height = "auto"; e.target.style.height = Math.min(140, e.target.scrollHeight) + "px";
   });
   document.addEventListener("input", (e) => {
+    if (e.target.id === "gi-km") { // distanza vera: il passo sotto il tempo obiettivo si aggiorna subito
+      const km = Number(String(e.target.value).replace(",", ".")), riga = document.getElementById("gi-tempo-passo");
+      if (riga && km >= 3) { riga.dataset.km = km; riga.textContent = testoPasso(km, L.tempoDaParti(...["h", "m", "s"].map((k) => (document.getElementById(`gi-tempo-${k}`) || {}).value || ""))); }
+      return;
+    }
     const tutte = caselleTempo(e.target);
     if (!tutte) return;
     const el = e.target, pulito = el.value.replace(/\D/g, "").slice(0, el.maxLength);
@@ -4266,7 +4273,16 @@
       const g = S.gare.find((x) => x.id === f.dataset.id);
       const tg = g ? leggiTempoFacoltativo("gi-tempo", g) : {};
       if (tg.errore) { toast(tg.errore); return; }
-      if (g) { g.ruolo = v("gi-ruolo") || g.ruolo; g.tempo = tg.tempo; salva(); toast("Salvato");
+      if (g) {
+        // distanza vera: uguale alla classica (±50 m) = classica, altrimenti km reali e la classica più vicina
+        const kmV = Number(String(v("gi-km") || "").replace(",", "."));
+        if (kmV >= 3 && kmV <= 60) {
+          if (Math.abs(kmV - (KM_CLASSICHE[g.distanza] || 0)) <= 0.05 && !L.kmAltra(g)) { /* invariata */ }
+          else if (Math.abs(kmV - (KM_CLASSICHE[L.baseKm(kmV)] || 0)) <= 0.05) { delete g.km; g.distanza = L.baseKm(kmV); }
+          else { g.km = Math.round(kmV * 100) / 100; g.distanza = L.baseKm(kmV); }
+        }
+        const t2 = leggiTempoFacoltativo("gi-tempo", g); if (t2.errore) { toast(t2.errore); return; }
+        g.ruolo = v("gi-ruolo") || g.ruolo; g.tempo = t2.tempo; salva(); toast("Salvato");
         if (location.hash === urlGara(g.id)) rerender(); else location.hash = urlGara(g.id); } // stessa pagina: niente hashchange, ridisegno a mano
     } else if (f.id === "scheda") {
       const g = S.gare.find((x) => x.id === f.dataset.id);
