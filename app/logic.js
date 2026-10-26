@@ -1112,6 +1112,7 @@
   const SC_SOGLIA = { F: 1, LF: 0.9, V: 0.8, R: 0.8, G: 0.8 };
   const scSoglia = (r, t) => (t === "GA" ? 1 : SC_SOGLIA[r]);
   const RODAGGIO = 40;
+  const RODAGGIO_GARA = 20; // km minimi prima di correrci una gara
 
   /** Durata stimata in km per tipo e peso: -0,87% per ogni kg sopra i 70 (al massimo -25%), arrotondata a 10. */
   const scDurata = (t, peso) => { const f = !peso || peso <= 70 ? 1 : Math.max(0.75, 1 - (peso - 70) * 0.0087); return Math.round((SC_BASE[t] || 700) * f / 10) * 10; };
@@ -1150,13 +1151,16 @@
       const cella = {};
       for (const [r, k, gara] of scUscite(ctx, w, ciclo).u) {
         const mar = r === "G" && gara && gara.km >= 30, mx = mar ? SC_MXM : SC_MX[r];
-        const c = S.filter((s) => s.da <= w && s.fine == null && mx[s.t] && s.km / s.max < scSoglia(r, s.t) && !(r === "G" && s.km < RODAGGIO) && !((r === "V" || r === "R") && s.t === "GA" && s.km / s.max >= 0.3));
+        const c = S.filter((s) => s.da <= w && s.fine == null && mx[s.t] && s.km / s.max < scSoglia(r, s.t) && !(r === "G" && s.km < RODAGGIO_GARA) && !((r === "V" || r === "R") && s.t === "GA" && s.km / s.max >= 0.3));
         // fine corsa: il super-trainer uscito dalla qualità finisce la vita sui facili
         const fineCorsa = (s) => r === "F" && s.t === "ST" && s.km / s.max >= SC_SOGLIA.V;
         const rimasti = (s) => SC_RK.filter((rr) => SC_MX[rr][s.t] && SC_MX[rr][s.t].ok && s.km / s.max < scSoglia(rr, s.t)).length + (s.t === "ST" && s.km / s.max >= SC_SOGLIA.V ? 1 : 0);
+        // in allenamento una scarpa ferma da 2 settimane passa davanti: la rotazione non parcheggia nessuno
+        const ultima = (s) => Math.max(s.ultimo, s.da - 1), ferme = (l) => l.filter((s) => ultima(s) < w - 2).sort((a, b) => ultima(a) - ultima(b));
         const scegli = (l) => {
-          if (r === "F" || r === "LF") { const rod = l.filter((s) => s.km < RODAGGIO); if (rod.length) return rod[0]; return l.slice().sort((a, b) => rimasti(a) - rimasti(b) || b.km / b.max - a.km / a.max)[0]; }
+          if (r === "F" || r === "LF") { const rod = l.filter((s) => s.km < RODAGGIO); if (rod.length) return rod[0]; if (ferme(l).length) return ferme(l)[0]; return l.slice().sort((a, b) => rimasti(a) - rimasti(b) || b.km / b.max - a.km / a.max)[0]; }
           const rod = l.filter((s) => s.nuova && s.km < RODAGGIO && (s.t === "GA" || s.t === "TE")); if (rod.length && (r === "V" || r === "R")) return rod[0];
+          if (r !== "G" && ferme(l).length) return ferme(l)[0];
           const fresca = r === "G"; // in gara la più fresca, in allenamento si finisce prima la più usata
           return l.slice().sort((a, b) => mx[a.t].p - mx[b.t].p || (fresca ? a.km / a.max - b.km / b.max : b.km / b.max - a.km / a.max))[0];
         };
@@ -1208,14 +1212,15 @@
       sim = scSimula(ctx, piano);
       const scatti = [...sim.scoperte.map((u) => ({ ...u, urgente: true })), ...sim.ripieghi.map((f) => ({ ...f, urgente: false })), ...scMancanti(sim, piano, set, qty)]
         .sort((a, b) => a.w - b.w || b.urgente - a.urgente)
+        .filter((t) => t.urgente || (t.qt && !t.presenza) || t.w >= 2) // un ripiego nelle prossime 2 settimane si tiene: una scarpa nuova non farebbe in tempo a rodarsi
         .filter((t) => t.qt || !(!t.urgente && salta.has(t.r + (t.mar ? "M" : ""))))
         .filter((t) => !t.qt || !piano.some((p) => p.t === t.qt && p.w >= t.w - 8 && p.w <= t.w + 4 && piano.filter((x) => x.t === t.qt).length >= (qty[t.qt] || 1) - sim.S.filter((z) => z.t === t.qt && !z.nuova && (z.fine == null || z.fine > t.w)).length))
         .filter((t) => t.qt || !piano.some((p) => { const mx = t.mar ? SC_MXM : SC_MX[t.r]; return mx[p.t] && (t.urgente || mx[p.t].ok) && p.w <= t.w + 4 && p.w >= t.w - 8; }));
       if (!scatti.length) break;
       const t = scatti[0]; let tipo, fuoriSet = false;
       if (t.qt) tipo = t.qt; else { const x = scTipoPer(t, set); if (!x) { salta.add(t.r + (t.mar ? "M" : "")); continue; } tipo = x.tipo; fuoriSet = !!x.fuoriSet; }
-      // si compra due settimane prima (rodaggio); due acquisti mai a meno di tre settimane
-      let w = Math.max(0, t.w - 2);
+      // si compra due settimane prima (rodaggio), tre per una gara corta; due acquisti mai a meno di tre settimane
+      let w = Math.max(0, t.w - (t.r === "G" && !t.mar ? 3 : 2)); // per una gara corta una settimana in più: la scarpa arriva rodata
       if (!t.urgente) { const vicini = piano.filter((p) => Math.abs(p.w - w) < 3); if (vicini.length) w = Math.max(w, Math.max(...vicini.map((p) => p.w)) + 3); }
       let causa = null;
       if (t.r) {
