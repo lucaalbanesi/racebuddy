@@ -5,7 +5,8 @@ on:
     branches: [main]
     paths: ["app/**", "content/**", "data/**", "tests/test_logic.js", ".github/workflows/pages.yml"]
   workflow_run:
-    workflows: ["Aggiorna calendario gare"]
+    # i job che fanno il commit con il token di GitHub non fanno partire il push: si pubblica quando finiscono
+    workflows: ["Aggiorna calendario gare", "Schede gara", "Gare estere", "Catalogo scarpe", "Aggiorna contenuti", "Esporta gare seguite", "Verifica fonti contenuti"]
     types: [completed]
   workflow_dispatch:
 
