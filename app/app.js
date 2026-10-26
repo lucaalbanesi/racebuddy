@@ -43,6 +43,7 @@
       const opz = (u, def) => fetch(u, { cache: "no-cache" }).then((r) => (r.ok ? r.json() : def)).catch(() => def);
       let est;
       [D.schede, D.contenuti, D.novita, D.sfondi, est] = await Promise.all([opz("content/schede.json", {}), opz("data/contenuti.json", { contenuti: [] }).then((x) => (x.contenuti || []).filter((c) => c.tipo !== "podcast")), opz("data/novita_gare.json", { novita: [] }).then((x) => x.novita || []), opz("content/sfondi.json", {}), opz("content/estero.json", { gare: [] })]);
+      D.scarpe = await opz("content/scarpe.json", { modelli: [] });
       D.esteroDoc = est || { gare: [] }; D.estero = D.esteroDoc.gare || []; D.circuiti = D.esteroDoc.circuiti || {};
     } catch (e) {
       D.errore = "Non riesco a caricare i contenuti. Controlla la connessione e ricarica.";
@@ -522,6 +523,249 @@
     return `${bannerRivedi()}${testa(k === "fine" ? "Prepara RaceBuddy" : passoN)}<div class="funnel">${corpo}</div>`;
   }
 
+  // ---------------------------------------------------------------- Scarpiera: funnel #/scarpiera/:passo (rotazione e acquisti delle scarpe)
+  // Specifica in docs/scarpiera.md, motore in logic.js (L.sc*). Tutto sul telefono in S.scarpiera; catalogo in content/scarpe.json.
+  const PASSI_SC = ["scarpe", "corsa", "set", "piano", "modelli"];
+  const TITOLI_SC = { scarpe: "Che scarpe usi", corsa: "Quanto corri e per cosa", set: "Componi la tua rotazione", piano: "Il tuo piano d'azione", modelli: "Scegli i modelli" };
+  const COLORI_SC = ["#2A78D6", "#E0892B", "#1BAF7A", "#D4416B", "#7A5AF0", "#0E8A9C", "#8A6A1F"];
+  const MESI_SC = ["gen", "feb", "mar", "apr", "mag", "giu", "lug", "ago", "set", "ott", "nov", "dic"];
+  const KM_DIST = { "10": 10, "21": 21.1, "42": 42.2 };
+  function SC() {
+    if (!S.scarpiera) {
+      const km = Number(S.profilo.kmSettimana) || 0, V = km ? Math.round(km * 0.18) : 12;
+      S.scarpiera = { wk: { F: km ? Math.max(10, km - V - 24) : 30, V }, mix: { LF: { n: 1, km: 20 }, R: { n: 2, km: 30 }, G: { n: 1, km: 15 } }, te: false, ga: false, qty: {}, risp: {}, attivita: [] };
+    }
+    const s = S.scarpiera; s.risp = s.risp || {}; s.attivita = s.attivita || []; s.qty = s.qty || {};
+    return s;
+  }
+  const scSet = () => ["DA", "ST", ...(SC().te ? ["TE"] : []), ...(SC().ga ? ["GA"] : [])];
+  const scQty = () => Object.fromEntries(scSet().map((t) => [t, Math.max(1, Number(SC().qty[t]) || 1)]));
+  const scMieScarpe = () => (S.scarpe || []).filter((s) => !s.ritirata && L.SC_DA_APP[s.tipo]);
+  const scGare = () => S.gare.filter((g) => g.data >= oggi() && nonArchiviata(g) && !g.esito).map((g) => ({ id: g.id, nome: titoloGara(g.nome), data: g.data, km: Number(g.km) || KM_DIST[g.distanza] || 21.1 }));
+  const scCtx = () => ({ oggi: oggi(), peso: Number(S.profilo.peso) || 0, scarpe: scMieScarpe().map((s) => ({ id: s.id, nome: s.nome, t: L.SC_DA_APP[s.tipo], km: Number(s.km) || 0, max: s.limiteMano ? Number(s.limite) : 0 })), wk: SC().wk, mix: SC().mix, gare: scGare() });
+  const scSomma = () => ["LF", "R", "G"].reduce((t, k) => t + (Number(SC().mix[k].n) || 0), 0);
+  const corto = (n) => String(n || "").replace(/^(Asics|ASICS|Nike|HOKA|Hoka|Saucony|Brooks|Adidas|New Balance|Puma|On|Mizuno|Altra)\s+/i, "");
+  const scGiorno = (ctx, w) => { const d = L.scData(ctx, w); return `${Number(d.slice(8))} ${MESI_SC[Number(d.slice(5, 7)) - 1]}`; };
+  const scMese = (ctx, w) => { const d = L.scData(ctx, w), y = d.slice(0, 4); return MESI_SC[Number(d.slice(5, 7)) - 1] + (y !== oggi().slice(0, 4) ? " " + y : ""); };
+  const aMese = (m) => (/^[aeiou]/.test(m) ? "ad " : "a ") + m;
+  const PER_RUOLO = { F: "le uscite facili", LF: "i lunghi facili", V: "le uscite veloci", R: "i lunghissimi", G: "le gare su 10 km e mezza" };
+
+  // grafico della vita delle scarpe (percentuale per settimana) con fasce 80/90% e, se serve, le coperture sotto
+  function graficoScarpe(ctx, sim, scarpe, coperture) {
+    const n = sim.H, righe = coperture ? L.scCoperture(ctx, sim) : [], RH = 14, RG = 3, Lm = coperture ? 80 : 38, W = 360, R = 6, T = 16, B = 20, ih = 210 - T - B, iw = W - Lm - R;
+    const Hh = 210 + (righe.length ? 8 + righe.length * (RH + RG) + 4 : 0), x = (w) => Lm + (iw * w) / Math.max(1, n - 1), y = (p) => T + ih * (1 - Math.min(1, p)), cw = iw / Math.max(1, n - 1);
+    let g = `<svg viewBox="0 0 ${W} ${Hh}" class="sc-grafico" role="img" aria-label="Percentuale di vita di ogni scarpa, settimana per settimana">`;
+    g += `<rect x="${Lm}" y="${y(1)}" width="${iw}" height="${y(0.9) - y(1)}" fill="#B91C1C" fill-opacity=".12"/><rect x="${Lm}" y="${y(0.9)}" width="${iw}" height="${y(0.8) - y(0.9)}" fill="var(--warn-bar)" fill-opacity=".14"/>`;
+    [0, 0.5, 0.8, 0.9, 1].forEach((p) => { g += `<line x1="${Lm}" x2="${W - R}" y1="${y(p)}" y2="${y(p)}" stroke="var(--line)"/><text x="${Lm - 6}" y="${y(p) + 4}" text-anchor="end" font-size="10.5" fill="var(--muted)">${Math.round(p * 100)}%</text>`; });
+    for (let w = 0; w < n; w++) { const d = L.scData(ctx, w); if (Number(d.slice(8)) <= 7) g += `<text x="${x(w)}" y="204" font-size="11" fill="var(--muted)">${MESI_SC[Number(d.slice(5, 7)) - 1]}</text>`; }
+    ctx.gare.filter((r) => L.scSettimana(ctx, r.data) >= 0 && L.scSettimana(ctx, r.data) < n).forEach((r) => { const xx = x(L.scSettimana(ctx, r.data)); g += `<line x1="${xx}" x2="${xx}" y1="${T}" y2="${righe.length ? Hh - 4 : T + ih}" stroke="var(--accent)" stroke-dasharray="3 3"/><text x="${xx}" y="${T - 4}" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--accent)">${esc(corto(r.nome).replace(/^Maratona di |^Mezza maratona di |\s+(Half )?Marathon$/i, "").slice(0, 14))}</text>`; });
+    scarpe.forEach((s, i) => {
+      const v = L.scVita(sim, s), col = COLORI_SC[i % COLORI_SC.length]; let d = "";
+      v.forEach((p, w) => { if (p == null || (s.fine != null && w > s.fine)) return; d += (d ? "L" : "M") + x(w).toFixed(1) + " " + y(p).toFixed(1); });
+      g += `<path d="${d}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linejoin="round" ${s.nuova ? 'stroke-dasharray="7 3"' : ""}/>`;
+      if (s.nuova) g += `<circle cx="${x(s.da)}" cy="${y(0)}" r="4" fill="var(--surface)" stroke="${col}" stroke-width="2"/>`;
+      if (s.fine != null && s.fine < n) { const xr = x(s.fine), dx = xr < W - R - 60; g += `<circle cx="${xr}" cy="${y(1)}" r="4.5" fill="${col}"/><line x1="${xr}" x2="${xr}" y1="${y(1)}" y2="${T + ih}" stroke="${col}" stroke-dasharray="1 3"/><text x="${dx ? xr + 6 : xr - 6}" y="${y(1) + 11 + (i % 2) * 10}" text-anchor="${dx ? "start" : "end"}" font-size="10" font-weight="700" fill="${col}">fine ${scGiorno(ctx, s.fine)}</text>`; }
+    });
+    righe.forEach((riga, i) => {
+      const yy = 218 + i * (RH + RG);
+      g += `<text x="${Lm - 6}" y="${yy + RH - 3}" text-anchor="end" font-size="10.5" fill="var(--muted)">${riga.nome}</text>`;
+      riga.settimane.forEach((st, w) => { if (!st) return; g += `<rect x="${(x(w) - cw / 2 + 0.5).toFixed(1)}" y="${yy}" width="${Math.max(1, cw - 1).toFixed(1)}" height="${RH}" rx="2" fill="${st === "ok" ? "var(--ok)" : st === "ripiego" ? "var(--warn-bar)" : "#B91C1C"}" ${st === "ok" ? 'fill-opacity=".3"' : ""}/>`; });
+    });
+    g += "</svg>";
+    const leg = scarpe.map((s, i) => `<span><i style="background:${COLORI_SC[i % COLORI_SC.length]}"></i><b>${esc(corto(s.nome))}</b> ${s.nuova ? `da ${scGiorno(ctx, s.da)} · ` : ""}${s.fine != null && s.fine < n ? `fine vita ${scGiorno(ctx, s.fine)}` : `${Math.round((L.scVita(sim, s)[n - 1] || 0) * 100)}% ${aMese(scMese(ctx, n - 1))}`}</span>`).join("");
+    return `<div class="sc-grafico-box">${g}</div>${righe.length ? `<div class="sc-leg"><span><i style="background:var(--ok);opacity:.35"></i>coperto</span><span><i style="background:var(--warn-bar)"></i>ripiego</span><span><i style="background:#B91C1C"></i>senza scarpa</span></div>` : ""}<div class="sc-leg col">${leg}</div>`;
+  }
+
+  function vistaScarpiera(passo, param) {
+    const k = PASSI_SC.includes(passo) ? passo : "scarpe", i = PASSI_SC.indexOf(k), sc = SC();
+    const barra = `<div class="funnel-barra" aria-hidden="true">${PASSI_SC.map((x, j) => `<span class="${j < i ? "ok" : ""}" ${j === i ? 'style="background:var(--accent)"' : ""}></span>`).join("")}</div>`;
+    const testa = `<header class="head-back">${back(i ? `#/scarpiera/${PASSI_SC[i - 1]}` : "#/io/scarpe")}<div style="min-width:0;flex:1"><span class="eyebrow">Scarpiera · ${i + 1} di ${PASSI_SC.length}</span>${barra}</div></header>`;
+    const avanti = (testo = "Avanti") => `<button class="btn block" type="button" data-act="sc-avanti" data-passo="${k}">${testo}</button>`;
+    const ctx = scCtx();
+    let corpo = "";
+    if (k === "scarpe") {
+      const tutte = (S.scarpe || []).filter((s) => !s.ritirata);
+      const opt = (v) => [["allenamento", "Daily"], ["ritmo", "Super-trainer"], ["tempo", "Tempo"], ["gara", "Gara"], ["trail", "Trail (fuori dalla rotazione)"]].map(([a, b]) => `<option value="${a}" ${v === a ? "selected" : ""}>${b}</option>`).join("");
+      corpo = `<h1>${TITOLI_SC.scarpe}</h1><p class="sub">Tipo e km di ogni scarpa. La durata la stimo dal tuo peso: sopra i 70 kg le schiume durano meno. Se la conosci, correggila.</p>
+        <section class="card"><div class="field"><label for="sc-peso">Il tuo peso</label><div class="row"><input class="input" id="sc-peso" type="number" inputmode="numeric" min="35" max="160" step="1" value="${esc(S.profilo.peso || "")}" placeholder="es. 75" data-sc-campo="peso" style="max-width:120px"><span class="small muted">kg · resta sul telefono</span></div></div></section>
+        ${tutte.map((s) => {
+          const t = L.SC_DA_APP[s.tipo], max = t ? (s.limiteMano ? Number(s.limite) : L.scDurata(t, ctx.peso)) : Number(s.limite) || 800, q = Math.min(1, (Number(s.km) || 0) / max);
+          return `<section class="card sc-scarpa"><div class="between"><span class="title">${esc(s.nome)}</span>${s.strava ? '<span class="small muted">da Strava</span>' : ""}</div>
+            <div class="grid2"><div class="field"><label for="sct-${esc(s.id)}">Tipo</label><select class="input" id="sct-${esc(s.id)}" data-sc-scarpa="tipo" data-id="${esc(s.id)}">${opt(s.tipo)}</select></div>
+            <div class="field"><label for="sck-${esc(s.id)}">Km</label><input class="input" id="sck-${esc(s.id)}" type="number" inputmode="numeric" min="0" step="1" value="${Math.round(Number(s.km) || 0)}" data-sc-scarpa="km" data-id="${esc(s.id)}" ${s.strava ? "disabled" : ""}></div></div>
+            ${t ? `<div class="field"><label for="scd-${esc(s.id)}">Durata${s.limiteMano ? "" : " (stimata)"}</label><input class="input" id="scd-${esc(s.id)}" type="number" inputmode="numeric" min="200" max="1500" step="10" value="${max}" data-sc-scarpa="durata" data-id="${esc(s.id)}" style="max-width:140px"></div>
+            <div class="meter ${q >= 0.8 ? "attenzione" : ""}" aria-hidden="true"><div style="width:${Math.max(3, Math.round(q * 100))}%"></div></div><div class="between small"><span>${Math.round(q * 100)}% della vita</span><span>${Math.max(0, Math.round(max - (Number(s.km) || 0)))} km residui</span></div>` : '<span class="small muted">Le scarpe da trail restano fuori dalla rotazione su strada.</span>'}</section>`;
+        }).join("") || '<section class="card"><span class="small">Non hai ancora scarpe: aggiungi quelle che usi.</span></section>'}
+        <details class="card"><summary>+ Aggiungi una scarpa</summary><form id="sc-nuova" style="display:flex;flex-direction:column;gap:10px;margin-top:10px">
+          <div class="field"><label for="scn-nome">Modello</label><input class="input" id="scn-nome" required placeholder="es. Novablast 5"></div>
+          <div class="grid2"><div class="field"><label for="scn-tipo">Tipo</label><select class="input" id="scn-tipo">${opt("allenamento")}</select></div><div class="field"><label for="scn-km">Km</label><input class="input" id="scn-km" type="number" inputmode="numeric" min="0" value="0"></div></div>
+          <button class="btn" type="submit">Aggiungi</button></form></details>
+        ${avanti()}`;
+    } else if (k === "corsa") {
+      const somma = scSomma(), wk = sc.wk, mix = sc.mix;
+      const riga = (kk, nome, nota) => `<div class="sc-mix"><div><b>${nome}</b><span class="small muted">${nota}</span></div>
+        <div class="sc-stepper"><button type="button" class="btn ghost small" data-act="sc-mix" data-k="${kk}" data-d="-1" aria-label="Meno ${nome}">−</button><b>${mix[kk].n}</b><button type="button" class="btn ghost small" data-act="sc-mix" data-k="${kk}" data-d="1" aria-label="Più ${nome}">+</button></div>
+        <div class="row"><input class="input" type="number" inputmode="numeric" min="5" max="45" value="${mix[kk].km}" data-sc-campo="mix.${kk}.km" aria-label="Km ${nome}" style="width:72px"><span class="small muted">km</span></div></div>`;
+      const gare = scGare();
+      corpo = `<h1>${TITOLI_SC.corsa}</h1><p class="sub">Come ti alleni di solito: serve a capire quanto si consuma ogni scarpa. Non è un piano di allenamento.</p>
+        <section class="card"><span class="title">Ogni settimana</span>
+          <div class="grid2"><div class="field"><label for="sc-f">Facile</label><div class="row"><input class="input" id="sc-f" type="number" inputmode="numeric" min="0" max="150" value="${wk.F}" data-sc-campo="wk.F"><span class="small muted">km</span></div></div>
+          <div class="field"><label for="sc-v">Veloce / qualità</label><div class="row"><input class="input" id="sc-v" type="number" inputmode="numeric" min="0" max="60" value="${wk.V}" data-sc-campo="wk.V"><span class="small muted">km</span></div></div></div>
+          <span class="small muted">Facile: uscite lente e recupero. Veloce: ripetute, soglia, progressivi.</span></section>
+        <section class="card"><div class="between"><span class="title">Weekend del mese</span><span class="pill ${somma === 4 ? "ok" : ""}">${somma} di 4</span></div>
+          ${riga("LF", "Lungo facile", "Volume a ritmo lento")}${riga("R", "Lunghissimo / ritmo gara", "Lungo con tratti a ritmo gara")}${riga("G", "Gara 10 km o mezza", "Gare di avvicinamento")}
+          ${somma !== 4 ? `<span class="small" style="color:#B91C1C;font-weight:700">${somma < 4 ? `Manca ${4 - somma === 1 ? "un weekend" : 4 - somma + " weekend"}: il mese ne ha 4.` : `Hai ${somma - 4} weekend di troppo: il mese ne ha 4.`}</span>` : `<span class="small muted">Settimana tipo: circa <b>${L.scKmSettimana(ctx)} km</b>.</span>`}</section>
+        <section class="card"><div class="between"><span class="title">Le tue gare</span><a class="small" href="#/gare">Aggiungi ›</a></div>
+          ${gare.length ? gare.map((g) => `<div class="between small"><span><b>${esc(g.nome)}</b></span><span class="muted">${esc(L.fmtGiorno(g.data))} · ${String(g.km).replace(".", ",")} km</span></div>`).join("") : '<span class="small">Nessuna gara in programma: il piano copre le prossime 20 settimane.</span>'}
+          <span class="small muted">La settimana prima di una mezza o di una maratona è di scarico, quella dopo di recupero.</span></section>
+        ${avanti()}`;
+    } else if (k === "set") {
+      const base = L.scSimula(ctx), set = scSet(), costo = L.scCosto(ctx, set);
+      const mie = (t) => { const m = scMieScarpe().filter((s) => L.SC_DA_APP[s.tipo] === t); return m.length ? `<span class="small"><span class="muted">Ce l'hai:</span> ${m.map((s) => esc(corto(s.nome))).join(", ")}</span>` : '<span class="small muted">Non ce l\'hai</span>'; };
+      const delta = (t) => { const con = set.includes(t) ? set : [...set, t], senza = set.filter((x) => x !== t); return L.scCosto(ctx, con).mese - L.scCosto(ctx, senza).mese; };
+      const AGG = { TE: ["Tempo", "Leggera e reattiva: le ripetute e le gare su 10 km e mezza le corri con una scarpa che somiglia al ritmo gara.", "Si prende veloce, 10 km e mezze: il super-trainer resta per lunghi e lunghissimi e dura di più."],
+        GA: ["Gara", "Piastra in carbonio e schiuma da gara: per molti runner vale l'1-3% del tempo, qualche minuto su una maratona.", "La usi solo per le gare e per poche sedute a ritmo gara: dura circa 300 km."] };
+      const agg = (t) => { const on = t === "TE" ? sc.te : sc.ga, d = delta(t); return `<button type="button" class="card sc-agg" data-act="sc-agg" data-t="${t}" aria-pressed="${on}"><span class="between" style="width:100%"><span class="title">+ ${AGG[t][0]}</span><span class="sc-switch" aria-hidden="true"><i></i></span></span><span class="small">${AGG[t][1]}</span><span class="small muted">${AGG[t][2]}</span><span class="between" style="width:100%">${mie(t)}<span class="small">${d === 0 ? "<b>stesso costo</b> al mese" : `<b>${d > 0 ? "+" : "−"}${Math.abs(d)} €</b> al mese`}</span></span></button>`; };
+      const rets = base.S.filter((s) => s.fine != null).sort((a, b) => a.fine - b.fine), ultima = ctx.gare.slice().sort((a, b) => b.data.localeCompare(a.data))[0];
+      const altri = scMieScarpe().filter((s) => !set.includes(L.SC_DA_APP[s.tipo]));
+      corpo = `<h1>${TITOLI_SC.set}</h1>
+        <section class="card"><span class="eyebrow">La base</span><span class="title">Una daily e un super-trainer</span><span class="small muted">È il minimo per una rotazione: una scarpa per i km facili, una per lunghi, lunghissimi e lavori.</span>
+          <div class="sc-base"><b>Daily</b><span class="small muted">Base, recupero e lunghi facili: più versatile o più ammortizzata, il mestiere è lo stesso.</span>${mie("DA")}</div>
+          <div class="sc-base"><b>Super-trainer</b><span class="small muted">Lunghi, lunghissimi, lavori a ritmo gara. Senza aggiunte fa anche ripetute e gare.</span>${mie("ST")}</div></section>
+        <span class="eyebrow">Aggiunte, se vuoi</span>${agg("TE")}${agg("GA")}
+        <section class="card sc-totale"><span class="small muted">Il tuo set</span><span class="title">${set.map((t) => L.SC_TIPI[t]).join(" + ")}</span>
+          <span><b style="font:700 28px var(--display)">${costo.mese} €</b> <span class="small muted">al mese per mantenerlo</span></span>
+          <span class="small muted">${Object.entries(costo.anno).map(([t, n]) => `${n.toFixed(1).replace(".", ",")} ${L.SC_TIPI[t].toLowerCase()}`).join(" + ")} l'anno, ai prezzi tipici in sconto.</span>
+          ${altri.length ? `<span class="small">${altri.map((s) => esc(corto(s.nome))).join(", ")} ${altri.length === 1 ? "resta in rotazione finché dura" : "restano in rotazione finché durano"}, ma non ${altri.length === 1 ? "viene ricomprata" : "vengono ricomprate"}.</span>` : ""}</section>
+        <details class="card"><summary>Vuoi due scarpe dello stesso tipo?</summary><span class="small muted" style="margin-top:8px">Si danno il cambio: finisci prima la più usata, poi passi all'altra. Le scarpe che hai già contano.</span>
+          ${set.map((t) => `<div class="between"><span>${L.SC_TIPI[t]}</span><div class="sc-stepper"><button type="button" class="btn ghost small" data-act="sc-qty" data-t="${t}" data-d="-1" aria-label="Meno ${L.SC_TIPI[t]}">−</button><b>${scQty()[t]}</b><button type="button" class="btn ghost small" data-act="sc-qty" data-t="${t}" data-d="1" aria-label="Più ${L.SC_TIPI[t]}">+</button></div></div>`).join("")}</details>
+        <section class="card"><span class="title">Le tue scarpe, se non compri nulla</span>${graficoScarpe(ctx, base, base.S, true)}
+          <span class="small muted">Ogni linea è una scarpa e sale man mano che la consumi. Oltre l'80% (fascia gialla) lascia veloce, lunghissimi e gare; oltre il 90% (fascia rossa) anche i lunghi. I super-trainer finiscono la vita sui facili. Quando una linea arriva in cima la scarpa è finita. Le righe sotto dicono, settimana per settimana, se ogni tipo di uscita ha una scarpa adatta.</span>
+          ${rets.length ? `<span class="small">${rets.map((s) => `<b>${esc(corto(s.nome))}</b> finisce il ${scGiorno(ctx, s.fine)}`).join(" · ")}.${ultima && rets.length === base.S.length && rets.every((s) => s.fine < L.scSettimana(ctx, ultima.data)) ? ` Con queste sole scarpe non arrivi all'ultima gara (${esc(ultima.nome)}).` : ""}</span>` : ""}</section>
+        ${avanti("Vedi il piano")}`;
+    } else if (k === "piano") {
+      const set = scSet(), { piano, sim, prossimo } = L.scPiano(ctx, set, scQty()), spesa = piano.reduce((t, p) => t + L.SC_PREZZO[p.t], 0);
+      const motivo = (p) => {
+        if (p.coppia) return p.w === 0 ? `Vuoi ${p.coppia} ${L.SC_TIPI[p.t].toLowerCase()} in alternanza: questa completa la coppia.` : `Vuoi ${p.coppia} ${L.SC_TIPI[p.t].toLowerCase()} in alternanza: questa sostituisce quella che finisce.`;
+        const ruolo = p.mar ? "la maratona" : PER_RUOLO[p.r];
+        if (p.causa && p.causa.evento) { const e = p.causa.evento; return e.tipo === "fine" ? `${esc(corto(p.causa.scarpa))} arriva a fine vita il ${scGiorno(ctx, e.w)}: senza ricambio ${ruolo} ${p.urgente ? "resterebbero senza scarpa" : "finirebbero su un ripiego"}.` : `Dal ${scGiorno(ctx, e.w)} ${esc(corto(p.causa.scarpa))} è troppo usata per ${ruolo}.`; }
+        return `Nessuna tua scarpa è ideale per ${ruolo}${p.ripiego ? `: le farebbe ${esc(corto(p.ripiego))}, solo come ripiego` : ""}.`;
+      };
+      const ricambio = (p) => p.causa && scMieScarpe().find((s) => s.nome === p.causa.scarpa && L.SC_DA_APP[s.tipo] === p.t);
+      const nonServe = set.filter((t) => !scMieScarpe().some((s) => L.SC_DA_APP[s.tipo] === t) && !piano.some((p) => p.t === t));
+      corpo = `<h1>${TITOLI_SC.piano}</h1>
+        <section class="card ${sim.scoperte.length ? "" : "soft"}"><span class="title">${piano.length ? `Compra ${piano.length === 1 ? "una scarpa" : piano.length + " scarpe"}: ${piano.map((p) => `${L.SC_TIPI[p.t]} ${p.w === 0 ? "subito" : aMese(scMese(ctx, p.w))}`).join(", ")}` : "Non ti serve comprare nulla"}</span>
+          <span class="small">${set.map((t) => L.SC_TIPI[t]).join(" + ")}${spesa ? ` · circa ${spesa} € fino all'ultima gara` : ""}${prossimo ? ` · poi ${L.SC_TIPI[prossimo.t].toLowerCase()} ${aMese(scMese(ctx, prossimo.w))}` : ""}</span>
+          ${sim.scoperte.length ? `<span class="small" style="color:#B91C1C;font-weight:700">Restano ${sim.scoperte.length} uscite senza scarpa: aggiungi un tipo al set.</span>` : ""}</section>
+        ${piano.length ? `<section class="card"><span class="title">Cosa compri e quando</span>${piano.map((p) => { const r = ricambio(p); return `<div class="sc-acquisto"><div class="between"><b class="sc-quando">${p.w === 0 ? "Subito" : "Entro il " + scGiorno(ctx, p.w)}</b><span class="small muted">pronta dal ${scGiorno(ctx, p.pronta)}</span></div>
+          <span class="title">${L.SC_TIPI[p.t]}${r ? ` <span class="small muted" style="font-weight:600">ricambio di ${esc(corto(r.nome))}</span>` : ""}</span><span class="small">${motivo(p)}</span>${p.fuoriSet ? '<span class="small" style="color:var(--warn)">Questo tipo non è nel set, ma senza resterebbero uscite scoperte.</span>' : ""}</div>`; }).join("")}
+          ${nonServe.map((t) => `<span class="small">La <b>${L.SC_TIPI[t]}</b> non ti serve prima dell'ultima gara: fino ad allora i suoi ruoli li copre ${t === "TE" ? "il super-trainer" : "la Tempo o il super-trainer"}.</span>`).join("")}
+          <span class="small muted">Compri due settimane prima che serva: i primi 40 km sono di rodaggio. Due acquisti non cadono mai nella stessa settimana.</span></section>` : ""}
+        ${ctx.gare.length ? `<section class="card"><span class="title">Le tue gare</span>${ctx.gare.map((g) => { const x = sim.gare.find((q) => q.gara.id === g.id), s = x && sim.S.find((z) => z.id === x.id); return `<div class="between"><div style="min-width:0"><b>${esc(g.nome)}</b><br><span class="small muted">${esc(L.fmtGiorno(g.data))}${x ? ` · ${esc(corto(x.scarpa))}${s && s.nuova ? "" : ""}, ${x.km} km al via` : ""}</span></div><span class="pill ${x ? (x.ok ? "ok" : "") : ""}">${x ? (x.ok ? "pronta" : "ripiego") : "scoperta"}</span></div>`; }).join("")}</section>` : ""}
+        <section class="card"><span class="title">Le tue scarpe, con gli acquisti</span>${graficoScarpe(ctx, sim, sim.S, true)}
+          <span class="small muted">Lo stesso grafico del passo prima, con le scarpe nuove tratteggiate: partono dal cerchio vuoto, il giorno in cui entrano in rotazione.</span></section>
+        ${piano.length ? avanti("Scegli i modelli") : `<a class="btn block" href="#/io/scarpe">Fatto</a>`}`;
+    } else {
+      const { piano } = L.scPiano(ctx, scSet(), scQty()), cat = (D.scarpe && D.scarpe.modelli) || [];
+      if (!piano.length) corpo = `<h1>${TITOLI_SC.modelli}</h1><p class="sub">Con le scarpe che hai non ti serve comprare nulla.</p><a class="btn block" href="#/oggi">Vai a Oggi</a>`;
+      else {
+        const idx = Math.min(Number(param.i) || 0, piano.length - 1), p = piano[idx], key = p.t + "@" + L.scData(ctx, p.w);
+        const r = sc.risp[key] = Object.assign({ budget: L.SC_BUDGET[p.t], marche: [] }, Object.fromEntries(L.SC_DOMANDE[p.t].map((q) => [q.k, q.o[0][0]])), sc.risp[key] || {});
+        const { lista, fuoriBudget } = L.scModelli(cat, p.t, r, ctx);
+        if (!r.scelta || !lista.some((x) => x.c.modello === r.scelta)) r.scelta = lista[0] && lista[0].c.modello;
+        const marche = [...new Set(cat.filter((c) => c.tipo === p.t).map((c) => c.marca))];
+        const ric = p.causa && scMieScarpe().find((s) => s.nome === p.causa.scarpa && L.SC_DA_APP[s.tipo] === p.t);
+        const totale = piano.reduce((t, q) => { const rr = sc.risp[q.t + "@" + L.scData(ctx, q.w)], c = rr && cat.find((m) => m.modello === rr.scelta); return t + (c ? c.prezzo : L.SC_PREZZO[q.t]); }, 0);
+        const scelto = cat.find((c) => c.modello === r.scelta);
+        corpo = `<h1>${TITOLI_SC.modelli}</h1><p class="sub">${piano.length === 1 ? "Una scarpa" : piano.length + " scarpe"}: circa ${totale} € con i modelli scelti. Prezzi più bassi trovati oggi.</p>
+          <nav class="sc-tabs" aria-label="Scarpe da scegliere">${piano.map((q, j) => { const rr = sc.risp[q.t + "@" + L.scData(ctx, q.w)]; return `<a href="#/scarpiera/modelli?i=${j}" ${j === idx ? 'aria-current="page"' : ""}><b>${j + 1}. ${L.SC_TIPI[q.t]}</b><span class="small">${rr && rr.scelta ? esc(corto(rr.scelta)) : "entro il " + scGiorno(ctx, q.w)}</span></a>`; }).join("")}</nav>
+          <section class="card"><div class="between"><span class="title">${L.SC_TIPI[p.t]}${ric ? ` <span class="small muted" style="font-weight:600">ricambio di ${esc(corto(ric.nome))}</span>` : ""}</span><span class="small muted">entro il ${scGiorno(ctx, p.w)}</span></div>
+            ${L.SC_DOMANDE[p.t].map((q) => `<div class="field"><span class="lbl">${q.q}</span><div class="chips">${q.o.map(([v, l]) => `<button type="button" class="chip" data-act="sc-risp" data-key="${esc(key)}" data-q="${q.k}" data-v="${v}" aria-pressed="${r[q.k] === v}">${l}</button>`).join("")}</div></div>`).join("")}
+            <div class="field"><span class="lbl">Marca</span><div class="chips"><button type="button" class="chip" data-act="sc-marca" data-key="${esc(key)}" data-m="" aria-pressed="${!r.marche.length}">Qualsiasi</button>${marche.map((m) => `<button type="button" class="chip" data-act="sc-marca" data-key="${esc(key)}" data-m="${esc(m)}" aria-pressed="${r.marche.includes(m)}">${esc(m)}</button>`).join("")}</div></div>
+            <div class="field"><label for="sc-budget">Spesa massima per questa scarpa: <b>${r.budget} €</b></label><input id="sc-budget" type="range" min="70" max="230" step="10" value="${r.budget}" data-sc-budget="${esc(key)}"></div></section>
+          ${fuoriBudget ? `<section class="card soft"><span class="small">Nessun modello entro ${r.budget} €${r.marche.length ? " per le marche scelte" : ""}: ti mostro il più economico.</span></section>` : ""}
+          ${lista.map((x, j) => { const c = x.c, on = r.scelta === c.modello; return `<button type="button" class="card sc-modello" data-act="sc-scegli" data-key="${esc(key)}" data-m="${esc(c.modello)}" aria-pressed="${on}">
+            <span class="between" style="width:100%"><span class="eyebrow" style="${j === 0 ? "color:var(--accent-strong)" : ""}">${j === 0 ? "La più adatta a te" : j === 1 ? "Seconda scelta" : "Terza scelta"}</span>${on ? '<span class="pill ok">scelta</span>' : ""}</span>
+            <span class="between" style="width:100%;align-items:baseline"><span class="title">${esc(c.modello)}</span><b class="sc-prezzo">${c.prezzo} €</b></span>
+            <span class="small muted">${[c.peso && `${c.peso} g`, c.suola && `suola ${c.suola} mm`, c.drop != null && `drop ${String(c.drop).replace(".", ",")} mm`, `ammortizz. ${c.ammortizzazione}`, c.piastra && `piastra ${c.piastra}`, c.listino && `listino ${c.listino} €`].filter(Boolean).join(" · ")}</span>
+            <span class="sc-perche">${x.pro.map((t) => `<span class="ok">✓ ${esc(t)}</span>`).join("")}${x.contro.map((t) => `<span class="ko">! ${esc(t)}</span>`).join("")}</span></button>`; }).join("") || '<section class="card"><span class="small">Nessun modello in catalogo per questo tipo.</span></section>'}
+          ${scelto ? `<a class="small" href="${esc(scelto.url)}" target="_blank" rel="noopener">Vedi ${esc(scelto.modello)} su ${esc(scelto.fonte)} ›</a>` : ""}
+          ${idx < piano.length - 1 ? `<a class="btn block" href="#/scarpiera/modelli?i=${idx + 1}">Avanti: ${L.SC_TIPI[piano[idx + 1].t]}</a>` : `<button class="btn block" type="button" data-act="sc-in-oggi">Aggiungi a Oggi</button>`}
+          <span class="small muted">Come scelgo: parto dal Runnea score e aggiungo punti per le tue risposte, il tuo peso, la marca o la linea che usi già e lo sconto. Dati tecnici dalle schede Runnea, catalogo aggiornato ogni mese. Indicazioni generali, non pubblicità.</span>`;
+      }
+    }
+    return `${testa}<div class="funnel">${corpo}</div>`;
+  }
+
+  // attività "da comprare" in Oggi + scheda quando una scarpa sta finendo e non c'è un piano
+  function cardScarpiera() {
+    const sc = S.scarpiera || {}, att = sc.attivita || [], o = oggi();
+    if (att.length) return att.slice().sort((a, b) => a.entro.localeCompare(b.entro)).map((x) => {
+      const gg = L.diffDays(x.entro, o);
+      const st = gg < 0 ? `<span class="pill doc-scaduto">scaduta da ${-gg} ${-gg === 1 ? "giorno" : "giorni"}</span>` : gg <= 14 ? `<span class="pill doc-presto">tra ${gg} ${gg === 1 ? "giorno" : "giorni"}</span>` : `<span class="pill grigio">entro il ${esc(L.fmtBreve ? L.fmtBreve(x.entro) : x.entro)}</span>`;
+      return `<section class="card" aria-label="Scarpa da comprare"><div class="between"><span class="eyebrow">Da comprare · ${L.SC_TIPI[x.t]}</span>${st}</div>
+        <span class="title">${esc(x.modello)}</span><span class="small muted">Circa ${x.prezzo} €${x.ricambio ? ` · ricambio di ${esc(x.ricambio)}` : ""} · pronta per il ${esc(L.fmtGiorno(x.pronta))}</span>
+        ${x.url ? `<a class="small" href="${esc(x.url)}" target="_blank" rel="noopener">Vedi su ${esc(x.fonte || "Runnea")} ›</a>` : ""}
+        <div class="grid2"><button class="btn" type="button" data-act="sc-comprata" data-id="${esc(x.id)}">L'ho comprata</button><button class="btn ghost" type="button" data-act="sc-chiudi" data-id="${esc(x.id)}">Chiudi</button></div></section>`;
+    }).join("");
+    const finendo = scMieScarpe().filter((s) => L.statoScarpa(s).quota >= 0.85);
+    if (!finendo.length || sc.fatto || (sc.dopo && L.diffDays(o, sc.dopo) < 3)) return "";
+    return `<section class="card soft" aria-label="Scarpiera"><span class="eyebrow" style="color:var(--accent-strong)">Scarpiera</span><span class="title">${finendo.length === 1 ? `Le ${esc(finendo[0].nome)} stanno finendo` : `${finendo.length} paia di scarpe stanno finendo`}</span>
+      <span class="small">In 3 minuti vediamo quando finiscono, che rotazione ti serve fino alle tue gare e cosa comprare.</span>
+      <div class="grid2"><a class="btn" href="#/scarpiera">Pianifica</a><button class="btn ghost" type="button" data-act="sc-dopo">Più tardi</button></div></section>`;
+  }
+
+  function azioneScarpiera(t) {
+    const act = t.dataset.act, sc = SC();
+    if (act === "sc-avanti") {
+      const k = t.dataset.passo;
+      if (k === "corsa" && scSomma() !== 4) { toast("I weekend del mese devono essere 4"); return; }
+      if (k === "scarpe" && !scMieScarpe().length) { toast("Aggiungi almeno una scarpa"); return; }
+      location.hash = `#/scarpiera/${PASSI_SC[PASSI_SC.indexOf(k) + 1]}`; window.scrollTo(0, 0); return;
+    }
+    if (act === "sc-mix") { const m = sc.mix[t.dataset.k]; m.n = Math.max(0, Math.min(4, (Number(m.n) || 0) + Number(t.dataset.d))); salva(); rerender(); return; }
+    if (act === "sc-agg") { if (t.dataset.t === "TE") sc.te = !sc.te; else sc.ga = !sc.ga; salva(); rerender(); return; }
+    if (act === "sc-qty") { sc.qty[t.dataset.t] = Math.max(1, Math.min(3, (Number(sc.qty[t.dataset.t]) || 1) + Number(t.dataset.d))); salva(); rerender(); return; }
+    if (act === "sc-risp") { const r = sc.risp[t.dataset.key]; r[t.dataset.q] = t.dataset.v; r.scelta = null; salva(); rerender(); return; }
+    if (act === "sc-marca") { const r = sc.risp[t.dataset.key], m = t.dataset.m; if (!m) r.marche = []; else r.marche = r.marche.includes(m) ? r.marche.filter((x) => x !== m) : [...r.marche, m]; r.scelta = null; salva(); rerender(); return; }
+    if (act === "sc-scegli") { sc.risp[t.dataset.key].scelta = t.dataset.m; salva(); rerender(); return; }
+    if (act === "sc-in-oggi") {
+      const ctx = scCtx(), { piano } = L.scPiano(ctx, scSet(), scQty()), cat = (D.scarpe && D.scarpe.modelli) || [];
+      sc.attivita = piano.map((p, j) => {
+        const key = p.t + "@" + L.scData(ctx, p.w), r = sc.risp[key] || {}, lista = L.scModelli(cat, p.t, { budget: L.SC_BUDGET[p.t], ...r }, ctx).lista;
+        const c = cat.find((m) => m.modello === r.scelta) || (lista[0] && lista[0].c) || { modello: L.SC_TIPI[p.t] + " nuova", prezzo: L.SC_PREZZO[p.t] };
+        const ric = p.causa && scMieScarpe().find((s) => s.nome === p.causa.scarpa && L.SC_DA_APP[s.tipo] === p.t);
+        return { id: "A" + Date.now().toString(36) + j, t: p.t, modello: c.modello, prezzo: c.prezzo, url: c.url || "", fonte: c.fonte || "", entro: L.scData(ctx, p.w), pronta: L.scData(ctx, p.pronta), ricambio: ric ? corto(ric.nome) : "" };
+      });
+      sc.fatto = oggi(); salva(); toast(sc.attivita.length === 1 ? "Aggiunta in Oggi" : `${sc.attivita.length} scarpe aggiunte in Oggi`); location.hash = "#/oggi"; return;
+    }
+    if (act === "sc-comprata") {
+      const x = sc.attivita.find((z) => z.id === t.dataset.id); if (!x) return;
+      sc.attivita = sc.attivita.filter((z) => z !== x);
+      const sn = { id: "S" + Date.now().toString(36), nome: x.modello, tipo: L.SC_A_APP[x.t], km: 0, limite: L.scDurata(x.t, Number(S.profilo.peso) || 0) };
+      S.scarpe.push(sn); annotaKm(sn); salva(); toast(`${x.modello} aggiunta alle tue scarpe`); rerender(); return;
+    }
+    if (act === "sc-chiudi") { sc.attivita = sc.attivita.filter((z) => z.id !== t.dataset.id); salva(); toast("Attività chiusa"); rerender(); return; }
+    if (act === "sc-dopo") { sc.dopo = oggi(); salva(); rerender(); }
+  }
+  function campoScarpiera(el) {
+    const sc = SC();
+    if (el.dataset.scCampo) {
+      const v = Math.max(0, Math.round(Number(el.value) || 0)), path = el.dataset.scCampo.split(".");
+      if (path[0] === "peso") { S.profilo.peso = v ? Math.min(160, Math.max(35, v)) : undefined; salva(); rerender(); return true; }
+      let o = sc; for (const p of path.slice(0, -1)) o = o[p]; o[path[path.length - 1]] = v; salva(); rerender(); return true;
+    }
+    if (el.dataset.scScarpa) {
+      const s = S.scarpe.find((x) => x.id === el.dataset.id); if (!s) return true;
+      if (el.dataset.scScarpa === "tipo") s.tipo = el.value;
+      else if (el.dataset.scScarpa === "km") { s.km = Math.max(0, Number(el.value) || 0); annotaKm(s); }
+      else { s.limite = Math.max(200, Math.min(1500, Math.round(Number(el.value) || 0))); s.limiteMano = true; }
+      salva(); rerender(); return true;
+    }
+    if (el.dataset.scBudget) { const r = sc.risp[el.dataset.scBudget]; if (r) { r.budget = Number(el.value); r.scelta = null; salva(); rerender(); } return true; }
+    return false;
+  }
+
   // ---------------------------------------------------------------- posizione dal GPS
   // Le coordinate restano sul telefono, arrotondate a circa 1 km. Il nome della città arriva da BigDataCloud (gratuito, senza chiave).
   const ICO_PIN = `<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg>`;
@@ -608,7 +852,7 @@
     if (a.azione === "tempo") return `<a class="btn small" href="${urlGara(g.id)}?modifica=1">Imposta il tempo obiettivo</a>`;
     if (a.azione === "aggiungi-scarpe") return `<a class="btn small" href="#/io/scarpe">Aggiungi le tue scarpe</a>`;
     if (a.azione === "km-settimana") return `<div class="field"><label for="km-${esc(k)}" class="small">Quanti km corri a settimana?</label><input class="input" id="km-${esc(k)}" type="number" inputmode="numeric" min="1" max="250" step="1" data-auto="kmSettimana" placeholder="es. 40" style="max-width:140px"></div>${a.ok === false ? selectScarpa(k, g) : ""}`;
-    if (a.azione === "scegli-scarpa") return selectScarpa(k, g);
+    if (a.azione === "scegli-scarpa") return selectScarpa(k, g) + (a.ok === false ? `<a class="btn small" href="#/scarpiera">Pianifica gli acquisti</a>` : "");
     return "";
   }
   function selectScarpa(k, g) {
@@ -735,7 +979,7 @@
   function vistaVuota(concluse) {
     const o = oggi(), pil = L.pillola(D.pillole, "nessuna", "21", o, Number(o.slice(5, 7)));
     return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(o))}</span><h1>${S.profilo.nome ? "Ciao, " + esc(S.profilo.nome.trim().split(/\s+/)[0]) : "Buongiorno"}</h1></div>${pulsanteBuddy()}</header>
-      ${cardEntra() || cardPrepara()}
+      ${cardEntra() || cardPrepara()}${cardScarpiera()}
       <a class="card dark" href="#/gare" style="text-decoration:none;font-weight:inherit"><span class="eyebrow">${concluse ? "Tutte le tue gare sono concluse" : "Nessuna gara in vista"}</span><span style="font:700 24px/1.1 var(--display)">${concluse ? "Qual è la prossima?" : "Scegli la tua prossima gara"}</span><span class="sub">Ti preparo la strada fino al via: cosa fare e quando, info gara, borsa ›</span></a>
       ${cardMeteo()}
       ${cardInvitoPB()}
@@ -793,7 +1037,7 @@
 
     const meteo = cardMeteo();
 
-    return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(o))}</span><h1>Buongiorno${S.profilo.nome ? ", " + esc(S.profilo.nome.trim().split(/\s+/)[0]) : ""}</h1></div>${pulsanteBuddy()}</header>${cardEntra() || cardPrepara()}${hero}${avvisoDocumenti()}${meteo}${blocco}${statoPrepara().completo ? cardPush(true) : ""}${pill}${(() => {
+    return `${bannerProva()}<header class="head"><div><span class="eyebrow">${esc(L.fmtGiorno(o))}</span><h1>Buongiorno${S.profilo.nome ? ", " + esc(S.profilo.nome.trim().split(/\s+/)[0]) : ""}</h1></div>${pulsanteBuddy()}</header>${cardEntra() || cardPrepara()}${hero}${avvisoDocumenti()}${cardScarpiera()}${meteo}${blocco}${statoPrepara().completo ? cardPush(true) : ""}${pill}${(() => {
       const top = topPerTe(2);
       return top.length ? `<section aria-label="Per te oggi"><div class="between" style="margin-bottom:8px"><h2>Per te oggi</h2><a class="small" href="#/perte">Altro ›</a></div><div class="lista-c">${top.map((c, i) => cardContenuto(c, i === 0)).join("")}</div></section>` : "";
     })()}`;
@@ -3038,7 +3282,7 @@
 
   function vistaIo() {
     const P = S.profilo;
-    const USI = { allenamento: "Allenamento", ritmo: "Ritmo e lunghi", gara: "Gara", trail: "Trail" };
+    const USI = { allenamento: "Allenamento", ritmo: "Ritmo e lunghi", tempo: "Tempo", gara: "Gara", trail: "Trail" };
     const opzioni = (vals, att, fmt) => vals.map((v) => `<option value="${v}" ${String(att) === String(v) ? "selected" : ""}>${fmt(v)}</option>`).join("");
     const scarpe = S.scarpe.map((s) => {
       const st = L.statoScarpa(s);
@@ -3047,7 +3291,7 @@
         <div class="between small"><span><b>${Math.round(st.km)}</b> di ${st.limite} km</span><span style="font-weight:700;color:${st.livello === "attenzione" ? "var(--warn)" : st.livello === "info" ? "var(--accent)" : "var(--ok)"}">${esc(st.etichetta)}</span></div>
         <div class="grid2"><div class="field"><label for="su-${esc(s.id)}">Uso</label><select class="input" id="su-${esc(s.id)}" data-act-change="scarpa-uso" data-id="${esc(s.id)}">${opzioni(Object.keys(USI), s.tipo, (v) => USI[v])}</select></div>
         <div class="field"><label for="sl-${esc(s.id)}">Da cambiare a</label><select class="input" id="sl-${esc(s.id)}" data-act-change="scarpa-limite" data-id="${esc(s.id)}">${opzioni([300, 400, 500, 600, 700, 800, 900, 1000], s.limite, (v) => `${v} km`)}</select></div></div></article>`;
-      return `<article class="card"><div class="between"><span class="title">${esc(s.nome)}</span><span class="small muted">${esc({ allenamento: "allenamento", ritmo: "ritmo e lunghi", gara: "gara", trail: "trail" }[s.tipo] || s.tipo)}</span></div>
+      return `<article class="card"><div class="between"><span class="title">${esc(s.nome)}</span><span class="small muted">${esc({ allenamento: "allenamento", ritmo: "ritmo e lunghi", tempo: "tempo", gara: "gara", trail: "trail" }[s.tipo] || s.tipo)}</span></div>
         <div class="meter ${st.livello}" aria-hidden="true"><div style="width:${Math.max(3, Math.round(st.quota * 100))}%"></div></div>
         <div class="between small"><span><b>${Math.round(st.km)}</b> di ${st.limite} km</span><span style="font-weight:700;color:${st.livello === "attenzione" ? "var(--warn)" : st.livello === "info" ? "var(--accent)" : "var(--ok)"}">${esc(st.etichetta)}</span></div>
         <form class="row" data-form="km" data-id="${esc(s.id)}"><label class="sr" for="km-${esc(s.id)}">Aggiungi km a ${esc(s.nome)}</label><input class="input" id="km-${esc(s.id)}" type="number" inputmode="decimal" min="0" step="0.1" placeholder="+ km corsi"><button class="btn ghost" type="submit">Aggiungi</button><button class="btn ghost" type="button" data-act="del-scarpa" data-id="${esc(s.id)}" aria-label="Elimina ${esc(s.nome)}">✕</button></form></article>`;
@@ -3077,10 +3321,11 @@
       ${C().strava ? acc("strava", "Strava", STRAVA_STATO && STRAVA_STATO.collegato ? '<span class="pill ok">collegato</span>' : "in prova", sezioneStrava()) : ""}
       ${acc("scarpe", "Le mie scarpe", S.scarpe.length ? `${S.scarpe.length} ${stravaOn ? "da Strava" : S.scarpe.length === 1 ? "paio" : "paia"}${daCambiare ? ` · <b style="color:var(--warn)">${daCambiare} da cambiare</b>` : ""}` : "nessuna", `${scarpe || `<span class="small">Nessuna scarpa ancora.</span>`}
         ${stravaOn ? `<span class="small muted">I km arrivano da Strava${S.strava.letto ? `, aggiornati alle ${esc(new Date(S.strava.letto).toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" }))}` : ""}. Una scarpa nuova si aggiunge su Strava; quelle ritirate lì spariscono da qui.</span>` : S.strava && S.strava.attivo ? `<span class="small muted">Su Strava non hai scarpe attive, quindi usiamo quelle inserite qui. Se ne aggiungi una su Strava, i km arriveranno da lì e queste andranno in Archivio.</span>` : ""}
+        <a class="btn" href="#/scarpiera">Pianifica la rotazione</a><span class="small muted">Quando finiscono le tue scarpe, che rotazione ti serve fino alle gare e cosa comprare.</span>
         ${archivio.length ? `<details class="card"><summary>Archivio · ${archivio.length} ${archivio.length === 1 ? "scarpa inserita" : "scarpe inserite"} a mano</summary>${archivio.map((x) => `<div class="between" style="padding:6px 0"><span>${esc(x.nome)} <span class="small muted">· ${Math.round(Number(x.km) || 0)} km</span></span><button class="btn ghost small" data-act="arch-del" data-id="${esc(x.id)}">Elimina</button></div>`).join("")}<span class="small muted">${stravaOn ? "Non contano finché Strava è collegato." : "Se sono le stesse scarpe che hai già, eliminale."}</span></details>` : ""}
         ${stravaOn ? "" : `<details class="card"><summary>+ Aggiungi una scarpa</summary><form id="scarpa" style="display:flex;flex-direction:column;gap:10px">
         <div class="field"><label for="s-nome">Modello</label><input class="input" id="s-nome" required placeholder="es. la mia scarpa da lento"></div>
-        <div class="grid2"><div class="field"><label for="s-tipo">Uso</label><select class="input" id="s-tipo"><option value="allenamento">Allenamento</option><option value="ritmo">Ritmo e lunghi</option><option value="gara">Gara</option><option value="trail">Trail</option></select></div>
+        <div class="grid2"><div class="field"><label for="s-tipo">Uso</label><select class="input" id="s-tipo"><option value="allenamento">Allenamento</option><option value="ritmo">Ritmo e lunghi</option><option value="tempo">Tempo</option><option value="gara">Gara</option><option value="trail">Trail</option></select></div>
         <div class="field"><label for="s-km">Km attuali</label><input class="input" id="s-km" type="number" min="0" value="0"></div></div>
         <div class="field"><label for="s-lim">Da cambiare a (km)</label><input class="input" id="s-lim" type="number" min="300" step="50" value="800"></div>
         <button class="btn" type="submit">Aggiungi scarpa</button></form></details>
@@ -3179,7 +3424,7 @@
     const parts = path.split("/").map(decodeURIComponent);
     const param = Object.fromEntries(new URLSearchParams(query || ""));
     const tab = parts[0] || "oggi";
-    document.querySelectorAll("nav.tabs a").forEach((a) => a.setAttribute("aria-current", a.dataset.tab === ({ prepara: "oggi", aggiungi: "gare", gara: "gare", checklist: "gare", percorso: "gare", meteo: "oggi", pillole: "oggi", invito: "gruppo", entra: "gruppo", risultato: "oggi", pb: "io", tempi: "io", estera: "gare", statistiche: "io", super: "io", condividi: "gare" }[tab] || tab) ? "page" : "false"));
+    document.querySelectorAll("nav.tabs a").forEach((a) => a.setAttribute("aria-current", a.dataset.tab === ({ prepara: "oggi", aggiungi: "gare", gara: "gare", checklist: "gare", percorso: "gare", meteo: "oggi", pillole: "oggi", invito: "gruppo", entra: "gruppo", risultato: "oggi", pb: "io", tempi: "io", estera: "gare", statistiche: "io", super: "io", condividi: "gare", scarpiera: "io" }[tab] || tab) ? "page" : "false"));
     if (D.errore) { $app.innerHTML = `<section class="card"><span class="title">Qualcosa non va</span><span class="small">${esc(D.errore)}</span></section>`; return; }
     let html;
     if (param.rivedi) { RIVEDI = tab === "prepara" ? "prepara" : "entra"; invitoInSafari = false; }
@@ -3216,6 +3461,7 @@
         if (parts[1] === "documenti" || parts[1] === "scarpe") S.ioAperto = { ...(S.ioAperto || {}), [parts[1]]: true }; html = vistaIo(); break;
       case "gara": html = parts[2] === "novita" ? vistaNovitaGara(parts[1], param) : parts[2] === "preparazione" ? vistaPreparazione(parts[1]) : parts[2] === "info" ? vistaInfoGara(parts[1], param) : parts[2] === "borsa" ? vistaBorsa(parts[1]) : vistaGaraHome(parts[1], param); break;
       case "prepara": html = vistaPrepara(parts[1]); break;
+      case "scarpiera": html = vistaScarpiera(parts[1], param); break;
       case "meteo": html = vistaMeteo(); break;
       case "pillole": html = vistaPillole(parts[1]); break;
       case "perte": html = vistaPerTe(param); break;
@@ -3229,7 +3475,7 @@
     if (att) seg.scrollLeft = att.offsetLeft - (seg.clientWidth - att.offsetWidth) / 2;
     const inv = tab === "invito" && (!(S.gruppo && S.gruppo.dentro) || parts[1] === "anteprima"), fineEntra = tab === "entra" && parts[1] === "fine" && S.gruppo && S.gruppo.dentro;
     document.body.classList.toggle("onboarding", !!fineEntra);
-    document.body.classList.toggle("funnel-on", tab === "prepara" || (tab === "entra" && !fineEntra) || inv);
+    document.body.classList.toggle("funnel-on", tab === "prepara" || tab === "scarpiera" || (tab === "entra" && !fineEntra) || inv);
     document.body.classList.toggle("chat-on", tab === "buddy" && !!C().buddy);
     if (tab === "oggi" || !tab) riempiMeteo();
     riempiMeteoGaraBox();
@@ -3249,6 +3495,7 @@
     const t = e.target.closest("[data-act]");
     if (!t) return;
     const act = t.dataset.act;
+    if (act.startsWith("sc-")) { azioneScarpiera(t); return; }
     if (act === "buddy-ok") { B().ok = true; salva(); rerender(); return; }
     if (act === "cl-tab") { tabCl = t.dataset.t; rerender(); return; }
     if (act === "cl-dist") { distAlbo = t.dataset.d; rerender(); return; }
@@ -3621,12 +3868,13 @@
     return true;
   }
 
+  document.addEventListener("change", (e) => { if (e.target.dataset && campoScarpiera(e.target)) e.stopImmediatePropagation(); });
   document.addEventListener("change", (e) => {
     if (e.target.dataset && e.target.dataset.actChange === "m-dist") { const c = document.getElementById("m-km-campo"); if (c) c.hidden = e.target.value !== "altra"; return; }
     if (e.target.id === "gm-dist") { const c = document.getElementById("gm-km-campo"); if (c) c.hidden = e.target.value !== "altra"; return; }
     if (e.target.dataset && (e.target.dataset.actChange === "scarpa-uso" || e.target.dataset.actChange === "scarpa-limite")) {
       const sc = S.scarpe.find((x) => x.id === e.target.dataset.id);
-      if (sc) { if (e.target.dataset.actChange === "scarpa-uso") sc.tipo = e.target.value; else sc.limite = Math.max(300, Number(e.target.value) || 800); salva(); rerender(); }
+      if (sc) { if (e.target.dataset.actChange === "scarpa-uso") sc.tipo = e.target.value; else { sc.limite = Math.max(300, Number(e.target.value) || 800); sc.limiteMano = true; } salva(); rerender(); }
     } else if (e.target.dataset && e.target.dataset.actChange === "scarpa-gara") {
       const g = S.gare.find((x) => x.id === e.target.dataset.gara);
       if (g) { if (e.target.value) g.scarpa = e.target.value; else delete g.scarpa; salva(); toast(e.target.value ? "Scarpe della gara scelte" : "Scelta tolta"); rerender(); }
@@ -3973,7 +4221,11 @@
     } else if (f.id === "profilo") {
       document.activeElement && document.activeElement.blur();
     } else if (f.id === "scarpa") {
-      S.scarpe.push({ id: "S" + Date.now().toString(36), nome: v("s-nome").trim(), tipo: v("s-tipo"), km: Number(v("s-km")) || 0, limite: Math.max(300, Number(v("s-lim")) || 800) }); annotaKm(S.scarpe[S.scarpe.length - 1]); salva(); toast("Scarpa aggiunta"); rerender();
+      S.scarpe.push({ id: "S" + Date.now().toString(36), nome: v("s-nome").trim(), tipo: v("s-tipo"), km: Number(v("s-km")) || 0, limite: Math.max(300, Number(v("s-lim")) || 800), ...(Number(v("s-lim")) && Number(v("s-lim")) !== 800 ? { limiteMano: true } : {}) }); annotaKm(S.scarpe[S.scarpe.length - 1]); salva(); toast("Scarpa aggiunta"); rerender();
+    } else if (f.id === "sc-nuova") {
+      const nome = v("scn-nome").trim(); if (!nome) return;
+      const sn = { id: "S" + Date.now().toString(36), nome, tipo: v("scn-tipo"), km: Math.max(0, Number(v("scn-km")) || 0), limite: 800 };
+      S.scarpe.push(sn); annotaKm(sn); salva(); toast("Scarpa aggiunta"); rerender();
     } else if (f.id === "acc-email") {
       const btn = f.querySelector("button[type=submit]"), email = v("acc-mail").trim().toLowerCase(); btn.disabled = true;
       chiamaAuth("otp", { email, create_user: true }).then(() => { ACC.email = email; ACC.inviato = true; rerender(); setTimeout(() => { const c = document.getElementById("acc-cod"); if (c) c.focus(); }, 50); })

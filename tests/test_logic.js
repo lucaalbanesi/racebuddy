@@ -774,4 +774,56 @@ assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10",
   assert.ok(!bd.find((b) => b.k === "prima10").preso, "Prima 10 km vuole la misura esatta");
 }
 
+// Scarpiera: durata, piano d'acquisto, coperture, costo e modelli
+{
+  const ctx = { oggi: "2026-10-26", peso: 85,
+    scarpe: [{ id: "g", nome: "Asics Glideride", t: "DA", km: 550, max: 700 }, { id: "s2", nome: "Asics Superblast 2", t: "ST", km: 440 }, { id: "s3", nome: "Asics Superblast 3", t: "ST", km: 120 }],
+    wk: { F: 30, V: 12 }, mix: { LF: { n: 1, km: 20 }, R: { n: 2, km: 30 }, G: { n: 1, km: 15 } },
+    gare: [{ id: "fi", nome: "Maratona di Firenze", data: "2026-11-29", km: 42.2 }, { id: "rm", nome: "Maratona di Roma", data: "2027-03-21", km: 42.2 }] };
+  assert.strictEqual(L.scDurata("ST", 85), 650); assert.strictEqual(L.scDurata("DA", 85), 700); assert.strictEqual(L.scDurata("GA", 85), 300); assert.strictEqual(L.scDurata("DA", 60), 800);
+  assert.strictEqual(L.scInizio("2026-10-26"), "2026-10-26", "lunedì: si parte oggi"); assert.strictEqual(L.scInizio("2026-10-28"), "2026-11-02");
+  assert.strictEqual(L.scOrizzonte(ctx), 26, "fino a 6 settimane dopo Roma");
+  assert.deepStrictEqual(L.scWeekend(ctx.mix), ["R", "LF", "R", "G"]);
+  assert.strictEqual(L.scKmSettimana(ctx), 66);
+  // senza acquisti: la Glideride finisce a fine novembre, Roma resta senza scarpa
+  const base = L.scSimula(ctx);
+  const fineG = base.S.find((s) => s.id === "g").fine;
+  assert.strictEqual(L.scData(ctx, fineG), "2026-11-23");
+  assert.ok(base.scoperte.length > 20, "senza acquisti molte uscite restano scoperte");
+  assert.ok(!base.gare.find((x) => x.gara.id === "rm"), "Roma senza scarpa");
+  // set Daily + Super-trainer + Tempo: daily per prima, poi la Tempo; nessuna uscita scoperta né su ripiego
+  const p = L.scPiano(ctx, ["DA", "ST", "TE"]);
+  assert.deepStrictEqual(p.piano.map((x) => [x.t, L.scData(ctx, x.w)]), [["DA", "2026-11-09"], ["TE", "2026-11-30"]]);
+  assert.strictEqual(p.sim.scoperte.length + p.sim.ripieghi.length, 0);
+  assert.strictEqual(p.piano[0].causa.scarpa, "Asics Glideride", "la daily è il ricambio della Glideride");
+  assert.ok(p.sim.gare.every((x) => x.ok), "maratone con la scarpa giusta");
+  assert.ok(p.prossimo && p.prossimo.w >= p.sim.H - 2, "il prossimo acquisto è dopo l'ultima gara");
+  // il super-trainer finisce la vita sui facili: nessuna Superblast resta ferma più di un mese (aspetta solo che finisca una scarpa più vecchia)
+  for (const id of ["s2", "s3"]) { const v = L.scVita(p.sim, p.sim.S.find((s) => s.id === id)); const fine = p.sim.S.find((s) => s.id === id).fine ?? v.length; let ferma = 0, max = 0; for (let w = 1; w < fine; w++) { ferma = v[w] === v[w - 1] ? ferma + 1 : 0; max = Math.max(max, ferma); } assert.ok(max <= 4, `${id} ferma ${max} settimane`); }
+  // Tempo scelta e Gara: la Tempo non serve prima dell'ultima gara
+  const p2 = L.scPiano(ctx, ["DA", "ST", "TE", "GA"]);
+  assert.ok(p2.piano.some((x) => x.t === "GA") && p2.sim.gare.find((x) => x.gara.id === "rm").scarpa === "Gara nuova", "Roma con la scarpa da gara");
+  // due daily: la seconda si compra subito
+  const p3 = L.scPiano(ctx, ["DA", "ST", "TE"], { DA: 2 });
+  assert.strictEqual(p3.piano[0].t, "DA"); assert.strictEqual(p3.piano[0].w, 0); assert.strictEqual(p3.piano[0].coppia, 2);
+  // coperture: con gli acquisti tutto ok
+  assert.ok(L.scCoperture(ctx, p.sim).every((r) => r.settimane.every((x) => x === null || x === "ok")));
+  assert.ok(L.scCoperture(ctx, base).some((r) => r.settimane.includes("scoperta")));
+  // costo per mantenere il set
+  const c1 = L.scCosto(ctx, ["DA", "ST"]), c2 = L.scCosto(ctx, ["DA", "ST", "GA"]);
+  assert.ok(c1.mese > 40 && c1.mese < 90, c1.mese); assert.ok(c2.mese >= c1.mese);
+  // modelli: filtro tipo, marca, budget e motivi
+  const cat = [{ modello: "A", marca: "ASICS", linea: "nimbus", tipo: "DA", prezzo: 114, listino: 200, peso: 285, drop: 8, ammortizzazione: "massima", corporatura: "MF", score: 9.5 },
+    { modello: "B", marca: "Nike", linea: "pegasus", tipo: "DA", prezzo: 88, listino: 140, peso: 300, drop: 10, ammortizzazione: "media", corporatura: "M", score: 9.7 },
+    { modello: "C", marca: "ASICS", linea: "sonicblast", tipo: "TE", prezzo: 139, listino: 190, peso: 255, suola: 46, ammortizzazione: "massima", uso: "allenamento e gara", piastra: "Pebax", fonte: "Sportsshoes" }];
+  const m = L.scModelli(cat, "DA", { budget: 120, feel: "soft" }, ctx);
+  assert.deepStrictEqual(m.lista.map((x) => x.c.modello), ["A", "B"]);
+  assert.ok(m.lista[0].pro.includes("Ammortizzazione massima")); assert.ok(m.lista[1].contro.length);
+  assert.deepStrictEqual(L.scModelli(cat, "DA", { budget: 120, marche: ["Nike"] }, ctx).lista.map((x) => x.c.modello), ["B"]);
+  const t = L.scModelli(cat, "TE", { budget: 100 }, ctx);
+  assert.ok(t.fuoriBudget && t.lista[0].c.modello === "C", "fuori budget: il più economico");
+  assert.ok(t.lista[0].pro.some((x) => x.startsWith("Suola alta")), "suola alta per i runner pesanti");
+  assert.ok(t.lista[0].contro.some((x) => x.includes("Sportsshoes")));
+}
+
 console.log("ok");

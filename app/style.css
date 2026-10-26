@@ -674,3 +674,36 @@ body.chat-on .app { padding-bottom: 150px; }
 /* Strumenti di prova: un link per riga, con aria */
 .strumenti { display: flex; flex-direction: column; margin-top: 4px; border-top: 1px solid var(--line2); }
 .strumenti .riga-percorso { padding: 12px 0; }
+
+/* Scarpiera (#/scarpiera) */
+.sc-grafico-box { width: 100%; }
+.sc-grafico { width: 100%; height: auto; display: block; }
+.sc-leg { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 13px; color: var(--muted); }
+.sc-leg.col { flex-direction: column; }
+.sc-leg i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+.sc-leg b { color: var(--fg); font-weight: 600; }
+.sc-mix { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; align-items: center; border-top: 1px solid var(--line2); padding-top: 10px; }
+.sc-mix > div:first-child { display: flex; flex-direction: column; min-width: 0; }
+.sc-stepper { display: flex; align-items: center; gap: 6px; }
+.sc-stepper b { min-width: 18px; text-align: center; }
+.sc-stepper .btn { width: 36px; padding: 0; font-size: 18px; }
+.sc-base { display: flex; flex-direction: column; gap: 3px; border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+.sc-agg { text-align: left; cursor: pointer; font: inherit; color: inherit; align-items: flex-start; }
+.sc-agg[aria-pressed="false"] { border-style: dashed; background: transparent; }
+.sc-agg[aria-pressed="true"] { border: 2px solid var(--accent); padding: 13px 15px; }
+.sc-switch { width: 40px; height: 24px; border-radius: 12px; background: var(--line); position: relative; flex: none; }
+.sc-switch i { position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: var(--surface); transition: left .15s; }
+.sc-agg[aria-pressed="true"] .sc-switch { background: var(--accent); }
+.sc-agg[aria-pressed="true"] .sc-switch i { left: 19px; }
+.sc-totale { border: 2px solid var(--navy); }
+.sc-acquisto { display: flex; flex-direction: column; gap: 4px; border-top: 1px solid var(--line2); padding-top: 10px; }
+.sc-quando { font: 700 18px var(--display); }
+.sc-tabs { display: flex; gap: 6px; overflow-x: auto; }
+.sc-tabs a { flex: 1; min-width: 120px; display: flex; flex-direction: column; gap: 2px; border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px; background: var(--surface); color: var(--fg); text-decoration: none; }
+.sc-tabs a[aria-current="page"] { border: 2px solid var(--accent); padding: 7px 9px; }
+.sc-tabs .small { color: var(--muted); font-weight: 500; }
+.sc-modello { text-align: left; cursor: pointer; font: inherit; color: inherit; width: 100%; }
+.sc-modello[aria-pressed="true"] { border: 2px solid var(--accent); padding: 13px 15px; }
+.sc-prezzo { font: 700 24px var(--display); }
+.sc-perche { display: flex; flex-direction: column; gap: 2px; font-size: 14px; }
+.sc-perche .ok { color: var(--ok); } .sc-perche .ko { color: var(--warn); }

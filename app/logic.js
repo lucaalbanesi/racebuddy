@@ -181,7 +181,7 @@
   // Senza km a settimana: uso tipico per chi prepara quella distanza.
   const QUOTE = { base: 0.44, qualita: 0.18, lungo: 0.38 };
   const USO_TIPICO = { "10": 30, "21": 40, "42": 55 }, KM_GARA = { "10": 10, "21": 21.0975, "42": 42.195 };
-  const gruppoScarpa = (s) => (s.tipo === "ritmo" ? "ritmo" : "base");
+  const gruppoScarpa = (s) => (s.tipo === "ritmo" || s.tipo === "tempo" ? "ritmo" : "base");
   /** Con quanti km la scarpa arriva al via: { km, limite, come: "gare"|"storia"|"settimana"|"tipico", gare, ok }.
       ctx: { kmSettimana, scarpe (attive), gare (seguite) }. */
   function scarpaAlVia(s, gara, oggi, ctx = {}) {
@@ -718,7 +718,7 @@
   // scarpe inserite a mano e km a settimana. Mai nomi, documenti, posizione, né dati arrivati da Strava (scarpe con
   // `strava`, personali con fonte "strava"): i dati di Strava restano all'utente e non vanno alle funzioni AI.
   const KM_DIST = { "10": 10, "21": 21.0975, "42": 42.195 };
-  const TIPO_SCARPA = { allenamento: "allenamento", ritmo: "ritmo e lunghi", gara: "gara", trail: "trail" };
+  const TIPO_SCARPA = { allenamento: "allenamento", ritmo: "ritmo e lunghi", tempo: "tempo", gara: "gara", trail: "trail" };
   function fmtPasso(sec) { const s = Math.round(sec); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}/km`; }
   function secondiTempo(t) { const p = String(t || "").split(":").map(Number); if (p.length < 2 || p.some((x) => !Number.isFinite(x))) return 0; return p.length === 3 ? p[0] * 3600 + p[1] * 60 + p[2] : p[0] * 60 + p[1]; }
   function contestoBuddy({ oggi, gare = [], fasi, risultati = {}, pb = {}, scarpe = [], kmSettimana = 0 }) {
@@ -1087,7 +1087,243 @@
     return n;
   }
 
-  const api = { fuoriMisura, esatte, kmAltra, fmtKm, etichettaDist, baseKm, PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, finitaPrima, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, pbEventi, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, recuperoInEvidenza, daRecuperare, fontiNuove, fonteAperta, nuoveFontiInEvidenza, PASSI_ENTRA, passiEntra, prossimoEntra };
+
+  // ------------------------------------------------------------------ Scarpiera (rotazione e piano d'acquisto delle scarpe)
+  // Specifica in docs/scarpiera.md. Tutto sul telefono: ctx = { oggi, peso, scarpe: [{ id, nome, t, km, max }],
+  // wk: { F, V } (km a settimana di facile e veloce), mix: { LF|R|G: { n, km } } (weekend del mese, n che sommano 4),
+  // gare: [{ id, nome, data, km }] (gare obiettivo future) }. Tipi: DA daily, ST super-trainer, TE tempo, GA gara.
+  const SC_TIPI = { DA: "Daily", ST: "Super-trainer", TE: "Tempo", GA: "Gara" };
+  const SC_TK = ["DA", "ST", "TE", "GA"];
+  const SC_DA_APP = { allenamento: "DA", ritmo: "ST", tempo: "TE", gara: "GA" }; // trail: fuori dalla rotazione
+  const SC_A_APP = { DA: "allenamento", ST: "ritmo", TE: "tempo", GA: "gara" };
+  const SC_BASE = { DA: 800, ST: 750, TE: 575, GA: 340 };
+  const SC_PREZZO = { DA: 110, ST: 150, TE: 100, GA: 150 }; // prezzi tipici in sconto (Runnea, ottobre 2026)
+  const SC_RUOLI = { F: "Facile", LF: "Lungo facile", V: "Veloce / qualità", R: "Lunghissimo / ritmo gara", G: "Gara" };
+  const SC_RK = ["F", "LF", "V", "R", "G"];
+  // priorità tipo × uscita: p = ordine di scelta, ok = ideale (0 = ripiego); assente = mai
+  const SC_MX = {
+    F: { DA: { p: 1, ok: 1 }, ST: { p: 2, ok: 0 } },
+    LF: { DA: { p: 1, ok: 1 }, ST: { p: 2, ok: 1 }, TE: { p: 3, ok: 0 } },
+    V: { TE: { p: 1, ok: 1 }, ST: { p: 2, ok: 1 }, GA: { p: 3, ok: 0 }, DA: { p: 4, ok: 0 } },
+    R: { ST: { p: 1, ok: 1 }, TE: { p: 2, ok: 1 }, GA: { p: 3, ok: 1 }, DA: { p: 4, ok: 0 } },
+    G: { GA: { p: 1, ok: 1 }, TE: { p: 2, ok: 1 }, ST: { p: 3, ok: 0 }, DA: { p: 4, ok: 0 } },
+  };
+  const SC_MXM = { GA: { p: 1, ok: 1 }, ST: { p: 2, ok: 1 }, TE: { p: 3, ok: 0 } }; // gare da 30 km in su
+  const SC_SOGLIA = { F: 1, LF: 0.9, V: 0.8, R: 0.8, G: 0.8 };
+  const scSoglia = (r, t) => (t === "GA" ? 1 : SC_SOGLIA[r]);
+  const RODAGGIO = 40;
+
+  /** Durata stimata in km per tipo e peso: -0,87% per ogni kg sopra i 70 (al massimo -25%), arrotondata a 10. */
+  const scDurata = (t, peso) => { const f = !peso || peso <= 70 ? 1 : Math.max(0.75, 1 - (peso - 70) * 0.0087); return Math.round((SC_BASE[t] || 700) * f / 10) * 10; };
+  /** Primo lunedì da oggi (oggi stesso se è lunedì): la settimana 0 del piano. */
+  const scInizio = (oggi) => { const dow = new Date(toUTC(oggi)).getUTCDay(); return addDays(oggi, (8 - dow) % 7); };
+  const scSettimana = (ctx, data) => Math.floor(diffDays(data, scInizio(ctx.oggi)) / 7);
+  const scData = (ctx, w) => addDays(scInizio(ctx.oggi), w * 7);
+  /** Settimane del piano: fino a 6 dopo l'ultima gara obiettivo, minimo 20, massimo 52. */
+  const scOrizzonte = (ctx) => { const ws = (ctx.gare || []).map((g) => scSettimana(ctx, g.data)).filter((w) => w >= 0); return Math.min(52, Math.max(20, (ws.length ? Math.max(...ws) : 0) + 6)); };
+  /** Ciclo dei 4 weekend del mese: lunghissimi alternati a lunghi facili e gare. */
+  function scWeekend(mix) {
+    const o = [];
+    for (let i = 0; i < (mix.LF.n || 0); i++) o.push("LF");
+    for (let i = 0; i < (mix.G.n || 0); i++) o.push("G");
+    let x = mix.R.n || 0; const a = [];
+    for (let i = 0; i < 4; i++) { if (x > 0 && (i % 2 === 0 || !o.length)) { a.push("R"); x--; } else if (o.length) a.push(o.shift()); else { a.push(x > 0 ? "R" : "LF"); x--; } }
+    return a;
+  }
+  /** Uscite di una settimana: [[ruolo, km, gara?]]. Settimana di gara lunga: scarico prima, recupero dopo. */
+  function scUscite(ctx, w, ciclo) {
+    const F = Number(ctx.wk.F) || 0, V = Number(ctx.wk.V) || 0, gare = ctx.gare || [], lunghe = gare.filter((g) => g.km >= 21);
+    const gara = gare.find((g) => scSettimana(ctx, g.data) === w);
+    if (gara && gara.km >= 21) return { tipo: "gara", u: [["F", Math.round(F * 0.6)], ["V", Math.round(V * 0.5)], ["G", Number(gara.km), gara]] };
+    if (lunghe.some((g) => scSettimana(ctx, g.data) === w + 1)) return { tipo: "scarico", u: [["F", Math.round(F * 0.8)], ["V", Math.round(V * 0.7)], ["LF", Math.min(14, ctx.mix.LF.km || 14)]] };
+    if (lunghe.some((g) => scSettimana(ctx, g.data) === w - 1)) return { tipo: "recupero", u: [["F", Math.round(F * 0.7)]] };
+    const u = [["F", F], ["V", V]];
+    if (gara) u.push(["G", Number(gara.km), gara]); else { const k = ciclo[w % 4]; if (ctx.mix[k] && ctx.mix[k].km) u.push([k, Number(ctx.mix[k].km)]); }
+    return { tipo: "normale", u: u.filter((x) => x[1] > 0) };
+  }
+  /** Simula settimana per settimana chi fa cosa. piano = acquisti [{ t, w }]. */
+  function scSimula(ctx, piano = [], H0) {
+    const S = (ctx.scarpe || []).filter((s) => SC_TIPI[s.t]).map((s) => ({ id: s.id, nome: s.nome, t: s.t, km: Number(s.km) || 0, km0: Number(s.km) || 0, max: Number(s.max) || scDurata(s.t, ctx.peso), da: 0, nuova: false, ruoli: new Set(), soglie: {}, ultimo: -1, ultIdeale: -1, ultQ: -1, ultF: -1, fine: null }));
+    piano.forEach((p, i) => S.push({ id: "n" + i, nome: SC_TIPI[p.t] + " nuova", t: p.t, km: 0, km0: 0, max: scDurata(p.t, ctx.peso), da: p.w, nuova: true, ruoli: new Set(), soglie: {}, ultimo: -1, ultIdeale: -1, ultQ: -1, ultF: -1, fine: null }));
+    const ciclo = scWeekend(ctx.mix), H = H0 || scOrizzonte(ctx), griglia = [], ripieghi = [], scoperte = [], eventi = [], gare = [];
+    for (let w = 0; w < H; w++) {
+      const cella = {};
+      for (const [r, k, gara] of scUscite(ctx, w, ciclo).u) {
+        const mar = r === "G" && gara && gara.km >= 30, mx = mar ? SC_MXM : SC_MX[r];
+        const c = S.filter((s) => s.da <= w && s.fine == null && mx[s.t] && s.km / s.max < scSoglia(r, s.t) && !(r === "G" && s.km < RODAGGIO) && !((r === "V" || r === "R") && s.t === "GA" && s.km / s.max >= 0.3));
+        // fine corsa: il super-trainer uscito dalla qualità finisce la vita sui facili
+        const fineCorsa = (s) => r === "F" && s.t === "ST" && s.km / s.max >= SC_SOGLIA.V;
+        const rimasti = (s) => SC_RK.filter((rr) => SC_MX[rr][s.t] && SC_MX[rr][s.t].ok && s.km / s.max < scSoglia(rr, s.t)).length + (s.t === "ST" && s.km / s.max >= SC_SOGLIA.V ? 1 : 0);
+        const scegli = (l) => {
+          if (r === "F" || r === "LF") { const rod = l.filter((s) => s.km < RODAGGIO); if (rod.length) return rod[0]; return l.slice().sort((a, b) => rimasti(a) - rimasti(b) || b.km / b.max - a.km / a.max)[0]; }
+          const rod = l.filter((s) => s.nuova && s.km < RODAGGIO && (s.t === "GA" || s.t === "TE")); if (rod.length && (r === "V" || r === "R")) return rod[0];
+          const fresca = r === "G"; // in gara la più fresca, in allenamento si finisce prima la più usata
+          return l.slice().sort((a, b) => mx[a.t].p - mx[b.t].p || (fresca ? a.km / a.max - b.km / b.max : b.km / b.max - a.km / a.max))[0];
+        };
+        const ok = c.filter((s) => mx[s.t].ok || fineCorsa(s)), rip = c.filter((s) => !mx[s.t].ok && !fineCorsa(s));
+        let s;
+        if (ok.length) { s = scegli(ok); s.ultIdeale = w; if (r === "F" || r === "LF") s.ultF = w; else s.ultQ = w; }
+        else if (rip.length) { s = scegli(rip); ripieghi.push({ w, r, mar, scarpa: s.nome, km: k }); }
+        else { scoperte.push({ w, r, mar, km: k }); continue; }
+        const prima = s.km / s.max;
+        if (gara) gare.push({ gara, w, scarpa: s.nome, id: s.id, km: Math.round(s.km), ok: !!mx[s.t].ok });
+        s.km += k; s.ultimo = w; s.ruoli.add(r); cella[s.id] = cella[s.id] || {}; cella[s.id][r] = (cella[s.id][r] || 0) + k;
+        for (const rr of s.ruoli) if (scSoglia(rr, s.t) < 1 && prima < scSoglia(rr, s.t) && s.km / s.max >= scSoglia(rr, s.t) && !s.soglie[rr]) { s.soglie[rr] = 1; eventi.push({ w, tipo: "lascia", scarpa: s.nome, r: rr, km: Math.round(s.km) }); }
+        if (s.km >= s.max && s.fine == null) { s.fine = w; eventi.push({ w, tipo: "fine", scarpa: s.nome, km: s.max }); }
+      }
+      griglia.push(cella);
+    }
+    return { S, griglia, ripieghi, scoperte, eventi, gare, H };
+  }
+  function scTipoPer(t, set) {
+    const mx = t.mar ? SC_MXM : SC_MX[t.r], ordine = Object.keys(mx).sort((a, b) => mx[a].p - mx[b].p);
+    let tipo = ordine.find((k) => mx[k].ok && set.includes(k)); if (tipo) return { tipo };
+    if (!t.urgente) return null;
+    tipo = ordine.find((k) => set.includes(k)); return tipo ? { tipo } : { tipo: ordine.find((k) => mx[k].ok), fuoriSet: true };
+  }
+  // un tipo del set che manca (o una seconda scarpa voluta): quando serve davvero
+  function scMancanti(sim, piano, set, qty) {
+    const out = [];
+    for (const t of set) {
+      const q = qty[t] || 1, primo = piano.filter((p) => p.t === t).reduce((m, p) => Math.min(m, p.w), 999), mia = sim.S.some((s) => s.t === t && !s.nuova);
+      if (!mia && primo === 999) {
+        const ideali = SC_RK.filter((r) => SC_MX[r][t] && SC_MX[r][t].ok); let meglio = null;
+        [...sim.scoperte, ...sim.ripieghi].filter((f) => !piano.some((p) => { const mx = f.mar ? SC_MXM : SC_MX[f.r]; return mx[p.t] && mx[p.t].ok && p.w <= f.w && p.w >= f.w - 6; }))
+          .forEach((f) => { if ((ideali.includes(f.r) || (f.mar && SC_MXM[t] && SC_MXM[t].ok)) && (!meglio || f.w < meglio.w)) meglio = { w: f.w, r: f.r, mar: f.mar }; });
+        if (meglio) out.push({ ...meglio, qt: t, urgente: false, presenza: true });
+        continue;
+      }
+      for (let w = mia ? 0 : primo; w < sim.H; w++) {
+        const n = sim.S.filter((s) => s.t === t && s.da <= w && (s.fine == null || s.fine > w)).length;
+        if (n < q) { out.push(q === 1 ? { w, qt: t, urgente: false, presenza: true, r: SC_RK.find((r) => SC_MX[r][t] && SC_MX[r][t].p === 1) } : { w, qt: t, urgente: false }); break; }
+      }
+    }
+    return out;
+  }
+  /** Piano d'acquisto per un set di tipi (qty: quante scarpe per tipo, di base 1).
+      { piano: [{ t, w, pronta, r, mar, urgente, fuoriSet, causa, ripiego, coppia }], sim, proiezione, prossimo } */
+  function scPiano(ctx, set, qty = {}) {
+    const piano = [], salta = new Set(); let sim;
+    for (let giro = 0; giro < 16; giro++) {
+      sim = scSimula(ctx, piano);
+      const scatti = [...sim.scoperte.map((u) => ({ ...u, urgente: true })), ...sim.ripieghi.map((f) => ({ ...f, urgente: false })), ...scMancanti(sim, piano, set, qty)]
+        .sort((a, b) => a.w - b.w || b.urgente - a.urgente)
+        .filter((t) => t.qt || !(!t.urgente && salta.has(t.r + (t.mar ? "M" : ""))))
+        .filter((t) => !t.qt || !piano.some((p) => p.t === t.qt && p.w >= t.w - 8 && p.w <= t.w + 4 && piano.filter((x) => x.t === t.qt).length >= (qty[t.qt] || 1) - sim.S.filter((z) => z.t === t.qt && !z.nuova && (z.fine == null || z.fine > t.w)).length))
+        .filter((t) => t.qt || !piano.some((p) => { const mx = t.mar ? SC_MXM : SC_MX[t.r]; return mx[p.t] && (t.urgente || mx[p.t].ok) && p.w <= t.w + 4 && p.w >= t.w - 8; }));
+      if (!scatti.length) break;
+      const t = scatti[0]; let tipo, fuoriSet = false;
+      if (t.qt) tipo = t.qt; else { const x = scTipoPer(t, set); if (!x) { salta.add(t.r + (t.mar ? "M" : "")); continue; } tipo = x.tipo; fuoriSet = !!x.fuoriSet; }
+      // si compra due settimane prima (rodaggio); due acquisti mai a meno di tre settimane
+      let w = Math.max(0, t.w - 2);
+      if (!t.urgente) { const vicini = piano.filter((p) => Math.abs(p.w - w) < 3); if (vicini.length) w = Math.max(w, Math.max(...vicini.map((p) => p.w)) + 3); }
+      let causa = null;
+      if (t.r) {
+        const mx = t.mar ? SC_MXM : SC_MX[t.r];
+        for (let x = t.w - 1; x >= 0 && !causa; x--) {
+          const e = Object.entries(sim.griglia[x]).find(([, v]) => v[t.r]);
+          if (e) { const s = sim.S.find((z) => String(z.id) === e[0]); const ev = sim.eventi.find((z) => z.scarpa === s.nome && (z.tipo === "fine" || (z.tipo === "lascia" && z.r === t.r))); if (s && mx[s.t] && mx[s.t].ok) causa = { scarpa: s.nome, id: s.id, evento: ev || null }; }
+        }
+      }
+      const rp = t.r && sim.ripieghi.find((f) => f.w === t.w && f.r === t.r);
+      piano.push({ t: tipo, w, pronta: t.w, r: t.r || null, mar: !!t.mar, urgente: !!t.urgente, fuoriSet, causa, ripiego: rp ? rp.scarpa : null, coppia: t.qt && !t.presenza ? qty[t.qt] : 0 });
+    }
+    sim = scSimula(ctx, piano);
+    // proiezione allo stesso ritmo dopo l'ultima gara: date di fine e prossimo acquisto
+    const proiezione = scSimula(ctx, piano, sim.H + 40); let prossimo = null;
+    const cand = [...proiezione.scoperte.map((u) => ({ ...u, urgente: true })), ...proiezione.ripieghi.map((f) => ({ ...f, urgente: false }))].filter((t) => t.w >= sim.H - 2).sort((a, b) => a.w - b.w);
+    for (const t of cand) { const x = scTipoPer(t, set); if (x) { prossimo = { t: x.tipo, w: Math.max(0, t.w - 2) }; break; } }
+    const qn = scMancanti(proiezione, piano, set, qty).filter((t) => t.w >= sim.H - 2).sort((a, b) => a.w - b.w)[0];
+    if (qn && (!prossimo || qn.w - 2 < prossimo.w)) prossimo = { t: qn.qt, w: Math.max(0, qn.w - 2) };
+    return { piano, sim, proiezione, prossimo };
+  }
+  /** Fine di una scarpa nella simulazione: { w, come: "fine"|"fino"|"oltre", q (fine qualità), f (fine facili) }. */
+  function scFineScarpa(sim, id) {
+    const s = sim.S.find((x) => String(x.id) === String(id)); if (!s) return null;
+    const lim = (w) => Math.min(w, sim.H);
+    const ultimo = s.ultIdeale < 0 ? s.da : s.ultIdeale + 1;
+    const due = s.ultQ >= 0 && s.ultF > s.ultQ + 2 ? { q: lim(s.ultQ + 1), f: lim(Math.min(s.ultF + 1, s.fine != null ? s.fine : 999)) } : {};
+    if (s.fine != null && s.fine <= ultimo) return { w: s.fine, come: "fine", ...due };
+    if (ultimo < sim.H - 3) return { w: ultimo, come: "fino", ...due };
+    return { w: sim.H, come: "oltre", ...due };
+  }
+  /** Settimana per settimana: copertura delle uscite raggruppate (Facile, Veloce, Lunghi e gare): "ok"|"ripiego"|"scoperta"|null. */
+  const SC_RIGHE = [{ k: "facile", nome: "Facile", ruoli: ["F"] }, { k: "veloce", nome: "Veloce", ruoli: ["V"] }, { k: "lunghi", nome: "Lunghi e gare", ruoli: ["LF", "R", "G"] }];
+  function scCoperture(ctx, sim) {
+    const ciclo = scWeekend(ctx.mix);
+    return SC_RIGHE.map((riga) => ({ ...riga, settimane: Array.from({ length: sim.H }, (_, w) => {
+      if (!scUscite(ctx, w, ciclo).u.some((u) => riga.ruoli.includes(u[0]))) return null;
+      return sim.scoperte.some((u) => u.w === w && riga.ruoli.includes(u.r)) ? "scoperta" : sim.ripieghi.some((f) => f.w === w && riga.ruoli.includes(f.r)) ? "ripiego" : "ok";
+    }) }));
+  }
+  /** Percentuale di vita settimana per settimana (null prima che arrivi). */
+  function scVita(sim, s) { const out = []; let km = s.km0; for (let w = 0; w < sim.H; w++) { if (w < s.da) { out.push(null); continue; } const c = sim.griglia[w][s.id]; if (c) for (const r in c) km += c[r]; out.push(Math.min(1.05, km / s.max)); } return out; }
+  /** Km medi a settimana. */
+  const scKmSettimana = (ctx) => Math.round((Number(ctx.wk.F) || 0) + (Number(ctx.wk.V) || 0) + ["LF", "R", "G"].reduce((t, k) => t + (ctx.mix[k].n || 0) * (ctx.mix[k].km || 0), 0) / 4);
+  /** Costo per mantenere il set a regime: { mese (€ arrotondati a 5), per100, anno: { tipo: scarpe l'anno } }. */
+  function scCosto(ctx, set, prezzi = SC_PREZZO) {
+    const M = 4.345, km = { F: ctx.wk.F * M, V: ctx.wk.V * M, LF: ctx.mix.LF.n * ctx.mix.LF.km, R: ctx.mix.R.n * ctx.mix.R.km, G: ctx.mix.G.n * ctx.mix.G.km };
+    const mesi = Math.max(1, scOrizzonte(ctx) / M), uso = {}, add = (t, k) => { uso[t] = (uso[t] || 0) + k; };
+    const scegli = (mx) => { const o = Object.keys(mx).sort((a, b) => mx[a].p - mx[b].p); return o.find((t) => mx[t].ok && set.includes(t)) || o.find((t) => set.includes(t)); };
+    for (const r of SC_RK) { const t = scegli(SC_MX[r]); if (t) add(t, km[r]); }
+    (ctx.gare || []).filter((g) => scSettimana(ctx, g.data) >= 0).forEach((g) => { const t = scegli(g.km >= 30 ? SC_MXM : SC_MX.G); if (t) add(t, g.km / mesi); });
+    const usabile = { DA: 1, ST: 0.8, TE: 0.8, GA: 1 }, anno = {}; let costo = 0;
+    for (const t in uso) { if (t === "DA") continue; const n = uso[t] / (usabile[t] * scDurata(t, ctx.peso)); anno[t] = n * 12; costo += n * prezzi[t]; }
+    if (anno.ST && uso.DA) uso.DA = Math.max(0, uso.DA - (anno.ST / 12) * 0.2 * scDurata("ST", ctx.peso)); // il super-trainer finisce sui facili
+    if (uso.DA) { const n = uso.DA / scDurata("DA", ctx.peso); anno.DA = n * 12; costo += n * prezzi.DA; }
+    const tot = Object.values(km).reduce((a, b) => a + b, 0);
+    return { mese: Math.round(costo / 5) * 5, per100: tot ? Math.round((costo / tot) * 100) : 0, anno };
+  }
+  /** Domande per tipo nel passo dei modelli; la prima opzione di ogni domanda è quella di partenza. */
+  const SC_DOMANDE = {
+    DA: [{ k: "feel", q: "Sui km facili preferisci", o: [["any", "Indifferente"], ["soft", "Morbida e protettiva"], ["light", "Più leggera e reattiva"]] }, { k: "drop", q: "Drop", o: [["any", "Indifferente"], ["same", "Simile alle tue (8 mm)"]] }],
+    ST: [{ k: "feel", q: "Dal super-trainer vuoi", o: [["any", "Indifferente"], ["soft", "Più protezione"], ["light", "Più spinta e leggerezza"]] }, { k: "plate", q: "Piastra", o: [["any", "Indifferente"], ["no", "Senza"], ["yes", "Con piastra"]] }],
+    TE: [{ k: "race", q: "La userai anche in gara su 10 km e mezza?", o: [["yes", "Sì"], ["no", "No, solo allenamento"]] }, { k: "plate", q: "Piastra", o: [["any", "Indifferente"], ["carbon", "In carbonio"], ["other", "Più morbida (nylon, fibra)"]] }],
+    GA: [{ k: "dist", q: "Per quali gare?", o: [["both", "Tutte"], ["mar", "Maratona"], ["half", "10 km e mezza"]] }, { k: "stride", q: "Quando acceleri", o: [["any", "Non so"], ["long", "Allunghi il passo"], ["freq", "Aumenti la frequenza"]] }],
+  };
+  const SC_BUDGET = { DA: 120, ST: 160, TE: 140, GA: 160 };
+  /** Punteggio e motivi di un modello del catalogo (content/scarpe.json) per le risposte e il profilo. */
+  function scValuta(c, risp, ctx) {
+    const pro = [], contro = [], peso = Number(ctx.peso) || 0, corp = peso >= 80 ? "F" : peso >= 65 ? "M" : "L";
+    let s = ((c.score || 9.2) - 8.5) * 20;
+    if (c.suola && c.suola >= 40 && corp === "F") { s += 20; pro.push(`Suola alta (${c.suola} mm al tallone): protegge anche a ${peso} kg`); }
+    else if (!c.corporatura) { /* senza indicazione */ }
+    else if (c.corporatura.includes(corp)) { s += 20; pro.push(peso ? `Indicata per la tua corporatura (${peso} kg)` : "Indicata per la tua corporatura"); }
+    else if (corp === "F" && c.corporatura.includes("M")) { s += c.tipo === "GA" || c.tipo === "TE" ? 0 : -10; contro.push("Runnea la indica per corporature leggere e medie"); }
+    else { s -= 20; contro.push("Pensata per corporature più leggere"); }
+    if (c.tipo === "DA" || c.tipo === "ST") {
+      if (risp.feel === "soft") { if (c.ammortizzazione === "massima") { s += 20; pro.push("Ammortizzazione massima"); } else s -= 10; }
+      if (risp.feel === "light") { if (c.peso && c.peso <= 260) { s += 20; pro.push(`Leggera: ${c.peso} g`); } else s -= 10; }
+    }
+    if (c.tipo === "DA" && risp.drop === "same" && c.drop != null) { if (Math.abs(c.drop - 8) <= 1) { s += 10; pro.push(`Drop ${c.drop} mm come le tue`); } else { s -= 5; contro.push(`Drop ${c.drop} mm, diverso dalle tue`); } }
+    if (c.tipo === "ST" && risp.plate === "no") s += c.piastra ? -15 : 10;
+    if (c.tipo === "ST" && risp.plate === "yes") { if (c.piastra) { s += 15; pro.push(`Piastra in ${c.piastra}`); } else s -= 10; }
+    if (c.tipo === "TE" && risp.race === "yes") { if (/gara|misto/.test(c.uso || "")) { s += 15; pro.push("Adatta anche alla gara"); } else contro.push("Pensata per l'allenamento"); }
+    if (c.tipo === "TE" && risp.plate === "carbon") { if (c.piastra === "carbonio") { s += 15; pro.push("Piastra in carbonio"); } else s -= 10; }
+    if (c.tipo === "TE" && risp.plate === "other") { if (c.piastra && c.piastra !== "carbonio") { s += 15; pro.push(`Piastra in ${c.piastra}, più morbida`); } else s -= 10; }
+    if (c.tipo === "GA") {
+      if (risp.dist === "mar" || risp.dist === "both") { if (c.ammortizzazione === "massima") { s += 15; pro.push("Più schiuma: regge i 42 km"); } if (c.peso && c.peso >= 220) s += 5; }
+      if (risp.dist === "half" && c.peso && c.peso <= 195) { s += 10; pro.push(`Leggerissima: ${c.peso} g`); }
+      if (risp.stride && risp.stride !== "any" && (c.falcata || []).includes(risp.stride)) { s += 10; pro.push(risp.stride === "long" ? "Pensata per chi allunga il passo" : "Rullata adatta a chi aumenta la frequenza"); }
+    }
+    const mie = (ctx.scarpe || []).map((x) => String(x.nome || "").toLowerCase()), linea = String(c.linea || "").toLowerCase();
+    if (linea && mie.some((n) => n.includes(linea))) { s += 15; pro.push("Stessa linea di una scarpa che hai"); }
+    else if (mie.some((n) => n.startsWith(String(c.marca).toLowerCase()))) { s += 5; pro.push(`${c.marca}, la marca che usi`); }
+    if (c.listino) { const sc = Math.round((1 - c.prezzo / c.listino) * 100); if (sc >= 30) { s += sc / 5; pro.push(`−${sc}% sul listino`); } }
+    if (c.precedente) pro.push("Versione precedente: costa meno");
+    if (c.score) pro.unshift(`Runnea score ${String(c.score).replace(".", ",")}`); else contro.push(`Non ancora su Runnea: dati da ${c.fonte}`);
+    return { punti: s, pro: pro.slice(0, 4), contro };
+  }
+  /** I 3 modelli migliori del catalogo per un tipo: filtri marca e budget (se nessuno ci sta, il più economico). */
+  function scModelli(catalogo, tipo, risp, ctx) {
+    const marche = risp.marche || [], tutti = (catalogo || []).filter((c) => c.tipo === tipo && (!marche.length || marche.includes(c.marca)));
+    const valutati = tutti.map((c) => ({ c, ...scValuta(c, risp, ctx) }));
+    const dentro = valutati.filter((x) => x.c.prezzo <= (risp.budget || SC_BUDGET[tipo]));
+    const lista = (dentro.length ? dentro : valutati.slice().sort((a, b) => a.c.prezzo - b.c.prezzo).slice(0, 1)).sort((a, b) => b.punti - a.punti).slice(0, 3);
+    return { lista, fuoriBudget: !dentro.length && !!valutati.length };
+  }
+
+  const api = { fuoriMisura, esatte, kmAltra, fmtKm, etichettaDist, baseKm, PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, finitaPrima, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, pbEventi, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, recuperoInEvidenza, daRecuperare, fontiNuove, fonteAperta, nuoveFontiInEvidenza, PASSI_ENTRA, passiEntra, prossimoEntra, SC_TIPI, SC_TK, SC_DA_APP, SC_A_APP, SC_PREZZO, SC_RUOLI, SC_RIGHE, SC_DOMANDE, SC_BUDGET, scDurata, scInizio, scSettimana, scData, scOrizzonte, scWeekend, scUscite, scSimula, scPiano, scFineScarpa, scCoperture, scVita, scKmSettimana, scCosto, scValuta, scModelli };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);
