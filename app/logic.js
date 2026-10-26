@@ -1287,11 +1287,20 @@
     GA: [{ k: "dist", q: "Per quali gare?", o: [["both", "Tutte"], ["mar", "Maratona"], ["half", "10 km e mezza"]] }, { k: "stride", q: "Quando acceleri", o: [["any", "Non so"], ["long", "Allunghi il passo"], ["freq", "Aumenti la frequenza"]] }],
   };
   const SC_BUDGET = { DA: 120, ST: 160, TE: 140, GA: 160 };
+  /** Una scarpa protegge anche i runner pesanti: suola alta (≥ 40 mm al tallone) o ammortizzazione massima. L'indicazione
+   *  di Runnea sulla corporatura è prudente e generica: vale solo quando la scarpa non ha né l'una né l'altra. */
+  const scProtegge = (c) => (c.suola && c.suola >= 40) || c.ammortizzazione === "massima";
+  /** Adatta al peso: true, false o null (peso o indicazione mancanti). */
+  function scAdatta(c, peso) {
+    peso = Number(peso) || 0; if (!peso || !c.corporatura) return null;
+    const corp = peso >= 80 ? "F" : peso >= 65 ? "M" : "L";
+    return c.corporatura.includes(corp) || (corp === "F" && scProtegge(c));
+  }
   /** Punteggio e motivi di un modello del catalogo (content/scarpe.json) per le risposte e il profilo. */
   function scValuta(c, risp, ctx) {
     const pro = [], contro = [], peso = Number(ctx.peso) || 0, corp = peso >= 80 ? "F" : peso >= 65 ? "M" : "L";
     let s = ((c.score || 9.2) - 8.5) * 20;
-    if (c.suola && c.suola >= 40 && corp === "F") { s += 20; pro.push(`Suola alta (${c.suola} mm al tallone): protegge anche a ${peso} kg`); }
+    if (corp === "F" && scProtegge(c)) { s += 20; pro.push(c.suola && c.suola >= 40 ? `Suola alta (${c.suola} mm al tallone): protegge anche a ${peso} kg` : `Ammortizzazione massima: protegge anche a ${peso} kg`); }
     else if (!c.corporatura) { /* senza indicazione */ }
     else if (c.corporatura.includes(corp)) { s += 20; pro.push(peso ? `Indicata per la tua corporatura (${peso} kg)` : "Indicata per la tua corporatura"); }
     else if (corp === "F" && c.corporatura.includes("M")) { s += c.tipo === "GA" || c.tipo === "TE" ? 0 : -10; contro.push("Runnea la indica per corporature leggere e medie"); }
@@ -1328,7 +1337,7 @@
     return { lista, fuoriBudget: !dentro.length && !!valutati.length };
   }
 
-  const api = { fuoriMisura, esatte, kmAltra, fmtKm, etichettaDist, baseKm, PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, finitaPrima, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, pbEventi, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, recuperoInEvidenza, daRecuperare, fontiNuove, fonteAperta, nuoveFontiInEvidenza, PASSI_ENTRA, passiEntra, prossimoEntra, SC_TIPI, SC_TK, SC_DA_APP, SC_A_APP, SC_PREZZO, SC_RUOLI, SC_RIGHE, SC_DOMANDE, SC_BUDGET, scDurata, scInizio, scSettimana, scData, scOrizzonte, scWeekend, scUscite, scSimula, scPiano, scFineScarpa, scCoperture, scVita, scKmSettimana, scCosto, scValuta, scModelli };
+  const api = { fuoriMisura, esatte, kmAltra, fmtKm, etichettaDist, baseKm, PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, finitaPrima, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, pbEventi, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, recuperoInEvidenza, daRecuperare, fontiNuove, fonteAperta, nuoveFontiInEvidenza, PASSI_ENTRA, passiEntra, prossimoEntra, SC_TIPI, SC_TK, SC_DA_APP, SC_A_APP, SC_PREZZO, SC_RUOLI, SC_RIGHE, SC_DOMANDE, SC_BUDGET, scDurata, scInizio, scSettimana, scData, scOrizzonte, scWeekend, scUscite, scSimula, scPiano, scFineScarpa, scCoperture, scVita, scKmSettimana, scCosto, scValuta, scModelli, scProtegge, scAdatta };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);
