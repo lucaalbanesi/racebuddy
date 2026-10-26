@@ -1,17 +1,6 @@
 {
- "aggiornato": "2026-10-25",
+ "aggiornato": "2026-10-26",
  "gare": [
-  {
-   "id": "L49616bcc0c-10",
-   "nome": "Corrincastagna",
-   "data": "2026-10-25",
-   "luogo": "CAVE",
-   "distanza": "10",
-   "fonte": "FIDAL",
-   "prima_aggiunta": "2026-10-23",
-   "aggiunte": 1,
-   "ultima_aggiunta": "2026-10-23"
-  },
   {
    "id": "L2bda4b848d-10",
    "nome": "Corsa dei Santi",
@@ -66,6 +55,17 @@
    "prima_aggiunta": "2026-10-14",
    "aggiunte": 8,
    "ultima_aggiunta": "2026-10-23"
+  },
+  {
+   "id": "E-valencia-42-2026",
+   "nome": "Maratón Valencia Trinidad Alfonso Zurich",
+   "data": "2026-12-06",
+   "luogo": "Valencia",
+   "distanza": "42",
+   "fonte": "FIDAL",
+   "prima_aggiunta": "2026-10-25",
+   "aggiunte": 1,
+   "ultima_aggiunta": "2026-10-25"
   },
   {
    "id": "H90a44ed91b-10",
