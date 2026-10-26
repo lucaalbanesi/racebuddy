@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-10-25",
+ "aggiornato": "2026-10-26",
  "contenuti": [
   {
    "id": "10fc9b8fb872",
@@ -60,6 +60,59 @@
    ]
   },
   {
+   "id": "8da76844455a",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Puglia by UTMB® 2026 cinque gare in tre giorni",
+   "estratto": "Dal belga Nicolas Thomas al keniota Sammy Rotich Chelangat: tutti i vincitori della seconda edizione Enrica Dematteis vince la 140k, doppietta spagnola nella 85k. I fratelli…",
+   "link": "https://podisti.net/puglia-by-utmb-2026-cinque-gare-in-tre-giorni/",
+   "data": "2026-10-25",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/PODIO-MASCHILE.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "d11506713d2d",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Novembre è il mese delle maratone italiane: 9 gare da non perdere",
+   "estratto": "Stai pensando di correre una maratona in Italia entro la fine dell’anno? A novembre il calendario è ricco di appuntamenti dal grande appeal",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74225494/maratone-italiane-novembre-2026/",
+   "data": "2026-10-25",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/1e31265b-a5ec-4be3-9a59-a3b875719e62.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "3ae3ca41f089",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Molfetta (BA) – 20^ CorriMolfetta, si affermano Butoyi e Marinelli",
+   "estratto": "25 ottobre – Ventesima edizione della CorriMolfetta, che per festeggiare questo grande traguardo numerico sposta la gara in zona Stadio Cozzoli, abbandonando la tradizionale sede…",
+   "link": "https://podisti.net/molfetta-ba-20-corrimolfetta-si-affermano-butoyi-e-marinelli/",
+   "data": "2026-10-25",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/IMG_0129-1.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "gara"
+   ]
+  },
+  {
    "id": "0214a96811be",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -102,6 +155,25 @@
    "fasi": []
   },
   {
+   "id": "cb081bae3e93",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Lodi – Doppietta keniana con Njeri e Jeptoo alla 11esima Laus Half Marathon",
+   "estratto": "25 ottobre 2026. Un bella giornata, grazie anche a favorevoli condizioni meteo, con oltre 2.000 presenze (segue dettaglio), tra la tradizionale mezza maratona e le due corse non…",
+   "link": "https://podisti.net/lodi-doppietta-keniana-con-njeri-e-jeptoo-alla11esima-laus-half-marathon/",
+   "data": "2026-10-25",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/Lodi-2026-partenza-Davide.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
    "id": "868b3b0576f5",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -123,6 +195,20 @@
     "scarico",
     "dopo"
    ]
+  },
+  {
+   "id": "4995812335ad",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Dieci d’Autunno (con video) da dieci e lode",
+   "estratto": "La mattinata odierna, domenica 25 ottobre l’abbiamo trascorsa a Novi Ligure (AL), croce e delizia di studenti e concorrenti di quiz, in quanto i meno preparati la collocano in…",
+   "link": "https://podisti.net/dieci-dautunno-con-video-da-dieci-e-lode/",
+   "data": "2026-10-25",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/Arrivo-Ilaria-Zavanone-Dieci-d-Autunno-2026-1.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
   },
   {
    "id": "3208b6770048",
@@ -208,6 +294,20 @@
    "fasi": [
     "costruzione"
    ]
+  },
+  {
+   "id": "37802c829a0a",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Alla Corsa Podistica Campocervaro trionfano Esposito e Nyabochoa",
+   "estratto": "Cimetta di Codognè (Treviso), 25 ottobre 2026 – Quarantasei anni e non sentirli. La Corsa Podistica Campocervaro archivia un’altra edizione da ricordare: ben 2800 gli iscritti…",
+   "link": "https://podisti.net/alla-corsa-podistica-campocervaro-trionfano-esposito-e-nyabochoa/",
+   "data": "2026-10-25",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/CAMPOCERVARO.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
   },
   {
    "id": "27a7fe526da7",
