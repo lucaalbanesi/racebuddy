@@ -806,6 +806,11 @@ assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10",
   // due daily: la seconda si compra subito
   const p3 = L.scPiano(ctx, ["DA", "ST", "TE"], { DA: 2 });
   assert.strictEqual(p3.piano[0].t, "DA"); assert.strictEqual(p3.piano[0].w, 0); assert.strictEqual(p3.piano[0].coppia, 2);
+  // calendario fitto (6 gare): niente acquisti per la gara di questa settimana e nessuna Superblast ferma per più di 5 settimane
+  const fitto = { ...ctx, gare: [["a", "2026-11-01", 10], ["fi", "2026-11-29", 42.2], ["b", "2026-12-13", 10], ["c", "2027-01-17", 10], ["d", "2027-02-28", 21.1], ["rm", "2027-03-14", 42.2]].map(([id, data, km]) => ({ id, nome: id, data, km })) };
+  const pf = L.scPiano(fitto, ["DA", "ST", "TE"]);
+  assert.ok(pf.piano.every((x) => x.w >= 1), "nessun acquisto per la gara tra pochi giorni");
+  for (const id of ["s2", "s3"]) { const s = pf.sim.S.find((z) => z.id === id), fine = s.fine ?? pf.sim.H; let f = 0, mx = 0; for (let w = 0; w < fine; w++) { f = pf.sim.griglia[w][id] ? 0 : f + 1; mx = Math.max(mx, f); } assert.ok(mx <= 5, `${id} ferma ${mx} settimane nel calendario fitto`); }
   // coperture: con gli acquisti tutto ok
   assert.ok(L.scCoperture(ctx, p.sim).every((r) => r.settimane.every((x) => x === null || x === "ok")));
   assert.ok(L.scCoperture(ctx, base).some((r) => r.settimane.includes("scoperta")));

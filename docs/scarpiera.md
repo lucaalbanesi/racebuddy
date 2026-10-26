@@ -18,12 +18,12 @@ Aiuta l'atleta a gestire la rotazione delle scarpe fino alle gare obiettivo: qua
   Grassetto ideale, corsivo ripiego, ✗ mai.
 - Durata (`L.scDurata`): Daily 800, Super-trainer 750, Tempo 575, Gara 340 km, -0,87% per kg sopra i 70 (massimo -25%), arrotondata a 10. Se l'atleta la corregge (Scarpiera o Io) vale la sua (`s.limiteMano`).
 - Età della scarpa: fino all'80% fa tutto, dall'80% lascia veloce, lunghissimi e gare, dal 90% anche il lungo facile. Il Super-trainer uscito dalla qualità finisce la vita sui facili (fine corsa, non è un ripiego); Tempo e Gara vanno in pensione. La Gara arriva al 100% quando esce dalle gare e non scende mai sui base; in allenamento al massimo il 30% della sua vita.
-- Scelta tra scarpe adatte: in allenamento prima quella con meno ruoli rimasti, poi la più consumata; in gara la più fresca. Rodaggio: 40 km prima di una gara.
+- Scelta tra scarpe adatte: in allenamento passa davanti una scarpa ferma da 2 settimane (la rotazione non parcheggia nessuno), poi quella con meno ruoli rimasti, poi la più consumata; in gara la più fresca. Rodaggio: una scarpa nuova fa prima 40 km; per correrci una gara ne bastano 20.
 
 ## Piano
 - Settimana 0 = il primo lunedì da oggi. Periodo: fino a 6 settimane dopo l'ultima gara obiettivo (minimo 20, massimo 52). Proiezione di altre 40 settimane allo stesso ritmo, solo per le date di fine e il prossimo acquisto.
 - Settimana tipo: Facile e Veloce ogni settimana, più il weekend dal ciclo del mese (lunghissimi alternati a lunghi facili e gare; i 4 weekend devono sommare 4). Settimana prima di una mezza o maratona: scarico; dopo: recupero.
-- Acquisti (`L.scPiano`): alla prima settimana in cui un'uscita va su un ripiego o resta senza scarpa, due settimane prima, con il tipo ideale del set. Due acquisti mai a meno di tre settimane. Un tipo scelto e non posseduto entra solo quando serve. Più scarpe dello stesso tipo (`qty`) si danno il cambio.
+- Acquisti (`L.scPiano`): alla prima settimana in cui un'uscita va su un ripiego o resta senza scarpa, due settimane prima (tre per una gara corta), con il tipo ideale del set. Un ripiego nelle prossime 2 settimane non fa comprare niente: la scarpa nuova non farebbe in tempo a rodarsi. Due acquisti mai a meno di tre settimane. Un tipo scelto e non posseduto entra solo quando serve. Più scarpe dello stesso tipo (`qty`) si danno il cambio.
 - Costo per mantenere il set (`L.scCosto`): euro al mese a regime con i prezzi tipici in sconto (`SC_PREZZO`: Daily 110, Super-trainer 150, Tempo 100, Gara 150).
 
 ## Funnel `#/scarpiera/:passo`
