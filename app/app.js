@@ -555,11 +555,19 @@
   function graficoScarpe(ctx, sim, scarpe, coperture) {
     const n = sim.H, righe = coperture ? L.scCoperture(ctx, sim) : [], RH = 14, RG = 3, Lm = coperture ? 80 : 38, W = 360, R = 6, T = 16, B = 20, ih = 210 - T - B, iw = W - Lm - R;
     const Hh = 210 + (righe.length ? 8 + righe.length * (RH + RG) + 4 : 0), x = (w) => Lm + (iw * w) / Math.max(1, n - 1), y = (p) => T + ih * (1 - Math.min(1, p)), cw = iw / Math.max(1, n - 1);
-    let g = `<svg viewBox="0 0 ${W} ${Hh}" class="sc-grafico" role="img" aria-label="Percentuale di vita di ogni scarpa, settimana per settimana">`;
+    // nomi delle gare: su più righe quando si toccherebbero (larghezza stimata ~6 px a lettera)
+    const fine = [], etich = ctx.gare.filter((r) => L.scSettimana(ctx, r.data) >= 0 && L.scSettimana(ctx, r.data) < n).map((r) => {
+      const xx = x(L.scSettimana(ctx, r.data)), n0 = corto(r.nome).replace(/^Maratona di |^Mezza maratona di |\s+(Half )?Marathon$/i, ""), nome = n0.length > 16 ? n0.slice(0, 16).replace(/\s+\S*$/, "") + "…" : n0, lw = nome.length * 6.4 + 8;
+      const a = Math.max(lw / 2, Math.min(W - lw / 2, xx)), da = a - lw / 2, al = a + lw / 2;
+      let riga = fine.findIndex((f) => f <= da); if (riga < 0) { riga = fine.length; fine.push(0); } fine[riga] = al;
+      return { xx, a, nome, riga };
+    });
+    const extra = Math.max(0, fine.length - 1) * 12;
+    let g = `<svg viewBox="0 0 ${W} ${Hh + extra}" class="sc-grafico" role="img" aria-label="Percentuale di vita di ogni scarpa, settimana per settimana"><g transform="translate(0 ${extra})">`;
     g += `<rect x="${Lm}" y="${y(1)}" width="${iw}" height="${y(0.9) - y(1)}" fill="#B91C1C" fill-opacity=".12"/><rect x="${Lm}" y="${y(0.9)}" width="${iw}" height="${y(0.8) - y(0.9)}" fill="var(--warn-bar)" fill-opacity=".14"/>`;
     [0, 0.5, 0.8, 0.9, 1].forEach((p) => { g += `<line x1="${Lm}" x2="${W - R}" y1="${y(p)}" y2="${y(p)}" stroke="var(--line)"/><text x="${Lm - 6}" y="${y(p) + 4}" text-anchor="end" font-size="10.5" fill="var(--muted)">${Math.round(p * 100)}%</text>`; });
     for (let w = 0; w < n; w++) { const d = L.scData(ctx, w); if (Number(d.slice(8)) <= 7) g += `<text x="${x(w)}" y="204" font-size="11" fill="var(--muted)">${MESI_SC[Number(d.slice(5, 7)) - 1]}</text>`; }
-    ctx.gare.filter((r) => L.scSettimana(ctx, r.data) >= 0 && L.scSettimana(ctx, r.data) < n).forEach((r) => { const xx = x(L.scSettimana(ctx, r.data)); g += `<line x1="${xx}" x2="${xx}" y1="${T}" y2="${righe.length ? Hh - 4 : T + ih}" stroke="var(--accent)" stroke-dasharray="3 3"/><text x="${xx}" y="${T - 4}" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--accent)">${esc(corto(r.nome).replace(/^Maratona di |^Mezza maratona di |\s+(Half )?Marathon$/i, "").slice(0, 14))}</text>`; });
+    etich.forEach((e) => { g += `<line x1="${e.xx}" x2="${e.xx}" y1="${T - e.riga * 12}" y2="${righe.length ? Hh - 4 : T + ih}" stroke="var(--accent)" stroke-dasharray="3 3"/><text x="${e.a}" y="${T - 4 - e.riga * 12}" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--accent)">${esc(e.nome)}</text>`; });
     scarpe.forEach((s, i) => {
       const v = L.scVita(sim, s), col = COLORI_SC[i % COLORI_SC.length]; let d = "";
       v.forEach((p, w) => { if (p == null || (s.fine != null && w > s.fine)) return; d += (d ? "L" : "M") + x(w).toFixed(1) + " " + y(p).toFixed(1); });
@@ -572,7 +580,7 @@
       g += `<text x="${Lm - 6}" y="${yy + RH - 3}" text-anchor="end" font-size="10.5" fill="var(--muted)">${riga.nome}</text>`;
       riga.settimane.forEach((st, w) => { if (!st) return; g += `<rect x="${(x(w) - cw / 2 + 0.5).toFixed(1)}" y="${yy}" width="${Math.max(1, cw - 1).toFixed(1)}" height="${RH}" rx="2" fill="${st === "ok" ? "var(--ok)" : st === "ripiego" ? "var(--warn-bar)" : "#B91C1C"}" ${st === "ok" ? 'fill-opacity=".3"' : ""}/>`; });
     });
-    g += "</svg>";
+    g += "</g></svg>";
     const leg = scarpe.map((s, i) => `<span><i style="background:${COLORI_SC[i % COLORI_SC.length]}"></i><b>${esc(corto(s.nome))}</b> ${s.nuova ? `da ${scGiorno(ctx, s.da)} · ` : ""}${s.fine != null && s.fine < n ? `fine vita ${scGiorno(ctx, s.fine)}` : `${Math.round((L.scVita(sim, s)[n - 1] || 0) * 100)}% ${aMese(scMese(ctx, n - 1))}`}</span>`).join("");
     return `<div class="sc-grafico-box">${g}</div>${righe.length ? `<div class="sc-leg"><span><i style="background:var(--ok);opacity:.35"></i>coperto</span><span><i style="background:var(--warn-bar)"></i>ripiego</span><span><i style="background:#B91C1C"></i>senza scarpa</span></div>` : ""}<div class="sc-leg col">${leg}</div>`;
   }
