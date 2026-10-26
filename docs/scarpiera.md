@@ -45,3 +45,7 @@ Aggiornamento: workflow "Catalogo scarpe" (`.github/workflows/scarpe.yml`, Claud
 ## Da fare
 - Notifiche push a 14 e 2 giorni dalla scadenza di un acquisto (servirebbe mandare le date al server, come le scadenze dei documenti).
 - Chiudere da sola l'attività quando la scarpa nuova arriva da Strava.
+
+## Mancato acquisto
+- In Oggi la scarpa da comprare ha "L'ho comprata", "Non ancora" (rimanda di 1, 2 o 4 settimane: per ogni scelta l'effetto sulla rotazione) e "Non la compro". Passata la data è "in ritardo" e dice cosa succede senza.
+- In Io il grafico simula il piano reale: scarpe comprate più quelle ancora da comprare alla data promessa (in ritardo = da questa settimana). I ripieghi e le uscite senza scarpa in più rispetto al piano ideale fanno comparire "Le tue scarpe non bastano più" con "Rifai il piano".

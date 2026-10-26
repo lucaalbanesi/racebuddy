@@ -715,3 +715,11 @@ body.chat-on .app { padding-bottom: 150px; }
 .sc-kpi b { font: 700 26px/1.1 var(--display); }
 .sc-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .sc-chip { font-size: 14px; padding: 4px 10px; border-radius: 999px; background: var(--line2); }
+.sc-dacomprare.ritardo { color: #B91C1C; }
+.sc-effetto { color: #B91C1C; font-weight: 600; }
+.sc-avviso { border: 1.5px solid #B91C1C; }
+.sc-piu > summary { cursor: pointer; font-weight: 700; color: var(--accent-strong); padding: 6px 0; text-align: center; }
+.sc-rimande { display: flex; flex-direction: column; gap: 8px; margin: 8px 0; }
+.sc-rimanda { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; text-align: left; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); color: inherit; font: inherit; }
+@media (prefers-color-scheme: dark) { .sc-dacomprare.ritardo, .sc-effetto { color: #F87171; } .sc-avviso { border-color: #F87171; } }
+.sc-piu[open] { display: flex; flex-direction: column; gap: 8px; }
