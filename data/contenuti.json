@@ -2,6 +2,274 @@
  "aggiornato": "2026-10-26",
  "contenuti": [
   {
+   "id": "461ff1bdd8f7",
+   "tipo": "articolo",
+   "fonte": "Garmin Blog Italia",
+   "fonteId": "garmin_blog",
+   "titolo": "Ritmo Circadiano e Sport: Qual è l’Orario Migliore per Allenarsi?",
+   "estratto": "Sveglia alle 5:45, scarpe allacciate e i primi chilometri percorsi prima che la città si animi: per alcuni runner è il momento più bello della giornata. Altri, alla stessa ora…",
+   "link": "https://www.garmin.com/it-IT/blog/varie/ritmo-circadiano-orario-migliore-allenamento/",
+   "data": "2026-10-26",
+   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/10/ritmo-circadiano-allenamento.jpg",
+   "argomenti": [
+    "scarpe",
+    "allenamento",
+    "recupero",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "dopo"
+   ]
+  },
+  {
+   "id": "c2107d201bef",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Record senza corona: il doppio caso di Kwizera e Abdalla alla mezza di Valencia",
+   "estratto": "A Valencia, Rodrigue Kwizera corre in 58’03” e Yaseen Abdalla in 59’12”: due tempi da record, ma nessuno dei due può rivendicare il primato europeo o statunitense",
+   "link": "https://www.runnersworld.com/it/news/a74245082/kwizera-abdalla-record-mezza-valencia/",
+   "data": "2026-10-26",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/0875e9fa-ead6-46de-943f-ea42fbef110c.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "bbc97fcf36d0",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Ortona (CH) – La 4^ Costa dei Trabocchi Half Marathon ha assegnato i titoli nazionali master",
+   "estratto": "25 ottobre – Festa grande alla Costa dei Trabocchi BCC Half Marathon, dove l’entusiasmo di tornare a percorrere la ciclopedonale Via Verde tra Ortona, San Vito Chietino, Rocca San…",
+   "link": "https://podisti.net/ortona-ch-la-4-costa-dei-trabocchi-half-marathon-ha-assegnato-i-titoli-nazionali-master/",
+   "data": "2026-10-26",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/Costa-dei-Trabocchi-BCC-Half-Mar.jpg",
+   "argomenti": [],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "872b820b9ea4",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Ogni quanto cambiare le scarpe da corsa? Chilometri, segnali e consigli per farle durare",
+   "estratto": "Come capire quando abbiamo spremuto fino in fondo le nostre scarpe? Come riconoscere il punto in cui le prestazioni precipitano? Lo abbiamo chiesto agli esperti",
+   "link": "https://www.runnersworld.com/it/scarpe/scarpe-running/a62609780/quando-cambiare-scarpe-corsa/",
+   "data": "2026-10-26",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/cd82c011-d662-46d9-b3ee-9d2927585cf4.jpeg",
+   "argomenti": [
+    "scarpe"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "7ff79c728e8b",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "La Venicemarathon più veloce di sempre",
+   "estratto": "Quarant’anni e non sentirli: la Venice Marathon, del resto, è unica. La kermesse veneta, oltre allo straordinario contorno dei partecipanti, domenica 25 ottobre ha offerto il…",
+   "link": "https://correre.it/la-venicemarathon-piu-veloce-di-sempre/",
+   "data": "2026-10-26",
+   "immagine": "https://correre.it/wp-content/uploads/2026/10/Venicemarathon_2026_Peter_Kwemoi_Ndorobo.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "f8321748d45d",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Gli esercizi per rinforzare braccia e spalle a casa",
+   "estratto": "Venti minuti, due manubri e sei esercizi per allenare braccia e spalle nel modo in cui lavorano durante la giornata: insieme. Sei esercizi con due manubri e una sedia: spinta…",
+   "link": "https://runlovers.it/2026/esercizi-rinforzare-braccia-spalle-casa-wow/",
+   "data": "2026-10-26",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/braccia-spalle-casa-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "alimentazione",
+    "forza",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "6b09ab965274",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Foliage vicino a Milano: le mete più belle per l'autunno a meno di due ore dalla città",
+   "estratto": "Tre opportunità differenti che potrai visitare in tre fine settimane diversi",
+   "link": "https://www.runnersworld.com/it/travel/a67961551/foliage-vicino-milano/",
+   "data": "2026-10-26",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/512a18b8-3695-4871-b215-308081179a0d.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "58e2dc035c58",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Crampi e maratona: come prevenirli e cosa fare quando arrivano",
+   "estratto": "Perché vengono i crampi durante la corsa? I consigli di Giorgio Tassone per prevenirli attraverso idratazione, alimentazione e allenamento",
+   "link": "https://www.runnersworld.com/it/salute/infortuni/a74217352/crampi-corsa-come-prevenirli-rimedi-maratona/",
+   "data": "2026-10-26",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/8d10d32b-ed91-4ede-99fd-f1f1e9965c78.jpg",
+   "argomenti": [
+    "rifornimento",
+    "alimentazione",
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico"
+   ]
+  },
+  {
+   "id": "1d000b5a9e40",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Chilometri facili e grandi risultati con il metodo giapponese",
+   "estratto": "Tanto volume, ritmi facili e disciplina di gruppo. Dal Giappone un modello di allenamento per migliorare la resistenza e costruire runner più solidi",
+   "link": "https://www.runnersworld.com/it/allenamento/maratona/a74237897/chilometri-facili-grandi-risultati-con-metodo-giapponese/",
+   "data": "2026-10-26",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/b1ec5b9f-739c-45d6-aa50-9ef5d3ac0a34.jpg",
+   "argomenti": [
+    "allenamento",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "4e38b7f373e5",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Campionati italiani master di mezza maratona: ecco a chi sono andati i titoli (e con che tempi)",
+   "estratto": "Quasi 3.000 runner al via della Costa dei Trabocchi Half Marathon: ecco tutti i campioni italiani Master di mezza maratona, categoria per categoria",
+   "link": "https://www.runnersworld.com/it/news/a74242376/campionati-italiani-master-mezza-maratona-2026-risultati/",
+   "data": "2026-10-26",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/0a6134b2-7b77-42c4-89e3-122b2fb9aa23.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "2612c99e0744",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Bronzolo (BZ) – Thaler e Degasperi vincono la 9^ AgeFactor Run",
+   "estratto": "Nella classifica generale del circuito podistico Top7 si sono imposti Selina Christandl (2180 punti) e Khalid Jbari (2100 punti). 24 ottobre Bronzolo (BZ) – Edeltraud Thaler e…",
+   "link": "https://podisti.net/bronzolo-bz-thaler-e-degasperi-vincono-la-9-agefactor-run/",
+   "data": "2026-10-26",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/Jbari_Khalid_Christandl_Selina_Top7_Gesamtsieger-vincitori_generali_Credits_Sportissimus.jpg",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "2d64be792d46",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Apnea da email, il respiro che tratteniamo davanti allo schermo",
+   "estratto": "Passi ore al computer credendo di essere stanco per il carico cognitivo. E se avessi semplicemente smesso di respirare in modo corretto? L’ apnea da email è l’interruzione…",
+   "link": "https://runlovers.it/2026/apnea-email-respiro-trattenuto-schermo/",
+   "data": "2026-10-26",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/01-20261026-0715-Ansia-mail-W-Unsplash-Varun-Gaba.jpeg?fit=1920%2C1281&quality=75&ssl=1",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "475458b0ae22",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Altro tempone in maratona per un ciclista: meglio di Dumoulin",
+   "estratto": "Un altro ciclista sorprende sulle strade della Maratona di Lille. E nella speciale classifica dei ciclisti-maratoneti entra anche un italiano",
+   "link": "https://www.runnersworld.com/it/news/a74245557/alexys-brunel-maratona-lille/",
+   "data": "2026-10-26",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/62ea6cd6-7c13-4dfd-8492-00817ca12b42.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "054c22121c8a",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "69° Trofeo Vanoni: la Valchiese compie l’impresa, alla Gran Bretagna la gara femminile",
+   "estratto": "Numeri importanti per il 69° Trofeo Vanoni, il gran finale della stagione di corsa in montagna ha regalato, domenica 26 ottobre a Morbegno, grandi emozioni al caloroso e numeroso…",
+   "link": "https://podisti.net/69-trofeo-vanoni-la-valchiese-compie-limpresa-alla-gran-bretagna-la-gara-femminile/",
+   "data": "2026-10-26",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/TRAFEO-VANONI-1.jpg",
+   "argomenti": [
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
    "id": "10fc9b8fb872",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -171,6 +439,22 @@
    "distanze": [
     "21"
    ],
+   "fasi": []
+  },
+  {
+   "id": "a839a387cad8",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "L'energia della montagna: un'esperienza magica! ✨",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/W4j8QetTDrQ",
+   "data": "2026-10-25",
+   "immagine": "https://i4.ytimg.com/vi/W4j8QetTDrQ/hqdefault.jpg",
+   "argomenti": [
+    "racconti"
+   ],
+   "distanze": [],
    "fasi": []
   },
   {
