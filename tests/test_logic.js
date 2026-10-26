@@ -817,6 +817,19 @@ assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10",
   // costo per mantenere il set
   const c1 = L.scCosto(ctx, ["DA", "ST"]), c2 = L.scCosto(ctx, ["DA", "ST", "GA"]);
   assert.ok(c1.mese > 40 && c1.mese < 90, c1.mese); assert.ok(c2.mese >= c1.mese);
+  // protezione per il peso: suola rispetto al peso, ammortizzazione massima un gradino in più
+  assert.strictEqual(L.scProtezione({ suola: 45 }, 85), "alta");
+  assert.strictEqual(L.scProtezione({ suola: 37 }, 85), "media");
+  assert.strictEqual(L.scProtezione({ suola: 37, ammortizzazione: "massima" }, 85), "alta");
+  assert.strictEqual(L.scProtezione({ suola: 33 }, 85), "bassa");
+  assert.strictEqual(L.scProtezione({ suola: 33 }, 60), "alta");
+  assert.strictEqual(L.scProtezione({ ammortizzazione: "media" }, 85), "media");
+  assert.strictEqual(L.scProtezione({ suola: 40 }, 0), null);
+  // Tempo: per i lavori lunghi vince la protezione, per le ripetute brevi pesa anche la leggerezza
+  const te = [{ modello: "Alta", marca: "X", tipo: "TE", prezzo: 120, peso: 265, suola: 41, score: 9.5, uso: "allenamento e gara" },
+    { modello: "Bassa", marca: "Y", tipo: "TE", prezzo: 120, peso: 190, suola: 33, score: 9.5, uso: "allenamento e gara" }];
+  assert.strictEqual(L.scModelli(te, "TE", { budget: 200, lavori: "lunghi" }, ctx).lista[0].c.modello, "Alta");
+  assert.strictEqual(L.scModelli(te, "TE", { budget: 200, lavori: "brevi" }, ctx).lista[0].c.modello, "Bassa");
   // modelli: filtro tipo, marca, budget e motivi
   const cat = [{ modello: "A", marca: "ASICS", linea: "nimbus", tipo: "DA", prezzo: 114, listino: 200, peso: 285, drop: 8, ammortizzazione: "massima", corporatura: "MF", score: 9.5 },
     { modello: "B", marca: "Nike", linea: "pegasus", tipo: "DA", prezzo: 88, listino: 140, peso: 300, drop: 10, ammortizzazione: "media", corporatura: "M", score: 9.7 },
