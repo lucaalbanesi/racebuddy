@@ -55,6 +55,11 @@ e attuali, con dati veri.
 3. Solo se un modello non è su Runnea: un negozio online europeo (es. Sportsshoes, Tradeinn) per il prezzo e una
    recensione seria per i dati; `fonte` = il nome del sito usato per il prezzo, `url` = quella pagina, niente `score`.
 
+4. **Recensioni per il tipo** (solo per decidere `tipo` e scrivere `perche`, non per prezzi o dati): almeno due tra
+   Doctors of Running (doctorsofrunning.com), Road Trail Run (roadtrailrun.com), il verdetto di RunRepeat, Believe in
+   the Run (believeintherun.com), Running Warehouse (runningwarehouse.com). Si guarda a cosa la consigliano: facili e
+   lunghi, ritmo, gara. Per i modelli già controllati il mese prima basta una ricerca veloce di recensioni nuove.
+
 Mai inventare un dato: se non si trova, il campo si omette.
 
 ## Formato
