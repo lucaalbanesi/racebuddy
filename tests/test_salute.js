@@ -6,7 +6,7 @@ const adesso = new Date("2026-10-22T19:30:00Z"); // 21:30 a Roma
 const ore = (n) => new Date(adesso - n * 3600e3).toISOString();
 const giro = (n, conclusion = "success", status = "completed") => ({ created_at: ore(n), status, conclusion, html_url: "https://github.com/x/runs/1" });
 const tuttiOk = Object.fromEntries(S.JOBS.map((j) => [j.id, [giro(0.5)]]));
-const datiOk = { "dati-calendario": "2026-10-21T21:08:41Z", "dati-contenuti": "2026-10-22", "dati-seguite": "2026-10-22", "dati-estero": "2026-10-18" };
+const datiOk = { "dati-calendario": "2026-10-21T21:08:41Z", "dati-contenuti": "2026-10-22", "dati-seguite": "2026-10-22", "dati-estero": "2026-10-18", "dati-scarpe": "2026-10-26" };
 const servOk = [{ id: "sito", nome: "Sito", stato: "ok", dettaglio: "Online" }];
 
 // tutto ok: niente avviso

@@ -18,9 +18,10 @@ Orari fissati in UTC dentro Supabase (`docs/supabase_cron.sql`). A Roma sono +2 
 | Aggiorna contenuti (`contenuti.yml`) | 4:41 e 15:41 | 6:41 e 17:41 | – | articoli e video dai feed → `data/contenuti.json` |
 | Aggiorna calendario gare (`calendario.yml`) | lunedì 4:17 | lunedì 6:17 | – | calendario FIDAL + Gare Podistiche Lazio → `data/gare.json` |
 | Gare estere (`estero.yml`) | giorno 1 alle 4:29 | giorno 1 alle 6:29 | **sì** | Claude Code aggiorna date ufficiali, iscrizioni e ballottaggi (limite 60 min) → `content/estero.json` |
+| Catalogo scarpe (`scarpe.yml`) | giorno 15 alle 4:31 | giorno 15 alle 5:31 (6:31 con l'ora legale) | **sì** | Claude Code aggiorna prezzi, dati e modelli del catalogo della Scarpiera da Runnea e RunRepeat (limite 60 min) → `content/scarpe.json` |
 | Controllo salute (`salute.yml`) | ogni ora :41, 4-21 | 6:41-23:41 | – | controlla job, dati e servizi → `salute_controlli` in Supabase, pagina `#/salute`, push al superamministratore solo se KO; se non gira è Supabase giù (lo dice la pagina) |
 
-Solo **Schede gara** e **Gare estere** usano Claude (Claude Code in GitHub Actions con l'abbonamento di Luca, secret
+Solo **Schede gara**, **Gare estere** e **Catalogo scarpe** usano Claude (Claude Code in GitHub Actions con l'abbonamento di Luca, secret
 `CLAUDE_CODE_OAUTH_TOKEN`). Claude modifica solo il proprio file di dati e scrive messaggio di commit e riepilogo;
 controllo del JSON, commit e riepilogo sull'issue li fa il workflow. Tutti gli altri job sono script senza AI.
 
