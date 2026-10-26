@@ -1,6 +1,10 @@
 """Controllo del catalogo della Scarpiera (content/scarpe.json): usato dal workflow "Catalogo scarpe" prima di pubblicare."""
 import json
+import os
 import sys
+
+if os.path.exists("avvisi_tipo.txt"):
+    os.remove("avvisi_tipo.txt")  # mai avvisi vecchi di un controllo precedente
 
 TIPI = ("DA", "ST", "TE", "GA")
 d = json.load(open("content/scarpe.json", encoding="utf-8"))
