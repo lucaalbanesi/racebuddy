@@ -542,7 +542,7 @@
   const scSet = () => ["DA", "ST", ...(SC().te ? ["TE"] : []), ...(SC().ga ? ["GA"] : [])];
   const scQty = () => Object.fromEntries(scSet().map((t) => [t, Math.max(1, Number(SC().qty[t]) || 1)]));
   const scMieScarpe = () => (S.scarpe || []).filter((s) => !s.ritirata && L.SC_DA_APP[s.tipo]);
-  const scGare = () => S.gare.filter((g) => g.data >= oggi() && nonArchiviata(g) && !g.esito).map((g) => ({ id: g.id, nome: titoloGara(g.nome), data: g.data, km: Number(g.km) || KM_DIST[g.distanza] || 21.1 }));
+  const scGare = () => S.gare.filter((g) => g.data >= oggi() && nonArchiviata(g) && !g.esito).map((g) => ({ id: g.id, nome: titoloGara(g.nome), data: g.data, km: Number(g.km) || KM_DIST[g.distanza] || 21.1 })).sort((a, b) => a.data.localeCompare(b.data));
   const scCtx = () => ({ oggi: oggi(), peso: Number(S.profilo.peso) || 0, scarpe: scMieScarpe().map((s) => ({ id: s.id, nome: s.nome, t: L.SC_DA_APP[s.tipo], km: Number(s.km) || 0, max: s.limiteMano ? Number(s.limite) : 0 })), wk: SC().wk, mix: SC().mix, gare: scGare() });
   const scSomma = () => ["LF", "R", "G"].reduce((t, k) => t + (Number(SC().mix[k].n) || 0), 0);
   const corto = (n) => String(n || "").replace(/^(Asics|ASICS|Nike|HOKA|Hoka|Saucony|Brooks|Adidas|New Balance|Puma|On|Mizuno|Altra)\s+/i, "");
