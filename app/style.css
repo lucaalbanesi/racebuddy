@@ -707,3 +707,11 @@ body.chat-on .app { padding-bottom: 150px; }
 .sc-prezzo { font: 700 24px var(--display); }
 .sc-perche { display: flex; flex-direction: column; gap: 2px; font-size: 14px; }
 .sc-perche .ok { color: var(--ok); } .sc-perche .ko { color: var(--warn); }
+.sc-righe { display: flex; flex-direction: column; }
+.sc-riga { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 8px; padding: 8px 0; border-top: 1px solid var(--line2); font-size: 15px; }
+.sc-riga:first-child { border-top: 0; }
+.sc-dacomprare { color: var(--accent-strong); font-size: 14px; font-weight: 600; }
+.sc-kpi { display: flex; flex-direction: column; background: var(--line2); border-radius: 12px; padding: 10px 12px; }
+.sc-kpi b { font: 700 26px/1.1 var(--display); }
+.sc-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.sc-chip { font-size: 14px; padding: 4px 10px; border-radius: 999px; background: var(--line2); }

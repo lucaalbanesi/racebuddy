@@ -698,6 +698,27 @@
     return `${testa}<div class="funnel">${corpo}</div>`;
   }
 
+  // Io → Le mie scarpe: la rotazione scelta, come corri e il consumo nel tempo (solo dopo aver fatto la Scarpiera)
+  function sezioneRotazione() {
+    const sc = S.scarpiera;
+    if (!sc || !sc.fatto || !scMieScarpe().length) return "";
+    const ctx = scCtx(), set = scSet(), costo = L.scCosto(ctx, set, scPrezzi()), { sim } = L.scPiano(ctx, set, scQty()), att = sc.attivita || [];
+    const righe = set.map((t) => {
+      const mie = scMieScarpe().filter((s) => L.SC_DA_APP[s.tipo] === t).map((s) => esc(corto(s.nome)));
+      const da = att.filter((x) => x.t === t).map((x) => `<span class="sc-dacomprare">${esc(corto(x.modello))} · entro il ${esc(L.fmtGiorno(x.entro))}</span>`);
+      return `<div class="sc-riga"><b>${L.SC_TIPI[t]}</b><span>${mie.join(", ") || '<span class="muted">nessuna</span>'}${da.length ? "<br>" + da.join("<br>") : ""}</span></div>`;
+    }).join("");
+    const wk = sc.wk, mix = sc.mix, W = [["R", "lunghissim", "o", "i"], ["LF", "lung", "o facile", "hi facili"], ["G", "gar", "a 10 km o mezza", "e 10 km o mezza"]];
+    const weekend = W.filter(([k]) => mix[k].n).map(([k, r, s1, s2]) => `<span class="sc-chip"><b>${mix[k].n}</b> ${r}${mix[k].n === 1 ? s1 : s2} · ${mix[k].km} km</span>`).join("");
+    return `<article class="card"><div class="between"><span class="title">La tua rotazione</span><span class="pill ok">${costo.mese} € al mese</span></div>
+        <div class="sc-righe">${righe}</div><a class="small" href="#/scarpiera/set">Cambia la rotazione ›</a></article>
+      <article class="card"><span class="title">Il consumo nel tempo</span>${graficoScarpe(ctx, sim, sim.S, true)}
+        <span class="small muted">Le tue scarpe e quelle da comprare (tratteggiate) fino a 6 settimane dopo l'ultima gara. Sotto, settimana per settimana, se ogni tipo di uscita ha la sua scarpa.</span><a class="small" href="#/scarpiera/piano">Rivedi il piano ›</a></article>
+      <article class="card"><div class="between"><span class="title">Come corri</span><span class="small muted">circa ${L.scKmSettimana(ctx)} km a settimana</span></div>
+        <div class="grid2"><div class="sc-kpi"><span class="small muted">Facile</span><b>${wk.F} km</b><span class="small muted">a settimana</span></div><div class="sc-kpi"><span class="small muted">Veloce / qualità</span><b>${wk.V} km</b><span class="small muted">a settimana</span></div></div>
+        <span class="small muted">Weekend del mese</span><div class="sc-chips">${weekend}</div><a class="small" href="#/scarpiera/corsa">Modifica ›</a></article>
+      <span class="eyebrow" style="margin-top:4px">Le singole scarpe</span>`;
+  }
   // attività "da comprare" in Oggi + scheda quando una scarpa sta finendo e non c'è un piano
   function cardScarpiera() {
     const sc = S.scarpiera || {}, att = sc.attivita || [], o = oggi();
@@ -3283,7 +3304,7 @@
 
   function vistaIo() {
     const P = S.profilo;
-    const USI = { allenamento: "Allenamento", ritmo: "Ritmo e lunghi", tempo: "Tempo", gara: "Gara", trail: "Trail" };
+    const USI = { allenamento: "Daily", ritmo: "Super-trainer", tempo: "Tempo", gara: "Gara", trail: "Trail" };
     const opzioni = (vals, att, fmt) => vals.map((v) => `<option value="${v}" ${String(att) === String(v) ? "selected" : ""}>${fmt(v)}</option>`).join("");
     const scarpe = S.scarpe.map((s) => {
       const st = L.statoScarpa(s);
@@ -3292,7 +3313,7 @@
         <div class="between small"><span><b>${Math.round(st.km)}</b> di ${st.limite} km</span><span style="font-weight:700;color:${st.livello === "attenzione" ? "var(--warn)" : st.livello === "info" ? "var(--accent)" : "var(--ok)"}">${esc(st.etichetta)}</span></div>
         <div class="grid2"><div class="field"><label for="su-${esc(s.id)}">Uso</label><select class="input" id="su-${esc(s.id)}" data-act-change="scarpa-uso" data-id="${esc(s.id)}">${opzioni(Object.keys(USI), s.tipo, (v) => USI[v])}</select></div>
         <div class="field"><label for="sl-${esc(s.id)}">Da cambiare a</label><select class="input" id="sl-${esc(s.id)}" data-act-change="scarpa-limite" data-id="${esc(s.id)}">${opzioni([300, 400, 500, 600, 700, 800, 900, 1000], s.limite, (v) => `${v} km`)}</select></div></div></article>`;
-      return `<article class="card"><div class="between"><span class="title">${esc(s.nome)}</span><span class="small muted">${esc({ allenamento: "allenamento", ritmo: "ritmo e lunghi", tempo: "tempo", gara: "gara", trail: "trail" }[s.tipo] || s.tipo)}</span></div>
+      return `<article class="card"><div class="between"><span class="title">${esc(s.nome)}</span><span class="small muted">${esc({ allenamento: "daily", ritmo: "super-trainer", tempo: "tempo", gara: "gara", trail: "trail" }[s.tipo] || s.tipo)}</span></div>
         <div class="meter ${st.livello}" aria-hidden="true"><div style="width:${Math.max(3, Math.round(st.quota * 100))}%"></div></div>
         <div class="between small"><span><b>${Math.round(st.km)}</b> di ${st.limite} km</span><span style="font-weight:700;color:${st.livello === "attenzione" ? "var(--warn)" : st.livello === "info" ? "var(--accent)" : "var(--ok)"}">${esc(st.etichetta)}</span></div>
         <form class="row" data-form="km" data-id="${esc(s.id)}"><label class="sr" for="km-${esc(s.id)}">Aggiungi km a ${esc(s.nome)}</label><input class="input" id="km-${esc(s.id)}" type="number" inputmode="decimal" min="0" step="0.1" placeholder="+ km corsi"><button class="btn ghost" type="submit">Aggiungi</button><button class="btn ghost" type="button" data-act="del-scarpa" data-id="${esc(s.id)}" aria-label="Elimina ${esc(s.nome)}">✕</button></form></article>`;
@@ -3320,9 +3341,9 @@
         <a class="btn ghost" href="#/gruppo/admin">${GD().io.ruolo === "membro" ? "Membri del gruppo" : "Gestisci il gruppo"}</a><button class="btn ghost" type="button" data-act="g-esci">Esci dal gruppo</button>` : `<span class="small">Entra nel gruppo della tua società con il link d'invito, oppure crealo se sei il presidente.</span><a class="btn ghost" href="#/gruppo">Vai al gruppo</a>`)}
       ${acc("personali", "I miei personali", esc(riassuntoPB()) || "da inserire", sezionePB())}
       ${C().strava ? acc("strava", "Strava", STRAVA_STATO && STRAVA_STATO.collegato ? '<span class="pill ok">collegato</span>' : "in prova", sezioneStrava()) : ""}
-      ${acc("scarpe", "Le mie scarpe", S.scarpe.length ? `${S.scarpe.length} ${stravaOn ? "da Strava" : S.scarpe.length === 1 ? "paio" : "paia"}${daCambiare ? ` · <b style="color:var(--warn)">${daCambiare} da cambiare</b>` : ""}` : "nessuna", `${scarpe || `<span class="small">Nessuna scarpa ancora.</span>`}
+      ${acc("scarpe", "Le mie scarpe", S.scarpe.length ? `${S.scarpe.length} ${stravaOn ? "da Strava" : S.scarpe.length === 1 ? "paio" : "paia"}${daCambiare ? ` · <b style="color:var(--warn)">${daCambiare} da cambiare</b>` : ""}` : "nessuna", `${sezioneRotazione()}${scarpe || `<span class="small">Nessuna scarpa ancora.</span>`}
         ${stravaOn ? `<span class="small muted">I km arrivano da Strava${S.strava.letto ? `, aggiornati alle ${esc(new Date(S.strava.letto).toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" }))}` : ""}. Una scarpa nuova si aggiunge su Strava; quelle ritirate lì spariscono da qui.</span>` : S.strava && S.strava.attivo ? `<span class="small muted">Su Strava non hai scarpe attive, quindi usiamo quelle inserite qui. Se ne aggiungi una su Strava, i km arriveranno da lì e queste andranno in Archivio.</span>` : ""}
-        <a class="btn" href="#/scarpiera">Pianifica la rotazione</a><span class="small muted">Quando finiscono le tue scarpe, che rotazione ti serve fino alle gare e cosa comprare.</span>
+        ${S.scarpiera && S.scarpiera.fatto ? `<a class="btn ghost" href="#/scarpiera">Rifai il piano delle scarpe</a>` : `<a class="btn" href="#/scarpiera">Pianifica la rotazione</a><span class="small muted">Quando finiscono le tue scarpe, che rotazione ti serve fino alle gare e cosa comprare.</span>`}
         ${archivio.length ? `<details class="card"><summary>Archivio · ${archivio.length} ${archivio.length === 1 ? "scarpa inserita" : "scarpe inserite"} a mano</summary>${archivio.map((x) => `<div class="between" style="padding:6px 0"><span>${esc(x.nome)} <span class="small muted">· ${Math.round(Number(x.km) || 0)} km</span></span><button class="btn ghost small" data-act="arch-del" data-id="${esc(x.id)}">Elimina</button></div>`).join("")}<span class="small muted">${stravaOn ? "Non contano finché Strava è collegato." : "Se sono le stesse scarpe che hai già, eliminale."}</span></details>` : ""}
         ${stravaOn ? "" : `<details class="card"><summary>+ Aggiungi una scarpa</summary><form id="scarpa" style="display:flex;flex-direction:column;gap:10px">
         <div class="field"><label for="s-nome">Modello</label><input class="input" id="s-nome" required placeholder="es. la mia scarpa da lento"></div>
