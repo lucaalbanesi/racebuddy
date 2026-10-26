@@ -1445,7 +1445,7 @@
       <details class="card" ${param.modifica ? "open" : ""}><summary>Ruolo e tempo obiettivo</summary>
         <form id="gara-imp" data-id="${esc(g.id)}" style="display:flex;flex-direction:column;gap:10px">
         <div class="field"><label for="gi-ruolo">Ruolo</label><select class="input" id="gi-ruolo">${["obiettivo", "tappa", "divertimento"].map((r) => `<option value="${r}" ${g.ruolo === r ? "selected" : ""}>${L.RUOLO_LABEL[r]}</option>`).join("")}</select></div>
-        <div class="field"><label for="gi-km">Distanza vera</label><div class="row"><input class="input" id="gi-km" type="number" inputmode="decimal" step="0.01" min="3" max="60" value="${String(Math.round(kmDellaGara(g) * 1000) / 1000)}" style="max-width:120px"><span class="small muted">km</span></div>
+        <div class="field"><label for="gi-km">Distanza vera</label><div class="sc-stepper km-stepper"><button type="button" class="btn ghost small" data-act="km-passo" data-d="-0.1" aria-label="100 metri in meno">−</button><input class="input" id="gi-km" type="number" inputmode="decimal" step="0.01" min="3" max="60" value="${String(Math.round(kmDellaGara(g) * 1000) / 1000)}" aria-label="Distanza in km"><button type="button" class="btn ghost small" data-act="km-passo" data-d="0.1" aria-label="100 metri in più">+</button><span class="small muted">km</span></div>
           <span class="small muted">Se il percorso misura un po' di più o di meno (per esempio 9,9 km invece di 10), correggi qui: il passo si calcola sui km veri. Una gara non classica non vale come personale.</span></div>
         <div class="field"><span class="lbl" id="gi-tempo-l">Tempo obiettivo <span class="muted">(facoltativo)</span></span>${campoTempo("gi-tempo", g, g.tempo || "", "gi-tempo-l")}${rigaPasso("gi-tempo", g, g.tempo || "")}</div>
         <button class="btn" type="submit">Salva</button></form></details>
@@ -3563,6 +3563,12 @@
     if (!t) return;
     const act = t.dataset.act;
     if (act.startsWith("sc-")) { azioneScarpiera(t); return; }
+    if (act === "km-passo") { // distanza vera: ±100 m alla volta
+      const el = document.getElementById("gi-km"); if (!el) return;
+      const km = Math.round(((Number(String(el.value).replace(",", ".")) || 0) + Number(t.dataset.d)) * 100) / 100;
+      if (km >= 3 && km <= 60) { el.value = String(km); el.dispatchEvent(new Event("input", { bubbles: true })); }
+      return;
+    }
     if (act === "buddy-ok") { B().ok = true; salva(); rerender(); return; }
     if (act === "cl-tab") { tabCl = t.dataset.t; rerender(); return; }
     if (act === "cl-dist") { distAlbo = t.dataset.d; rerender(); return; }

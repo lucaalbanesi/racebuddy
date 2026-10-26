@@ -723,3 +723,6 @@ body.chat-on .app { padding-bottom: 150px; }
 .sc-rimanda { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; text-align: left; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); color: inherit; font: inherit; }
 @media (prefers-color-scheme: dark) { .sc-dacomprare.ritardo, .sc-effetto { color: #F87171; } .sc-avviso { border-color: #F87171; } }
 .sc-piu[open] { display: flex; flex-direction: column; gap: 8px; }
+.km-stepper { justify-content: flex-start; gap: 8px; }
+.km-stepper .input { width: 96px; text-align: center; -moz-appearance: textfield; }
+.km-stepper .input::-webkit-inner-spin-button, .km-stepper .input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
