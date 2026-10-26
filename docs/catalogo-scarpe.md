@@ -43,11 +43,12 @@ e attuali, con dati veri.
 
 ## Fonti
 
-1. **Runnea** (www.runnea.com, la pagina del modello `…/zapatillas-running/<marca>/<modello>/<id>/`): prezzo "Desde"
-   (il minimo tra i negozi), listino (prezzo barrato), peso uomo, drop, ammortiguación (Media → `media`,
-   Tope → `massima`), uso (Entrenamiento / Competición / Mixta), constitución (Ligera L, Media M, Fuerte F),
-   placa de carbono, **Runnea score**. È la fonte principale; l'`url` punta qui.
-2. **RunRepeat** (runrepeat.com, meglio le pagine in spagnolo `runrepeat.com/es/<modello>`): altezza della suola al
+1. **Runnea Italia** (www.runnea.it, la pagina del modello `…/scarpe-running/<marca>/<modello>/<id>/`; stessi id
+   del sito spagnolo, prezzi dei negozi che vendono in Italia): prezzo "Da" (il minimo tra i negozi), listino (prezzo
+   barrato), peso uomo, drop, ammortizzazione (Media → `media`, Massima → `massima`), uso (Allenamento / Competizione
+   / Misto), costituzione (Leggera L, Media M, Forte F), piastra in carbonio, **RUNNEA score**. È la fonte
+   principale; l'`url` punta qui. Solo se un dato manca su runnea.it si guarda runnea.com (spagnolo), mai per l'url.
+2. **RunRepeat** (runrepeat.com, pagine in inglese o `runrepeat.com/it/<modello>` se c'è): altezza della suola al
    tallone misurata in laboratorio (`suola`, in mm) e peso misurato quando Runnea non lo dà.
    La `suola` serve per ogni modello: l'app la usa per dire se una scarpa protegge anche i runner pesanti (≥ 40 mm
    o ammortizzazione massima), perché l'indicazione di corporatura di Runnea da sola è troppo prudente. Se RunRepeat
@@ -74,7 +75,7 @@ Mai inventare un dato: se non si trova, il campo si omette.
       "prezzo": 114, "listino": 200, "peso": 285, "drop": 8, "suola": 41, "ammortizzazione": "massima",
       "uso": "allenamento", "corporatura": "MF", "score": 9.5, "fonte": "Runnea",
       "perche": "FF Blast Max senza piastra, massima protezione per facili e lunghi (Runnea, Doctors of Running)",
-      "url": "https://www.runnea.com/zapatillas-running/asics/gel-nimbus-28/1058964/" }
+      "url": "https://www.runnea.it/scarpe-running/asics/gel-nimbus-28/1058964/" }
   ]
 }
 ```
@@ -96,7 +97,7 @@ Mai inventare un dato: se non si trova, il campo si omette.
 
 1. Per ogni modello: riapri la sua pagina, aggiorna prezzo, listino e score; correggi gli altri campi se cambiati;
    aggiungi la `suola` dove manca.
-2. Cerca le novità del mese per tipo (Runnea "Lo más visitado", "modelos/todas/" con i filtri di uso e
+2. Cerca le novità del mese per tipo (Runnea Italia: le più viste e il catalogo con i filtri di uso e
    ammortizzazione, le uscite annunciate dai produttori, RunRepeat per le uscite recenti) e aggiungi i modelli che
    mancano; a tipo pieno, scambia secondo le regole sopra.
 3. Togli i modelli usciti dal mercato e quelli vecchi secondo le regole sopra.
