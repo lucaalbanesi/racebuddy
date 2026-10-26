@@ -1,4 +1,33 @@
 {
+ "E-valencia-42-2026": {
+  "partenza": "8:15",
+  "luogoPartenza": "Partenza Plaça de la Marató, arrivo alla Città delle Arti e delle Scienze (passerella blu sull'acqua)",
+  "pettorale": "Expo 42K, Feria Valencia (Av. de les Fires): giovedì 3/12 17-21, venerdì 4/12 9-21, sabato 5/12 9-19. Solo di persona; la domenica niente pettorali.",
+  "griglia": "9 onde per tempo accreditato: dalle 8:15 (sotto 2h50) ogni 10 minuti fino alle 9:35 (oltre 4h10). L'onda è sul pettorale.",
+  "ristori": "Liquidi circa ai km 5, 10, 15, 20, 25, 30, 32, 35, 37,5 e 40; all'arrivo liquidi e solidi",
+  "mappa": "Plaça de la Marató, Valencia",
+  "percorsoImmagine": "https://cdn1.valenciaciudaddelrunning.com/wp-content/uploads/2019/04/recorrido-42k-valencia-2026-scaled.png",
+  "percorsoLink": "https://www.valenciaciudaddelrunning.com/wp-content/uploads/2019/04/recorrido-42k-valencia-2026.pdf",
+  "percorsoDescrizione": "Percorso pianeggiante tra il Cabanyal e il centro storico, arrivo alla Città delle Arti e delle Scienze.",
+  "sito": "https://www.valenciaciudaddelrunning.com/maraton/",
+  "canali": {
+   "instagram": "https://www.instagram.com/maratonvalencia/",
+   "facebook": "https://www.facebook.com/maratonvalencia"
+  },
+  "nomi": [
+   "Maratón Valencia",
+   "Valencia Marathon",
+   "Maratona di Valencia"
+  ],
+  "note": "Tempo massimo 5h30 dal passaggio sul via; chi arriva al km 25 dopo le 12:57 deve consegnare il pettorale. Dal 7 novembre, dall'Área Runner, si può delegare un'altra persona al ritiro.",
+  "fonti": [
+   "https://www.valenciaciudaddelrunning.com/maraton/",
+   "https://www.valenciaciudaddelrunning.com/maraton/reglamento-maraton-valencia/",
+   "https://www.valenciaciudaddelrunning.com/maraton/recorrido-maraton/"
+  ],
+  "verificato": "2026-10-26",
+  "edizione": "2026"
+ },
  "L2bda4b848d-10": {
   "partenza": "8:30",
   "luogoPartenza": "Partenza in Piazza Pio XII (davanti a Piazza San Pietro), arrivo in Piazza Pia; ritrovo dalle 6:30 in via della Conciliazione.",
