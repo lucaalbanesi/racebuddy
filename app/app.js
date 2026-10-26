@@ -706,22 +706,42 @@
     return `${testa}<div class="funnel">${corpo}</div>`;
   }
 
+  // Piano reale: le scarpe ancora da comprare alla data promessa (in ritardo = da questa settimana). senza = id da togliere.
+  const scPianoAtt = (ctx, senza, sposta) => (SC().attivita || []).filter((x) => x.id !== senza).map((x) => ({ t: x.t, w: Math.max(0, L.scSettimana(ctx, sposta && sposta.id === x.id ? sposta.entro : x.entro)) }));
+  const USCITE_SC = { F: "le uscite facili", V: "le uscite veloci", LF: "i lunghi facili", R: "i lunghissimi", G: "le gare" };
+  // uscite su ripiego o senza scarpa (in ordine di settimana), tolte quelle che il piano aveva già messo in conto
+  function scBuchi(sim, accettati = []) {
+    const no = new Set(accettati.map((b) => b.w + b.r));
+    return [...sim.scoperte.map((u) => ({ ...u, senza: true })), ...sim.ripieghi].filter((b) => !no.has(b.w + b.r)).sort((a, b) => a.w - b.w);
+  }
+  // frase sulla prima conseguenza: "dal 16 nov le uscite facili restano senza scarpa"
+  function scConseguenza(ctx, buchi) {
+    if (!buchi.length) return "";
+    const b = buchi[0], altri = new Set(buchi.map((x) => x.r)).size - 1;
+    return `dal ${scGiorno(ctx, b.w)} ${USCITE_SC[b.r]} ${b.senza ? "restano senza scarpa" : `vanno su un ripiego (${esc(corto(b.scarpa))})`}${altri > 0 ? `, e non solo quelle` : ""}`;
+  }
+
   // Io → Le mie scarpe: la rotazione scelta, come corri e il consumo nel tempo (solo dopo aver fatto la Scarpiera)
   function sezioneRotazione() {
     const sc = S.scarpiera;
     if (!sc || !sc.fatto || !scMieScarpe().length) return "";
-    const ctx = scCtx(), set = scSet(), costo = L.scCosto(ctx, set, scPrezzi()), { sim } = L.scPiano(ctx, set, scQty()), att = sc.attivita || [];
+    const ctx = scCtx(), set = scSet(), costo = L.scCosto(ctx, set, scPrezzi()), att = sc.attivita || [];
+    // il grafico mostra quello che succede davvero: le scarpe comprate e quelle ancora da comprare alla data promessa
+    const sim = L.scSimula(ctx, scPianoAtt(ctx)), ideale = L.scPiano(ctx, set, scQty()).sim, buchi = scBuchi(sim, scBuchi(ideale));
     const righe = set.map((t) => {
       const mie = scMieScarpe().filter((s) => L.SC_DA_APP[s.tipo] === t).map((s) => esc(corto(s.nome)));
-      const da = att.filter((x) => x.t === t).map((x) => `<span class="sc-dacomprare">${esc(corto(x.modello))} · entro il ${esc(L.fmtGiorno(x.entro))}</span>`);
+      const da = att.filter((x) => x.t === t).map((x) => x.entro < oggi() ? `<span class="sc-dacomprare ritardo">${esc(corto(x.modello))} · in ritardo dal ${esc(L.fmtGiorno(x.entro))}</span>` : `<span class="sc-dacomprare">${esc(corto(x.modello))} · entro il ${esc(L.fmtGiorno(x.entro))}</span>`);
       return `<div class="sc-riga"><b>${L.SC_TIPI[t]}</b><span>${mie.join(", ") || '<span class="muted">nessuna</span>'}${da.length ? "<br>" + da.join("<br>") : ""}</span></div>`;
     }).join("");
     const wk = sc.wk, mix = sc.mix, W = [["R", "lunghissim", "o", "i"], ["LF", "lung", "o facile", "hi facili"], ["G", "gar", "a 10 km o mezza", "e 10 km o mezza"]];
     const weekend = W.filter(([k]) => mix[k].n).map(([k, r, s1, s2]) => `<span class="sc-chip"><b>${mix[k].n}</b> ${r}${mix[k].n === 1 ? s1 : s2} · ${mix[k].km} km</span>`).join("");
-    return `<article class="card"><div class="between"><span class="title">La tua rotazione</span><span class="pill ok">${costo.mese} € al mese</span></div>
+    const avviso = buchi.length ? `<article class="card sc-avviso" aria-label="Il piano non copre tutto"><span class="title">Le tue scarpe non bastano più</span>
+        <span class="small">Con le scarpe che hai e quelle ancora da comprare, ${scConseguenza(ctx, buchi)}. Nel grafico lo vedi nelle righe sotto.</span>
+        <a class="btn" href="#/scarpiera/set">Rifai il piano</a></article>` : "";
+    return `${avviso}<article class="card"><div class="between"><span class="title">La tua rotazione</span><span class="pill ok">${costo.mese} € al mese</span></div>
         <div class="sc-righe">${righe}</div><a class="small" href="#/scarpiera/set">Cambia la rotazione ›</a></article>
       <article class="card"><span class="title">Il consumo nel tempo</span>${graficoScarpe(ctx, sim, sim.S, true)}
-        <span class="small muted">Le tue scarpe e quelle da comprare (tratteggiate) fino a 6 settimane dopo l'ultima gara. Sotto, settimana per settimana, se ogni tipo di uscita ha la sua scarpa.</span><a class="small" href="#/scarpiera/piano">Rivedi il piano ›</a></article>
+        <span class="small muted">Le tue scarpe e quelle ancora da comprare (tratteggiate, alla data che ti sei dato) fino a 6 settimane dopo l'ultima gara. Sotto, settimana per settimana, se ogni tipo di uscita ha la sua scarpa.</span><a class="small" href="#/scarpiera/piano">Rivedi il piano ›</a></article>
       <article class="card"><div class="between"><span class="title">Come corri</span><span class="small muted">circa ${L.scKmSettimana(ctx)} km a settimana</span></div>
         <div class="grid2"><div class="sc-kpi"><span class="small muted">Facile</span><b>${wk.F} km</b><span class="small muted">a settimana</span></div><div class="sc-kpi"><span class="small muted">Veloce / qualità</span><b>${wk.V} km</b><span class="small muted">a settimana</span></div></div>
         <span class="small muted">Weekend del mese</span><div class="sc-chips">${weekend}</div><a class="small" href="#/scarpiera/corsa">Modifica ›</a></article>
@@ -730,14 +750,23 @@
   // attività "da comprare" in Oggi + scheda quando una scarpa sta finendo e non c'è un piano
   function cardScarpiera() {
     const sc = S.scarpiera || {}, att = sc.attivita || [], o = oggi();
-    if (att.length) return att.slice().sort((a, b) => a.entro.localeCompare(b.entro)).map((x) => {
-      const gg = L.diffDays(x.entro, o);
-      const st = gg < 0 ? `<span class="pill doc-scaduto">scaduta da ${-gg} ${-gg === 1 ? "giorno" : "giorni"}</span>` : gg <= 14 ? `<span class="pill doc-presto">tra ${gg} ${gg === 1 ? "giorno" : "giorni"}</span>` : `<span class="pill grigio">entro il ${esc(L.fmtBreve ? L.fmtBreve(x.entro) : x.entro)}</span>`;
+    if (att.length) { const ctx = scCtx(); return att.slice().sort((a, b) => a.entro.localeCompare(b.entro)).map((x) => {
+      const gg = L.diffDays(x.entro, o), ritardo = gg < 0;
+      const st = ritardo ? `<span class="pill doc-scaduto">in ritardo di ${-gg} ${-gg === 1 ? "giorno" : "giorni"}</span>` : gg <= 14 ? `<span class="pill doc-presto">tra ${gg} ${gg === 1 ? "giorno" : "giorni"}</span>` : `<span class="pill grigio">entro il ${esc(L.fmtBreve ? L.fmtBreve(x.entro) : x.entro)}</span>`;
+      // cosa succede senza questa scarpa: solo i buchi in più rispetto al piano con la scarpa
+      const con = scBuchi(L.scSimula(ctx, scPianoAtt(ctx))), senza = scConseguenza(ctx, scBuchi(L.scSimula(ctx, scPianoAtt(ctx, x.id)), con));
+      const opz = [7, 14, 28].map((d) => {
+        const entro = L.addDays(x.entro < o ? o : x.entro, d), buchi = scBuchi(L.scSimula(ctx, scPianoAtt(ctx, null, { id: x.id, entro })), con);
+        return `<button type="button" class="sc-rimanda" data-act="sc-rimanda" data-id="${esc(x.id)}" data-giorni="${d}"><b>${d === 28 ? "Di un mese" : d === 7 ? "Di una settimana" : "Di due settimane"}</b><span class="small">entro il ${esc(L.fmtGiorno(entro))}</span><span class="small ${buchi.length ? "sc-effetto" : "muted"}">${buchi.length ? scConseguenza(ctx, buchi).replace(/^dal/, "Dal") : "Nessun effetto sulla rotazione"}</span></button>`;
+      }).join("");
       return `<section class="card" aria-label="Scarpa da comprare"><div class="between"><span class="eyebrow">Da comprare · ${L.SC_TIPI[x.t]}</span>${st}</div>
         <span class="title">${esc(x.modello)}</span><span class="small muted">Circa ${x.prezzo} €${x.ricambio ? ` · ricambio di ${esc(x.ricambio)}` : ""} · pronta per il ${esc(L.fmtGiorno(x.pronta))}</span>
+        ${ritardo && senza ? `<span class="small sc-effetto">Senza questa scarpa ${senza}.</span>` : ""}
         ${x.url ? `<a class="small" href="${esc(x.url)}" target="_blank" rel="noopener">Vedi su ${esc(x.fonte || "Runnea")} ›</a>` : ""}
-        <div class="grid2"><button class="btn" type="button" data-act="sc-comprata" data-id="${esc(x.id)}">L'ho comprata</button><button class="btn ghost" type="button" data-act="sc-chiudi" data-id="${esc(x.id)}">Chiudi</button></div></section>`;
-    }).join("");
+        <button class="btn" type="button" data-act="sc-comprata" data-id="${esc(x.id)}">L'ho comprata</button>
+        <details class="sc-piu"><summary>Non ancora</summary><span class="small muted">Puoi rimandare: per ogni data vedi cosa cambia per le tue uscite.</span><div class="sc-rimande">${opz}</div>
+          ${senza ? `<span class="small muted">Se non la compri, ${senza}.</span>` : `<span class="small muted">Se non la compri, la rotazione regge lo stesso.</span>`}<button class="btn ghost block" type="button" data-act="sc-nonlacompro" data-id="${esc(x.id)}">Non la compro</button></details></section>`;
+    }).join(""); }
     const finendo = scMieScarpe().filter((s) => L.statoScarpa(s).quota >= 0.85);
     if (!finendo.length || sc.fatto || (sc.dopo && L.diffDays(o, sc.dopo) < 3)) return "";
     return `<section class="card soft" aria-label="Scarpiera"><span class="eyebrow" style="color:var(--accent-strong)">Scarpiera</span><span class="title">${finendo.length === 1 ? `Le ${esc(finendo[0].nome)} stanno finendo` : `${finendo.length} paia di scarpe stanno finendo`}</span>
@@ -775,7 +804,13 @@
       const sn = { id: "S" + Date.now().toString(36), nome: x.modello, tipo: L.SC_A_APP[x.t], km: 0, limite: L.scDurata(x.t, Number(S.profilo.peso) || 0) };
       S.scarpe.push(sn); annotaKm(sn); salva(); toast(`${x.modello} aggiunta alle tue scarpe`); rerender(); return;
     }
-    if (act === "sc-chiudi") { sc.attivita = sc.attivita.filter((z) => z.id !== t.dataset.id); salva(); toast("Attività chiusa"); rerender(); return; }
+    if (act === "sc-chiudi" || act === "sc-nonlacompro") { sc.attivita = sc.attivita.filter((z) => z.id !== t.dataset.id); salva(); toast(act === "sc-chiudi" ? "Attività chiusa" : "Tolta dal piano: in Io → Scarpe vedi cosa cambia"); rerender(); return; }
+    if (act === "sc-rimanda") {
+      const x = sc.attivita.find((z) => z.id === t.dataset.id); if (!x) return;
+      const d = Number(t.dataset.giorni), base = x.entro < oggi() ? oggi() : x.entro, entro = L.addDays(base, d);
+      x.pronta = L.addDays(x.pronta, L.diffDays(entro, x.entro)); x.entro = entro; x.rimandata = (x.rimandata || 0) + 1;
+      salva(); toast(`Rimandata: entro il ${L.fmtGiorno(entro)}`); rerender(); return;
+    }
     if (act === "sc-dopo") { sc.dopo = oggi(); salva(); rerender(); }
   }
   function campoScarpiera(el) {
