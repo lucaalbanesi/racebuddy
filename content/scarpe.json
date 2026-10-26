@@ -2,10 +2,10 @@
  "aggiornato": "2026-10-26",
  "nota": "Catalogo RaceBuddy per la Scarpiera: prezzi minimi, listino e dati tecnici dalle schede Runnea (altezza della suola da RunRepeat o da recensioni); tipo = classificazione RaceBuddy (DA daily, ST super-trainer, TE tempo, GA gara). Procedura di aggiornamento in docs/scarpiera.md.",
  "prezzi_tipici": {
-  "DA": 110,
+  "DA": 115,
   "ST": 155,
   "TE": 110,
-  "GA": 150
+  "GA": 160
  },
  "modelli": [
   {
@@ -25,23 +25,6 @@
    "url": "https://www.runnea.com/zapatillas-running/asics/novablast-6/1063395/"
   },
   {
-   "modello": "ASICS Novablast 5",
-   "marca": "ASICS",
-   "linea": "novablast",
-   "tipo": "DA",
-   "prezzo": 104,
-   "listino": 150,
-   "peso": 265,
-   "drop": 8,
-   "ammortizzazione": "massima",
-   "uso": "allenamento e gara",
-   "corporatura": "LMF",
-   "score": 9.6,
-   "fonte": "Runnea",
-   "url": "https://www.runnea.com/zapatillas-running/asics/novablast-5/1039307/",
-   "precedente": true
-  },
-  {
    "modello": "ASICS Gel Nimbus 28",
    "marca": "ASICS",
    "linea": "nimbus",
@@ -56,23 +39,6 @@
    "score": 9.5,
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/asics/gel-nimbus-28/1058964/"
-  },
-  {
-   "modello": "ASICS Nimbus 27",
-   "marca": "ASICS",
-   "linea": "nimbus",
-   "tipo": "DA",
-   "prezzo": 110,
-   "listino": 200,
-   "peso": 305,
-   "drop": 8,
-   "ammortizzazione": "massima",
-   "uso": "allenamento",
-   "corporatura": "MF",
-   "score": 9.5,
-   "fonte": "Runnea",
-   "url": "https://www.runnea.com/zapatillas-running/asics/nimbus-27/1039115/",
-   "precedente": true
   },
   {
    "modello": "ASICS Gel Cumulus 28",
@@ -171,22 +137,6 @@
    "url": "https://www.runnea.com/zapatillas-running/new-balance/1080-v15/1061357/"
   },
   {
-   "modello": "Saucony Triumph 23",
-   "marca": "Saucony",
-   "linea": "triumph",
-   "tipo": "DA",
-   "prezzo": 85,
-   "listino": 190,
-   "peso": 263,
-   "drop": 10,
-   "ammortizzazione": "massima",
-   "uso": "allenamento e gara",
-   "corporatura": "M",
-   "score": 8.7,
-   "fonte": "Runnea",
-   "url": "https://www.runnea.com/zapatillas-running/saucony/triumph-23/1040741/"
-  },
-  {
    "modello": "Brooks Glycerin 23",
    "marca": "Brooks",
    "linea": "glycerin",
@@ -201,6 +151,52 @@
    "score": 9.6,
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/brooks/glycerin-23/1061963/"
+  },
+  {
+   "modello": "Saucony Triumph 24",
+   "marca": "Saucony",
+   "linea": "triumph",
+   "tipo": "DA",
+   "prezzo": 134,
+   "listino": 190,
+   "peso": 250,
+   "drop": 10,
+   "ammortizzazione": "massima",
+   "uso": "allenamento",
+   "corporatura": "MF",
+   "score": 9.3,
+   "fonte": "Runnea",
+   "url": "https://www.runnea.com/zapatillas-running/saucony/triumph-24/1061908/"
+  },
+  {
+   "modello": "Mizuno Wave Rider 30",
+   "marca": "Mizuno",
+   "linea": "wave rider",
+   "tipo": "DA",
+   "prezzo": 112,
+   "listino": 160,
+   "peso": 282,
+   "drop": 8,
+   "uso": "allenamento",
+   "corporatura": "MF",
+   "score": 9.7,
+   "fonte": "Runnea",
+   "url": "https://www.runnea.com/zapatillas-running/mizuno/wave-rider-30/1065143/"
+  },
+  {
+   "modello": "Adidas Hyperboost Edge",
+   "marca": "Adidas",
+   "linea": "hyperboost",
+   "tipo": "DA",
+   "prezzo": 135,
+   "listino": 200,
+   "peso": 255,
+   "drop": 6,
+   "ammortizzazione": "massima",
+   "corporatura": "MF",
+   "score": 9.4,
+   "fonte": "Runnea",
+   "url": "https://www.runnea.com/zapatillas-running/adidas/hyperboost-edge/1063765/"
   },
   {
    "modello": "ASICS Superblast 3",
@@ -264,23 +260,6 @@
    "score": 9.5,
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/nike/vomero-18-plus/1045717/"
-  },
-  {
-   "modello": "New Balance SC Trainer v3",
-   "marca": "New Balance",
-   "linea": "sc trainer",
-   "tipo": "ST",
-   "prezzo": 139,
-   "listino": 250,
-   "peso": 270,
-   "drop": 6,
-   "ammortizzazione": "massima",
-   "uso": "misto",
-   "corporatura": "LMF",
-   "piastra": "carbonio",
-   "score": 9.4,
-   "fonte": "Runnea",
-   "url": "https://www.runnea.com/zapatillas-running/new-balance/fuelcell-supercomp-trainer-v3/1024010/"
   },
   {
    "modello": "Mizuno Neo Vista 3",
@@ -416,23 +395,8 @@
    "piastra": "nylon",
    "score": 9.0,
    "fonte": "Runnea",
-   "url": "https://www.runnea.com/zapatillas-running/brooks/hyperion-max-3/1044337/"
-  },
-  {
-   "modello": "ASICS Sonicblast",
-   "marca": "ASICS",
-   "linea": "sonicblast",
-   "tipo": "TE",
-   "prezzo": 139,
-   "listino": 190,
-   "peso": 255,
-   "drop": 8,
-   "suola": 46,
-   "ammortizzazione": "massima",
-   "uso": "allenamento e gara",
-   "piastra": "Pebax",
-   "fonte": "Sportsshoes",
-   "url": "https://www.sportsshoes.com/es-es/store/asics-sonicblast"
+   "url": "https://www.runnea.com/zapatillas-running/brooks/hyperion-max-3/1044337/",
+   "precedente": true
   },
   {
    "modello": "HOKA Mach X 3",
@@ -501,6 +465,36 @@
    "url": "https://www.runnea.com/zapatillas-running/new-balance/rebel-v5/1041099/"
   },
   {
+   "modello": "Brooks Hyperion Max 4",
+   "marca": "Brooks",
+   "linea": "hyperion max",
+   "tipo": "TE",
+   "prezzo": 152,
+   "listino": 190,
+   "peso": 286,
+   "drop": 6,
+   "ammortizzazione": "media",
+   "uso": "misto",
+   "corporatura": "M",
+   "score": 7.9,
+   "fonte": "Runnea",
+   "url": "https://www.runnea.com/zapatillas-running/brooks/hyperion-max-4/1064444/"
+  },
+  {
+   "modello": "ASICS Sonicblast 2",
+   "marca": "ASICS",
+   "linea": "sonicblast",
+   "tipo": "TE",
+   "prezzo": 190,
+   "peso": 242,
+   "drop": 8,
+   "suola": 46,
+   "uso": "allenamento e gara",
+   "piastra": "Pebax",
+   "fonte": "Sportsshoes",
+   "url": "https://www.sportsshoes.com/es-es/product/asi16929/sonicblast-2-hombre-zapatillas-running----aw26"
+  },
+  {
    "modello": "Nike Vaporfly 4",
    "marca": "Nike",
    "linea": "vaporfly",
@@ -558,7 +552,8 @@
    "url": "https://www.runnea.com/zapatillas-running/adidas/adizero-adios-pro-4/1034476/",
    "falcata": [
     "freq"
-   ]
+   ],
+   "precedente": true
   },
   {
    "modello": "Saucony Endorphin Pro 5",
@@ -648,6 +643,40 @@
    "piastra": "carbonio",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/on/cloudboom-strike-2/1065639/"
+  },
+  {
+   "modello": "Adidas Adizero Adios Pro 5",
+   "marca": "Adidas",
+   "linea": "adios pro",
+   "tipo": "GA",
+   "prezzo": 260,
+   "listino": 260,
+   "peso": 175,
+   "drop": 6,
+   "ammortizzazione": "media",
+   "uso": "gara",
+   "corporatura": "LM",
+   "piastra": "carbonio",
+   "score": 9.4,
+   "fonte": "Runnea",
+   "url": "https://www.runnea.com/zapatillas-running/adidas/adizero-adios-pro-5/1060786/"
+  },
+  {
+   "modello": "New Balance SuperComp Elite v6",
+   "marca": "New Balance",
+   "linea": "supercomp elite",
+   "tipo": "GA",
+   "prezzo": 224,
+   "listino": 280,
+   "peso": 190,
+   "drop": 8,
+   "ammortizzazione": "media",
+   "uso": "gara",
+   "corporatura": "M",
+   "piastra": "carbonio",
+   "score": 8.6,
+   "fonte": "Runnea",
+   "url": "https://www.runnea.com/zapatillas-running/new-balance/supercomp-elite-v6/1064827/"
   }
  ]
 }
