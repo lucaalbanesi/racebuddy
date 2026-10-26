@@ -1283,28 +1283,31 @@
   const SC_DOMANDE = {
     DA: [{ k: "feel", q: "Sui km facili preferisci", o: [["any", "Indifferente"], ["soft", "Morbida e protettiva"], ["light", "Più leggera e reattiva"]] }, { k: "drop", q: "Drop", o: [["any", "Indifferente"], ["same", "Simile alle tue (8 mm)"]] }],
     ST: [{ k: "feel", q: "Dal super-trainer vuoi", o: [["any", "Indifferente"], ["soft", "Più protezione"], ["light", "Più spinta e leggerezza"]] }, { k: "plate", q: "Piastra", o: [["any", "Indifferente"], ["no", "Senza"], ["yes", "Con piastra"]] }],
-    TE: [{ k: "race", q: "La userai anche in gara su 10 km e mezza?", o: [["yes", "Sì"], ["no", "No, solo allenamento"]] }, { k: "plate", q: "Piastra", o: [["any", "Indifferente"], ["carbon", "In carbonio"], ["other", "Più morbida (nylon, fibra)"]] }],
+    TE: [{ k: "lavori", q: "La userai soprattutto per", o: [["lunghi", "Tempo e lavori lunghi"], ["brevi", "Ripetute brevi"]] }, { k: "race", q: "La userai anche in gara su 10 km e mezza?", o: [["yes", "Sì"], ["no", "No, solo allenamento"]] }, { k: "plate", q: "Piastra", o: [["any", "Indifferente"], ["carbon", "Carbonio"], ["other", "Nylon o fibra"]] }],
     GA: [{ k: "dist", q: "Per quali gare?", o: [["both", "Tutte"], ["mar", "Maratona"], ["half", "10 km e mezza"]] }, { k: "stride", q: "Quando acceleri", o: [["any", "Non so"], ["long", "Allunghi il passo"], ["freq", "Aumenti la frequenza"]] }],
   };
   const SC_BUDGET = { DA: 120, ST: 160, TE: 140, GA: 160 };
-  /** Una scarpa protegge anche i runner pesanti: suola alta (≥ 40 mm al tallone) o ammortizzazione massima. L'indicazione
-   *  di Runnea sulla corporatura è prudente e generica: vale solo quando la scarpa non ha né l'una né l'altra. */
-  const scProtegge = (c) => (c.suola && c.suola >= 40) || c.ammortizzazione === "massima";
-  /** Adatta al peso: true, false o null (peso o indicazione mancanti). */
-  function scAdatta(c, peso) {
-    peso = Number(peso) || 0; if (!peso || !c.corporatura) return null;
-    const corp = peso >= 80 ? "F" : peso >= 65 ? "M" : "L";
-    return c.corporatura.includes(corp) || (corp === "F" && scProtegge(c));
+  /** Protezione per il peso del runner: "alta" | "media" | "bassa" | null. Conta l'altezza della suola al tallone
+   *  rispetto a quella che serve al peso (32 mm sotto i 65 kg, 36 mm fino a 79, 40 mm da 80 in su); senza suola,
+   *  l'ammortizzazione dichiarata. L'ammortizzazione massima alza di un gradino. Non è l'indicazione di corporatura di
+   *  Runnea, che è troppo prudente: per scegliere conta quanta schiuma c'è sotto il piede. */
+  function scProtezione(c, peso) {
+    peso = Number(peso) || 0; if (!peso) return null;
+    const serve = peso >= 80 ? 40 : peso >= 65 ? 36 : 32, max = c.ammortizzazione === "massima";
+    if (c.suola) { const g = c.suola >= serve ? 2 : c.suola >= serve - 5 ? 1 : 0; return ["bassa", "media", "alta"][Math.min(2, g + (max && g < 2 ? 1 : 0))]; }
+    return max ? "alta" : c.ammortizzazione === "media" ? "media" : null;
   }
   /** Punteggio e motivi di un modello del catalogo (content/scarpe.json) per le risposte e il profilo. */
   function scValuta(c, risp, ctx) {
-    const pro = [], contro = [], peso = Number(ctx.peso) || 0, corp = peso >= 80 ? "F" : peso >= 65 ? "M" : "L";
+    const pro = [], contro = [], peso = Number(ctx.peso) || 0;
     let s = ((c.score || 9.2) - 8.5) * 20;
-    if (corp === "F" && scProtegge(c)) { s += 20; pro.push(c.suola && c.suola >= 40 ? `Suola alta (${c.suola} mm al tallone): protegge anche a ${peso} kg` : `Ammortizzazione massima: protegge anche a ${peso} kg`); }
-    else if (!c.corporatura) { /* senza indicazione */ }
-    else if (c.corporatura.includes(corp)) { s += 20; pro.push(peso ? `Indicata per la tua corporatura (${peso} kg)` : "Indicata per la tua corporatura"); }
-    else if (corp === "F" && c.corporatura.includes("M")) { s += c.tipo === "GA" || c.tipo === "TE" ? 0 : -10; contro.push("Runnea la indica per corporature leggere e medie"); }
-    else { s -= 20; contro.push("Pensata per corporature più leggere"); }
+    // protezione per il peso: pesa meno per le ripetute brevi con la Tempo e per le scarpe da gara
+    const prot = scProtezione(c, peso), brevi = c.tipo === "TE" && risp.lavori === "brevi", leggero = brevi || c.tipo === "GA", k = brevi ? 0.25 : leggero ? 0.5 : 1;
+    const suola = c.suola ? ` (suola ${c.suola} mm)` : "";
+    if (prot === "alta") { s += 20 * k; pro.push(c.suola && c.suola >= 40 ? `Suola alta (${c.suola} mm): protezione alta per i tuoi ${peso} kg` : `Protezione alta per i tuoi ${peso} kg${suola}`); }
+    else if (prot === "media") { s += 5 * k; if (peso >= 80 && !leggero) contro.push(`Protezione media per ${peso} kg${suola}: meglio sui lavori non troppo lunghi`); }
+    else if (prot === "bassa") { s -= 20 * k; contro.push(`Protezione bassa per ${peso} kg${suola}`); }
+    if (c.tipo === "TE" && risp.lavori === "brevi" && c.peso && c.peso <= 230) { s += 15; pro.push(`Leggera: ${c.peso} g`); }
     if (c.tipo === "DA" || c.tipo === "ST") {
       if (risp.feel === "soft") { if (c.ammortizzazione === "massima") { s += 20; pro.push("Ammortizzazione massima"); } else s -= 10; }
       if (risp.feel === "light") { if (c.peso && c.peso <= 260) { s += 20; pro.push(`Leggera: ${c.peso} g`); } else s -= 10; }
@@ -1337,7 +1340,7 @@
     return { lista, fuoriBudget: !dentro.length && !!valutati.length };
   }
 
-  const api = { fuoriMisura, esatte, kmAltra, fmtKm, etichettaDist, baseKm, PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, finitaPrima, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, pbEventi, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, recuperoInEvidenza, daRecuperare, fontiNuove, fonteAperta, nuoveFontiInEvidenza, PASSI_ENTRA, passiEntra, prossimoEntra, SC_TIPI, SC_TK, SC_DA_APP, SC_A_APP, SC_PREZZO, SC_RUOLI, SC_RIGHE, SC_DOMANDE, SC_BUDGET, scDurata, scInizio, scSettimana, scData, scOrizzonte, scWeekend, scUscite, scSimula, scPiano, scFineScarpa, scCoperture, scVita, scKmSettimana, scCosto, scValuta, scModelli, scProtegge, scAdatta };
+  const api = { fuoriMisura, esatte, kmAltra, fmtKm, etichettaDist, baseKm, PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, finitaPrima, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, pbEventi, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, recuperoInEvidenza, daRecuperare, fontiNuove, fonteAperta, nuoveFontiInEvidenza, PASSI_ENTRA, passiEntra, prossimoEntra, SC_TIPI, SC_TK, SC_DA_APP, SC_A_APP, SC_PREZZO, SC_RUOLI, SC_RIGHE, SC_DOMANDE, SC_BUDGET, scDurata, scInizio, scSettimana, scData, scOrizzonte, scWeekend, scUscite, scSimula, scPiano, scFineScarpa, scCoperture, scVita, scKmSettimana, scCosto, scValuta, scModelli, scProtezione };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);

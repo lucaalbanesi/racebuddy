@@ -710,9 +710,9 @@
   // Catalogo scarpe (#/catalogo?t=DA&m=marca&p=prezzo max&f=1 adatte al mio peso&o=score|prezzo|sconto): tutto content/scarpe.json da consultare
   function vistaCatalogo(param) {
     const cat = D.scarpe || {}, tutti = cat.modelli || [], t = L.SC_TIPI[param.t] ? param.t : "DA", peso = Number(S.profilo.peso) || 0;
-    const corp = peso >= 80 ? "F" : peso >= 65 ? "M" : "L", m = param.m || "", pmax = Number(param.p) || 0, f = param.f === "1" && peso, o = param.o || "score";
+    const m = param.m || "", pmax = Number(param.p) || 0, f = param.f === "1" && peso, o = param.o || "score";
     const url = (x) => { const q = { t, m, p: pmax || "", f: f ? "1" : "", o, ...x }; return "#/catalogo?" + Object.entries(q).filter(([, v]) => v !== "" && v != null).map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join("&"); };
-    const adatta = (c) => L.scAdatta(c, peso) !== false;
+    const prot = (c) => L.scProtezione(c, peso), adatta = (c) => prot(c) !== "bassa";
     const mie = scMieScarpe ? scMieScarpe() : [], att = ((S.scarpiera || {}).attivita) || [];
     const nomeIn = (a, b) => { const x = String(a).toLowerCase(), y = String(b).toLowerCase(); return x.includes(y) || y.includes(x); };
     const delTipo = tutti.filter((c) => c.tipo === t), marche = [...new Set(delTipo.map((c) => c.marca))].sort();
@@ -726,7 +726,7 @@
       const senzaMarca = (n) => String(n).replace(/^(asics|nike|hoka|adidas|saucony|brooks|new balance|puma|mizuno|on)\s+/i, ""), ho = mie.find((x) => nomeIn(senzaMarca(x.nome), senzaMarca(c.modello))), compro = att.find((x) => x.modello === c.modello);
       return `<article class="card cat-modello"><div class="between" style="align-items:flex-start"><div style="min-width:0;display:flex;flex-direction:column"><span class="eyebrow">${esc(c.marca)}${c.precedente ? " · versione precedente" : ""}</span><span class="title">${esc(c.modello.replace(new RegExp("^" + c.marca + "\\s+", "i"), ""))}</span></div>
           <div class="cat-prezzo"><b>${c.prezzo} €</b>${sc ? `<span class="small muted"><s>${c.listino} €</s> −${sc}%</span>` : ""}</div></div>
-        <div class="cat-tags">${c.score ? `<span class="pill ok">Runnea ${String(c.score).replace(".", ",")}</span>` : ""}${ho ? '<span class="pill">ce l\'hai</span>' : ""}${compro ? `<span class="pill doc-presto">da comprare entro il ${esc(L.fmtBreve(compro.entro))}</span>` : ""}${peso && !adatta(c) ? '<span class="pill grigio">Runnea: per corporature più leggere</span>' : ""}</div>
+        <div class="cat-tags">${c.score ? `<span class="pill ok">Runnea ${String(c.score).replace(".", ",")}</span>` : ""}${ho ? '<span class="pill">ce l\'hai</span>' : ""}${compro ? `<span class="pill doc-presto">da comprare entro il ${esc(L.fmtBreve(compro.entro))}</span>` : ""}${prot(c) ? `<span class="pill ${{ alta: "ok", media: "grigio", bassa: "doc-presto" }[prot(c)]}">protezione ${prot(c)} per ${peso} kg</span>` : ""}</div>
         <span class="small muted">${[c.peso && `${c.peso} g`, c.suola && `suola ${c.suola} mm`, c.drop != null && `drop ${String(c.drop).replace(".", ",")} mm`, c.ammortizzazione && `ammortizzazione ${c.ammortizzazione}`, c.piastra && `piastra ${c.piastra}`, c.uso && `uso ${c.uso}`].filter(Boolean).join(" · ")}</span>
         ${c.url ? `<a class="small" href="${esc(c.url)}" target="_blank" rel="noopener">Scheda su ${esc(c.fonte || "Runnea")} ›</a>` : ""}</article>`;
     };
@@ -735,7 +735,7 @@
       <nav class="seg" aria-label="Tipo di scarpa">${seg}</nav>
       <span class="small"><b>${delTipo.length} modelli.</b> ${DESCR[t]}</span>
       <div class="cat-filtri"><div class="cat-chips">${chip(!m, url({ m: "" }), "Tutte")}${marche.map((x) => chip(m === x, url({ m: x }), esc(x))).join("")}</div>
-        <div class="cat-chips">${[0, 100, 130, 160].map((x) => chip(pmax === x, url({ p: x || "" }), x ? `fino a ${x} €` : "Ogni prezzo")).join("")}${peso ? chip(f, url({ f: f ? "" : "1" }), `Adatte a ${peso} kg`) : ""}</div>
+        <div class="cat-chips">${[0, 100, 130, 160].map((x) => chip(pmax === x, url({ p: x || "" }), x ? `fino a ${x} €` : "Ogni prezzo")).join("")}${peso ? chip(f, url({ f: f ? "" : "1" }), `Protettive per ${peso} kg`) : ""}</div>
         <div class="cat-chips"><span class="small muted">Ordina:</span>${[["score", "punteggio"], ["prezzo", "prezzo"], ["sconto", "sconto"]].map(([k, n]) => chip(o === k, url({ o: k }), n)).join("")}</div></div>
       ${lista.length ? lista.map(card).join("") : '<section class="card"><span class="small">Nessun modello con questi filtri.</span></section>'}
       <span class="small muted">Indicazioni d'acquisto, non consigli medici. Il catalogo è curato da RaceBuddy: nessun link è pubblicità.</span>`;
