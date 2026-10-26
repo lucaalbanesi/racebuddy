@@ -38,6 +38,9 @@ e attuali, con dati veri.
    placa de carbono, **Runnea score**. È la fonte principale; l'`url` punta qui.
 2. **RunRepeat** (runrepeat.com, meglio le pagine in spagnolo `runrepeat.com/es/<modello>`): altezza della suola al
    tallone misurata in laboratorio (`suola`, in mm) e peso misurato quando Runnea non lo dà.
+   La `suola` serve per ogni modello: l'app la usa per dire se una scarpa protegge anche i runner pesanti (≥ 40 mm
+   o ammortizzazione massima), perché l'indicazione di corporatura di Runnea da sola è troppo prudente. Se RunRepeat
+   non ha ancora il modello, usa l'altezza al tallone dichiarata dal produttore e scrivilo nel riepilogo.
 3. Solo se un modello non è su Runnea: un negozio online europeo (es. Sportsshoes, Tradeinn) per il prezzo e una
    recensione seria per i dati; `fonte` = il nome del sito usato per il prezzo, `url` = quella pagina, niente `score`.
 
@@ -73,7 +76,8 @@ Mai inventare un dato: se non si trova, il campo si omette.
 
 ## Il giro
 
-1. Per ogni modello: riapri la sua pagina, aggiorna prezzo, listino e score; correggi gli altri campi se cambiati.
+1. Per ogni modello: riapri la sua pagina, aggiorna prezzo, listino e score; correggi gli altri campi se cambiati;
+   aggiungi la `suola` dove manca.
 2. Cerca le novità del mese per tipo (Runnea "Lo más visitado", "modelos/todas/" con i filtri di uso e
    ammortizzazione, le uscite annunciate dai produttori, RunRepeat per le uscite recenti) e aggiungi i modelli che
    mancano; a tipo pieno, scambia secondo le regole sopra.
