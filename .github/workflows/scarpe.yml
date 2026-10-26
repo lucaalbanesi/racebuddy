@@ -73,7 +73,7 @@ jobs:
         run: |
           if ! git diff --quiet -- content/scarpe.json; then
             python3 scripts/verifica_scarpe.py || { echo "::error::content/scarpe.json non è valido: niente pubblicato"; exit 1; }
-            altri=$(git status --porcelain | grep -v -e ' content/scarpe.json$' -e ' messaggio_commit.txt$' -e ' riepilogo.md$' || true)
+            altri=$(git status --porcelain | grep -v -e ' content/scarpe.json$' -e ' messaggio_commit.txt$' -e ' riepilogo.md$' -e ' avvisi_tipo.txt$' || true)
             if [ -n "$altri" ]; then echo "::warning::Claude ha toccato altri file, ignorati: $altri"; fi
             [ -s messaggio_commit.txt ] || echo "Catalogo scarpe del $(TZ=Europe/Rome date +%F)" > messaggio_commit.txt
             printf '\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\n' >> messaggio_commit.txt
@@ -97,6 +97,7 @@ jobs:
           { echo "### Catalogo scarpe del $giorno"; echo;
             if [ "$ESITO" != "success" ]; then echo "⚠️ Il giro non è andato a buon fine: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"; echo; fi
             if [ -s riepilogo.md ]; then cat riepilogo.md; else echo "(nessun riepilogo scritto da Claude)"; fi
+            if [ -s avvisi_tipo.txt ]; then echo; echo "**Controllo automatico del tipo** (da guardare):"; sed 's/^/- /' avvisi_tipo.txt; fi
             if [ -n "$COMMIT" ]; then echo; echo "Pubblicato con il commit $COMMIT."; fi; } > corpo.md
           cat corpo.md >> $GITHUB_STEP_SUMMARY
           echo "::notice title=Catalogo scarpe::$(head -c 900 corpo.md | tr '\n' ' ')"
