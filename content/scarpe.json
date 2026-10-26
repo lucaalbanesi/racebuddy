@@ -2,10 +2,10 @@
  "aggiornato": "2026-10-26",
  "nota": "Catalogo RaceBuddy per la Scarpiera: prezzi minimi, listino e dati tecnici dalle schede Runnea (altezza della suola da RunRepeat o da recensioni); tipo = classificazione RaceBuddy (DA daily, ST super-trainer, TE tempo, GA gara). Procedura di aggiornamento in docs/scarpiera.md.",
  "prezzi_tipici": {
-  "DA": 110,
+  "DA": 115,
   "ST": 155,
-  "TE": 115,
-  "GA": 160
+  "TE": 110,
+  "GA": 165
  },
  "modelli": [
   {
@@ -22,6 +22,7 @@
    "uso": "misto",
    "corporatura": "M",
    "score": 9.8,
+   "perche": "FF Blast Max senza piastra, daily versatile per facili e lunghi, regge qualche cambio di ritmo (Runnea, RunRepeat)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/asics/novablast-6/1063395/"
   },
@@ -39,6 +40,7 @@
    "uso": "allenamento",
    "corporatura": "MF",
    "score": 9.5,
+   "perche": "FF Blast Plus senza piastra, massima protezione per facili e lunghi (Runnea, Doctors of Running)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/asics/gel-nimbus-28/1058964/"
   },
@@ -56,6 +58,7 @@
    "uso": "allenamento",
    "corporatura": "MF",
    "score": 9.5,
+   "perche": "senza piastra, daily ammortizzata per tutti i giorni a ritmo facile (Runnea, RunRepeat)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/asics/gel-cumulus-28/1062931/"
   },
@@ -73,6 +76,7 @@
    "uso": "allenamento",
    "corporatura": "MF",
    "score": 9.8,
+   "perche": "senza piastra, daily morbida per facili e lunghi, non pensata per il ritmo (Runnea, Road Trail Run)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/hoka/clifton-11/1062591/"
   },
@@ -90,6 +94,7 @@
    "uso": "allenamento e gara",
    "corporatura": "MF",
    "score": 9.6,
+   "perche": "senza piastra, massima protezione per recuperi e lunghi lenti (Runnea, RunRepeat)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/hoka/bondi-9/1039121/"
   },
@@ -107,6 +112,7 @@
    "uso": "allenamento e gara",
    "corporatura": "MF",
    "score": 9.6,
+   "perche": "ZoomX e ReactX senza piastra, massima protezione per facili e lunghi (Runnea, Doctors of Running)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/nike/vomero-18/1040090/"
   },
@@ -124,6 +130,7 @@
    "uso": "allenamento",
    "corporatura": "M",
    "score": 9.7,
+   "perche": "ReactX senza piastra, daily classica per tutti i giorni; Runnea: non è da gara (Runnea, RunRepeat)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/nike/pegasus-42/1063560/"
   },
@@ -141,6 +148,7 @@
    "uso": "allenamento",
    "corporatura": "MF",
    "score": 9.7,
+   "perche": "Fresh Foam X senza piastra, massima ammortizzazione per facili e lunghi (Runnea, Road Trail Run)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/new-balance/1080-v15/1061357/"
   },
@@ -158,6 +166,7 @@
    "uso": "allenamento",
    "corporatura": "MF",
    "score": 9.6,
+   "perche": "DNA Tuned senza piastra, massima protezione per facili e lunghi (Runnea, Doctors of Running)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/brooks/glycerin-23/1061963/"
   },
@@ -175,6 +184,7 @@
    "uso": "allenamento",
    "corporatura": "MF",
    "score": 9.3,
+   "perche": "PWRRUN PB senza piastra, massima ammortizzazione per facili e lunghi (Runnea, Road Trail Run)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/saucony/triumph-24/1061908/"
   },
@@ -191,8 +201,27 @@
    "uso": "allenamento",
    "corporatura": "MF",
    "score": 9.7,
+   "perche": "daily neutra con la Wave, per tutti i giorni a ritmo facile (Runnea, RunRepeat)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/mizuno/wave-rider-30/1065143/"
+  },
+  {
+   "modello": "Nike Vomero Plus",
+   "marca": "Nike",
+   "linea": "vomero plus",
+   "tipo": "DA",
+   "prezzo": 126,
+   "listino": 180,
+   "peso": 273,
+   "drop": 10,
+   "suola": 42,
+   "ammortizzazione": "massima",
+   "uso": "allenamento",
+   "corporatura": "M",
+   "score": 9.5,
+   "perche": "ZoomX senza piastra, per facili, recuperi e lunghi, lenta al ritmo: non è da ripetute (Runnea, Solereview, RunRepeat)",
+   "fonte": "Runnea",
+   "url": "https://www.runnea.com/zapatillas-running/nike/vomero-18-plus/1045717/"
   },
   {
    "modello": "Adidas Hyperboost Edge",
@@ -208,6 +237,7 @@
    "uso": "allenamento",
    "corporatura": "MF",
    "score": 9.4,
+   "perche": "schiuma Hyperboost Pro (PEBA) senza piastra, alta e protettiva, promossa per lunghi e tempo (Road Trail Run, Runnea, RTINGS)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/adidas/hyperboost-edge/1063765/"
   },
@@ -225,6 +255,7 @@
    "uso": "allenamento",
    "corporatura": "MF",
    "score": 9.2,
+   "perche": "FF Turbo+ senza piastra ma rigida, super trainer per lunghi e lavori a ritmo gara (Runnea, Doctors of Running)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/asics/superblast-3/1060751/"
   },
@@ -241,9 +272,10 @@
    "uso": "allenamento e gara",
    "corporatura": "LM",
    "score": 9.5,
+   "precedente": true,
+   "perche": "FF Turbo+ senza piastra, il super trainer di riferimento per lunghi e ritmo gara (Runnea, Road Trail Run)",
    "fonte": "Runnea",
-   "url": "https://www.runnea.com/zapatillas-running/asics/superblast-2/1032668/",
-   "precedente": true
+   "url": "https://www.runnea.com/zapatillas-running/asics/superblast-2/1032668/"
   },
   {
    "modello": "ASICS Megablast",
@@ -259,25 +291,9 @@
    "uso": "misto",
    "corporatura": "M",
    "score": 9.5,
+   "perche": "FF Leap senza piastra ma molto reattiva, per lunghi e lavori veloci (Runnea, Road Trail Run)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/asics/megablast/1058012/"
-  },
-  {
-   "modello": "Nike Vomero Plus",
-   "marca": "Nike",
-   "linea": "vomero plus",
-   "tipo": "ST",
-   "prezzo": 126,
-   "listino": 180,
-   "peso": 273,
-   "drop": 10,
-   "suola": 42,
-   "ammortizzazione": "massima",
-   "uso": "allenamento",
-   "corporatura": "M",
-   "score": 9.5,
-   "fonte": "Runnea",
-   "url": "https://www.runnea.com/zapatillas-running/nike/vomero-18-plus/1045717/"
   },
   {
    "modello": "Mizuno Neo Vista 3",
@@ -294,6 +310,7 @@
    "corporatura": "LM",
    "piastra": "nylon",
    "score": 9.0,
+   "perche": "Enerzy NXT con piastra in nylon e vetro, per lunghi e ritmo; per alcuni lenta sul veloce (Runnea, Road Trail Run, RTINGS)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/mizuno/neo-vista-3/1064630/"
   },
@@ -311,26 +328,48 @@
    "uso": "misto",
    "corporatura": "M",
    "score": 8.7,
+   "perche": "Helion HF alta senza piastra in carbonio, per lunghi e ritmi costanti; il tempo divide le recensioni (Runnea, Road Trail Run)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/on/cloudmonster-3-hyper/1062289/"
   },
   {
-   "modello": "HOKA Skyward X 2",
-   "marca": "HOKA",
-   "linea": "skyward x",
+   "modello": "Brooks Hyperion Max 3",
+   "marca": "Brooks",
+   "linea": "hyperion max",
    "tipo": "ST",
-   "prezzo": 155,
-   "listino": 230,
-   "peso": 295,
-   "drop": 5,
+   "prezzo": 111,
+   "listino": 190,
+   "peso": 281,
+   "drop": 6,
    "suola": 46,
    "ammortizzazione": "massima",
-   "uso": "allenamento",
-   "corporatura": "M",
-   "piastra": "carbonio",
-   "score": 8.3,
+   "uso": "allenamento e gara",
+   "corporatura": "LM",
+   "piastra": "nylon",
+   "score": 9.0,
+   "precedente": true,
+   "perche": "DNA Flash v2 con piastra Speed Vault in nylon, alta, per lunghi e lavori a ritmo (Runnea, Road Trail Run)",
    "fonte": "Runnea",
-   "url": "https://www.runnea.com/zapatillas-running/hoka/skyward-x-2/1064764/"
+   "url": "https://www.runnea.com/zapatillas-running/brooks/hyperion-max-3/1044337/"
+  },
+  {
+   "modello": "Brooks Hyperion Max 4",
+   "marca": "Brooks",
+   "linea": "hyperion max",
+   "tipo": "ST",
+   "prezzo": 152,
+   "listino": 190,
+   "peso": 286,
+   "drop": 6,
+   "suola": 45,
+   "ammortizzazione": "media",
+   "uso": "misto",
+   "corporatura": "M",
+   "piastra": "nylon",
+   "score": 7.9,
+   "perche": "DNA Gold con piastra e dondolo, super trainer per tempo e lunghi progressivi (RTINGS, Doctors of Running, Road Trail Run)",
+   "fonte": "Runnea",
+   "url": "https://www.runnea.com/zapatillas-running/brooks/hyperion-max-4/1064444/"
   },
   {
    "modello": "ASICS Magic Speed 5",
@@ -347,6 +386,7 @@
    "corporatura": "LM",
    "piastra": "carbonio",
    "score": 9.7,
+   "perche": "carbonio e FF Turbo, leggera e reattiva per ripetute e gare corte (Runnea, Road Trail Run)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/asics/magic-speed-5/1060638/"
   },
@@ -365,6 +405,7 @@
    "corporatura": "LM",
    "piastra": "carbonio",
    "score": 9.5,
+   "perche": "ZoomX con piastra in carbonio, scarpa da allenamento veloce e gare (Runnea, Doctors of Running)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/nike/zoom-fly-6/1032702/"
   },
@@ -383,6 +424,7 @@
    "corporatura": "LM",
    "piastra": "carbonio",
    "score": 9.7,
+   "perche": "Nitro con piastra, per ripetute, tempo e gare su 10 km e mezza (Runnea, Road Trail Run)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/puma/deviate-nitro-4/1061484/"
   },
@@ -401,27 +443,9 @@
    "corporatura": "LM",
    "piastra": "barre in fibra",
    "score": 9.7,
+   "perche": "Lightstrike Pro con barre in fibra, leggera per ritmo e gare (Runnea, Doctors of Running)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/adidas/adizero-boston-13/1041450/"
-  },
-  {
-   "modello": "Brooks Hyperion Max 3",
-   "marca": "Brooks",
-   "linea": "hyperion max",
-   "tipo": "TE",
-   "prezzo": 111,
-   "listino": 190,
-   "peso": 281,
-   "drop": 6,
-   "suola": 46,
-   "ammortizzazione": "massima",
-   "uso": "allenamento e gara",
-   "corporatura": "LM",
-   "piastra": "nylon",
-   "score": 9.0,
-   "fonte": "Runnea",
-   "url": "https://www.runnea.com/zapatillas-running/brooks/hyperion-max-3/1044337/",
-   "precedente": true
   },
   {
    "modello": "HOKA Mach X 3",
@@ -438,6 +462,7 @@
    "corporatura": "L",
    "piastra": "Pebax",
    "score": 9.1,
+   "perche": "piastra in Pebax e doppia schiuma, per tempo e lavori veloci (Runnea, Road Trail Run)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/hoka/mach-x-3/1043781/"
   },
@@ -456,6 +481,7 @@
    "corporatura": "LM",
    "piastra": "nylon",
    "score": 9.5,
+   "perche": "PWRRUN PB con piastra in nylon, la tempo classica per ripetute e gare (Runnea, Road Trail Run)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/saucony/endorphin-speed-5/1040742/"
   },
@@ -473,6 +499,7 @@
    "uso": "allenamento e gara",
    "corporatura": "L",
    "score": 9.6,
+   "perche": "Lightstrike Pro senza piastra, leggerissima (188 g) per ripetute e gare (Runnea, RunRepeat)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/adidas/adizero-evo-sl/1040247/"
   },
@@ -489,26 +516,9 @@
    "uso": "allenamento e gara",
    "corporatura": "LM",
    "score": 9.6,
+   "perche": "FuelCell senza piastra, leggera e vivace per tempo e ripetute (Runnea, Road Trail Run)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/new-balance/rebel-v5/1041099/"
-  },
-  {
-   "modello": "Brooks Hyperion Max 4",
-   "marca": "Brooks",
-   "linea": "hyperion max",
-   "tipo": "TE",
-   "prezzo": 152,
-   "listino": 190,
-   "peso": 286,
-   "drop": 6,
-   "suola": 45,
-   "ammortizzazione": "media",
-   "uso": "misto",
-   "corporatura": "M",
-   "piastra": "nylon",
-   "score": 7.9,
-   "fonte": "Runnea",
-   "url": "https://www.runnea.com/zapatillas-running/brooks/hyperion-max-4/1064444/"
   },
   {
    "modello": "ASICS Sonicblast 2",
@@ -521,6 +531,7 @@
    "suola": 46,
    "uso": "allenamento e gara",
    "piastra": "Pebax",
+   "perche": "FF Turbo² con piastra biforcuta, per tempo e ripetute, rigida ai ritmi facili (Doctors of Running, Road Runner Sports)",
    "fonte": "Sportsshoes",
    "url": "https://www.sportsshoes.com/es-es/product/asi16929/sonicblast-2-hombre-zapatillas-running----aw26"
   },
@@ -539,6 +550,7 @@
    "corporatura": "LM",
    "piastra": "carbonio",
    "score": 9.0,
+   "perche": "FuelCell con piastra, leggera (218 g) per tempo e lavori veloci (Runnea, RTINGS, Road Trail Run)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/new-balance/supercomp-rebel-v1/1065806/"
   },
@@ -557,11 +569,12 @@
    "corporatura": "LM",
    "piastra": "carbonio",
    "score": 9.6,
-   "fonte": "Runnea",
-   "url": "https://www.runnea.com/zapatillas-running/nike/zoom-vaporfly-4/2566/",
    "falcata": [
     "long"
-   ]
+   ],
+   "perche": "ZoomX e piastra in carbonio, scarpa da gara dalla 10 km alla maratona (Runnea, Doctors of Running)",
+   "fonte": "Runnea",
+   "url": "https://www.runnea.com/zapatillas-running/nike/zoom-vaporfly-4/2566/"
   },
   {
    "modello": "ASICS Metaspeed Sky Tokyo",
@@ -578,11 +591,12 @@
    "corporatura": "M",
    "piastra": "carbonio",
    "score": 9.5,
-   "fonte": "Runnea",
-   "url": "https://www.runnea.com/zapatillas-running/asics/metaspeed-sky-tokyo/1056873/",
    "falcata": [
     "long"
-   ]
+   ],
+   "perche": "FF Leap e carbonio, da gara per chi allunga il passo (Runnea, ASICS)",
+   "fonte": "Runnea",
+   "url": "https://www.runnea.com/zapatillas-running/asics/metaspeed-sky-tokyo/1056873/"
   },
   {
    "modello": "Adidas Adizero Adios Pro 4",
@@ -599,12 +613,13 @@
    "corporatura": "LM",
    "piastra": "carbonio",
    "score": 9.6,
-   "fonte": "Runnea",
-   "url": "https://www.runnea.com/zapatillas-running/adidas/adizero-adios-pro-4/1034476/",
    "falcata": [
     "freq"
    ],
-   "precedente": true
+   "precedente": true,
+   "perche": "Lightstrike Pro ed EnergyRods in carbonio, da gara per mezza e maratona (Runnea, Road Trail Run)",
+   "fonte": "Runnea",
+   "url": "https://www.runnea.com/zapatillas-running/adidas/adizero-adios-pro-4/1034476/"
   },
   {
    "modello": "Saucony Endorphin Pro 5",
@@ -620,11 +635,12 @@
    "corporatura": "LM",
    "piastra": "carbonio",
    "score": 9.6,
-   "fonte": "Runnea",
-   "url": "https://www.runnea.com/zapatillas-running/saucony/endorphin-pro-5/1058669/",
    "falcata": [
     "freq"
-   ]
+   ],
+   "perche": "PWRRUN HG e carbonio, da gara per mezza e maratona (Runnea, Saucony)",
+   "fonte": "Runnea",
+   "url": "https://www.runnea.com/zapatillas-running/saucony/endorphin-pro-5/1058669/"
   },
   {
    "modello": "HOKA Rocket X 3",
@@ -641,6 +657,7 @@
    "corporatura": "L",
    "piastra": "carbonio",
    "score": 9.0,
+   "perche": "PEBA e carbonio, da gara su strada (Runnea, HOKA)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/hoka/rocket-x-3/1056407/"
   },
@@ -659,11 +676,12 @@
    "corporatura": "LM",
    "piastra": "carbonio",
    "score": 9.6,
-   "fonte": "Runnea",
-   "url": "https://www.runnea.com/zapatillas-running/puma/deviate-nitro-elite-4/1062834/",
    "falcata": [
     "freq"
-   ]
+   ],
+   "perche": "Nitro Elite e carbonio, 170 g, da gara (Runnea, Puma)",
+   "fonte": "Runnea",
+   "url": "https://www.runnea.com/zapatillas-running/puma/deviate-nitro-elite-4/1062834/"
   },
   {
    "modello": "Mizuno Hyperwarp Elite",
@@ -680,6 +698,7 @@
    "corporatura": "L",
    "piastra": "carbonio",
    "score": 8.2,
+   "perche": "carbonio e schiuma da gara, 170 g e drop basso, per le gare (Runnea, Mizuno)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/mizuno/hyperwarp-elite/1062210/"
   },
@@ -697,6 +716,7 @@
    "uso": "gara",
    "corporatura": "M",
    "piastra": "carbonio",
+   "perche": "Helion HF e carbonio, 158 g, scarpa da maratona di On (Runnea, On)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/on/cloudboom-strike-2/1065639/"
   },
@@ -715,6 +735,7 @@
    "corporatura": "LM",
    "piastra": "carbonio",
    "score": 9.4,
+   "perche": "Lightstrike Pro e carbonio, la Adios Pro più recente, da gara (Runnea, adidas)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/adidas/adizero-adios-pro-5/1060786/"
   },
@@ -733,6 +754,7 @@
    "corporatura": "M",
    "piastra": "carbonio",
    "score": 8.6,
+   "perche": "FuelCell e carbonio, da gara (Runnea, New Balance)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/new-balance/supercomp-elite-v6/1064827/"
   },
@@ -751,8 +773,24 @@
    "corporatura": "M",
    "piastra": "carbonio",
    "score": 8.3,
+   "perche": "DNA Gold e carbonio, da gara (Runnea, Brooks)",
    "fonte": "Runnea",
    "url": "https://www.runnea.com/zapatillas-running/brooks/hyperion-elite-6/1064447/"
+  },
+  {
+   "modello": "Saucony Endorphin Elite 3",
+   "marca": "Saucony",
+   "linea": "endorphin elite",
+   "tipo": "GA",
+   "prezzo": 250,
+   "peso": 204,
+   "drop": 8,
+   "suola": 40,
+   "uso": "gara",
+   "piastra": "carbonio",
+   "perche": "IncrediRUN e piastra in carbonio biforcuta, super scarpa da maratona: gara 95, allenamento 28 (RunRepeat, Saucony)",
+   "fonte": "Varuste",
+   "url": "https://varuste.net/it/p141031/saucony-endorphin-elite-3-mens"
   }
  ]
 }
