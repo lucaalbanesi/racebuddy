@@ -1,404 +1,7 @@
 {
-  "aggiornato": "2026-10-21T21:08:41Z",
+  "aggiornato": "2026-10-26T04:18:28Z",
   "fonte": "Calendario FIDAL (https://www.fidal.it/calendario.php), calendario FIDAL di maratone e mezze dell'anno successivo e calendario di Gare Podistiche Lazio (https://www.garepodistichelazio.it/gare-lazio.php)",
   "gare": [
-    {
-      "id": "L392361966e-10",
-      "nome": "Corri al Massimo per Irene",
-      "data": "2026-10-24",
-      "luogo": "ROMA",
-      "provincia": "RM",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "Gare Podistiche Lazio",
-      "url": "https://www.garepodistichelazio.it/info-gara-Corri-al-Massimo-per-Irene",
-      "ora": "16:00",
-      "quota": "€ 15",
-      "iscrizioni": "2026-10-23",
-      "sito": "https://www.associazioneirene.it/corri-al-massimo-per-irene.html"
-    },
-    {
-      "id": "H54df2709c1-10",
-      "nome": "Palermo 10k Running",
-      "data": "2026-10-24",
-      "luogo": "PALERMO",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H7c22307fa9-21",
-      "nome": "2^ Corsa della Contea",
-      "data": "2026-10-25",
-      "luogo": "RIPOSTO",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H8908f7d6df-k15",
-      "nome": "43a CLASSICA D'AUTUNNO (15 Km)",
-      "data": "2026-10-25",
-      "luogo": "RICCIONE",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php",
-      "km": 15.0
-    },
-    {
-      "id": "Ha1f021fe1a-k14",
-      "nome": "48° TROFEO LE PANCHE - 52° TROFEO DELLA LIBERAZIONE km 14",
-      "data": "2026-10-25",
-      "luogo": "FIRENZE",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php",
-      "km": 14.0
-    },
-    {
-      "id": "H9d48de3a60-21",
-      "nome": "CAMPIONATO ITALIANO INDIVIDUALE  e di SOCIETA' MASTER di MARATONINA",
-      "data": "2026-10-25",
-      "luogo": "ORTONA",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "L49616bcc0c-10",
-      "nome": "Corrincastagna",
-      "data": "2026-10-25",
-      "luogo": "CAVE",
-      "provincia": "RM",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "Gare Podistiche Lazio",
-      "url": "https://www.garepodistichelazio.it/info-gara-Corrincastagna",
-      "ora": "09:15",
-      "quota": "€ 12",
-      "iscrizioni": "2026-10-23"
-    },
-    {
-      "id": "H5e9232e72c-10",
-      "nome": "GARA PODISTICA DI KM 10,500 (NELL'AMBITO DELLA STRASALERNO DI KM 21,097)",
-      "data": "2026-10-25",
-      "luogo": "SALERNO",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H7d3a5de467-10",
-      "nome": "III^ Oktoberfest Run",
-      "data": "2026-10-25",
-      "luogo": "RENDE",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "Hf6d6b70311-10",
-      "nome": "II^ 10000 dell'Aceto Balsamico",
-      "data": "2026-10-25",
-      "luogo": "SPILAMBERTO",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H257265b726-21",
-      "nome": "IV^ Costa dei Trabocchi BCC Half Marathon",
-      "data": "2026-10-25",
-      "luogo": "FOSSACESIA",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "Hf29e505eaf-10",
-      "nome": "IV^ La Dieci d'Autunno",
-      "data": "2026-10-25",
-      "luogo": "NOVI LIGURE",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "Hbbe3854300-21",
-      "nome": "MARATONINA DELLE CASTAGNE",
-      "data": "2026-10-25",
-      "luogo": "ROCCA DI PAPA",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "L9ab5733263-10",
-      "nome": "Maratonina del Marrone",
-      "data": "2026-10-25",
-      "luogo": "LATERA",
-      "provincia": "VT",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "Gare Podistiche Lazio",
-      "url": "https://www.garepodistichelazio.it/info-gara-Maratonina-del-Marrone",
-      "ora": "10:00",
-      "quota": "€ 13",
-      "iscrizioni": "2026-10-23"
-    },
-    {
-      "id": "L0050f39348-10",
-      "nome": "Maratonina delle Castagne",
-      "data": "2026-10-25",
-      "luogo": "ROCCA DI PAPA",
-      "provincia": "RM",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "Gare Podistiche Lazio",
-      "url": "https://www.garepodistichelazio.it/info-gara-Maratonina-delle-Castagne",
-      "ora": "09:30",
-      "quota": "€ 15",
-      "iscrizioni": "2026-10-22",
-      "sito": "http://www.atleticaroccadipapa.com/"
-    },
-    {
-      "id": "H4f63a963e6-k8",
-      "nome": "San Michele (CN) - 36a Passeggiata in Mezzo ai Castagneti - Km. 8",
-      "data": "2026-10-25",
-      "luogo": "SAN MICHELE",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php",
-      "km": 8.0
-    },
-    {
-      "id": "L2706675f07-10",
-      "nome": "SperlongaRun",
-      "data": "2026-10-25",
-      "luogo": "SPERLONGA",
-      "provincia": "LT",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "Gare Podistiche Lazio",
-      "url": "https://www.garepodistichelazio.it/info-gara-SperlongaRun",
-      "ora": "09:30",
-      "quota": "€ 15",
-      "iscrizioni": "2026-10-21"
-    },
-    {
-      "id": "Lb1e38e0a0e-10",
-      "nome": "Trofeo CV Dental Ronciglione",
-      "data": "2026-10-25",
-      "luogo": "RONCIGLIONE",
-      "provincia": "VT",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "Gare Podistiche Lazio",
-      "url": "https://www.garepodistichelazio.it/info-gara-Trofeo-CV-Dental-Ronciglione",
-      "ora": "09:30",
-      "quota": "€ 15",
-      "iscrizioni": "2026-10-23",
-      "sito": "http://www.bicizingari.it/trofeocvdental"
-    },
-    {
-      "id": "L9b822d4498-k6.3",
-      "nome": "Trofeo Sant'Ippolito",
-      "data": "2026-10-25",
-      "luogo": "FIUMICINO",
-      "provincia": "RM",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "Gare Podistiche Lazio",
-      "url": "https://www.garepodistichelazio.it/info-gara-Trofeo-Sant'Ippolito",
-      "km": 6.3,
-      "ora": "09:00",
-      "quota": "€ 12",
-      "sito": "https://www.asearunners.com/trophy/"
-    },
-    {
-      "id": "Haa42897e78-10",
-      "nome": "V TROFEO ATLETICA MARCIANISE - KM 9,900",
-      "data": "2026-10-25",
-      "luogo": "CAPODRISE",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "Hb7f224798e-10",
-      "nome": "VII^ STAD10 - La Stracittadina di Terni",
-      "data": "2026-10-25",
-      "luogo": "TERNI",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H9a788ab5ef-21",
-      "nome": "VI^ Varese City Run",
-      "data": "2026-10-25",
-      "luogo": "VARESE",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H6418abcaa5-10",
-      "nome": "VI^ Varese City Run Ten",
-      "data": "2026-10-25",
-      "luogo": "VARESE",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H20052cb6ce-k10.6",
-      "nome": "VM 10.6K",
-      "data": "2026-10-25",
-      "luogo": "VENEZIA",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php",
-      "km": 10.6
-    },
-    {
-      "id": "H5b3f36e9a5-21",
-      "nome": "V^ Venice Half Marathon",
-      "data": "2026-10-25",
-      "luogo": "VENEZIA",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "Hb9b3cca00f-k16",
-      "nome": "XIV TROFEO EDILGAMMA - VIRGILIO TEN MILES 16 KM",
-      "data": "2026-10-25",
-      "luogo": "BORGO VIRGILIO",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php",
-      "km": 16.0
-    },
-    {
-      "id": "H2a3a2958db-10",
-      "nome": "XI^ Dieci Che Vale",
-      "data": "2026-10-25",
-      "luogo": "TORINO",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H7e3b69af6e-21",
-      "nome": "XI^ Laus Half Marathon",
-      "data": "2026-10-25",
-      "luogo": "LODI",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H16905a7755-21",
-      "nome": "XI^ Mezza e Dieci che Vale",
-      "data": "2026-10-25",
-      "luogo": "TORINO",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "Hf713ce68ff-10",
-      "nome": "XL^ Stracittadina Novolese",
-      "data": "2026-10-25",
-      "luogo": "NOVOLI",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "Hf33438d256-42",
-      "nome": "XL^ Venicemarathon",
-      "data": "2026-10-25",
-      "luogo": "VENEZIA",
-      "distanza": "42",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H1f0b208aec-10",
-      "nome": "XXIII^ Flik Flok",
-      "data": "2026-10-25",
-      "luogo": "CASERTA",
-      "distanza": "10",
-      "annullata": true,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H042989d225-21",
-      "nome": "XXVII^ Maratonina Citta' di Arezzo",
-      "data": "2026-10-25",
-      "luogo": "AREZZO",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "Hcd5345da09-21",
-      "nome": "XXXI^ Strasalerno Half Marathon",
-      "data": "2026-10-25",
-      "luogo": "SALERNO",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H9764a82194-10",
-      "nome": "XX^ CorriMolfetta",
-      "data": "2026-10-25",
-      "luogo": "MOLFETTA",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "Hd15dcc7074-21",
-      "nome": "X^ Mezza Maratona di Ascoli",
-      "data": "2026-10-25",
-      "luogo": "ASCOLI PICENO",
-      "distanza": "21",
-      "annullata": true,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
     {
       "id": "Hea0a88a6f7-k13.5",
       "nome": "48a CAMMINATA LA VALLAZZA (13.5 Km)",
@@ -2003,6 +1606,21 @@
       "sito": "https://www.atleticaarce.it/main/home.asp"
     },
     {
+      "id": "L40395753f2-10",
+      "nome": "Memorial Bucci Giuseppe",
+      "data": "2026-12-08",
+      "luogo": "ARTENA",
+      "provincia": "RM",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-Memorial-Bucci-Giuseppe",
+      "ora": "10:00",
+      "quota": "€ 13",
+      "iscrizioni": "2026-12-07",
+      "sito": "https://www.podistivalmontone.it/"
+    },
+    {
       "id": "Hde11adfe65-k15",
       "nome": "PANORAMICA CAPRI - ANACAPRI 15 KM - V MEMORIAL G. VESPOLI",
       "data": "2026-12-08",
@@ -2059,6 +1677,16 @@
       "km": 6.0
     },
     {
+      "id": "H4603a81dfd-10",
+      "nome": "4^ Tropea in Corsa corsa su strada All/Ass/Master 10 km circa",
+      "data": "2026-12-13",
+      "luogo": "TROPEA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
+    },
+    {
       "id": "L2360dda95a-k11",
       "nome": "Corsa di ValleluC'e'",
       "data": "2026-12-13",
@@ -2083,6 +1711,21 @@
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
+    },
+    {
+      "id": "L8c1538ddfa-10",
+      "nome": "Genus Solis Invicti",
+      "data": "2026-12-13",
+      "luogo": "OLEVANO ROMANO",
+      "provincia": "RM",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-Genus-Solis-Invicti",
+      "ora": "10:00",
+      "quota": "€ 12",
+      "iscrizioni": "2026-12-10",
+      "sito": "http://www.olibanumoverrunners.it/"
     },
     {
       "id": "H8bf9c917cf-21",
@@ -2344,6 +1987,20 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
+      "id": "L1a20a42ecc-k8.7",
+      "nome": "CORRIAMO TRA I PRESEPI",
+      "data": "2026-12-27",
+      "luogo": "MAENZA",
+      "provincia": "LT",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-Corriamo-Tra-I-Presepi",
+      "km": 8.7,
+      "ora": "16:00",
+      "iscrizioni": "2026-12-26"
+    },
+    {
       "id": "H7635daa9a9-10",
       "nome": "LA 10 KM DEL CLUB VAI ! - KM 9,900",
       "data": "2026-12-27",
@@ -2398,6 +2055,18 @@
       "sito": "https://www.werunrome.com/",
       "provincia": "RM",
       "scheda_lazio": "https://www.garepodistichelazio.it/info-gara-We-Run-Rome"
+    },
+    {
+      "id": "L2115de88ea-10",
+      "nome": "Corso Volsci Caput Anni Run",
+      "data": "2027-01-03",
+      "luogo": "SORA",
+      "provincia": "FR",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/2027-info-gara-Corso-Volsci-Caput-Anni-Run",
+      "ora": "10:00"
     },
     {
       "id": "Ldb771f2075-10",
