@@ -1340,7 +1340,37 @@
     return { lista, fuoriBudget: !dentro.length && !!valutati.length };
   }
 
-  const api = { fuoriMisura, esatte, kmAltra, fmtKm, etichettaDist, baseKm, PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, finitaPrima, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, pbEventi, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, recuperoInEvidenza, daRecuperare, fontiNuove, fonteAperta, nuoveFontiInEvidenza, PASSI_ENTRA, passiEntra, prossimoEntra, SC_TIPI, SC_TK, SC_DA_APP, SC_A_APP, SC_PREZZO, SC_RUOLI, SC_RIGHE, SC_DOMANDE, SC_BUDGET, scDurata, scInizio, scSettimana, scData, scOrizzonte, scWeekend, scUscite, scSimula, scPiano, scFineScarpa, scCoperture, scVita, scKmSettimana, scCosto, scValuta, scModelli, scProtezione };
+  // ---------------------------------------------------------------- porting: da Safari all'app (o a un altro telefono)
+  // Il profilo sta solo nella memoria del browser, e su iPhone Safari e l'app nella Home hanno memorie separate. Il codice
+  // "RB1.<dati>.<controllo>" porta lo stato così com'è, compreso il codice segreto del gruppo (quindi resti lo stesso membro,
+  // niente doppioni). Non porta: iscrizione alle notifiche (legata al dispositivo), data simulata, chat Buddy, foto di
+  // tessera e certificato (restano nel browser di origine).
+  const PORTING_V = "RB1";
+  const controlloPorting = (s) => { let h = 0x811c9dc5; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(36); };
+  const b64Utf8 = (s) => btoa(unescape(encodeURIComponent(s))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  const daB64Utf8 = (b) => decodeURIComponent(escape(atob(b.replace(/-/g, "+").replace(/_/g, "/") + "===".slice((b.length + 3) % 4))));
+  function portingCrea(stato) {
+    const s = JSON.parse(JSON.stringify(stato || {}));
+    delete s.push; delete s.prova;
+    if (s.buddy && typeof s.buddy === "object") s.buddy = { ...s.buddy, chat: [] };
+    const json = JSON.stringify(s);
+    return `${PORTING_V}.${b64Utf8(json)}.${controlloPorting(json)}`;
+  }
+  /** { ok: true, stato } oppure { ok: false, errore }. Tollera spazi e a capo (incolla da messaggi). */
+  function portingLeggi(codice) {
+    const c = String(codice || "").replace(/\s+/g, "");
+    if (!c) return { ok: false, errore: "Incolla il codice" };
+    const p = c.split(".");
+    if (p.length !== 3 || p[0] !== PORTING_V) return { ok: false, errore: "Non è un codice di RaceBuddy" };
+    let json, stato;
+    try { json = daB64Utf8(p[1]); } catch (e) { return { ok: false, errore: "Codice incompleto: copialo di nuovo per intero" }; }
+    if (controlloPorting(json) !== p[2]) return { ok: false, errore: "Codice incompleto: copialo di nuovo per intero" };
+    try { stato = JSON.parse(json); } catch (e) { return { ok: false, errore: "Codice non leggibile" }; }
+    if (!stato || typeof stato !== "object" || Array.isArray(stato)) return { ok: false, errore: "Codice non leggibile" };
+    return { ok: true, stato };
+  }
+
+  const api = { portingCrea, portingLeggi, fuoriMisura, esatte, kmAltra, fmtKm, etichettaDist, baseKm, PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, finitaPrima, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, pbEventi, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, recuperoInEvidenza, daRecuperare, fontiNuove, fonteAperta, nuoveFontiInEvidenza, PASSI_ENTRA, passiEntra, prossimoEntra, SC_TIPI, SC_TK, SC_DA_APP, SC_A_APP, SC_PREZZO, SC_RUOLI, SC_RIGHE, SC_DOMANDE, SC_BUDGET, scDurata, scInizio, scSettimana, scData, scOrizzonte, scWeekend, scUscite, scSimula, scPiano, scFineScarpa, scCoperture, scVita, scKmSettimana, scCosto, scValuta, scModelli, scProtezione };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);
