@@ -1023,7 +1023,7 @@
         <article class="ob-slide" aria-label="${tot} di ${tot}"><div class="ob-ill"><div class="ob-countdown"><span class="big">Via!</span></div></div><span class="eyebrow">Partiamo</span><h1>Qual è la tua prossima gara?</h1><p>Ci vuole un minuto. I tuoi dati restano su questo telefono.</p>
           <button class="btn block" data-act="ob-fine" data-vai="#/gare">Scegli la tua gara</button>
           <div class="grid2"><button class="btn ob-sec" data-act="ob-fine" data-vai="#/pb">Inserisci i tuoi personali</button><button class="btn ob-sec" data-act="ob-fine" data-vai="#/gruppo">Ho un invito del gruppo</button></div>
-          <button class="btn ob-sec block" data-act="ob-fine" data-vai="#/io/porting">Ho già un profilo su Safari</button>
+          <button class="btn ob-sec block" data-act="ob-fine" data-vai="#/io/porting">Ho già un profilo da portare qui</button>
           <p class="ob-nota">Indicazioni generali per runner amatoriali in salute: non sostituiscono medico, nutrizionista o allenatore.</p></article></div>
       <div class="ob-bottom"><div class="ob-dots" aria-hidden="true">${Array.from({ length: tot }, (_, i) => `<span class="${i ? "" : "on"}"></span>`).join("")}</div><button class="btn" id="ob-avanti" data-act="ob-avanti">Avanti</button></div></section>`;
   }
@@ -3438,15 +3438,15 @@
     if (sez === "account" && C().login) return pag("Account", `<section class="card">${sezioneAccount()}</section>`);
     if (sez === "porting") {
       const codice = L.portingCrea(S);
-      return pag("Porta il profilo", `<section class="card"><h2>Da Safari all'app (o a un altro telefono)</h2>
-          <span class="small">Su iPhone Safari e l'app nella Home hanno memorie separate: il profilo non passa da solo. Con un codice porti qui tutto: profilo, gare, scarpe, personali e il gruppo (resti lo stesso membro, niente doppioni).</span></section>
-        <section class="card"><h2>1 · Dove c'è il profilo: copia il codice</h2>
-          <span class="small">Fallo da Safari (o dal telefono che hai già). Il codice contiene i tuoi dati: non condividerlo con altri.</span>
+      return pag("Porta il profilo", `<section class="card"><h2>Porta tutto dove ti serve</h2>
+          <span class="small">Il profilo resta nel browser o nel telefono dove l'hai creato (su iPhone, Safari e l'app nella Home hanno memorie separate). Con un codice porti altrove profilo, gare, scarpe, personali e gruppo: resti lo stesso membro, niente doppioni.</span></section>
+        <section class="card"><h2>1 · Dove hai già il profilo: copia il codice</h2>
+          <span class="small">Per esempio da Safari, o dal vecchio telefono. Il codice contiene i tuoi dati: non condividerlo con altri.</span>
           <label class="sr" for="porting-codice">Codice</label><textarea class="input" id="porting-codice" rows="3" readonly style="font-size:12px;word-break:break-all">${esc(codice)}</textarea>
           <button class="btn block" type="button" data-act="porting-copia">Copia il codice</button>
           <span class="small muted">Non viaggiano: notifiche (da riattivare), foto di tessera e certificato, chat del Buddy.</span></section>
         <section class="card"><h2>2 · Dove vuoi portarlo: incolla il codice</h2>
-          <span class="small">Apri l'app, vai in Io → Porta il profilo e incolla qui. Quello che c'è in questa app viene sostituito.</span>
+          <span class="small">Apri RaceBuddy lì, vai in Io → Porta il profilo e incolla qui. Quello che c'è già viene sostituito.</span>
           <form id="porting-importa" style="display:flex;flex-direction:column;gap:10px"><label class="sr" for="porting-incolla">Codice da importare</label>
             <textarea class="input" id="porting-incolla" rows="3" placeholder="RB1.…" autocapitalize="off" autocorrect="off" spellcheck="false" style="font-size:12px"></textarea>
             <button class="btn" type="submit">Importa il profilo</button></form>
