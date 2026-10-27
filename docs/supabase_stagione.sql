@@ -193,7 +193,7 @@ end $$;
 -- Tempo obiettivo: tempo vuoto = toglierlo. Dopo le 23:59 della vigilia non cambia più.
 create or replace function public.fissa_obiettivo(p_token text, p jsonb) returns void
 language plpgsql security definer set search_path = '' as $$
-declare m public.membri := public._io_classifiche(p_token); d date; dist text := p->>'distanza'; sec int;
+declare m public.membri := public._io_classifiche(p_token); d date; dist text := p->>'distanza'; sec int; kmr numeric := public._km_json(p->>'km_reali');
 begin
   begin d := (p->>'data')::date; exception when others then raise exception 'data non valida'; end;
   if d is null or dist is null or dist not in ('10', '21', '42') then raise exception 'gara non valida'; end if;
@@ -202,7 +202,10 @@ begin
     delete from public.obiettivi_gara where membro_id = m.id and data = d and distanza = dist; return;
   end if;
   sec := public._secondi(p->>'tempo');
-  if not public._passo_ok(dist, sec) then raise exception 'tempo non valido'; end if;
+  -- altra distanza (km_reali, es. 9,9 km): passo sui km veri; altrimenti sulla classica
+  if p->>'km_reali' is not null then
+    if not public._km_ok(dist, kmr, sec) then raise exception 'tempo o km non validi'; end if;
+  elsif not public._passo_ok(dist, sec) then raise exception 'tempo non valido'; end if;
   insert into public.obiettivi_gara (membro_id, data, distanza, secondi) values (m.id, d, dist, sec)
   on conflict (membro_id, data, distanza) do update set secondi = excluded.secondi, aggiornato = now();
 end $$;

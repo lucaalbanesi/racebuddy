@@ -56,6 +56,13 @@ begin
   exception when others then if sqlerrm not like '%bloccato%' then raise; end if; end;
   begin perform public.fissa_obiettivo(b, jsonb_build_object('data', domani, 'distanza', '10', 'tempo', '9:00')); assert false, 'obiettivo impossibile';
   exception when others then if sqlerrm not like '%non valido%' then raise; end if; end;
+  -- altra distanza (9,9 km): l'obiettivo vale, con il passo controllato sui km veri
+  perform public.fissa_obiettivo(b, jsonb_build_object('data', domani, 'distanza', '10', 'tempo', '41:30', 'km_reali', '9.9'));
+  assert (select secondi from public.obiettivi_gara o join public.membri x on x.id = o.membro_id where x.token_hash = hb and o.data = domani and o.distanza = '10') = 2490, 'obiettivo su altra distanza';
+  begin perform public.fissa_obiettivo(b, jsonb_build_object('data', domani, 'distanza', '10', 'tempo', '5:00', 'km_reali', '9.9')); assert false, 'obiettivo impossibile su altra distanza';
+  exception when others then if sqlerrm not like '%non valid%' then raise; end if; end;
+  begin perform public.fissa_obiettivo(b, jsonb_build_object('data', domani, 'distanza', '21', 'tempo', '41:30', 'km_reali', '9.9')); assert false, 'km non coerenti con la distanza';
+  exception when others then if sqlerrm not like '%non valid%' then raise; end if; end;
   assert json_array_length(public.stato_stagione(b)->'obiettivi') = 1, 'il mio obiettivo lo vedo';
   assert json_array_length(public.stato_stagione(a)->'obiettivi') = 0, 'quello degli altri no, prima del via';
   insert into public.obiettivi_gara (membro_id, data, distanza, secondi) select id, ieri, '21', 6300 from public.membri where token_hash = hb;
