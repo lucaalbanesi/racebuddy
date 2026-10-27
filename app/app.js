@@ -433,7 +433,7 @@
   const statoPrepara = () => L.passiPrepara({ profilo: S.profilo, documenti: S.documenti || {}, gare: S.gare, nonTesserato: !!S.nonTesserato }, oggi());
   const pushChiusa = () => !!(S.push && S.push.attivo) || ["no", "negato", "non-pronto"].includes(supportoPush());
   let RIVEDI = null; // "prepara" | "entra": si rivede il funnel passo per passo, anche i passi già fatti
-  const bannerRivedi = () => RIVEDI ? `<div class="rivedi-banner"><span>Anteprima del percorso</span><a href="#/io">Esci</a></div>` : "";
+  const bannerRivedi = () => RIVEDI ? `<div class="rivedi-banner"><span>Anteprima del percorso</span><a href="#/io/percorsi">Esci</a></div>` : "";
   function prossimoPasso(dopo) {
     if (RIVEDI === "prepara") { const i = dopo ? ORDINE_FUNNEL.indexOf(dopo) + 1 : 0; return ORDINE_FUNNEL[i] || null; }
     const st = statoPrepara(), fatto = Object.fromEntries(st.passi.map((x) => [x.k, x.fatto]));
@@ -779,8 +779,7 @@
         <span class="small muted">Le tue scarpe e quelle ancora da comprare (tratteggiate, alla data che ti sei dato) fino a 6 settimane dopo l'ultima gara. Sotto, settimana per settimana, se ogni tipo di uscita ha la sua scarpa.</span><a class="small" href="#/scarpiera/piano">Rivedi il piano ›</a></article>
       <article class="card"><div class="between"><span class="title">Come corri</span><span class="small muted">circa ${L.scKmSettimana(ctx)} km a settimana</span></div>
         <div class="grid2"><div class="sc-kpi"><span class="small muted">Facile</span><b>${wk.F} km</b><span class="small muted">a settimana</span></div><div class="sc-kpi"><span class="small muted">Veloce / qualità</span><b>${wk.V} km</b><span class="small muted">a settimana</span></div></div>
-        <span class="small muted">Weekend del mese</span><div class="sc-chips">${weekend}</div><a class="small" href="#/scarpiera/corsa">Modifica ›</a></article>
-      <span class="eyebrow" style="margin-top:4px">Le singole scarpe</span>`;
+        <span class="small muted">Weekend del mese</span><div class="sc-chips">${weekend}</div><a class="small" href="#/scarpiera/corsa">Modifica ›</a></article>`;
   }
   // attività "da comprare" in Oggi + scheda quando una scarpa sta finendo e non c'è un piano
   function cardScarpiera() {
@@ -918,7 +917,7 @@
 
   // ---------------------------------------------------------------- pezzi di interfaccia
   const back = (href) => `<a class="back" href="${href}" aria-label="Indietro"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></a>`;
-  const bannerProva = () => (S.prova ? `<div class="banner-prova">Modalità prova: oggi è ${esc(L.fmtGiorno(S.prova))} · <a href="#/io" style="color:#fff">cambia</a></div>` : "");
+  const bannerProva = () => (S.prova ? `<div class="banner-prova">Modalità prova: oggi è ${esc(L.fmtGiorno(S.prova))} · <a href="#/io/strumenti" style="color:#fff">cambia</a></div>` : "");
 
   function barraFasi(gara, scuro) {
     const fasi = [...D.fasi].sort((a, b) => a.ordine - b.ordine).filter((f) => f.id !== "dopo");
@@ -1057,7 +1056,7 @@
   }
 
   const cardMeteo = () => (S.profilo.citta ? `<a class="card" id="meteo" href="#/meteo" style="text-decoration:none;color:inherit;font-weight:inherit" aria-label="Meteo di oggi, apri il dettaglio"><span class="eyebrow">${esc(S.profilo.citta)} · adesso</span><span class="small muted">Meteo in arrivo…</span></a>`
-    : `<a class="card" href="#/io" style="text-decoration:none;color:inherit"><span class="title">Meteo e vestizione</span><span class="small">Dimmi dove e a che ora corri di solito: ti dico come vestirti.</span></a>`);
+    : `<a class="card" href="#/io/profilo" style="text-decoration:none;color:inherit"><span class="title">Meteo e vestizione</span><span class="small">Dimmi dove e a che ora corri di solito: ti dico come vestirti.</span></a>`);
   const contenutiLetti = () => Object.fromEntries(Object.keys(S.letti || {}).filter((k) => k.startsWith("c:")).map((k) => [k.slice(2), true]));
   // Ricorda (solo sul telefono) quali contenuti sono stati mostrati in cima: dal giorno dopo scendono e lasciano posto ad altri.
   function segnaContenutiVisti(lista, o) {
@@ -1573,8 +1572,8 @@
 
   // ---------------------------------------------------------------- meteo dettaglio
   function vistaMeteo() {
-    if (!S.profilo.citta) return `<header class="head-back">${back("#/oggi")}<h1 style="font-size:28px">Meteo</h1></header><a class="card" href="#/io" style="text-decoration:none;color:inherit"><span class="title">Dimmi dove corri</span><span class="small">Indica città e orario di uscita nel profilo.</span></a>`;
-    return `${bannerProva()}<header class="head-back">${back("#/oggi")}<div><h1 style="font-size:28px">Meteo e vestizione</h1><span class="sub">${esc(S.profilo.citta)} · uscite alle ${esc(S.profilo.ora || "7:00")} · <a href="#/io">cambia</a></span></div></header>
+    if (!S.profilo.citta) return `<header class="head-back">${back("#/oggi")}<h1 style="font-size:28px">Meteo</h1></header><a class="card" href="#/io/profilo" style="text-decoration:none;color:inherit"><span class="title">Dimmi dove corri</span><span class="small">Indica città e orario di uscita nel profilo.</span></a>`;
+    return `${bannerProva()}<header class="head-back">${back("#/oggi")}<div><h1 style="font-size:28px">Meteo e vestizione</h1><span class="sub">${esc(S.profilo.citta)} · uscite alle ${esc(S.profilo.ora || "7:00")} · <a href="#/io/profilo">cambia</a></span></div></header>
       <div id="meteo-dettaglio" style="display:flex;flex-direction:column;gap:14px"><p class="sub">Previsioni in arrivo…</p></div>
       <p class="sub">Previsioni Open-Meteo. La vestizione è un'indicazione generale: ognuno sente il freddo a modo suo.</p>`;
   }
@@ -2293,7 +2292,7 @@
   function vistaMieGare(param = {}) {
     if (!partecipo()) return vistaGruppo();
     const cl = CL(), anno = oggi().slice(0, 4), periodo = param.p === "tutte" ? "tutte" : "stagione", q = param.q || "", da = param.da || "";
-    const torna = { classifiche: "#/gruppo/classifiche", regole: "#/gruppo/regole", io: "#/io" }[da] || "#/gruppo";
+    const torna = { classifiche: "#/gruppo/classifiche", regole: "#/gruppo/regole", io: "#/io/privacy" }[da] || "#/gruppo";
     const n = L.riepilogoMie(L.cercaMieGare(mieGare(), "", { oggi: oggi() }));
     const pos = (L.classificaGareCorse(cl.risultati || [], { anno }).find((x) => x.mio) || {}).pos;
     const daFare = n.locale + n.rifiutato;
@@ -2327,7 +2326,7 @@
   }
   // Le regole delle classifiche, in parole semplici (#/gruppo/regole?da=…: la freccia torna da dove si è arrivati)
   function vistaRegole(param = {}) {
-    const torna = { entra: "#/entra/classifiche", classifiche: "#/gruppo/classifiche", io: "#/io", admin: "#/gruppo/admin", mie: "#/gruppo/mie" }[param.da] || "#/gruppo";
+    const torna = { entra: "#/entra/classifiche", classifiche: "#/gruppo/classifiche", io: "#/io/privacy", admin: "#/gruppo/admin", mie: "#/gruppo/mie" }[param.da] || "#/gruppo";
     const cl = CL() || {}, io = cl.io || {}, anno = oggi().slice(0, 4);
     const sez = (titolo, corpo) => `<section class="card regole"><h2>${titolo}</h2>${corpo}</section>`;
     const cl3 = (nome, cosa, parita) => `<div class="regola-cl"><b>${nome}</b><span>${cosa}</span><span class="small muted">${parita}</span></div>`;
@@ -2734,7 +2733,7 @@
   }
   function vistaSuper() {
     if (!SUPER) setTimeout(caricaSuper, 0);
-    const testa = `<header class="head-back">${back("#/io")}<div><span class="eyebrow">Strumenti di prova</span><h1 style="font-size:28px">Superamministratore</h1></div></header>`;
+    const testa = `<header class="head-back">${back("#/io/strumenti")}<div><span class="eyebrow">Strumenti di prova</span><h1 style="font-size:28px">Superamministratore</h1></div></header>`;
     if (!SUPER || SUPER.carico) return `${testa}<p class="sub">Carico i gruppi…</p>`;
     if (SUPER.errore) return `${testa}<section class="card"><span class="small">${esc(SUPER.errore)}</span></section>`;
     const l = SUPER.gruppi || [];
@@ -2755,7 +2754,7 @@
   }
   function vistaSalute() {
     if (!SALUTE) setTimeout(caricaSalute, 0);
-    const testa = `<header class="head-back">${back("#/io")}<div><span class="eyebrow">Strumenti di prova</span><h1 style="font-size:28px">Stato dell'app</h1></div></header>`;
+    const testa = `<header class="head-back">${back("#/io/strumenti")}<div><span class="eyebrow">Strumenti di prova</span><h1 style="font-size:28px">Stato dell'app</h1></div></header>`;
     if (!SALUTE || SALUTE.carico) return `${testa}<p class="sub">Leggo l'ultimo controllo…</p>`;
     if (SALUTE.errore) return `${testa}<section class="card"><span class="small">${esc(SALUTE.errore)}</span></section>`;
     const l = SALUTE.controlli || [], u = l[0];
@@ -3018,7 +3017,7 @@
   const INTERR_LABEL = { percorso: "Tappe", gara: "La tua gara", meteo: "Meteo", novita: "Novità gara", documenti: "Scadenze", fase: "Per la fase" };
   const barreOrizz = (righe, valore) => `<div class="hbar">${righe.map(([l, n, max]) => `<span>${esc(l)}</span><div class="hbar-t"><div style="width:${max ? Math.max(2, Math.round((n / max) * 100)) : 0}%"></div></div><b>${esc(valore(n))}</b>`).join("")}</div>`;
   function vistaStatistiche() {
-    const testa = `<header class="head-back">${back("#/io")}<div style="min-width:0"><span class="eyebrow">RaceBuddy · solo per te</span><h1 style="font-size:32px">Statistiche</h1></div></header>`;
+    const testa = `<header class="head-back">${back("#/io/strumenti")}<div style="min-width:0"><span class="eyebrow">RaceBuddy · solo per te</span><h1 style="font-size:32px">Statistiche</h1></div></header>`;
     if (!STAT) {
       const p = parolaStat();
       if (p && !statProvata) {
@@ -3125,7 +3124,7 @@
           <div class="row"><button class="btn" type="submit">Salva</button>${x ? `<button class="btn ghost" type="button" data-act="pb-togli" data-d="${d}">Togli</button>` : ""}</div></div></details></form>`;
     };
     return `${DISTANZE.map(riga).join("")}
-      ${inG ? `<label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="io-mostra-pb" ${GD().io.mostra_pb !== false ? "checked" : ""}><span><span class="t">Metti i miei personali nella classifica del gruppo</span><br><span class="d">Al gruppo vanno solo tempo, gara e data.</span></span></label><a class="small" href="#/gruppo/classifica">Classifica del gruppo ›</a>` : ""}
+      ${inG ? `<a class="small" href="#/io/privacy">Chi li vede nel gruppo: si decide in Privacy e dati ›</a><a class="small" href="#/gruppo/classifica">Classifica del gruppo ›</a>` : ""}
       ${C().tempi ? `<a class="btn ghost" href="#/tempi">Cerca i miei tempi nelle classifiche</a>` : ""}
       ${S.strava && S.strava.attivo ? `<a class="btn ghost" href="#/pb?strava=1">Cerca i miei personali su Strava</a>` : ""}
       <span class="small muted">Restano su questo telefono. Dopo ogni gara, se fai meglio, il personale si aggiorna da solo.</span>`;
@@ -3226,7 +3225,6 @@
       <button class="btn" data-act="strava-collega">Collega Strava</button>`;
   }
   function ritornoStrava(esito) {
-    S.ioAperto = { ...(S.ioAperto || {}), strava: true };
     const MSG = { ok: "Strava collegato: arrivano scarpe e km", pieno: "I posti per i tester di Strava sono esauriti", negato: "Collegamento a Strava annullato",
       permessi: "Servono i permessi su profilo e attività: riprova lasciandoli spuntati", scaduto: "Collegamento scaduto: riprova", errore: "Collegamento a Strava non riuscito: riprova" };
     toast(MSG[esito] || MSG.errore);
@@ -3382,7 +3380,8 @@
     }
   }
 
-  function vistaIo() {
+  let versioneTap = 0, versioneTimer;
+  function vistaIo(sez = "", param = {}) {
     const P = S.profilo;
     const USI = { allenamento: "Daily", ritmo: "Super-trainer", tempo: "Tempo", gara: "Gara", trail: "Trail" };
     const opzioni = (vals, att, fmt) => vals.map((v) => `<option value="${v}" ${String(att) === String(v) ? "selected" : ""}>${fmt(v)}</option>`).join("");
@@ -3398,32 +3397,78 @@
         <div class="between small"><span><b>${Math.round(st.km)}</b> di ${st.limite} km</span><span style="font-weight:700;color:${st.livello === "attenzione" ? "var(--warn)" : st.livello === "info" ? "var(--accent)" : "var(--ok)"}">${esc(st.etichetta)}</span></div>
         <form class="row" data-form="km" data-id="${esc(s.id)}"><label class="sr" for="km-${esc(s.id)}">Aggiungi km a ${esc(s.nome)}</label><input class="input" id="km-${esc(s.id)}" type="number" inputmode="decimal" min="0" step="0.1" placeholder="+ km corsi"><button class="btn ghost" type="submit">Aggiungi</button><button class="btn ghost" type="button" data-act="del-scarpa" data-id="${esc(s.id)}" aria-label="Elimina ${esc(s.nome)}">✕</button></form></article>`;
     }).join("");
-    const aperto = S.ioAperto || {};
-    const acc = (k, titolo, stato, corpo) => `<details class="card acc" data-acc="${k}" ${aperto[k] ? "open" : ""}><summary><span class="acc-t">${titolo}</span><span class="acc-s">${stato}</span></summary><div class="acc-body">${corpo}</div></details>`;
     const on = S.push && S.push.attivo, sp = supportoPush();
     const daCambiare = S.scarpe.filter((x) => L.statoScarpa(x).livello === "attenzione").length;
     const inG = S.gruppo && S.gruppo.dentro && GD();
     const stravaOn = !!(S.strava && S.strava.attivo && S.strava.archiviato), archivio = S.scarpeArchivio || [];
-    return `${bannerProva()}<header class="head"><h1>Io</h1></header>
-      ${C().login ? acc("account", "Account", AUTH ? '<span class="pill ok">connesso</span>' : "facoltativo", sezioneAccount()) : ""}
-      ${acc("profilo", "Profilo", esc([P.nome, P.citta, P.ora && oraInput(P.ora), P.kmSettimana && `${P.kmSettimana} km/sett`].filter(Boolean).join(" · ") || "da completare"), `<form id="profilo" autocomplete="off" style="display:flex;flex-direction:column;gap:10px">
+    const ICO = (d) => `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+    const IC = {
+      doc: ICO('<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/>'),
+      pb: ICO('<circle cx="12" cy="13.5" r="7"/><path d="M12 13.5V9.5M9.5 3h5"/>'),
+      scarpe: ICO('<path d="M3 16V8l5 3 3-2 3 3h5a3 3 0 0 1 2 3v1H3z"/><path d="M3 19h18"/>'),
+      strava: ICO('<path d="M3 14l4-7 4 6 3-4 3 5h4"/>'),
+      gruppo: ICO('<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.3c2 .8 3.5 2.6 3.5 5.7"/>'),
+      account: ICO('<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>'),
+      notifiche: ICO('<path d="M6 17V11a6 6 0 0 1 12 0v6l1.5 2h-15z"/><path d="M10 21h4"/>'),
+      privacy: ICO('<path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/>'),
+      percorsi: ICO('<circle cx="12" cy="12" r="9"/><path d="M10 8.5l5 3.5-5 3.5z"/>'),
+    };
+    const chev = `<svg class="hub-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>`;
+    const riga = (href, ico, titolo, sotto, stato = "", accento = false) => `<a class="hub-riga" href="${href}"><span class="hub-ico${accento ? " acc" : ""}">${ico}</span><span class="hub-t"><b>${titolo}</b><span class="small muted">${sotto}</span></span>${stato}${chev}</a>`;
+    const pag = (titolo, corpo, indietro = "#/io") => `${bannerProva()}<header class="head-back">${back(indietro)}<h1>${titolo}</h1></header>${corpo}`;
+    const pillOk = (t) => `<span class="pill ok">${t}</span>`;
+
+    // ---- pagine dedicate
+    if (sez === "profilo") {
+      const diverso = inG && P.nome && P.nome.trim() !== GD().io.nome;
+      return pag("Profilo", `${diverso ? `<section class="card soft"><span class="small">Nel tuo gruppo ti vedono come <b>«${esc(GD().io.nome)}»</b>: è diverso dal nome qui sotto.</span><button class="btn" data-act="g-usa-nome">Fatti vedere come «${esc(P.nome.trim())}»</button></section>` : ""}
+        <section class="card"><form id="profilo" autocomplete="off" style="display:flex;flex-direction:column;gap:10px">
         <div class="field"><label for="p-nome">Come ti chiami</label><input class="input" id="p-nome" data-auto="nome" value="${esc(P.nome)}" placeholder="es. Mario Rossi" autocomplete="name" maxlength="40"><span class="small muted">Usa nome e cognome: comparirà anche nel tuo gruppo.</span></div>
         <div class="field"><label for="p-citta">Dove corri di solito</label><input class="input" id="p-citta" data-auto="citta" value="${esc(P.citta)}" placeholder="es. Roma">
           <div class="between">${bottoneGps("p-citta")}${P.coord ? `<span class="small muted">dal GPS</span>` : ""}</div></div>
         <div class="field"><label for="p-ora">A che ora esci di solito</label><input class="input" id="p-ora" data-auto="ora" type="time" step="900" value="${esc(oraInput(P.ora))}"></div>
         <div class="field"><label for="p-km">Quanti km corri a settimana</label><input class="input" id="p-km" data-auto="kmSettimana" type="number" inputmode="numeric" min="1" max="250" step="1" value="${esc(P.kmSettimana || "")}" placeholder="es. 40" style="max-width:140px"><span class="small muted">Serve a stimare con quanti km le scarpe arrivano alla gara.</span></div>
-        <span class="small muted">Si salva da solo.</span></form>`)}
-      ${acc("documenti", "Tessera e certificato", (() => { const a = statoDoc((S.documenti || {}).tessera), b = statoDoc((S.documenti || {}).certificato); const peggio = [a, b].find((x) => ["scaduto", "urgente", "presto"].includes(x.livello)); return peggio ? pillDoc(peggio) : a.livello === "ok" && b.livello === "ok" ? '<span class="pill ok">in regola</span>' : "da inserire"; })(), sezioneDocumenti())}
-      ${acc("notifiche", "Notifiche", on ? '<span class="pill ok">attive</span>' : sp === "ok" ? "da attivare" : sp === "non-pronto" ? "in arrivo" : "non disponibili", cardPush(false, true))}
-      ${acc("gruppo", "Gruppo", inG ? `${esc(GD().gruppo.nome)} · ${esc(RUOLI_G[GD().io.ruolo].toLowerCase())}` : "non sei in un gruppo", inG ? `<span class="small">Sei in <b>${esc(GD().gruppo.nome)}</b> come «${esc(GD().io.nome)}».</span>${S.profilo.nome && S.profilo.nome.trim() !== GD().io.nome ? `<button class="btn ghost small" data-act="g-usa-nome" style="align-self:flex-start">Fatti vedere come «${esc(S.profilo.nome.trim())}»</button>` : ""}
-        <label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="io-mostra" ${GD().io.mostra_gare ? "checked" : ""}><span><span class="t">Mostra al gruppo le mie gare</span><br><span class="d">Nome della gara, ruolo e tempo obiettivo.</span></span></label>
-        ${clAttive() ? `<label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="cl-partecipo" ${partecipo() ? "checked" : ""}><span><span class="t">Partecipo alle classifiche</span><br><span class="d">${partecipo() ? "Spegnendo, i tuoi risultati online si cancellano; sul telefono restano." : "Gare corse, PB della stagione e Albo d'oro del gruppo."}</span></span></label>${partecipo() ? `<a class="btn ghost" href="#/gruppo/carriera">La mia carriera</a><a class="btn ghost" href="#/gruppo/mie?da=io">Le mie gare in classifica</a>` : ""}<a class="link-regole" href="#/gruppo/regole?da=io">Come funzionano le classifiche ›</a>` : ""}
-        <a class="btn ghost" href="#/gruppo/admin">${GD().io.ruolo === "membro" ? "Membri del gruppo" : "Gestisci il gruppo"}</a><button class="btn ghost" type="button" data-act="g-esci">Esci dal gruppo</button>` : `<span class="small">Entra nel gruppo della tua società con il link d'invito, oppure crealo se sei il presidente.</span><a class="btn ghost" href="#/gruppo">Vai al gruppo</a>`)}
-      ${acc("personali", "I miei personali", esc(riassuntoPB()) || "da inserire", sezionePB())}
-      ${C().strava ? acc("strava", "Strava", STRAVA_STATO && STRAVA_STATO.collegato ? '<span class="pill ok">collegato</span>' : "in prova", sezioneStrava()) : ""}
-      ${acc("scarpe", "Le mie scarpe", S.scarpe.length ? `${S.scarpe.length} ${stravaOn ? "da Strava" : S.scarpe.length === 1 ? "paio" : "paia"}${daCambiare ? ` · <b style="color:var(--warn)">${daCambiare} da cambiare</b>` : ""}` : "nessuna", `${sezioneRotazione()}${scarpe || `<span class="small">Nessuna scarpa ancora.</span>`}
+        <span class="small muted">Si salva da solo.</span></form></section>`);
+    }
+    if (sez === "documenti") return pag("Tessera e certificato", sezioneDocumenti());
+    if (sez === "personali") return pag("I miei personali", `<section class="card">${sezionePB()}</section>`);
+    if (sez === "strava" && C().strava) return pag("Strava", `<section class="card">${sezioneStrava()}</section>`);
+    if (sez === "account" && C().login) return pag("Account", `<section class="card">${sezioneAccount()}</section>`);
+    if (sez === "notifiche") return pag("Notifiche", `<section class="card"><div class="between"><h2>Messaggio del mattino</h2>${on ? pillOk("attive") : ""}</div>${cardPush(false, true)}</section>`);
+    if (sez === "percorsi") return pag("Percorsi guidati", `<section class="card" aria-label="Rivedi i percorsi guidati" style="gap:0"><span class="eyebrow" style="margin-bottom:4px">Rivedi i percorsi guidati</span>
+        <a class="link-card riga-percorso" href="#/benvenuto"><span><b>Benvenuto</b><br><span class="small muted">Le 5 schermate del primo avvio</span></span><span aria-hidden="true">›</span></a>
+        <a class="link-card riga-percorso" href="#/prepara/ora?rivedi=1"><span><b>Prepara RaceBuddy</b><br><span class="small muted">Uscita, zona, tessera e certificato, notifiche, gara</span></span><span aria-hidden="true">›</span></a>
+        ${S.gruppo && S.gruppo.dentro && GD() ? `<a class="link-card riga-percorso" href="#/invito/anteprima?rivedi=1"><span><b>Entra nel gruppo</b><br><span class="small muted">Dall'invito ai 6 passi fino a "Sei dentro"</span></span><span aria-hidden="true">›</span></a>
+        <a class="link-card riga-percorso" href="#/invito/anteprima?rivedi=1&home=1"><span><b>Entra nel gruppo da iPhone</b><br><span class="small muted">Come lo vede chi apre l'invito in Safari</span></span><span aria-hidden="true">›</span></a>` : `<span class="small muted" style="padding-top:8px">Entra nel gruppo: lo rivedi quando sei in un gruppo.</span>`}
+        <span class="small muted" style="padding-top:8px">Ogni passo si vede dall'inizio, anche quelli già fatti. Quello che confermi si salva come sempre.</span></section>`);
+    if (sez === "strumenti") return pag("Strumenti di prova", `<section class="card"><form id="prova" style="display:flex;flex-direction:column;gap:10px"><div class="field"><label for="d-prova">Fai finta che oggi sia</label><input class="input" id="d-prova" type="date" value="${esc(S.prova)}"></div>
+        <div class="grid2"><button class="btn" type="submit">Applica</button><button class="btn ghost" type="button" data-act="prova-off">Torna a oggi</button></div></form>
+        <div class="strumenti">${[["#/salute", "Stato dell'app", "Job, dati e servizi, e gli avvisi se qualcosa è KO"], ["#/statistiche", "Statistiche", "Attivi al giorno, notifiche inviate, gare più seguite"], ["#/super", "Superamministratore", "Entra in qualunque gruppo come amministratore"]]
+          .map(([h, t, d]) => `<a class="link-card riga-percorso" href="${h}"><span><b>${t}</b><br><span class="small muted">${d}</span></span><span aria-hidden="true">›</span></a>`).join("")}</div>
+        </section>`);
+    if (sez === "privacy") {
+      return pag("Privacy e dati", `<section class="card"><h2>Resta sul tuo telefono</h2><span class="small">Profilo, preparazione, spunte, scarpe, personali e i file di tessera e certificato non lasciano mai questo telefono.</span></section>
+        ${inG ? `<section class="card"><h2>Cosa vede il gruppo</h2>
+          <label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="io-mostra" ${GD().io.mostra_gare ? "checked" : ""}><span><span class="t">Mostra al gruppo le mie gare</span><br><span class="d">Nome della gara, ruolo e tempo obiettivo.</span></span></label>
+          <label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="io-mostra-pb" ${GD().io.mostra_pb !== false ? "checked" : ""}><span><span class="t">Metti i miei personali nella classifica del gruppo</span><br><span class="d">Al gruppo vanno solo tempo, gara e data.</span></span></label>
+          ${clAttive() ? `<label class="check" style="border:0;padding:4px 0"><input type="checkbox" id="cl-partecipo" ${partecipo() ? "checked" : ""}><span><span class="t">Partecipo alle classifiche</span><br><span class="d">${partecipo() ? "Spegnendo, i tuoi risultati online si cancellano; sul telefono restano." : "Gare corse, PB della stagione e Albo d'oro del gruppo."}</span></span></label>${partecipo() ? `<a class="btn ghost" href="#/gruppo/carriera">La mia carriera</a><a class="btn ghost" href="#/gruppo/mie?da=io">Le mie gare in classifica</a>` : ""}<a class="link-regole" href="#/gruppo/regole?da=io">Come funzionano le classifiche ›</a>` : ""}
+        </section>` : ""}
+        <section class="card"><h2>Online solo il minimo</h2><ul class="small" style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px">
+          <li><b>Notifiche:</b> ora di uscita, zona (circa 1 km), gare seguite e date di scadenza dei documenti.</li>
+          <li><b>Gruppo:</b> il tuo nome e, se lo scegli, gare e personali.</li>
+          <li><b>Classifiche:</b> tempo, gara e data, solo se partecipi.</li>
+          <li><b>Statistiche:</b> contatori anonimi, senza identificativi.</li></ul></section>
+        <section class="card"><h2>Cancella i tuoi dati</h2><span class="small">Toglie tutto dal telefono e dal server: iscrizione alle notifiche, profilo nel gruppo e collegamento a Strava. Non si può annullare.</span>${C().login && AUTH ? `<span class="small muted">L'account si cancella da <a href="#/io/account">Account</a>.</span>` : ""}
+          <div id="reset-box" style="display:flex;flex-direction:column;gap:8px"><button class="btn ghost" type="button" data-act="reset-ask">Cancella tutti i miei dati</button></div></section>`);
+    }
+    if (sez === "scarpe") {
+      const rot = param.v === "rotazione";
+      const seg = `<nav class="seg" aria-label="Vista"><a href="#/io/scarpe" ${rot ? "" : 'aria-current="page"'}>Scarpe</a><a href="#/io/scarpe?v=rotazione" ${rot ? 'aria-current="page"' : ""}>Rotazione</a></nav>`;
+      const cta = S.scarpiera && S.scarpiera.fatto ? `<a class="btn ghost" href="#/scarpiera">Rifai il piano delle scarpe</a>` : `<a class="btn" href="#/scarpiera">Pianifica la rotazione</a><span class="small muted">Quando finiscono le tue scarpe, che rotazione ti serve fino alle gare e cosa comprare.</span>`;
+      const corpoRot = sezioneRotazione() + cta;
+      const corpoSc = `${scarpe || `<span class="small">Nessuna scarpa ancora.</span>`}
         ${stravaOn ? `<span class="small muted">I km arrivano da Strava${S.strava.letto ? `, aggiornati alle ${esc(new Date(S.strava.letto).toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" }))}` : ""}. Una scarpa nuova si aggiunge su Strava; quelle ritirate lì spariscono da qui.</span>` : S.strava && S.strava.attivo ? `<span class="small muted">Su Strava non hai scarpe attive, quindi usiamo quelle inserite qui. Se ne aggiungi una su Strava, i km arriveranno da lì e queste andranno in Archivio.</span>` : ""}
-        <a class="btn ghost" href="#/catalogo">Sfoglia il catalogo scarpe</a>${S.scarpiera && S.scarpiera.fatto ? `<a class="btn ghost" href="#/scarpiera">Rifai il piano delle scarpe</a>` : `<a class="btn" href="#/scarpiera">Pianifica la rotazione</a><span class="small muted">Quando finiscono le tue scarpe, che rotazione ti serve fino alle gare e cosa comprare.</span>`}
+        <a class="btn ghost" href="#/catalogo">Sfoglia il catalogo scarpe</a>
         ${archivio.length ? `<details class="card"><summary>Archivio · ${archivio.length} ${archivio.length === 1 ? "scarpa inserita" : "scarpe inserite"} a mano</summary>${archivio.map((x) => `<div class="between" style="padding:6px 0"><span>${esc(x.nome)} <span class="small muted">· ${Math.round(Number(x.km) || 0)} km</span></span><button class="btn ghost small" data-act="arch-del" data-id="${esc(x.id)}">Elimina</button></div>`).join("")}<span class="small muted">${stravaOn ? "Non contano finché Strava è collegato." : "Se sono le stesse scarpe che hai già, eliminale."}</span></details>` : ""}
         ${stravaOn ? "" : `<details class="card"><summary>+ Aggiungi una scarpa</summary><form id="scarpa" style="display:flex;flex-direction:column;gap:10px">
         <div class="field"><label for="s-nome">Modello</label><input class="input" id="s-nome" required placeholder="es. la mia scarpa da lento"></div>
@@ -3431,21 +3476,37 @@
         <div class="field"><label for="s-km">Km attuali</label><input class="input" id="s-km" type="number" min="0" value="0"></div></div>
         <div class="field"><label for="s-lim">Da cambiare a (km)</label><input class="input" id="s-lim" type="number" min="300" step="50" value="800"></div>
         <button class="btn" type="submit">Aggiungi scarpa</button></form></details>
-        <span class="small muted">I km si aggiornano a mano${C().strava ? "; con Strava arrivano da soli" : ""}.</span>`}`)}
-      <details class="card"><summary>Strumenti di prova</summary>
-        <form id="prova" style="display:flex;flex-direction:column;gap:10px"><div class="field"><label for="d-prova">Fai finta che oggi sia</label><input class="input" id="d-prova" type="date" value="${esc(S.prova)}"></div>
-        <div class="grid2"><button class="btn" type="submit">Applica</button><button class="btn ghost" type="button" data-act="prova-off">Torna a oggi</button></div></form>
-        <div class="strumenti">${[["#/salute", "Stato dell'app", "Job, dati e servizi, e gli avvisi se qualcosa è KO"], ["#/statistiche", "Statistiche", "Attivi al giorno, notifiche inviate, gare più seguite"], ["#/super", "Superamministratore", "Entra in qualunque gruppo come amministratore"]]
-          .map(([h, t, d]) => `<a class="link-card riga-percorso" href="${h}"><span><b>${t}</b><br><span class="small muted">${d}</span></span><span aria-hidden="true">›</span></a>`).join("")}</div>
-        <div id="reset-box" style="display:flex;flex-direction:column;gap:8px"><button class="btn ghost" type="button" data-act="reset-ask">Cancella tutti i miei dati</button></div></details>
-      <section class="card" aria-label="Rivedi i percorsi guidati" style="gap:0"><span class="eyebrow" style="margin-bottom:4px">Rivedi i percorsi guidati</span>
-        <a class="link-card riga-percorso" href="#/benvenuto"><span><b>Benvenuto</b><br><span class="small muted">Le 5 schermate del primo avvio</span></span><span aria-hidden="true">›</span></a>
-        <a class="link-card riga-percorso" href="#/prepara/ora?rivedi=1"><span><b>Prepara RaceBuddy</b><br><span class="small muted">Uscita, zona, tessera e certificato, notifiche, gara</span></span><span aria-hidden="true">›</span></a>
-        ${S.gruppo && S.gruppo.dentro && GD() ? `<a class="link-card riga-percorso" href="#/invito/anteprima?rivedi=1"><span><b>Entra nel gruppo</b><br><span class="small muted">Dall'invito ai 6 passi fino a "Sei dentro"</span></span><span aria-hidden="true">›</span></a>
-        <a class="link-card riga-percorso" href="#/invito/anteprima?rivedi=1&home=1"><span><b>Entra nel gruppo da iPhone</b><br><span class="small muted">Come lo vede chi apre l'invito in Safari</span></span><span aria-hidden="true">›</span></a>` : `<span class="small muted" style="padding-top:8px">Entra nel gruppo: lo rivedi quando sei in un gruppo.</span>`}
-        <span class="small muted" style="padding-top:8px">Ogni passo si vede dall'inizio, anche quelli già fatti. Quello che confermi si salva come sempre.</span></section>
-      <p class="sub">Versione ${esc(window.RB_VERSION || "?")} · gare condivise: ${Object.keys(S.segnalate || {}).length} di ${S.gare.length}${S.erroreSegnala ? ` · ultimo errore: ${esc(S.erroreSegnala)}` : ""}</p>
-      <p class="sub">Profilo, preparazione e scarpe restano su questo telefono.</p>`;
+        <span class="small muted">I km si aggiornano a mano${C().strava ? "; con Strava arrivano da soli" : ""}.</span>`}`;
+      return pag("Le mie scarpe", `${seg}${rot ? corpoRot : corpoSc}`);
+    }
+
+    // ---- hub
+    const ini = (P.nome || "").trim().split(/\s+/).filter(Boolean).slice(0, 2).map((x) => x[0].toUpperCase()).join("") || "Io";
+    const docA = statoDoc((S.documenti || {}).tessera), docB = statoDoc((S.documenti || {}).certificato);
+    const docPeggio = [docA, docB].find((x) => ["scaduto", "urgente", "presto"].includes(x.livello));
+    const docSotto = docPeggio ? `${docPeggio === docA ? "Tessera" : "Certificato"} da aggiornare` : docA.livello === "ok" && docB.livello === "ok" ? "Tessera e certificato in regola" : "Da inserire";
+    const daComprare = ((S.scarpiera || {}).attivita || []).length;
+    const sottoScarpe = S.scarpe.length ? `${S.scarpe.length} ${stravaOn ? "da Strava" : S.scarpe.length === 1 ? "paio" : "paia"}${daComprare ? ` · ${daComprare} da comprare` : ""}` : "Nessuna ancora";
+    const prefN = Object.values({ meteo: true, percorso: true, gara: true, documenti: true, novita: true, fase: true, ...(S.prefPush || {}) }).filter(Boolean).length;
+    const stravaCollegato = !!(STRAVA_STATO && STRAVA_STATO.collegato);
+    return `${bannerProva()}<header class="head"><h1>Io</h1></header>
+      <section class="hub-profilo" aria-label="Il tuo profilo"><div class="hub-pr-top"><span class="hub-avatar" aria-hidden="true">${esc(ini)}</span><div style="min-width:0"><span class="eyebrow">Il tuo profilo</span><div class="hub-nome">${esc(P.nome || "Come ti chiami?")}</div></div></div>
+        <div class="hub-tiles"><div><span>Città</span><b>${esc(P.citta || "–")}</b></div><div><span>Uscita</span><b>${esc(P.ora ? oraInput(P.ora) : "–")}</b></div><div><span>Km/sett.</span><b>${esc(P.kmSettimana || "–")}</b></div></div>
+        <a class="btn hub-modifica" href="#/io/profilo">Modifica profilo</a></section>
+      <section aria-labelledby="hub-1" class="hub-gruppo"><h2 id="hub-1">Le mie cose</h2><div class="hub-lista">
+        ${riga("#/io/documenti", IC.doc, "Tessera e certificato", docSotto, docPeggio ? pillDoc(docPeggio) : "", true)}
+        ${riga("#/io/personali", IC.pb, "I miei personali", esc(riassuntoPB()) || "Da inserire", "", true)}
+        ${riga("#/io/scarpe", IC.scarpe, "Le mie scarpe", sottoScarpe, daCambiare ? `<span class="pill doc-presto">${daCambiare} da cambiare</span>` : "", true)}</div></section>
+      <section aria-labelledby="hub-2" class="hub-gruppo"><h2 id="hub-2">Collegamenti</h2><div class="hub-lista">
+        ${C().strava ? riga("#/io/strava", IC.strava, "Strava", stravaCollegato ? "Scarpe e km arrivano da soli" : "In prova con pochi tester", stravaCollegato ? pillOk("collegato") : "") : ""}
+        ${riga("#/gruppo", IC.gruppo, "Gruppo", inG ? `${esc(GD().gruppo.nome)} · ${esc(RUOLI_G[GD().io.ruolo].toLowerCase())}` : "Non sei in un gruppo")}
+        ${C().login ? riga("#/io/account", IC.account, "Account", AUTH ? esc(AUTH.email) : "Facoltativo · ritrova i dati su un altro telefono", AUTH ? pillOk("connesso") : "") : ""}</div></section>
+      <section aria-labelledby="hub-3" class="hub-gruppo"><h2 id="hub-3">Impostazioni</h2><div class="hub-lista">
+        ${riga("#/io/notifiche", IC.notifiche, "Notifiche", on ? `${prefN} temi su 6` : sp === "ok" ? "Da attivare" : sp === "non-pronto" ? "In arrivo" : "Non disponibili", on ? pillOk("attive") : "")}
+        ${riga("#/io/privacy", IC.privacy, "Privacy e dati", "Cosa resta sul telefono e cosa va online")}
+        ${riga("#/io/percorsi", IC.percorsi, "Percorsi guidati", "Rivedi Benvenuto, Prepara, Entra nel gruppo")}</div></section>
+      <p class="sub" style="text-align:center"><button type="button" class="hub-versione" data-act="versione-tap">Versione ${esc(window.RB_VERSION || "?")}</button> · gare condivise: ${Object.keys(S.segnalate || {}).length} di ${S.gare.length}${S.erroreSegnala ? ` · ultimo errore: ${esc(S.erroreSegnala)}` : ""}</p>
+      <p class="sub" style="text-align:center">Profilo, preparazione e scarpe restano su questo telefono.</p>`;
   }
 
   // ---------------------------------------------------------------- Buddy: chat AI su scarpe, integratori e allenamento
@@ -3559,8 +3620,9 @@
       case "salute": html = vistaSalute(); break;
       case "buddy": html = C().buddy ? vistaBuddy() : vistaOggi(); break;
       case "risultato": html = vistaRisultato(parts[1], param); break;
-      case "io": if (param.strava) { ritornoStrava(param.strava); history.replaceState(null, "", "#/io"); }
-        if (parts[1] === "documenti" || parts[1] === "scarpe") S.ioAperto = { ...(S.ioAperto || {}), [parts[1]]: true }; html = vistaIo(); break;
+      case "io": { let sez = parts[1] || "", pio = param;
+        if (param.strava) { ritornoStrava(param.strava); history.replaceState(null, "", "#/io/strava"); sez = "strava"; pio = {}; }
+        html = vistaIo(sez, pio); break; }
       case "gara": html = parts[2] === "novita" ? vistaNovitaGara(parts[1], param) : parts[2] === "preparazione" ? vistaPreparazione(parts[1]) : parts[2] === "info" ? vistaInfoGara(parts[1], param) : parts[2] === "borsa" ? vistaBorsa(parts[1]) : vistaGaraHome(parts[1], param); break;
       case "prepara": html = vistaPrepara(parts[1]); break;
       case "scarpiera": html = vistaScarpiera(parts[1], param); break;
@@ -3587,7 +3649,7 @@
       const f = document.getElementById("gara-imp"), h = document.getElementById("gi-tempo-h");
       if (f && h) setTimeout(() => { f.closest("details").open = true; f.scrollIntoView({ block: "center", behavior: "smooth" }); h.focus({ preventScroll: true }); f.classList.add("evidenzia"); }, 80);
     }
-    if (tab === "io") { mostraFotoDoc(); if (parts[1] === "documenti" || parts[1] === "scarpe") { const el = document.querySelector(`[data-acc="${parts[1]}"]`); if (el) setTimeout(() => el.scrollIntoView({ block: "start" }), 50); } }
+    if (tab === "io") mostraFotoDoc();
     if (tab === "meteo") riempiMeteoDettaglio();
     if (tab === "gare" && param.focus) { const c = document.getElementById("cerca"); if (c) { c.focus(); c.setSelectionRange(c.value.length, c.value.length); } }
   }
@@ -3904,6 +3966,10 @@
       S.prova = ""; salva(); toast("Torniamo a oggi"); rerender();
     } else if (act === "svuota-personali") {
       if (confirmBox(t, "Cancellare le tue voci personali?", () => { S.personali = []; salva(); rerender(); })) return;
+    } else if (act === "versione-tap") {
+      // 5 tocchi su "Versione" aprono gli strumenti di prova (data simulata, stato dell'app, statistiche, superamministratore)
+      versioneTap += 1; clearTimeout(versioneTimer); versioneTimer = setTimeout(() => { versioneTap = 0; }, 2000);
+      if (versioneTap >= 5) { versioneTap = 0; location.hash = "#/io/strumenti"; } else if (versioneTap >= 3) toast(`Ancora ${5 - versioneTap} ${5 - versioneTap === 1 ? "tocco" : "tocchi"}`);
     } else if (act === "reset-ask") {
       // Cancella anche quello che è online: iscrizione alle notifiche e profilo nel gruppo (l'account, se c'è, si cancella da Account).
       confirmBox(t, "Cancello gare, spunte, scarpe e documenti da questo telefono, e online la tua iscrizione alle notifiche, il tuo profilo nel gruppo e il collegamento a Strava?", async () => {
