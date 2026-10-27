@@ -1,6 +1,73 @@
 {
- "aggiornato": "2026-10-26",
+ "aggiornato": "2026-10-27",
  "contenuti": [
+  {
+   "id": "8b8612fd41b2",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Varese – Varese City Run",
+   "estratto": "Vincono Iozzia e Pisani sulla mezza maratona, 10 km a Farina e Gandolfi 25 ottobre 2026. Si è concluso davvero bene il Circuito Running People 2026, con una Varese City Run che ha…",
+   "link": "https://podisti.net/varese-varese-city-run-2/",
+   "data": "2026-10-26",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/VCR-2026-partenza-21-k.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42",
+    "21",
+    "10"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "b245fc386a43",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Streghe, fantasmi e scarpe da running: le corse di Halloween in Italia",
+   "estratto": "Molto goliardiche e poco agonistiche, le gare di Halloween uniscono alla corsa l’atmosfera “da paura” (si fa per dire) tipica di questa festa. Ecco dove si corrono in Italia",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74247497/corse-halloween-italia-2026/",
+   "data": "2026-10-26",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/1452ce8a-6066-4fa6-a1f4-642ae1cf60f5.jpeg",
+   "argomenti": [
+    "scarpe",
+    "gara",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "1581c925faf1",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Sicurezza: quanto costa non dover correre da sole",
+   "estratto": "Giovedì, sei e venti di sera. Il telefono vibra sulla mensola dell’ingresso mentre stringo il nodo della seconda scarpa. Nella chat del gruppo una delle ragazze chiede se qualcuno…",
+   "link": "https://runlovers.it/2026/running-mate-compagnia-corsa-pagamento-sicurezza/",
+   "data": "2026-10-26",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/runningmate-foto.jpg?fit=1920%2C1281&quality=75&ssl=1",
+   "argomenti": [
+    "scarpe",
+    "allenamento",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
   {
    "id": "461ff1bdd8f7",
    "tipo": "articolo",
@@ -248,6 +315,22 @@
    "distanze": [
     "42"
    ],
+   "fasi": []
+  },
+  {
+   "id": "e4aadc63fe34",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Al Trail del Monte Casto vittoria per Francesco Nicola e Liviana Mandrile nella 44 Km",
+   "estratto": "Nella 20 Km vittoria e record per Francesca Ghelfi. Gabriele Gazzetto vince la prova maschile La diciannovesima edizione del Trail Monte Casto-Kailas Fuga che si è corsa domenica…",
+   "link": "https://podisti.net/al-trail-del-monte-casto-vittoria-per-francesco-nicola-e-liviana-mandrile-nella-44-km/",
+   "data": "2026-10-26",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/TRAIL-MONTE-CASTO.jpg",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [],
    "fasi": []
   },
   {
@@ -6418,26 +6501,6 @@
    "fasi": [
     "costruzione",
     "scarico"
-   ]
-  },
-  {
-   "id": "e1bf0c3a1344",
-   "tipo": "video",
-   "fonte": "Andrea Vignone",
-   "fonteId": "yt_crazyvigno",
-   "titolo": "HIKING ALLA CIMA MONGIOIE 2630m - DIRETTISSIMA E SCAGLIE con NATTA e LORENZO",
-   "estratto": "HIKING ALLA CIMA MONGIOIE 2630m - DIRETTISSIMA E SCAGLIE con NATTA e LORENZO 🏔️ Una giornata, papà, figlio e amico e una sola missione…",
-   "link": "https://www.youtube.com/watch?v=LwkUNG3Gm3I",
-   "data": "2026-08-27",
-   "immagine": "https://i1.ytimg.com/vi/LwkUNG3Gm3I/hqdefault.jpg",
-   "argomenti": [
-    "tecnologia",
-    "racconti"
-   ],
-   "distanze": [],
-   "fasi": [
-    "si_parte",
-    "gara"
    ]
   }
  ]
