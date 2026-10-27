@@ -1751,6 +1751,7 @@
       const prima = JSON.stringify(GD());
       S.gruppo.dati = d; S.gruppo.aggiornato = new Date().toISOString(); localStorage.setItem(KEY, JSON.stringify(S));
       aggiornaClassifiche();
+      if (G().unione) rpc("mia_unione", { p_token: token() }).then((j) => { if (j && !j.richiesta) { delete G().unione; salva(); toast("Profili uniti: ritrovi i tuoi dati nel gruppo"); aggiornaGruppo(true); rerender(); } }).catch(() => {});
       if (prima !== JSON.stringify(d) && /^#\/(gruppo|risultato)/.test(location.hash)) rerender();
     } catch (e) {
       if (/non sei in un gruppo/.test(e.message)) { S.gruppo = { token: S.gruppo.token }; salva(); toast("Non fai più parte del gruppo"); rerender(); }
@@ -2352,6 +2353,27 @@
   }
 
   // In Gestione: interruttore del gruppo, coda del referente, ultimi tempi certificati (l'amministratore li può annullare)
+  // Profili doppi (solo amministratori): chi ha lo stesso nome nel gruppo, con chi ha chiesto di unirsi al vecchio profilo.
+  let DOPPI = null;
+  async function caricaDoppi() {
+    try { DOPPI = await rpc("admin_omonimi", { p_token: token() }); } catch (e) { DOPPI = []; }
+    if (/^#\/gruppo\/admin/.test(location.hash)) rerender();
+  }
+  function cardDoppi(d) {
+    if (d.io.ruolo !== "admin") return "";
+    if (DOPPI === null) { setTimeout(caricaDoppi, 0); return ""; }
+    if (!DOPPI.length) return "";
+    const richieste = DOPPI.reduce((s, c) => s + (c.richieste || 0), 0);
+    const gruppo = (c) => {
+      const vecchio = c.membri[0];
+      return `<div class="card soft" style="gap:8px"><span class="title">${esc(c.nome)}</span>${c.membri.map((x, i) => `<div class="small" style="display:flex;flex-direction:column;gap:6px;padding:4px 0">
+        <span style="min-width:0"><b>${i === 0 ? "Più vecchio" : "Più recente"}</b>${x.tuo ? " (tu)" : ""} · dal ${esc(L.fmtBreve(String(x.creato).slice(0, 10)))} · ${esc(RUOLI_G[x.ruolo] || x.ruolo)} · ${x.risultati} ${x.risultati === 1 ? "tempo" : "tempi"}${x.richiesta ? ` <span class="pill">ha chiesto l'unione</span>` : ""}</span>
+        ${i > 0 && !vecchio.tuo ? `<button class="btn ghost block" type="button" data-act="doppi-unisci" data-nuovo="${esc(x.id)}" data-vecchio="${esc(vecchio.id)}">Unisci al profilo più vecchio</button>` : ""}</div>`).join("")}
+        ${vecchio.tuo ? `<span class="small muted">Il profilo da tenere è il tuo: chiedi a un altro amministratore.</span>` : ""}</div>`;
+    };
+    return `<section class="card ${richieste ? "evid" : ""}"><div class="between"><span class="title">Profili doppi</span>${richieste ? `<span class="pill">${richieste}</span>` : ""}</div>
+      <span class="small muted">Stesso nome nel gruppo: di solito è la stessa persona che ha creato un secondo profilo (Safari e app nella Home). Unendoli resta quello più vecchio, con i suoi tempi e il suo ruolo, che passa al telefono nuovo. Controlla che siano davvero la stessa persona.</span>${DOPPI.map(gruppo).join("")}</section>`;
+  }
   let CODA = null;
   async function caricaCoda() {
     try { CODA = await rpc("da_approvare", { p_token: token() }); } catch (e) { CODA = []; }
@@ -2802,6 +2824,7 @@
     const io = d.io, org = io.ruolo === "admin" || io.ruolo === "organizzatore";
     const comuni = gareInComune();
     return `${bannerProva()}<header class="head"><div style="min-width:0"><span class="eyebrow">Il gruppo · ${d.membri.length} runner</span><h1>${esc(d.gruppo.nome)}</h1></div><a class="btn ghost small" href="#/gruppo/admin">${io.ruolo === "admin" ? "Gestisci" : io.ruolo === "organizzatore" ? "Invita" : "Membri"}</a></header>
+      ${G().unione ? `<section class="card evid"><span class="title">Profilo in attesa di unione</span><span class="small">Hai chiesto di unire questo profilo al tuo vecchio. Appena un referente conferma, ritrovi qui tempi, punti e ruolo di prima. Gare e scarpe del vecchio telefono non si uniscono da sole.</span></section>` : ""}
       ${cardStagione(d)}
       ${clAttive() ? "" : `<section aria-label="Gare in comune"><h2 style="margin-bottom:8px">Le gare del gruppo</h2>${comuni.length ? `<div class="lista-c">${comuni.slice(0, 6).map(cardComune).join("")}</div>` : `<p class="sub">Ancora nessuna gara condivisa.</p>`}</section>
       <p class="sub">Ognuno sceglie cosa condividere: le tue gare si vedono solo se lo hai scelto (Io → Gruppo).</p>`}`;
@@ -2859,6 +2882,7 @@
       ${admin ? `<select class="input ruolo-sel" data-act-change="g-ruolo" data-id="${m.id}" aria-label="Ruolo di ${esc(m.nome)}">${Object.entries(RUOLI_G).map(([k, l]) => `<option value="${k}" ${m.ruolo === k ? "selected" : ""}>${l}</option>`).join("")}</select>${m.id !== io.id ? `<button class="btn ghost small" data-act="g-rimuovi" data-id="${m.id}" data-nome="${esc(m.nome)}" aria-label="Rimuovi ${esc(m.nome)}">✕</button>` : ""}` : `<span class="small muted">${RUOLI_G[m.ruolo]}</span>`}</div>`;
     return `${bannerProva()}<header class="head-back">${back("#/gruppo")}<span class="small" style="font-weight:600">Gruppo</span></header>
       <div><span class="eyebrow">${esc(d.gruppo.nome)} · ${RUOLI_G[io.ruolo]}</span><h1 style="font-size:36px">${io.ruolo === "membro" ? "Membri" : "Gestione"}</h1></div>
+      ${cardDoppi(d)}
       ${cardClassificheAdmin(d)}
       ${link ? `<section class="card"><span class="eyebrow">Invito</span><div class="between" style="gap:12px"><span class="codice-invito">${esc(d.gruppo.codice)}</span><button class="btn ghost" data-act="g-condividi" data-link="${esc(link)}">Condividi</button></div>
         <span class="small muted">Condividi manda il link con un messaggio pronto: chi lo apre dal telefono entra in 3 minuti, guidato passo per passo.</span>
@@ -3448,7 +3472,7 @@
         <section class="card"><h2>2 · Dove vuoi portarlo: incolla il codice</h2>
           <span class="small">Apri RaceBuddy lì, vai in Io → Porta il profilo e incolla qui. Quello che c'è già viene sostituito.</span>
           <form id="porting-importa" style="display:flex;flex-direction:column;gap:10px"><label class="sr" for="porting-incolla">Codice da importare</label>
-            <textarea class="input" id="porting-incolla" rows="3" placeholder="RB1.…" autocapitalize="off" autocorrect="off" spellcheck="false" style="font-size:12px"></textarea>
+            <textarea class="input" id="porting-incolla" rows="3" placeholder="RB1.…" autocapitalize="off" autocorrect="off" spellcheck="false" style="font-size:12px">${esc(portingTesto)}</textarea>
             <button class="btn" type="submit">Importa il profilo</button></form>
           <span class="small muted">Dopo l'import usa solo l'app: tenere aperto anche Safari con lo stesso profilo può sovrascrivere i dati.</span></section>`);
     }
@@ -3601,6 +3625,7 @@
 
   // ---------------------------------------------------------------- router
   function route() {
+    if (!/^#\/gruppo\/admin/.test(location.hash)) DOPPI = null; // i profili doppi si ricaricano a ogni apertura di Gestione
     const h = location.hash.replace(/^#\/?/, "");
     const [path, query] = h.split("?");
     const parts = path.split("/").map(decodeURIComponent);
@@ -3989,6 +4014,14 @@
       // 5 tocchi su "Versione" aprono gli strumenti di prova (data simulata, stato dell'app, statistiche, superamministratore)
       versioneTap += 1; clearTimeout(versioneTimer); versioneTimer = setTimeout(() => { versioneTap = 0; }, 2000);
       if (versioneTap >= 5) { versioneTap = 0; location.hash = "#/io/strumenti"; } else if (versioneTap >= 3) toast(`Ancora ${5 - versioneTap} ${5 - versioneTap === 1 ? "tocco" : "tocchi"}`);
+    } else if (act.startsWith("omo-")) {
+      omonimoScelta(act, t);
+    } else if (act === "doppi-unisci") {
+      confirmBox(t, "Unisco i due profili? Il più vecchio tiene tempi, punti e ruolo e passa a questo telefono; quello più recente sparisce (le sue gare e i suoi personali tornano al prossimo salvataggio).", async () => {
+        try { await rpc("admin_unisci", { p_token: token(), p_nuovo: t.dataset.nuovo, p_vecchio: t.dataset.vecchio }); toast("Profili uniti"); DOPPI = null; await aggiornaGruppo(true); }
+        catch (e) { toast(e.message || "Non riuscito"); }
+        rerender();
+      });
     } else if (act === "porting-copia") {
       const ta = document.getElementById("porting-codice"); if (!ta) return;
       const ok = () => toast("Codice copiato: incollalo nell'app");
@@ -4049,6 +4082,35 @@
       S.scarpeArchivio = (S.scarpeArchivio || []).filter((x) => x.id !== t.dataset.id); salva(); rerender();
     }
   });
+  let portingTesto = ""; // il codice incollato resta anche se la pagina si ridisegna mentre lo incolli
+  document.addEventListener("input", (e) => { if (e.target && e.target.id === "porting-incolla") portingTesto = e.target.value; });
+  const reinvia = (f) => (f.requestSubmit ? f.requestSubmit() : f.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true })));
+  // "Sei tu?": nel gruppo c'è già un membro con lo stesso nome di chi sta entrando.
+  function mostraOmonimo(f, nomeTrovato) {
+    const btn = f.querySelector("button[type=submit]"); if (btn) btn.disabled = true;
+    let box = document.getElementById("omonimo-box");
+    if (!box) { box = document.createElement("section"); box.id = "omonimo-box"; box.className = "card evid"; box.setAttribute("role", "alertdialog"); f.after(box); }
+    box.dataset.nome = nomeTrovato;
+    box.innerHTML = `<h2>C'è già «${esc(nomeTrovato)}» nel gruppo. Sei tu?</h2>
+      <span class="small">Se hai già usato RaceBuddy (per esempio da Safari, prima di metterlo nella Home) ti conviene portare qui quel profilo: ritrovi gare, scarpe e risultati e non resti due volte nel gruppo.</span>
+      <button class="btn block" type="button" data-act="omo-ho">Sì, ho ancora il mio profilo</button>
+      <button class="btn ghost block" type="button" data-act="omo-perso">Sì, ma non ce l'ho più</button>
+      <button class="btn ghost block" type="button" data-act="omo-altro">No, sono un'altra persona</button>`;
+    box.scrollIntoView({ block: "center", behavior: "smooth" });
+  }
+  function omonimoScelta(act, t) {
+    const box = document.getElementById("omonimo-box"), f = document.getElementById("g-entra"); if (!box || !f) return;
+    if (act === "omo-ho") {
+      box.innerHTML = `<h2>Porta qui il tuo profilo</h2>
+        <ol class="small" style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px"><li>Apri RaceBuddy dove l'avevi fatto (per esempio in Safari)</li><li>Vai in <b>Io → Porta il profilo</b> e tocca <b>Copia il codice</b></li><li>Incollalo qui sotto</li></ol>
+        <form id="porting-importa" style="display:flex;flex-direction:column;gap:10px"><label class="sr" for="porting-incolla">Codice da importare</label>
+          <textarea class="input" id="porting-incolla" rows="3" placeholder="RB1.…" autocapitalize="off" autocorrect="off" spellcheck="false" style="font-size:12px">${esc(portingTesto)}</textarea>
+          <button class="btn" type="submit">Importa il profilo</button></form>
+        <button class="btn ghost block" type="button" data-act="omo-indietro">Indietro</button>`;
+    } else if (act === "omo-indietro") mostraOmonimo(f, box.dataset.nome || "");
+    else { f.dataset.omonimoNome = v_("g-io").trim(); f.dataset.omonimo = act === "omo-perso" ? "unione" : "altro"; box.remove(); const b = f.querySelector("button[type=submit]"); if (b) b.disabled = false; reinvia(f); }
+  }
+  const v_ = (id) => (document.getElementById(id) || {}).value || "";
   async function azioneGruppo(fn, msg) {
     try { await fn(); if (msg) toast(msg); await aggiornaGruppo(true); rerender(); }
     catch (e) { toast(e.message || "Non riuscito"); rerender(); }
@@ -4319,7 +4381,17 @@
     } else if (f.id === "g-entra" && f.dataset.anteprima) {
       location.hash = "#/entra";
     } else if (f.id === "g-crea" || f.id === "g-entra") {
-      const nome = v("g-io").trim(), btn = f.querySelector("button[type=submit]"); btn.disabled = true;
+      const nome = v("g-io").trim(), btn = f.querySelector("button[type=submit]");
+      // C'è già un membro con questo nome? Può essere lo stesso runner che ha un altro profilo (Safari / app nella Home): si chiede prima di crearne un secondo.
+      if (f.id === "g-entra" && nome && f.dataset.omonimoNome !== nome) {
+        btn.disabled = true;
+        const vai = (scelta) => { btn.disabled = false; f.dataset.omonimoNome = nome; f.dataset.omonimo = scelta; reinvia(f); };
+        rpc("omonimo_invito", { p_token: token(), p_codice: f.dataset.codice, p_nome: nome })
+          .then((j) => { if (j && j.omonimi > 0) mostraOmonimo(f, j.nome || nome); else vai("no"); })
+          .catch(() => vai("no")); // funzione non ancora pubblicata o rete: si entra come prima
+        return;
+      }
+      btn.disabled = true;
       (async () => {
         try {
           if (f.id === "g-crea") await rpc("crea_gruppo", { p_token: token(), p_gruppo: v("g-nome").trim(), p_nome: nome });
@@ -4327,9 +4399,10 @@
           G().dentro = true; if (f.id === "g-entra") { S.profilo.nome = nome; S.benvenuto = true; G().entra = { dal: oggi(), saltati: {} }; } else if (!S.profilo.nome) S.profilo.nome = nome; salva();
           const pbNo = document.getElementById("g-mostra-pb") && !document.getElementById("g-mostra-pb").checked;
           if (pbNo) await rpc("imposta_mostra_pb", { p_token: token(), p_mostra: false }).catch(() => {});
+          if (f.dataset.omonimo === "unione") { try { await rpc("chiedi_unione", { p_token: token() }); G().unione = true; salva(); } catch (e) { /* nessun omonimo: niente da unire */ } }
           await sincronizzaGareGruppo(); if (!pbNo) await sincronizzaPBGruppo(true); await aggiornaGruppo(true); await aggiornaClassifiche();
           document.body.classList.remove("onboarding");
-          toast(f.id === "g-crea" ? "Gruppo creato: ora invita gli altri" : "Benvenuto nel gruppo!");
+          toast(f.id === "g-crea" ? "Gruppo creato: ora invita gli altri" : G().unione ? "Richiesta mandata ai referenti" : "Benvenuto nel gruppo!");
           location.hash = f.id === "g-crea" ? "#/gruppo/admin" : "#/entra";
         } catch (e) { btn.disabled = false; toast(e.message || "Non riuscito"); }
       })();
@@ -4463,14 +4536,27 @@
     } else if (f.id === "porting-importa") {
       const r = L.portingLeggi(v("porting-incolla"));
       if (!r.ok) { toast(r.errore); return; }
-      const n = (r.stato.gare || []).length, g = r.stato.gruppo && r.stato.gruppo.dentro;
-      const haDati = S.gare.length || (S.gruppo && S.gruppo.dentro) || (S.profilo && S.profilo.nome);
-      const fai = () => {
-        S = Object.assign(vuoto(), r.stato); S.push = null; S.prova = "";
+      const n = (r.stato.gare || []).length, inG = r.stato.gruppo && r.stato.gruppo.dentro && r.stato.gruppo.token;
+      const mio = S.gruppo && S.gruppo.dentro && S.gruppo.token ? S.gruppo : null;
+      const doppio = !!(mio && inG && r.stato.gruppo.token !== mio.token);
+      const haDati = S.gare.length || mio || (S.profilo && S.profilo.nome);
+      const fai = async () => {
+        const stato = JSON.parse(JSON.stringify(r.stato));
+        // Il gruppo del profilo portato: se non esiste più (per esempio è stato unito a un altro) si tiene quello di questo telefono.
+        let vivo = !!inG;
+        if (inG) vivo = await rpc("stato_gruppo", { p_token: stato.gruppo.token }).then(() => true, (e) => !/non sei in un gruppo/.test((e && e.message) || ""));
+        if ((inG && !vivo) || (!inG && mio)) { if (mio) stato.gruppo = mio; else delete stato.gruppo; }
+        // Questo telefono era già nel gruppo con un altro profilo: esce, altrimenti resterebbe un secondo membro con lo stesso nome.
+        if (mio && inG && vivo && stato.gruppo.token !== mio.token) {
+          try { await rpc("esci_gruppo", { p_token: mio.token }); }
+          catch (e) { if (/nomina prima/.test((e && e.message) || "")) { toast("Sei l'unico amministratore del gruppo: nomina prima un altro amministratore"); rerender(); return; } }
+        }
+        if (S.push && S.push.attivo) await disattivaPush(true).catch(() => {});
+        S = Object.assign(vuoto(), stato); S.push = null; S.prova = ""; portingTesto = "";
         salva(); toast("Profilo portato qui"); location.hash = "#/oggi"; route();
       };
       const btn = f.querySelector("button[type=submit]");
-      if (haDati) confirmBox(btn, `Qui c'è già un profilo: lo sostituisco con quello del codice (${n} ${n === 1 ? "gara" : "gare"}${g ? ", gruppo incluso" : ""})?`, fai); else fai();
+      if (haDati) confirmBox(btn, `Qui c'è già un profilo: lo sostituisco con quello del codice (${n} ${n === 1 ? "gara" : "gare"}${inG ? ", gruppo incluso" : ""})?${doppio ? " Il profilo che hai ora nel gruppo esce, così non resti due volte." : ""}`, fai); else fai();
     } else if (f.id === "prova") {
       S.prova = v("d-prova"); salva(); toast(S.prova ? "Modalità prova attiva" : "Torniamo a oggi"); location.hash = "#/oggi";
     }

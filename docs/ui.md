@@ -123,6 +123,11 @@ Le mie scarpe. In fondo gli strumenti di prova (data simulata) e "Rivedi il tuto
 
 <img src="img/ui/io-porting.png" width="280" alt="Io: Porta il profilo">
 
+**Omonimo nel gruppo** (ottobre 2026): chi entra con un nome che c'è già vede "Sei tu?" prima di creare un secondo profilo; l'amministratore, in Gestione, unisce i profili doppi.
+
+| <img src="img/ui/omonimo-avviso.png" width="220" alt="Avviso: c'è già un membro con questo nome"> | <img src="img/ui/omonimo-porta.png" width="220" alt="Porta qui il tuo profilo"> | <img src="img/ui/gestione-doppi.png" width="220" alt="Gestione: profili doppi"> |
+|---|---|---|
+
 ## Aggiornare le schermate
 
 Le schermate si rifanno con Playwright, servendo localmente `app/`, `content/` e `data/` (come fa "Pubblica web app")

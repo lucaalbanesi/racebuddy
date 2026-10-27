@@ -82,6 +82,13 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f tests/test_strava.sql > esito5.txt 2>&1 || true
           cat esito5.txt
           if ! grep -q "permessi strava ok" esito5.txt; then echo "::error::strava: $(grep -iE 'error|errore|assert|context|line' esito5.txt | head -6 | tr '\n' ' ')"; exit 1; fi
+      - name: Profili doppi e omonimi
+        run: |
+          psql -v ON_ERROR_STOP=1 -f docs/supabase_omonimi.sql
+          psql -v ON_ERROR_STOP=1 -f docs/supabase_omonimi.sql   # ripetibile
+          psql -v ON_ERROR_STOP=1 -f tests/test_omonimi.sql > esito11.txt 2>&1 || true
+          cat esito11.txt
+          if ! grep -q "permessi omonimi ok" esito11.txt; then echo "::error::omonimi: $(grep -iE 'error|errore|assert|context|line' esito11.txt | head -6 | tr '\n' ' ')"; exit 1; fi
       - name: Account (login, per ora spento)
         run: |
           # come su Supabase: schema auth, utenti, auth.uid() dal JWT (qui da request.jwt.claim.sub), ruolo authenticated
