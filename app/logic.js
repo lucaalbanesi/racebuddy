@@ -148,7 +148,7 @@
     return out.sort((a, b) => (a.data < b.data ? 1 : a.data > b.data ? -1 : 0));
   }
   /** Fuori misura: percorso vicino alla distanza ma non esatto (km_reali, es. la Corsa di Miguel a 9,9 km). Vale per Gare
-   *  corse, punti di arrivo e Borsa Impegno e badge di presenza; mai per personali, PB, Albo d'oro, obiettivo, età. */
+   *  corse, punti di arrivo, obiettivo e Borsa Impegno e badge di presenza e Cecchino; mai per personali, PB, Albo d'oro, età. */
   const fuoriMisura = (r) => !!(r && r.km_reali != null);
   const esatte = (l) => (l || []).filter((r) => !fuoriMisura(r));
   /** Per distanza, dal più veloce (solo le esatte: sono i personali). */
@@ -890,10 +890,10 @@
       if (s) {
         const ev = (tipo) => out.push({ membro_id: r.membro_id, data: r.data, distanza: r.distanza, tipo, punti: PUNTI[tipo], gara: s.nome, risultato_id: r.id });
         ev("arrivo");
-        const fm = fuoriMisura(r); // fuori misura: solo arrivo e Borsa
+        const fm = fuoriMisura(r); // fuori misura: arrivo, obiettivo e Borsa (non il personale)
         if (!fm && prima != null && r.secondi < prima) ev("pb");
         const o = ob.get(chiaveGara(r.membro_id, r.data, r.distanza));
-        if (!fm && o && scartoObiettivo(r.secondi, o) <= CENTRATO) ev("obiettivo");
+        if (o && scartoObiettivo(r.secondi, o) <= CENTRATO) ev("obiettivo");
         if (bo.has(chiaveGara(r.membro_id, r.data, r.distanza))) ev("borsa");
       }
       if (!fuoriMisura(r) && (prima == null || r.secondi < prima)) meglio.set(km, r.secondi);
@@ -934,7 +934,7 @@
   function classificaObiettivo({ risultati, obiettivi } = {}, { anno, nomi = {}, io } = {}) {
     const ob = new Map((obiettivi || []).map((o) => [chiaveGara(o.membro_id, o.data, o.distanza), o.secondi]));
     const m = new Map();
-    for (const r of esatte(risultati)) {
+    for (const r of risultati || []) { // anche le gare di altra distanza: lo scarto è sul tempo, con l'obiettivo fissato su quella gara
       const o = ob.get(chiaveGara(r.membro_id, r.data, r.distanza));
       if (!o || !nelPeriodo(r.data, { anno }) || !(r.membro_id in nomi)) continue;
       if (!m.has(r.membro_id)) m.set(r.membro_id, { membro_id: r.membro_id, membro: nomi[r.membro_id], mio: r.membro_id === io, scarti: [] });
@@ -974,14 +974,14 @@
   function badgeAtleta({ miei = [], gareSoc = [], obiettivi = [], borse = [], soci = 0, record = false, oggi } = {}) {
     oggi = oggi || todayISO();
     const ord = [...miei].sort((a, b) => (a.data < b.data ? -1 : a.data > b.data ? 1 : 0)), es = esatte(ord);
-    // le distanze (prima 10 km, mezza, maratona, tris) e l'obiettivo vogliono la misura esatta; presenze e borse no
+    // le distanze (prima 10 km, mezza, maratona, tris) vogliono la misura esatta; presenze, obiettivi e borse no
     const ha = (d) => es.some((r) => r.distanza === d);
     const anni = [...new Set(es.map((r) => r.data.slice(0, 4)))];
     const tris = anni.some((a) => ["10", "21", "42"].every((d) => es.some((r) => r.distanza === d && r.data.startsWith(a))));
     const mancaQuest = ["10", "21", "42"].filter((d) => !es.some((r) => r.distanza === d && r.data.startsWith(oggi.slice(0, 4))));
     const ob = new Map(obiettivi.map((o) => [`${o.data}|${o.distanza}`, o.secondi]));
     let fila = 0, maxFila = 0;
-    for (const r of es) { const o = ob.get(`${r.data}|${r.distanza}`); if (!o) continue; fila = scartoObiettivo(r.secondi, o) <= CENTRATO ? fila + 1 : 0; maxFila = Math.max(maxFila, fila); }
+    for (const r of ord) { const o = ob.get(`${r.data}|${r.distanza}`); if (!o) continue; fila = scartoObiettivo(r.secondi, o) <= CENTRATO ? fila + 1 : 0; maxFila = Math.max(maxFila, fila); }
     const bs = new Set(borse.map((b) => `${b.data}|${b.distanza}`));
     const nBorse = ord.filter((r) => bs.has(`${r.data}|${r.distanza}`)).length;
     const mesi = [...new Set(ord.map((r) => r.data.slice(0, 7)))].sort();

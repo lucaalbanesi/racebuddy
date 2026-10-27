@@ -733,7 +733,7 @@ assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10",
   assert.strictEqual(L.garaSocDi([], { id: "F123", data: "2026-11-15", distanza: "21" }), null);
 }
 
-{ // fuori misura (km_reali, es. la Corsa di Miguel a 9,9 km): Gare corse e arrivo Impegno sì; PB, Albo, obiettivo, personali no
+{ // fuori misura (km_reali, es. la Corsa di Miguel a 9,9 km): Gare corse, arrivo, obiettivo e Borsa sì; PB, Albo, personali, età no
   const r = (id, data, sec, extra = {}) => ({ id, membro_id: "m1", membro: "Antonio", mio: true, data, distanza: "10", secondi: sec, categoria: "SM", ...extra });
   const ris = [r("a", "2025-10-05", 2500), r("b", "2026-01-18", 2400, { km_reali: 9.9 }), r("c", "2026-05-24", 2450)];
   assert.ok(L.fuoriMisura(ris[1]) && !L.fuoriMisura(ris[0]));
@@ -747,9 +747,10 @@ assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10",
   const bo = [{ membro_id: "m1", data: "2026-01-18", distanza: "10" }];
   const ev = L.eventiPunti({ risultati: ris, gareSoc: soc, obiettivi: ob, borse: bo });
   const tipi = (d) => ev.filter((e) => e.data === d).map((e) => e.tipo).sort();
-  assert.deepStrictEqual(tipi("2026-01-18"), ["arrivo", "borsa"], "fuori misura: solo arrivo e Borsa");
+  assert.deepStrictEqual(tipi("2026-01-18"), ["arrivo", "borsa", "obiettivo"], "fuori misura: arrivo, obiettivo (9,9 km, scarto 0%) e Borsa, ma non il PB");
   assert.deepStrictEqual(tipi("2026-05-24"), ["arrivo", "pb"], "il PB si misura sulla 2500, non sulla 2400 fuori misura");
-  assert.strictEqual(L.classificaObiettivo({ risultati: ris, obiettivi: ob }, { anno: "2026", nomi: { m1: "Antonio" } }).quasi.length, 0, "niente obiettivo sulla fuori misura");
+  const cob = L.classificaObiettivo({ risultati: ris, obiettivi: ob }, { anno: "2026", nomi: { m1: "Antonio" } });
+  assert.deepStrictEqual(cob.quasi.map((x) => `${x.n} ${x.centrate}`), ["1 1"], "l'obiettivo sulla fuori misura conta: una gara, centrata");
   assert.strictEqual(L.miglioramento12(ris, ris[1]), null);
   assert.deepStrictEqual(L.tempiPerDistanza(ris)["10"].map((x) => x.id), ["c", "a"], "personali: solo le esatte");
   assert.strictEqual(L.tempiDellaGara(ris, { data: "2026-01-18", distanza: "10" }).length, 0);

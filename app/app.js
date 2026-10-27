@@ -1842,9 +1842,9 @@
   // (docs/supabase_stagione.sql), calcoli in logic.js. Le percentuali per età arrivano già fatte: l'età non esce mai.
   const ST = () => (S.gruppo && S.gruppo.st) || {};
   const gareSoc = () => ST().gare_societa || [];
-  // Altra distanza (es. 9,9 o 19 km, l'etichetta mostra già i km): vale per Gare corse e arrivo Impegno, non per PB e Albo d'oro
+  // Altra distanza (es. 9,9 o 19 km, l'etichetta mostra già i km): vale per Gare corse, arrivo, obiettivo e Borsa, non per PB e Albo d'oro
   const notaFuori = (r) => (L.fuoriMisura(r) ? " · altra distanza" : "");
-  const PERCHE_FUORI = () => "Altra distanza: vale per Gare corse e arrivo Impegno, non per PB e Albo d'oro";
+  const PERCHE_FUORI = () => "Altra distanza: vale per Gare corse, arrivo e obiettivo, non per PB e Albo d'oro";
   // Bollino in Gare: solo le gare della propria società (le altre società non si vedono mai)
   const garaSoc = (g) => (clAttive() ? L.garaSocDi(gareSoc(), g) : null);
   const pillSoc = (g) => (garaSoc(g) ? `<span class="pill navy-pill">★ Gara della società</span>` : "");
@@ -2195,16 +2195,16 @@
     const margine = sec ? Math.floor(sec * L.CENTRATO / 100) : 0;
     const miei = L.esatte(datiSt().risultati).filter((r) => r.mio && r.distanza === g.distanza && r.data < g.data);
     const pb = miei.length ? Math.min(...miei.map((r) => r.secondi)) : null;
-    const altra = !!g.km; // altra distanza: valgono solo arrivo e Borsa
-    const ob = altra ? `${sec ? `<div class="row" style="align-items:baseline;gap:10px"><span class="big" style="font-size:34px;color:var(--fg)">${esc(fmtSec(sec))}</span></div><span class="small muted" style="font-size:12px;margin-top:-6px">${esc(testoPassoSec(kmDellaGara(g), sec))}</span>` : ""}<span class="small">Gara di ${esc(L.etichettaDist(g))}: non vale per Obiettivo centrato né per i personali. Conta l'arrivo.</span>` : sec ? `<div class="row" style="align-items:baseline;gap:10px"><span class="big" style="font-size:34px;color:var(--fg)">${esc(fmtSec(sec))}</span><span class="small muted">${aperto ? "si blocca alle 23:59 della vigilia" : "bloccato"}</span></div>
+    const altra = !!g.km; // altra distanza: niente personale (arrivo, obiettivo e Borsa valgono)
+    const ob = sec ?`<div class="row" style="align-items:baseline;gap:10px"><span class="big" style="font-size:34px;color:var(--fg)">${esc(fmtSec(sec))}</span><span class="small muted">${aperto ? "si blocca alle 23:59 della vigilia" : "bloccato"}</span></div>
         <span class="small muted" style="font-size:12px;margin-top:-6px">${esc(testoPassoSec(kmDellaGara(g), sec))}</span>
         <span class="small">Vale per Obiettivo centrato: tra ${esc(fmtSec(sec - margine))} e ${esc(fmtSec(sec + margine))} è centrato.</span>`
       : aperto ? `<span class="small">Fissa il tempo obiettivo entro le 23:59 della vigilia: vale per la classifica Obiettivo centrato.</span><a class="btn ghost" href="${urlGara(g.id)}?modifica=1">Imposta l'obiettivo</a>`
       : `<span class="small muted">Nessun obiettivo fissato per questa gara.</span>`;
     const riga = (t, p, sotto = "") => `<div class="post" style="flex-wrap:wrap"><span style="flex:1;min-width:0">${t}${sotto ? `<br><span class="small muted">${sotto}</span>` : ""}</span><b>+${p}</b></div>`;
-    const punti = soc ? `<div style="display:flex;flex-direction:column;margin-top:4px"><div class="between"><span class="eyebrow">Punti in palio</span><span class="small muted">fino a ${altra ? L.PUNTI.arrivo + L.PUNTI.borsa : L.PUNTI.arrivo + L.PUNTI.pb + L.PUNTI.obiettivo + L.PUNTI.borsa}</span></div>
+    const punti = soc ? `<div style="display:flex;flex-direction:column;margin-top:4px"><div class="between"><span class="eyebrow">Punti in palio</span><span class="small muted">fino a ${L.PUNTI.arrivo + (altra ? 0 : L.PUNTI.pb) + L.PUNTI.obiettivo + L.PUNTI.borsa}</span></div>
         ${riga("Arrivo", L.PUNTI.arrivo)}${riga("Borsa pronta entro la vigilia", L.PUNTI.borsa, `${fatte} di ${tot} pronte · <a href="${urlGara(g.id, "borsa")}">Apri la Borsa</a>`)}
-        ${altra ? "" : riga("Obiettivo centrato", L.PUNTI.obiettivo, sec ? `tra ${esc(fmtSec(sec - margine))} e ${esc(fmtSec(sec + margine))}` : "serve un obiettivo") + riga("Nuovo personale", L.PUNTI.pb, pb ? `sotto il tuo ${esc(fmtSec(pb))}` : "dalla seconda gara certificata sulla distanza")}
+        ${riga("Obiettivo centrato", L.PUNTI.obiettivo, sec ? `tra ${esc(fmtSec(sec - margine))} e ${esc(fmtSec(sec + margine))}` : "serve un obiettivo")}${altra ? "" : riga("Nuovo personale", L.PUNTI.pb, pb ? `sotto il tuo ${esc(fmtSec(pb))}` : "dalla seconda gara certificata sulla distanza")}
         <span class="small muted" style="padding-top:6px">Il tempo conta quando è certificato dalla classifica ufficiale.</span></div>` : "";
     return `<section class="card" style="gap:8px">${soc ? `<span class="pill navy-pill" style="align-self:flex-start">Gara della società</span>` : ""}<span class="eyebrow">Il tuo obiettivo</span>${ob}${punti}</section>`;
   }
@@ -2214,7 +2214,7 @@
     const { risultati, eventi } = datiSt(), id = ioId();
     const r = risultati.find((x) => x.mio && x.data === g.data && x.distanza === g.distanza) || { ...m, mio: true };
     const o = (ST().obiettivi || []).find((x) => x.membro_id === id && x.data === g.data && x.distanza === g.distanza);
-    const sc = o && !L.fuoriMisura(r) ? L.scartoObiettivo(r.secondi, o.secondi) : null, mig = L.miglioramento12(risultati.filter((x) => x.mio), r);
+    const sc = o ? L.scartoObiettivo(r.secondi, o.secondi) : null, mig = L.miglioramento12(risultati.filter((x) => x.mio), r);
     const soc = L.garaDellaSocieta(gareSoc(), g.data, g.distanza);
     const ev = eventi.filter((e) => e.membro_id === id && e.data === g.data && e.distanza === g.distanza);
     const prima = new Set(badgeMiei({ prima: g.data }).filter((b) => b.preso).map((b) => b.k)), nuovi = badgeMiei({ fino: g.data }).filter((b) => b.preso && !prima.has(b.k));
@@ -2242,10 +2242,10 @@
       for (const g of S.gare) {
         if (!DISTANZE.includes(g.distanza) || !L.obiettivoAperto(g.data)) continue;
         const ck = L.checklist(D.percorso, g, S.personali), pronta = ck.borsa.length > 0 && ck.borsa.every((v) => S.spunte[v.chiave]);
-        // altra distanza: l'obiettivo non vale per Obiettivo centrato, online va solo la Borsa
-        const tempo = g.tempo && !g.km ? L.leggiTempo(g, g.tempo).tempo || "" : "", k = `${g.data}|${g.distanza}`;
+        // altra distanza: l'obiettivo vale come le altre (lo scarto è sul tempo), con i km veri per il controllo del passo
+        const tempo = g.tempo ? L.leggiTempo(g, g.tempo).tempo || "" : "", k = `${g.data}|${g.distanza}`;
         const prima = String(inv[k] || "|").split("|");
-        try { if (prima[0] !== tempo) { await rpc("fissa_obiettivo", { p_token: token(), p: { data: g.data, distanza: g.distanza, tempo } }); prima[0] = tempo; } } catch (e) { /* riprova al prossimo salvataggio */ }
+        try { if (prima[0] !== tempo) { await rpc("fissa_obiettivo", { p_token: token(), p: { data: g.data, distanza: g.distanza, tempo, ...(g.km ? { km_reali: String(g.km) } : {}) } }); prima[0] = tempo; } } catch (e) { /* riprova al prossimo salvataggio */ }
         try { if (prima[1] !== String(pronta)) { await rpc("segna_borsa", { p_token: token(), p: { data: g.data, distanza: g.distanza, pronta } }); prima[1] = String(pronta); } } catch (e) { /* idem */ }
         inv[k] = prima.join("|");
       }
@@ -2333,7 +2333,7 @@
     const cl3 = (nome, cosa, parita) => `<div class="regola-cl"><b>${nome}</b><span>${cosa}</span><span class="small muted">${parita}</span></div>`;
     return `${bannerProva()}<header class="head-back">${back(torna)}<div><span class="eyebrow">${esc(GD() ? GD().gruppo.nome : "Il gruppo")} · stagione ${esc(anno)}</span><h1 style="font-size:28px">Come funzionano le classifiche</h1></div></header>
       ${sez("Chi partecipa", `${voceOk("Solo chi sceglie <b>Partecipo</b>. Chi non partecipa usa l'app come sempre e non compare.")}${voceOk("Puoi uscire quando vuoi da Io → Gruppo: i tuoi risultati online si cancellano, sul telefono restano.")}`)}
-      ${sez("Quali gare contano", `${voceOk("<b>10 km, mezza e maratona</b> su strada, con il tempo della classifica ufficiale.")}${voceOk("<b>Altre distanze</b>: le gare tra 5 e 50 km che non sono una 10 km, una mezza o una maratona esatte (la Corsa di Miguel a 9,9 km, l'Appia Run a 16 o 19 km) valgono per Gare corse e per l'arrivo e la Borsa nell'Impegno, ma non per personali, PB, Albo d'oro, obiettivo e percentuale per età.")}${voceOk("La stagione va dal <b>1 gennaio al 31 dicembre</b>. L'Albo d'oro invece vale per sempre.")}${voceOk("Contano solo i tempi <b>certificati</b>. Ritirato, non partito e annullata si vedono nella tua storia, ma non danno posizioni.")}${io.partecipa && param.da !== "mie" ? `<a class="btn ghost" href="#/gruppo/mie?da=regole">Vedi le tue gare: quali contano</a>` : ""}`)}
+      ${sez("Quali gare contano", `${voceOk("<b>10 km, mezza e maratona</b> su strada, con il tempo della classifica ufficiale.")}${voceOk("<b>Altre distanze</b>: le gare tra 5 e 50 km che non sono una 10 km, una mezza o una maratona esatte (la Corsa di Miguel a 9,9 km, l'Appia Run a 16 o 19 km) valgono per Gare corse, per Obiettivo centrato (se fissi l'obiettivo su quella gara) e per l'arrivo, l'obiettivo e la Borsa nell'Impegno, ma non per personali, PB, Albo d'oro e percentuale per età.")}${voceOk("La stagione va dal <b>1 gennaio al 31 dicembre</b>. L'Albo d'oro invece vale per sempre.")}${voceOk("Contano solo i tempi <b>certificati</b>. Ritirato, non partito e annullata si vedono nella tua storia, ma non danno posizioni.")}${io.partecipa && param.da !== "mie" ? `<a class="btn ghost" href="#/gruppo/mie?da=regole">Vedi le tue gare: quali contano</a>` : ""}`)}
       ${sez("Come entra un tempo", `${voceOk("<b>Dalle classifiche ufficiali</b> (Gare Podistiche Lazio e FIDAL; le maratone all'estero da MarathonView): in «Com'è andata?» tocchi <b>Cerca nelle classifiche</b> e poi <b>Usa</b>. Se il nome in classifica è quello con cui sei nel gruppo, è certificato subito.")}
         ${voceOk("<b>Nome diverso, gara non trovata o classifica solo in PDF</b>: tocchi <b>Manda al referente</b> con il link o una nota. Lo approva l'amministratore o un organizzatore (il tuo tempo, se sei referente, lo approva un altro). Al massimo 5 in attesa.")}
         ${voceOk("Un tempo sbagliato, per esempio di un omonimo, lo può annullare l'amministratore.")}
