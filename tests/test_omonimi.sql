@@ -81,6 +81,9 @@ begin
   perform public.admin_unisci(a, mn, me);
   assert exists (select 1 from public.strava_atleti where proprietario = public._hash(repeat('f', 40)) and athlete_id = 222), 'Strava del nuovo resta';
   assert (select count(*) from public.membri where nome = 'Giulia Verdi') = 1, 'un solo profilo';
+  -- pulizia: le prove dopo di questa partono da un database senza gruppi
+  delete from public.strava_atleti where athlete_id in (111, 222);
+  delete from public.gruppi;
   raise notice 'ok';
 end $$;
 
