@@ -735,3 +735,29 @@ body.chat-on .app { padding-bottom: 150px; }
 .cat-chips::-webkit-scrollbar { display: none; }
 .cat-filtri .chip { flex: none; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); font-size: 14px; color: inherit; text-decoration: none; background: var(--surface); }
 .cat-filtri .chip.on { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 700; }
+
+/* Io: hub e pagine dedicate */
+.hub-profilo { background: var(--navy); color: var(--navy-fg); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+.hub-profilo .eyebrow { color: var(--navy-muted); }
+.hub-pr-top { display: flex; align-items: center; gap: 14px; }
+.hub-avatar { width: 56px; height: 56px; border-radius: 50%; background: var(--accent-on-dark); color: var(--navy); display: flex; align-items: center; justify-content: center; font: 700 28px/1 var(--display); flex: none; }
+.hub-nome { font: 700 28px/1.05 var(--display); overflow-wrap: anywhere; }
+.hub-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.hub-tiles > div { background: rgba(255, 255, 255, .1); border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.hub-tiles span { font-size: 12px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--navy-muted); }
+.hub-tiles b { font-size: 18px; overflow-wrap: anywhere; }
+.hub-profilo .hub-modifica { background: transparent; color: #fff; border: 1px solid #8E9BB5; }
+.hub-gruppo { display: flex; flex-direction: column; gap: 8px; }
+.hub-gruppo > h2 { padding-left: 4px; }
+.hub-lista { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+.hub-riga { display: flex; align-items: center; gap: 12px; min-height: 68px; padding: 10px 14px; text-decoration: none; color: var(--fg); font-weight: inherit; }
+.hub-riga + .hub-riga { border-top: 1px solid var(--line2); }
+.hub-riga:active { background: var(--line2); }
+.hub-ico { width: 40px; height: 40px; border-radius: 12px; background: var(--line2); color: var(--fg2); display: flex; align-items: center; justify-content: center; flex: none; }
+.hub-ico.acc { background: var(--accent-soft); color: var(--accent-strong); }
+.hub-t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.hub-t b { font-size: 17px; }
+.hub-t .small { overflow-wrap: anywhere; }
+.hub-riga .pill { flex: none; }
+.hub-chev { flex: none; color: var(--muted); }
+.hub-versione { background: none; border: 0; padding: 0; font: inherit; color: inherit; cursor: default; }
