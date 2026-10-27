@@ -845,4 +845,24 @@ assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10",
   assert.ok(t.lista[0].contro.some((x) => x.includes("Sportsshoes")));
 }
 
+// porting: da Safari all'app
+{
+  const stato = { profilo: { nome: "Luca Èàù", citta: "Roma" }, gare: [firenze, roma], spunte: { a: 1 }, personali: [], scarpe: [{ id: "s1", nome: "Nimbus 26 ✓" }],
+    gruppo: { token: "ab12cd", dentro: true }, push: { attivo: true }, prova: "2026-11-01", buddy: { ok: true, chat: [{ r: "u", t: "ciao" }] }, strava: { attivo: true } };
+  const codice = L.portingCrea(stato);
+  assert.ok(/^RB1\.[A-Za-z0-9_-]+\.[a-z0-9]+$/.test(codice), "formato");
+  const r = L.portingLeggi(codice);
+  assert.ok(r.ok);
+  assert.deepStrictEqual(r.stato.gare, stato.gare); assert.strictEqual(r.stato.profilo.nome, "Luca Èàù"); assert.strictEqual(r.stato.scarpe[0].nome, "Nimbus 26 ✓");
+  assert.strictEqual(r.stato.gruppo.token, "ab12cd", "stesso membro: il codice del gruppo viaggia");
+  assert.deepStrictEqual(r.stato.strava, { attivo: true });
+  assert.ok(!("push" in r.stato) && !("prova" in r.stato), "notifiche e data simulata restano fuori");
+  assert.deepStrictEqual(r.stato.buddy.chat, []);
+  assert.ok(stato.push && stato.prova && stato.buddy.chat.length === 1, "l'originale non cambia");
+  assert.ok(L.portingLeggi(codice.replace(/(.{40})/g, "$1\n  ")).ok, "tollera a capo e spazi");
+  assert.ok(!L.portingLeggi(codice.slice(0, -6)).ok, "codice troncato");
+  assert.ok(!L.portingLeggi(codice.replace(".", ".x")).ok, "codice alterato");
+  assert.ok(!L.portingLeggi("K7MPQ2XA").ok && !L.portingLeggi("").ok && !L.portingLeggi(null).ok);
+}
+
 console.log("ok");

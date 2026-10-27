@@ -1023,6 +1023,7 @@
         <article class="ob-slide" aria-label="${tot} di ${tot}"><div class="ob-ill"><div class="ob-countdown"><span class="big">Via!</span></div></div><span class="eyebrow">Partiamo</span><h1>Qual è la tua prossima gara?</h1><p>Ci vuole un minuto. I tuoi dati restano su questo telefono.</p>
           <button class="btn block" data-act="ob-fine" data-vai="#/gare">Scegli la tua gara</button>
           <div class="grid2"><button class="btn ob-sec" data-act="ob-fine" data-vai="#/pb">Inserisci i tuoi personali</button><button class="btn ob-sec" data-act="ob-fine" data-vai="#/gruppo">Ho un invito del gruppo</button></div>
+          <button class="btn ob-sec block" data-act="ob-fine" data-vai="#/io/porting">Ho già un profilo da portare qui</button>
           <p class="ob-nota">Indicazioni generali per runner amatoriali in salute: non sostituiscono medico, nutrizionista o allenatore.</p></article></div>
       <div class="ob-bottom"><div class="ob-dots" aria-hidden="true">${Array.from({ length: tot }, (_, i) => `<span class="${i ? "" : "on"}"></span>`).join("")}</div><button class="btn" id="ob-avanti" data-act="ob-avanti">Avanti</button></div></section>`;
   }
@@ -3412,6 +3413,7 @@
       notifiche: ICO('<path d="M6 17V11a6 6 0 0 1 12 0v6l1.5 2h-15z"/><path d="M10 21h4"/>'),
       privacy: ICO('<path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/>'),
       percorsi: ICO('<circle cx="12" cy="12" r="9"/><path d="M10 8.5l5 3.5-5 3.5z"/>'),
+      porting: ICO('<path d="M7 7h11l-3-3M17 17H6l3 3"/>'),
     };
     const chev = `<svg class="hub-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>`;
     const riga = (href, ico, titolo, sotto, stato = "", accento = false) => `<a class="hub-riga" href="${href}"><span class="hub-ico${accento ? " acc" : ""}">${ico}</span><span class="hub-t"><b>${titolo}</b><span class="small muted">${sotto}</span></span>${stato}${chev}</a>`;
@@ -3434,6 +3436,22 @@
     if (sez === "personali") return pag("I miei personali", `<section class="card">${sezionePB()}</section>`);
     if (sez === "strava" && C().strava) return pag("Strava", `<section class="card">${sezioneStrava()}</section>`);
     if (sez === "account" && C().login) return pag("Account", `<section class="card">${sezioneAccount()}</section>`);
+    if (sez === "porting") {
+      const codice = L.portingCrea(S);
+      return pag("Porta il profilo", `<section class="card"><h2>Porta tutto dove ti serve</h2>
+          <span class="small">Il profilo resta nel browser o nel telefono dove l'hai creato (su iPhone, Safari e l'app nella Home hanno memorie separate). Con un codice porti altrove profilo, gare, scarpe, personali e gruppo: resti lo stesso membro, niente doppioni.</span></section>
+        <section class="card"><h2>1 · Dove hai già il profilo: copia il codice</h2>
+          <span class="small">Per esempio da Safari, o dal vecchio telefono. Il codice contiene i tuoi dati: non condividerlo con altri.</span>
+          <label class="sr" for="porting-codice">Codice</label><textarea class="input" id="porting-codice" rows="3" readonly style="font-size:12px;word-break:break-all">${esc(codice)}</textarea>
+          <button class="btn block" type="button" data-act="porting-copia">Copia il codice</button>
+          <span class="small muted">Non viaggiano: notifiche (da riattivare), foto di tessera e certificato, chat del Buddy.</span></section>
+        <section class="card"><h2>2 · Dove vuoi portarlo: incolla il codice</h2>
+          <span class="small">Apri RaceBuddy lì, vai in Io → Porta il profilo e incolla qui. Quello che c'è già viene sostituito.</span>
+          <form id="porting-importa" style="display:flex;flex-direction:column;gap:10px"><label class="sr" for="porting-incolla">Codice da importare</label>
+            <textarea class="input" id="porting-incolla" rows="3" placeholder="RB1.…" autocapitalize="off" autocorrect="off" spellcheck="false" style="font-size:12px"></textarea>
+            <button class="btn" type="submit">Importa il profilo</button></form>
+          <span class="small muted">Dopo l'import usa solo l'app: tenere aperto anche Safari con lo stesso profilo può sovrascrivere i dati.</span></section>`);
+    }
     if (sez === "notifiche") return pag("Notifiche", `<section class="card"><div class="between"><h2>Messaggio del mattino</h2>${on ? pillOk("attive") : ""}</div>${cardPush(false, true)}</section>`);
     if (sez === "percorsi") return pag("Percorsi guidati", `<section class="card" aria-label="Rivedi i percorsi guidati" style="gap:0"><span class="eyebrow" style="margin-bottom:4px">Rivedi i percorsi guidati</span>
         <a class="link-card riga-percorso" href="#/benvenuto"><span><b>Benvenuto</b><br><span class="small muted">Le 5 schermate del primo avvio</span></span><span aria-hidden="true">›</span></a>
@@ -3504,6 +3522,7 @@
       <section aria-labelledby="hub-3" class="hub-gruppo"><h2 id="hub-3">Impostazioni</h2><div class="hub-lista">
         ${riga("#/io/notifiche", IC.notifiche, "Notifiche", on ? `${prefN} temi su 6` : sp === "ok" ? "Da attivare" : sp === "non-pronto" ? "In arrivo" : "Non disponibili", on ? pillOk("attive") : "")}
         ${riga("#/io/privacy", IC.privacy, "Privacy e dati", "Cosa resta sul telefono e cosa va online")}
+        ${riga("#/io/porting", IC.porting, "Porta il profilo", "Da Safari all'app, o su un altro telefono")}
         ${riga("#/io/percorsi", IC.percorsi, "Percorsi guidati", "Rivedi Benvenuto, Prepara, Entra nel gruppo")}</div></section>
       <p class="sub" style="text-align:center"><button type="button" class="hub-versione" data-act="versione-tap">Versione ${esc(window.RB_VERSION || "?")}</button> · gare condivise: ${Object.keys(S.segnalate || {}).length} di ${S.gare.length}${S.erroreSegnala ? ` · ultimo errore: ${esc(S.erroreSegnala)}` : ""}</p>
       <p class="sub" style="text-align:center">Profilo, preparazione e scarpe restano su questo telefono.</p>`;
@@ -3970,6 +3989,11 @@
       // 5 tocchi su "Versione" aprono gli strumenti di prova (data simulata, stato dell'app, statistiche, superamministratore)
       versioneTap += 1; clearTimeout(versioneTimer); versioneTimer = setTimeout(() => { versioneTap = 0; }, 2000);
       if (versioneTap >= 5) { versioneTap = 0; location.hash = "#/io/strumenti"; } else if (versioneTap >= 3) toast(`Ancora ${5 - versioneTap} ${5 - versioneTap === 1 ? "tocco" : "tocchi"}`);
+    } else if (act === "porting-copia") {
+      const ta = document.getElementById("porting-codice"); if (!ta) return;
+      const ok = () => toast("Codice copiato: incollalo nell'app");
+      const manuale = () => { ta.focus(); ta.select(); ta.setSelectionRange(0, ta.value.length); try { document.execCommand("copy") ? ok() : toast("Selezionato: tocca Copia"); } catch (e) { toast("Selezionato: tocca Copia"); } };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(ta.value).then(ok, manuale); else manuale();
     } else if (act === "reset-ask") {
       // Cancella anche quello che è online: iscrizione alle notifiche e profilo nel gruppo (l'account, se c'è, si cancella da Account).
       confirmBox(t, "Cancello gare, spunte, scarpe e documenti da questo telefono, e online la tua iscrizione alle notifiche, il tuo profilo nel gruppo e il collegamento a Strava?", async () => {
@@ -4436,6 +4460,17 @@
     } else if (f.dataset.form === "km") {
       const s = S.scarpe.find((x) => x.id === f.dataset.id); const km = Number(f.querySelector("input").value);
       if (s && km > 0) { annotaKm(s); s.km = Math.round((Number(s.km) + km) * 10) / 10; annotaKm(s); salva(); toast(`+${km} km`); rerender(); }
+    } else if (f.id === "porting-importa") {
+      const r = L.portingLeggi(v("porting-incolla"));
+      if (!r.ok) { toast(r.errore); return; }
+      const n = (r.stato.gare || []).length, g = r.stato.gruppo && r.stato.gruppo.dentro;
+      const haDati = S.gare.length || (S.gruppo && S.gruppo.dentro) || (S.profilo && S.profilo.nome);
+      const fai = () => {
+        S = Object.assign(vuoto(), r.stato); S.push = null; S.prova = "";
+        salva(); toast("Profilo portato qui"); location.hash = "#/oggi"; route();
+      };
+      const btn = f.querySelector("button[type=submit]");
+      if (haDati) confirmBox(btn, `Qui c'è già un profilo: lo sostituisco con quello del codice (${n} ${n === 1 ? "gara" : "gare"}${g ? ", gruppo incluso" : ""})?`, fai); else fai();
     } else if (f.id === "prova") {
       S.prova = v("d-prova"); salva(); toast(S.prova ? "Modalità prova attiva" : "Torniamo a oggi"); location.hash = "#/oggi";
     }

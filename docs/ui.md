@@ -119,6 +119,10 @@ Sezioni a fisarmonica: Profilo, Tessera e certificato (gli stessi campi del funn
 foto da caricare nei portali di iscrizione), Notifiche con preferenze, Gruppo, I miei personali, Strava,
 Le mie scarpe. In fondo gli strumenti di prova (data simulata) e "Rivedi il tutorial".
 
+**Porta il profilo** (`#/io/porting`, ottobre 2026): il codice `RB1…` da copiare dove c'è il profilo e il campo dove incollarlo nell'app o nel nuovo telefono.
+
+<img src="img/ui/io-porting.png" width="280" alt="Io: Porta il profilo">
+
 ## Aggiornare le schermate
 
 Le schermate si rifanno con Playwright, servendo localmente `app/`, `content/` e `data/` (come fa "Pubblica web app")
