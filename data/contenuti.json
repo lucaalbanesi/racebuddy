@@ -2,6 +2,238 @@
  "aggiornato": "2026-10-27",
  "contenuti": [
   {
+   "id": "49a91a3d0fef",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Valencia, regina della velocità: qui 15 dei 20 migliori tempi di sempre nella mezza maratona",
+   "estratto": "Da Gidey a Kejelcha e Kiplimo, le strade valenciane regalano sempre risultati clamorosi. Tutti i numeri",
+   "link": "https://www.runnersworld.com/it/news/a74257276/valencia-regina-velocita-migliori-tempi-mezza-maratona/",
+   "data": "2026-10-27",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/ff3c429e-e384-42cf-908d-b3397dccd465.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "d3694c12206c",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Una corretta alimentazione in gara ti fa guadagnare più di una scarpa da 300 euro.",
+   "estratto": "Una bella e una BELLISSIMA notizia! Una corretta alimentazione in gara ti fa guadagnare più di una scarpa da 300 euro. Alimentarsi nel modo…",
+   "link": "https://www.youtube.com/shorts/EVBT8mG78ok",
+   "data": "2026-10-27",
+   "immagine": "https://i2.ytimg.com/vi/EVBT8mG78ok/hqdefault.jpg",
+   "argomenti": [
+    "alimentazione",
+    "scarpe",
+    "allenamento",
+    "recupero"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara",
+    "dopo"
+   ]
+  },
+  {
+   "id": "f5f9fc7a2db5",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Runner over 40: cinque esercizi per migliorare la resistenza nella corsa",
+   "estratto": "La capacità di sostenere alte intensità tende a ridursi con l'età: ecco 5 esercizi per allenarla",
+   "link": "https://www.runnersworld.com/it/allenamento/coach-del-mese-allenamenti/a74246374/runner-over-40-esercizi-resistenza-corsa/",
+   "data": "2026-10-27",
+   "immagine": "https://hips.hearstapps.com/vidthumb/7b76965c-5c3c-4e6e-9415-fbbb6514c565/118ad4ea-4df0-4258-ac3d-f5024cff5e24.png",
+   "argomenti": [
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "b7693dbbb6ba",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Parlarsi in terza persona per gestire lo stress",
+   "estratto": "Pronunciare il proprio nome nel dialogo interiore abbassa la temperatura emotiva, garantendo la distanza psicologica necessaria per processare e gestire lo stress. L’uso della…",
+   "link": "https://runlovers.it/2026/parlarsi-terza-persona-stress-self-distancing/",
+   "data": "2026-10-27",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/02-20261027-1235-Terza-persona-W-Unsplash-De-Andre-Bush.jpeg?fit=1920%2C1279&quality=75&ssl=1",
+   "argomenti": [
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "918c5046e07e",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "New York, la maratona che ha insegnato al mondo a correre insieme",
+   "estratto": "Da 2.090 iscritti nel 1976 a oltre 59 mila arrivati nel 2025. Cinquant’anni dopo, la corsa che attraversa i cinque distretti continua a raccontare qualcosa che va oltre lo sport",
+   "link": "https://www.runnersworld.com/it/news/a74257517/new-york-maratona-corsa-storia-eventi/",
+   "data": "2026-10-27",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/3b7a8068-7698-44f6-8019-3459980e0513.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "79816507b5c1",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Mezza maratona: più chilometri e meno forza per correre 10 minuti più veloce del previsto",
+   "estratto": "Aumentare il volume di corsa non significa eliminare il lavoro di forza. Ecco come una runner ha trovato un equilibrio migliore tra chilometri, palestra e recupero",
+   "link": "https://www.runnersworld.com/it/allenamento/mezza-maratona/a74244531/mezza-maratona-chilometri-forza-allenamento/",
+   "data": "2026-10-27",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/1e102a6b-094e-457f-8c8d-73986742bbd3.jpeg",
+   "argomenti": [
+    "forza",
+    "recupero",
+    "gara"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "dopo"
+   ]
+  },
+  {
+   "id": "180905911e25",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "La SETTIMANA della GARA cosa fare (e cosa non fare) | PODCAST",
+   "estratto": "Hai fatto mesi di preparazione e adesso arriva la settimana più delicata. In questo episodio del podcast io e Daniele vediamo cosa fare nei…",
+   "link": "https://www.youtube.com/watch?v=Z2k5exT8R3w",
+   "data": "2026-10-27",
+   "immagine": "https://i3.ytimg.com/vi/Z2k5exT8R3w/hqdefault.jpg",
+   "argomenti": [
+    "rifornimento",
+    "alimentazione",
+    "scarpe",
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "dopo"
+   ]
+  },
+  {
+   "id": "42ee82198829",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "INTERVISTA Yeman Crippa, alla maratona di New York con la consapevolezza di poter fare bene",
+   "estratto": "Dalla vittoria di Parigi alla sfida della maratona di New York: Yeman Crippa racconta la nuova consapevolezza, i suoi limiti e la voglia di crescere",
+   "link": "https://www.runnersworld.com/it/vip/a74244647/yeman-crippa-corsa-maratona-new-york/",
+   "data": "2026-10-27",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/a31b97c1-7c17-4c77-8c2b-027f4debd82a.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "e0450c0e4c5d",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Correre in salita e discesa: ritmo e dislivello",
+   "estratto": "Correre in salita e in discesa: perché il ritmo al chilometro può ingannare Il passo GPS racconta quanto velocemente ci muoviamo. Non racconta, da solo, quanta energia spendiamo…",
+   "link": "https://podisti.net/correre-in-salita-e-discesa-ritmo-e-dislivello/",
+   "data": "2026-10-27",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/Correre-tra-salite-e-discese.png",
+   "argomenti": [
+    "allenamento",
+    "mente",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "e77d0f4b5251",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Aria inquinata e corsa, quando conviene rallentare il ritmo",
+   "estratto": "L’aria del giorno entra nella lista dei controlli prima di uscire, accanto a meteo e vento: si legge in mezzo minuto da un’app gratuita e, nei giorni peggiori, suggerisce come…",
+   "link": "https://runlovers.it/2026/aria-inquinata-corsa-biossido-azoto-ritmo/",
+   "data": "2026-10-27",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/inquinamento-aria-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "gara",
+    "abbigliamento",
+    "tecnologia"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "759e7d228122",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Ancora lui: dopo lo straripante record master 50 in mezza, Kiptoo si prende anche la maratona",
+   "estratto": "Solo una ventina di giorni fa aveva conquistato il record di categoria in mezza maratona, ora raddoppia con il primato anche in maratona",
+   "link": "https://www.runnersworld.com/it/news/a74257223/mark-kitptoo-record-maratona-master/",
+   "data": "2026-10-27",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/e5c1b18f-3277-4e0e-9585-b7340a4dac6c.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": []
+  },
+  {
    "id": "8b8612fd41b2",
    "tipo": "articolo",
    "fonte": "Podisti.net",
@@ -45,6 +277,20 @@
     "scarico",
     "gara"
    ]
+  },
+  {
+   "id": "7aa29e53b697",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Spray anti-orso per la mia corsa! 🐻",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/BJoYSPMKgJg",
+   "data": "2026-10-26",
+   "immagine": "https://i3.ytimg.com/vi/BJoYSPMKgJg/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
   },
   {
    "id": "1581c925faf1",
@@ -545,7 +791,7 @@
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
    "fonteId": "runnersworld",
-   "titolo": "Il piano di recupero giorno per giorno dopo una mezza maratona o una maratona.",
+   "titolo": "Il piano di recupero giorno per giorno dopo una mezza maratona o una maratona",
    "estratto": "Dalla fase di scarico rigenerante alla programmazione del nuovo obiettivo: come gestire il post-gara basandosi sulle evidenze scientifiche e sui consigli degli esperti",
    "link": "https://www.runnersworld.com/it/salute/benessere-sport/a74195927/recupero-dopo-maratona-mezza-maratona/",
    "data": "2026-10-25",
