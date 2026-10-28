@@ -1,4 +1,35 @@
 {
+ "P95e43dd906-21": {
+  "partenza": "9:00",
+  "luogoPartenza": "Partenza da Viale J. F. Kennedy; ritrovo alle 7:15, spogliatoi e arrivo alla Mostra d'Oltremare.",
+  "pettorale": "Agli stand della Mostra d'Oltremare: ven 19/2 12-20, sab 20/2 9-21; domenica no. Di persona con documento; delega singola per un solo pettorale in più.",
+  "griglia": "Sei griglie (A-E e G) per miglior tempo in mezza degli ultimi 24 mesi dichiarato all'iscrizione; accesso dalle 7:45 alle 8:45.",
+  "deposito": "Negli spogliatoi del padiglione 2 della Mostra d'Oltremare, con il pettorale; solo piccoli zaini con il cambio, niente valigie, borsoni o trolley.",
+  "ristori": "Ristori lungo il percorso e all'arrivo con acqua, integratori, frutta ed energy drink (km non indicati).",
+  "arrivare": "Stazione Campi Flegrei (Metro Linea 2), Cumana fermata Mostra, autostazione Campi Flegrei. Accessi consigliati: Piazzale Tecchio e Via Terracina (Quick Parking convenzionato).",
+  "mappa": "Viale John Fitzgerald Kennedy, Napoli",
+  "percorsoImmagine": "https://www.napolirunning.com/wp-content/uploads/2025/06/CNCHM-HALF-MARATHON-2027-scaled.webp",
+  "percorsoLink": "https://www.napolirunning.com/cnchm/",
+  "percorsoDescrizione": "Un giro da 21,097 km, partenza e arrivo nella zona della Mostra d'Oltremare; percorso omologato.",
+  "sito": "https://www.napolirunning.com/cnchm/",
+  "canali": {
+   "youtube": "https://www.youtube.com/feeds/videos.xml?channel_id=UCV2CDNgqRQWCd3WPs-6FGMg",
+   "instagram": "https://www.instagram.com/napolirunning/",
+   "facebook": "https://www.facebook.com/napolirunning/"
+  },
+  "nomi": [
+   "Napoli City Half Marathon",
+   "Mezza maratona di Napoli",
+   "Napoli Half Marathon"
+  ],
+  "note": "13ª edizione. Tempo massimo 3h30, cancello al km 9,5 alle 10:40. Pacer da 1:24 a 3:30 (Partenope Pace Team). Chip sul pettorale, rilevamenti a partenza, 10 km e arrivo.",
+  "fonti": [
+   "https://www.napolirunning.com/cnchm/",
+   "https://www.napolirunning.com/cnchm-regolamento/"
+  ],
+  "verificato": "2026-10-28",
+  "edizione": "2027"
+ },
  "E-valencia-42-2026": {
   "partenza": "8:15",
   "luogoPartenza": "Partenza Plaça de la Marató, arrivo alla Città delle Arti e delle Scienze (passerella blu sull'acqua)",
