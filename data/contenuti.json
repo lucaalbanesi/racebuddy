@@ -2,6 +2,211 @@
  "aggiornato": "2026-10-28",
  "contenuti": [
   {
+   "id": "829e2e5355f4",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Trail running in autunno: come adattare gli allenamenti quando arriva il buio",
+   "estratto": "Con il cambio dell'ora e giornate sempre più corte, cambiano anche abitudini e necessità per chi corre sui sentieri. Ecco alcuni consigli su come gestire il cambio di stagione",
+   "link": "https://www.runnersworld.com/it/trail/allenamento-preparazione/a74260133/ora-solare-cambia-allenamento-trail-runner/",
+   "data": "2026-10-28",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/49793007-0486-4c29-9a2d-f218aaf6775a.jpg",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "ec1946f9095b",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Sei mai partito a tutta e hai pagato il conto negli ultimi chilometri?",
+   "estratto": "Sei mai partito a tutta e hai pagato il conto negli ultimi chilometri? Succede a tutti: l’adrenalina del via, il gruppo che ti trascina, le…",
+   "link": "https://www.youtube.com/shorts/9KxfRThqmng",
+   "data": "2026-10-28",
+   "immagine": "https://i2.ytimg.com/vi/9KxfRThqmng/hqdefault.jpg",
+   "argomenti": [
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "f84b546c0ed2",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Proteine prima della corsa? Sì, puoi assumerle",
+   "estratto": "Temi che le proteine prima di correre causino disturbi gastrointestinali? Uno studio offre nuove indicazioni. Scopri cinque cibi vegetariani per variare la tua dieta",
+   "link": "https://www.runnersworld.com/it/alimentazione/food-drink/a74261658/proteine-prima-corsa-cosa-mangiare/",
+   "data": "2026-10-28",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/eca0ac64-e49f-4cfb-abfb-e59da7b6c972.jpeg",
+   "argomenti": [
+    "alimentazione"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
+   "id": "ff1f88c39a14",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Peres Jepchirchir positiva all’EPO: buona o cattiva notizia?",
+   "estratto": "La notizia è di pochi giorni fa. C’è un nuovo caso di doping nell’atletica keniana. Riguarda una figura di primissimo piano. Parliamo di Peres Jepchirchir, campionessa olimpica…",
+   "link": "https://podisti.net/peres-jepchirchir-positiva-allepo-e-una-buona-o-una-cattiva-notizia/",
+   "data": "2026-10-28",
+   "immagine": "https://podisti.net/wp-content/uploads/2025/07/Podisti-Net.png",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "82fc2a0976cd",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "Maratona di New York 2026: domenica la carica dei 60.000",
+   "estratto": "In pieno clima Halloween (sabato 31 ottobre), New York si prepara a ospitare gli oltre 60.000 partecipanti , di cui circa 2.600 italiani, alla New York City Marathon 2026 , che…",
+   "link": "https://correre.it/maratona-di-new-york-2026/",
+   "data": "2026-10-28",
+   "immagine": "https://correre.it/wp-content/uploads/2026/10/Kipruto_Mutiso_Maratona_-New_York_-2025.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "gara"
+   ]
+  },
+  {
+   "id": "53a6420ff90e",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Lo squat bulgaro per gambe e glutei più forti anche a casa",
+   "estratto": "Con il piede dietro appoggiato su una sedia o sul divano, una gamba sola si prende il lavoro che a due gambe chiederebbe un bilanciere: serve solo trovare la distanza giusta e…",
+   "link": "https://runlovers.it/2026/squat-bulgaro-tecnica-gambe-glutei/",
+   "data": "2026-10-28",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/squat-bulgaro-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "b6255d0d9e4c",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Little Italy del running: come l’Italia ha fatto la storia alla Maratona di New York",
+   "estratto": "Quando l’Italia era il Kenya: vittorie, podi e grandi piazzamenti azzurri sulle strade di New York, dagli anni ’80 a oggi",
+   "link": "https://www.runnersworld.com/it/news/a74267995/maratona-new-york-storia-italiani/",
+   "data": "2026-10-28",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/20709df5-e91a-4c58-9cf0-28a3a7f7486c.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "14528d0b0e25",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Le gare del weekend dell'1 novembre",
+   "estratto": "Nel fine settimana dominato dalla Maratona di New York la corsa in Italia non si ferma, sono tantissime le gare in programma nel weekend",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74262157/gare-corsa-uno-novembre-2026/",
+   "data": "2026-10-28",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/156c8e2f-ae99-4c66-856a-24fea3e5f476.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "8ab380fa9613",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "La bellezza delle passeggiate a caccia di castagne",
+   "estratto": "Lascia l’orologio sul comodino e prendi un cesto: camminare in collina per cercare castagne ti cambia la concezione lineare del movimento. Quando vai a caccia di castagne, il…",
+   "link": "https://runlovers.it/2026/passeggiate-raccolta-castagne-colline/",
+   "data": "2026-10-28",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/03-20261028-0715-Passeggiata-castagne-W-Unsplash-Wolfgang-Weiser.jpeg?fit=1918%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "mente",
+    "abbigliamento",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "10bbc0ba0f74",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Gianni Poli, 40 anni fa il trionfo a New York: “L’ho combinata veramente grossa”",
+   "estratto": "A quarant’anni dalla vittoria a Central Park, Gianni Poli racconta l’impresa del 1986, il boom della corsa e la magia di New York",
+   "link": "https://www.runnersworld.com/it/vip/a74261891/gianni-poli-40-anni-fa-trionfo-maratona-new-york/",
+   "data": "2026-10-28",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/gianni-poli-new-york-64647fb5059ca.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "0c741b12c69e",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "A cosa pensi quando corri?",
+   "estratto": "Una riflessione su corsa, silenzio e bisogno di stimoli nell'epoca della connessione continua",
+   "link": "https://www.runnersworld.com/it/news/a74261488/a-cosa-pensi-quando-corri/",
+   "data": "2026-10-28",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/82a0fd12-f9d6-4db5-a57b-569e37e94488.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
    "id": "49a91a3d0fef",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -176,7 +381,7 @@
    "fonte": "Podisti.net",
    "fonteId": "podistinet",
    "titolo": "Lettera aperta al “Club del Miglio”",
-   "estratto": "Lo scorso 3 ottobre si è chiusa l’edizione 2026 del Club del Miglio. Purtroppo soltanto quattro tappe. Con tante difficoltà, dovute ad errori passati, fatti e persone che non…",
+   "estratto": "Lo scorso 3 ottobre si è chiusa l’edizione 2026 del Club del Miglio. Purtroppo soltanto quattro tappe. Con tante difficoltà, dovute ad errori, fatti e persone che non vogliamo…",
    "link": "https://podisti.net/lettera-aperta-al-club-del-miglio/",
    "data": "2026-10-27",
    "immagine": "https://podisti.net/wp-content/uploads/Legacy/k2-cache/abee0abc7390017b9e9a9a019be29161_XL.jpg",
@@ -265,6 +470,20 @@
     "scarico",
     "gara"
    ]
+  },
+  {
+   "id": "b446393e33ea",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Correndo al buio nelle gallerie! 🔦",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/MdKeYdOT55s",
+   "data": "2026-10-27",
+   "immagine": "https://i2.ytimg.com/vi/MdKeYdOT55s/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
   },
   {
    "id": "e77d0f4b5251",
