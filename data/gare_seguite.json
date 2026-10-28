@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-10-26",
+ "aggiornato": "2026-10-28",
  "gare": [
   {
    "id": "L2bda4b848d-10",
@@ -75,8 +75,8 @@
    "distanza": "10",
    "fonte": "FIDAL",
    "prima_aggiunta": "2026-10-14",
-   "aggiunte": 7,
-   "ultima_aggiunta": "2026-10-22"
+   "aggiunte": 9,
+   "ultima_aggiunta": "2026-10-27"
   },
   {
    "id": "L12edf35333-10",
@@ -88,6 +88,17 @@
    "prima_aggiunta": "2026-10-21",
    "aggiunte": 2,
    "ultima_aggiunta": "2026-10-22"
+  },
+  {
+   "id": "P95e43dd906-21",
+   "nome": "XIII^ COELMO Napoli City Half Marathon",
+   "data": "2027-02-21",
+   "luogo": "NAPOLI",
+   "distanza": "21",
+   "fonte": "FIDAL",
+   "prima_aggiunta": "2026-10-27",
+   "aggiunte": 2,
+   "ultima_aggiunta": "2026-10-27"
   },
   {
    "id": "L0c212379c2-21",
