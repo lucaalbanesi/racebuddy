@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-10-27",
+ "aggiornato": "2026-10-28",
  "contenuti": [
   {
    "id": "49a91a3d0fef",
@@ -68,6 +68,28 @@
    ]
   },
   {
+   "id": "c0ba8e78afe1",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Plateau: perché i progressi si fermano e come ripartire",
+   "estratto": "Quando i carichi non salgono più, il corpo ha finito di adattarsi allo stimolo che riceve: capire quale variabile lo tiene fermo indica anche quale cambiare. Cosa succede al corpo…",
+   "link": "https://runlovers.it/2026/plateau-allenamento-progressi-fermi-ripartire/",
+   "data": "2026-10-27",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/plateau-training-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "recupero",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico",
+    "dopo"
+   ]
+  },
+  {
    "id": "b7693dbbb6ba",
    "tipo": "articolo",
    "fonte": "Runlovers",
@@ -127,6 +149,58 @@
     "costruzione",
     "dopo"
    ]
+  },
+  {
+   "id": "18edd7eadca0",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona di Torino 2026, quante novità: classifica per esordienti e due giorni di gare",
+   "estratto": "Due giorni di gare, un traguardo separato per la mezza maratona e una classifica dedicata a chi corre la sua prima 42 km: ecco le novità della Maratona di Torino 2026",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74261917/maratona-torino-2026-novita/",
+   "data": "2026-10-27",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/357ba7df-9f82-45b0-8568-be4da4a4d76e.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "9bbf53f20daf",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Lettera aperta al “Club del Miglio”",
+   "estratto": "Lo scorso 3 ottobre si è chiusa l’edizione 2026 del Club del Miglio. Purtroppo soltanto quattro tappe. Con tante difficoltà, dovute ad errori passati, fatti e persone che non…",
+   "link": "https://podisti.net/lettera-aperta-al-club-del-miglio/",
+   "data": "2026-10-27",
+   "immagine": "https://podisti.net/wp-content/uploads/Legacy/k2-cache/abee0abc7390017b9e9a9a019be29161_XL.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "17a395aa63b6",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Lega un bambino di 9 anni e lo trascina durante la mezza maratona: squalificato per tre anni",
+   "estratto": "L’episodio è stato ripreso da un runner e il video è diventato virale",
+   "link": "https://www.runnersworld.com/it/news/a74258295/mezza-maratona-zhengzhou-uomo-lega-bambino-trascina/",
+   "data": "2026-10-27",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/9d5f56f1-d63e-4e31-a0b4-d3f2bcd73c0e.png",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
   },
   {
    "id": "180905911e25",
@@ -231,6 +305,22 @@
     "42",
     "21"
    ],
+   "fasi": []
+  },
+  {
+   "id": "a7c5a3e4da8d",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Alla Maratonina Città di Arezzo è festa per Peter Kiprot Kosgey e Adeline Musabyeyezu",
+   "estratto": "Arezzo, 26 ottobre 2026 – Una grande giornata di sport ha animato ieri le strade di Arezzo in occasione della 27ª edizione della Maratonina Città di Arezzo, manifestazione…",
+   "link": "https://podisti.net/alla-maratonina-citta-di-arezzo-e-festa-per-peter-kiprot-kosgey-e-adeline-musabyeyezu/",
+   "data": "2026-10-27",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/MARATONINA-AREZZO.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
    "fasi": []
   },
   {
