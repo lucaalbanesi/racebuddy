@@ -2,6 +2,245 @@
  "aggiornato": "2026-10-29",
  "contenuti": [
   {
+   "id": "35de044ae664",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Un miliardo di persone corrono: World Athletics crea il dipartimento del running",
+   "estratto": "La nuova struttura inernazionale autonoma ha il compito di coordinare i grandi eventi. Riuscirà a garantire i diritti dei runner in un momento di grande boom che sta determinando…",
+   "link": "https://www.runnersworld.com/it/news/a74281787/un-miliardo-di-persone-corrono-world-athletics-crea-il-dipartimento-del-running/",
+   "data": "2026-10-29",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/cc1cd5fe-c618-43bb-bcda-76f37c6bf7f3.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "0ae7c2f4cbf9",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Un mese di tecnica per una corsa più efficiente",
+   "estratto": "Cinque andature tecniche, quattro settimane a partire da lunedì 2 novembre e un tratto di corsa dopo ogni esercizio, per portare nella corsa il gesto appena allenato. Cosa sono le…",
+   "link": "https://runlovers.it/2026/programma-mese-tecnica-corsa-efficiente/",
+   "data": "2026-10-29",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/andature-corsa-tecnica-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "52cc9e2ab4ae",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Runner's World di novembre è in edicola e online",
+   "estratto": "Il nuovo numero di Runner’s World è in edicola: la strategia carbo per la gara, gli esercizi per un corretto appoggio del piede, le nuove super scarpe, il metodo corri/cammina e…",
+   "link": "https://www.runnersworld.com/it/edicola-e-abbonamento/novita/a74280978/runners-world-yeman-crippa-corsa-running-novembre-edicola/",
+   "data": "2026-10-29",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/c0589b27-267e-43d5-bb70-b38729e5abea.png",
+   "argomenti": [
+    "scarpe",
+    "forza",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "07b25a5b3cc7",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Puma infrange le regole e lancia Fast-RB Nitro Elite 2, super scarpe da corsa con doppia piastra",
+   "estratto": "Si chiama Puma Fast-RB Nitro Elite 2 , ed è la super scarpa con doppia piastra in fibra di carbonio e un design a trampolino che promette velocità ed efficienza di corsa.",
+   "link": "https://www.runnersworld.com/it/scarpe/scarpe-running/a74276988/puma-fast-rb-nitro-elite-2-super-scarpe-corsa-illegali/",
+   "data": "2026-10-29",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/a90e96a0-31c9-41f0-9eb5-fa6503fadaa3.jpg",
+   "argomenti": [
+    "scarpe"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "18e097958573",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "NON SONO IN FORMA come vorrei: a 6 settimane dalla MARATONA",
+   "estratto": "Mancano sei settimane alla Maratona di Firenze e non sono dove vorrei essere. In questo video vi racconto a che punto sono e l’allenamento…",
+   "link": "https://www.youtube.com/watch?v=RcVQXExD_FA",
+   "data": "2026-10-29",
+   "immagine": "https://i3.ytimg.com/vi/RcVQXExD_FA/hqdefault.jpg",
+   "argomenti": [
+    "scarpe",
+    "allenamento",
+    "gara",
+    "tecnologia"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "a1d922eba6ed",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Le ossa si rinforzano saltando, anche dopo i quarant’anni",
+   "estratto": "Gli impatti brevi, netti e improvvisi contribuiscono a ricostruire e rinforzare le ossa. Dopo i quarant’anni la struttura scheletrica perde densità in assenza di stimoli meccanici…",
+   "link": "https://runlovers.it/2026/salti-ossa-forti-longevita/",
+   "data": "2026-10-29",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/05-20261029-1235-Ossa-W-Unsplash-Meghan-Holmes.jpeg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "alimentazione",
+    "forza",
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico",
+    "dopo"
+   ]
+  },
+  {
+   "id": "3388bb4034a3",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Idratazione nella corsa: bere a ogni ristoro?",
+   "estratto": "IDRATAZIONE NELLA CORSA: BISOGNA BERE A OGNI RIFORNIMENTO O ASCOLTARE LA SETE? Bere di più significa correre meglio? Una meta-analisi mette alla prova le strategie di idratazione…",
+   "link": "https://podisti.net/idratazione-nella-corsa-bere-a-ogni-ristoro/",
+   "data": "2026-10-29",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/Idratazione-nella-corsa_-guida-pratica.png",
+   "argomenti": [
+    "rifornimento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico"
+   ]
+  },
+  {
+   "id": "f1c54ce2390f",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Hyrox punta alle Olimpiadi: l'alleanza con World Triathlon cambia lo sport ibrido",
+   "estratto": "La federazione internazionale del triathlon riconosce le gare ibride e apre un percorso verso i Giochi. Per Hyrox è un passaggio strategico. Ecco cosa cambia per le gare",
+   "link": "https://www.runnersworld.com/it/news/a74279932/hyrox-olimpiadi-alleanza-world-triathlon/",
+   "data": "2026-10-29",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/dbaa3f74-2a79-41f5-bc00-32032c0f4cfb.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "cd1299c684d4",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Hyperion Elite 6, Brooks ha la sua super scarpa: il test",
+   "estratto": "Con Hyperion Elite 6, Brooks compie un salto in avanti. L’abbiamo testata su strada e in pista, ecco cos'è cambiato",
+   "link": "https://www.runnersworld.com/it/scarpe/scarpe-running/a74204031/hyperion-elite-6-brooks-scarpa-test/",
+   "data": "2026-10-29",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/2feeddb8-751d-4356-9ae9-9e77324c62ea.jpg",
+   "argomenti": [
+    "scarpe"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "2545f3e043ba",
+   "tipo": "video",
+   "fonte": "Andrea Vignone",
+   "fonteId": "yt_crazyvigno",
+   "titolo": "EICMA 2026: NOVITÀ, NUOVE GRAFICHE e SUPERENDURO! 🔥 Vediamoci a Milano + training in alta montagna",
+   "estratto": "🔥 **EICMA 2026: NEWS, SPOILER, NUOVE GRAFICHE E SUPERENDURO!** 🏍️ EICMA 2026 si avvicina e in questo video vi racconto alcune novità, dove…",
+   "link": "https://www.youtube.com/watch?v=Is9uRVSZVrQ",
+   "data": "2026-10-29",
+   "immagine": "https://i2.ytimg.com/vi/Is9uRVSZVrQ/hqdefault.jpg",
+   "argomenti": [
+    "allenamento",
+    "gara",
+    "racconti"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "fa18c2493802",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Cosa insegna il debutto da 2h20'46\" di Blanka Dörfel, ottava europea all-time senza orologio",
+   "estratto": "Al debutto in maratona, Blanka Dörfel ha corso in 2h20’46” senza indossare l’orologio. La sua gara offre uno spunto per riscoprire l’ascolto del corpo e correre a sensazione",
+   "link": "https://www.runnersworld.com/it/allenamento/a74280598/blanka-dorfel-maratona-senza-orologio/",
+   "data": "2026-10-29",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/018ff1cc-bd78-4df2-822f-198479825629.jpeg",
+   "argomenti": [
+    "gara",
+    "tecnologia"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "01874f6643f6",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Allenare la forza a casa senza attrezzi: gli esercizi per chi corre",
+   "estratto": "Allenare la forza aiuta chi corre a migliorare la prestazione e mantenersi efficiente. Ecco gli esercizi da fare a casa, anche senza attrezzi specifici",
+   "link": "https://www.runnersworld.com/it/allenamento/esercizi/a74240527/allenare-forza-casa-senza-attrezzi-esercizi/",
+   "data": "2026-10-29",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/58455798-34c2-4779-9679-e9745a9147e0.jpeg",
+   "argomenti": [
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
    "id": "1cdc7a658ff3",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -129,6 +368,20 @@
     "42",
     "21"
    ],
+   "fasi": []
+  },
+  {
+   "id": "f3e1bb62516d",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Percorso cambiato: ho perso tempo! ⏱️",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/1Z_RkuDT95g",
+   "data": "2026-10-28",
+   "immagine": "https://i2.ytimg.com/vi/1Z_RkuDT95g/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
    "fasi": []
   },
   {
