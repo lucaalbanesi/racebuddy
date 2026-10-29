@@ -60,14 +60,14 @@
   "edizione": "2026"
  },
  "L2bda4b848d-10": {
-  "partenza": "8:30",
-  "luogoPartenza": "Partenza in Piazza Pio XII (davanti a Piazza San Pietro), arrivo in Piazza Pia; ritrovo dalle 6:30 in via della Conciliazione.",
+  "partenza": "8:15 da confermare",
+  "luogoPartenza": "Partenza in Piazza Pio XII (davanti a Piazza San Pietro), arrivo su via della Conciliazione; ritrovo dalle 6:30 in via della Conciliazione.",
   "pettorale": "Parrocchia S. Maria delle Grazie al Trionfale, via Frà Albenzio 3 (Metro A Cipro): ven 30 e sab 31/10, 10-18. Anche con delega.",
   "griglia": "Griglie per tempo dichiarato all'iscrizione (senza tempo, ultima griglia). Accesso alla partenza solo da Borgo Santo Spirito.",
-  "deposito": "Al gazebo del ritiro pettorali della mattina, in via Giuseppe Ceccarelli (sotto il Passetto, accanto a Castel Sant'Angelo).",
+  "deposito": "Nello stesso luogo del ritiro pettorali della mattina: gazebo in via della Conciliazione.",
   "ristori": "Un ristoro a metà percorso e uno all'arrivo.",
   "mappa": "Piazza Pio XII, Roma",
-  "percorsoDescrizione": "9,5 km nel centro storico: Corso Vittorio, Torre Argentina, Teatro Marcello, Circo Massimo, Colosseo, Fori Imperiali, Via del Corso, Piazza del Popolo, Prati e ritorno su via della Conciliazione.",
+  "percorsoDescrizione": "9,95 km nel centro storico: Corso Vittorio, Torre Argentina, Teatro Marcello, Circo Massimo, Colosseo, Fori Imperiali, Via del Corso, Piazza del Popolo, Prati, Borgo e ritorno su via della Conciliazione.",
   "sito": "https://www.corsadeisanti.it/",
   "canali": {
    "notizie": "https://www.corsadeisanti.it/feed/",
@@ -78,13 +78,17 @@
    "Corsa dei Santi",
    "La Corsa dei Santi"
   ],
-  "note": "Distanza ufficiale 9,5 km. Tempo massimo 2 ore. Chi risiede fuori provincia di Roma può ritirare il pettorale anche la mattina, 7-8:15, al gazebo di via Ceccarelli.",
+  "note": "Regolamento aggiornato del 21/10: partenza 8:15, 9,95 km, tempo massimo 3 ore, percorso in attesa di autorizzazione di Roma Capitale. La versione di settembre, ancora collegata nel sito, diceva 8:30, 9,5 km e 2 ore. Chi risiede fuori provincia di Roma può ritirare il pettorale anche la mattina, 7-8, al gazebo in via della Conciliazione.",
   "fonti": [
    "https://www.corsadeisanti.it/la-corsa/",
-   "https://www.corsadeisanti.it/wp-content/uploads/2026/09/REGOLAMENTO-CORSA-DEI-SANTI-DEFINITIVO-2026-1.pdf"
+   "https://www.corsadeisanti.it/wp-content/uploads/2026/10/REGOLAMENTO-CORSA-DEI-SANTI-DEFINITIVO-2026-1.pdf",
+   "https://www.corsadeisanti.it/wp-content/uploads/2026/09/REGOLAMENTO-CORSA-DEI-SANTI-DEFINITIVO-2026.pdf",
+   "https://www.corsadeisanti.it/percorsi2026/"
   ],
-  "verificato": "2026-10-27",
-  "edizione": "2026"
+  "verificato": "2026-10-29",
+  "edizione": "2026",
+  "percorsoImmagine": "https://www.corsadeisanti.it/wp-content/uploads/2026/10/CDS18MAP.png",
+  "percorsoLink": "https://www.corsadeisanti.it/percorsi2026/"
  },
  "E-copenaghen-mezza-21-2027": {
   "partenza": "9:30",
@@ -143,7 +147,7 @@
   "partenza": "8:30",
   "luogoPartenza": "Partenza da Piazza Duomo (ritrovo nell'area di partenza alle 8:00)",
   "mappa": "Piazza del Duomo, Firenze",
-  "pettorale": "Marathon Expo alla Stazione Leopolda (Viale Fratelli Rosselli 5): venerdì 27 e sabato 28 novembre, orari da confermare (vedi note). Servono documento, lettera di conferma (anche sul telefono) e tesserino FIDAL o RunCard con certificato medico.",
+  "pettorale": "Marathon Expo alla Stazione Leopolda (Viale Fratelli Rosselli 5): venerdì 27 novembre 10-19:30 e sabato 28 9-19:30. Servono documento, lettera di conferma (anche sul telefono) e tesserino FIDAL o RunCard con certificato medico.",
   "griglia": "Griglie per personal best in maratona degli ultimi 2 anni: gialla fino a 2h30, rossa 2h31-3h00, azzurra 3h01-3h30, grigia 3h31-4h00, verde 4h01-4h30, fucsia oltre 4h30. Ingresso dalle 7:00 alle 8:00.",
   "deposito": "Piazza Santa Maria Novella dalle 7:00, per gruppi di pettorale, con la sacca ufficiale. L'organizzazione fornisce una mantella di plastica.",
   "ristori": "Ogni 5 km acqua, tè e sali; cibo solido dal km 15.",
@@ -151,14 +155,14 @@
   "percorsoLink": "https://www.firenzemarathon.it/la-maratona/",
   "percorsoDescrizione": "Dal Duomo per le strade del centro storico e lungo l'Arno.",
   "sito": "https://www.firenzemarathon.it/",
-  "note": "Gara sold out. Orari Expo: il regolamento indica ven 10-19:30 e sab 9-19:30, la pagina Expo ven 10:30-19:30 e sab 9:30-19:30. Tempo massimo 6 ore, cancelli alla mezza (3h) e al km 30 (4h15).",
+  "note": "Gara sold out (aperta la lista d'attesa). Tempo massimo 6 ore, cancelli alla mezza (3h) e al km 30 (4h15).",
   "fonti": [
    "https://www.firenzemarathon.it/regolamento-maratona/",
    "https://www.firenzemarathon.it/expo/",
    "https://www.firenzemarathon.it/la-maratona/",
    "https://www.firenzemarathon.it/"
   ],
-  "verificato": "2026-10-14",
+  "verificato": "2026-10-29",
   "edizione": "2026",
   "canali": {
    "notizie": "https://www.firenzemarathon.it/feed/",
