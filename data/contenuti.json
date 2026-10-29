@@ -1,6 +1,43 @@
 {
- "aggiornato": "2026-10-28",
+ "aggiornato": "2026-10-29",
  "contenuti": [
+  {
+   "id": "1cdc7a658ff3",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "“Se non è su Strava, non è successo”: ora le atlete caricano anche il parto",
+   "estratto": "Su Strava non si condividono più solo corse e allenamenti: alcune atlete hanno registrato anche il travaglio",
+   "link": "https://www.runnersworld.com/it/news/a74269929/registrare-parto-strava/",
+   "data": "2026-10-28",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/9c66cbe0-183e-40a8-b059-ca5366261e7d.jpeg",
+   "argomenti": [
+    "allenamento",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "2bef5681c633",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Vittoria for woman Run, quando a vincere è la solidarietà",
+   "estratto": "28 ottobre – Con la 4^ Vittoria for Woman Run, disputata sabato 24 ottobre al campo XXV Aprile di Milano, si è concluso il Vittoria for Women Tour, l’iniziativa, come ha ricordato…",
+   "link": "https://podisti.net/vittoria-for-woman-run-quando-a-vincere-e-la-solidarieta/",
+   "data": "2026-10-28",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/VITTORIA-FOR-WOMEN-PARTENZA.jpg",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte"
+   ]
+  },
   {
    "id": "829e2e5355f4",
    "tipo": "articolo",
@@ -40,6 +77,20 @@
     "costruzione",
     "picco"
    ]
+  },
+  {
+   "id": "649a8b4383f6",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Puglia by UTMB, caos sulla 50 km: divampa la polemica social",
+   "estratto": "Puglia by UTMB, il weekend di trail pugliese è stato una festa, ma non tutto è andato come previsto",
+   "link": "https://www.runnersworld.com/it/news/a74268414/puglia-by-utmb-problemi-polemiche/",
+   "data": "2026-10-28",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/7447e150-e1a2-4812-9313-d2c9c66f68ca.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
   },
   {
    "id": "f84b546c0ed2",
@@ -137,6 +188,26 @@
     "42"
    ],
    "fasi": []
+  },
+  {
+   "id": "931da67664a5",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Le scarpe da corsa sono diventate le scarpe di tutti i giorni",
+   "estratto": "La gomma ingegnerizzata per la strada e la roccia domina le sale riunioni imponendo un nuovo standard di identità e comodità quotidiana. Le scarpe tecniche hanno ormai conquistato…",
+   "link": "https://runlovers.it/2026/scarpe-corsa-uso-quotidiano-moda/",
+   "data": "2026-10-28",
+   "immagine": "https://runlovers.it/wp-content/uploads/2026/10/04-20261028-1730-Scarpe-da-corsa-C-Unsplash-Liana-S.jpeg",
+   "argomenti": [
+    "scarpe"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
   },
   {
    "id": "14528d0b0e25",
