@@ -2,6 +2,219 @@
  "aggiornato": "2026-10-30",
  "contenuti": [
   {
+   "id": "f9b0bbd6fc6a",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Ti è mai capitato di allenarti bene e non vedere comunque il risultato che speravi?",
+   "estratto": "Ti è mai capitato di allenarti bene e non vedere comunque il risultato che speravi? A sei settimane da Firenze sono più lento di quanto ero…",
+   "link": "https://www.youtube.com/shorts/zbdrVOLKJHg",
+   "data": "2026-10-30",
+   "immagine": "https://i3.ytimg.com/vi/zbdrVOLKJHg/hqdefault.jpg",
+   "argomenti": [
+    "gara",
+    "racconti"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
+   "id": "e87c31ead4d5",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Ritmo gara: quanto allenarlo davvero prima di una mezza o maratona",
+   "estratto": "Quanto correre al ritmo gara prima di mezza e maratona? I coach spiegano tempi minimi, frequenza, sedute e quando correggere il passo obiettivo",
+   "link": "https://www.runnersworld.com/it/allenamento/maratona/a74282701/ritmo-gara-mezza-maratona-allenamento/",
+   "data": "2026-10-30",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/b2eabf53-7fac-4d78-ab69-1a092669ac71.jpg",
+   "argomenti": [
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": [
+    "si_parte",
+    "picco"
+   ]
+  },
+  {
+   "id": "e3b7b703010b",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Muro della maratona: come affrontarlo e perché i lunghi sono fondamentali",
+   "estratto": "Il famoso muro intorno al 30° km è una delle paure più comuni di chi prepara la prima maratona. Federico Magi spiega come allenarsi, alimentarsi e reagire quando arriva la crisi",
+   "link": "https://www.runnersworld.com/it/allenamento/maratona/a74284273/muro-maratona-come-affrontarlo-lunghi/",
+   "data": "2026-10-30",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/790070f4-af58-4f28-9e0b-8ab93cd7a787.jpeg",
+   "argomenti": [
+    "alimentazione",
+    "allenamento",
+    "gara",
+    "mente"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "costruzione",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "ddfab99ab24e",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona di New York 2026: 6 motivi per non perderla",
+   "estratto": "L'1° novembre torna la Maratona di New York: dalla celebrazione dei 50 anni del percorso nei cinque borough alla sfida degli italiani, passando per l’atteso debutto in maratona di…",
+   "link": "https://www.runnersworld.com/it/news/a74292116/maratona-new-york-2026-motivi-guardarla/",
+   "data": "2026-10-30",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/6a92684a-4dc5-4eb0-b74e-fbe65581e014.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "799d6b110695",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "La prima 10 km a Capodanno partendo dai 5 km",
+   "estratto": "Otto settimane da lunedì 2 novembre, più quella della gara, per passare dalla mezz’ora di corsa continua a dieci chilometri corsi dall’inizio alla fine. Tre uscite a settimana…",
+   "link": "https://runlovers.it/2026/programma-prima-10-km-capodanno/",
+   "data": "2026-10-30",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/preparare-10k-capodanno-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "gara",
+    "tecnologia"
+   ],
+   "distanze": [
+    "10"
+   ],
+   "fasi": [
+    "si_parte",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "8fc35b450e68",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "LOSA EXPERIENCE 21K & 10K: PARTENZA SPRINT CON GIÀ 300 ISCRITTI! IL 17 GENNAIO AD ARCONATE SI CORRE VELOCE, CON UNA SORPRESA TUTTA DA…",
+   "estratto": "Due gare competitive su percorsi omologati FIDAL, tracciati pianeggianti e una novità che promette di rivoluzionare il concetto di velocità nella mezza maratona. Intanto cresce…",
+   "link": "https://podisti.net/losa-experience-21k-10k-partenza-sprint-con-gia-300-iscritti-il-17-gennaio-ad-arconate-si-corre-veloce-con-una-sorpresa-tutta-da-scoprire/",
+   "data": "2026-10-30",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/Corsa-LOSA-Experience-ad-Arconate.png",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42",
+    "21",
+    "10"
+   ],
+   "fasi": [
+    "gara"
+   ]
+  },
+  {
+   "id": "95e31dbe07a0",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "GEL-NIMBUS 29 di ASICS: un comfort nuovo",
+   "estratto": "La GEL-NIMBUS 29 introduce una mescola nuova all’intersuola, una suola ridisegnata e più gomma sotto il piede, e arriva nei negozi il 1° dicembre. La nuova schiuma FF LUXE PLUS e…",
+   "link": "https://runlovers.it/2026/gel-nimbus-29-asics-novita-uscita/",
+   "data": "2026-10-30",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/GEL-NIMBUS-29-02.jpg?resize=1160%2C773&quality=75&ssl=1",
+   "argomenti": [
+    "rifornimento",
+    "scarpe"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico"
+   ]
+  },
+  {
+   "id": "7ac1f7247021",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Dolore articolare dopo la corsa: 5 esercizi per ridurre rigidità e fastidi",
+   "estratto": "Mobilità, flessibilità e forza possono aiutare a contrastare rigidità e fastidi articolari. Cinque esercizi utili anche nella routine dei runner",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a74259855/dolore-articolare-dopo-corsa-esercizi-runner/",
+   "data": "2026-10-30",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/02571356-3224-4fe7-aeb9-853c3e14d292.jpeg",
+   "argomenti": [
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "28b745d15a6a",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Castagne in autunno: cosa portano a tavola e quante mangiarne",
+   "estratto": "Il cartoccio caldo che stringi tra le mani nasconde un blocco di carboidrati complessi da gestire esattamente come un piatto di pasta. Le castagne nutrono come pane e pasta . Il…",
+   "link": "https://runlovers.it/2026/castagne-autunno-proprieta-quantita/",
+   "data": "2026-10-30",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/07-20261030-1235-Castagne-W-Unsplash-Natary-T.jpeg?fit=1920%2C1281&quality=75&ssl=1",
+   "argomenti": [
+    "rifornimento",
+    "alimentazione",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico"
+   ]
+  },
+  {
+   "id": "41303173aec7",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Campionati Italiani di Mezza Maratona: a Padenghe in tanti vanno a caccia del tricolore",
+   "estratto": "A Padenghe sul Garda si assegnano i titoli italiani di mezza maratona. Jaafari, Ouhda e Mondazzi guidano la sfida maschile; Elvanie Nimbona punta al secondo tricolore",
+   "link": "https://www.runnersworld.com/it/news/a74291525/campionati-italiani-mezza-maratona-padenghe/",
+   "data": "2026-10-30",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/91d5b0f7-46b2-497d-819b-4faf34a20c55.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
    "id": "35de044ae664",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
