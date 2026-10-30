@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-10-29",
+ "aggiornato": "2026-10-30",
  "contenuti": [
   {
    "id": "35de044ae664",
@@ -58,6 +58,24 @@
    ]
   },
   {
+   "id": "d2225f14ab04",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Runner ritrova in un ghiacciaio un fusto di birra di 50 anni: era ancora buona",
+   "estratto": "Durante un allenamento sulle Alpi dello Zillertal, in Alto Adige, Daniel Oberlechner ha ritrovato un fusto disperso nel 1978. La birra al suo interno era ancora bevibile",
+   "link": "https://www.runnersworld.com/it/news/a74284020/fusto-birra-50-anni-ghiacciaio/",
+   "data": "2026-10-29",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/606d599a-64a2-47c5-a9ae-6402399a0441.jpeg",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
    "id": "07b25a5b3cc7",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -103,6 +121,24 @@
    ]
   },
   {
+   "id": "f82336b770d9",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona di New York 2026, dove vederla in tv e streaming",
+   "estratto": "Si corre la maratona più famosa del mondo: 2500 italiani al via, Crippa ed Epis tra i top runner e spettacolo garantito. Ecco dove potrai seguirla in tv e streaming",
+   "link": "https://www.runnersworld.com/it/news/a74268220/maratona-new-york-2026-dove-vederla/",
+   "data": "2026-10-29",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/372c082c-d6ea-4338-b5cd-b4b7603c94de.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
    "id": "a1d922eba6ed",
    "tipo": "articolo",
    "fonte": "Runlovers",
@@ -123,6 +159,29 @@
     "costruzione",
     "scarico",
     "dopo"
+   ]
+  },
+  {
+   "id": "13b869d502a3",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "In Africa la corsa diventa uno sport di massa",
+   "estratto": "Il baricentro globale si sposta a sud e trasforma l’Africa da miniera di talenti a nuovo polo logistico del mercato sportivo. La Great Ethiopian Run registra sessantamila…",
+   "link": "https://runlovers.it/2026/africa-corsa-massa-cape-town-etiopia/",
+   "data": "2026-10-29",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/06-20261029-1730-Africa-C-Courtesy.jpg?fit=1920%2C1303&quality=75&ssl=1",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42",
+    "10"
+   ],
+   "fasi": [
+    "si_parte",
+    "gara"
    ]
   },
   {
