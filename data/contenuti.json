@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-10-30",
+ "aggiornato": "2026-10-31",
  "contenuti": [
   {
    "id": "f9b0bbd6fc6a",
@@ -18,6 +18,27 @@
    "distanze": [],
    "fasi": [
     "si_parte"
+   ]
+  },
+  {
+   "id": "45c54a3c9be3",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Scarpe da gara, nuove regole contro le squalifiche. Fidal semplifica i controlli",
+   "estratto": "Con una circolare firmata dal capo dei giudici Fidal, si semplificano i controlli sulle scarpe. Si fa finalmente chiarezza dopo le polemiche per le squalifiche di alcuni runner…",
+   "link": "https://www.runnersworld.com/it/news/a74298614/scarpe-gara-corse-nuove-regole-squalifiche-fidal-semplifica-controlli/",
+   "data": "2026-10-30",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/marathon-royalty-free-image-1771840745.pjpeg?crop=1.00xw:0.707xh;0,0.219xh&resize=1200:*",
+   "argomenti": [
+    "scarpe",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
    ]
   },
   {
@@ -133,6 +154,29 @@
    ]
   },
   {
+   "id": "23c70a75c2b9",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Il trail in autunno, tra colline e foglie",
+   "estratto": "Da novembre a marzo i sentieri in quota sono coperti di neve e ghiaccio, e la collina vicino a casa diventa il posto giusto per continuare a correre su salite e boschi veri…",
+   "link": "https://runlovers.it/2026/trail-autunno-colline-foglie/",
+   "data": "2026-10-30",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/trail-running-autunno-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "scarpe",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
    "id": "95e31dbe07a0",
    "tipo": "articolo",
    "fonte": "Runlovers",
@@ -171,6 +215,30 @@
    "fasi": [
     "si_parte",
     "costruzione"
+   ]
+  },
+  {
+   "id": "f132314790b6",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Controlli sulle scarpe da gara: la “retromarcia”",
+   "estratto": "Buone notizie in arrivo per i runner italiani, recentemente interessati a controlli sulle scarpe di gara in competizioni di tutti i livelli. Con conseguenti squalifiche di coloro…",
+   "link": "https://podisti.net/controlli-sulle-scarpe-da-gara-la-retromarcia/",
+   "data": "2026-10-30",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/Scarpeautorizzate-e-nonautorizzate-Foto-RLollini.jpg",
+   "argomenti": [
+    "scarpe",
+    "gara",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
    ]
   },
   {
