@@ -2,6 +2,112 @@
  "aggiornato": "2026-10-31",
  "contenuti": [
   {
+   "id": "ecbbb0a0aacc",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Roberto Di Sante e il mal di New York",
+   "estratto": "Il celebre scrittore di \" Corri. Dall'Inferno a Central Park \", quest'anno non sarà al via della maratona di New York. Con il suo stile, ci racconta il mal di New York",
+   "link": "https://www.runnersworld.com/it/news/a74302119/roberto-di-sante-corsa-mal-new-york-maratona/",
+   "data": "2026-10-31",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/dsc00016-6924401eb3e80.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "df6b495d25df",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Pilates e corsa: Tiziana Nardulli è \"Coach del mese\" di novembre di Runner's World",
+   "estratto": "Quanto Pilates serve a un runner? Tiziana Nardulli, insegnante di Pilates e runner, propone quattro circuiti per costruire un corpo più forte, equilibrato e consapevole",
+   "link": "https://www.runnersworld.com/it/allenamento/coach-del-mese-allenamenti/a74296566/pilates-corsa-coach-del-mese-runnersworld/",
+   "data": "2026-10-31",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/50d0d3e9-36c8-4aab-9b9d-2a7c2c273f46.png",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "d9a2c808ddd3",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Pensa come Claude Shannon: 6 strategie per risolvere problemi nel trail",
+   "estratto": "Nel 1952 il padre della teoria dell'informazione (e a cui l'AI Claude deve il proprio nome) spiegò ai colleghi come risolvere problemi. Le sue strategie funzionano anche sui…",
+   "link": "https://www.runnersworld.com/it/trail/allenamento-preparazione/a74280601/claude-shannon-strategie-problemi-trail/",
+   "data": "2026-10-31",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/4bc9b739-f69d-4cda-a53f-e423a8090d6d.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "fb586cc473a3",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona: 5 lezioni che molti runner scoprono troppo tardi",
+   "estratto": "Partire troppo forte, sprecare energie tra la folla o sottovalutare il dopo gara: tre coach spiegano come prepararsi agli imprevisti della maratona",
+   "link": "https://www.runnersworld.com/it/allenamento/maratona/a74244524/maratona-errori-giorno-gara-consigli-runner/",
+   "data": "2026-10-31",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/43d9bcb5-2131-4137-8a62-3f2e28e22f42.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "d0fb4b418032",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Linus torna a correre la maratona di New York dopo 15 anni e sogna la decima medaglia",
+   "estratto": "L'amore di Linus per la maratona di New York è una storia che attraversa un quarto di secolo. Il conduttore radiofonico torna a correrla. Questa volta con un obiettivo speciale…",
+   "link": "https://www.runnersworld.com/it/news/a74301672/linus-correre-maratona-new-york-medaglia/",
+   "data": "2026-10-31",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/891d4e86-d311-4bc0-9840-a19691a1e048.jpeg",
+   "argomenti": [
+    "gara",
+    "racconti"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
+   "id": "e4f9034eb4ce",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Le arti marziali come cross training per equilibrio e controllo",
+   "estratto": "Le arti marziali riprogrammano la tua stabilità articolare e ti insegnano l’ingegneria del movimento controllato. Le arti marziali offrono un lavoro profondo su equilibrio e…",
+   "link": "https://runlovers.it/2026/arti-marziali-cross-training-equilibrio-controllo/",
+   "data": "2026-10-31",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/08-20261030-1235-Arti-Marziali-W-Unsplash-Nguyen-Hung.jpeg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "forza",
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "dopo"
+   ]
+  },
+  {
    "id": "f9b0bbd6fc6a",
    "tipo": "video",
    "fonte": "Personal Running Coach",
@@ -223,7 +329,7 @@
    "fonte": "Podisti.net",
    "fonteId": "podistinet",
    "titolo": "Controlli sulle scarpe da gara: la “retromarcia”",
-   "estratto": "Buone notizie in arrivo per i runner italiani, recentemente interessati a controlli sulle scarpe di gara in competizioni di tutti i livelli. Con conseguenti squalifiche di coloro…",
+   "estratto": "30 Ottobre – Buone notizie in arrivo per i runner italiani, recentemente interessati a controlli sulle scarpe di gara in competizioni di tutti i livelli. Con conseguenti…",
    "link": "https://podisti.net/controlli-sulle-scarpe-da-gara-la-retromarcia/",
    "data": "2026-10-30",
    "immagine": "https://podisti.net/wp-content/uploads/2026/10/Scarpeautorizzate-e-nonautorizzate-Foto-RLollini.jpg",
@@ -381,7 +487,7 @@
    "tipo": "video",
    "fonte": "Personal Running Coach",
    "fonteId": "yt_personalrunningcoach",
-   "titolo": "NON SONO IN FORMA come vorrei: a 6 settimane dalla MARATONA",
+   "titolo": "NON SONO IN FORMA come vorrei e MO CHE FACCIO?",
    "estratto": "Mancano sei settimane alla Maratona di Firenze e non sono dove vorrei essere. In questo video vi racconto a che punto sono e l’allenamento…",
    "link": "https://www.youtube.com/watch?v=RcVQXExD_FA",
    "data": "2026-10-29",
