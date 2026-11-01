@@ -2,6 +2,149 @@
  "aggiornato": "2026-11-01",
  "contenuti": [
   {
+   "id": "d690f34ec2f2",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Sapevi che una preparazione maratona può partire dalla velocità?",
+   "estratto": "Sapevi che una preparazione maratona può partire dalla velocità? Quest’anno ho ribaltato tutto. Prima salite brevi e 30-30 sotto i 3:30 al…",
+   "link": "https://www.youtube.com/shorts/TTc4sDuoYCM",
+   "data": "2026-11-01",
+   "immagine": "https://i1.ytimg.com/vi/TTc4sDuoYCM/hqdefault.jpg",
+   "argomenti": [
+    "allenamento",
+    "forza",
+    "gara",
+    "tecnologia"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "00b30c4268ce",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Roma – A Del Buono e Niyomukiza la XVIII^ Corsa dei Santi",
+   "estratto": "Il 1° Novembre si festeggiano “Tutti i Santi” ed a Roma da quasi un ventennio si corre questa manifestazione che ha uno scopo benefico. Ogni anno offre una vetrina significativa a…",
+   "link": "https://podisti.net/roma-a-del-buono-e-niyomukiza-la-xviii-corsa-dei-santi/",
+   "data": "2026-11-01",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Partenza-corsa-dei-santi-2026-Foto-Ufficio-Stampa-Prime-Time-Promotions.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "1e366245807e",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "RUN X, la corsa sui 5k è una sfida mondiale grazie a Technogym",
+   "estratto": "Partito RUN X, il primo Campionato mondiale di running su tapis roulant sviluppato da Technogym e World Athletic. È il tuo momento per metterti alla prova",
+   "link": "https://www.runnersworld.com/it/news/a74302135/run-x-corsa-5-km-indoor-tapis-roulant-world-athletics-technogym/",
+   "data": "2026-11-01",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/35628c35-d37a-47f9-9883-4a8ae1b8abd9.jpg",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "8c8ffe992ebf",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Quanti giorni dovresti davvero riposare? Fai il test per scoprirlo",
+   "estratto": "Per un runner, sacrificare il recupero significa sacrificare le prestazioni. Rispondi a 6 domande e scopri quanti giorni di pausa dovresti concederti",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a74284615/giorni-riposo-runner-fai-test-per-scoprirlo/",
+   "data": "2026-11-01",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/95ba487d-679b-4dd9-84fe-3e9c8ea303c6.jpg",
+   "argomenti": [
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "dopo"
+   ]
+  },
+  {
+   "id": "02b33774d341",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Lakriti e Filannino firmano la vittoria della 12^ StraCasagiove",
+   "estratto": "Il portacolori della Casale…si vince in 32’05” precedendo Benrkia e Boulfaf. Tra le donne successo della Daunia Running in 39’48”, davanti a Vincenza Della Rocca e Giuseppina…",
+   "link": "https://podisti.net/lakriti-e-filannino-firmano-la-vittoria-della-12-stracasagiove/",
+   "data": "2026-11-01",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/PartenzaStraCasagiove2026FotoCronometroGaraPizzano.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "7d26ba678c6e",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "L'oroscopo del runner di novembre: arriva il freddo e con lui nuove sfide",
+   "estratto": "Le temperature si abbassano, le ore di giorno diminuiscono ma la tua voglia di correre non può andare in letargo",
+   "link": "https://www.runnersworld.com/it/news/a74257270/oroscopo-runner-novembre-2026/",
+   "data": "2026-11-01",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/b70d056b-8564-4b35-bcb9-a0d4ba850af0.jpeg",
+   "argomenti": [
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "197439ddd894",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Italiani di mezza maratona: a Padenghe fanno festa Oudha e Nimbona",
+   "estratto": "Oudha e Nimbona conquistano i titoli italiani di mezza maratona. Nimbona si conferma dopo il successo nei 10 km; Oudha vince la gara tricolore",
+   "link": "https://www.runnersworld.com/it/news/a74304636/italiani-mezza-maratonapadenghe-risultati-oudha-nimbona/",
+   "data": "2026-11-01",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/d415d522-791a-4460-b3ac-c252dade5de2.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "21",
+    "10"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "e58c7e9e96e5",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Il giro di corsa che facevamo con chi non c’è più",
+   "estratto": "La mappa dei nostri allenamenti sopravvive a chi li ha condivisi con noi, trasformando l’asfalto in un archivio esatto e silenzioso. La topografia di un percorso cittadino…",
+   "link": "https://runlovers.it/2026/giro-corsa-ricordo-persone-scomparse/",
+   "data": "2026-11-01",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/09-20261101-0930-Non-ce-piu-L-Unsplash-Philippe-Murray-Pietsch.jpeg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
    "id": "05d6151daaa1",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
