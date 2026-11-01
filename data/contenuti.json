@@ -1,6 +1,47 @@
 {
- "aggiornato": "2026-10-31",
+ "aggiornato": "2026-11-01",
  "contenuti": [
+  {
+   "id": "05d6151daaa1",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Yoga o pilates: qual è il cross-training migliore per i runner",
+   "estratto": "Entrambi possono migliorare mobilità, stabilità e recupero, ma lavorano in modo diverso. Tre esperti spiegano quale può essere più utile per chi corre",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a74251851/yoga-pilates-runner-cross-training/",
+   "data": "2026-10-31",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/b4c6264d-d393-4b82-bb44-5f9913e57f90.jpeg",
+   "argomenti": [
+    "forza",
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "dopo"
+   ]
+  },
+  {
+   "id": "09f5278b2cf7",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Un mese con gli elastici per allenare tutto il corpo",
+   "estratto": "Quattro settimane di allenamento per tutto il corpo con un elastico e una porta di casa, a partire da lunedì 2 novembre. Sette esercizi per gambe, schiena, petto e addome…",
+   "link": "https://runlovers.it/2026/programma-mensile-elastici-corpo-intero/",
+   "data": "2026-10-31",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/esercizi-elastico-foto.jpg?fit=1920%2C1281&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
   {
    "id": "ecbbb0a0aacc",
    "tipo": "articolo",
@@ -87,6 +128,24 @@
    ]
   },
   {
+   "id": "f5dc67258db3",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Le gare più belle da correre in Italia a novembre",
+   "estratto": "Novembre, il mese delle grandi maratone ma non solo: il calendario gare non è mai stato così ricco e variegato",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74257471/gare-piu-belle-correre-italia-novembre-2026/",
+   "data": "2026-10-31",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/e2439c0a-ea44-4f49-905d-02563ad15360.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
    "id": "e4f9034eb4ce",
    "tipo": "articolo",
    "fonte": "Runlovers",
@@ -106,6 +165,20 @@
     "costruzione",
     "dopo"
    ]
+  },
+  {
+   "id": "fd61011cc5a6",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Cardana di Besozzo (VA) – Cardana di Besozzo Cross dei 2 Pini 22^ edizione",
+   "estratto": "",
+   "link": "https://podisti.net/cardana-di-besozzo-va-cardana-di-besozzo-cross-dei-2-pini-22-edizione/",
+   "data": "2026-10-31",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/10/DSC_4542.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
   },
   {
    "id": "f9b0bbd6fc6a",
