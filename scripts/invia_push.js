@@ -52,16 +52,27 @@ async function main() {
   const r = await sb("push_iscrizioni?select=endpoint,p256dh,auth,dati,stato");
   if (!r.ok) { console.error("Lettura iscrizioni fallita", r.status, await r.text()); process.exit(1); }
   const iscritti = await r.json();
+  // classifiche del gruppo: i risultati recenti di chi ha mandato l'impronta del suo codice (dati.membro)
+  const impronte = [...new Set(iscritti.map((it) => (it.dati || {}).membro).filter((h) => typeof h === "string" && /^[0-9a-f]{64}$/.test(h)))];
+  const esitiPer = {};
+  if (impronte.length) {
+    const re = await sb("rpc/_esiti_push", { method: "POST", body: JSON.stringify({ p_hash: impronte }) }).catch(() => null);
+    if (re && re.ok) for (const e of await re.json()) (esitiPer[e.membro] = esitiPer[e.membro] || []).push(e);
+    else console.error("Esiti delle classifiche non letti", re ? re.status : "");
+  }
   let inviati = 0, scaduti = 0, valutati = 0, falliti = 0;
   const perTipo = {}; // totali per la pagina delle statistiche (nessun dato dell'utente)
-  const tipoInvio = (tag) => (String(tag).match(/^(mattino|meteo|novita|vigilia|gara|dopo|fase)-/) || [, "altro"])[1];
+  const tipoInvio = (tag) => (String(tag).match(/^(mattino|meteo|novita|vigilia|gara|dopo|fase|esito)-/) || [, "altro"])[1];
   for (const it of iscritti) {
     const d = it.dati || {};
     const gareVicine = (d.gare || []).filter((g) => { const n = L.diffDays(g.data, OGGI); return n >= 0 && n <= 7; });
-    const personale = PROVA || ORA === N.oraMattino(d.ora) || ORA === 19 || gareVicine.some((g) => g.data === OGGI && (ORA === 12 || ORA === N.oraGara(schede[g.id])));
+    const esiti = esitiPer[d.membro] || [];
+    const personale = PROVA || ORA === N.oraMattino(d.ora) || ORA === 19 || gareVicine.some((g) => g.data === OGGI && (ORA === N.oraDopo(g, schede[g.id]) || ORA === N.oraGara(schede[g.id])));
     // le novità urgenti delle gare si controllano ogni ora (8-21), non solo nei momenti fissi
     const urgenti = !PROVA && Number.isInteger(ORA) && ORA >= 8 && ORA <= 21 && (d.gare || []).some((g) => garaConUrgenti.has(g.id));
-    if (!personale && !urgenti) continue;
+    // tempo certificato dal direttivo o deciso dal referente: ogni ora (8-21)
+    const daDire = !PROVA && Number.isInteger(ORA) && ORA >= 8 && ORA <= 21 && esiti.some((e) => e.da_altri);
+    if (!personale && !urgenti && !daDire) continue;
     valutati++;
     const sub = { endpoint: it.endpoint, keys: { p256dh: it.p256dh, auth: it.auth } };
     let stato = it.stato || {}, inviato = false, scaduta = false;
@@ -81,7 +92,7 @@ async function main() {
           const ora = Math.floor(Number((String((schede[g.id] || {}).partenza || "9").match(/\d{1,2}/) || ["9"])[0]));
           meteoGare[g.id] = await meteo(String(g.id).startsWith("E-") ? { citta: g.luogo, mondo: true } : { citta: nomeLuogo(g.luogo) || (d.luogo && d.luogo.citta) }, ora, g.data).catch(() => null);
         }
-        let esito = N.pianifica({ oggi: OGGI, ora: ORA, dati: d, stato, fasi, percorso, schede, novita, contenuti, meteoUscita, meteoGara: (g) => meteoGare[g.id] || null });
+        let esito = N.pianifica({ oggi: OGGI, ora: ORA, dati: d, stato, fasi, percorso, schede, novita, contenuti, meteoUscita, meteoGara: (g) => meteoGare[g.id] || null, esiti });
         if (PROVA && !esito.invio) esito = { invio: { title: "RaceBuddy · prova", body: "Le notifiche funzionano. Ti scrivo solo quando c'è qualcosa di nuovo: cambi di meteo, tappe del percorso, la tua gara.", url: "./#/oggi", tag: "prova" }, stato };
         stato = esito.stato;
         if (esito.invio) await invia(esito.invio);
@@ -91,6 +102,11 @@ async function main() {
         const u = N.novitaUrgente({ oggi: OGGI, ora: ORA, dati: d, stato, novita });
         stato = u.stato;
         if (u.invio) await invia(u.invio);
+      }
+      if (daDire && !inviato && !scaduta) {
+        const x = N.esitoTempi({ oggi: OGGI, ora: ORA, dati: d, stato, esiti });
+        stato = x.stato;
+        if (x.invio) await invia(x.invio);
       }
       if (!PROVA && !scaduta) await sb(`push_iscrizioni?endpoint=eq.${encodeURIComponent(it.endpoint)}`, { method: "PATCH", body: JSON.stringify({ stato, ...(inviato ? { ultimo_invio: OGGI } : {}) }) });
     } catch (e) { falliti++; console.error("Errore", String(e.message || e).slice(0, 200)); }

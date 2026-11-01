@@ -9,6 +9,8 @@
 -- anno di nascita e sesso facoltativi (mai mostrati: escono solo come percentuale), chi ti ha invitato.
 -- Questo file ridefinisce info_invito ed entra_gruppo per accettare anche i codici personali: va applicato DOPO
 -- docs/supabase_classifiche.sql.
+-- fissa_obiettivo e stato_stagione sono ridefinite in docs/supabase_distanza.sql (km dell'obiettivo, distanza ufficiale):
+-- dopo questo file va sempre riapplicato anche quello.
 begin;
 
 alter table public.membri add column if not exists anno_nascita int check (anno_nascita between 1900 and 2100);

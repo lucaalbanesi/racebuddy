@@ -865,4 +865,42 @@ assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10",
   assert.ok(!L.portingLeggi("K7MPQ2XA").ok && !L.portingLeggi("").ok && !L.portingLeggi(null).ok);
 }
 
+// distanza ufficiale delle gare della società e obiettivi riadattati (novembre 2026)
+{
+  const santi = { id: "s1", data: "2026-11-01", distanza: "10", nome: "Corsa dei Santi", km: null, km_uff: null, correzioni: [] };
+  assert.strictEqual(L.kmUfficiali(santi), 10);
+  assert.strictEqual(L.kmUfficiali({ ...santi, km: 9.5 }), 9.5);
+  assert.strictEqual(L.kmUfficiali({ ...santi, km: 9.5, km_uff: 9.95 }), 9.95);
+  assert.ok(L.kmEsatta(9.95, "10") && !L.kmEsatta(9.85, "10") && L.kmEsatta(21.1, "21"));
+  // obiettivi: stesso passo sulla distanza ufficiale; l'originale resta
+  const ob = [{ membro_id: "m1", data: "2026-11-01", distanza: "10", secondi: 2350, km: 9.5 }, { membro_id: "m2", data: "2026-11-01", distanza: "10", secondi: 2700 },
+    { membro_id: "m1", data: "2026-12-08", distanza: "10", secondi: 2400 }];
+  const corretta = { ...santi, km_uff: 9.95, correzioni: [{ km_prima: 10, km: 9.95 }] };
+  const ad = L.obiettiviAdattati(ob, [corretta]);
+  assert.deepStrictEqual([ad[0].secondi, ad[0].secondi_orig, ad[0].km_orig], [2461, 2350, 9.5], "39:10 su 9,5 km → 41:01 su 9,95");
+  assert.deepStrictEqual([ad[1].secondi, ad[1].km_orig], [2686, 10], "senza km: la distanza prima della correzione (10 km)");
+  assert.strictEqual(ad[2], ob[2], "altra gara: invariato");
+  assert.strictEqual(L.obiettiviAdattati(ob, [santi])[0], ob[0], "senza correzione: invariato");
+  assert.strictEqual(L.obiettiviAdattati([{ ...ob[0], km: 9.95 }], [corretta])[0].secondi, 2350, "fissato già sulla distanza giusta");
+  // scarto e centrato con l'obiettivo riadattato
+  assert.ok(L.scartoObiettivo(2453, ad[0].secondi) <= L.CENTRATO && L.scartoObiettivo(2453, 2350) > L.CENTRATO);
+  // anteprima della correzione
+  const risultati = [{ membro_id: "m1", data: "2026-11-01", distanza: "10", secondi: 2453 }, { membro_id: "m2", data: "2026-11-01", distanza: "10", secondi: 3270 },
+    { membro_id: "m3", data: "2026-11-01", distanza: "10", secondi: 2900 }];
+  const a = L.anteprimaDistanza({ gara: santi, km: 9.95, risultati, obiettivi: ob, nomi: { m1: "Luca", m2: "Elena" } });
+  assert.ok(a.esatta && a.esattaPrima && a.risultati === 3 && a.righe.length === 2, JSON.stringify(a));
+  const r1 = a.righe.find((x) => x.membro_id === "m1");
+  assert.deepStrictEqual([r1.prima, r1.dopo, r1.centratoPrima, r1.centratoDopo], [2350, 2461, false, true], "prima com era fissato, dopo sulla distanza nuova");
+  assert.strictEqual(a.righe[0].membro_id, "m1");
+  const a2 = L.anteprimaDistanza({ gara: { ...santi, km: 9.5 }, km: 9.95, risultati, obiettivi: [ob[0]], nomi: {} });
+  assert.ok(!a2.esattaPrima && a2.esatta && a2.nuoviCentrati === 1 && a2.righe[0].prima === 2350, JSON.stringify(a2));
+  const a3 = L.anteprimaDistanza({ gara: corretta, km: 9.85, risultati, obiettivi: [ob[0]], nomi: {} });
+  assert.ok(!a3.esatta && a3.righe[0].prima === 2461 && a3.righe[0].dopo === 2437 && a3.kmPrima === 9.95, JSON.stringify(a3));
+  // la distanza di oggi è quella con cui sono arrivati i tempi (9,5 dalle classifiche), non quella del calendario
+  const a4 = L.anteprimaDistanza({ gara: santi, km: 9.95, risultati: risultati.map((r) => ({ ...r, km_reali: 9.5 })), obiettivi: [], nomi: {} });
+  assert.ok(a4.kmPrima === 9.5 && !a4.esattaPrima && a4.esatta, JSON.stringify(a4));
+  // si corregge dalla gara (anche il giorno stesso) fino a 30 giorni dopo
+  assert.ok(L.correggibile(santi, "2026-11-01") && L.correggibile(santi, "2026-12-01") && !L.correggibile(santi, "2026-12-02") && !L.correggibile(santi, "2026-10-31"));
+}
+
 console.log("ok");

@@ -78,7 +78,8 @@ KM = re.compile(r"(\d+(?:[.,]\d+)?)\s*k(?:m)?\b|\bkm\.?\s*(\d+(?:[.,]\d+)?)", re
 
 
 def _classe(val: float) -> str | None:
-    if 9.5 <= val <= 10.5:
+    # 10 km esatta solo entro ±50 m, come i risultati (cerca.js, distanzaDaKm): una 9,5 o una 9,9 km è un'altra distanza
+    if 9.95 <= val <= 10.05:
         return "10"
     if 21.0 <= val <= 21.2:
         return "21"

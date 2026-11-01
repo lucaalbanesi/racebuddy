@@ -23,6 +23,14 @@
 //   la chiave segreta (funzione _registra_certificati: certificati se il nome cercato è quello del membro, altrimenti al
 //   referente). Il telefono non può scrivere un risultato certificato da solo. Nel database va l'impronta del codice,
 //   mai il codice. Risposta: { certificati, in_approvazione, saltati, righe }.
+//
+// POST {azione:"soci_cerca", gara}  e  {azione:"soci_carica", gara, scelte:[{membro_id, persona, risultato}]}  (direttivo)
+//   Tempi di una gara della società per tutti i soci che partecipano (_soci_gara: solo direttivo, gara corsa da non più
+//   di 30 giorni). Per ogni socio una ricerca col nome del gruppo (Gare Podistiche Lazio dell'anno, poi FIDAL): "pronto"
+//   se c'è un solo risultato con la società del gruppo (le società dei tempi che i soci si sono certificati da soli,
+//   più il nome del gruppo), "confermare" se il nome c'è ma la società no, "fermo" chi ha già un tempo certificato o un
+//   esito senza tempo, "assente" chi non c'è. soci_carica rifà la ricerca dei soli scelti e li scrive con
+//   _registra_dal_direttivo (certificati, deciso_da = chi carica; mai sopra il tempo che l'atleta ha già).
 
 export const GPL = "https://www.garepodistichelazio.it";
 export const FIDAL = "https://www.fidal.it";
@@ -199,6 +207,37 @@ export function personeGpl(gare, nome) {
   })).sort((a, b) => b.gare - a.gare);
 }
 
+// ---------------------------------------------------------------- tempi dei soci (direttivo, novembre 2026)
+// Società a confronto senza sigle (A.S.D., S.S.D., APS…): "A.S.D. PI8 Running" e "PI8 RUNNING" sono la stessa.
+export const normSoc = (s) => chiave(s).replace(/\b(a s d|s s d|a p s|asd|ssd|aps|onlus|srl|arl|dil|dilettantistica|associazione|sportiva|societa)\b/g, " ").replace(/\s+/g, " ").trim();
+export const stessaSocieta = (s, elenco) => {
+  const n = normSoc(s);
+  return !!n && (elenco || []).some((x) => { const y = normSoc(x); return !!y && (y === n || y.includes(n) || n.includes(y)); });
+};
+/** Nome del socio → [nome, cognome] da provare: prima parola + resto, poi tutto tranne l'ultima + ultima. */
+export function divisioniNome(completo) {
+  const p = String(completo || "").trim().split(/\s+/).filter(Boolean);
+  if (p.length < 2) return [];
+  const a = [p[0], p.slice(1).join(" ")], b = [p.slice(0, -1).join(" "), p[p.length - 1]];
+  return a[0] === b[0] ? [a] : [a, b];
+}
+/** Un socio sulla gara: "fermo" (ha già un tempo certificato o un esito senza tempo), "pronto" (un solo risultato
+ *  con la società del gruppo), "confermare" (risultati con quel nome ma società diverse o più d'uno), "assente". */
+export function classificaSocio(socio, cand, societa) {
+  if (socio.stato === "certificato") return { tipo: "fermo", motivo: socio.da_solo ? "caricato da sé" : "già caricato" };
+  if (socio.esito && socio.esito !== "arrivato") return { tipo: "fermo", motivo: { ritirato: "ha segnato: ritirato", non_partito: "ha segnato: non partito", annullata: "ha segnato: gara annullata" }[socio.esito] || "esito segnato" };
+  if (!cand.length) return { tipo: "assente", motivo: "non trovato in classifica" };
+  const ok = cand.filter((c) => stessaSocieta(c.societa, societa));
+  if (ok.length && ok.every((c) => c.secondi === ok[0].secondi)) return { tipo: "pronto", scelta: ok[0] };
+  return { tipo: "confermare", candidati: cand.slice(0, 5) };
+}
+async function aGruppi(lista, n, fn) {
+  const out = new Array(lista.length); let i = 0;
+  await Promise.all(Array.from({ length: Math.min(n, lista.length) }, async () => { while (i < lista.length) { const k = i++; out[k] = await fn(lista[k]); } }));
+  return out;
+}
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 export function crea(env = {}, fetchImpl = fetch, adesso = () => new Date()) {
   const cors = { "Access-Control-Allow-Origin": env.APP_ORIGIN || "*", "Access-Control-Allow-Headers": "authorization, apikey, content-type, x-racebuddy-token", "Access-Control-Allow-Methods": "POST, OPTIONS" };
   const json = (corpo, status = 200) => new Response(JSON.stringify(corpo), { status, headers: { ...cors, "Content-Type": "application/json" } });
@@ -279,11 +318,66 @@ export function crea(env = {}, fetchImpl = fetch, adesso = () => new Date()) {
     return json({ ...j, righe: righe.length });
   }
 
+  async function db(nome, corpo) {
+    const r = await fetchImpl(`${env.SUPABASE_URL}/rest/v1/rpc/${nome}`, { method: "POST",
+      headers: { apikey: env.SUPABASE_SERVICE_ROLE_KEY, Authorization: `Bearer ${env.SUPABASE_SERVICE_ROLE_KEY}`, "Content-Type": "application/json" },
+      body: JSON.stringify(corpo) });
+    const t = await r.text(); let j = {};
+    try { j = JSON.parse(t); } catch (_e) { j = {}; }
+    if (!r.ok) { const e = new Error(String(j.message || "non riuscito").slice(0, 160)); e.status = r.status >= 500 ? 502 : 400; throw e; }
+    return j;
+  }
+  // I risultati di un socio su quella gara (stesso giorno e distanza): prima Gare Podistiche Lazio, poi FIDAL se lì
+  // non c'è. Un candidato per persona trovata.
+  async function cercaSocio(completo, gara) {
+    const anno = Number(String(gara.data).slice(0, 4)), out = [], viste = new Set();
+    const prendi = (persone) => { for (const p of persone) for (const r of p.risultati) if (r.data === gara.data && r.distanza === gara.distanza && !viste.has(p.id)) {
+      viste.add(p.id);
+      out.push({ persona: p.id, risultato: r.id, fonte: p.fonte, nome: p.nome, societa: p.societa || "", categoria: r.categoria || p.categoria || "", secondi: r.secondi, tempo: r.tempo, gara_nome: r.gara || r.luogo || "", ...(r.km_reali ? { km_reali: r.km_reali } : {}) });
+    } };
+    const div = divisioniNome(completo);
+    for (const [n, c] of div) { prendi(await cercaGpl(n, c, anno).catch(() => [])); if (out.length) return out; }
+    if (div.length) prendi(await cercaFidal(div[0][0], div[0][1], "").catch(() => []));
+    return out;
+  }
+  async function soci(req, b) {
+    if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) return json({ errore: "certificazione non configurata" }, 503);
+    const hash = await impronta(req);
+    if (!hash) return json({ errore: "manca il codice del telefono" }, 401);
+    if (typeof b.gara !== "string" || !UUID.test(b.gara)) return json({ errore: "gara non valida" }, 400);
+    let st;
+    try { st = await db("_soci_gara", { p_hash: hash, p_gara: b.gara }); } catch (e) { return json({ errore: e.message }, e.status); }
+    const gara = st.gara, societa = [...(st.societa || []), st.gruppo || ""].filter(Boolean);
+    const tutti = (st.soci || []).slice(0, 120);
+    if (b.azione === "soci_cerca") {
+      const esiti = await aGruppi(tutti, 6, async (x) => {
+        const pre = classificaSocio(x, [], societa);
+        if (pre.tipo === "fermo") return { membro_id: x.id, nome: x.nome, ...pre };
+        return { membro_id: x.id, nome: x.nome, ...classificaSocio(x, await cercaSocio(x.nome, gara), societa) };
+      });
+      return json({ gara, societa, soci: esiti });
+    }
+    // soci_carica: rifà la ricerca dei soli scelti e tiene i risultati che esistono davvero
+    const scelte = (Array.isArray(b.scelte) ? b.scelte : []).filter((x) => x && typeof x.membro_id === "string" && typeof x.persona === "string" && typeof x.risultato === "string").slice(0, 120);
+    if (!scelte.length) return json({ errore: "scegli i tempi da caricare" }, 400);
+    const perId = new Map(tutti.map((x) => [x.id, x]));
+    const righe = (await aGruppi(scelte, 6, async (sc) => {
+      const x = perId.get(sc.membro_id);
+      if (!x || classificaSocio(x, [], societa).tipo === "fermo") return null;
+      const c = (await cercaSocio(x.nome, gara)).find((y) => y.persona === sc.persona && y.risultato === sc.risultato);
+      return c ? { membro_id: x.id, secondi: c.secondi, fonte: c.fonte, categoria: c.categoria, societa: c.societa, gara_nome: c.gara_nome, ...(c.km_reali ? { km_reali: c.km_reali } : {}) } : null;
+    })).filter(Boolean);
+    if (!righe.length) return json({ caricati: 0, saltati: scelte.length });
+    try { const j = await db("_registra_dal_direttivo", { p_hash: hash, p_gara: b.gara, p_righe: righe }); return json({ ...j, saltati: (j.saltati || 0) + scelte.length - righe.length }); }
+    catch (e) { return json({ errore: e.message }, e.status); }
+  }
+
   return async function (req) {
     if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
     if (req.method !== "POST") return json({ errore: "solo POST" }, 405);
     let b = {};
     try { b = await req.json(); } catch (_e) { return json({ errore: "richiesta non valida" }, 400); }
+    if (b.azione === "soci_cerca" || b.azione === "soci_carica") return soci(req, b);
     const ok = (s) => typeof s === "string" && /^[\p{L}][\p{L}' .-]{0,39}$/u.test(s.trim());
     if (!ok(b.nome) || !ok(b.cognome)) return json({ errore: "nome e cognome" }, 400);
     const nome = b.nome.trim().replace(/\s+/g, " "), cognome = b.cognome.trim().replace(/\s+/g, " ");

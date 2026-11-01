@@ -98,7 +98,7 @@ def test_classifica():
     assert not any(g.get("km") for g in tutte.values() if g["luogo"] in ("Firenze", "Monza", "Ostia"))   # le classiche senza km
     # altre distanze: 5-50 km dal nome, distanza classica più vicina
     assert f.classifica_km(16) == ("21", 16) and f.classifica_km(19) == ("21", 19) and f.classifica_km(12) == ("10", 12)
-    assert f.classifica_km(10.2) == ("10", None) and f.classifica_km(4) is None and f.classifica_km(60) is None and f.classifica_km(35) == ("42", 35)
+    assert f.classifica_km(10.2) == ("10", 10.2) and f.classifica_km(10.0) == ("10", None) and f.classifica_km(9.5) == ("10", 9.5) and f.classifica_km(4) is None and f.classifica_km(60) is None and f.classifica_km(35) == ("42", 35)
     assert f.altre_distanze("Appia Run 16 km") == [16.0] and f.altre_distanze("Trail dei Colli (18km)") == []
     vm = [g for g in f.deduplica(tutte).values() if g["luogo"] == "VERBANIA" and g["distanza"] == "42"]
     assert vm[0]["nome"] == "XV^ Lago Maggiore Marathon - Maratona"   # tiene il nome più pulito
@@ -137,11 +137,11 @@ rh = per_nome["Rome Half Marathon"]
 assert (rh["data"], rh["ora"], rh["distanza"], rh["luogo"], rh["provincia"], rh["quota"]) == ("2026-10-18", "09:00", "21", "ROMA", "RM", "€ 45-65"), rh
 assert rh["iscrizioni"] == "chiuse" and rh["sito"].startswith("https://www.romehalfmarathon") and rh["url"].endswith("info-gara-Rome-Half-Marathon")
 assert rh["id"].startswith("L") and rh["id"].endswith("-21") and rh["fonte"] == "Gare Podistiche Lazio"
-assert per_nome["Straviterbo"]["distanza"] == "10"  # 9,6 km: come nel calendario FIDAL (9,5-10,5)
+assert (per_nome["Straviterbo"]["distanza"], per_nome["Straviterbo"]["km"]) == ("10", 9.6)  # 9,6 km: altra distanza (10 km esatta solo entro ±50 m)
 assert per_nome["Straviterbo"]["iscrizioni"] == "chiuse, possibili sul posto"
 assert (per_nome["Fondi In Rosa"]["distanza"], per_nome["Fondi In Rosa"]["km"]) == ("10", 8.5)  # 8,5 km: altra distanza
 assert per_nome["Fondi In Rosa"]["id"].endswith("-k8.5")
-assert "km" not in per_nome["Straviterbo"] and "km" not in rh  # le classiche senza km
+assert "km" not in rh  # le classiche senza km
 assert not any("Trail" in n for n in per_nome)  # dislivello nei km
 assert per_nome["Maratona di Latina"]["distanza"] == "42" and per_nome["Maratona di Latina (10K)"]["distanza"] == "10"
 assert per_nome["Run Rome The Marathon"]["data"] == "2027-03-14"
