@@ -103,6 +103,7 @@ begin
   delete from public.risultati_gruppo where membro_id = (select id from public.membri where token_hash = ha) and data = oggi;
   perform public._registra_dal_direttivo(hc, gid, jsonb_build_array(jsonb_build_object('membro_id', (select id from public.membri where token_hash = ha), 'secondi', 2453, 'fonte', 'gpl')));
   assert exists (select 1 from json_array_elements(public._esiti_push(array[ha])) x where (x->>'da_altri')::boolean and x->>'stato' = 'certificato'), 'da altri';
+  delete from public.gruppi where nome = 'Distanze Roma';  -- le prove dopo (statistiche) contano i membri
 end $$;
 
 -- permessi: le funzioni del job e della funzione "tempi" solo con la chiave segreta
