@@ -52,6 +52,13 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f tests/test_stagione.sql > esito9.txt 2>&1 || true
           cat esito9.txt
           if ! grep -q "permessi stagione ok" esito9.txt; then echo "::error::stagione: $(grep -iE 'error|errore|assert|context|line' esito9.txt | head -6 | tr '\n' ' ')"; exit 1; fi
+      - name: Distanza ufficiale e tempi dal direttivo
+        run: |
+          psql -v ON_ERROR_STOP=1 -f docs/supabase_distanza.sql
+          psql -v ON_ERROR_STOP=1 -f docs/supabase_distanza.sql   # ripetibile
+          psql -v ON_ERROR_STOP=1 -f tests/test_distanza.sql > esito12.txt 2>&1 || true
+          cat esito12.txt
+          if ! grep -q "permessi distanza ok" esito12.txt; then echo "::error::distanza: $(grep -iE 'error|errore|assert|context|line' esito12.txt | head -6 | tr '\n' ' ')"; exit 1; fi
       - name: Statistiche
         run: |
           psql -v ON_ERROR_STOP=1 -f docs/supabase.sql

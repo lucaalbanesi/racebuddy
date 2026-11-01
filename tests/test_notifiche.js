@@ -77,12 +77,41 @@ assert.ok(r.invio && r.invio.title.startsWith("Oggi è il giorno") && /8:30/.tes
 // ripetuto alla stessa ora: niente doppioni
 assert.strictEqual(N.pianifica(base({ oggi: "2026-11-29", ora: 6, schede: scheda, stato: r.stato })).invio, null);
 
-// il giorno della gara alle 12: "Com'è andata?", senza tempi, una volta sola, non se il risultato è già segnato
-r = N.pianifica(base({ oggi: "2026-11-29", ora: 12, schede: scheda, stato: r.stato }));
+// il giorno della gara, a gara finita: "Com'è andata?", senza tempi, una volta sola, non se il risultato è già segnato
+const oD = N.oraDopo(firenze, scheda[firenze.id]);
+assert.ok(oD >= 12 && oD <= 20, oD);
+assert.strictEqual(N.pianifica(base({ oggi: "2026-11-29", ora: oD - 1, schede: scheda, stato: r.stato })).invio, null, "non prima della fine");
+r = N.pianifica(base({ oggi: "2026-11-29", ora: oD, schede: scheda, stato: r.stato }));
 assert.ok(r.invio && r.invio.title === "Com'è andata la ESTRA Firenze Marathon?" && r.invio.url.endsWith("#/risultato/" + encodeURIComponent(firenze.id)) && !/\d:\d\d/.test(r.invio.body), r.invio);
-assert.strictEqual(N.pianifica(base({ oggi: "2026-11-29", ora: 12, schede: scheda, stato: r.stato })).invio, null);
-assert.strictEqual(N.pianifica(base({ oggi: "2026-11-29", ora: 12, schede: scheda, dati: { ora: "07:00", gare: [firenze], spunte: [`${firenze.id}:P051`] } })).invio, null);
-assert.strictEqual(N.pianifica(base({ oggi: "2026-11-29", ora: 12, schede: scheda, dati: { ora: "07:00", gare: [firenze], spunte: [], pref: { gara: false } } })).invio, null);
+assert.strictEqual(N.pianifica(base({ oggi: "2026-11-29", ora: oD, schede: scheda, stato: r.stato })).invio, null);
+assert.strictEqual(N.pianifica(base({ oggi: "2026-11-29", ora: oD, schede: scheda, dati: { ora: "07:00", gare: [firenze], spunte: [`${firenze.id}:P051`] } })).invio, null);
+assert.strictEqual(N.pianifica(base({ oggi: "2026-11-29", ora: oD, schede: scheda, dati: { ora: "07:00", gare: [firenze], spunte: [], pref: { gara: false } } })).invio, null);
+// tempo già certificato online (dal direttivo o da un altro telefono): niente domanda
+assert.strictEqual(N.pianifica(base({ oggi: "2026-11-29", ora: oD, schede: scheda, dati: { ora: "07:00", gare: [firenze], spunte: [] },
+  esiti: [{ id: "x", data: firenze.data, distanza: firenze.distanza, stato: "certificato", secondi: 12000 }] })).invio, null);
+assert.ok(N.pianifica(base({ oggi: "2026-11-29", ora: oD, schede: scheda, dati: { ora: "07:00", gare: [firenze], spunte: [] },
+  esiti: [{ id: "x", data: firenze.data, distanza: firenze.distanza, stato: "in_approvazione", secondi: 12000 }] })).invio, "in approvazione: si chiede lo stesso");
+// ora del "Com'è andata?": partenza + obiettivo (o tempo tipico) + mezz'ora, tra le 12 e le 20
+assert.strictEqual(N.oraDopo({ distanza: "10" }, { partenza: "08:15" }), 12);
+assert.strictEqual(N.oraDopo({ distanza: "42" }, { partenza: "08:30" }), 14);
+assert.strictEqual(N.oraDopo({ distanza: "42", tempo: "3:25:00" }, { partenza: "08:30" }), 13);
+assert.strictEqual(N.oraDopo({ distanza: "42", tempo: "6:30:00" }, { partenza: "14:00" }), 20);
+
+// esito: tempo certificato dal direttivo o deciso dal referente, una volta per risultato e stato
+{
+  const dati = { gare: [{ id: "L1-10", data: "2026-11-01", distanza: "10", nome: "Corsa dei Santi" }] };
+  const es = (stato, da_altri = true) => [{ id: "r1", data: "2026-11-01", distanza: "10", secondi: 2453, stato, da_altri }];
+  let e = N.esitoTempi({ oggi: "2026-11-01", ora: 15, dati, esiti: es("certificato") });
+  assert.ok(e.invio && e.invio.title === "Il tuo tempo è nelle classifiche" && e.invio.body.includes("Corsa dei Santi: 40:53"), e.invio);
+  assert.strictEqual(N.esitoTempi({ oggi: "2026-11-01", ora: 16, dati, esiti: es("certificato"), stato: e.stato }).invio, null, "una volta sola");
+  assert.ok(N.esitoTempi({ oggi: "2026-11-01", ora: 16, dati, esiti: es("rifiutato"), stato: e.stato }).invio.title === "Tempo non approvato");
+  assert.strictEqual(N.esitoTempi({ oggi: "2026-11-01", ora: 15, dati, esiti: es("certificato", false) }).invio, null, "certificato da sé: niente");
+  assert.strictEqual(N.esitoTempi({ oggi: "2026-11-01", ora: 15, dati, esiti: es("in_approvazione") }).invio, null);
+  assert.strictEqual(N.esitoTempi({ oggi: "2026-11-01", ora: 22, dati, esiti: es("certificato") }).invio, null, "mai di sera");
+  assert.strictEqual(N.esitoTempi({ oggi: "2026-11-10", ora: 15, dati, esiti: es("certificato") }).invio, null, "vecchio");
+  assert.strictEqual(N.esitoTempi({ oggi: "2026-11-01", ora: 15, dati: { ...dati, pref: { gara: false } }, esiti: es("certificato") }).invio, null);
+  assert.ok(N.esitoTempi({ oggi: "2026-11-02", ora: 9, dati: { gare: [] }, esiti: es("certificato") }).invio.body.startsWith("La gara del 01/11"));
+}
 // il giorno dopo niente più "Registra il risultato" (tappa senza notifica)
 assert.ok(!require("../content/percorso.json").find((v) => v.id === "P051").notifica);
 

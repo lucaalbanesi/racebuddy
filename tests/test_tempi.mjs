@@ -200,4 +200,66 @@ r = await rifiuta(new Request("https://x", { method: "POST", headers: { "x-raceb
 assert.strictEqual(r.status, 400);
 assert.strictEqual((await r.json()).errore, "non partecipi alle classifiche");
 
+// tempi dei soci (direttivo): società senza sigle, nomi da provare, classificazione
+assert.ok(T.stessaSocieta("A.S.D. PI8 RUNNING", ["Pi8 Running"]) && T.stessaSocieta("PODISTICA ESEMPIO ASD", ["Podistica Esempio"]));
+assert.ok(!T.stessaSocieta("Atletica Altrove", ["Podistica Esempio"]) && !T.stessaSocieta("", ["Podistica Esempio"]));
+assert.deepStrictEqual(T.divisioniNome("Luigi Verdi"), [["Luigi", "Verdi"]]);
+assert.deepStrictEqual(T.divisioniNome("Maria Rosa Bianchi"), [["Maria", "Rosa Bianchi"], ["Maria Rosa", "Bianchi"]]);
+assert.deepStrictEqual(T.divisioniNome("Cher"), []);
+const cand = (societa, secondi = 4000) => ({ persona: `gpl:${societa}`, risultato: `gpl:x:21:${secondi}`, societa, secondi });
+assert.strictEqual(T.classificaSocio({ stato: "certificato", da_solo: true }, [], []).motivo, "caricato da sé");
+assert.strictEqual(T.classificaSocio({ stato: "dichiarato", esito: "ritirato" }, [], []).motivo, "ha segnato: ritirato");
+assert.strictEqual(T.classificaSocio({}, [], ["Podistica Esempio"]).tipo, "assente");
+assert.strictEqual(T.classificaSocio({ stato: "in_approvazione", esito: "arrivato" }, [cand("Podistica Esempio")], ["Podistica Esempio"]).tipo, "pronto", "in approvazione: si sostituisce");
+assert.strictEqual(T.classificaSocio({}, [cand("Atletica Altrove"), cand("Podistica Esempio")], ["Podistica Esempio"]).scelta.persona, "gpl:Podistica Esempio");
+assert.strictEqual(T.classificaSocio({}, [cand("Atletica Altrove")], ["Podistica Esempio"]).tipo, "confermare", "omonimo di un'altra società");
+assert.strictEqual(T.classificaSocio({}, [cand("Podistica Esempio", 4000), cand("Podistica Esempio Due", 4100)], ["Podistica Esempio"]).tipo, "confermare", "due tempi diversi");
+
+const GARA = "11111111-2222-3333-4444-555555555555", rpcSoci = [];
+const conSoci = async (url, opt = {}) => {
+  if (String(url).includes("/rest/v1/rpc/_soci_gara")) {
+    rpcSoci.push(JSON.parse(opt.body));
+    return new Response(JSON.stringify({ gara: { id: GARA, data: "2026-10-18", distanza: "21", nome: "Rome Half Marathon" }, gruppo: "Il nostro gruppo", societa: ["Podistica Esempio"],
+      soci: [{ id: "m1", nome: "Luigi Verdi", stato: null }, { id: "m2", nome: "Anna Neri", stato: "certificato", da_solo: true, esito: "arrivato" },
+        { id: "m3", nome: "Carla Bianchi", stato: "dichiarato", esito: "non_partito" }] }), { status: 200 });
+  }
+  if (String(url).includes("/rest/v1/rpc/_registra_dal_direttivo")) { rpcSoci.push(JSON.parse(opt.body)); return new Response(JSON.stringify({ caricati: JSON.parse(opt.body).p_righe.length, saltati: 0 }), { status: 200 }); }
+  return finta(url);
+};
+const hs = T.crea(env, conSoci, () => new Date("2026-10-19T09:00:00"));
+const sociPost = (corpo, token = tok) => hs(new Request("https://x/functions/v1/tempi", { method: "POST", headers: token ? { "x-racebuddy-token": token } : {}, body: JSON.stringify(corpo) }));
+chiamate.length = 0;
+r = await sociPost({ azione: "soci_cerca", gara: GARA });
+j = await r.json();
+assert.strictEqual(r.status, 200, JSON.stringify(j));
+assert.strictEqual(rpcSoci[0].p_hash, crypto.createHash("sha256").update(tok).digest("hex"));
+const perSocio = Object.fromEntries(j.soci.map((x) => [x.membro_id, x]));
+assert.strictEqual(perSocio.m1.tipo, "pronto");
+assert.deepStrictEqual([perSocio.m1.scelta.secondi, perSocio.m1.scelta.fonte, perSocio.m1.scelta.societa], [perSocio.m1.scelta.secondi, "gpl", "Podistica Esempio"]);
+assert.ok(perSocio.m1.scelta.secondi > 3600 && perSocio.m1.scelta.secondi < 3 * 3600);
+assert.strictEqual(perSocio.m2.motivo, "caricato da sé");
+assert.strictEqual(perSocio.m3.motivo, "ha segnato: non partito");
+assert.ok(chiamate.every((u) => !u.includes("marathonview")), "per i soci niente MarathonView");
+assert.ok(chiamate.filter((u) => u.includes("garepodistichelazio")).every((u) => u.includes("anno=2026")), "solo l'anno della gara");
+assert.ok(!chiamate.some((u) => u.includes("fidal")), "trovato su Gare Podistiche Lazio: FIDAL non serve");
+// carica: rifà la ricerca, scrive solo i veri; chi ha già il suo tempo o un esito resta fuori
+rpcSoci.length = 0;
+const sc = perSocio.m1.scelta;
+r = await sociPost({ azione: "soci_carica", gara: GARA, scelte: [{ membro_id: "m1", persona: sc.persona, risultato: sc.risultato }, { membro_id: "m2", persona: sc.persona, risultato: sc.risultato },
+  { membro_id: "m1", persona: "gpl:inventata", risultato: "gpl:2026-10-18:21:1" }] });
+j = await r.json();
+assert.strictEqual(r.status, 200, JSON.stringify(j));
+const scritto = rpcSoci.find((x) => x.p_righe);
+assert.strictEqual(scritto.p_gara, GARA);
+assert.deepStrictEqual(scritto.p_righe, [{ membro_id: "m1", secondi: sc.secondi, fonte: "gpl", categoria: sc.categoria, societa: "Podistica Esempio", gara_nome: sc.gara_nome }]);
+assert.strictEqual(j.saltati, 2);
+// errori: gara non valida, senza codice, il database rifiuta (non direttivo)
+assert.strictEqual((await sociPost({ azione: "soci_cerca", gara: "x" })).status, 400);
+assert.strictEqual((await sociPost({ azione: "soci_cerca", gara: GARA }, "")).status, 401);
+assert.strictEqual((await sociPost({ azione: "soci_carica", gara: GARA, scelte: [] })).status, 400);
+const noDir = T.crea(env, async (url) => (String(url).includes("rpc/") ? new Response(JSON.stringify({ message: "solo per il direttivo" }), { status: 400 }) : finta(url)));
+r = await noDir(new Request("https://x", { method: "POST", headers: { "x-racebuddy-token": tok }, body: JSON.stringify({ azione: "soci_cerca", gara: GARA }) }));
+assert.strictEqual(r.status, 400);
+assert.strictEqual((await r.json()).errore, "solo per il direttivo");
+
 console.log("ok");

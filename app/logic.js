@@ -929,6 +929,51 @@
     const [nome, soglia] = LIVELLI[i], prox = LIVELLI[i + 1];
     return { nome, soglia, prossimo: prox ? prox[0] : null, prossimaSoglia: prox ? prox[1] : null, quota: prox ? (punti - soglia) / (prox[1] - soglia) : 1 };
   }
+  // ---------------------------------------------------------------- distanza ufficiale (novembre 2026)
+  // Il direttivo corregge la distanza di una gara della società (gare_societa.km_uff, docs/supabase_distanza.sql).
+  const KM_CLASSICA = { "10": 10, "21": 21.0975, "42": 42.195 };
+  /** Distanza in vigore di una gara della società: ufficiale, del calendario o la classica. */
+  const kmUfficiali = (s) => Number(s && (s.km_uff ?? s.km)) || KM_CLASSICA[s && s.distanza] || 0;
+  /** Con quei km la gara è una classica esatta (±50 m, come i risultati)? */
+  const kmEsatta = (km, distanza) => Math.abs(Number(km) - KM_CLASSICA[distanza]) <= 0.05 + 1e-9;
+  /** I km su cui è stato fissato un obiettivo: i suoi (km), altrimenti la distanza che la gara aveva prima di ogni
+   *  correzione (la prima correzione la ricorda), altrimenti quella del calendario o la classica. */
+  const kmObiettivo = (o, s) => Number(o && o.km) || Number(s && s.correzioni && s.correzioni[0] && s.correzioni[0].km_prima) || Number(s && s.km) || KM_CLASSICA[(s && s.distanza) || (o && o.distanza)] || 0;
+  /** Obiettivo sulla distanza ufficiale, con lo stesso passo. */
+  const obiettivoSu = (secondi, kmBase, km) => (kmBase > 0 && km > 0 ? Math.round((secondi * km) / kmBase) : secondi);
+  /** Obiettivi riadattati: nelle gare della società con la distanza corretta, il tempo sulla distanza ufficiale con lo
+   *  stesso passo. L'originale resta in secondi_orig (con km_orig): così si spiega e si torna indietro. */
+  function obiettiviAdattati(obiettivi, gareSoc) {
+    return (obiettivi || []).map((o) => {
+      const s = (gareSoc || []).find((x) => x.data === o.data && x.distanza === o.distanza && x.km_uff != null);
+      if (!s) return o;
+      const base = kmObiettivo(o, s), km = Number(s.km_uff);
+      if (Math.abs(base - km) < 0.0005) return o;
+      return { ...o, secondi: obiettivoSu(o.secondi, base, km), secondi_orig: o.secondi, km_orig: base, km_uff: km };
+    });
+  }
+  /** Anteprima di una correzione (prima di salvarla): la gara diventa esatta o no, e per ogni atleta con obiettivo e
+   *  tempo l'obiettivo prima e dopo, con lo scarto e se è centrato. obiettivi = quelli originali (con km). */
+  function anteprimaDistanza({ gara, km, risultati = [], obiettivi = [], nomi = {} } = {}) {
+    km = Number(km);
+    // distanza di oggi: quella ufficiale se c'è, altrimenti quella con cui sono arrivati i tempi dalle classifiche
+    const kmRis = risultati.find((r) => r.data === gara.data && r.distanza === gara.distanza && r.km_reali != null);
+    const ora = gara.km_uff != null ? Number(gara.km_uff) : kmRis ? Number(kmRis.km_reali) : kmUfficiali(gara), dentro = (x) => x.data === gara.data && x.distanza === gara.distanza;
+    const ris = new Map(risultati.filter((r) => dentro(r) && r.secondi > 0).map((r) => [r.membro_id, r]));
+    const kmOra = (o) => (gara.km_uff != null ? Number(gara.km_uff) : kmObiettivo(o, gara)); // l'obiettivo com'è oggi
+    const righe = obiettivi.filter(dentro).map((o) => {
+      const base = kmObiettivo(o, gara), r = ris.get(o.membro_id);
+      const prima = obiettivoSu(o.secondi, base, kmOra(o)), dopo = obiettivoSu(o.secondi, base, km);
+      const sp = r ? scartoObiettivo(r.secondi, prima) : null, sd = r ? scartoObiettivo(r.secondi, dopo) : null;
+      return { membro_id: o.membro_id, membro: nomi[o.membro_id] || "", prima, dopo, secondi: r ? r.secondi : null,
+        scartoPrima: sp, scartoDopo: sd, centratoPrima: sp != null && sp <= CENTRATO, centratoDopo: sd != null && sd <= CENTRATO };
+    }).sort((a, b) => (b.centratoDopo - b.centratoPrima) - (a.centratoDopo - a.centratoPrima) || String(a.membro).localeCompare(String(b.membro), "it"));
+    return { km, kmPrima: ora, esatta: kmEsatta(km, gara.distanza), esattaPrima: kmEsatta(ora, gara.distanza), risultati: ris.size, righe,
+      nuoviCentrati: righe.filter((x) => x.centratoDopo && !x.centratoPrima).length, persiCentrati: righe.filter((x) => x.centratoPrima && !x.centratoDopo).length };
+  }
+  /** Correzione possibile: direttivo, gara corsa (anche oggi) da non più di 30 giorni (come _gara_direttivo). */
+  const correggibile = (s, oggi) => !!(s && s.data <= oggi && diffDays(oggi, s.data) <= 30);
+
   /** Obiettivo centrato: per ogni gara certificata con un obiettivo, lo scarto. lista = chi ha almeno 3 gare, dallo scarto
    *  medio più basso (a parità, più gare); quasi = chi ne ha 1 o 2, con quante mancano. */
   function classificaObiettivo({ risultati, obiettivi } = {}, { anno, nomi = {}, io } = {}) {
@@ -1370,7 +1415,7 @@
     return { ok: true, stato };
   }
 
-  const api = { portingCrea, portingLeggi, fuoriMisura, esatte, kmAltra, fmtKm, etichettaDist, baseKm, PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, finitaPrima, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, pbEventi, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, recuperoInEvidenza, daRecuperare, fontiNuove, fonteAperta, nuoveFontiInEvidenza, PASSI_ENTRA, passiEntra, prossimoEntra, SC_TIPI, SC_TK, SC_DA_APP, SC_A_APP, SC_PREZZO, SC_RUOLI, SC_RIGHE, SC_DOMANDE, SC_BUDGET, scDurata, scInizio, scSettimana, scData, scOrizzonte, scWeekend, scUscite, scSimula, scPiano, scFineScarpa, scCoperture, scVita, scKmSettimana, scCosto, scValuta, scModelli, scProtezione };
+  const api = { KM_CLASSICA, kmUfficiali, kmEsatta, kmObiettivo, obiettivoSu, obiettiviAdattati, anteprimaDistanza, correggibile, portingCrea, portingLeggi, fuoriMisura, esatte, kmAltra, fmtKm, etichettaDist, baseKm, PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, finitaPrima, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, pbEventi, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, recuperoInEvidenza, daRecuperare, fontiNuove, fonteAperta, nuoveFontiInEvidenza, PASSI_ENTRA, passiEntra, prossimoEntra, SC_TIPI, SC_TK, SC_DA_APP, SC_A_APP, SC_PREZZO, SC_RUOLI, SC_RIGHE, SC_DOMANDE, SC_BUDGET, scDurata, scInizio, scSettimana, scData, scOrizzonte, scWeekend, scUscite, scSimula, scPiano, scFineScarpa, scCoperture, scVita, scKmSettimana, scCosto, scValuta, scModelli, scProtezione };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);

@@ -9,8 +9,13 @@
      per la mezz'ora (6.5 = 6:30); vigilia, mattina di gara e novità urgenti valgono solo all'ora piena.
    - "vigilia": il giorno prima della gara alle 19.
    - "gara":    la mattina della gara, 2 ore prima della partenza (mai prima delle 5).
-   - "dopo":    il giorno della gara alle 12, "Com'è andata?": apre la pagina per segnare il tempo (classifiche, Strava,
-                ENDU). Senza tempi nel testo e solo se il risultato non è già segnato. Una sola, anche con più gare.
+   - "dopo":    il giorno della gara, "Com'è andata?": apre la pagina per segnare il tempo (classifiche, Strava,
+                ENDU). Senza tempi nel testo e solo se il risultato non è già segnato (sul telefono o, per chi è nelle
+                classifiche del gruppo, già certificato online). Una sola, anche con più gare. Ora (oraDopo): partenza
+                + tempo obiettivo (o un tempo tipico: 1h la 10 km, 2h15 la mezza, 4h30 la maratona, 6 min/km le altre)
+                + mezz'ora, all'ora piena dopo; mai prima delle 12 né dopo le 20.
+   - "esito":   tempo certificato dal direttivo o deciso dal referente (esitoTempi): ogni ora tra le 8 e le 21, una per
+                risultato e stato; non per i tempi che l'atleta si è certificato da solo.
    Fuori da questi momenti non parte nulla: niente notifiche di notte.
 
    Al mattino si sceglie la cosa più importante tra (in ordine):
@@ -48,6 +53,14 @@ function oraMattino(oraUscita) {
 /** Ora del messaggio della mattina di gara: 2 ore prima della partenza indicata nella scheda (default 8:30). */
 function oraGara(scheda) {
   return Math.max(5, Math.floor(oraNum(fmtOra(scheda && scheda.partenza), 8.5) - 2));
+}
+/** Ora del "Com'è andata?" del giorno della gara: quando la gara è davvero finita, con mezz'ora di margine. */
+const DURATA_TIPICA = { "10": 1, "21": 2.25, "42": 4.5 };
+function oraDopo(g, scheda) {
+  const via = oraNum(fmtOra(scheda && scheda.partenza), 8.5);
+  const t = /^(\d{1,2}):(\d{2}):(\d{2})$/.exec(String((g && g.tempo) || "")), obiettivo = t ? Number(t[1]) + Number(t[2]) / 60 + Number(t[3]) / 3600 : null;
+  const durata = obiettivo || (g && g.km ? g.km * 0.1 : DURATA_TIPICA[g && g.distanza] || 1);
+  return Math.min(20, Math.max(12, Math.ceil(via + durata + 0.5)));
 }
 /** Fascia di vestizione (0 = caldo … 5 = gelo), per capire se il "cosa mettere" è cambiato. */
 function fascia(m) {
@@ -133,8 +146,10 @@ function pianifica(ctx) {
     segna(`gara:${garaOggi.id}`); stato.ultimo = oggi;
     return { invio: { title: `Oggi è il giorno: ${titolo(garaOggi.nome)}`, body: righe.join("\n"), url: `./#/gara/${encodeURIComponent(garaOggi.id)}`, tag: `gara-${garaOggi.id}` }, stato };
   }
-  const corsaOggi = gare.find((g) => g.data === oggi && !spunte[`${g.id}:P051`] && !gia(`dopo:${g.id}`));
-  if (pref.gara && corsaOggi && ora === 12) {
+  // tempo già certificato online (dall'atleta su un altro telefono, dal direttivo o dal referente): niente domanda
+  const certificata = (g) => (ctx.esiti || []).some((e) => e.data === g.data && e.distanza === g.distanza && e.stato === "certificato");
+  const corsaOggi = gare.find((g) => g.data === oggi && !spunte[`${g.id}:P051`] && !gia(`dopo:${g.id}`) && !certificata(g));
+  if (pref.gara && corsaOggi && ora === oraDopo(corsaOggi, schede[corsaOggi.id])) {
     segna(`dopo:${corsaOggi.id}`);
     return { invio: { title: `Com'è andata la ${titolo(corsaOggi.nome)}?`, body: "Verifica il tuo risultato: lo cerchiamo nelle classifiche, su Strava o su ENDU, e lo segni con un tocco.", url: `./#/risultato/${encodeURIComponent(corsaOggi.id)}`, tag: `dopo-${corsaOggi.id}` }, stato };
   }
@@ -261,4 +276,25 @@ function pianifica(ctx) {
   return { invio: { title: top.title, body: [top.body, rigaNovita, rigaMeteo].filter(Boolean).join("\n"), url: top.url || url, tag: `mattino-${oggi}` }, stato };
 }
 
-module.exports = { pianifica, novitaUrgente, oraMattino, oraGara, fascia, cambioMeteo };
+/**
+ * Tempo certificato dal direttivo o deciso dal referente (approvato o no): un avviso per risultato e stato.
+ * ctx: { oggi, ora, dati, stato, esiti: [{ id, data, distanza, secondi, stato, da_altri }] } (da _esiti_push).
+ */
+function esitoTempi(ctx) {
+  const { oggi, ora, dati = {}, esiti = [] } = ctx;
+  const pref = { ...PREF, ...(dati.pref || {}) };
+  const stato = JSON.parse(JSON.stringify(ctx.stato || {}));
+  stato.inviati = stato.inviati || {};
+  if (!pref.gara || !Number.isInteger(ora) || ora < 8 || ora > 21) return { invio: null, stato };
+  const e = esiti.find((x) => x.da_altri && (x.stato === "certificato" || x.stato === "rifiutato") && x.data >= L.addDays(oggi, -3) && !stato.inviati[`esito:${x.id}:${x.stato}`]);
+  if (!e) return { invio: null, stato };
+  stato.inviati[`esito:${e.id}:${e.stato}`] = oggi;
+  const g = (dati.gare || []).find((x) => x.data === e.data && x.distanza === e.distanza);
+  const nome = g ? `la ${titolo(g.nome)}` : `la gara del ${e.data.slice(8, 10)}/${e.data.slice(5, 7)}`;
+  const sec = Math.round(e.secondi || 0), tempo = sec ? `${Math.floor(sec / 3600) ? `${Math.floor(sec / 3600)}:` : ""}${String(Math.floor((sec % 3600) / 60)).padStart(Math.floor(sec / 3600) ? 2 : 1, "0")}:${String(sec % 60).padStart(2, "0")}` : "";
+  return e.stato === "certificato"
+    ? { invio: { title: "Il tuo tempo è nelle classifiche", body: `${nome.charAt(0).toUpperCase() + nome.slice(1)}${tempo ? `: ${tempo}` : ""}. È certificato: conta per le classifiche del gruppo.`, url: "./#/gruppo/mie", tag: `esito-${e.id}` }, stato }
+    : { invio: { title: "Tempo non approvato", body: `Il referente non ha approvato il tempo che hai mandato per ${nome}. Puoi cercarlo nelle classifiche o rimandarlo.`, url: "./#/gruppo/mie", tag: `esito-${e.id}` }, stato };
+}
+
+module.exports = { pianifica, novitaUrgente, esitoTempi, oraMattino, oraGara, oraDopo, fascia, cambioMeteo };
