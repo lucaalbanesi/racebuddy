@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-10-18",
+  "aggiornato": "2026-11-01",
   "nota": "Gare estere curate: Abbott World Marathon Majors, SuperHalfs, European Marathon Classics e grandi gare europee (circa 15.000 arrivati o più). Aggiornato ogni mese dal workflow \"Gare estere\" (docs/gare-estere.md).",
   "circuiti": {
     "major": {
@@ -64,38 +64,6 @@
     ]
   },
   "gare": [
-    {
-      "id": "E-francoforte-42-2026",
-      "nome": "Mainova Frankfurt Marathon",
-      "luogo": "Francoforte",
-      "paese": "Germania",
-      "data": "2026-10-25",
-      "distanza": "42",
-      "circuiti": [
-        "classics"
-      ],
-      "sito": "https://www.frankfurt-marathon.com/",
-      "iscrizione": "libera",
-      "notaIscrizione": "Iscrizione libera con prezzo a scaglioni; iscrizioni tardive fino al 18 ottobre e sul posto dal 23 al 25 ottobre 2026.",
-      "racconto": "La maratona cittadina più antica di Germania, nata nel 1981. Un percorso veloce per le strade di Francoforte, con musica e tifo lungo il tracciato, e un arrivo unico al coperto, dentro la Festhalle.",
-      "verificato": "2026-10-18"
-    },
-    {
-      "id": "E-valencia-mezza-21-2026",
-      "nome": "Medio Maratón Valencia Trinidad Alfonso Zurich",
-      "luogo": "Valencia",
-      "paese": "Spagna",
-      "data": "2026-10-25",
-      "distanza": "21",
-      "circuiti": [
-        "superhalfs"
-      ],
-      "sito": "https://www.valenciaciudaddelrunning.com/medio/medio-maraton/",
-      "iscrizione": "ballottaggio",
-      "notaIscrizione": "Sorteggio svolto a novembre 2025 (25.000 pettorali); i posti non confermati sono passati alla lista d'attesa.",
-      "racconto": "Partenza e arrivo sull'Avinguda dels Tarongers, nella zona universitaria: un percorso con poche curve che costeggia il grande parco nel vecchio letto del Turia, entra nel centro storico e torna tra le strade del Cabanyal, con il pubblico a fare il tifo. L'organizzazione lo chiama il circuito più veloce di Spagna.",
-      "verificato": "2026-10-18"
-    },
     {
       "id": "E-new-york-42-2026",
       "nome": "TCS New York City Marathon",
@@ -187,10 +155,10 @@
         "superhalfs"
       ],
       "sito": "https://maratonaclubedeportugal.com/en/corrida-marco/edp-lisbon-half-marathon/",
-      "iscrizione": "libera",
-      "notaIscrizione": "Iscrizioni aperte fino a esaurimento (limite di 20.000 partecipanti).",
+      "iscrizione": "ballottaggio",
+      "notaIscrizione": "Pettorali assegnati con un sorteggio gratuito (dal 23 aprile al 19 maggio 2026, esito a giugno); restano agenzie di viaggio e charity partner ufficiali.",
       "racconto": "Si parte a metà del ponte 25 de Abril, sopra il Tago, dove il pubblico non può salire: ci si arriva in treno e il ponte è tutto dei runner. L'arrivo è davanti al Monastero dos Jerónimos, nel cuore di Lisbona.",
-      "verificato": "2026-10-18"
+      "verificato": "2026-11-01"
     },
     {
       "id": "E-tokyo-42-2027",
@@ -236,9 +204,9 @@
       ],
       "sito": "https://www.runczech.com/en/events/generali-prague-half-marathon-2027-2",
       "iscrizione": "ballottaggio",
-      "notaIscrizione": "Pettorali esauriti: ora un posto si ottiene solo con il sorteggio (date non pubblicate) o con un codice di agenzia o charity.",
+      "notaIscrizione": "Pettorali esauriti e ballottaggio chiuso: ora si entra solo con un codice di agenzia o charity; i pettorali charity rimasti sono in vendita in autunno.",
       "racconto": "Un percorso nel cuore storico di Praga, con un'atmosfera tutta sua e una fama di gara dove cadono i record. Si corre il sabato, con circa 17.000 runner al via.",
-      "verificato": "2026-10-18"
+      "verificato": "2026-11-01"
     },
     {
       "id": "E-berlino-mezza-21-2027",
@@ -274,7 +242,7 @@
     },
     {
       "id": "E-parigi-42-2027",
-      "nome": "Schneider Electric Marathon de Paris",
+      "nome": "ASICS Marathon de Paris",
       "luogo": "Parigi",
       "paese": "Francia",
       "data": "2027-04-04",
@@ -282,7 +250,11 @@
       "circuiti": [
         "grandi"
       ],
-      "sito": "https://www.schneiderelectricparismarathon.com/"
+      "sito": "https://www.asicsmarathondeparis.com/",
+      "iscrizione": "ballottaggio",
+      "notaIscrizione": "Ballottaggio dall'8 al 30 settembre 2026, ora chiuso; restano i pettorali solidali (almeno 420 € di donazioni), le offerte aziendali e, dal 1° dicembre, la piattaforma ufficiale di rivendita dei pettorali.",
+      "racconto": "Nel 2027 la maratona di Parigi corre la sua 50ª edizione, con un nuovo organizzatore e un motto: «un anniversario, una nuova partenza». Il percorso resta segreto e sarà svelato solo poche settimane prima della gara.",
+      "verificato": "2026-11-01"
     },
     {
       "id": "E-rotterdam-42-2027",
@@ -330,7 +302,7 @@
       "iscrizione": "qualificazione",
       "notaIscrizione": "Serve il tempo di qualificazione: domande raccolte dal 14 al 18 settembre 2026.",
       "racconto": "La maratona annuale più antica del mondo, corsa la prima volta nel 1897. Si parte da Hopkinton e si arriva su Boylston Street, nel cuore di Boston, dopo le colline di Newton e la famosa Heartbreak Hill; si corre nel giorno del Patriots' Day.",
-      "verificato": "2026-10-18"
+      "verificato": "2026-11-01"
     },
     {
       "id": "E-amburgo-42-2027",
@@ -572,6 +544,38 @@
       "notaIscrizione": "Pettorali assegnati con sorteggio; date del sorteggio 2027 non ancora pubblicate.",
       "racconto": "Partenza e arrivo sull'Avinguda dels Tarongers, nella zona universitaria: un percorso con poche curve che costeggia il grande parco nel vecchio letto del Turia, entra nel centro storico e torna tra le strade del Cabanyal, con il pubblico a fare il tifo. L'organizzazione lo chiama il circuito più veloce di Spagna.",
       "verificato": "2026-10-18"
+    },
+    {
+      "id": "E-francoforte-42-2027",
+      "nome": "Mainova Frankfurt Marathon",
+      "luogo": "Francoforte",
+      "paese": "Germania",
+      "data": "2027-10-31",
+      "distanza": "42",
+      "circuiti": [
+        "classics"
+      ],
+      "sito": "https://www.frankfurt-marathon.com/",
+      "iscrizione": "libera",
+      "notaIscrizione": "Iscrizioni 2027 aperte con prezzo a scaglioni: da 111 € per i primi 1.000 iscritti fino a 176 € oltre i 16.500, entro il 24 ottobre 2027.",
+      "racconto": "La maratona cittadina più antica di Germania, nata nel 1981. Un percorso veloce per le strade di Francoforte, con musica e tifo lungo il tracciato, e un arrivo unico al coperto, dentro la Festhalle.",
+      "verificato": "2026-11-01"
+    },
+    {
+      "id": "E-amsterdam-42-2027",
+      "nome": "TCS Amsterdam Marathon",
+      "luogo": "Amsterdam",
+      "paese": "Paesi Bassi",
+      "data": "2027-10-31",
+      "distanza": "42",
+      "circuiti": [
+        "grandi"
+      ],
+      "sito": "https://www.tcsamsterdammarathon.eu/",
+      "iscrizione": "libera",
+      "notaIscrizione": "Iscrizioni 2027 aperte da sabato 19 dicembre 2026.",
+      "racconto": "Partenza e arrivo dentro lo storico Stadio Olimpico di Amsterdam. In mezzo il Vondelpark, il lungo tratto sulle rive dell'Amstel e il passaggio sotto il Rijksmuseum.",
+      "verificato": "2026-11-01"
     },
     {
       "id": "E-new-york-42-2027",
