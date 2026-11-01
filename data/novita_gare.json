@@ -1,6 +1,20 @@
 {
- "aggiornato": "2026-10-28T13:50Z",
+ "aggiornato": "2026-11-01T15:50Z",
  "novita": [
+  {
+   "id": "n142bff00477",
+   "gara": "L2bda4b848d-10",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Roma – A Del Buono e Niyomukiza la XVIII^ Corsa dei Santi",
+   "link": "https://podisti.net/roma-a-del-buono-e-niyomukiza-la-xviii-corsa-dei-santi/",
+   "data": "2026-11-01",
+   "fonte": "Podisti.net",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Partenza-corsa-dei-santi-2026-Foto-Ufficio-Stampa-Prime-Time-Promotions.jpg",
+   "trovato": "2026-11-01T15:50Z"
+  },
   {
    "id": "nfcc9ea6b485",
    "gara": "E-valencia-42-2026",
