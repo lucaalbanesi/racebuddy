@@ -1,17 +1,6 @@
 {
- "aggiornato": "2026-10-30",
+ "aggiornato": "2026-11-02",
  "gare": [
-  {
-   "id": "L2bda4b848d-10",
-   "nome": "Corsa dei Santi",
-   "data": "2026-11-01",
-   "luogo": "ROMA",
-   "distanza": "10",
-   "fonte": "FIDAL",
-   "prima_aggiunta": "2026-10-18",
-   "aggiunte": 9,
-   "ultima_aggiunta": "2026-10-29"
-  },
   {
    "id": "Hf70500d7d9-k15",
    "nome": "XIII^ Rome 15k",
