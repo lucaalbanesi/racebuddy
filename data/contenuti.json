@@ -2,6 +2,196 @@
  "aggiornato": "2026-11-02",
  "contenuti": [
   {
+   "id": "c77191c4995b",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Tom Dumoulin da sogno alla Maratona di New York: l’ex ciclista è tra i primi 100",
+   "estratto": "Il vincitore del Giro d'Italia nel 2017 aveva già dimostrato di saperci fare nella corsa e a New York lo ha confermato ancora una volta",
+   "link": "https://www.runnersworld.com/it/news/a74308122/tom-dumoulin-maratona-new-york/",
+   "data": "2026-11-02",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/43c5c815-70f7-4943-abd6-9e68507bbd52.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "2db60930ae04",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Le foto delle Maratona di New York che ti motiveranno a correre oggi stesso",
+   "estratto": "Non sono le foto più belle, ma sono quelle che sicuramente ti faranno continuare a correre",
+   "link": "https://www.runnersworld.com/it/news/a74308705/foto-maratona-new-york-2026/",
+   "data": "2026-11-02",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/631bc0e4-27bd-4827-b23a-f8ff5e12167d.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "cc60fe15fd47",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Il finto tragitto che aiuta a staccare quando lavori da casa",
+   "estratto": "Anche quando smetti di lavorare a casa, la tua mente resta in riunione. Lavorare da casa azzera la distanza fisica tra il tes stesso lavoratore e quello privato . Il pendolarismo…",
+   "link": "https://runlovers.it/2026/finto-tragitto-staccare-lavoro-casa/",
+   "data": "2026-11-02",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/01-202611020715-Finto-tragitto-W.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "9c6bb8600215",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Gli italiani alla maratona di New York, tutti i risultati",
+   "estratto": "Dietro l'eccezionale risultato di Yeman Crippa e all'ottima Giovanna Epis, alla maratona di New York c'era una pattuglia di oltre 2300 italiani. Tra loro alcune celebrità, ecco…",
+   "link": "https://www.runnersworld.com/it/news/a74307852/italiani-maratona-new-york-risultati-corsa/",
+   "data": "2026-11-02",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/001c9ef5-d1d1-4622-9de3-782e6ecae737.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "384732c0a3cf",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Firenze Marathon: storia e curiosità di una 42K sorprendente",
+   "estratto": "Dalla prima edizione del 1984, corsa sotto una pioggia battente, a una delle maratone più internazionali: la storia della 42K fiorentina attraverso i suoi protagonisti e alcuni…",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74176843/firenze-marathon-storia-curiosita/",
+   "data": "2026-11-02",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/e8e6066b-ca32-4585-a691-73324bff9788.jpg",
+   "argomenti": [
+    "gara",
+    "abbigliamento"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "849ed21261bf",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Ezzouhti e Roatta dominano la Apple Run",
+   "estratto": "1° novembre – È arrivato in Italia un anno fa e si è stabilito prima a Bolzano e poi da sei mesi a Mondovì. Da quel momento ha dominato molte gare del panorama di corsa su strada…",
+   "link": "https://podisti.net/ezzouhti-e-roatta-dominano-la-apple-run/",
+   "data": "2026-11-02",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/APPLE-RUN.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "bfde04ca6768",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Da Torino a Melbourne in viaggio di nozze per correre la loro prima maratona",
+   "estratto": "Camilla e Marcello, torinesi, hanno scelto la Maratona di Melbourne per festeggiare la luna di miele e correre insieme la loro prima 42K",
+   "link": "https://www.runnersworld.com/it/vip/a74304593/viaggio-nozze-maratona-melbourne/",
+   "data": "2026-11-02",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/c9a99b44-e7c5-4e00-aea6-422dc82983ec.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "a08ce93fa938",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Conserva la base aerobica d’inverno con tre uscite a settimana",
+   "estratto": "Otto settimane su tre uscite con compiti diversi per attraversare novembre e dicembre senza perdere il fondo costruito in autunno, anche quando alle cinque è già buio. Quanto si…",
+   "link": "https://runlovers.it/2026/conservare-base-aerobica-inverno-tre-uscite/",
+   "data": "2026-11-02",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/mantenere-base-aerobica-inverno-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "gara",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "9f56d600ad77",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Colazione e salute del cervello: cosa mangiare per energia e concentrazione",
+   "estratto": "Proteine, carboidrati, grassi sani e alcuni alimenti ricchi di omega-3 e antiossidanti possono aiutare a sostenere energia, sazietà e funzioni cognitive",
+   "link": "https://www.runnersworld.com/it/alimentazione/ricette/a74297057/colazione-salute-cervello/",
+   "data": "2026-11-02",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/ea59ab71-9277-4e4d-a41d-ef81235611a8.jpeg",
+   "argomenti": [
+    "rifornimento",
+    "alimentazione",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "13bc41bc007d",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Allenarsi due volte al giorno: quando il bigiornaliero può farti correre meglio",
+   "estratto": "Dividere i chilometri in due sessioni può migliorare l’economia di corsa. Il coach di RW Fulvio Massini spiega benefici, rischi e come iniziare a praticare l'allenamento…",
+   "link": "https://www.runnersworld.com/it/allenamento/maratona/a74305838/allenarsi-due-volte-al-giorno-bigiornaliero-correre-meglio/",
+   "data": "2026-11-02",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/aaadffd4-8ff1-4f8a-99f2-66c053418f5d.jpg",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
    "id": "a8ef751248ba",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -340,6 +530,22 @@
    "distanze": [
     "42"
    ],
+   "fasi": []
+  },
+  {
+   "id": "f404c97c19b3",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Al Vertical Tube di Villeneuve successi per Daniel Thedy e Noemi Janod",
+   "estratto": "1° novembre – Daniel Thedy e Noemi Junod hanno firmato il Vertical Tube di Villeneuve 2026. La manifestazione, giunta alla sesta edizione, si è disputata sabato e ha incoronato…",
+   "link": "https://podisti.net/al-vertical-tube-di-villeneuve-successi-per-daniel-thedy-e-noemi-janod/",
+   "data": "2026-11-01",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Vertical-Tube.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
    "fasi": []
   },
   {
@@ -1832,6 +2038,30 @@
    ]
   },
   {
+   "id": "512644e708ad",
+   "tipo": "articolo",
+   "fonte": "Garmin Blog Italia",
+   "fonteId": "garmin_blog",
+   "titolo": "Ritmo Circadiano e Sport: Qual è l’Orario Migliore per Allenarsi?",
+   "estratto": "Sveglia alle 5:45, scarpe allacciate e i primi chilometri percorsi prima che la città si animi: per alcuni runner è il momento più bello della giornata. Altri, alla stessa ora…",
+   "link": "https://www.garmin.com/it-IT/blog/fitness/ritmo-circadiano-orario-migliore-allenamento/",
+   "data": "2026-10-26",
+   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/10/ritmo-circadiano-allenamento.jpg",
+   "argomenti": [
+    "scarpe",
+    "allenamento",
+    "recupero",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "dopo"
+   ]
+  },
+  {
    "id": "c2107d201bef",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -2617,13 +2847,15 @@
    "fonte": "ricsvlog",
    "fonteId": "yt_ricsvlog",
    "titolo": "Sulla diga: che spettacolo! 🤩",
-   "estratto": "",
+   "estratto": "In questo video vi porto in un luogo mozzafiato: la diga! 🤩 Preparatevi a restare a bocca aperta davanti a uno spettacolo naturale e…",
    "link": "https://www.youtube.com/shorts/URxaNeJNO_c",
    "data": "2026-10-23",
    "immagine": "https://i2.ytimg.com/vi/URxaNeJNO_c/hqdefault.jpg",
    "argomenti": [],
    "distanze": [],
-   "fasi": []
+   "fasi": [
+    "si_parte"
+   ]
   },
   {
    "id": "651e6fb219f1",
@@ -4974,13 +5206,19 @@
    "fonte": "ricsvlog",
    "fonteId": "yt_ricsvlog",
    "titolo": "Test frontali in montagna di notte: che fatica!",
-   "estratto": "",
+   "estratto": "Test completo delle migliori torce frontali per attività outdoor in montagna durante le ore notturne. In questo video mettiamo alla prova…",
    "link": "https://www.youtube.com/shorts/BWtq27_9LVU",
    "data": "2026-10-16",
    "immagine": "https://i3.ytimg.com/vi/BWtq27_9LVU/hqdefault.jpg",
-   "argomenti": [],
+   "argomenti": [
+    "mente"
+   ],
    "distanze": [],
-   "fasi": []
+   "fasi": [
+    "si_parte",
+    "scarico",
+    "gara"
+   ]
   },
   {
    "id": "32008c8d1275",
@@ -5256,14 +5494,25 @@
    "fonte": "ricsvlog",
    "fonteId": "yt_ricsvlog",
    "titolo": "Preparazione epica per i 100km: svelerò tutto!",
-   "estratto": "",
+   "estratto": "Vuoi correre una ultramaratona e non sai da dove iniziare? In questo video ti svelo tutto sulla mia preparazione epica per affrontare i…",
    "link": "https://www.youtube.com/shorts/aUWpEz3AzZU",
    "data": "2026-10-15",
    "immagine": "https://i2.ytimg.com/vi/aUWpEz3AzZU/hqdefault.jpg",
-   "argomenti": [],
-   "distanze": [],
+   "argomenti": [
+    "alimentazione",
+    "allenamento",
+    "recupero",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
    "fasi": [
-    "si_parte"
+    "si_parte",
+    "costruzione",
+    "scarico",
+    "gara",
+    "dopo"
    ]
   },
   {
@@ -5642,13 +5891,15 @@
    "fonte": "ricsvlog",
    "fonteId": "yt_ricsvlog",
    "titolo": "Gasato per il progetto! Gear Fuga è pazzesco!",
-   "estratto": "",
+   "estratto": "Siete pronti a scoprire il progetto che mi ha fatto letteralmente impazzire? In questo video vi mostro Gear Fuga, una novità incredibile…",
    "link": "https://www.youtube.com/shorts/Rxv-ZQr0WNw",
    "data": "2026-10-14",
    "immagine": "https://i3.ytimg.com/vi/Rxv-ZQr0WNw/hqdefault.jpg",
    "argomenti": [],
    "distanze": [],
-   "fasi": []
+   "fasi": [
+    "si_parte"
+   ]
   },
   {
    "id": "ada4b68ba1d6",
@@ -5796,15 +6047,20 @@
    "fonte": "ricsvlog",
    "fonteId": "yt_ricsvlog",
    "titolo": "Navigare di notte in montagna: il mio orologio!",
-   "estratto": "",
+   "estratto": "Navigare di notte in montagna può essere una sfida, ma con l'attrezzatura giusta tutto diventa più semplice e sicuro. In questo video, ti…",
    "link": "https://www.youtube.com/shorts/NGW2HH97p5w",
    "data": "2026-10-13",
    "immagine": "https://i3.ytimg.com/vi/NGW2HH97p5w/hqdefault.jpg",
    "argomenti": [
+    "mente",
     "tecnologia"
    ],
    "distanze": [],
-   "fasi": []
+   "fasi": [
+    "si_parte",
+    "scarico",
+    "gara"
+   ]
   },
   {
    "id": "6a2d2ce564d8",
