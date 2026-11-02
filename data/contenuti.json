@@ -1,6 +1,64 @@
 {
- "aggiornato": "2026-11-01",
+ "aggiornato": "2026-11-02",
  "contenuti": [
+  {
+   "id": "a8ef751248ba",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Yeman Crippa \"una gara strepitosa che ripaga mesi di duro lavoro\"",
+   "estratto": "Yeman Crippa, secondo alla maratona di New York commenta una gara strepitosa. L'entusiasmo e la soddisfazione per l'allenatore Massimo Pegoretti e il manager Gianni De Madonna",
+   "link": "https://www.runnersworld.com/it/news/a74305468/yeman-crippa-corsa-secondo-maratona-new-york/",
+   "data": "2026-11-01",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/f6fe0905-e5f1-420b-9b61-03837bc49cfa.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "ea75b8765994",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "Super Crippa: è secondo alla maratona di New York",
+   "estratto": "Andreas Almgren (Svezia) ha vinto la maratona di New York al debutto sui 42,195 km: 2:06’01” è il tempo dello svedese che corona così un anno indimenticabile dopo la vittoria ai…",
+   "link": "https://correre.it/crippa-maratona-di-new-york/",
+   "data": "2026-11-01",
+   "immagine": "https://correre.it/wp-content/uploads/2026/11/Yeman_Crippa_Maratona_New_York_2026.jpg",
+   "argomenti": [
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
+   "id": "ffac856048ee",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Savelletri (BR) – 5^ Egnazia Half Marathon, trionfano Salamida e Fanelli",
+   "estratto": "1° novembre – E’ tornata la Egnazia Half Marathon, che ha visto stamattina svolgersi la sua quinta edizione, un’edizione di ripartenza. A far da scenario, il caratteristico borgo…",
+   "link": "https://podisti.net/savelletri-br-5-egnazia-half-marathon-trionfano-salamida-e-spinelli/",
+   "data": "2026-11-01",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/0480-1.jpg",
+   "argomenti": [],
+   "distanze": [
+    "21"
+   ],
+   "fasi": [
+    "gara"
+   ]
+  },
   {
    "id": "d690f34ec2f2",
    "tipo": "video",
@@ -74,6 +132,88 @@
    ]
   },
   {
+   "id": "99afea5dec92",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Padenghe Half Marathon: nuovi campioni italiani Elvaine Nimbona e Ahmed Ouhda.",
+   "estratto": "PADENGHE SUL GARDA (BS), 1° Novembre 2026 – Va in archivio con un bilancio straordinario la 18ª edizione della Padenghe Half Marathon, appuntamento di cartello del podismo…",
+   "link": "https://podisti.net/padenghe-half-marathon-nuovi-campioni-italiani-elvaine-nimbona-e-ahmed-ouhda/",
+   "data": "2026-11-01",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Padenghe-2026-partenza.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": [
+    "dopo"
+   ]
+  },
+  {
+   "id": "d0ec793a32e1",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona di New York: le scarpe di Almgren e Crippa",
+   "estratto": "Le scarpe dei protagonisti della Maratona di New York: Nike, On e anche un brand cinese",
+   "link": "https://www.runnersworld.com/it/scarpe/scarpe-running/a74305590/maratona-new-york-2026-scarpe-almgren-crippa/",
+   "data": "2026-11-01",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/5c8bcd33-fd8d-44f1-92e6-2d68bbee2b9f.jpeg",
+   "argomenti": [
+    "scarpe",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "39d7767618ec",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona di New York, Crippa è fantastico: secondo dietro ad Almgren, vincitore all’esordio",
+   "estratto": "Prova magistrale del trentino che è secondo a New York. Vince un clamoroso Almgren: che esordio in maratona",
+   "link": "https://www.runnersworld.com/it/news/a74305289/maratona-new-york-crippa-almgren/",
+   "data": "2026-11-01",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/2f786d39-e043-4ca0-9747-bf0379bd229c.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "a35a48d760da",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Maratona di New York, Crippa sfiora l’impresa: secondo alle spalle di Almgren. Chepkirui firma il bis",
+   "estratto": "L’azzurro delle Fiamme Oro cede soltanto negli ultimi 400 metri allo svedese, al debutto sulla distanza, che vince in 2h06’01”. Per Crippa un secondo posto storico, il miglior…",
+   "link": "https://podisti.net/maratona-di-new-york-crippa-sfiora-limpresa-secondo-alle-spalle-di-almgren-chepkirui-firma-il-bis/",
+   "data": "2026-11-01",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/New-York-2026-Crippa-Almgrem.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
    "id": "02b33774d341",
    "tipo": "articolo",
    "fonte": "Podisti.net",
@@ -143,6 +283,64 @@
    "fasi": [
     "costruzione"
    ]
+  },
+  {
+   "id": "d66531a5f524",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "I passaggi di Almgren e Crippa alla Maratona di New York",
+   "estratto": "Inizio comodo e finale a tutto gas (con negative split): che condotta di gara per Crippa e Almgren. L'azzurro \"è finalmente è diventato un maratoneta completo\"",
+   "link": "https://www.runnersworld.com/it/news/a74305522/passaggi-almgren-crippa-maratona-new-york/",
+   "data": "2026-11-01",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/c02124d3-2b2c-4753-bc41-772d9b80e32d.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "gara"
+   ]
+  },
+  {
+   "id": "83e2f62283bd",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Chi è Andreas Almgren: dalla pista al trionfo alla Maratona di New York",
+   "estratto": "Dagli 800 metri ai 42 chilometri: la storia di Andreas Almgren, talento frenato dagli infortuni e rilanciato da un metodo costruito sui numeri, fino al trionfo all’esordio alla…",
+   "link": "https://www.runnersworld.com/it/vip/a74284961/andreas-almgren-maratona-new-york/",
+   "data": "2026-11-01",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/c4a88ba1-b324-48a8-873b-e554329cd312.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "01ec7b91a1e4",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Chepkirui vince la Maratona di New York: Epis è undicesima",
+   "estratto": "Un grande finale permette alla keniana di imporsi, dopo 8 anni gli Usa salgono sul podio. Ottima prova per Giovanna Epis a un passo dalla dalla top 10",
+   "link": "https://www.runnersworld.com/it/news/a74305424/chepkirui-maratona-di-new-york-epis/",
+   "data": "2026-11-01",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/b3b890c0-2d6b-4dc7-91ae-df061b88f5dd.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
   },
   {
    "id": "05d6151daaa1",
