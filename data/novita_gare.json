@@ -1,6 +1,20 @@
 {
- "aggiornato": "2026-11-02T04:50Z",
+ "aggiornato": "2026-11-02T15:50Z",
  "novita": [
+  {
+   "id": "nfb46f8c9ec7",
+   "gara": "H88b48310e5-42",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Firenze Marathon: storia e curiosità di una 42K sorprendente",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74176843/firenze-marathon-storia-curiosita/",
+   "data": "2026-11-02",
+   "fonte": "Runner's World Italia",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/e8e6066b-ca32-4585-a691-73324bff9788.jpg",
+   "trovato": "2026-11-02T15:50Z"
+  },
   {
    "id": "nfcc9ea6b485",
    "gara": "E-valencia-42-2026",
