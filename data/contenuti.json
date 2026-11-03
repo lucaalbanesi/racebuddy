@@ -2,6 +2,256 @@
  "aggiornato": "2026-11-03",
  "contenuti": [
   {
+   "id": "aa29bfe5d880",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Villeneuve (AO) – Curti, Cretier, Framarin e Mortara Campioni Italiani Vertical YOUTH",
+   "estratto": "3 novembre – Lisa Curti (Team Marguareis) e Thierry Cretier (A.P.D. Pont-Saint-Martin) nella YOUTH A, Giulia Framarin (A.P.D. Pont-Saint-Martin) e Semmi Mortara (A.S.D. Atletica…",
+   "link": "https://podisti.net/villeneuve-ao-curti-cretier-framarin-e-mortara-campioni-italiani-vertical-youth/",
+   "data": "2026-11-03",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/DS_0857-1.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "b9fcc5382577",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Raceauditor: è arrivato il castigamatti dei tagliatori!",
+   "estratto": "Giorni contati per tanti furbetti sui 42 chilometri, navigando su Facebook abbiamo scoperto il profilo di Raceauditor. Tutto nasce dall’esperienza personale del creatore, Roberto…",
+   "link": "https://podisti.net/raceauditor-e-arrivato-il-castigamatti-dei-tagliatori/",
+   "data": "2026-11-03",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Raceauditor-Roberto-Abrahao-Foto-dal-suo-profilo-facebook.png",
+   "argomenti": [
+    "gara",
+    "racconti"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "e1a9c6def4ff",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Perché la gola brucia quando corri al freddo",
+   "estratto": "Cosa succede a gola e bronchi quando respiri aria fredda correndo, e come cambiare i primi minuti dell’uscita per tornare a casa senza “raschiare”. Il tragitto dell’aria dal naso…",
+   "link": "https://runlovers.it/2026/gola-brucia-correre-freddo/",
+   "data": "2026-11-03",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/gola-brucia-freddo-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "e5cf5ca37cb3",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "New York 2026 nella storia: è la maratona più grande di sempre, per la prima volta oltre 60mila finisher",
+   "estratto": "I numeri del successo: più del 99% dei partecipanti arriva al traguardo, crescono le donne e gli italiani sono sempre tantissimi",
+   "link": "https://www.runnersworld.com/it/news/a74316855/new-york-2026-maratona-piu-grande-sempre/",
+   "data": "2026-11-03",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/e77369e4-d7f0-4508-b890-92a4564d9e0d.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "ed0503a1fef0",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Meno performance, più benessere: il lato gentile del Cozy Running",
+   "estratto": "Mai sentito parlare di cozy cardio?",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a74304539/corsa-cozy-cardio-autunno/",
+   "data": "2026-11-03",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/34c66c4d-24e7-4864-b3c4-282cd075e1ca.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "b6644adf94cf",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona di New York, runner italiano resta senza scarpe: uno spettatore gli regala le sue",
+   "estratto": "È diventato virale il video di Roberto Bandirali, runner italiano rimasto senza scarpe alla Maratona di New York. Ci ha raccontato cos’è successo",
+   "link": "https://www.runnersworld.com/it/vip/a74311132/roberto-bandirali-scarpe-new-york/",
+   "data": "2026-11-03",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/3c46b05a-6629-4c93-97b1-a2e789f05982.jpeg",
+   "argomenti": [
+    "scarpe",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "d7e50550dbe4",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "La nuova Joma TR-5, quando il comfort diventa prestazione",
+   "estratto": "Nelle ultradistanze, rendere al meglio significa anche mantenere il comfort anche quando i chilometri si accumulano. Questa idea ha guidato il lavoro di Joma sulla nuova TR-5 , il…",
+   "link": "https://correre.it/joma-tr-5/",
+   "data": "2026-11-03",
+   "immagine": "https://correre.it/wp-content/uploads/2026/11/Joma_TR-5_ambient-e1793704542564.jpg",
+   "argomenti": [
+    "scarpe",
+    "allenamento",
+    "gara",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "520b8a914a4b",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Karl Bushby completa il giro del mondo (a piedi) in 28 anni. Che impresa!",
+   "estratto": "Cinquantamila chilometri, quattro continenti, arrestato due volte e ha rischiato la vita nel mare di Bering",
+   "link": "https://www.runnersworld.com/it/news/a74319343/karl-bushby-giro-del-mondo-a-piedi/",
+   "data": "2026-11-03",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/0b009621-cb22-4477-8f3e-62945d561066.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "e5ccb4d3abbb",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Correre con il pettorale di un altro",
+   "estratto": "Il pettorale porta un nome e il diritto di esserci. Quando Ma cosa succede quando averne uno comporta costi sempre più alti? Il pettorale porta un nome e prima ancora il diritto…",
+   "link": "https://runlovers.it/2026/correre-pettorale-altro-mercato-nero/",
+   "data": "2026-11-03",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/03-202611031235-Pettorale-L-Unsplash-Sporlab.jpeg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "a8305fa8c368",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Come si allena Andreas Almgren: il metodo dietro il trionfo alla Maratona di New York",
+   "estratto": "Dall'analisi rigorosa dei dati al cambio di paradigma dopo gli infortuni: il rigoroso metodo che ha guidato lo svedese al trionfo al suo debutto in maratona",
+   "link": "https://www.runnersworld.com/it/allenamento/a74319111/almgren-metodo-scientifico-new-york/",
+   "data": "2026-11-03",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/b8c0f87d-9e39-4f89-b9bb-cf7c7c1b6000.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "3d5f1bee4ddd",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Bagni di ghiaccio dopo corsa: recupero e rischi",
+   "estratto": "Bagni di ghiaccio dopo la corsa: recupero più veloce o adattamenti a rischio? Dolore muscolare, prestazioni e forza: una nuova revisione delle meta-analisi mette alla prova uno…",
+   "link": "https://podisti.net/bagni-di-ghiaccio-dopo-corsa-recupero-e-rischi/",
+   "data": "2026-11-03",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Bagni-di-ghiaccio_-recupero-e-adattamenti.png",
+   "argomenti": [
+    "forza",
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "dopo"
+   ]
+  },
+  {
+   "id": "76495da35a94",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Andreas Almgren (e non solo), dagli 800 metri al trionfo in maratona: i casi del passato",
+   "estratto": "Dal doppio giro di pista alla maratona: il successo di Andreas Almgren a New York racconta una trasformazione già vissuta da altri grandi campioni",
+   "link": "https://www.runnersworld.com/it/news/a74315416/andreas-almgren-dagli-800-alla-maratona-casi-passato/",
+   "data": "2026-11-03",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/82cb39d3-0970-46ac-9fe7-f6ac8da09088.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "e46badc9d38a",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "#adv Con quali scarpe ho corso la stagione di triathlon, dal mezzo Ironman al Challenge Roth?",
+   "estratto": "#adv Con quali scarpe ho corso la stagione di triathlon, dal mezzo Ironman al Challenge Roth? Deviate NITRO Elite 4 di @pumarunning, con…",
+   "link": "https://www.youtube.com/shorts/PC1PASz2__s",
+   "data": "2026-11-03",
+   "immagine": "https://i1.ytimg.com/vi/PC1PASz2__s/hqdefault.jpg",
+   "argomenti": [
+    "scarpe",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "gara"
+   ]
+  },
+  {
    "id": "c77191c4995b",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -6310,13 +6560,20 @@
    "fonte": "ricsvlog",
    "fonteId": "yt_ricsvlog",
    "titolo": "Sicurezza in montagna: l'importanza dell'attrezzatura!",
-   "estratto": "",
+   "estratto": "La sicurezza in montagna inizia da una preparazione accurata e dalla scelta dell'attrezzatura giusta. In questo video, esploriamo…",
    "link": "https://www.youtube.com/shorts/EOfEDQrVsoQ",
    "data": "2026-10-12",
    "immagine": "https://i2.ytimg.com/vi/EOfEDQrVsoQ/hqdefault.jpg",
-   "argomenti": [],
+   "argomenti": [
+    "mente",
+    "racconti"
+   ],
    "distanze": [],
-   "fasi": []
+   "fasi": [
+    "si_parte",
+    "scarico",
+    "gara"
+   ]
   },
   {
    "id": "f4f569f47f98",
@@ -6860,13 +7117,20 @@
    "fonte": "ricsvlog",
    "fonteId": "yt_ricsvlog",
    "titolo": "Corsa 100km tra i lupi! Test luci notturne!",
-   "estratto": "",
+   "estratto": "Cosa succede quando decidi di correre 100km nel cuore della notte, circondato dalla natura selvaggia e dal rischio di incontrare i lupi? In…",
    "link": "https://www.youtube.com/shorts/r1vVba7lFBQ",
    "data": "2026-10-11",
    "immagine": "https://i3.ytimg.com/vi/r1vVba7lFBQ/hqdefault.jpg",
-   "argomenti": [],
+   "argomenti": [
+    "mente",
+    "racconti"
+   ],
    "distanze": [],
-   "fasi": []
+   "fasi": [
+    "si_parte",
+    "scarico",
+    "gara"
+   ]
   },
   {
    "id": "7f0d841644c0",
@@ -7051,13 +7315,21 @@
    "fonte": "ricsvlog",
    "fonteId": "yt_ricsvlog",
    "titolo": "Corsa 100km nelle Dolomiti: buio, lupi e pericoli!",
-   "estratto": "",
+   "estratto": "Affrontare una 100km tra le vette spettacolari delle Dolomiti non è una semplice corsa, è una sfida estrema contro i propri limiti. In…",
    "link": "https://www.youtube.com/shorts/sGA0gmSKlno",
    "data": "2026-10-10",
    "immagine": "https://i4.ytimg.com/vi/sGA0gmSKlno/hqdefault.jpg",
-   "argomenti": [],
+   "argomenti": [
+    "allenamento",
+    "mente"
+   ],
    "distanze": [],
-   "fasi": []
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico",
+    "gara"
+   ]
   },
   {
    "id": "d5cd2a3bdff4",
@@ -7205,15 +7477,20 @@
    "fonte": "ricsvlog",
    "fonteId": "yt_ricsvlog",
    "titolo": "Fuga X330 Grip Fotonico: Testato su fango e pioggia!",
-   "estratto": "",
+   "estratto": "Abbiamo messo alla prova le Fuga X330 con il rivoluzionario Grip Fotonico nelle condizioni più difficili: fango profondo e pioggia…",
    "link": "https://www.youtube.com/shorts/URKWPZBbIUA",
    "data": "2026-10-09",
    "immagine": "https://i2.ytimg.com/vi/URKWPZBbIUA/hqdefault.jpg",
    "argomenti": [
+    "scarpe",
     "abbigliamento"
    ],
    "distanze": [],
-   "fasi": []
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
   },
   {
    "id": "b87bc2fd66a0",
