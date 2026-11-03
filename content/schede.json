@@ -94,6 +94,7 @@
   "partenza": "9:30",
   "sito": "https://cphhalf.dk/en/",
   "canali": {
+   "notizie": "https://cphhalf.dk/en/feed/",
    "instagram": "https://www.instagram.com/cphhalf/",
    "facebook": "https://www.facebook.com/cphhalf"
   },
@@ -104,9 +105,10 @@
   ],
   "note": "Informazioni pratiche dell'edizione 2027 (luogo di partenza, ritiro pettorale, percorso) non ancora pubblicate. Iscrizione solo con ballottaggio.",
   "fonti": [
-   "https://cphhalf.dk/en/"
+   "https://cphhalf.dk/en/",
+   "https://cphhalf.dk/en/feed/"
   ],
-  "verificato": "2026-10-19",
+  "verificato": "2026-11-03",
   "edizione": "2027"
  },
  "Hd9df59d4b1-21": {
