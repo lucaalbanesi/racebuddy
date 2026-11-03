@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-02",
+ "aggiornato": "2026-11-03",
  "contenuti": [
   {
    "id": "c77191c4995b",
@@ -35,6 +35,22 @@
    "distanze": [
     "42"
    ],
+   "fasi": []
+  },
+  {
+   "id": "07c5b0433275",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Il parcheggio più vicino e i passi che ci togliamo ogni giorno",
+   "estratto": "Il posto davanti all’ingresso accorcia il tragitto e la giornata. Dove la distanza lo permette, a piedi ritrovi passi e tempo. Il parcheggio più vicino riduce la giornata a una…",
+   "link": "https://runlovers.it/2026/parcheggio-vicino-camminare-spostamenti-quotidiani/",
+   "data": "2026-11-02",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/02-202611021730-Parcheggio-W.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
    "fasi": []
   },
   {
@@ -8474,28 +8490,6 @@
     "si_parte",
     "scarico",
     "gara"
-   ]
-  },
-  {
-   "id": "56124b32fdf3",
-   "tipo": "video",
-   "fonte": "Andrea Vignone",
-   "fonteId": "yt_crazyvigno",
-   "titolo": "ENDURO COUNTRY 2H MARATHON RACE - FAST IN MIOGLIA - GASGAS EC 500F",
-   "estratto": "ENDURO COUNTRY 2H MARATHON RACE - FAST IN MIOGLIA - GASGAS EC 500F GARA PAZZESCA, SUPER DIVERTENTE MA SOPRATTUTTO ALLENANTE! OTTIMA…",
-   "link": "https://www.youtube.com/watch?v=u7b_U69nNqs",
-   "data": "2026-09-03",
-   "immagine": "https://i2.ytimg.com/vi/u7b_U69nNqs/hqdefault.jpg",
-   "argomenti": [
-    "alimentazione",
-    "gara"
-   ],
-   "distanze": [
-    "42"
-   ],
-   "fasi": [
-    "costruzione",
-    "scarico"
    ]
   }
  ]
