@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-03",
+ "aggiornato": "2026-11-04",
  "contenuti": [
   {
    "id": "aa29bfe5d880",
@@ -35,6 +35,20 @@
    "distanze": [
     "42"
    ],
+   "fasi": []
+  },
+  {
+   "id": "8348ac980ffa",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Quante volte a settimana allenare ogni gruppo muscolare",
+   "estratto": "Quello che fa crescere un muscolo è la somma delle serie che riceve in una settimana: i giorni servono a distribuirle in modo che ognuna resti buona. Perché la scelta tra…",
+   "link": "https://runlovers.it/2026/frequenza-allenamento-gruppi-muscolari-settimana/",
+   "data": "2026-11-03",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/allenare-gruppi-muscolari-foto.jpg?fit=1920%2C1283&quality=75&ssl=1",
+   "argomenti": [],
+   "distanze": [],
    "fasi": []
   },
   {
@@ -112,6 +126,41 @@
    ]
   },
   {
+   "id": "721af41a44a5",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Maratona di New York, appunti e spunti, Almgren , Crippa e altro",
+   "estratto": "3 novembre 2026 – Andata in archivio la 55esima edizione, con un altro record, quello dei partecipanti classificati, 61.066, erano stati 59.122 nel 2025 e 55.526 nel 2024. Andiamo…",
+   "link": "https://podisti.net/maratona-di-new-york-appunti-e-spunti-almgren-crippa-e-altro/",
+   "data": "2026-11-03",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/New-Yor-Righetti-Bona-Epis.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "69f5fd41a9c9",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Le gare da correre nel weekend dell’8 novembre",
+   "estratto": "A novembre le possibilità per correre e gareggiare sono tantissime e adatti ad ogni tipo di runner!",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74323069/gare-correre-otto-novembre-2026/",
+   "data": "2026-11-03",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/8eda4a32-ae59-4a0b-a194-4cd208228b86.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
    "id": "d7e50550dbe4",
    "tipo": "articolo",
    "fonte": "Correre",
@@ -146,6 +195,63 @@
    "link": "https://www.runnersworld.com/it/news/a74319343/karl-bushby-giro-del-mondo-a-piedi/",
    "data": "2026-11-03",
    "immagine": "https://hips.hearstapps.com/hmg-prod/images/0b009621-cb22-4477-8f3e-62945d561066.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "e75e5a1d24a1",
+   "tipo": "articolo",
+   "fonte": "Garmin Blog Italia",
+   "fonteId": "garmin_blog",
+   "titolo": "I migliori esercizi con gli elastici",
+   "estratto": "L’evoluzione delle metodologie di allenamento nel panorama del fitness ha ridefinito il concetto di sovraccarico, spostando sempre più l’attenzione verso attrezzature minimali e a…",
+   "link": "https://www.garmin.com/it-IT/blog/fitness/esercizi-con-elastici/",
+   "data": "2026-11-03",
+   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/11/migliori-esercizi-con-elastici-1.jpg",
+   "argomenti": [
+    "allenamento",
+    "forza",
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico",
+    "dopo"
+   ]
+  },
+  {
+   "id": "f019d81ac352",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Giuseppe Santoruvo: una vile aggressione gli impedirà di correre la Maratona di Ravenna",
+   "estratto": "3 novembre – Quattro mesi di intensa preparazione e la domenica prima del grande appuntamento ti salta la maratona. E’ accaduto a tanti, di solito un infortunio ti impedisce la…",
+   "link": "https://podisti.net/giuseppe-santoruvo-una-vile-aggressione-gli-impedira-di-correre-la-maratona-di-ravenna/",
+   "data": "2026-11-03",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/0396-1.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
+   "id": "8b5ce7050239",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Dal ritiro al podio di New York: cosa puoi imparare dalla storia di Jess McClain",
+   "estratto": "Un periodo di sconforto e di abbandono alla corsa poi il ritorno con lo storico secondo posto a New York",
+   "link": "https://www.runnersworld.com/it/mental-coach/a74319099/jess-mcclain-new-york-ritrovare-motivazione/",
+   "data": "2026-11-03",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/5e35405f-1fd4-463b-9c4a-a5a522216bea.jpeg",
    "argomenti": [],
    "distanze": [],
    "fasi": []
