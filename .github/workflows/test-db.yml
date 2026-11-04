@@ -105,6 +105,16 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f tests/test_account.sql > esito4.txt 2>&1 || true
           cat esito4.txt
           if ! grep -q "permessi account ok" esito4.txt; then echo "::error::account: $(grep -iE 'error|errore|assert|context|line' esito4.txt | head -6 | tr '\n' ' ')"; exit 1; fi
+      - name: Nomi in maiuscolo
+        run: |
+          psql -v ON_ERROR_STOP=1 -c "select public.crea_gruppo(repeat('v', 40), 'Nomi Vecchi', 'giulia verdi');"
+          psql -v ON_ERROR_STOP=1 -f docs/supabase_nomi.sql
+          psql -v ON_ERROR_STOP=1 -f docs/supabase_nomi.sql   # ripetibile
+          test "$(psql -tA -c "select nome from public.membri where token_hash = public._hash(repeat('v', 40))")" = "GIULIA VERDI"
+          psql -v ON_ERROR_STOP=1 -c "delete from public.gruppi where nome = 'Nomi Vecchi';"
+          psql -v ON_ERROR_STOP=1 -f tests/test_nomi.sql > esito13.txt 2>&1 || true
+          cat esito13.txt
+          if ! grep -q "permessi nomi ok" esito13.txt; then echo "::error::nomi: $(grep -iE 'error|errore|assert|context|line' esito13.txt | head -6 | tr '\n' ' ')"; exit 1; fi
       # La migrazione dei personali, applicata allo schema in produzione prima dei personali (f287bf8), deve dare lo stesso risultato.
       - name: Migrazione personali sullo schema in produzione
         run: |

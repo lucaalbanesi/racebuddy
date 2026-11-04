@@ -11,6 +11,7 @@
   const vuoto = () => ({ profilo: {}, gare: [], spunte: {}, rinvii: {}, personali: [], scarpe: [], prova: "" });
   let S = vuoto();
   try { S = Object.assign(vuoto(), JSON.parse(localStorage.getItem(KEY) || "{}")); } catch (e) { /* storage non disponibile */ }
+  if (S.profilo && S.profilo.nome) S.profilo.nome = L.nomePersona(S.profilo.nome); // nomi sempre in maiuscolo (novembre 2026)
   let timerPush;
   const salva = () => {
     try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast("Non riesco a salvare sul telefono"); }
@@ -2638,7 +2639,7 @@
       <details class="card"><summary>Sei il presidente? Crea il gruppo</summary>
         <form id="g-crea" style="display:flex;flex-direction:column;gap:10px">
         <div class="field"><label for="g-nome">Nome della società o del gruppo</label><input class="input" id="g-nome" required maxlength="60" placeholder="es. Podistica …"></div>
-        <div class="field"><label for="g-io">Come ti vedono gli altri</label><input class="input" id="g-io" required maxlength="40" value="${esc(S.profilo.nome || "")}" placeholder="es. Mario Rossi" autocomplete="name"><span class="small muted">Usa nome e cognome: comparirà anche nel tuo gruppo.</span></div>
+        <div class="field"><label for="g-io">Come ti vedono gli altri</label><input class="input" id="g-io" style="text-transform:uppercase" required maxlength="40" value="${esc(S.profilo.nome || "")}" placeholder="es. MARIO ROSSI" autocomplete="name"><span class="small muted">Usa nome e cognome: comparirà anche nel tuo gruppo.</span></div>
         <button class="btn" type="submit">Crea il gruppo</button>
         <span class="small muted">Diventi amministratore: potrai invitare gli altri, nominare chi ti aiuta a invitare e gestire i membri.</span></form></details>`;
   }
@@ -2735,7 +2736,7 @@
     return `${bannerRivedi()}<section class="entra-invito"><span class="ob-logo">RaceBuddy</span>
       <div id="invito-info" style="display:flex;flex-direction:column;gap:12px"><h1 id="inv-tit">Leggo l'invito…</h1></div>
       <form id="g-entra" data-codice="${esc(codice)}" ${infoProva ? 'data-anteprima="1"' : ""} class="piede">
-        <div class="card"><div class="field"><label for="g-io">Nome e cognome</label><input class="input" id="g-io" required maxlength="40" value="${esc(S.profilo.nome || "")}" placeholder="es. Mario Rossi" autocomplete="name"><span class="small muted">Così ti riconoscono i compagni e troviamo i tuoi tempi nelle classifiche.</span></div></div>
+        <div class="card"><div class="field"><label for="g-io">Nome e cognome</label><input class="input" id="g-io" style="text-transform:uppercase" required maxlength="40" value="${esc(S.profilo.nome || "")}" placeholder="es. MARIO ROSSI" autocomplete="name"><span class="small muted">Così ti riconoscono i compagni e troviamo i tuoi tempi nelle classifiche.</span></div></div>
         <button class="btn block" type="submit">Entra nel gruppo</button>
         <p class="small muted centro">Ci vogliono 3 minuti. Niente email né password: le tue gare e i personali si vedono nel gruppo, puoi cambiarlo da Io.</p></form></section>`;
   }
@@ -3579,10 +3580,10 @@
 
     // ---- pagine dedicate
     if (sez === "profilo") {
-      const diverso = inG && P.nome && P.nome.trim() !== GD().io.nome;
-      return pag("Profilo", `${diverso ? `<section class="card soft"><span class="small">Nel tuo gruppo ti vedono come <b>«${esc(GD().io.nome)}»</b>: è diverso dal nome qui sotto.</span><button class="btn" data-act="g-usa-nome">Fatti vedere come «${esc(P.nome.trim())}»</button></section>` : ""}
+      const diverso = inG && P.nome && L.nomePersona(P.nome) !== L.nomePersona(GD().io.nome);
+      return pag("Profilo", `${diverso ? `<section class="card soft"><span class="small">Nel tuo gruppo ti vedono come <b>«${esc(GD().io.nome)}»</b>: è diverso dal nome qui sotto.</span><button class="btn" data-act="g-usa-nome">Fatti vedere come «${esc(L.nomePersona(P.nome))}»</button></section>` : ""}
         <section class="card"><form id="profilo" autocomplete="off" style="display:flex;flex-direction:column;gap:10px">
-        <div class="field"><label for="p-nome">Come ti chiami</label><input class="input" id="p-nome" data-auto="nome" value="${esc(P.nome)}" placeholder="es. Mario Rossi" autocomplete="name" maxlength="40"><span class="small muted">Usa nome e cognome: comparirà anche nel tuo gruppo.</span></div>
+        <div class="field"><label for="p-nome">Come ti chiami</label><input class="input" id="p-nome" data-auto="nome" style="text-transform:uppercase" value="${esc(P.nome)}" placeholder="es. MARIO ROSSI" autocomplete="name" maxlength="40"><span class="small muted">Usa nome e cognome: comparirà anche nel tuo gruppo.</span></div>
         <div class="field"><label for="p-citta">Dove corri di solito</label><input class="input" id="p-citta" data-auto="citta" value="${esc(P.citta)}" placeholder="es. Roma">
           <div class="between">${bottoneGps("p-citta")}${P.coord ? `<span class="small muted">dal GPS</span>` : ""}</div></div>
         <div class="field"><label for="p-ora">A che ora esci di solito</label><input class="input" id="p-ora" data-auto="ora" type="time" step="900" value="${esc(oraInput(P.ora))}"></div>
@@ -4020,7 +4021,7 @@
       S.benvenuto = true; salva(); document.body.classList.remove("onboarding");
       if (t.dataset.vai) location.hash = t.dataset.vai; else if (location.hash === "#/benvenuto") location.hash = "#/oggi"; else route();
     } else if (act === "g-usa-nome") {
-      azioneGruppo(() => rpc("aggiorna_profilo", { p_token: token(), p_nome: S.profilo.nome.trim().slice(0, 40), p_mostra: null }), "Nome aggiornato nel gruppo");
+      azioneGruppo(() => rpc("aggiorna_profilo", { p_token: token(), p_nome: L.nomePersona(S.profilo.nome).slice(0, 40), p_mostra: null }), "Nome aggiornato nel gruppo");
     } else if (act === "g-dist") {
       distGruppo = t.dataset.d; rerender();
     } else if (act === "g-applaudi") {
@@ -4367,6 +4368,7 @@
     const k = e.target.dataset && e.target.dataset.auto;
     if (!k) return;
     let val = e.target.value.trim();
+    if (k === "nome") { val = L.nomePersona(val); e.target.value = val; }
     if (k === "kmSettimana") val = val ? String(Math.min(250, Math.max(1, Math.round(Number(val) || 0)))) : "";
     if ((S.profilo[k] || "") === val) return;
     S.profilo = { ...S.profilo, [k]: val };
@@ -4540,7 +4542,7 @@
     } else if (f.id === "g-entra" && f.dataset.anteprima) {
       location.hash = "#/entra";
     } else if (f.id === "g-crea" || f.id === "g-entra") {
-      const nome = v("g-io").trim(), btn = f.querySelector("button[type=submit]");
+      const nome = L.nomePersona(v("g-io")), btn = f.querySelector("button[type=submit]");
       // C'è già un membro con questo nome? Può essere lo stesso runner che ha un altro profilo (Safari / app nella Home): si chiede prima di crearne un secondo.
       if (f.id === "g-entra" && nome && f.dataset.omonimoNome !== nome) {
         btn.disabled = true;

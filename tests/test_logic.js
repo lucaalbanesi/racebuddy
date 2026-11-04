@@ -904,3 +904,9 @@ assert.strictEqual(L.kmAlGiorno([{ d: "2026-11-26", km: 10 }, { d: "2026-12-10",
 }
 
 console.log("ok");
+
+// nomi delle persone sempre in maiuscolo (classifiche senza doppioni di maiuscole)
+assert.strictEqual(L.nomePersona("  mario   rossi "), "MARIO ROSSI");
+assert.strictEqual(L.nomePersona("Niccolò De Luca"), "NICCOLÒ DE LUCA");
+assert.strictEqual(L.nomePersona(null), "");
+console.log("nomi ok");
