@@ -2,6 +2,241 @@
  "aggiornato": "2026-11-04",
  "contenuti": [
   {
+   "id": "934f85fcbd05",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Viaggi per una gara? 6 esercizi per sciogliere i muscoli e arrivare più fresco alla partenza",
+   "estratto": "Spostarsi per una gara può significare ore seduti in auto, treno o aereo. Questi movimenti aiutano a sciogliere anche, schiena, polpacci e spalle",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a74332881/viaggio-gara-runner-esercizi-stretching/",
+   "data": "2026-11-04",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/b6d8a496-43af-41e8-aaa7-ec70fd731866.jpeg",
+   "argomenti": [
+    "forza",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "gara"
+   ]
+  },
+  {
+   "id": "d5763f0afd26",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Sonnolenza invernale, come restare svegli nelle giornate corte",
+   "estratto": "D’inverno la luce scarseggia e il sonno pesa. Pochi gesti nelle ore di luce tengono svegli, e dormire un po’ di più ha un senso. Poca luce di giorno e molta luce artificiale la…",
+   "link": "https://runlovers.it/2026/sonnolenza-invernale-restare-svegli/",
+   "data": "2026-11-04",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/04-202611040715-Sonnolenza-W-Unsplash-James-Forbes.jpeg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "recupero",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "dopo"
+   ]
+  },
+  {
+   "id": "adb70306ca9d",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Runner di 24 anni muore alla Maratona di New York: correva in memoria del nonno",
+   "estratto": "Stava correndo la sua prima maratona per raccogliere fondi a favore della ricerca sul morbo di Parkinson, in memoria di suo nonno",
+   "link": "https://www.runnersworld.com/it/news/a74330963/maratona-new-york-2026-runner-morta/",
+   "data": "2026-11-04",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/b01d3cea-a232-40ff-b026-91582b25fe31.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "d1e790b52ece",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Quanti chilometri servono per mantenere la forma dopo aver corso una maratona",
+   "estratto": "Ridurre il chilometraggio senza perdere resistenza, velocità e forza è possibile. Due esperti spiegano quanto correre e quali allenamenti mantenere tra una preparazione e l’altra",
+   "link": "https://www.runnersworld.com/it/allenamento/maratona/a74329547/dopo-maratona-quanti-chilometri-mantenere-forma/",
+   "data": "2026-11-04",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/1a7aba04-b6fc-4e63-816c-c3ef0324b24a.jpeg",
+   "argomenti": [
+    "allenamento",
+    "forza",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "6b84ae2f0f53",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Marcialonga Lauretana, Santoro e Mandolini sul gradino più alto",
+   "estratto": "La 50^ edizione va in archivio e non viene sminuita dal brutto tempo 1 novembre Loreto (AN) – In assenza del sole, la Marcialonga Lauretana non si è voluta arrendere ai capricci…",
+   "link": "https://podisti.net/marcialonga-lauretana-santoro-e-mandolini-sul-gradino-piu-alto/",
+   "data": "2026-11-04",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/VincitoreMarcialongaLaurentana2026FotoFBOrganizzatori.jpg",
+   "argomenti": [
+    "gara",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "54ef65d50455",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Le supershoes aiutano anche chi corre a 6/km",
+   "estratto": "A 6:00 min/km le superscarpe fanno risparmiare un po’ di energia: poca, e da spendere nelle uscite giuste. Cosa significa economia di corsa, spiegato senza formule Cosa ha…",
+   "link": "https://runlovers.it/2026/superscarpe-ritmi-amatoriali-economia-corsa/",
+   "data": "2026-11-04",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/supershoes-ritmi-lenti-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "scarpe",
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "6245c5c5f6d2",
+   "tipo": "video",
+   "fonte": "Andrea Vignone",
+   "fonteId": "yt_crazyvigno",
+   "titolo": "La novità di EICMA 2026 😱 MARCHALD FILTERS presenta il TEAR OFF KIT!",
+   "estratto": "La novità di EICMA 2026 😱 MARCHALD FILTERS presenta il TEAR OFF KIT! 🔥 **LA VERA NOVITÀ DI EICMA 2026? IL TEAR OFF KIT DI MARCHALD…",
+   "link": "https://www.youtube.com/watch?v=p7OpowMXgas",
+   "data": "2026-11-04",
+   "immagine": "https://i1.ytimg.com/vi/p7OpowMXgas/hqdefault.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "9c4357e8897d",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "L'abbuffata di pasta la sera prima della gara è un grave errore strategico.",
+   "estratto": "L'abbuffata di pasta la sera prima della gara è un grave errore strategico. Impara il \"vero carbo-load\" per essere davvero efficace il…",
+   "link": "https://www.youtube.com/shorts/SNgcbLpZ1ug",
+   "data": "2026-11-04",
+   "immagine": "https://i4.ytimg.com/vi/SNgcbLpZ1ug/hqdefault.jpg",
+   "argomenti": [
+    "alimentazione",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "e56294ff6114",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "Karl Bushby completa la Goliath Expedition dopo 28 anni",
+   "estratto": "Hull, Inghilterra, 2 novembre 2026 . Mai come in questo caso data e luogo rivestono un’importanza fondamentale. Ventotto anni dopo la partenza da Punta Arenas, in Cile…",
+   "link": "https://correre.it/karl-bushby-goliath-expedition/",
+   "data": "2026-11-04",
+   "immagine": "https://correre.it/wp-content/uploads/2026/11/Karl_Bushby_Merrell_Moab.jpg",
+   "argomenti": [
+    "allenamento",
+    "mente",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "0b2e2ae9026f",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Irregolarità organizzative, scorrettezze in gara: tacere può costare caro",
+   "estratto": "Tagli di percorso, scambi di pettorale, organizzazione carente. L’avvocato Massimiliano Perletti spiega perché chi assiste a una violazione ha il dovere di informare la giustizia…",
+   "link": "https://www.runnersworld.com/it/news/a74311215/corsa-irregolarita-organizzative-scorrettezze-gara-tacere-costa-caro/",
+   "data": "2026-11-04",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/383051ea-d0dd-40e5-a8fb-cead419ce2e5.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "85759758a68d",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "I consigli per correre al buio in sicurezza",
+   "estratto": "Guida alla corsa con il buio: scopri come rendere i tuoi allenamenti serali sicuri e divertenti",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a62618737/consigli-corsa-buio/",
+   "data": "2026-11-04",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/6673baa1-fbcc-44be-a8b9-d5cfa1cd6a1d.jpeg",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "6c5076640a64",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Brand Finance classifica le grandi maratone del mondo: c'è Roma",
+   "estratto": "Roma è tra le maratone analizzate da Brand Finance ed entra in top 10 per impatto economico",
+   "link": "https://www.runnersworld.com/it/news/a74322791/classifica-brand-finance-maratone-mondo-roma/",
+   "data": "2026-11-04",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/36d82d61-ea11-43ec-af6a-98ce2429f982.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
    "id": "aa29bfe5d880",
    "tipo": "articolo",
    "fonte": "Podisti.net",
