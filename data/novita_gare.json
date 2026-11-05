@@ -1,6 +1,20 @@
 {
- "aggiornato": "2026-11-04T08:50Z",
+ "aggiornato": "2026-11-05T03:50Z",
  "novita": [
+  {
+   "id": "na1a50b3101a",
+   "gara": "H88b48310e5-42",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Riunione Volontari 4 Novembre Ufficiale",
+   "link": "https://www.youtube.com/watch?v=ABlHvVNAre8",
+   "data": "2026-11-04",
+   "fonte": "YouTube della gara",
+   "ufficiale": true,
+   "tipo": "video",
+   "immagine": "https://i2.ytimg.com/vi/ABlHvVNAre8/hqdefault.jpg",
+   "trovato": "2026-11-05T03:50Z"
+  },
   {
    "id": "n7da83547cd9",
    "gara": "H88b48310e5-42",
