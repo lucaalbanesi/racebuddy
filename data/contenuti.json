@@ -2,6 +2,309 @@
  "aggiornato": "2026-11-05",
  "contenuti": [
   {
+   "id": "141e52a6baca",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Un anno di Major raccontato dalle scarpe",
+   "estratto": "Quarantadue podi, sette brand e un grande protagonista: le scarpe raccontano la stagione 2026 delle Major",
+   "link": "https://www.runnersworld.com/it/scarpe/scarpe-running/a74341737/anno-major-raccontato-scarpe/",
+   "data": "2026-11-05",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/a6ae3780-d44b-4fb2-b59d-42d53ef6b0d1.jpeg",
+   "argomenti": [
+    "scarpe"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "cedbfa7196ef",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "UTMB, il calendario è un rebus: incertezza sulle date del 2027",
+   "estratto": "Calendario fittissimo, mondiali di ciclismo e problemi di turismo impongono delle scelte",
+   "link": "https://www.runnersworld.com/it/trail/a74342449/incerta-data-utmb-2027-annuncio/",
+   "data": "2026-11-05",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/c3dacfde-db05-4940-8d56-92986b8bbc3d.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "7920fc2c71da",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Trail running, 3 località italiane tra le migliori d’Europa: Courmayeur è quinta",
+   "estratto": "Una nuova classifica europea dedicata alle vacanze di trail running premia l’Italia: tre località entrano tra le prime venti, Courmayeur nella top five",
+   "link": "https://www.runnersworld.com/it/travel/a74342621/trail-running-localita-italiane-migliori/",
+   "data": "2026-11-05",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/350fc3b3-dfe9-403f-8986-078ae16f6592.jpeg",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "1df155985ee0",
+   "tipo": "articolo",
+   "fonte": "Garmin Blog Italia",
+   "fonteId": "garmin_blog",
+   "titolo": "Quanti Km Correre a Settimana per la Salute",
+   "estratto": "Associata spesso a tabelle impegnative, lunghi del weekend e cinque sedute settimanali, la corsa sembra uno sport che “funziona” solo per chi ha tempo e ambizioni da maratoneta…",
+   "link": "https://www.garmin.com/it-IT/blog/running/quanti-km-correre-a-settimana-per-la-salute/",
+   "data": "2026-11-05",
+   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/11/runner-amatoriale-che-corre-a-ritmo-tranquillo-su-una-pista-ciclopedonale-al-mattino-1.jpg",
+   "argomenti": [
+    "allenamento",
+    "recupero",
+    "gara",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "dopo"
+   ]
+  },
+  {
+   "id": "8c5c55f37de0",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Perché il VO2max è il numero che conta per la longevità",
+   "estratto": "Il VO2max è la cilindrata del tuo motore: più capacità aerobica si associa a meno rischio di morte, e si costruisce a ogni età. Il VO2max indica quanto ossigeno cuore, polmoni e…",
+   "link": "https://runlovers.it/2026/vo2max-longevita-capacita-aerobica/",
+   "data": "2026-11-05",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/05-202611050715-VO2max-W-Unsplash-Piergiovanni-Di-Blasi.jpeg?fit=1920%2C1273&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "9441b42a71fe",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Musica per correre: migliora davvero la performance?",
+   "estratto": "CORRERE CON LA MUSICA: AIUTA DAVVERO AD ANDARE PIÙ FORTE O FA SOLO SENTIRE MENO LA FATICA? Sommario Una meta-analisi del 2026 su 15 studi sperimentali e 339 adulti fisicamente…",
+   "link": "https://podisti.net/musica-per-correre-migliora-davvero-la-performance/",
+   "data": "2026-11-05",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Correre-con-la-musica_-scienza-e-prestazioni.png",
+   "argomenti": [
+    "forza",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "8b86249852a5",
+   "tipo": "articolo",
+   "fonte": "Garmin Blog Italia",
+   "fonteId": "garmin_blog",
+   "titolo": "Mezza maratona: come allenare la testa quando le gambe non ne hanno più",
+   "estratto": "Preparata per settimane tra ripetute, lunghi e uscite di recupero, la mezza maratona sembra una sfida tutta fisica: 21,0975 km da coprire con il ritmo giusto. Eppure chi l’ha…",
+   "link": "https://www.garmin.com/it-IT/blog/running/mezza-maratona-come-allenare-la-testa-quando-le-gambe-non-ne-hanno-piu/",
+   "data": "2026-11-05",
+   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/11/pic1-1.jpg",
+   "argomenti": [
+    "allenamento",
+    "recupero",
+    "gara",
+    "mente"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico",
+    "gara",
+    "dopo"
+   ]
+  },
+  {
+   "id": "7ef85982a43e",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Maratona di Crema, 20esima edizione, 8 novembre",
+   "estratto": "4 novembre. Presentata la maratonina presso il museo Civico di Crema, una splendida costruzione che risale al 1400, un tempo convento agostiniano. Gli organizzatori Elena Ginelli…",
+   "link": "https://podisti.net/maratona-di-crema-20esima-edizione-8-novembre/",
+   "data": "2026-11-05",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Crema-conferenza.png",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "25454a4a18f8",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Kamohelo Mofolo, dal Lesotho con gli allenamenti su WhatsApp fino al podio di New York",
+   "estratto": "Si allena da solo e segue i programmi a distanza con il coach James McKirdy. A 21 anni, Kamohelo Mofolo ha conquistato il terzo posto alla Maratona di New York, nella sua seconda…",
+   "link": "https://www.runnersworld.com/it/vip/a74337418/kamohelo-mofolo-new-york/",
+   "data": "2026-11-05",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/964c56a9-0bf3-43b0-9bdb-37f148db5cf1.jpeg",
+   "argomenti": [
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "f029d31baafb",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Il tapis roulant è uscito dalla cantina ed è entrato in salotto",
+   "estratto": "Per decenni il tapis roulant è stato un oggetto da nascondere. Ora è progettato per piacere da spento, e la fatica cambia stanza. Il tapis roulant ha vissuto a lungo in cantina…",
+   "link": "https://runlovers.it/2026/tapis-roulant-salotto-design-casa/",
+   "data": "2026-11-05",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/06-202611051235-Tapis-W-Unsplash-Hillary-Black.jpeg?resize=1160%2C772&quality=75&ssl=1",
+   "argomenti": [
+    "alimentazione",
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "70696599879d",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Hai dormito quattro ore prima della gara e pensi di aver già rovinato tutto?",
+   "estratto": "Hai dormito quattro ore prima della gara e pensi di aver già rovinato tutto? Tranquillo, non è quella notte a decidere la tua prestazione…",
+   "link": "https://www.youtube.com/shorts/5mN4Oylx5Ac",
+   "data": "2026-11-05",
+   "immagine": "https://i2.ytimg.com/vi/5mN4Oylx5Ac/hqdefault.jpg",
+   "argomenti": [
+    "recupero",
+    "gara"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": [
+    "scarico",
+    "dopo"
+   ]
+  },
+  {
+   "id": "df1a1a514601",
+   "tipo": "articolo",
+   "fonte": "Garmin Blog Italia",
+   "fonteId": "garmin_blog",
+   "titolo": "Come monitorare l’alimentazione con Garmin Connect+™",
+   "estratto": "Che l’obiettivo sia perdere qualche chilo, sostenere un periodo di allenamento intenso o semplicemente assumere più proteine, a fare la differenza è quasi sempre la stessa…",
+   "link": "https://www.garmin.com/it-IT/blog/fitness/monitorare-alimentazione-garmin-connect/",
+   "data": "2026-11-05",
+   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/11/pic2.jpg",
+   "argomenti": [
+    "alimentazione",
+    "allenamento",
+    "tecnologia",
+    "racconti"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
+   "id": "a05ef0e5a81c",
+   "tipo": "articolo",
+   "fonte": "Garmin Blog Italia",
+   "fonteId": "garmin_blog",
+   "titolo": "Come Sfruttare i Rulli Tacx® per un Allenamento da PRO",
+   "estratto": "Tre ore già nelle gambe, una ancora da completare. Christoph Strasser risponde al telefono tra un respiro e l’altro, mentre sotto di lui ronza uno smart trainer, nella cantina di…",
+   "link": "https://www.garmin.com/it-IT/blog/ciclismo/allenamento-sui-rulli-consigli-professionisti/",
+   "data": "2026-11-05",
+   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/11/consigli-allenamento-ciclismo-inverno.jpg",
+   "argomenti": [
+    "allenamento",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "924ffae21d6c",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "CADENZA? Cosa sbaglio?",
+   "estratto": "Dopo il video sul mio cambio di tecnica mi avete scritto in tantissimi. Quasi tutte le domande erano sulla cadenza: quanti passi, che…",
+   "link": "https://www.youtube.com/watch?v=UPpJxK9boKk",
+   "data": "2026-11-05",
+   "immagine": "https://i2.ytimg.com/vi/UPpJxK9boKk/hqdefault.jpg",
+   "argomenti": [
+    "scarpe",
+    "allenamento",
+    "recupero",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara",
+    "dopo"
+   ]
+  },
+  {
+   "id": "6cb1d428813e",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Allenarsi con le gambe stanche aumenta la resistenza, a patto di farlo nel modo giusto",
+   "estratto": "Queste strategie, approvate dagli esperti, ti aiutano a sfruttare la stanchezza per sviluppare la resistenza senza rischiare infortuni",
+   "link": "https://www.runnersworld.com/it/allenamento/a74336721/benefici-correre-gambe-stanche/",
+   "data": "2026-11-05",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/64aca091-2838-4d55-a095-1e9238f1eb17.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
    "id": "934f85fcbd05",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
