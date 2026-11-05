@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-04",
+ "aggiornato": "2026-11-05",
  "contenuti": [
   {
    "id": "934f85fcbd05",
@@ -200,6 +200,43 @@
    ]
   },
   {
+   "id": "b4975ca21530",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Il metodo RAIN per attraversare le emozioni difficili",
+   "estratto": "Quattro passaggi da fare in pochi minuti per stare dentro un’emozione difficile senza esserne travolti e senza scacciarla. Cosa significano le quattro lettere di RAIN, tradotte in…",
+   "link": "https://runlovers.it/2026/metodo-rain-meditazione-emozioni-difficili/",
+   "data": "2026-11-04",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/metodo-RAIN-emozioni-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "mente",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "de793c5767ad",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "I migliori prodotti per la corsa in inverno (per uomo e donna) da acquistare su Amazon",
+   "estratto": "Una selezione di indumenti e accessori che ti terranno al caldo fino alla primavera, senza compromettere le prestazioni",
+   "link": "https://www.runnersworld.com/it/equipment/abbigliamento/a70219454/migliori-prodotti-per-la-corsa-amazon/",
+   "data": "2026-11-04",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/couple-warming-up-for-cross-country-run-in-winter-royalty-free-image-1770799671.pjpeg?crop=1.00xw:0.753xh;0,0.247xh&resize=1200:*",
+   "argomenti": [
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
    "id": "85759758a68d",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -218,6 +255,25 @@
    ]
   },
   {
+   "id": "21ce05c49fac",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Firenze Marathon 2026, non solo 42 km: tutti gli eventi del weekend",
+   "estratto": "Dalla staffetta solidale legata al centenario della Fiorentina alla Family Run, passando per la 10 km e il Marathon Expo alla Leopolda: gli appuntamenti per vivere la maratona di…",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74329435/firenze-marathon-2026-eventi-weekend/",
+   "data": "2026-11-04",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/fb279261-42bc-40c1-8652-ee0ee3f66966.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42",
+    "10"
+   ],
+   "fasi": []
+  },
+  {
    "id": "6c5076640a64",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -234,6 +290,20 @@
    "distanze": [
     "42"
    ],
+   "fasi": []
+  },
+  {
+   "id": "8954e541da31",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Alla scoperta del Brenva Glacier Trek: il nuovo sentiero per scoprire il ghiacciaio del Monte Bianco",
+   "estratto": "Un trekking di 13,2 chilometri e 14 tappe per conoscere la storia del ghiacciaio della Brenva e ammirarlo da vicino, ai piedi del Monte Bianco",
+   "link": "https://www.runnersworld.com/it/travel/a74296325/brenva-glacier-trek-sentiero-ghiacciaio-monte-bianco/",
+   "data": "2026-11-04",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/8c9c7b5f-ee64-42c8-8e98-67dddf5e8b57.jpg",
+   "argomenti": [],
+   "distanze": [],
    "fasi": []
   },
   {
