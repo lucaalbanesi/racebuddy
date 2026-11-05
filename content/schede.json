@@ -259,7 +259,7 @@
    "https://followyourpassion.it/wp-content/uploads/2026/05/Reg-Milano-HM-competitiva-ITA-2026_v2.pdf",
    "https://followyourpassion.it/en/percorso-21km-milanohalfmarathon/"
   ],
-  "verificato": "2026-10-24",
+  "verificato": "2026-11-05",
   "edizione": "2026"
  },
  "P8cb521dda8-42": {
@@ -439,9 +439,9 @@
   "partenza": "9:00",
   "luogoPartenza": "Partenza e arrivo in Viale delle Terme di Caracalla; ritrovo dalle 7:00.",
   "pettorale": "Expo allo Stadio Terme di Caracalla: ven 6/11 12-18, sab 7/11 10-18; domenica no. Serve la lettera di conferma e un documento; delega firmata con copia del documento.",
-  "griglia": "Griglie per personale stagionale dichiarato all'iscrizione; le istruzioni arrivano agli iscritti nei 2 giorni prima.",
-  "deposito": "Nell'area riservata agli atleti, borsa propria massimo 40x20x25 cm con il numero del pettorale.",
-  "ristori": "Al 5° e al 10° km, più pacco ristoro all'arrivo.",
+  "griglia": "Griglie per personale stagionale dichiarato all'iscrizione; pettorale rosso (non competitiva in coda), ingresso solo da Viale delle Terme di Caracalla.",
+  "deposito": "Gazebo in Viale delle Terme di Caracalla, aperto dalle 7:30 alle 12:30; borsa massimo 40x20x25 cm, braccialetto con corsia e numero.",
+  "ristori": "Ai km 5 e 10 e all'arrivo: acqua in bottiglietta o bicchiere; pacco ristoro all'arrivo.",
   "mappa": "Viale delle Terme di Caracalla, Roma",
   "percorsoLink": "https://youtu.be/PPz4V80TvtE",
   "percorsoDescrizione": "Da Caracalla lungo il Tevere, Piazza del Popolo, Via del Corso, Piazza Navona, Piazza Venezia, Fori Imperiali e Colosseo, ritorno a Caracalla. Percorso ancora provvisorio.",
@@ -455,14 +455,16 @@
    "Rome 15K",
    "Rome 15k"
   ],
-  "note": "13ª edizione, organizza Forhans Team; la Rome 5K parte alle 9:10. Iscrizioni chiuse il 30/10, niente iscrizioni il giorno della gara. Tempo massimo 2h30. Pacer da 1h00 a 1h36'15\" (Marathon Truppen). Medaglia ai primi 3.000 arrivati.",
+  "note": "13ª edizione, organizza Forhans Team; la Rome 5K parte alle 9:10. Iscrizioni chiuse il 30/10, niente iscrizioni il giorno della gara. Tempo massimo da confermare: 2h15 nelle Info utili, 2h30 nel regolamento. Pacer da 1h00 a 1h37'30\" (Marathon Truppen). Medaglia Finisher all'arrivo, corridoi separati per 15K e 5K (il regolamento dice ai primi 3.000). Bagni chimici in Via Antoniniana.",
   "fonti": [
    "https://www.rome15k.com/",
    "https://www.rome15k.com/15k-info/",
-   "https://www.rome15k.com/wp-content/uploads/2026/10/REGOLAMENTO-XIII-ROME15K-2026_.pdf"
+   "https://www.rome15k.com/wp-content/uploads/2026/10/REGOLAMENTO-XIII-ROME15K-2026_.pdf",
+   "https://www.rome15k.com/wp-content/uploads/2026/11/INFO-UTILI-1.pdf"
   ],
-  "verificato": "2026-11-01",
-  "edizione": "2026"
+  "verificato": "2026-11-05",
+  "edizione": "2026",
+  "arrivare": "Metro B fermata Circo Massimo. In auto parcheggi vicino allo stadio Nando Martellini, in Via del Circo Massimo o Viale Aventino."
  },
  "La92f52eec5-k19.5": {
   "partenza": "8:30",
