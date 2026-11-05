@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-05T04:50Z",
+ "aggiornato": "2026-11-05T08:50Z",
  "novita": [
   {
    "id": "nd6b687385e9",
@@ -14,6 +14,34 @@
    "tipo": "articolo",
    "immagine": "https://hips.hearstapps.com/hmg-prod/images/fb279261-42bc-40c1-8652-ee0ee3f66966.jpeg",
    "trovato": "2026-11-05T04:50Z"
+  },
+  {
+   "id": "na1a50b3101a",
+   "gara": "H88b48310e5-42",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Riunione Volontari 4 Novembre Ufficiale",
+   "link": "https://www.youtube.com/watch?v=ABlHvVNAre8",
+   "data": "2026-11-04",
+   "fonte": "YouTube della gara",
+   "ufficiale": true,
+   "tipo": "video",
+   "immagine": "https://i2.ytimg.com/vi/ABlHvVNAre8/hqdefault.jpg",
+   "trovato": "2026-11-05T08:50Z"
+  },
+  {
+   "id": "n7da83547cd9",
+   "gara": "H88b48310e5-42",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Live streaming di firenze marathon",
+   "link": "https://www.youtube.com/watch?v=nc51UwQPFWg",
+   "data": "2026-11-03",
+   "fonte": "YouTube della gara",
+   "ufficiale": true,
+   "tipo": "video",
+   "immagine": "https://i3.ytimg.com/vi/nc51UwQPFWg/hqdefault.jpg",
+   "trovato": "2026-11-05T08:50Z"
   },
   {
    "id": "nfb46f8c9ec7",
