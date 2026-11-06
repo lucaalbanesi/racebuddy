@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-05",
+ "aggiornato": "2026-11-06",
  "contenuti": [
   {
    "id": "141e52a6baca",
@@ -156,6 +156,44 @@
     "42"
    ],
    "fasi": []
+  },
+  {
+   "id": "6c1311edce06",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona di Atene, il fascino dell’Autentica: domenica si corre nel mito",
+   "estratto": "Dalla Tomba di Maratona allo stadio Panathinaikos, 25mila runner (e tanti italiani) sono attesi al via della 43ª Athens Authentic Marathon. Un percorso impegnativo che attraversa…",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74341775/maratona-atene-fascino-autentica/",
+   "data": "2026-11-05",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/876cc7d2-418c-4828-9237-9759f83b3368.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "8bf5005a4499",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Lo squat è l’esercizio che allena molto più delle gambe",
+   "estratto": "Ogni volta che ti alzi dal divano fai uno squat. Farlo a qualunque età costruisce forza, addestra il tronco e aiuta la mobilità. Lo squat è il gesto con cui ci sediamo e ci…",
+   "link": "https://runlovers.it/2026/squat-esercizio-importanza-forza/",
+   "data": "2026-11-05",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/07-202611051730-Squat-T-Unsplash-Sunday-Ii-Sunday.jpeg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
   },
   {
    "id": "25454a4a18f8",
