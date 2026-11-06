@@ -2,6 +2,244 @@
  "aggiornato": "2026-11-06",
  "contenuti": [
   {
+   "id": "e565e262ad8f",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Polifenoli: piccoli, grandi alleati per il recupero del runner",
+   "estratto": "Scopri come i polifenoli riducono i danni muscolari dopo le corse intense. I consigli degli esperti di nutrizione sportiva per un recupero perfetto",
+   "link": "https://www.runnersworld.com/it/alimentazione/integratori/a74345325/polifenoli-alleati-recupero-corsa/",
+   "data": "2026-11-06",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/f684820b-764e-4c8d-87dd-e1c16a1c6d8a.jpg",
+   "argomenti": [
+    "alimentazione",
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico",
+    "dopo"
+   ]
+  },
+  {
+   "id": "322bd457c37f",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "La cadenza è il numero che se conosci come funziona guardi di più sull’orologio dopo il cardio. Ma t",
+   "estratto": "La cadenza è il numero che se conosci come funziona guardi di più sull’orologio dopo il cardio. Ma ti dice davvero se corri bene? Per me è…",
+   "link": "https://www.youtube.com/shorts/PzojS0qj6G8",
+   "data": "2026-11-06",
+   "immagine": "https://i1.ytimg.com/vi/PzojS0qj6G8/hqdefault.jpg",
+   "argomenti": [
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
+   "id": "eb8fb7c357c6",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "La Maratona di New York di Yeman Crippa raccontata dai dati del suo sportwatch",
+   "estratto": "I dati dell’Amazfit Cheetah 2 Pro raccontano il ritmo e la frequenza cardiaca di Yeman Crippa nella sua magnifica maratona a New York",
+   "link": "https://www.runnersworld.com/it/allenamento/a74342937/maratona-new-york-yeman-crippa-dati-sportwatch/",
+   "data": "2026-11-06",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/5d7068d3-f5df-497f-8bb7-f87354f17ea1.jpg",
+   "argomenti": [
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "a91711e891db",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Kiprun Running Hub a Forte Marghera: la corsa raccontata",
+   "estratto": "Al centro della mostra c’è una donna sul divano, alle otto del mattino, che si massaggia una gamba. Poi, nella stessa sequenza, la ritrovo alla finestra, disperata perché fuori…",
+   "link": "https://runlovers.it/2026/kiprun-running-hub-forte-marghera-venezia/",
+   "data": "2026-11-06",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/DSC06894.jpg?resize=1160%2C773&quality=75&ssl=1",
+   "argomenti": [
+    "recupero",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "scarico",
+    "dopo"
+   ]
+  },
+  {
+   "id": "041437c445e0",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Il tempo massimo decide chi può dire di aver corso una maratona",
+   "estratto": "Ho visto smontare l’arrivo di una maratona una volta sola, e ci sono finito in mezzo per sbaglio. Tornavo verso l’albergo con la medaglia in tasca e il telo termico che frusciava…",
+   "link": "https://runlovers.it/2026/tempo-massimo-maratona-partecipazione/",
+   "data": "2026-11-06",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/tempo-massimo-maratona-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "costruzione",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "1bccbb752e5c",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Il programma per migliorare il tempo sui 5 km in sei settimane",
+   "estratto": "Un test, quattro ritmi che ne derivano e sei settimane di uscite con un compito preciso, per arrivare alla prova finale sapendo esattamente a che velocità partire. Un test di 3 km…",
+   "link": "https://runlovers.it/2026/migliorare-tempo-5-km-sei-settimane/",
+   "data": "2026-11-06",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/migliorare-5-km-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "ddbdef7c1846",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Correre più veloce: 5 esercizi per migliorare la tecnica di corsa",
+   "estratto": "Per aumentare la velocità non bastano lunghi e lavori veloci. Postura, braccia, ginocchia e appoggio possono rendere la corsa più efficiente",
+   "link": "https://www.runnersworld.com/it/allenamento/esercizi/a74345289/correre-piu-veloce-tecnica/",
+   "data": "2026-11-06",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/drop-box-jump-0088-644abeee156c8.jpg",
+   "argomenti": [
+    "allenamento",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "cdc85fb5d340",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Correre con la pioggia: consigli per farlo in sicurezza, errori da evitare e benefici",
+   "estratto": "Non temere la pioggia quando corri, ecco come non fermarti mai anche quando c'è il maltempo ma senza rischi",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a41038654/consigli-corsa-pioggia/",
+   "data": "2026-11-06",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/d525a832-10e7-403f-9d84-8f68fae3eff7.jpeg",
+   "argomenti": [
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "9f4661e6b6a5",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Come scegliere le scarpe da running per la maratona: i consigli di ASICS",
+   "estratto": "Comfort, ammortizzazione, stabilità e reattività: Aldo Giordano, Brand Trainer ASICS, spiega come scegliere le scarpe per allenarsi e affrontare la prima maratona",
+   "link": "https://www.runnersworld.com/it/scarpe/scarpe-running/a74338830/scarpe-running-maratona-correre-asics/",
+   "data": "2026-11-06",
+   "immagine": "https://hips.hearstapps.com/vidthumb/fb43f401-2e8e-4115-aa58-30e6cda5dad7/223a34f6-a262-41e4-b802-8e4dab1e9c1c.jpg",
+   "argomenti": [
+    "scarpe",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "b740605313f6",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Allenamento collinare e ripetute in salita: benefici per economia di corsa, forza e prestazioni sui 5 km.",
+   "estratto": "ALLENAMENTO COLLINARE: LE RIPETUTE IN SALITA FANNO CORRERE PIÙ VELOCE ANCHE IN PIANURA? INDICE DI SOLIDITÀ SCIENTIFICA ★★★☆☆ Studio sperimentale randomizzato, ma con soltanto 20…",
+   "link": "https://podisti.net/allenamento-collinare-e-ripetute-in-salita-benefici-per-economia-di-corsa-forza-e-prestazioni-sui-5-km/",
+   "data": "2026-11-06",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Allenamento-collinare_-piu-forte-e-veloce.png",
+   "argomenti": [
+    "allenamento",
+    "forza",
+    "mente",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "83281d303bf2",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "10 prodotti per runner sotto ai 13 euro da acquistare su Amazon Haul",
+   "estratto": "Ti basterà scrivere 'corsa' nella barra di ricerca e ti si aprirà un mondo di prodotti per runner al di sotto dei 20 euro",
+   "link": "https://www.runnersworld.com/it/news/a46855898/prodotti-runner-amazon-haul/",
+   "data": "2026-11-06",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/smiling-middle-aged-man-dressed-sporty-in-black-royalty-free-image-1763473539.pjpeg?crop=1.00xw:0.753xh;0,0.230xh&resize=1200:*",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "e6836439ea23",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "1.5 kg di cibo per la 100km: un mini supermercato!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/kxnd1YDbjJg",
+   "data": "2026-11-06",
+   "immagine": "https://i4.ytimg.com/vi/kxnd1YDbjJg/hqdefault.jpg",
+   "argomenti": [
+    "alimentazione"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
    "id": "141e52a6baca",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -300,6 +538,31 @@
    "distanze": [],
    "fasi": [
     "costruzione"
+   ]
+  },
+  {
+   "id": "e8cf8907add7",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "COME PREPARARE UNA 100 KM IN SOLITARIA E IN AUTOSUFFICIENZA (SENZA COACH NÉ AIUTI) 💯⛰️🏃🔥🤘",
+   "estratto": "#100km #trailrunning #ultratrail Mancano solo 6 GIORNI alla 100K. E questo è il mio ultimo allenamento prima della sfida più grande che…",
+   "link": "https://www.youtube.com/watch?v=rOeikcEmc4s",
+   "data": "2026-11-05",
+   "immagine": "https://i3.ytimg.com/vi/rOeikcEmc4s/hqdefault.jpg",
+   "argomenti": [
+    "rifornimento",
+    "alimentazione",
+    "allenamento",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
    ]
   },
   {
@@ -6904,22 +7167,6 @@
    "fasi": []
   },
   {
-   "id": "3f30f2dce7be",
-   "tipo": "video",
-   "fonte": "ricsvlog",
-   "fonteId": "yt_ricsvlog",
-   "titolo": "Gasato per il progetto! Gear Fuga è pazzesco!",
-   "estratto": "Siete pronti a scoprire il progetto che mi ha fatto letteralmente impazzire? In questo video vi mostro Gear Fuga, una novità incredibile…",
-   "link": "https://www.youtube.com/shorts/Rxv-ZQr0WNw",
-   "data": "2026-10-14",
-   "immagine": "https://i3.ytimg.com/vi/Rxv-ZQr0WNw/hqdefault.jpg",
-   "argomenti": [],
-   "distanze": [],
-   "fasi": [
-    "si_parte"
-   ]
-  },
-  {
    "id": "ada4b68ba1d6",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -7006,6 +7253,27 @@
     "42"
    ],
    "fasi": []
+  },
+  {
+   "id": "3f30f2dce7be",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Allenamento lungo con il nuovo gear Fuga #running #marathon #fuga",
+   "estratto": "Siete pronti a scoprire il progetto che mi ha fatto letteralmente impazzire? In questo video vi mostro Gear Fuga, una novità incredibile…",
+   "link": "https://www.youtube.com/shorts/Rxv-ZQr0WNw",
+   "data": "2026-10-14",
+   "immagine": "https://i3.ytimg.com/vi/Rxv-ZQr0WNw/hqdefault.jpg",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
   },
   {
    "id": "48f6e0b57a46",
