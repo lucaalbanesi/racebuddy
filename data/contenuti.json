@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-06",
+ "aggiornato": "2026-11-07",
  "contenuti": [
   {
    "id": "e565e262ad8f",
@@ -21,6 +21,39 @@
     "scarico",
     "dopo"
    ]
+  },
+  {
+   "id": "915b160051f8",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona di Ravenna: si corre con numeri record e titoli italiani master in palio",
+   "estratto": "Tante presenze e grande spettacolo domenica tra le strade ravennati dove si assegneranno anche i Campionati Italiani Master",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74347118/maratona-ravenna-italiani-master/",
+   "data": "2026-11-06",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/img-20211114-wa0031-64ef113bafd4d.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "78d2bac33b2d",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "La tecnica di discesa nel trail",
+   "estratto": "Busto sopra i piedi, passo corto, sguardo avanti e braccia larghe: come scendere un sentiero frenando meno e controllando di più. Perché dopo una discesa lunga fanno male i…",
+   "link": "https://runlovers.it/2026/tecnica-discesa-trail/",
+   "data": "2026-11-06",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/discesa-trail-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
   },
   {
    "id": "322bd457c37f",
@@ -124,6 +157,59 @@
    ]
   },
   {
+   "id": "015dadaad810",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "I pantaloni da running invernali da uomo da acquistare adesso",
+   "estratto": "Sono questi i modelli migliori per affrontare al meglio gli allenamenti outdoor durante la fredda stagione",
+   "link": "https://www.runnersworld.com/it/equipment/a74179140/pantaloni-running-invernali-uomo-acquistare/",
+   "data": "2026-11-06",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/mens-running-pants-0738-699c697297b71.jpg",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "b744d1f57983",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "I migliori cappelli da running da acquistare online",
+   "estratto": "È un accessorio molto più utile di questo non si pensi, perfetto per chi è alla ricerca del massimo comfort possibile durante la corsa",
+   "link": "https://www.runnersworld.com/it/equipment/a74179205/migliori-cappelli-running-acquistare/",
+   "data": "2026-11-06",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/run-winter-jackets-690b5ba9b9af1.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "ce0c415d41ac",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "From Health To Performance: il congresso di Sport Nutrition di Fabrizio Angelini",
+   "estratto": "Da venerdì 13 a domenica 15 novembre , il Palacongressi di Bellaria-Igea Marina (Rimini) ospiterà il congresso dedicato al tema “ From Health To Performance ”, promosso…",
+   "link": "https://correre.it/from-health-to-performance-fabrizio-angelini/",
+   "data": "2026-11-06",
+   "immagine": "https://correre.it/wp-content/uploads/2026/11/Fabrizio_Angelini.jpg",
+   "argomenti": [
+    "alimentazione",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
    "id": "ddbdef7c1846",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -204,6 +290,27 @@
     "costruzione",
     "scarico",
     "gara"
+   ]
+  },
+  {
+   "id": "52a38c8f5b89",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Adidas Adizero Gearshift: la scarpa con le marce!",
+   "estratto": "Quante volte abbiamo letto resoconti di gare dove il giornalista scriveva “il cambio marcia” di un concorrente che un atleta “metteva la quarta” ed altre similitudini con gli…",
+   "link": "https://podisti.net/adidas-adizero-gearshift-la-scarpa-con-le-marce/",
+   "data": "2026-11-06",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/AdidasAdizeroGearshift-1-Foto-Adidas.png",
+   "argomenti": [
+    "scarpe",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
    ]
   },
   {
