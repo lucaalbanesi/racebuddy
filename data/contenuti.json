@@ -2,6 +2,181 @@
  "aggiornato": "2026-11-07",
  "contenuti": [
   {
+   "id": "47ab113d04dd",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Workout of the week: Il circuito EMOM da 20 minuti",
+   "estratto": "Quattro esercizi a corpo libero, uno per minuto, cinque giri: il cronometro decide quando si riparte, e a te resta da scegliere quante ripetizioni metterci dentro. Come funziona…",
+   "link": "https://runlovers.it/2026/emom-circuito-20-minuti-wow/",
+   "data": "2026-11-07",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/emom-casa-20-minuti-foto.jpg?fit=1920%2C1282&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "forza",
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "dopo"
+   ]
+  },
+  {
+   "id": "c8b184b300d2",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "SuperHalfs raddoppia. Napoli entra nel nuovo circuito europeo della mezza maratona",
+   "estratto": "12 gare, 2e circuiti e 2 SuperMedal. Dal 2027 il progetto internazionale delle mezze maratone si sdoppia: accanto agli Originals nasce SuperHalfs Europa, con Napoli protagonista a…",
+   "link": "https://www.runnersworld.com/it/news/a74362997/superhalfs-corsa-napoli-circuito-europeo-mezza-maratona/",
+   "data": "2026-11-07",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/35a2dfec-ed67-46da-8345-fe00d561ede5.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "8bd7ff393f6b",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Sci di fondo: il cross training per gambe, braccia e cuore",
+   "estratto": "Scivolare sulla neve elimina l’impatto della strada e massimizza il carico cardiovascolare, trasformando il freddo in un vantaggio biomeccanico strutturale. Lo sci nordico azzera…",
+   "link": "https://runlovers.it/2026/sci-fondo-cross-training-inverno/",
+   "data": "2026-11-07",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/08-202611071235-Sci-fondo-T-Unsplash-Harri-P.jpeg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "alimentazione",
+    "allenamento",
+    "recupero",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico",
+    "dopo"
+   ]
+  },
+  {
+   "id": "63aa09473d64",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Pensi che basti alzare i passi al minuto per correre meglio?",
+   "estratto": "Pensi che basti alzare i passi al minuto per correre meglio? Il mio cambio di tecnica è stato un pacchetto completo: ripetute veloci…",
+   "link": "https://www.youtube.com/shorts/OE7TQ3NXKa8",
+   "data": "2026-11-07",
+   "immagine": "https://i4.ytimg.com/vi/OE7TQ3NXKa8/hqdefault.jpg",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "d2bafbe10f09",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Ha provato il metodo della camminata giapponese per un mese: ecco cosa è successo",
+   "estratto": "Questa routine a intervalli ha reso le sue passeggiate quotidiane più impegnative e hanno modificato positivamente il suo corpo",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a74329585/metodo-camminata-giapponese-benefici/",
+   "data": "2026-11-07",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/2899dd80-1ec3-4b02-9c2a-78fc08e8aaa9.jpeg",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "fba9373e2f36",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Cosa c'è nel mio zaino da corsa da 11kg?",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/6WzdM8leqbY",
+   "data": "2026-11-07",
+   "immagine": "https://i3.ytimg.com/vi/6WzdM8leqbY/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "769f657a6c69",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Come si confronta il tuo tempo in maratona con quello di questi calciatori?",
+   "estratto": "L'ex giocatore del Liverpool James Milner ha concluso la maratona di New York di quest'anno in 3h09'04\": scopri dove si colloca nella classifica dei calciatori più veloci",
+   "link": "https://www.runnersworld.com/it/news/a74349684/maratona-tempo-veloce-calciatori/",
+   "data": "2026-11-07",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/e4e4f54a-17b2-493f-afd2-40ef594e3daa.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "7ef3c4ee029b",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Come ho superato la mia paura di correre di sera",
+   "estratto": "Un incontro notturno ha cambiato tutto, ma ho smesso di programmare le mie corse in base alla paura",
+   "link": "https://www.runnersworld.com/it/vip/a74340727/superare-paura-correre-sera/",
+   "data": "2026-11-07",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/e329f161-db2f-4dd1-8faa-e8fc9d2645d1.jpeg",
+   "argomenti": [
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "3c81f99f7ff3",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Arrivi mano nella mano, perché sono più comuni nel trail che nella corsa su strada?",
+   "estratto": "Nel trail sono comuni arrivi condivisi, nel gruppo, ma anche tra le prime posizioni, mentre nella corsa su strada accade meno. Vediamo alcuni casi famosi e proviamo a capire il…",
+   "link": "https://www.runnersworld.com/it/trail/a74334269/arrivi-mano-perche-comuni-trail-corsa-strada/",
+   "data": "2026-11-07",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/41049f56-5dc6-4935-b420-f652443319c8.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "e1a5e54274fa",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Raggiungere i miei limiti: voglio sentire la fatica!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/d5JFOtjwAlk",
+   "data": "2026-11-06",
+   "immagine": "https://i1.ytimg.com/vi/d5JFOtjwAlk/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
    "id": "e565e262ad8f",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -298,7 +473,7 @@
    "fonte": "Podisti.net",
    "fonteId": "podistinet",
    "titolo": "Adidas Adizero Gearshift: la scarpa con le marce!",
-   "estratto": "Quante volte abbiamo letto resoconti di gare dove il giornalista scriveva “il cambio marcia” di un concorrente che un atleta “metteva la quarta” ed altre similitudini con gli…",
+   "estratto": "Quante volte abbiamo letto resoconti di gare dove il giornalista parlava del “cambio marcia” di un concorrente che un atleta “metteva la quarta” ed altre similitudini con gli…",
    "link": "https://podisti.net/adidas-adizero-gearshift-la-scarpa-con-le-marce/",
    "data": "2026-11-06",
    "immagine": "https://podisti.net/wp-content/uploads/2026/11/AdidasAdizeroGearshift-1-Foto-Adidas.png",
@@ -2830,13 +3005,19 @@
    "fonte": "ricsvlog",
    "fonteId": "yt_ricsvlog",
    "titolo": "Percorso cambiato: ho perso tempo! ⏱️",
-   "estratto": "",
+   "estratto": "Hai mai avuto la sensazione di aver sprecato tempo prezioso dopo aver cambiato direzione nella vita o nel lavoro? In questo video rifletto…",
    "link": "https://www.youtube.com/shorts/1Z_RkuDT95g",
    "data": "2026-10-28",
    "immagine": "https://i2.ytimg.com/vi/1Z_RkuDT95g/hqdefault.jpg",
-   "argomenti": [],
+   "argomenti": [
+    "mente",
+    "racconti"
+   ],
    "distanze": [],
-   "fasi": []
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
   },
   {
    "id": "82fc2a0976cd",
@@ -3255,13 +3436,15 @@
    "fonte": "ricsvlog",
    "fonteId": "yt_ricsvlog",
    "titolo": "Correndo al buio nelle gallerie! 🔦",
-   "estratto": "",
+   "estratto": "Correndo al buio nelle gallerie! 🔦 In questo video vi porto in un'avventura adrenalinica: una corsa notturna attraverso tunnel e gallerie…",
    "link": "https://www.youtube.com/shorts/MdKeYdOT55s",
    "data": "2026-10-27",
    "immagine": "https://i2.ytimg.com/vi/MdKeYdOT55s/hqdefault.jpg",
    "argomenti": [],
    "distanze": [],
-   "fasi": []
+   "fasi": [
+    "si_parte"
+   ]
   },
   {
    "id": "e77d0f4b5251",
@@ -3371,13 +3554,19 @@
    "fonte": "ricsvlog",
    "fonteId": "yt_ricsvlog",
    "titolo": "Spray anti-orso per la mia corsa! 🐻",
-   "estratto": "",
+   "estratto": "È sicuro correre in zone frequentate dagli orsi? In questo video esploriamo l'importanza dello spray anti-orso durante le mie sessioni di…",
    "link": "https://www.youtube.com/shorts/BJoYSPMKgJg",
    "data": "2026-10-26",
    "immagine": "https://i3.ytimg.com/vi/BJoYSPMKgJg/hqdefault.jpg",
-   "argomenti": [],
+   "argomenti": [
+    "mente"
+   ],
    "distanze": [],
-   "fasi": []
+   "fasi": [
+    "si_parte",
+    "scarico",
+    "gara"
+   ]
   },
   {
    "id": "1581c925faf1",
