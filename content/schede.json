@@ -365,7 +365,7 @@
   "edizione": "2027"
  },
  "L950d7c45f5-10": {
-  "partenza": "9:30 o 8:30, da confermare",
+  "partenza": "9:30",
   "luogoPartenza": "Partenza da Viale Guglielmo Massaia 31 (Garbatella); ritrovo dalle 8:00.",
   "pettorale": "Agenzia Allianz Roma Ostiense 499, Circonvallazione Ostiense 171: sabato 21/11 10-19. Serve tessera FIDAL, o certificato medico per EPS e Runcard.",
   "deposito": "Compreso nella quota, solo per la gara competitiva; luogo non indicato.",
@@ -378,25 +378,25 @@
   "nomi": [
    "Corri alla Garbatella"
   ],
-  "note": "32ª edizione, 9,8 km (anche non competitiva di 4,9 km). Iscrizioni fino alle 20 del 17/11 o a 1.000 iscritti: 15 € fino al 10/11, poi 20 €; niente iscrizioni il giorno della gara. Planimetria 2026 non ancora pubblicata. Orario: il regolamento dice 9:30, la scheda dell'evento 8:30.",
+  "note": "32ª edizione, 9,8 km (anche non competitiva di 4,9 km, stessa partenza; corsa dei bambini alle 9:00). Iscrizioni fino alle 20 del 17/11 o a 1.000 iscritti: 15 € fino al 10/11, poi 20 €; niente iscrizioni il giorno della gara. Planimetria 2026 non ancora pubblicata.",
   "fonti": [
    "https://www.rionegarbatella.it/articoli/corri-alla-garbatella-2026-regolamento",
    "https://www.rionegarbatella.it/eventi/corri-alla-garbatella",
    "https://www.rionegarbatella.it/"
   ],
-  "verificato": "2026-10-31",
+  "verificato": "2026-11-07",
   "edizione": "2026"
  },
  "L0c212379c2-21": {
   "partenza": "9:00",
   "luogoPartenza": "Partenza in Via Cristoforo Colombo davanti al PalaEUR (Viale dell'Umanesimo), arrivo a Ostia in Piazzale Cristoforo Colombo (Rotonda).",
-  "pettorale": "Ritiro di pettorale e pacco gara al villaggio Casa RomaOstia; date e orari non ancora pubblicati.",
+  "pettorale": "Ritiro di pettorale e pacco gara al villaggio Casa RomaOstia; date e orari non ancora pubblicati. Niente ritiro la domenica mattina; società con più di 5 atleti su appuntamento (societa@romaostia.it).",
   "griglia": "Partenza a onde dalle 9:00, griglie per tempo dichiarato (colore del pettorale); i Fitwalker nelle ultime. Classifica in tempo reale.",
   "deposito": "Sacche gratuite sui camion in zona partenza, da consegnare entro le 7:45.",
   "ristori": "Tre rifornimenti, posizioni comunicate in seguito.",
   "mappa": "PalaEUR, Viale dell'Umanesimo, Roma",
   "percorsoLink": "https://romaostia.it/percorso/",
-  "percorsoDescrizione": "Primi km in piano nell'EUR, poi Via Colombo verso il mare; salita del Camping tra il km 10 e il 14, discesa fino al 15 e arrivo sul lungomare di Ostia. Stesso percorso delle ultime edizioni.",
+  "percorsoDescrizione": "Primi km in piano nell'EUR, poi Via Colombo verso il mare; salita del Camping tra il km 10 e il 14, poi discesa veloce fino al km 17 circa e arrivo sul lungomare di Ostia. Stesso percorso delle ultime edizioni.",
   "sito": "https://romaostia.it/",
   "canali": {
    "notizie": "https://romaostia.it/feed/"
@@ -412,7 +412,7 @@
    "https://romaostia.it/percorso/",
    "https://romaostia.it/"
   ],
-  "verificato": "2026-10-23",
+  "verificato": "2026-11-07",
   "edizione": "2027"
  },
  "L49616bcc0c-10": {
@@ -463,7 +463,7 @@
    "https://www.rome15k.com/wp-content/uploads/2026/10/REGOLAMENTO-XIII-ROME15K-2026_.pdf",
    "https://www.rome15k.com/wp-content/uploads/2026/11/INFO-UTILI-1.pdf"
   ],
-  "verificato": "2026-11-05",
+  "verificato": "2026-11-07",
   "edizione": "2026",
   "arrivare": "Metro B fermata Circo Massimo. In auto parcheggi vicino allo stadio Nando Martellini, in Via del Circo Massimo o Viale Aventino."
  },
