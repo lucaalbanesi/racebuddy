@@ -2,6 +2,274 @@
  "aggiornato": "2026-11-08",
  "contenuti": [
   {
+   "id": "cd23fc2aaf71",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Valtellina Wine Trail, tra vigne e sentieri è ancora un successo: i risultati",
+   "estratto": "Una gara speciale per atmosfera, percorsi e... per il terzo tempo: ecco com'è andata la 13esima edizione del Valtellina Wine Trail",
+   "link": "https://www.runnersworld.com/it/news/a74364819/valtellina-wine-trail-risultati-2026/",
+   "data": "2026-11-08",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/f1e1eda8-c54d-46ab-b9f0-dcd981d69632.jpg",
+   "argomenti": [
+    "gara",
+    "racconti",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "17cbdfb558c9",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Tutti ti dicono di alzare la cadenza?",
+   "estratto": "Tutti ti dicono di alzare la cadenza? Ora che l'hai alzata hai notato che il cuore va a mille? Non preoccuparti, succede a quasi tutti…",
+   "link": "https://www.youtube.com/shorts/esfV9WS7qqQ",
+   "data": "2026-11-08",
+   "immagine": "https://i2.ytimg.com/vi/esfV9WS7qqQ/hqdefault.jpg",
+   "argomenti": [
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
+   "id": "e9d5e4172876",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Terzigno Corre, Iannone e Sorrentino firmano la nona edizione",
+   "estratto": "Iannone (Mannara Running) vince in 33’20” davanti a Vetrano. Tra le donne successo di Erica Sorrentino (Bracco Atletica) in 39’17”. 8 novembre Terzigno (NA) – Gilio Iannone ed…",
+   "link": "https://podisti.net/terzigno-corre-iannone-e-sorrentino-firmano-la-nona-edizione/",
+   "data": "2026-11-08",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Screenshot_2026-11-08-14-36-10-797_com.android.chrome-edit.jpg",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "d39eb7bdbce5",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Tapis roulant: l'allenamento che unisce velocità e forza senza sovraccaricare il corpo",
+   "estratto": "Velocità, inclinazione e recupero devono compensarsi. Una strategia a intervalli aiuta a migliorare la forma senza accumulare fatica inutile",
+   "link": "https://www.runnersworld.com/it/allenamento/esercizi/a74364636/tapis-roulant-intervalli-velocita-pendenza/",
+   "data": "2026-11-08",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/ab418546-56d3-4248-9be5-1a76c7fe2558.jpeg",
+   "argomenti": [
+    "allenamento",
+    "forza",
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "dopo"
+   ]
+  },
+  {
+   "id": "a94ad5e2fbef",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Rabdomiolisi, il cardiologo spiega il caso della runner morta alla Maratona di New York",
+   "estratto": "Dopo la morte di Rachel Apa alla Maratona di New York, il cardiologo Flavio Doni spiega rabdomiolisi, rischi e importanza della preparazione",
+   "link": "https://www.runnersworld.com/it/news/a74365184/maratona-rabdomiolisi-cardiologo/",
+   "data": "2026-11-08",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/3f8fd703-4d90-40a3-a436-0db0e5a77e66.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
+   "id": "ce9554413d71",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Pilates per runner: 4 esercizi per migliorare appoggio, core e stabilità",
+   "estratto": "Prova questa sequenza di esercizi di Pilates per costruire le basi del movimento e preparare il corpo alla corsa",
+   "link": "https://www.runnersworld.com/it/allenamento/coach-del-mese-allenamenti/g74364604/pilates-runner-esercizi-appoggio-core-stabilita/",
+   "data": "2026-11-08",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/734dcc16-f120-401b-9470-49a163289298.jpg",
+   "argomenti": [
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "077f89071ce0",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona di Atene 2026, l’Autentica: risultati e italiani",
+   "estratto": "Una maratona leggendaria con tanti azzurri al via: vittorie etiopi, primo italiano Alessandro Claut",
+   "link": "https://www.runnersworld.com/it/news/a74367774/maratona-atene-2026-risultati-italiani/",
+   "data": "2026-11-08",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/ee1839ad-a39d-40ec-9c9e-b165db26a44e.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "a7b31d56c92d",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Magnus Ditlev firma il nuovo record del mondo Ironman, primo uomo sotto le 7h20'",
+   "estratto": "Meglio di Blummenfelt e Laidlow: Ditlev da primato, anzi da doppio primato: arriva anche il miglior tempo di sempre in bici",
+   "link": "https://www.runnersworld.com/it/news/a74329891/magnus-ditlev-nuovo-record-mondo-ironman/",
+   "data": "2026-11-08",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/527ab235-75fb-411a-8012-2f7713e1c700.jpeg",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "43beb1ac6e35",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "La verticale, per rafforzare spalle e tronco in un mese",
+   "estratto": "Quattro settimane per passare da zero a una verticale con il petto verso il muro, costruendo lungo la strada la forza di spalle e tronco che la tiene in piedi. Cosa devono fare…",
+   "link": "https://runlovers.it/2026/programma-mensile-verticale-muro/",
+   "data": "2026-11-08",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/10/verticale-spalle-tronco-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "forza",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "9e6fe7a9fcc4",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Ho progettato la mia 100km a 360° da solo!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/KKdq8eBEsak",
+   "data": "2026-11-08",
+   "immagine": "https://i4.ytimg.com/vi/KKdq8eBEsak/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "27c39f06fb9e",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Crescono bene “Rome 5K e 15K”",
+   "estratto": "E’ un weekend caratterizzato da un’offerta esagerata di mezze maratone. Ne abbiamo contate una quindicina, comprese anche alcune non agonistiche. Fortunatamente dalla capitale è…",
+   "link": "https://podisti.net/crescono-bene-rome-5k-e-15k/",
+   "data": "2026-11-08",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/La-partenza-della-Rome-15-k-2026-Foto-PCARphotoevents-1.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "b8254094d57c",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Correre per disegnare sulla mappa della città",
+   "estratto": "Trasformare l’antenna satellitare del telefono in una matita significa smettere di guardare il cronometro e iniziare a leggere la densità della strada. La GPS art utilizza le…",
+   "link": "https://runlovers.it/2026/gps-art-disegnare-correndo-mappa-citta/",
+   "data": "2026-11-08",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/10-202611081235-Mappa-C-Lenny-Maughan.jpg?fit=1920%2C1278&quality=75&ssl=1",
+   "argomenti": [
+    "scarpe",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "1ad6008ce1bb",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "5^ Stracasale, si impongono Zaki e Palomba",
+   "estratto": "La gara di Casal di Principe ha richiamato oltre 1.200 iscritti per la quinta edizione: Yassine Zaki ha vinto in 29’19”6, Francesca Palomba si è imposta nella prova femminile in…",
+   "link": "https://podisti.net/5-stracasale-si-impongono-zaki-e-palomba/",
+   "data": "2026-11-08",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/IMG_0000.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "28288f2b1df2",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "5 abilità nella corsa che migliorano con l'età",
+   "estratto": "Invecchiare può portare diversi vantaggi nella corsa",
+   "link": "https://www.runnersworld.com/it/allenamento/a74349903/masters-running-benefits/",
+   "data": "2026-11-08",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/5593d0d4-2216-462a-8074-04018049f258.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "55de9a25f0ee",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Zaino da corsa: fischietto d'emergenza e spray!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/uwGJyi82AIU",
+   "data": "2026-11-07",
+   "immagine": "https://i2.ytimg.com/vi/uwGJyi82AIU/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
    "id": "47ab113d04dd",
    "tipo": "articolo",
    "fonte": "Runlovers",
