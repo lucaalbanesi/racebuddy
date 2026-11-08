@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-07",
+ "aggiornato": "2026-11-08",
  "contenuti": [
   {
    "id": "47ab113d04dd",
@@ -77,6 +77,46 @@
    "argomenti": [
     "allenamento"
    ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "4099dc4959d9",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Le posizioni di yoga al muro per chi fatica a stare in equilibrio",
+   "estratto": "L’equilibrio si costruisce nel tempo e il muro fornisce il supporto più efficace per memorizzare l’allineamento corretto sfidando la gravità in sicurezza. L’instabilità allontana…",
+   "link": "https://runlovers.it/2026/yoga-muro-posizioni-equilibrio-appoggio/",
+   "data": "2026-11-07",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/09-202611071730-Yoga-muro-W-Depositphotos-Borodai-Andrii.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "forza",
+    "gara",
+    "mente"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "b86f67c8927a",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Incidenti sportivi, chi risponde per le conseguenze causate a un avversario?",
+   "estratto": "La tragica morte del calciatore spagnolo Jesús de Miguel propone un tema delicatissimo sia sul fronte sportivo che penale che riguarda da vicino anche i runner",
+   "link": "https://www.runnersworld.com/it/news/a74353017/incidenti-sportivi-chi-risponde-conseguenze/",
+   "data": "2026-11-07",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/b658ced0-923d-46b7-8831-07c221ae2714.jpg",
+   "argomenti": [],
    "distanze": [],
    "fasi": []
   },
@@ -10058,31 +10098,6 @@
    "fasi": [
     "costruzione",
     "scarico"
-   ]
-  },
-  {
-   "id": "405343655e32",
-   "tipo": "articolo",
-   "fonte": "Garmin Blog Italia",
-   "fonteId": "garmin_blog",
-   "titolo": "Le 5 mezze maratone più belle in Italia",
-   "estratto": "La mezza maratona è una distanza che richiede un equilibrio perfetto tra resistenza aerobica e velocità. I 21,097 km non lasciano spazio all’improvvisazione. Si tratta di una…",
-   "link": "https://www.garmin.com/it-IT/blog/running/mezze-maratone-piu-belle-italia/",
-   "data": "2026-09-08",
-   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/09/migliori-mezze-maratone-in-Italia.jpg",
-   "argomenti": [
-    "gara",
-    "mente",
-    "notizie"
-   ],
-   "distanze": [
-    "42",
-    "21"
-   ],
-   "fasi": [
-    "si_parte",
-    "scarico",
-    "gara"
    ]
   }
  ]
