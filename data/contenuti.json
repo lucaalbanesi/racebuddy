@@ -2,6 +2,253 @@
  "aggiornato": "2026-11-09",
  "contenuti": [
   {
+   "id": "10231e01d4cb",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Strategia allenamento 100km: corsa e camminata veloce",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/XtSdTdlsTcU",
+   "data": "2026-11-09",
+   "immagine": "https://i1.ytimg.com/vi/XtSdTdlsTcU/hqdefault.jpg",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "0d489648615f",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Scippa la persona sbagliata: è un runner, lo insegue per venti minuti",
+   "estratto": "L’uomo ha gettato a terra il telefonino sottratto, ma la vittima ha continuato a stargli dietro",
+   "link": "https://www.runnersworld.com/it/news/a74372789/scippa-runner-cellulare-bergamo/",
+   "data": "2026-11-09",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/dc923a52-01f0-49b6-9153-e15d139da607.png",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "5e05b515baf1",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "Maratona di Ravenna 2026: titoli italiani Master e grande festa del running",
+   "estratto": "Continua a crescere la Maratona di Ravenna , partita dal Pala De Andrè nella mattina di domenica 8 novembre : 15.031 è il totale degli iscritti che comprende le due prove…",
+   "link": "https://correre.it/maratona-di-ravenna-2026/",
+   "data": "2026-11-09",
+   "immagine": "https://correre.it/wp-content/uploads/2026/11/Maratona_Ravenna_2026_Daniela_Valmigli.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42",
+    "21",
+    "10"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "b41cffc7ac64",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Mancano i poliziotti e la mezza maratona viene annullata",
+   "estratto": "A due giorni dalla gara la decisione ma i runner hanno corso ugualmente con due \"corse abusive\"",
+   "link": "https://www.runnersworld.com/it/news/a74367252/mezza-maratona-cadice-annullata-poliziotti/",
+   "data": "2026-11-09",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/214cdb71-c591-4eb9-bbfa-db1a6675b485.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "ba2aeba44816",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "La settimana di dieci giorni per correre dopo i cinquant’anni",
+   "estratto": "Le sedute impegnative restano le stesse di sempre, cambia lo spazio che le separa: su dieci giorni invece di sette ognuna arriva con le gambe fresche. Perché la settimana di sette…",
+   "link": "https://runlovers.it/2026/settimana-dieci-giorni-corsa-dopo-50-anni/",
+   "data": "2026-11-09",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/settimana-running-10-giorni.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "recupero",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "dopo"
+   ]
+  },
+  {
+   "id": "50fc5968d2ec",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "I consigli per correre in sicurezza con vento e nebbia",
+   "estratto": "Soffia il vento là fuori? Fallo girare a favore della tua corsa.",
+   "link": "https://www.runnersworld.com/it/allenamento/a11346/10-consigli-per-correre-con-il-vento/",
+   "data": "2026-11-09",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/caf87b74-bb77-4c27-9f28-4b36fc725df9.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "7f9b6453e9e7",
+   "tipo": "articolo",
+   "fonte": "Garmin Blog Italia",
+   "fonteId": "garmin_blog",
+   "titolo": "Garmin Venu® X1: funzioni, design e a chi è adatto",
+   "estratto": "Abituati da anni a quadranti rotondi, molti appassionati associano gli smartwatch Garmin a una forma ben precisa, oltre che al monitoraggio di passi, sonno, stress e attività…",
+   "link": "https://www.garmin.com/it-IT/blog/smartwatch/garmin-venu-x1-funzioni/",
+   "data": "2026-11-09",
+   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/11/Smartwatch-Garmin-Venu-X1-al-polso-con-il-display-rettangolare-acceso-su-un-quadrante-dati.jpg",
+   "argomenti": [
+    "allenamento",
+    "recupero",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "dopo"
+   ]
+  },
+  {
+   "id": "15be739643a2",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Combattere la sensazione che tutti ci stiano guardando",
+   "estratto": "Hai versato il caffè sulla camicia e credi che l’intero ufficio ti stia fissando. La realtà è molto più noiosa e confortante: nessuno ci fa caso. Siamo convinti che gli altri…",
+   "link": "https://runlovers.it/2026/sensazione-tutti-ci-guardano-effetto-riflettore/",
+   "data": "2026-11-09",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/01-202611091235-Osservato-W-Unsplash-Tabitha-Turner.jpeg?fit=1920%2C1278&quality=75&ssl=1",
+   "argomenti": [
+    "mente",
+    "racconti"
+   ],
+   "distanze": [],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "9cec960e0375",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Carbo load, il pieno perfetto di carboidrati prima della gara",
+   "estratto": "Il carico di carboidrati è uno degli strumenti più efficaci per affrontare una gara endurance. A una condizione: rispettare quantità, tempi e strategia. I consigli del…",
+   "link": "https://www.runnersworld.com/it/alimentazione/integratori/a74364505/carbo-load-pieno-perfetto-carboidrati-prima-gara/",
+   "data": "2026-11-09",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/0ca5fffb-0106-4c25-8712-3a9263e7e441.jpg",
+   "argomenti": [
+    "rifornimento",
+    "alimentazione",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico"
+   ]
+  },
+  {
+   "id": "691c6851144d",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Campionati italiani master di maratona 2026: ecco chi ha vinto e con che tempi",
+   "estratto": "Vittoria assoluta italiana e due nuovi primati di categoria: a Ravenna sono andati in scena gli Italiani master di maratona",
+   "link": "https://www.runnersworld.com/it/news/a74368360/campionati-italiani-master-maratona-2026-vincitori-tempi/",
+   "data": "2026-11-09",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/450bb7eb-cfe4-4b37-b1d4-d147477af556.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "4ba622711bca",
+   "tipo": "articolo",
+   "fonte": "Garmin Blog Italia",
+   "fonteId": "garmin_blog",
+   "titolo": "Bikepacking in Italia: gli itinerari da non perdere",
+   "estratto": "Partire per un viaggio in bici significa scegliere un modo diverso di scoprire il territorio, seguendo il proprio ritmo e portando con sé tutto ciò che serve per affrontare più…",
+   "link": "https://www.garmin.com/it-IT/blog/ciclismo/itinerari-bikepacking/",
+   "data": "2026-11-09",
+   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/11/itinerari-in-bikepacking-in-Italia.jpg",
+   "argomenti": [
+    "rifornimento",
+    "allenamento",
+    "tecnologia",
+    "racconti"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico"
+   ]
+  },
+  {
+   "id": "fcadf41aa691",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Allenamento in salita, il must invernale: sprint, cronoscalata e collinare, ecco come correrli",
+   "estratto": "Dall'analisi neuro-meccanica alla tolleranza al lattato: come sprint, cronoscalate e collinari trasformano la corsa invernale in prestazioni da record",
+   "link": "https://www.runnersworld.com/it/allenamento/a74372594/allenamento-salita-inverno-sprint-cronoscalata-collinare/",
+   "data": "2026-11-09",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/a46c7f08-3cb8-459c-bc6f-028db3ba1c01.png",
+   "argomenti": [
+    "allenamento",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "3c5de697632c",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "A Marko Vizintin e Clara Miani il 5° Trail della Grotta Gigante",
+   "estratto": "Trieste, 8 novembre 2026 – Tutti si aspettavano che fosse Elia Balestra a tagliare per primo il traguardo del 5° Trail della Grotta Gigante organizzato dal CAI CIM; il runner…",
+   "link": "https://podisti.net/a-marko-vizintin-e-clara-miani-il-5-trail-della-grotta-gigante/",
+   "data": "2026-11-09",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/5V5A8643.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
    "id": "cd23fc2aaf71",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -149,6 +396,28 @@
    "fasi": [
     "si_parte",
     "costruzione"
+   ]
+  },
+  {
+   "id": "67fc258044cd",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Piano alimentare gara: carbo, gel, glucosio e fruttosio",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/8ORYHG55FyI",
+   "data": "2026-11-08",
+   "immagine": "https://i1.ytimg.com/vi/8ORYHG55FyI/hqdefault.jpg",
+   "argomenti": [
+    "rifornimento",
+    "alimentazione",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico"
    ]
   },
   {
