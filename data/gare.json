@@ -1,409 +1,7 @@
 {
-  "aggiornato": "2026-11-02T04:18:33Z",
+  "aggiornato": "2026-11-09T04:18:22Z",
   "fonte": "Calendario FIDAL (https://www.fidal.it/calendario.php), calendario FIDAL di maratone e mezze dell'anno successivo e calendario di Gare Podistiche Lazio (https://www.garepodistichelazio.it/gare-lazio.php)",
   "gare": [
-    {
-      "id": "Hf399d23297-10",
-      "nome": "V^ Michelin FastConi",
-      "data": "2026-11-07",
-      "luogo": "CUNEO",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "Ha576c72735-k8.3",
-      "nome": "11° TROFEO MICCOLI (8.3 Km)",
-      "data": "2026-11-08",
-      "luogo": "MEZZOLARA",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php",
-      "km": 8.3
-    },
-    {
-      "id": "H5fcea71416-42",
-      "nome": "2^ NURAGHES MARATHON SARDINIA",
-      "data": "2026-11-08",
-      "luogo": "ORISTANO",
-      "distanza": "42",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H683f87d26a-10",
-      "nome": "34° MARCIALONGA D’AUTUNNO  - 6° MEMORIAL “SANDRO BARCHIESI",
-      "data": "2026-11-08",
-      "luogo": "FALCONARA MARITTIMA",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "Hb73547f9a3-21",
-      "nome": "Bosconero (TO) - 3a 21 D’ Inverno dell’Abate Guglielmo - Km. 21/9,9",
-      "data": "2026-11-08",
-      "luogo": "BOSCONERO",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "Hb73547f9a3-k9.9",
-      "nome": "Bosconero (TO) - 3a 21 D’ Inverno dell’Abate Guglielmo - Km. 21/9,9",
-      "data": "2026-11-08",
-      "luogo": "BOSCONERO",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php",
-      "km": 9.9
-    },
-    {
-      "id": "H05f6cc06ad-k14.5",
-      "nome": "CORSA DEL SORRISO di LORETTA PARDINI a scopo benefico km 14,5",
-      "data": "2026-11-08",
-      "luogo": "CAMAIORE",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php",
-      "km": 14.5
-    },
-    {
-      "id": "Ha397633838-k10.6",
-      "nome": "Castellazzo Bormida (AL) - 32° StraCastellazzo - Km. 10,6 - CPS - 14a prova",
-      "data": "2026-11-08",
-      "luogo": "CASTELLAZZO BORMIDA",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php",
-      "km": 10.6
-    },
-    {
-      "id": "H8525cc37a0-k8.5",
-      "nome": "Forno Canavese (TO) - 35° Memorial Sergio Benetti - Km. 8,5 - ERP 9a prova -  da 12/7 a 8/11",
-      "data": "2026-11-08",
-      "luogo": "FORNO CANAVESE",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php",
-      "km": 8.5
-    },
-    {
-      "id": "L43ae338386-k9.5",
-      "nome": "Genazzano a Perdifiato",
-      "data": "2026-11-08",
-      "luogo": "GENAZZANO",
-      "provincia": "RM",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "Gare Podistiche Lazio",
-      "url": "https://www.garepodistichelazio.it/info-gara-Genazzano-a-Perdifiato",
-      "km": 9.5,
-      "ora": "10:00",
-      "quota": "€ 12",
-      "iscrizioni": "2026-11-06",
-      "sito": "https://bio.site/atleticagenazzano"
-    },
-    {
-      "id": "H5194788aad-k9.6",
-      "nome": "III CORSA DI SAN MARTINO - KM 9,600",
-      "data": "2026-11-08",
-      "luogo": "CASTELLABATE",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php",
-      "km": 9.6
-    },
-    {
-      "id": "He0e5fd2134-21",
-      "nome": "II^ Lumia Half Marathon",
-      "data": "2026-11-08",
-      "luogo": "AVOLA",
-      "distanza": "21",
-      "annullata": true,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H48dbddf46d-21",
-      "nome": "IV^ Co.Ro. Half Marathon",
-      "data": "2026-11-08",
-      "luogo": "CORIGLIANO-ROSSANO",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "Hb75a40b2d3-k9.9",
-      "nome": "IX TERZIGNO CORRE - KM 9,900",
-      "data": "2026-11-08",
-      "luogo": "TERZIGNO",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php",
-      "km": 9.9
-    },
-    {
-      "id": "H3f09da405c-21",
-      "nome": "I^ La Mezza del Borgo",
-      "data": "2026-11-08",
-      "luogo": "NOTO",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H55c5d09a66-10",
-      "nome": "I^ StrAVicenza Fast",
-      "data": "2026-11-08",
-      "luogo": "VICENZA",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "L851a2555c1-k8",
-      "nome": "Le Due Chiese",
-      "data": "2026-11-08",
-      "luogo": "FORMELLO",
-      "provincia": "RM",
-      "distanza": "10",
-      "annullata": true,
-      "fonte": "Gare Podistiche Lazio",
-      "url": "https://www.garepodistichelazio.it/info-gara-Le-Due-Chiese",
-      "km": 8.0
-    },
-    {
-      "id": "Lead88174af-10",
-      "nome": "Memorial Alberto Sacchi",
-      "data": "2026-11-08",
-      "luogo": "CIVITA CASTELLANA",
-      "provincia": "VT",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "Gare Podistiche Lazio",
-      "url": "https://www.garepodistichelazio.it/info-gara-Memorial-Alberto-Sacchi",
-      "ora": "10:00"
-    },
-    {
-      "id": "L7685f0a511-21",
-      "nome": "Mezza Maratona di Sabaudia",
-      "data": "2026-11-08",
-      "luogo": "SABAUDIA",
-      "provincia": "LT",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "Gare Podistiche Lazio",
-      "url": "https://www.garepodistichelazio.it/info-gara-Mezza-Maratona-di-Sabaudia",
-      "ora": "09:30",
-      "quota": "€ 15-20",
-      "sito": "https://www.uisp.it/latina2/pagina/24-mezza-maratona-di-sabaudia"
-    },
-    {
-      "id": "Ld12e97ce2d-10",
-      "nome": "Mezza Maratona di Sabaudia (Stracittadina)",
-      "data": "2026-11-08",
-      "luogo": "SABAUDIA",
-      "provincia": "LT",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "Gare Podistiche Lazio",
-      "url": "https://www.garepodistichelazio.it/info-gara-Mezza-Maratona-di-Sabaudia-(Stracittadina)",
-      "ora": "09:30",
-      "quota": "€ 10-12",
-      "sito": "https://www.uisp.it/latina2/pagina/24-mezza-maratona-di-sabaudia"
-    },
-    {
-      "id": "H37697b0c71-k9.9",
-      "nome": "Torino (TO) - 3a Cedas We Run - Km. 9.9",
-      "data": "2026-11-08",
-      "luogo": "TORINO",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php",
-      "km": 9.9
-    },
-    {
-      "id": "H3803935dab-k9.9",
-      "nome": "V STRACASALE - KM 9,900",
-      "data": "2026-11-08",
-      "luogo": "CASAL DI PRINCIPE",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php",
-      "km": 9.9
-    },
-    {
-      "id": "H6ed9471e45-10",
-      "nome": "VIII^ 10km Citta' di Crema",
-      "data": "2026-11-08",
-      "luogo": "CREMA",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H0119a968df-10",
-      "nome": "V^ X° Trofeo Equilibra - IV° Trofeo Nunzio Ganci Uno di Noi",
-      "data": "2026-11-08",
-      "luogo": "PALERMO",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "Hf70500d7d9-k15",
-      "nome": "XIII^ Rome 15k",
-      "data": "2026-11-08",
-      "luogo": "ROMA",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php",
-      "km": 15.0,
-      "ora": "09:00",
-      "quota": "€ 27-38",
-      "iscrizioni": "chiuse",
-      "sito": "https://www.rome15k.com/",
-      "provincia": "RM",
-      "scheda_lazio": "https://www.garepodistichelazio.it/info-gara-Rome-15k"
-    },
-    {
-      "id": "H699078b8d5-k5",
-      "nome": "XIII^ Rome 5k",
-      "data": "2026-11-08",
-      "luogo": "ROMA",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php",
-      "km": 5.0,
-      "ora": "09:00",
-      "quota": "€ 15-20",
-      "iscrizioni": "chiuse",
-      "sito": "https://www.rome15k.com/",
-      "provincia": "RM",
-      "scheda_lazio": "https://www.garepodistichelazio.it/info-gara-Rome-5k"
-    },
-    {
-      "id": "H3ae0346be3-10",
-      "nome": "XIV^ Oliolivarun",
-      "data": "2026-11-08",
-      "luogo": "IMPERIA",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H1e1e099118-21",
-      "nome": "XIV^ Ravenna Half Marathon",
-      "data": "2026-11-08",
-      "luogo": "RAVENNA",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H89134eab46-21",
-      "nome": "XLVIII^ Strataranto Half Marathon del Mediterraneo",
-      "data": "2026-11-08",
-      "luogo": "TARANTO",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "Hb9ea5476e8-10",
-      "nome": "XV^ Lago Maggiore Marathon - 10 km",
-      "data": "2026-11-08",
-      "luogo": "VERBANIA",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "Hfdb3e50922-k33",
-      "nome": "XV^ Lago Maggiore Marathon - 33 km",
-      "data": "2026-11-08",
-      "luogo": "VERBANIA",
-      "distanza": "42",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php",
-      "km": 33.0
-    },
-    {
-      "id": "Hf5dd27ca38-42",
-      "nome": "XV^ Lago Maggiore Marathon - Maratona",
-      "data": "2026-11-08",
-      "luogo": "VERBANIA",
-      "distanza": "42",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H302e1ecf52-21",
-      "nome": "XV^ Lago Maggiore Marathon - Mezza Maratona",
-      "data": "2026-11-08",
-      "luogo": "VERBANIA",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "Hd79dcd671b-42",
-      "nome": "XXVII^ Maratona di Ravenna Citta' d'Arte",
-      "data": "2026-11-08",
-      "luogo": "RAVENNA",
-      "distanza": "42",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H87e6a4a5ed-21",
-      "nome": "XXXIII^ Maratonina Citta' di Busto Arsizio",
-      "data": "2026-11-08",
-      "luogo": "BUSTO ARSIZIO",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H5a51f2c404-21",
-      "nome": "XX^ Maratonina Citta' di Crema",
-      "data": "2026-11-08",
-      "luogo": "CREMA",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
     {
       "id": "H2cf462d278-k8",
       "nome": "Roccaforte Mondovì (CN) - 2° Trofeo Alpini ed Amici - Km. 8/4",
@@ -438,8 +36,8 @@
       "km": 9.5
     },
     {
-      "id": "L74f01feb3c-k9.25",
-      "nome": "Corri Montelanico",
+      "id": "L2885b24d52-k9",
+      "nome": "CORRI MONTELANICO",
       "data": "2026-11-15",
       "luogo": "MONTELANICO",
       "provincia": "RM",
@@ -447,8 +45,9 @@
       "annullata": false,
       "fonte": "Gare Podistiche Lazio",
       "url": "https://www.garepodistichelazio.it/info-gara-Corri-Montelanico",
-      "km": 9.25,
-      "ora": "09:30"
+      "km": 9.0,
+      "ora": "09:30",
+      "quota": "Termine Iscrizione: 13/11/2026"
     },
     {
       "id": "H6ba3fa01bb-42",
@@ -471,9 +70,7 @@
       "url": "https://www.fidal.it/calendario.php",
       "km": 5.0,
       "ora": "10:00",
-      "quota": "€ 10",
-      "iscrizioni": "2026-11-12",
-      "sito": "https://corrilibera.com/gara-competitiva/",
+      "quota": "Termine Iscrizione: 12/11/2026",
       "provincia": "RM",
       "scheda_lazio": "https://www.garepodistichelazio.it/info-gara-Line-5K-Roma"
     },
@@ -540,9 +137,7 @@
       "fonte": "Gare Podistiche Lazio",
       "url": "https://www.garepodistichelazio.it/info-gara-La-Normissima",
       "km": 8.8,
-      "ora": "09:30",
-      "quota": "€ 12",
-      "sito": "https://www.uisp.it/latina2/pagina/6-normissima-domenica-15-novembre"
+      "ora": "09:30"
     },
     {
       "id": "Lc4b0eb0415-k9.9",
@@ -556,8 +151,7 @@
       "url": "https://www.garepodistichelazio.it/info-gara-La-corsa-di-Chiara",
       "km": 9.9,
       "ora": "09:30",
-      "quota": "€ 15",
-      "iscrizioni": "2026-11-14"
+      "quota": "Termine Iscrizione: 14/11/2026"
     },
     {
       "id": "Lee039a9b90-k36",
@@ -571,9 +165,7 @@
       "url": "https://www.garepodistichelazio.it/info-gara-Lunghissimo-di-Rieti-(Velinia)",
       "km": 36.0,
       "ora": "09:30",
-      "quota": "€ 15-30",
-      "iscrizioni": "2026-11-13",
-      "sito": "https://www.rietimarathon.it/"
+      "quota": "Termine Iscrizione: 13/11/2026"
     },
     {
       "id": "Hf58ca9cda3-21",
@@ -596,9 +188,7 @@
       "fonte": "Gare Podistiche Lazio",
       "url": "https://www.garepodistichelazio.it/info-gara-POFI-Run-(Il-giro-dell'Ocaro)",
       "ora": "10:00",
-      "quota": "€ 10",
-      "iscrizioni": "2026-11-13",
-      "sito": "http://www.pofisportiva.wordpress.com/"
+      "quota": "Termine Iscrizione: 13/11/2026"
     },
     {
       "id": "H5ebe117628-42",
@@ -773,9 +363,7 @@
       "url": "https://www.garepodistichelazio.it/info-gara-Corri-alla-Garbatella",
       "km": 9.8,
       "ora": "09:30",
-      "quota": "€ 15-20",
-      "iscrizioni": "2026-11-17",
-      "sito": "http://www.rionegarbatella.it/"
+      "quota": "Termine Iscrizione: 17/11/2026"
     },
     {
       "id": "L1f72783e20-k9.9",
@@ -789,9 +377,7 @@
       "url": "https://www.garepodistichelazio.it/info-gara-Corri-per-la-Sicurezza-Stradale",
       "km": 9.9,
       "ora": "09:30",
-      "quota": "€ 15",
-      "iscrizioni": "2026-11-14",
-      "sito": "https://www.asgsitalia.com/"
+      "quota": "Termine Iscrizione: 14/11/2026"
     },
     {
       "id": "Lde4c3e3b4b-k9.9",
@@ -805,9 +391,7 @@
       "url": "https://www.garepodistichelazio.it/info-gara-Corriamo-al-Tiburtino",
       "km": 9.9,
       "ora": "09:30",
-      "quota": "€ 15",
-      "iscrizioni": "2026-11-19",
-      "sito": "https://www.catsport.it/corriamo-al-tiburtino/"
+      "quota": "Termine Iscrizione: 19/11/2026"
     },
     {
       "id": "L8c74c6e02a-k14.6",
@@ -821,8 +405,7 @@
       "url": "https://www.garepodistichelazio.it/info-gara-Corsa-del-Ricordo-Latina",
       "km": 14.6,
       "ora": "09:30",
-      "quota": "€ 15",
-      "iscrizioni": "2026-11-19"
+      "quota": "Termine Iscrizione: 19/11/2026"
     },
     {
       "id": "Hdc03f5f540-21",
@@ -937,8 +520,7 @@
       "url": "https://www.garepodistichelazio.it/info-gara-Trofeo-Santa-Barbara",
       "km": 9.8,
       "ora": "09:30",
-      "quota": "€ 15",
-      "iscrizioni": "2026-11-20"
+      "quota": "Termine Iscrizione: 20/11/2026"
     },
     {
       "id": "H815bf515a2-21",
@@ -1021,8 +603,7 @@
       "annullata": false,
       "fonte": "Gare Podistiche Lazio",
       "url": "https://www.garepodistichelazio.it/info-gara-Corri-a-Terracina",
-      "ora": "09:30",
-      "sito": "https://www.uisp.it/latina2/pagina/5-corri-terracina-29-novembre-2025-km-10"
+      "ora": "09:30"
     },
     {
       "id": "Lb15a0eaa4e-10",
@@ -1035,9 +616,7 @@
       "fonte": "Gare Podistiche Lazio",
       "url": "https://www.garepodistichelazio.it/info-gara-Fiumicino-Half-Marathon-(10K)",
       "ora": "08:45",
-      "quota": "€ 15",
-      "iscrizioni": "2026-11-23",
-      "sito": "http://www.fiumicinohalfmarathon.it/"
+      "quota": "Termine Iscrizione: 23/11/2026"
     },
     {
       "id": "H16538e4778-k9.9",
@@ -1112,9 +691,7 @@
       "fonte": "Gare Podistiche Lazio",
       "url": "https://www.garepodistichelazio.it/info-gara-Maratonina-dell'olio-DOP-Canino",
       "ora": "10:30",
-      "quota": "€ 15-18",
-      "iscrizioni": "2026-11-24",
-      "sito": "https://runnerscaninoasd.it/maratonina-olio-dop-canino/"
+      "quota": "Termine Iscrizione: 24/11/2026"
     },
     {
       "id": "Hfac3650b74-k13",
@@ -1228,9 +805,7 @@
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php",
       "ora": "08:45",
-      "quota": "€ 20",
-      "iscrizioni": "2026-11-23",
-      "sito": "http://www.fiumicinohalfmarathon.it/",
+      "quota": "Termine Iscrizione: 23/11/2026",
       "provincia": "RM",
       "scheda_lazio": "https://www.garepodistichelazio.it/info-gara-Fiumicino-Half-Marathon"
     },
@@ -1318,9 +893,7 @@
       "url": "https://www.garepodistichelazio.it/info-gara-Maratona-di-Latina-(10K)",
       "km": 9.9,
       "ora": "09:00",
-      "quota": "€ 10-12",
-      "iscrizioni": "2026-12-04",
-      "sito": "https://www.uisplatina.com/maratonadilatina/"
+      "quota": "Termine Iscrizione: 04/12/2026"
     },
     {
       "id": "L82e87eb227-10",
@@ -1428,9 +1001,7 @@
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php",
       "ora": "09:00",
-      "quota": "€ 45-55",
-      "iscrizioni": "2026-12-04",
-      "sito": "https://www.uisplatina.com/maratonadilatina/",
+      "quota": "Termine Iscrizione: 04/12/2026",
       "provincia": "LT",
       "scheda_lazio": "https://www.garepodistichelazio.it/info-gara-Maratona-di-Latina"
     },
@@ -1444,9 +1015,7 @@
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php",
       "ora": "09:00",
-      "quota": "€ 15-18",
-      "iscrizioni": "2026-12-02",
-      "sito": "http://www.bestwoman.it/",
+      "quota": "Termine Iscrizione: 02/12/2026",
       "provincia": "RM",
       "scheda_lazio": "https://www.garepodistichelazio.it/info-gara-Best-Woman"
     },
@@ -1505,9 +1074,7 @@
       "url": "https://www.garepodistichelazio.it/info-gara-La-Natalina",
       "km": 9.9,
       "ora": "09:15",
-      "quota": "€ 15",
-      "iscrizioni": "2026-12-05",
-      "sito": "http://www.atleticomonterotondo.it/joomla/"
+      "quota": "Termine Iscrizione: 05/12/2026"
     },
     {
       "id": "L600a7fc214-k6.5",
@@ -1520,8 +1087,7 @@
       "fonte": "Gare Podistiche Lazio",
       "url": "https://www.garepodistichelazio.it/info-gara-La-Scalata-delle-Costarelle",
       "km": 6.5,
-      "ora": "10:00",
-      "sito": "https://www.atleticaarce.it/main/home.asp"
+      "ora": "10:00"
     },
     {
       "id": "L40395753f2-k10.5",
@@ -1535,9 +1101,7 @@
       "url": "https://www.garepodistichelazio.it/info-gara-Memorial-Bucci-Giuseppe",
       "km": 10.5,
       "ora": "10:00",
-      "quota": "€ 13",
-      "iscrizioni": "2026-12-07",
-      "sito": "https://www.podistivalmontone.it/"
+      "quota": "Termine Iscrizione: 07/12/2026"
     },
     {
       "id": "Hde11adfe65-k15",
@@ -1617,9 +1181,7 @@
       "url": "https://www.garepodistichelazio.it/info-gara-Corsa-di--ValleluC'e'",
       "km": 11.0,
       "ora": "10:00",
-      "quota": "€ 10",
-      "iscrizioni": "2026-12-11",
-      "sito": "https://www.valleluce.it/"
+      "quota": "Termine Iscrizione: 11/12/2026"
     },
     {
       "id": "Hd3e6d7e98f-21",
@@ -1643,9 +1205,7 @@
       "url": "https://www.garepodistichelazio.it/info-gara-Genus-Solis-Invicti",
       "km": 9.7,
       "ora": "10:00",
-      "quota": "€ 12",
-      "iscrizioni": "2026-12-10",
-      "sito": "http://www.olibanumoverrunners.it/"
+      "quota": "Termine Iscrizione: 10/12/2026"
     },
     {
       "id": "H8bf9c917cf-21",
@@ -1751,8 +1311,7 @@
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php",
       "ora": "08:30",
-      "quota": "€ 18-20",
-      "sito": "https://www.romaurbsmundi.it/regolamento-2026/",
+      "quota": "Termine Iscrizione: 07/12/2027",
       "provincia": "RM",
       "scheda_lazio": "https://www.garepodistichelazio.it/info-gara-Roma-Urbs-Mundi"
     },
@@ -1767,17 +1326,6 @@
       "url": "https://www.fidal.it/calendario.php"
     },
     {
-      "id": "H8d00735330-k11.5",
-      "nome": "Bra (CN) - 7a 3 Colli di Bra - Km. 11,5",
-      "data": "2026-12-19",
-      "luogo": "BRA",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php",
-      "km": 11.5
-    },
-    {
       "id": "He473fab631-k8.3",
       "nome": "Valdilana BI) - 35a Classica di San Silvesto - Km. 8,3",
       "data": "2026-12-19",
@@ -1787,6 +1335,17 @@
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php",
       "km": 8.3
+    },
+    {
+      "id": "H1648e4a8fe-k11.5",
+      "nome": "Bra (CN) - 7a 3 Colli di Bra - Km. 11,5",
+      "data": "2026-12-20",
+      "luogo": "BRA",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php",
+      "km": 11.5
     },
     {
       "id": "Hc9da30d45c-10",
@@ -1828,6 +1387,20 @@
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php",
       "km": 6.0
+    },
+    {
+      "id": "L331017669b-k5.05",
+      "nome": "Trofeo degli Orsini",
+      "data": "2026-12-20",
+      "luogo": "VASANELLO",
+      "provincia": "VT",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-Trofeo-degli-Orsini",
+      "km": 5.05,
+      "ora": "10:00",
+      "quota": "Termine Iscrizione: 18/12/2026"
     },
     {
       "id": "H4f84d874d4-21",
@@ -1924,7 +1497,7 @@
       "url": "https://www.garepodistichelazio.it/info-gara-Corriamo-Tra-I-Presepi",
       "km": 8.7,
       "ora": "16:00",
-      "iscrizioni": "2026-12-26"
+      "quota": "Termine Iscrizione: 26/12/2026"
     },
     {
       "id": "H7635daa9a9-10",
@@ -1988,9 +1561,7 @@
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php",
       "ora": "14:00",
-      "quota": "€ 22-28",
-      "iscrizioni": "2026-12-23",
-      "sito": "https://www.werunrome.com/",
+      "quota": "Termine Iscrizione: 23/12/2026",
       "provincia": "RM",
       "scheda_lazio": "https://www.garepodistichelazio.it/info-gara-We-Run-Rome"
     },
