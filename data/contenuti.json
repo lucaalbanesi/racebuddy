@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-08",
+ "aggiornato": "2026-11-09",
  "contenuti": [
   {
    "id": "cd23fc2aaf71",
@@ -76,6 +76,43 @@
    ]
   },
   {
+   "id": "4e885bd8e0fb",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Sabaudia (LT) – Casagrande e D’Aversa trionfano alla 24^ Mezza Maratona",
+   "estratto": "8 novembre – Quasi 600 atleti hanno dato vita oggi alla riuscitissima 24esima edizione della “Mezza Maratona di Sabaudia”, nuova tappa del Grande Slam ” Natalino Nocera”…",
+   "link": "https://podisti.net/sabaudia-lt-casagrande-e-daversa-trionfano-alla-24-mezza-maratona/",
+   "data": "2026-11-08",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/mezza-25-start.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "8c36d0a85692",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Ravenna – 27^ Maratona Città d’Arte, vincono Kirwa e Valgimigli",
+   "estratto": "8 novembre – La 27^ edizione della Maratona di Ravenna Città d’Arte ha ospitato oggi i Campionati italiani master di maratona. Per questa manifestazione è stata la quarta volta…",
+   "link": "https://podisti.net/ravenna-27-maratona-citta-darte-vincono-kirwa-e-valgimigli/",
+   "data": "2026-11-08",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/897937677_29698987119707950_3590.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
    "id": "a94ad5e2fbef",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -113,6 +150,62 @@
     "si_parte",
     "costruzione"
    ]
+  },
+  {
+   "id": "2edc7e8df3e0",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Niyomukiza fa il bis alla Benetti Livorno Half Marathon, Morelli vince al femminile",
+   "estratto": "8 novembre – Per un giorno Livorno è diventata città dedicata al podismo. Una domenica diversa, grazie alla nona edizione della Benetti Livorno Half Marathon, tappa principe del…",
+   "link": "https://podisti.net/niyomukiza-fa-il-bis-alla-benetti-livorno-half-marathon-morelli-vince-al-femminile/",
+   "data": "2026-11-08",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/LIVORNO-Arrivo-vincitore.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "ba9131e84e08",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Ndikumana da record alla Corsa di San Martino, Musabyeyezu al femminile",
+   "estratto": "8 novembre Controguerra (TE) – Ancora una volta Controguerra ha vissuto una domenica autunnale diversa come ormai avviene sin dal secolo scorso. La Corsa di San Martino, giunta…",
+   "link": "https://podisti.net/ndikumana-da-record-alla-corsa-di-san-martino-musabyeyezu-al-femminile/",
+   "data": "2026-11-08",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Arrivo-vincitore-2.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "602e7404ddbb",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona di Ravenna, è grande Italia con 18mila runner al via: i risultati",
+   "estratto": "Dopo 10 anni un'azzurra torna a vincere a Ravenna. Nella mezza Cecere che sale sul podio",
+   "link": "https://www.runnersworld.com/it/news/a74367977/maratona-ravenna-risultati-2026/",
+   "data": "2026-11-08",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/04568b85-5d62-4a66-8ed5-4af97f3bdb80.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": []
   },
   {
    "id": "077f89071ce0",
@@ -205,6 +298,27 @@
    "fasi": []
   },
   {
+   "id": "3136a8657abb",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Crema – maratonina a Bottarelli e Sonzogni, record Bonzi sulla 10 K",
+   "estratto": "Una ventesima edizione che difficilmente poteva andare meglio, con numeri e prestazioni in linea con la tradizione di questa mezza maratona, ma anche una 10 km certificata e una…",
+   "link": "https://podisti.net/crema-maratonina-a-bottarelli-e-sonzogni-record-bonzi-sulla-10-k/",
+   "data": "2026-11-08",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/crema26_ph_stefano_morselli-08307.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42",
+    "21",
+    "10"
+   ],
+   "fasi": []
+  },
+  {
    "id": "b8254094d57c",
    "tipo": "articolo",
    "fonte": "Runlovers",
@@ -224,6 +338,87 @@
     "costruzione",
     "picco"
    ]
+  },
+  {
+   "id": "bdd8603b125d",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Corigliano-Rossano (CS) – 4^ Co.Ro.Half Marathon, vincono Ruggiero e Paone",
+   "estratto": "8 novembre – Ha sicuramente avuto un sapore particolare, una ventata di positività la Co.Ro.Half Marathon allestita fra le strade di Schiavonea, Corigliano e Rossano. La quarta…",
+   "link": "https://podisti.net/corigliano-rossano-cs-4-co-ro-half-marathon-vincono-ruggiero-e-paone/",
+   "data": "2026-11-08",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Arrivo-Ruggiero.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "b83db7bcec8f",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Alla Portogruaro Half Marathon trionfa Sterni, Boer fa il bis tra le donne",
+   "estratto": "Portogruaro (Venezia), 8 novembre 2026 – La quinta edizione della Portogruaro Half Marathon incorona Riccardo Sterni e Sara Boer. Il 37enne triestino, in forza alla società…",
+   "link": "https://podisti.net/alla-portogruaro-half-marathon-trionfa-sterni-boer-fa-il-bis-tra-le-donne/",
+   "data": "2026-11-08",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/1_Portogruaro-HM_La-partenza.jpg",
+   "argomenti": [
+    "forza",
+    "gara",
+    "mente"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "4fc222e2f4a9",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Alberobello (BA) – 3° Trullincorsa Unesco Trail, Maggisano e Iania i vincitori",
+   "estratto": "8 novembre – Valevole come campionato regionale master di trail e valevole come prova del circuito Puglia Trail, si è disputata stamattina la terza edizione del Trullincorsa…",
+   "link": "https://podisti.net/alberobello-ba-3-trullincorsa-unesco-trail-maggisano-e-iania-i-vincitori/",
+   "data": "2026-11-08",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/0003.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "490b74e18efa",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Akira Sakaguchi ed Elena Cammasio i vincitori della XV^ Lago Maggiore Marathon",
+   "estratto": "Nella 33 km affermazioni di Michele Gervasoni e Camilla Paracchini. Emma Quaglia e Thomas Floriani firmano la mezza maratona. La 10 km è di Alessandro Turroni e Corinna Vanni…",
+   "link": "https://podisti.net/akira-sakaguchi-ed-elena-cammasio-i-vincitori-della-xv-sportway-lago-maggiore-marathon/",
+   "data": "2026-11-08",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/SAKAGUCHI.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42",
+    "21",
+    "10"
+   ],
+   "fasi": []
   },
   {
    "id": "1ad6008ce1bb",
