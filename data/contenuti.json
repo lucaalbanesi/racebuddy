@@ -2,6 +2,254 @@
  "aggiornato": "2026-11-10",
  "contenuti": [
   {
+   "id": "efdc0596523c",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Wiz Khalifa ha appena corso la sua prima 5 km e se l'è cavata piuttosto bene",
+   "estratto": "Il rapper ha fatto il suo debutto domenica al Run Club di Diplo correndo ben al di sotto dei 5' al chilometro",
+   "link": "https://www.runnersworld.com/it/news/a74383373/wiz-khalifa-gara-corsa-cinque-km/",
+   "data": "2026-11-10",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/059a5f6d-ab43-412f-919e-56804c492dad.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "28a8dcd7a159",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Una gara che non si può riprendere",
+   "estratto": "Ironman vieta le riprese in gara e costringe a chiederci cosa resti di una fatica quando nessuno può documentarla. Il regolamento Ironman 2026 prevede la squalifica per chi…",
+   "link": "https://runlovers.it/2026/gara-senza-riprese-ironman-divieto-video/",
+   "data": "2026-11-10",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/03-202611101235-Gara-L-Unsplash-Miquel-Parera.jpeg?fit=1919%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "gara",
+    "racconti"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "29e61d16cc37",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Stats allenamento: 17km, 2 ore, 6:50 pace, 'du monster'!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/sbXcPQZ_bbs",
+   "data": "2026-11-10",
+   "immagine": "https://i4.ytimg.com/vi/sbXcPQZ_bbs/hqdefault.jpg",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "ea5263e88171",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "Protetto: Shokz e l’evoluzione dell’audio Open-Ear: dalla corsa alla vita quotidiana!",
+   "estratto": "Questo contenuto è protetto da password. Per visualizzarlo inserisci la password qui sotto. Password: L'articolo Protetto: Shokz e l’evoluzione dell’audio Open-Ear: dalla corsa…",
+   "link": "https://correre.it/shokz-evoluzione-audio-open-ear/",
+   "data": "2026-11-10",
+   "immagine": "https://correre.it/wp-content/uploads/2026/11/shokz_openfit_air_2_openrun_pro_2.png",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "5059a84f7c66",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona: primavera e autunno non sono sempre la scelta migliore per il personal best",
+   "estratto": "La stagione della gara determina anche i mesi in cui dovrai affrontare lunghi e settimane di picco. Cambiare calendario può significare allenarsi meglio e correre più forte",
+   "link": "https://www.runnersworld.com/it/allenamento/maratona/a74372385/maratona-stagione-migliore-personal-best/",
+   "data": "2026-11-10",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/4d93d613-3564-41ae-b247-ca05ee320b36.jpeg",
+   "argomenti": [
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "1b80f5ba2160",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Mani e piedi sempre freddi, perché succede e cosa aiuta",
+   "estratto": "Esci di casa e le mani si congelano: è il tuo corpo che chiude i recettori termici periferici per proteggere gli organi vitali. Le mani e i piedi freddi indicano una…",
+   "link": "https://runlovers.it/2026/mani-piedi-sempre-freddi-cause/",
+   "data": "2026-11-10",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/02-202611100715-Mani-congelate-W-Unsplash-Liana-S.jpeg?fit=1920%2C1282&quality=75&ssl=1",
+   "argomenti": [
+    "alimentazione",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
+   "id": "19a122267caf",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Lowie van Eck e le maratone con il 6% della vista",
+   "estratto": "Dall’Olanda una storia di autonomia, determinazione e passione per la corsa. Dopo due maratone corse senza accompagnatore, prepara Running Solo 2027, un progetto internazionale…",
+   "link": "https://podisti.net/lowie-van-eck-e-le-maratone-con-il-6-della-vista/",
+   "data": "2026-11-10",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Lentemarathon-2025-medal.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
+   "id": "ffaac2e84124",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "La corsa fa aumentare la massa muscolare?",
+   "estratto": "Sai che la corsa sviluppa la resistenza. Ecco come può modificare la composizione corporea",
+   "link": "https://www.runnersworld.com/it/allenamento/a74376857/corsa-aumentare-massa-muscolare/",
+   "data": "2026-11-10",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/run-stock-2023-0612-66b101e3a1dc2.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "1c5771afd5ab",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Il record mondiale più inutile della settimana",
+   "estratto": "Il record mondiale più inutile della settimana è stato stabilito domenica scorsa in Portogallo e precisamente alla Porto Marathon di cui potete ammirare una suggestiva immagine in…",
+   "link": "https://podisti.net/il-record-mondiale-piu-inutile-della-settimana/",
+   "data": "2026-11-10",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/PortoMarathon2026-Foto-Organizzazione.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42",
+    "10"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "839b1a7b0e42",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Dentro la Maratona di Atene: quarantadue chilometri da correre nella storia",
+   "estratto": "Un viaggio dalla partenza a Maratona all’arrivo nello stadio Panathinaiko, tra salite impegnative, storia e un’emozione difficile da dimenticare",
+   "link": "https://www.runnersworld.com/it/news/a74386183/dentro-maratona-atene-2026/",
+   "data": "2026-11-10",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/731882a7-3475-4c00-ac0d-b92dd58f4f6b.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "gara"
+   ]
+  },
+  {
+   "id": "76de5e402d8c",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Attacco di calabroni durante un trail: runner medicati e percorso modificato",
+   "estratto": "Circa dieci partecipanti presi d'assalto dagli insetti durante la gara: cinque atleti medicati sul posto e una donna ricoverata. La prontezza degli organizzatori ha evitato il…",
+   "link": "https://www.runnersworld.com/it/news/a74377187/trail-portofino-calabroni/",
+   "data": "2026-11-10",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/ac3bbe41-634a-4325-b3de-6759462c556f.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "fa64136b8376",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Allenamenti di qualità: quanto recupero serve?",
+   "estratto": "ALLENAMENTI DI QUALITÀ: QUANTE ORE DI RECUPERO SERVONO DAVVERO TRA UNA SEDUTA INTENSA E L’ALTRA? Soglia, VO₂max, ripetute veloci e lungo impegnativo: come distribuire il carico…",
+   "link": "https://podisti.net/allenamenti-di-qualita-quanto-recupero-serve/",
+   "data": "2026-11-10",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Scienza-della-corsa_-recupero-e-qualita.png",
+   "argomenti": [
+    "allenamento",
+    "recupero",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico",
+    "gara",
+    "dopo"
+   ]
+  },
+  {
+   "id": "3fb54ab5b252",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "ABBIAMO SBAGLIATO TUTTO?? I nostri errori degli ultimi 10 anni - Podcast",
+   "estratto": "In questa puntata io e Daniele vi raccontiamo le cavolate che abbiamo fatto in questi anni, come atleti e come allenatori. I lunghi a…",
+   "link": "https://www.youtube.com/watch?v=-j6XbC8F5go",
+   "data": "2026-11-10",
+   "immagine": "https://i2.ytimg.com/vi/-j6XbC8F5go/hqdefault.jpg",
+   "argomenti": [
+    "alimentazione",
+    "scarpe",
+    "allenamento",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "dopo"
+   ]
+  },
+  {
    "id": "ec505bbad089",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -148,6 +396,20 @@
     "costruzione",
     "dopo"
    ]
+  },
+  {
+   "id": "5e57b057df01",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "L'importanza dell'acqua nella corsa: per chi suda molto!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/3OguJgD2txE",
+   "data": "2026-11-09",
+   "immagine": "https://i4.ytimg.com/vi/3OguJgD2txE/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
   },
   {
    "id": "50fc5968d2ec",
@@ -2224,11 +2486,25 @@
    "fasi": []
   },
   {
+   "id": "520b8a914a4b",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Karl Bushby completa il giro del mondo (a piedi) in 28 anni. Che impresa!",
+   "estratto": "Cinquantamila chilometri, quattro continenti, arrestato due volte e ha rischiato la vita nel mare di Bering",
+   "link": "https://www.runnersworld.com/it/news/a74319343/karl-bushby-giro-del-mondo-a-piedi/",
+   "data": "2026-11-03",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/0b009621-cb22-4477-8f3e-62945d561066.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
    "id": "d7e50550dbe4",
    "tipo": "articolo",
    "fonte": "Correre",
    "fonteId": "correre",
-   "titolo": "La nuova Joma TR-5, quando il comfort diventa prestazione",
+   "titolo": "Joma TR-5, quando il comfort diventa prestazione",
    "estratto": "Nelle ultradistanze, rendere al meglio significa anche mantenere il comfort anche quando i chilometri si accumulano. Questa idea ha guidato il lavoro di Joma sulla nuova TR-5 , il…",
    "link": "https://correre.it/joma-tr-5/",
    "data": "2026-11-03",
@@ -2247,20 +2523,6 @@
     "scarico",
     "gara"
    ]
-  },
-  {
-   "id": "520b8a914a4b",
-   "tipo": "articolo",
-   "fonte": "Runner's World Italia",
-   "fonteId": "runnersworld",
-   "titolo": "Karl Bushby completa il giro del mondo (a piedi) in 28 anni. Che impresa!",
-   "estratto": "Cinquantamila chilometri, quattro continenti, arrestato due volte e ha rischiato la vita nel mare di Bering",
-   "link": "https://www.runnersworld.com/it/news/a74319343/karl-bushby-giro-del-mondo-a-piedi/",
-   "data": "2026-11-03",
-   "immagine": "https://hips.hearstapps.com/hmg-prod/images/0b009621-cb22-4477-8f3e-62945d561066.jpeg",
-   "argomenti": [],
-   "distanze": [],
-   "fasi": []
   },
   {
    "id": "e75e5a1d24a1",
@@ -3797,6 +4059,26 @@
    ]
   },
   {
+   "id": "f3e1bb62516d",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Smetti di pentirti delle tue scelte #mindset #sviluppopersonale",
+   "estratto": "Hai mai avuto la sensazione di aver sprecato tempo prezioso dopo aver cambiato direzione nella vita o nel lavoro? In questo video rifletto…",
+   "link": "https://www.youtube.com/shorts/1Z_RkuDT95g",
+   "data": "2026-10-28",
+   "immagine": "https://i2.ytimg.com/vi/1Z_RkuDT95g/hqdefault.jpg",
+   "argomenti": [
+    "mente",
+    "racconti"
+   ],
+   "distanze": [],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
    "id": "ec1946f9095b",
    "tipo": "video",
    "fonte": "Personal Running Coach",
@@ -3870,26 +4152,6 @@
     "21"
    ],
    "fasi": []
-  },
-  {
-   "id": "f3e1bb62516d",
-   "tipo": "video",
-   "fonte": "ricsvlog",
-   "fonteId": "yt_ricsvlog",
-   "titolo": "Percorso cambiato: ho perso tempo! ⏱️",
-   "estratto": "Hai mai avuto la sensazione di aver sprecato tempo prezioso dopo aver cambiato direzione nella vita o nel lavoro? In questo video rifletto…",
-   "link": "https://www.youtube.com/shorts/1Z_RkuDT95g",
-   "data": "2026-10-28",
-   "immagine": "https://i2.ytimg.com/vi/1Z_RkuDT95g/hqdefault.jpg",
-   "argomenti": [
-    "mente",
-    "racconti"
-   ],
-   "distanze": [],
-   "fasi": [
-    "scarico",
-    "gara"
-   ]
   },
   {
    "id": "82fc2a0976cd",
@@ -4948,7 +5210,7 @@
    "fonte": "ricsvlog",
    "fonteId": "yt_ricsvlog",
    "titolo": "L'energia della montagna: un'esperienza magica! ✨",
-   "estratto": "",
+   "estratto": "Ti sei mai chiesto perché la montagna riesce a rigenerare corpo e mente in modo così profondo? In questo video esploriamo l'energia della…",
    "link": "https://www.youtube.com/shorts/W4j8QetTDrQ",
    "data": "2026-10-25",
    "immagine": "https://i4.ytimg.com/vi/W4j8QetTDrQ/hqdefault.jpg",
@@ -4956,7 +5218,9 @@
     "racconti"
    ],
    "distanze": [],
-   "fasi": []
+   "fasi": [
+    "si_parte"
+   ]
   },
   {
    "id": "868b3b0576f5",
