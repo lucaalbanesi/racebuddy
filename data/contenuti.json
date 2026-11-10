@@ -1,6 +1,26 @@
 {
- "aggiornato": "2026-11-09",
+ "aggiornato": "2026-11-10",
  "contenuti": [
+  {
+   "id": "ec505bbad089",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Vince gli europei di ciclocross grazie a uno scatto... di corsa",
+   "estratto": "Gira in rete il video dello scatto a piedi del ciclista belga per conquistare il titolo continentale, mostrando ancora quanto la corsa sia fondamentale anche in altri sport",
+   "link": "https://www.runnersworld.com/it/news/a74376662/scatto-corsa-thibau-nys-europei-ciclocross/",
+   "data": "2026-11-09",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/ea41dfd7-a63e-44b2-b6c1-e09da385b703.jpeg",
+   "argomenti": [
+    "mente",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
   {
    "id": "10231e01d4cb",
    "tipo": "video",
@@ -32,6 +52,22 @@
    "argomenti": [],
    "distanze": [],
    "fasi": []
+  },
+  {
+   "id": "d49801336cfc",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Santa Margherita Ligure (GE) – 18° Trail di Portofino: dominano Straneo e Gaggero",
+   "estratto": "8 novembre – Si è chiusa sotto il segno dell’entusiasmo e dei grandi numeri la 18^ edizione del Trail di Portofino, l’attesissimo appuntamento podistico che ha letteralmente…",
+   "link": "https://podisti.net/santa-margherita-ligure-ge-18-trail-di-portofino-dominano-straneo-e-gaggero/",
+   "data": "2026-11-09",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/20265224_sBIUWy_alT1RORKbK7tV6le.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": [
+    "gara"
+   ]
   },
   {
    "id": "5e05b515baf1",
@@ -71,6 +107,26 @@
     "21"
    ],
    "fasi": []
+  },
+  {
+   "id": "3ccea24de210",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "L’allenamento total body a casa con kettlebell ed elastico",
+   "estratto": "La kettlebell fa da motore su gambe, anche e spalle, l’elastico da telaio per la schiena alta e il tronco: sei esercizi in un circuito che allena tutto il corpo. Un allenamento di…",
+   "link": "https://runlovers.it/2026/allenamento-total-body-casa-kettlebell-elastico-wow/",
+   "data": "2026-11-09",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/allenamento-kettlebell-elastico-home.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
   },
   {
    "id": "ba2aeba44816",
@@ -127,6 +183,34 @@
     "costruzione",
     "dopo"
    ]
+  },
+  {
+   "id": "fdd6c349682e",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Due mesi alla Ciaspolada, in palio il titolo mondiale",
+   "estratto": "Benché manchino ancora due mesi all’appuntamento il cantiere della 53ª edizione de «La Ciaspolada» è già in piena attività da settimane. Non si tratta, al solito, di organizzare…",
+   "link": "https://podisti.net/due-mesi-alla-ciaspolada-in-palio-il-titolo-mondiale/",
+   "data": "2026-11-09",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Ciaspolada-2026-winner.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "7e3e532ee1cd",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Come comportarti e difenderti se trovi cani aggressivi mentre corri",
+   "estratto": "Un problema per niente marginale, specie per gli amanti della corsa. Come devi comporarti in presenza di cani minacciosi?",
+   "link": "https://www.runnersworld.com/it/news/a46780590/aggressioni-canine-cane-consigli-runner/",
+   "data": "2026-11-09",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/c82967a6-d05c-44ba-abfe-339d74a0247a.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
   },
   {
    "id": "15be739643a2",
@@ -242,6 +326,22 @@
    "link": "https://podisti.net/a-marko-vizintin-e-clara-miani-il-5-trail-della-grotta-gigante/",
    "data": "2026-11-09",
    "immagine": "https://podisti.net/wp-content/uploads/2026/11/5V5A8643.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "3dc50c2ae673",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "853 runner squalificati: quando la troppa fretta brucia la gara",
+   "estratto": "Hanno tagliato il traguardo, ma per 853 runner la gara è finita con una squalifica",
+   "link": "https://www.runnersworld.com/it/news/a74375078/behobia-san-sebastian-squalifiche/",
+   "data": "2026-11-09",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/670c2caa-a33e-45ca-a093-99e41baa14a7.jpeg",
    "argomenti": [
     "gara"
    ],
@@ -571,7 +671,7 @@
    "tipo": "articolo",
    "fonte": "Podisti.net",
    "fonteId": "podistinet",
-   "titolo": "Crema – maratonina a Bottarelli e Sonzogni, record Bonzi sulla 10 K",
+   "titolo": "Crema – maratonina a Bottarelli e Sonzogni, record Bonzi sulla 10K",
    "estratto": "Una ventesima edizione che difficilmente poteva andare meglio, con numeri e prestazioni in linea con la tradizione di questa mezza maratona, ma anche una 10 km certificata e una…",
    "link": "https://podisti.net/crema-maratonina-a-bottarelli-e-sonzogni-record-bonzi-sulla-10-k/",
    "data": "2026-11-08",
@@ -10810,26 +10910,6 @@
    "distanze": [],
    "fasi": [
     "costruzione"
-   ]
-  },
-  {
-   "id": "53b95b6d2d41",
-   "tipo": "video",
-   "fonte": "Andrea Vignone",
-   "fonteId": "yt_crazyvigno",
-   "titolo": "LA MIA NUOVA MOTO DA ENDURO - GASGAS EC300 2027 - setting e 1' test",
-   "estratto": "LA MIA NUOVA MOTO DA ENDURO - GASGAS EC300 2027 - setting e 1' test Finalmente vado a prendere la mia nuova moto da enduro, poi mi fermo a…",
-   "link": "https://www.youtube.com/watch?v=JTjpd4nydVU",
-   "data": "2026-09-10",
-   "immagine": "https://i3.ytimg.com/vi/JTjpd4nydVU/hqdefault.jpg",
-   "argomenti": [
-    "alimentazione",
-    "gara"
-   ],
-   "distanze": [],
-   "fasi": [
-    "costruzione",
-    "scarico"
    ]
   }
  ]
