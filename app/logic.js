@@ -282,8 +282,12 @@
     return pool.length ? pool[hash(oggi + faseId + distanza) % pool.length] : null;
   }
 
-  /** Consiglio di vestizione a regole (nessuna AI). `gara` = true aggiunge 3°C percepiti (in gara ci si scalda di più). */
-  function vestizione({ temp, vento = 0, pioggia = 0 }, gara = false) {
+  /** Consiglio di vestizione a regole (nessuna AI). `gara` = true aggiunge 3°C percepiti (in gara ci si scalda di più).
+      Con la tabella (`tab` = content/vestizione.json) usa le fasce sulla percepita e i correttivi di vestizioneCorsa. */
+  function vestizione(m, gara = false, tab = null) {
+    const v = tab ? vestizioneCorsa(m, tab, { gara }) : null;
+    if (v) return maiuscola(v.capi) + ".";
+    const { temp, vento = 0, pioggia = 0 } = m || {};
     let t = temp - (vento >= 20 ? 2 : 0) + (gara ? 3 : 0);
     let capi;
     if (t >= 22) capi = "Canottiera, pantaloncini e cappellino. Bevi di più e rallenta il passo.";
@@ -296,6 +300,96 @@
     if (pioggia >= 50) extra.push("Probabile pioggia: giacca leggera o visiera.");
     if (gara && temp < 12) extra.push("Porta uno strato da buttare per l'attesa in griglia.");
     return [capi, ...extra].join(" ");
+  }
+
+  // ---------------------------------------------------------------- vestizione ogni giorno (novembre 2026)
+  const maiuscola = (t) => (t ? t.charAt(0).toUpperCase() + t.slice(1) : "");
+  const numero = (x) => typeof x === "number" && isFinite(x);
+  /** Meteo di un'ora dalla serie oraria di Open-Meteo (i campi che non ci sono restano null). */
+  function meteoOra(h, i) {
+    if (!h || !h.time || i < 0 || i >= h.time.length) return null;
+    const v = (k) => (h[k] && numero(h[k][i]) ? h[k][i] : null);
+    if (v("temperature_2m") == null) return null;
+    return { ora: h.time[i], temp: v("temperature_2m"), percepita: v("apparent_temperature"), umidita: v("relative_humidity_2m"), rugiada: v("dew_point_2m"),
+      vento: v("wind_speed_10m") ?? 0, raffiche: v("wind_gusts_10m"), pioggia: v("precipitation_probability") ?? 0, mm: v("precipitation"), neve: v("snowfall"),
+      codice: v("weather_code"), notte: h.is_day ? h.is_day[i] === 0 : false, uv: v("uv_index") };
+  }
+  /** Meteo della corsa: la prima ora dell'uscita (ora piena della partenza e quella dopo, il peggio dei due per pioggia,
+      vento, neve e sole), l'escursione nella prima ora e la pioggia caduta nelle 12 ore prima (per il ghiaccio).
+      `quando` = "YYYY-MM-DDTHH:MM". null se le previsioni non coprono l'ora. */
+  function meteoCorsa(h, quando) {
+    const q = String(quando || ""), i = h && h.time ? h.time.indexOf(q.slice(0, 13) + ":00") : -1;
+    const a = meteoOra(h, i);
+    if (!a) return null;
+    const b = meteoOra(h, i + 1) || a;
+    const max = (k) => { const x = [a[k], b[k]].filter(numero); return x.length ? Math.max(...x) : null; };
+    let p12 = null;
+    if (h.precipitation) for (let j = Math.max(0, i - 12); j < i; j++) if (numero(h.precipitation[j])) p12 = (p12 || 0) + h.precipitation[j];
+    const codici = [a.codice, b.codice].filter(numero);
+    // il cielo peggiore dei due: temporale > neve > pioggia > il resto
+    const peso = (c) => (c >= 95 ? 4 : (c >= 71 && c <= 77) || c === 85 || c === 86 ? 3 : (c >= 51 && c <= 67) || (c >= 80 && c <= 82) ? 2 : 0);
+    const codice = codici.length ? codici.sort((x, y) => peso(y) - peso(x))[0] : a.codice;
+    return { ...a, quando: q.length >= 16 ? q.slice(0, 16) : a.ora, codice, pioggia: max("pioggia") ?? 0, mm: max("mm"), neve: max("neve"), vento: max("vento") ?? 0,
+      raffiche: max("raffiche"), uv: max("uv"), escursione: numero(b.temp) ? Math.round((b.temp - a.temp) * 10) / 10 : 0, pioggia12: p12 };
+  }
+  /** Cosa mettere per correre, dalla tabella (content/vestizione.json). Nessuna AI.
+      Fascia sulla temperatura percepita (in gara + gara_gradi), poi i correttivi; l'"elemento" è il correttivo più
+      importante secondo tab.ordine (va nella push). Ritorna null senza meteo o tabella. */
+  function vestizioneCorsa(m, tab, opz = {}) {
+    if (!m || !numero(m.temp) || !tab || !Array.isArray(tab.fasce) || !tab.fasce.length) return null;
+    const S = tab.soglie || {}, T = tab.correttivi || {}, cielo = tipoCielo(m);
+    const vento = m.vento || 0, raffiche = numero(m.raffiche) ? m.raffiche : vento;
+    const percepita = numero(m.percepita) ? m.percepita : m.temp - (vento >= 20 ? 2 : 0);
+    const perc = percepita + (opz.gara ? (tab.gara_gradi ?? 3) : 0);
+    let indice = tab.fasce.findIndex((f) => f.min == null || perc >= f.min);
+    if (indice < 0) indice = tab.fasce.length - 1;
+    const on = new Set();
+    const umido = numero(m.umidita) ? m.umidita : null;
+    const bagnato = numero(m.pioggia12) ? m.pioggia12 >= (S.ghiaccio_mm12 ?? 0.2) : false;
+    if (m.temp <= (S.ghiaccio_temp ?? 1) && (bagnato || cielo === "neve" || (umido != null && umido >= (S.ghiaccio_umidita ?? 90)) || (m.pioggia12 == null && umido == null && m.temp <= 0))) on.add("ghiaccio");
+    if (cielo === "temporale") on.add("temporale");
+    if (cielo === "neve" || (numero(m.neve) && m.neve > 0)) on.add("neve");
+    if (raffiche >= (S.raffiche_avviso ?? 50) || vento >= 40) on.add("vento_forte");
+    else if (vento >= (S.vento ?? 20) || raffiche >= (S.raffiche ?? 35)) on.add("vento");
+    if (!on.has("temporale") && !on.has("neve")) {
+      const mm = numero(m.mm) ? m.mm : null;
+      if (mm != null && mm >= (S.pioggia_forte_mm ?? 2)) on.add("pioggia_forte");
+      else if (cielo === "pioggia" || (m.pioggia >= (S.pioggia_prob ?? 50) && (mm == null || mm >= (S.pioggia_mm ?? 0.3)))) on.add("pioggia");
+    }
+    if (numero(m.rugiada) && m.rugiada >= (S.afa_rugiada ?? 18)) on.add("afa");
+    if (perc >= (S.caldo_avviso_percepita ?? 30) && !on.has("afa")) on.add("caldo");
+    if (umido != null && umido >= (S.freddo_umido_umidita ?? 85) && m.temp >= (S.freddo_umido_min ?? 0) && m.temp <= (S.freddo_umido_max ?? 8)) {
+      on.add("freddo_umido");
+    }
+    if (!m.notte && numero(m.uv) && m.uv >= (S.uv ?? 6)) on.add("sole");
+    if (cielo === "nebbia") on.add("nebbia"); else if (m.notte) on.add("buio");
+    if (numero(m.escursione) && Math.abs(m.escursione) >= (S.escursione ?? 4)) on.add(m.escursione > 0 ? "escursione_su" : "escursione_giu");
+    if (opz.gara && m.temp < (S.gara_strato_sotto ?? 12)) on.add("griglia");
+    const fascia = { ...tab.fasce[indice], indice };
+    const sost = (t) => String(t || "").replace("{vento}", Math.round(vento)).replace("{raffiche}", Math.round(raffiche));
+    const afaForte = on.has("afa") && m.rugiada >= (S.afa_avviso_rugiada ?? 21) && perc >= (S.afa_avviso_percepita ?? 27);
+    const ordine = tab.ordine || [];
+    const correttivi = [...on].filter((id) => T[id]).map((id) => ({ id, icona: T[id].icona || "", titolo: T[id].titolo || id, frase: sost(T[id].frase), testo: sost(T[id].testo),
+      aggiunta: T[id].aggiunta || "", avviso: !!T[id].avviso || (id === "afa" && afaForte) }))
+      .sort((x, y) => (ordine.indexOf(x.id) < 0 ? 99 : ordine.indexOf(x.id)) - (ordine.indexOf(y.id) < 0 ? 99 : ordine.indexOf(y.id)));
+    const elemento = correttivi.find((c) => c.frase && ordine.includes(c.id)) || null;
+    // il gilet col vento serve solo nelle fasce in cui non c'è già (fresco e frizzante); niente doppioni nelle aggiunte
+    const base = fascia.breve || "";
+    // di ogni aggiunta restano solo i pezzi che la fascia non ha già ("cappellino e occhiali" col cappellino → "occhiali")
+    const nuovo = (a) => a.split(/ e /).filter((x) => !base.includes(x.trim())).join(" e ");
+    const aggiunte = [...new Set(correttivi.filter((c) => c.aggiunta && !(c.id === "vento" && !["fresco", "frizzante"].includes(fascia.id))).map((c) => nuovo(c.aggiunta)).filter(Boolean))];
+    // nella push l'aggiunta dell'elemento non si ripete se la sua frase la dice già
+    const giaDetta = elemento && elemento.aggiunta ? nuovo(elemento.aggiunta) : "";
+    const capi = [base, ...aggiunte.filter((a) => !(a === giaDetta && elemento.frase.toLowerCase().includes(a.toLowerCase())))].filter(Boolean).join(", ");
+    const zone = { ...(fascia.zone || {}) };
+    if (aggiunte.length) zone.extra = [...new Map([zone.extra, ...aggiunte].filter(Boolean).map((x) => [x.toLowerCase(), maiuscola(x)])).values()].join(" · ");
+    return { fascia, percepita: Math.round(percepita), temp: Math.round(m.temp), correttivi, elemento, avviso: correttivi.some((c) => c.avviso), capi, zone,
+      push: `${elemento ? elemento.icona + " " + elemento.frase + " " : ""}${maiuscola(capi)}.` };
+  }
+  /** Livello dell'afa dal punto di rugiada (solo quando fa almeno 15°): bassa / media / alta. */
+  function afaLivello(m) {
+    if (!m || !numero(m.rugiada) || !numero(m.temp) || m.temp < 15) return null;
+    return m.rugiada >= 21 ? "alta" : m.rugiada >= 18 ? "media" : "bassa";
   }
 
   /** Descrive il meteo in breve. */
@@ -1474,7 +1568,7 @@
     return { righe, pagati: righe.filter((x) => x.pagato).length };
   }
 
-  const api = { fmtEuro, causaleQuota, quotaGara, bollinoQuota, elencoQuota, nomePersona, KM_CLASSICA, kmUfficiali, kmEsatta, kmObiettivo, obiettivoSu, obiettiviAdattati, anteprimaDistanza, correggibile, portingCrea, portingLeggi, fuoriMisura, esatte, kmAltra, fmtKm, etichettaDist, baseKm, PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, finitaPrima, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, pbEventi, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, recuperoInEvidenza, daRecuperare, fontiNuove, fonteAperta, nuoveFontiInEvidenza, PASSI_ENTRA, passiEntra, prossimoEntra, SC_TIPI, SC_TK, SC_DA_APP, SC_A_APP, SC_PREZZO, SC_RUOLI, SC_RIGHE, SC_DOMANDE, SC_PROFILI, SC_KM_MIN, SC_KM_MAX, SC_KM_PASSO, scDistDa, scComanda, scCorsa, SC_BUDGET, scDurata, scInizio, scSettimana, scData, scOrizzonte, scWeekend, scUscite, scSimula, scPiano, scFineScarpa, scCoperture, scVita, scKmSettimana, scCosto, scValuta, scModelli, scProtezione };
+  const api = { fmtEuro, causaleQuota, quotaGara, bollinoQuota, elencoQuota, nomePersona, KM_CLASSICA, kmUfficiali, kmEsatta, kmObiettivo, obiettivoSu, obiettiviAdattati, anteprimaDistanza, correggibile, portingCrea, portingLeggi, fuoriMisura, esatte, kmAltra, fmtKm, etichettaDist, baseKm, PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, finitaPrima, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, meteoOra, meteoCorsa, vestizioneCorsa, afaLivello, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, pbEventi, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, recuperoInEvidenza, daRecuperare, fontiNuove, fonteAperta, nuoveFontiInEvidenza, PASSI_ENTRA, passiEntra, prossimoEntra, SC_TIPI, SC_TK, SC_DA_APP, SC_A_APP, SC_PREZZO, SC_RUOLI, SC_RIGHE, SC_DOMANDE, SC_PROFILI, SC_KM_MIN, SC_KM_MAX, SC_KM_PASSO, scDistDa, scComanda, scCorsa, SC_BUDGET, scDurata, scInizio, scSettimana, scData, scOrizzonte, scWeekend, scUscite, scSimula, scPiano, scFineScarpa, scCoperture, scVita, scKmSettimana, scCosto, scValuta, scModelli, scProtezione };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);

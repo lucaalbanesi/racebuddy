@@ -45,6 +45,7 @@
       let est;
       [D.schede, D.contenuti, D.novita, D.sfondi, est] = await Promise.all([opz("content/schede.json", {}), opz("data/contenuti.json", { contenuti: [] }).then((x) => (x.contenuti || []).filter((c) => c.tipo !== "podcast")), opz("data/novita_gare.json", { novita: [] }).then((x) => x.novita || []), opz("content/sfondi.json", {}), opz("content/estero.json", { gare: [] })]);
       D.scarpe = await opz("content/scarpe.json", { modelli: [] });
+      D.vestizione = await opz("content/vestizione.json", null);
       D.esteroDoc = est || { gare: [] }; D.estero = D.esteroDoc.gare || []; D.circuiti = D.esteroDoc.circuiti || {};
     } catch (e) {
       D.errore = "Non riesco a caricare i contenuti. Controlla la connessione e ricarica.";
@@ -71,7 +72,8 @@
     if (!c) return null;
     const k = `m:${c.lat.toFixed(2)},${c.lon.toFixed(2)}`;
     if (!meteoCache[k]) {
-      const u = `https://api.open-meteo.com/v1/forecast?latitude=${c.lat}&longitude=${c.lon}&hourly=temperature_2m,precipitation_probability,wind_speed_10m,weather_code,is_day&timezone=auto&forecast_days=16`;
+      // anche percepita, umidità, rugiada, raffiche, mm, neve e UV per la vestizione; past_days=1 per il ghiaccio del primo mattino
+      const u = `https://api.open-meteo.com/v1/forecast?latitude=${c.lat}&longitude=${c.lon}&hourly=temperature_2m,apparent_temperature,relative_humidity_2m,dew_point_2m,precipitation_probability,precipitation,snowfall,wind_speed_10m,wind_gusts_10m,weather_code,is_day,uv_index&timezone=auto&forecast_days=16&past_days=1`;
       meteoCache[k] = await fetch(u).then((x) => x.json());
     }
     return { h: meteoCache[k].hourly, c };
@@ -82,9 +84,8 @@
     const sr = await serie(citta);
     if (!sr) return null;
     const { h, c } = sr;
-    const i = h.time.indexOf(quandoISO);
-    if (i < 0) return null;
-    return { temp: h.temperature_2m[i], pioggia: h.precipitation_probability[i] ?? 0, vento: h.wind_speed_10m[i] ?? 0, codice: h.weather_code ? h.weather_code[i] : null, notte: h.is_day ? h.is_day[i] === 0 : false, luogo: c.nome };
+    const m = L.meteoOra(h, h.time.indexOf(quandoISO));
+    return m ? { ...m, luogo: c.nome } : null;
   }
 
   // ---------------------------------------------------------------- elenco condiviso delle gare seguite
@@ -122,7 +123,7 @@
     const o = oggi(), attive = S.gare.filter((g) => g.data >= L.addDays(o, -14) && nonArchiviata(g));
     const ids = new Set(attive.map((g) => g.id));
     return {
-      v: 1, ora: S.profilo.ora || "07:00", pref: { meteo: true, percorso: true, gara: true, documenti: true, novita: true, fase: true, ...(S.prefPush || {}) },
+      v: 1, ora: S.profilo.ora || "07:00", pref: { meteo: true, percorso: true, gara: true, documenti: true, novita: true, fase: true, vestizione: false, ...(S.prefPush || {}) },
       documenti: Object.fromEntries(Object.entries(S.documenti || {}).filter(([, d]) => d && d.scadenza).map(([k, d]) => [k, k === "tessera" ? { tipo: d.tipo || "", scadenza: d.scadenza } : { scadenza: d.scadenza }])),
       luogo: S.profilo.coord ? { lat: S.profilo.coord.lat, lon: S.profilo.coord.lon } : S.profilo.citta ? { citta: S.profilo.citta } : null,
       gare: attive.map((g) => ({ id: g.id, nome: g.nome, data: g.data, luogo: g.luogo || "", distanza: g.distanza, ruolo: g.ruolo, aggiunta: g.aggiunta, ...(g.km ? { km: g.km } : {}), ...(g.tempo ? { tempo: g.tempo } : {}) })),
@@ -232,10 +233,14 @@
     if (compatta && (on || S.pushNonOra || st === "no" || st === "negato")) return "";
     const ora = esc(S.profilo.ora || "7:00");
     let corpo;
-    const pr = { meteo: true, percorso: true, gara: true, documenti: true, novita: true, fase: true, ...(S.prefPush || {}) };
+    const pr = { meteo: true, percorso: true, gara: true, documenti: true, novita: true, fase: true, vestizione: false, ...(S.prefPush || {}) };
     const sw = (k, t, d) => `<label class="check" style="cursor:pointer"><input type="checkbox" data-act="push-pref" data-k="${k}" ${pr[k] ? "checked" : ""}><span><span class="t">${t}</span><br><span class="d">${d}</span></span></label>`;
-    if (on) corpo = `<span class="small">Ti scrivo solo quando c'è qualcosa di nuovo, al massimo una volta al giorno, mezz'ora prima della tua uscita delle <b>${ora}</b>. Mai di notte.</span>
-      <div>${sw("meteo", "Meteo che cambia", "Solo se cambia davvero rispetto a ieri: gelo, caldo, vento forte, pioggia, ±5°. Mai lo stesso avviso due volte.")}${sw("percorso", "Tappe del percorso", "Le cose importanti da fare e quelle che hai rimandato a oggi.")}${sw("gara", "La tua gara", "Scheda pronta o cambiata, prime previsioni, la vigilia alle 19, la mattina della gara, \"Com'è andata?\" a gara finita e quando il tuo tempo è certificato dal direttivo o dal referente.")}${sw("novita", "Novità ufficiali della gara", "Medaglia, maglia, percorso, orari e pettorale appena escono, al massimo una al giorno per gara. Le altre notizie nel messaggio del mattino.")}${sw("documenti", "Scadenze", "Tessera e certificato medico: 30, 15 e 2 giorni prima.")}${sw("fase", "Da leggere per la tua fase", "Un contenuto a settimana, la domenica, solo se quel mattino non c'è altro.")}</div>
+    // vestizione ogni giorno: in prova, spenta di partenza; serve sapere dove corri
+    const dove = !!(S.profilo.citta || S.profilo.coord);
+    const swVest = dove ? sw("vestizione", "Vestizione ogni giorno <span class=\"pill\">In prova</span>", "Ogni giorno cosa metterti per correre, con gradi e percepiti. Esci prima delle 7:30: la sera prima alle 20:30; dalle 12: un'ora prima; altrimenti mezz'ora prima. Prende il posto di «Meteo che cambia».")
+      : `<label class="check" style="opacity:.6"><input type="checkbox" disabled><span><span class="t">Vestizione ogni giorno <span class="pill">In prova</span></span><br><span class="d">Per accenderla <a href="#/io/profilo">dimmi dove corri</a>.</span></span></label>`;
+    if (on) corpo = `<span class="small">${pr.vestizione && dove ? `Ogni giorno la vestizione per la tua uscita delle <b>${ora}</b>; il resto solo quando c'è qualcosa di nuovo.` : `Ti scrivo solo quando c'è qualcosa di nuovo, al massimo una volta al giorno, mezz'ora prima della tua uscita delle <b>${ora}</b>.`} Mai di notte.</span>
+      <div>${swVest}${sw("meteo", "Meteo che cambia", pr.vestizione && dove ? "Con la vestizione ogni giorno non serve: gli avvisi importanti arrivano lì." : "Solo se cambia davvero rispetto a ieri: gelo, caldo, vento forte, pioggia, ±5°. Mai lo stesso avviso due volte.")}${sw("percorso", "Tappe del percorso", "Le cose importanti da fare e quelle che hai rimandato a oggi.")}${sw("gara", "La tua gara", "Scheda pronta o cambiata, prime previsioni, la vigilia alle 19, la mattina della gara, \"Com'è andata?\" a gara finita e quando il tuo tempo è certificato dal direttivo o dal referente.")}${sw("novita", "Novità ufficiali della gara", "Medaglia, maglia, percorso, orari e pettorale appena escono, al massimo una al giorno per gara. Le altre notizie nel messaggio del mattino.")}${sw("documenti", "Scadenze", "Tessera e certificato medico: 30, 15 e 2 giorni prima.")}${sw("fase", "Da leggere per la tua fase", "Un contenuto a settimana, la domenica, solo se quel mattino non c'è altro.")}</div>
       <div class="grid2"><button class="btn ghost" data-act="push-prova">Prova</button><button class="btn ghost" data-act="push-off">Disattiva</button></div>`;
     else if (st === "ios-home") corpo = `<span class="small">Su iPhone le notifiche arrivano solo se RaceBuddy è sulla schermata Home: in Safari tocca <b>Condividi</b> → <b>Aggiungi alla schermata Home</b>, poi apri l'app da lì e torna qui.</span>`;
     else if (st === "negato") corpo = `<span class="small">Le notifiche sono bloccate per questa app: riattivale dalle impostazioni del telefono o del browser.</span>`;
@@ -968,7 +973,7 @@
   const NOME_CIELO = { sereno: "Sereno", variabile: "Variabile", nuvoloso: "Nuvoloso", nebbia: "Nebbia", pioggia: "Pioggia", neve: "Neve", temporale: "Temporale" };
   const datiMeteo = (m) => `<div class="meteo-dati"><span>${ICO_VENTO}${Math.round(m.vento)} km/h</span><span>${ICO_GOCCIA}${Math.round(m.pioggia)}%</span></div>`;
   const avvisi = (m, gara) => L.avvisiMeteo(m, gara).map((a) => `<div class="avviso ${a.livello}" role="note"><span class="avviso-ico" aria-hidden="true">${ICO_AVVISO[a.tipo] || "!"}</span><span><b>${esc(a.titolo)}.</b> ${esc(a.testo)}</span></div>`).join("");
-  const bloccoMeteo = (m, gara, titolo) => `<div class="meteo-top">${icona(m, 52)}<div style="flex:1;min-width:0"><div class="meteo-temp">${Math.round(m.temp)}°</div><span class="small muted">${esc(NOME_CIELO[L.tipoCielo(m)])}</span></div>${datiMeteo(m)}</div>${titolo || ""}<span class="small">${esc(L.vestizione(m, gara))}</span>${avvisi(m, gara)}`;
+  const bloccoMeteo = (m, gara, titolo) => `<div class="meteo-top">${icona(m, 52)}<div style="flex:1;min-width:0"><div class="meteo-temp">${Math.round(m.temp)}°</div><span class="small muted">${esc(NOME_CIELO[L.tipoCielo(m)])}</span></div>${datiMeteo(m)}</div>${titolo || ""}<span class="small">${esc(L.vestizione(m, gara, D.vestizione))}</span>${avvisi(m, gara)}`;
 
   // ---------------------------------------------------------------- pezzi di interfaccia
   const back = (href) => `<a class="back" href="${href}" aria-label="Indietro"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></a>`;
@@ -1199,7 +1204,7 @@
   }
 
   // Il meteo di oggi: adesso (ora piena) più minima e massima della giornata. null se mancano i dati.
-  const meteoDaSerie = (h, t) => { const i = h.time.indexOf(t); return i < 0 ? null : { temp: h.temperature_2m[i], pioggia: h.precipitation_probability[i] ?? 0, vento: h.wind_speed_10m[i] ?? 0, codice: h.weather_code ? h.weather_code[i] : null, notte: h.is_day ? h.is_day[i] === 0 : false }; };
+  const meteoDaSerie = (h, t) => L.meteoOra(h, h.time.indexOf(t));
   function bloccoOggi(h, giorno) {
     const m = meteoDaSerie(h, `${giorno}T${String(new Date().getHours()).padStart(2, "0")}:00`);
     if (!m) return "";
@@ -1221,7 +1226,7 @@
       const quando = S.prova ? `${S.prova}T${oraISO(S.profilo.ora)}` : L.prossimaUscita(S.profilo.ora, adesso);
       if (quando.slice(0, 10) !== giorno) {
         const u = at(quando);
-        if (u) uscita = `<div class="row" style="gap:8px;border-top:1px solid var(--line2);padding-top:8px">${icona(u, 24)}<span class="small" style="flex:1;min-width:0"><b>Uscita di ${quando.slice(0, 10) === L.addDays(giorno, 1) ? "domani" : esc(L.fmtGiorno(quando.slice(0, 10)))} alle ${esc(S.profilo.ora || "7:00")}</b> · ${Math.round(u.temp)}°, ${esc(NOME_CIELO[L.tipoCielo(u)].toLowerCase())}<br>${esc(L.vestizione(u, false).split(". ")[0].replace(/\.$/, ""))}.</span></div>`;
+        if (u) uscita = `<div class="row" style="gap:8px;border-top:1px solid var(--line2);padding-top:8px">${icona(u, 24)}<span class="small" style="flex:1;min-width:0"><b>Uscita di ${quando.slice(0, 10) === L.addDays(giorno, 1) ? "domani" : esc(L.fmtGiorno(quando.slice(0, 10)))} alle ${esc(S.profilo.ora || "7:00")}</b> · ${Math.round(u.temp)}°, ${esc(NOME_CIELO[L.tipoCielo(u)].toLowerCase())}<br>${esc(L.vestizione(u, false, D.vestizione).split(". ")[0].replace(/\.$/, ""))}.</span></div>`;
       }
       box.innerHTML = `<span class="eyebrow">${esc(c.nome)} · adesso</span>
         ${oggiHtml}${uscita}<span class="small" style="color:var(--accent);font-weight:700">Prossimi giorni e meteo gara ›</span>`;
@@ -1491,7 +1496,7 @@
       if (!m) { box.innerHTML = `<h2>Meteo della gara</h2><span class="small">Previsioni non disponibili per questo luogo.</span>`; return; }
       const titolo = `${modo === "borsa" ? "Come vestirti" : "Meteo della gara"} · ${esc(m.luogo)} alle ${esc(ora || "9:00")}${ora ? "" : " (indicativo)"}`;
       box.innerHTML = modo === "home"
-        ? `<h2>${titolo}</h2><div class="meteo-top">${icona(m, 40)}<div style="flex:1"><b style="font:700 28px var(--display)">${Math.round(m.temp)}°</b> <span class="small muted">${esc(L.descriviMeteo(m).split(", ").slice(1).join(", "))}</span></div></div><span class="small">${esc(L.vestizione(m, true).split(". ")[0])}.</span>`
+        ? `<h2>${titolo}</h2><div class="meteo-top">${icona(m, 40)}<div style="flex:1"><b style="font:700 28px var(--display)">${Math.round(m.temp)}°</b> <span class="small muted">${esc(L.descriviMeteo(m).split(", ").slice(1).join(", "))}</span></div></div><span class="small">${esc(L.vestizione(m, true, D.vestizione).split(". ")[0].replace(/\.$/, ""))}.</span>`
         : `<h2>${titolo}</h2>${bloccoMeteo(m, true)}`;
     } catch (e) { box.innerHTML = `<h2>Meteo della gara</h2><span class="small muted">Meteo non disponibile al momento.</span>`; }
   }
@@ -1627,10 +1632,47 @@
   }
 
   // ---------------------------------------------------------------- meteo dettaglio
-  function vistaMeteo() {
+  // "La tua corsa" (vestizione ogni giorno, novembre 2026): la prima ora dell'uscita, i valori e cosa mettere per parte
+  // del corpo, dalla tabella content/vestizione.json. Ci arriva la notifica (#/meteo?uscita=YYYY-MM-DDTHH:MM).
+  const quandoCorsa = (param) => {
+    if (param && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(param.uscita || "")) return param.uscita;
+    const ora = oraInput(S.profilo.ora) || "07:00";
+    if (S.prova) return `${S.prova}T${ora}`;
+    return `${L.prossimaUscita(S.profilo.ora, new Date()).slice(0, 10)}T${ora}`;
+  };
+  function cardCorsa(h, quando) {
+    const m = L.meteoCorsa(h, quando), v = m && L.vestizioneCorsa(m, D.vestizione);
+    if (!v) return "";
+    const giorno = quando.slice(0, 10), ora = `${Number(quando.slice(11, 13))}:${quando.slice(14, 16)}`, oggiISO = S.prova || L.todayISO();
+    const q = giorno === oggiISO ? "Oggi" : giorno === L.addDays(oggiISO, 1) ? "Domani" : giorno === L.addDays(oggiISO, -1) ? "Ieri" : L.fmtGiorno(giorno);
+    const afa = L.afaLivello(m), raff = m.raffiche != null && m.raffiche >= m.vento + 10 ? ` · raffiche ${Math.round(m.raffiche)}` : "";
+    const dati = [["Reali", `${v.temp}°`], ["Vento", `${Math.round(m.vento)} km/h${raff}`], m.umidita != null ? ["Umidità", `${Math.round(m.umidita)}%`] : null,
+      ["Pioggia", `${Math.round(m.pioggia)}%${m.mm >= 0.1 ? ` · ${String(Math.round(m.mm * 10) / 10).replace(".", ",")} mm` : ""}`], afa ? ["Afa", afa] : null,
+      m.neve > 0 ? ["Neve", `${String(Math.round(m.neve * 10) / 10).replace(".", ",")} cm`] : null, !m.notte && m.uv >= 3 ? ["UV", String(Math.round(m.uv))] : null,
+      Math.abs(m.escursione || 0) >= 2 ? ["In un'ora", `${m.escursione > 0 ? "+" : "−"}${Math.round(Math.abs(m.escursione))}°`] : null, m.notte ? ["Luce", "buio"] : null].filter(Boolean);
+    const ZONE = [["busto", "Busto"], ["gambe", "Gambe"], ["mani", "Mani"], ["testa", "Testa"], ["extra", "In più"]];
+    return `<section class="card corsa" id="la-tua-corsa" style="gap:12px" aria-label="La tua corsa"><span class="eyebrow" style="color:var(--accent-strong)">La tua corsa · ${esc(q)} alle ${esc(ora)}</span>
+      <div class="meteo-top">${icona(m, 52)}<div style="flex:1;min-width:0"><div class="meteo-temp">${v.percepita}°</div><span class="small muted">percepiti · ${esc(NOME_CIELO[L.tipoCielo(m)])}</span></div><span class="pill">${esc(v.fascia.nome)}</span></div>
+      <div class="corsa-dati">${dati.map(([k, x]) => `<div><span>${esc(k)}</span><b>${esc(x)}</b></div>`).join("")}</div>
+      <div class="corsa-zone">${ZONE.filter(([k]) => v.zone[k]).map(([k, t]) => `<span class="k">${t}</span><span>${esc(v.zone[k])}</span>`).join("")}</div>
+      ${v.correttivi.filter((c) => c.testo).map((c) => `<div class="avviso ${c.avviso ? "attenzione" : "info"}" role="note"><span class="avviso-ico" aria-hidden="true">${esc(c.icona)}</span><span><b>${esc(c.titolo)}.</b> ${esc(c.testo)}</span></div>`).join("")}
+      ${infoBtn("vestizione")}</section>`;
+  }
+  INFO.vestizione = () => {
+    const t = D.vestizione; if (!t) return null;
+    const soglia = (f, i) => (f.min == null ? `sotto ${t.fasce[i - 1].min}°` : i === 0 ? `da ${f.min}°` : `${f.min}–${t.fasce[i - 1].min - 1}°`);
+    return { titolo: "Come scegliamo cosa mettere",
+      html: `<p class="small" style="margin:0">Guardiamo la prima ora della tua uscita. La <b>temperatura percepita</b> (tiene conto di vento e umidità) sceglie la fascia: in corsa si sentono 8-10° in più, quindi nei primi minuti devi sentire un po' fresco.</p>
+        <div class="corsa-fasce">${t.fasce.map((f, i) => `<div><b>${esc(soglia(f, i))}</b><span>${esc(f.breve.charAt(0).toUpperCase() + f.breve.slice(1))}</span></div>`).join("")}</div>`,
+      voci: ["Poi i correttivi: pioggia, temporale, neve, ghiaccio (sotto 1° con strade bagnate), afa, caldo forte, vento e raffiche, freddo umido, sole forte, buio o nebbia, temperatura che cambia nella prima ora.",
+        "Nella notifica: gradi, percepiti, la cosa più importante e i capi. Qui tutti i valori.",
+        "In gara si sta un gradino più leggeri, con uno strato da buttare per l'attesa in griglia."],
+      nota: "Sono indicazioni generali: ognuno sente il freddo a modo suo." };
+  };
+  function vistaMeteo(param = {}) {
     if (!S.profilo.citta) return `<header class="head-back">${back("#/oggi")}<h1 style="font-size:28px">Meteo</h1></header><a class="card" href="#/io/profilo" style="text-decoration:none;color:inherit"><span class="title">Dimmi dove corri</span><span class="small">Indica città e orario di uscita nel profilo.</span></a>`;
     return `${bannerProva()}<header class="head-back">${back("#/oggi")}<div><h1 style="font-size:28px">Meteo e vestizione</h1><span class="sub">${esc(S.profilo.citta)} · uscite alle ${esc(S.profilo.ora || "7:00")} · <a href="#/io/profilo">cambia</a></span></div></header>
-      <div id="meteo-dettaglio" style="display:flex;flex-direction:column;gap:14px"><p class="sub">Previsioni in arrivo…</p></div>
+      <div id="meteo-dettaglio" style="display:flex;flex-direction:column;gap:14px" data-uscita="${esc(quandoCorsa(param))}"><p class="sub">Previsioni in arrivo…</p></div>
       <p class="sub">Previsioni Open-Meteo. La vestizione è un'indicazione generale: ognuno sente il freddo a modo suo.</p>`;
   }
   async function riempiMeteoDettaglio() {
@@ -1640,7 +1682,7 @@
       const sr = await serie(mioLuogo());
       if (!sr) { box.innerHTML = `<p class="sub">Non trovo la città "${esc(S.profilo.citta)}". Correggila nel profilo.</p>`; return; }
       const { h, c } = sr, ora = oraISO(S.profilo.ora), o = oggi();
-      const at = (t) => { const i = h.time.indexOf(t); return i < 0 ? null : { temp: h.temperature_2m[i], pioggia: h.precipitation_probability[i] ?? 0, vento: h.wind_speed_10m[i] ?? 0, codice: h.weather_code ? h.weather_code[i] : null, notte: h.is_day ? h.is_day[i] === 0 : false }; };
+      const at = (t) => meteoDaSerie(h, t);
       const giorni = [];
       const passata = !S.prova && L.prossimaUscita(S.profilo.ora, new Date()).slice(0, 10) !== L.todayISO();
       for (let d = passata ? 1 : 0; d < (passata ? 8 : 7); d++) { const dd = L.addDays(o, d), m = at(`${dd}T${ora}`); if (m) giorni.push([dd, m]); }
@@ -1657,9 +1699,10 @@
       const quandoGara = (d) => (d === L.todayISO() ? "oggi" : d === L.addDays(L.todayISO(), 1) ? "domani" : esc(L.fmtGiorno(d)));
       const carteGara = gareConMeteo.map(({ g, m, ora }) => `<section class="card gara-meteo" style="gap:12px" aria-label="Meteo di ${esc(titoloGara(g.nome))}"><span class="eyebrow" style="color:var(--accent-strong)">Meteo gara · ${quandoGara(g.data)} alle ${esc(ora || "9:00")}${ora ? "" : " (indicativo)"}</span><span class="title">${esc(titoloGara(g.nome))} · ${esc(m.luogo)}</span>${bloccoMeteo(m, true)}<a class="small" href="${urlGara(g.id)}" style="font-weight:700">Apri la scheda gara ›</a></section>`).join("");
       const oggiHtml = bloccoOggi(h, S.prova || L.todayISO());
-      box.innerHTML = carteGara + (oggiHtml ? `<section class="card" style="gap:12px"><span class="eyebrow">Oggi · adesso · ${esc(c.nome)}</span>${oggiHtml}</section>` : `<p class="sub">Previsioni non disponibili per oggi.</p>`)
+      const corsa = D.vestizione ? cardCorsa(h, box.dataset.uscita || quandoCorsa()) : "";
+      box.innerHTML = corsa + carteGara + (oggiHtml ? `<section class="card" style="gap:12px"><span class="eyebrow">Oggi · adesso · ${esc(c.nome)}</span>${oggiHtml}</section>` : `<p class="sub">Previsioni non disponibili per oggi.</p>`)
         + (ore.length ? `<section class="card"><h2>Nelle prossime ore</h2><div style="display:flex;justify-content:space-between;gap:4px;text-align:center">${ore.map(([t, m]) => `<div style="display:flex;flex-direction:column;align-items:center;gap:2px"><span class="small muted">${esc(t)}</span>${icona(m, 28)}<b style="font:700 20px var(--display)">${Math.round(m.temp)}°</b><span class="small muted">${m.pioggia}%</span></div>`).join("")}</div><span class="small muted">Temperatura e probabilità di pioggia, alle ore indicate.</span></section>` : "")
-        + (giorni.length ? `<section class="card list" style="padding-top:12px;padding-bottom:6px"><h2>Le prossime uscite · alle ${esc(S.profilo.ora || "7:00")}</h2>${giorni.map(([dd, m]) => `<div class="line" style="flex-direction:column;gap:4px"><div class="between"><span style="display:flex;align-items:center;gap:8px">${icona(m, 30)}<b>${dd === L.todayISO() ? "Oggi" : dd === L.addDays(L.todayISO(), 1) ? "Domani" : esc(L.fmtGiorno(dd))}</b></span><span style="display:flex;align-items:center;gap:10px"><b style="font:700 20px var(--display)">${Math.round(m.temp)}°</b>${datiMeteo(m)}</span></div><span class="small">${esc(L.vestizione(m))}</span>${L.avvisiMeteo(m).filter((a) => a.livello === "attenzione").map((a) => `<span class="small" style="color:var(--warn);font-weight:600">${ICO_AVVISO[a.tipo] || "!"} ${esc(a.titolo)}</span>`).join("")}</div>`).join("")}</section>` : "")
+        + (giorni.length ? `<section class="card list" style="padding-top:12px;padding-bottom:6px"><h2>Le prossime uscite · alle ${esc(S.profilo.ora || "7:00")}</h2>${giorni.map(([dd, m]) => `<div class="line" style="flex-direction:column;gap:4px"><div class="between"><span style="display:flex;align-items:center;gap:8px">${icona(m, 30)}<b>${dd === L.todayISO() ? "Oggi" : dd === L.addDays(L.todayISO(), 1) ? "Domani" : esc(L.fmtGiorno(dd))}</b></span><span style="display:flex;align-items:center;gap:10px"><b style="font:700 20px var(--display)">${Math.round(m.temp)}°</b>${datiMeteo(m)}</span></div><span class="small">${esc(L.vestizione(m, false, D.vestizione))}</span>${L.avvisiMeteo(m).filter((a) => a.livello === "attenzione").map((a) => `<span class="small" style="color:var(--warn);font-weight:600">${ICO_AVVISO[a.tipo] || "!"} ${esc(a.titolo)}</span>`).join("")}</div>`).join("")}</section>` : "")
         + gareMeteo.filter((g) => !gareConMeteo.some((x) => x.g.id === g.id)).map((g) => `<a class="card soft" href="${urlGara(g.id)}" style="text-decoration:none;color:inherit;font-weight:inherit"><span class="between"><span class="title">Meteo per ${esc(titoloGara(g.nome))}</span><span aria-hidden="true">›</span></span><span class="small">Il ${esc(L.fmtGiorno(g.data))}: previsioni non ancora disponibili.</span></a>`).join("");
     } catch (e) { box.innerHTML = `<p class="sub">Meteo non disponibile al momento.</p>`; }
   }
@@ -3797,7 +3840,7 @@
     const docSotto = docPeggio ? `${docPeggio === docA ? "Tessera" : "Certificato"} da aggiornare` : docA.livello === "ok" && docB.livello === "ok" ? "Tessera e certificato in regola" : "Da inserire";
     const daComprare = ((S.scarpiera || {}).attivita || []).length;
     const sottoScarpe = S.scarpe.length ? `${S.scarpe.length} ${stravaOn ? "da Strava" : S.scarpe.length === 1 ? "paio" : "paia"}${daComprare ? ` · ${daComprare} da comprare` : ""}` : "Nessuna ancora";
-    const prefN = Object.values({ meteo: true, percorso: true, gara: true, documenti: true, novita: true, fase: true, ...(S.prefPush || {}) }).filter(Boolean).length;
+    const prefN = Object.values({ meteo: true, percorso: true, gara: true, documenti: true, novita: true, fase: true, vestizione: false, ...(S.prefPush || {}) }).filter(Boolean).length;
     const stravaCollegato = !!(STRAVA_STATO && STRAVA_STATO.collegato);
     return `${bannerProva()}<header class="head"><h1>Io</h1></header>
       <section class="hub-profilo" aria-label="Il tuo profilo"><div class="hub-pr-top"><span class="hub-avatar" aria-hidden="true">${esc(ini)}</span><div style="min-width:0"><span class="eyebrow">Il tuo profilo</span><div class="hub-nome">${esc(P.nome || "Come ti chiami?")}</div></div></div>
@@ -3812,7 +3855,7 @@
         ${riga("#/gruppo", IC.gruppo, "Gruppo", inG ? `${esc(GD().gruppo.nome)} · ${esc(RUOLI_G[GD().io.ruolo].toLowerCase())}` : "Non sei in un gruppo")}
         ${C().login ? riga("#/io/account", IC.account, "Account", AUTH ? esc(AUTH.email) : "Facoltativo · ritrova i dati su un altro telefono", AUTH ? pillOk("connesso") : "") : ""}</div></section>
       <section aria-labelledby="hub-3" class="hub-gruppo"><h2 id="hub-3">Impostazioni</h2><div class="hub-lista">
-        ${riga("#/io/notifiche", IC.notifiche, "Notifiche", on ? `${prefN} temi su 6` : sp === "ok" ? "Da attivare" : sp === "non-pronto" ? "In arrivo" : "Non disponibili", on ? pillOk("attive") : "")}
+        ${riga("#/io/notifiche", IC.notifiche, "Notifiche", on ? `${prefN} temi su 7` : sp === "ok" ? "Da attivare" : sp === "non-pronto" ? "In arrivo" : "Non disponibili", on ? pillOk("attive") : "")}
         ${riga("#/io/privacy", IC.privacy, "Privacy e dati", "Cosa resta sul telefono e cosa va online")}
         ${riga("#/io/porting", IC.porting, "Porta il profilo", "Da Safari all'app, o su un altro telefono")}
         ${riga("#/io/percorsi", IC.percorsi, "Percorsi guidati", "Rivedi Benvenuto, Prepara, Entra nel gruppo")}</div></section>
@@ -3939,7 +3982,7 @@
       case "prepara": html = vistaPrepara(parts[1]); break;
       case "scarpiera": html = vistaScarpiera(parts[1], param); break;
       case "catalogo": html = vistaCatalogo(param); break;
-      case "meteo": html = vistaMeteo(); break;
+      case "meteo": html = vistaMeteo(param); break;
       case "pillole": html = vistaPillole(parts[1]); break;
       case "perte": html = vistaPerTe(param); break;
       default: html = vistaOggi();
@@ -4221,6 +4264,7 @@
       provaNotifica();
     } else if (act === "push-pref") {
       S.prefPush = { ...(S.prefPush || {}), [t.dataset.k]: t.checked }; salva(); toast("Preferenze salvate");
+      if (t.dataset.k === "vestizione") rerender(); // cambiano i testi della card
     } else if (act === "push-nonora") {
       S.pushNonOra = true; salva(); rerender();
     } else if (act === "doc-copia") {
