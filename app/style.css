@@ -768,3 +768,13 @@ body.chat-on .app { padding-bottom: 150px; }
 .q-riga { border-bottom: 1px solid var(--line2); padding-bottom: 8px; }
 .q-iban { font-size: 15px; word-break: break-all; }
 .q-scelta .btn { padding: 0 8px; font-size: 15px; white-space: nowrap; }
+/* foglio informativo dal basso (apriInfo): le spiegazioni lunghe fuori dalle pagine */
+dialog.foglio { position: fixed; inset: auto 0 0 0; margin: 0 auto; width: 100%; max-width: 480px; max-height: 85vh; overflow: auto; border: 0; border-radius: 20px 20px 0 0;
+  background: var(--surface); color: var(--fg); padding: 8px 20px calc(20px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 14px; animation: foglio-su .22s ease-out; }
+dialog.foglio:not([open]) { display: none; }
+dialog.foglio::backdrop { background: rgba(16, 22, 31, .5); }
+.foglio-maniglia { width: 40px; height: 4px; border-radius: 999px; background: var(--line); margin: 4px auto 2px; }
+.foglio h2 { margin: 0; font-size: 19px; font-weight: 700; text-transform: none; letter-spacing: 0; color: var(--fg); }
+.foglio-corpo { display: flex; flex-direction: column; gap: 10px; }
+.info-btn { padding: 6px 0 0; }
+@keyframes foglio-su { from { transform: translateY(100%); } to { transform: none; } }

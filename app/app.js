@@ -290,6 +290,33 @@
       try { const b = await fotoLeggi(el.dataset.docThumb); if (b) { el.src = URL.createObjectURL(b); el.hidden = false; } } catch (e) { /* niente foto */ }
     }
   }
+  // ------------------------------------------------------------------ foglio informativo (novembre 2026)
+  // Le spiegazioni lunghe stanno qui e non nelle pagine: nella pagina resta una riga e il link "Come funziona"
+  // (infoBtn), che apre un foglio dal basso sopra uno sfondo scuro (<dialog> nativo: Esc, tocco fuori, "Ho capito").
+  // Per aggiungerne uno: una voce in INFO con titolo e corpo (HTML già sicuro, niente dati degli utenti).
+  const INFO = {
+    quote: { titolo: "Quote gara con la società",
+      voci: ["Il direttivo dà una quota alle gare della società che vuole, gara per gara.",
+        "Chi si iscrive con la società riceve un codice di 5 caratteri da mettere nella causale e segna quando ha fatto il bonifico.",
+        "Voi vedete, gara per gara, chi ha segnato il bonifico: è quello che dicono gli atleti, la conferma sull'estratto conto resta fuori dall'app.",
+        "Nessun soldo passa da RaceBuddy e non ci sono commissioni."],
+      nota: "Intestatario e IBAN li vede solo chi si iscrive con la società a una gara con la quota. Spento, nessuno vede niente; puoi spegnerlo quando vuoi: i dati restano." },
+  };
+  const infoBtn = (k, testo = "Come funziona") => `<button class="linkbtn small info-btn" type="button" data-act="info" data-k="${esc(k)}">${esc(testo)}</button>`;
+  function apriInfo(k) {
+    const i = INFO[k]; if (!i) return;
+    document.querySelectorAll(".foglio").forEach((d) => d.remove());
+    const d = document.createElement("dialog");
+    d.className = "foglio"; d.setAttribute("aria-labelledby", "foglio-titolo");
+    d.innerHTML = `<div class="foglio-maniglia" aria-hidden="true"></div><h2 id="foglio-titolo">${esc(i.titolo)}</h2>
+      <div class="foglio-corpo">${(i.voci || []).map((v) => voceOk(esc(v))).join("")}${i.nota ? `<p class="small muted" style="margin:0">${esc(i.nota)}</p>` : ""}</div>
+      <button class="btn block" type="button" data-chiudi>Ho capito</button>`;
+    const chiudi = () => { if (d.open && d.close) d.close(); d.remove(); };
+    d.addEventListener("click", (e) => { if (e.target === d || e.target.closest("[data-chiudi]")) chiudi(); }); // tocco sullo sfondo o "Ho capito"
+    d.addEventListener("close", () => d.remove());
+    document.body.appendChild(d);
+    if (d.showModal) d.showModal(); else d.setAttribute("open", "");
+  }
   function apriFoto(src) {
     const ov = document.createElement("div");
     ov.className = "foto-ov"; ov.setAttribute("role", "dialog"); ov.setAttribute("aria-label", "Foto del documento");
@@ -2211,11 +2238,9 @@
     const q = (S.gruppo && S.gruppo.quote) || null; if (!q) return ""; // funzione non ancora sul server
     const c = q.conto || {}, on = quoteOn();
     const sw = `<input type="checkbox" class="switch" id="q-gruppo" ${on ? "checked" : ""} aria-label="Quote gara con la società">`;
-    const testa = `<div class="between" style="gap:12px;align-items:flex-start"><span><span class="title">Quote gara con la società</span><br><span class="small muted">Codice per il bonifico e "ho pagato" nelle gare della società</span></span>${sw}</div>`;
-    if (!on) return `<section class="card" style="gap:10px">${testa}
-      ${voceOk("Il direttivo dà una quota alle gare della società che vuole.")}${voceOk("Chi si iscrive con la società riceve un codice da mettere nella causale e segna quando ha fatto il bonifico.")}${voceOk("Voi vedete, gara per gara, chi ha segnato il bonifico. Nessun soldo passa dall'app.")}
-      <span class="small muted">Spento, nessuno vede niente. Puoi spegnerlo quando vuoi: i dati restano.</span></section>`;
-    return `<form id="q-conto" class="card" style="gap:10px">${testa}<span class="small muted">Il conto lo vede chi si iscrive con la società a una gara con la quota. La quota si imposta gara per gara, in Gare della società.</span>
+    const testa = `<div class="between" style="gap:12px;align-items:flex-start"><span><span class="title">Quote gara con la società</span><br><span class="small muted">Bonifici delle iscrizioni, gara per gara</span><br>${infoBtn("quote")}</span>${sw}</div>`;
+    if (!on) return `<section class="card">${testa}</section>`;
+    return `<form id="q-conto" class="card" style="gap:10px">${testa}
       <div class="field"><label for="q-int">Intestatario del conto</label><input class="input" id="q-int" value="${esc(c.intestatario || "")}" maxlength="120" autocomplete="off"></div>
       <div class="field"><label for="q-iban">IBAN</label><input class="input" id="q-iban" value="${esc(c.iban || "")}" maxlength="42" autocomplete="off" style="text-transform:uppercase" placeholder="IT…"></div>
       <button class="btn ghost" type="submit">Salva</button></form>`;
@@ -4070,6 +4095,7 @@
       confirmBox(t, "Togli il bonifico segnato? La gara torna da pagare.", () => azioneQuote(() => rpc("segna_pagato", { p_token: token(), p_id: t.dataset.id, p_data: null }), "Tornata da pagare"));
       return;
     }
+    if (act === "info") { apriInfo(t.dataset.k); return; }
     if (act === "q-copia") { copia(t.dataset.t, t.dataset.cosa || "Testo"); return; }
     if (act === "soc-corro") {
       const g = gareSoc().find((x) => x.id === t.dataset.id); if (!g) return;
@@ -4828,7 +4854,7 @@
     const k = e.target.dataset && e.target.dataset.acc;
     if (k) { S.ioAperto = { ...(S.ioAperto || {}), [k]: e.target.open }; try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (err) { /* niente */ } }
   }, true);
-  window.addEventListener("hashchange", () => { route(); window.scrollTo(0, 0); });
+  window.addEventListener("hashchange", () => { document.querySelectorAll(".foglio").forEach((d) => d.remove()); route(); window.scrollTo(0, 0); });
 
   // Swipe tra le sezioni della gara (Panoramica · Preparazione · Info gara · Borsa), come toccare la barra a segmenti.
   // Non parte da campi, dalla barra stessa o da elementi che scorrono in orizzontale. Regole in L.sezioneSwipe (testate).
