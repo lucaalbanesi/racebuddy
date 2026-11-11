@@ -290,6 +290,33 @@
       try { const b = await fotoLeggi(el.dataset.docThumb); if (b) { el.src = URL.createObjectURL(b); el.hidden = false; } } catch (e) { /* niente foto */ }
     }
   }
+  // ------------------------------------------------------------------ foglio informativo (novembre 2026)
+  // Le spiegazioni lunghe stanno qui e non nelle pagine: nella pagina resta una riga e il link "Come funziona"
+  // (infoBtn), che apre un foglio dal basso sopra uno sfondo scuro (<dialog> nativo: Esc, tocco fuori, "Ho capito").
+  // Per aggiungerne uno: una voce in INFO con titolo e corpo (HTML già sicuro, niente dati degli utenti).
+  const INFO = {
+    quote: { titolo: "Quote gara con la società",
+      voci: ["Il direttivo dà una quota alle gare della società che vuole, gara per gara.",
+        "Chi si iscrive con la società riceve un codice di 5 caratteri da mettere nella causale e segna quando ha fatto il bonifico.",
+        "Voi vedete, gara per gara, chi ha segnato il bonifico: è quello che dicono gli atleti, la conferma sull'estratto conto resta fuori dall'app.",
+        "Nessun soldo passa da RaceBuddy e non ci sono commissioni."],
+      nota: "Intestatario e IBAN li vede solo chi si iscrive con la società a una gara con la quota. Spento, nessuno vede niente; puoi spegnerlo quando vuoi: i dati restano." },
+  };
+  const infoBtn = (k, testo = "Come funziona") => `<button class="linkbtn small info-btn" type="button" data-act="info" data-k="${esc(k)}">${esc(testo)}</button>`;
+  function apriInfo(k) {
+    const i = INFO[k]; if (!i) return;
+    document.querySelectorAll(".foglio").forEach((d) => d.remove());
+    const d = document.createElement("dialog");
+    d.className = "foglio"; d.setAttribute("aria-labelledby", "foglio-titolo");
+    d.innerHTML = `<div class="foglio-maniglia" aria-hidden="true"></div><h2 id="foglio-titolo">${esc(i.titolo)}</h2>
+      <div class="foglio-corpo">${(i.voci || []).map((v) => voceOk(esc(v))).join("")}${i.nota ? `<p class="small muted" style="margin:0">${esc(i.nota)}</p>` : ""}</div>
+      <button class="btn block" type="button" data-chiudi>Ho capito</button>`;
+    const chiudi = () => { if (d.open && d.close) d.close(); d.remove(); };
+    d.addEventListener("click", (e) => { if (e.target === d || e.target.closest("[data-chiudi]")) chiudi(); }); // tocco sullo sfondo o "Ho capito"
+    d.addEventListener("close", () => d.remove());
+    document.body.appendChild(d);
+    if (d.showModal) d.showModal(); else d.setAttribute("open", "");
+  }
   function apriFoto(src) {
     const ov = document.createElement("div");
     ov.className = "foto-ov"; ov.setAttribute("role", "dialog"); ov.setAttribute("aria-label", "Foto del documento");
@@ -1799,16 +1826,17 @@
   }
   async function caricaClassifiche() {
     try {
-      const [d, st] = await Promise.all([rpc("stato_classifiche", { p_token: token() }), rpc("stato_stagione", { p_token: token() }).catch(() => null)]);
-      const prima = JSON.stringify([CL(), S.gruppo.st || null]);
-      S.gruppo.cl = d; if (st) S.gruppo.st = st;
+      const [d, st, qt] = await Promise.all([rpc("stato_classifiche", { p_token: token() }), rpc("stato_stagione", { p_token: token() }).catch(() => null),
+        rpc("stato_quote", { p_token: token() }).catch(() => null)]);
+      const prima = JSON.stringify([CL(), S.gruppo.st || null, S.gruppo.quote || null]);
+      S.gruppo.cl = d; if (st) S.gruppo.st = st; if (qt) S.gruppo.quote = qt;
       const part = !!(d && d.io && d.io.partecipa);
       const imp = part ? await improntaToken() : null;
       if (part !== !!S.gruppo.partecipa || imp !== (S.gruppo.impronta || null)) { S.gruppo.partecipa = part; S.gruppo.impronta = imp; if (S.push && S.push.attivo) sincronizzaPush(); }
       localStorage.setItem(KEY, JSON.stringify(S));
       sincronizzaStagione();
       proponiEntra();
-      if (prima !== JSON.stringify([d, S.gruppo.st || null]) && (!location.hash || /^#\/(gruppo|risultato|io|entra|oggi)/.test(location.hash))) rerender();
+      if (prima !== JSON.stringify([d, S.gruppo.st || null, S.gruppo.quote || null]) && (!location.hash || /^#\/(gruppo|risultato|io|entra|oggi)/.test(location.hash))) rerender();
     } catch (e) { /* database non ancora aggiornato o rete assente: restano i dati di prima */ }
   }
   // Impronta del codice (sha256 esadecimale, come public._hash): va con le notifiche solo per chi partecipa.
@@ -2103,6 +2131,7 @@
       <button class="btn small" data-act="gs-add" data-data="${esc(g.data)}" data-dist="${esc(g.distanza)}" data-nome="${esc(g.nome)}" data-luogo="${esc(g.luogo || "")}" data-gid="${esc(g.id || "")}" data-km="${esc(g.km || "")}">Aggiungi</button></div>`).join("")
       : `<span class="small">Nessuna gara trovata per «${esc(q)}». Puoi aggiungerla a mano qui sotto.</span>`;
   }
+  const bollinoQ = (s) => { const b = L.bollinoQuota(QT(), s.id); return b === "pagato" ? `<span class="pill ok">Pagato</span>` : b ? `<span class="pill grigio">Da pagare</span>` : ""; };
   function vistaSocieta(param = {}) {
     if (!clAttive()) return vistaGruppo();
     const io = CL().io || {}, dir = io.ruolo === "admin" || io.ruolo === "organizzatore", o = oggi(), anno = o.slice(0, 4);
@@ -2113,7 +2142,7 @@
     const arrivati = (s) => new Set(risultati.filter((r) => r.data === s.data && r.distanza === s.distanza).map((r) => r.membro_id)).size;
     const riga = (s, passata) => { const n = passata ? arrivati(s) : ciSonoSoc(s), mia = S.gare.some((x) => x.data === s.data && x.distanza === s.distanza);
       return `<a class="post link-card" href="${hrefSoc(s)}" style="text-decoration:none;color:inherit"><span style="flex:1;min-width:0"><b>${esc(titoloGara(s.nome))}</b><br><span class="small muted">${esc(L.etichettaDist(s))} · ${esc(L.fmtGiorno(s.data))}${s.luogo ? " · " + esc(nomeLuogo(s.luogo)) : ""}${n ? ` · ${n} ${passata ? "al traguardo" : n === 1 ? "c'è" : "ci sono"}` : ""}${!passata && mia ? " · ci sei" : ""}</span></span>
-        ${!passata && n ? avatari(chiSoc(s).map((x) => x.membro), 3) : ""}<span aria-hidden="true">›</span></a>`; };
+        ${!passata && n ? avatari(chiSoc(s).map((x) => x.membro), 3) : ""}${bollinoQ(s)}<span aria-hidden="true">›</span></a>`; };
     const nAltre = tutte.filter((s) => s.km).length;
     const perDist = DISTANZE.map((d) => [d, tutte.filter((s) => s.distanza === d && !s.km).length]).filter((x) => x[1]).map(([d, n]) => `${n} ${d === "10" ? "da 10 km" : d === "21" ? (n === 1 ? "mezza" : "mezze") : n === 1 ? "maratona" : "maratone"}`)
       .concat(nAltre ? [`${nAltre} di altra distanza`] : []).join(" · ");
@@ -2148,6 +2177,80 @@
       <p class="small muted">Ognuno sceglie cosa condividere: le tue gare si vedono solo se lo hai scelto (Io → Gruppo).</p></section>`;
   }
   const cardComune = (g) => `<a class="card" href="#/gruppo/gara/${encodeURIComponent(g.gara_id)}" style="text-decoration:none;color:inherit;font-weight:inherit"><div class="between"><span class="title">${esc(titoloGara(g.nome))}</span><span class="small" style="font-weight:700;color:${g.mia ? "var(--accent)" : "var(--muted)"}">${esc(L.fmtGiorno(g.data))}</span></div><div class="row">${avatari(g.chi)}<span class="small">${g.chi.length} del gruppo${g.mia ? ", tu compreso" : ""} ›</span></div></a>`;
+
+  // ---------------------------------------------------------------- quote gara con la società (docs/supabase_quote.sql)
+  // Il direttivo dà la quota alla gara; l'atleta sceglie se iscriversi con la società, fa il bonifico con il codice nella
+  // causale e segna che ha pagato. Nessun soldo passa dall'app e la società non conferma niente qui (per ora).
+  // Si vede solo nelle gare della società: mai in Le mie gare, Oggi, Panoramica o notifiche.
+  // Interruttore per società: l'amministratore le accende in Gestione (admin_quote). Spente, non compare niente (i dati restano).
+  const quoteOn = () => !!(S.gruppo && S.gruppo.quote && S.gruppo.quote.attive);
+  const QT = () => (quoteOn() && S.gruppo && S.gruppo.quote) || {};
+  const mioNome = () => (GD() && GD().io && GD().io.nome) || (S.profilo && S.profilo.nome) || "";
+  function datiBonifico(s, mia) {
+    const c = QT().conto || {}, causale = L.causaleQuota(mia.codice, mioNome(), titoloGara(s.nome));
+    const riga = (k, v) => `<div class="between q-riga"><span class="small muted">${k}</span><b>${v}</b></div>`;
+    return `<div class="q-passo"><span class="lbl">1 · Metti questa causale nel bonifico</span>
+        <div class="q-codice"><span style="min-width:0"><span class="q-cod">${esc(mia.codice)}</span><br><span class="small muted">${esc(causale)}</span></span>
+          <button class="btn small" type="button" data-act="q-copia" data-t="${esc(causale)}" data-cosa="Causale">Copia</button></div>
+        <span class="small muted">Il codice è solo tuo e solo di questa gara: serve alla società per riconoscere il bonifico.</span></div>
+      <div class="q-passo"><span class="lbl">2 · Fai il bonifico dalla tua banca</span>
+        ${riga("Importo", esc(L.fmtEuro(mia.importo)))}
+        ${c.iban ? `${riga("Intestatario", esc(c.intestatario || "—"))}
+        <div class="between" style="gap:10px"><span style="min-width:0"><span class="small muted">IBAN</span><br><b class="q-iban">${esc(c.iban.replace(/(.{4})/g, "$1 ").trim())}</b></span>
+          <button class="btn ghost small" type="button" data-act="q-copia" data-t="${esc(c.iban)}" data-cosa="IBAN" style="white-space:nowrap">Copia</button></div>`
+          : `<div class="avviso attenzione"><span>L'IBAN della società non è ancora in RaceBuddy: chiedilo al direttivo.</span></div>`}</div>`;
+  }
+  function cardIscrizione(s) {
+    if (!quoteOn()) return "";
+    const { quota, mia, stato } = L.quotaGara(QT(), s, oggi());
+    if (!stato) return "";
+    if (stato === "scegli") return `<section class="card" style="gap:10px"><div class="between" style="align-items:baseline"><h2>Iscrizione</h2><span class="small muted">quota società ${esc(L.fmtEuro(quota))}</span></div>
+      <span class="title" style="font-size:16px">Ti iscrivi con la società?</span>
+      <div class="grid2 q-scelta"><button class="btn" type="button" data-act="q-scegli" data-id="${esc(s.id)}" data-s="societa">Sì, con la società</button><button class="btn ghost" type="button" data-act="q-scegli" data-id="${esc(s.id)}" data-s="conto_mio">Per conto mio</button></div></section>`;
+    if (stato === "conto_mio") return `<section class="card"><div class="between"><span><h2>Iscrizione</h2><span class="small">Per conto tuo</span></span><button class="linkbtn small" type="button" data-act="q-scegli" data-id="${esc(s.id)}" data-s="">Cambia</button></div></section>`;
+    if (stato === "pagato") return `<section class="card" style="gap:8px"><div class="between"><h2>Iscrizione con la società</h2><span class="pill ok">Pagato</span></div>
+      <b style="font-size:15px">${esc(L.fmtBreve(mia.pagato))} · ${esc(L.fmtEuro(mia.importo))} · ${esc(mia.codice)}</b>
+      <details><summary class="small">Dati del bonifico</summary><div style="display:flex;flex-direction:column;gap:12px;padding-top:10px">${datiBonifico(s, mia)}</div></details>
+      <button class="linkbtn small" type="button" data-act="q-annulla" data-id="${esc(s.id)}" style="align-self:flex-start;color:var(--muted)">Annulla: non l'ho ancora fatto</button></section>`;
+    // da pagare
+    return `<section class="card" style="gap:14px"><div class="between"><h2>Iscrizione con la società</h2><span class="pill grigio">Da pagare</span></div>
+      ${datiBonifico(s, mia)}
+      <form id="q-pagato" class="q-passo" data-id="${esc(s.id)}"><span class="lbl">3 · Poi segnalo qui</span>
+        <div class="field"><label for="q-data">Data del bonifico</label><input class="input" id="q-data" type="date" value="${esc(oggi())}" max="${esc(oggi())}" required></div>
+        <button class="btn block" type="submit">Ho fatto il bonifico</button></form>
+      <span class="small muted">RaceBuddy non vede né muove soldi: tieni traccia tu, la società controlla sul suo estratto conto. <button class="linkbtn small" type="button" data-act="q-scegli" data-id="${esc(s.id)}" data-s="conto_mio">Non mi iscrivo più con la società</button></span></section>`;
+  }
+  function cardQuotaDirettivo(s) {
+    if (!quoteOn()) return "";
+    const { quota } = L.quotaGara(QT(), s, oggi()), { righe, pagati } = L.elencoQuota(QT(), s.id), c = QT().conto || {};
+    const admin = ((CL() || {}).io || {}).ruolo === "admin";
+    const testo = [`${titoloGara(s.nome)} · ${L.fmtGiorno(s.data)} ${s.data.slice(0, 4)}`, ...righe.map((x) => `${x.codice}\t${x.nome}\t${L.fmtEuro(x.importo)}\t${x.pagato ? `pagato ${L.fmtBreve(x.pagato)}` : "da pagare"}`)].join("\n");
+    return `<form id="q-quota" class="card" style="gap:10px" data-id="${esc(s.id)}"><h2>Per il direttivo · quota societaria</h2>
+        <div class="row" style="align-items:flex-end"><div class="field" style="flex:1"><label for="q-q">Prezzo per l'atleta (€)</label><input class="input" id="q-q" inputmode="decimal" value="${quota != null ? esc(String(quota.toFixed(2)).replace(".", ",")) : ""}" placeholder="es. 12" autocomplete="off"></div><button class="btn" type="submit">Salva</button></div>
+        <span class="small muted">Vuoto = niente iscrizione con la società per questa gara. Se cambi il prezzo, chi si è già iscritto resta con l'importo di allora.</span>
+        ${quota != null && !c.iban ? `<div class="avviso attenzione"><span>Manca l'IBAN della società: ${admin ? `<a href="#/gruppo/admin">impostalo in Gestione</a>` : "lo imposta l'amministratore in Gestione"}.</span></div>` : ""}</form>
+      ${quota != null || righe.length ? `<section class="card" style="gap:0"><div class="between" style="margin-bottom:4px"><h2>Con la società · ${righe.length}</h2>${righe.length ? `<button class="btn ghost small" type="button" data-act="q-copia" data-t="${esc(testo)}" data-cosa="Elenco">Copia elenco</button>` : ""}</div>
+        ${righe.length ? righe.map((x) => `<div class="post"><span style="flex:1;min-width:0"><b>${esc(x.nome)}</b><br><span class="small muted">${esc(x.codice)} · ${esc(L.fmtEuro(x.importo))}</span></span>${x.pagato ? `<span class="pill ok">Pagato ${esc(x.pagato.slice(8, 10))}/${esc(x.pagato.slice(5, 7))}</span>` : `<span class="pill grigio">Da pagare</span>`}</div>`).join("")
+          : `<span class="small">Nessuno si è ancora iscritto con la società.</span>`}
+        ${righe.length ? `<span class="small muted" style="padding-top:8px">${pagati} di ${righe.length} hanno segnato il bonifico. Solo lettura: è quello che dicono gli atleti, la conferma sull'estratto conto resta fuori dall'app.</span>` : ""}</section>` : ""}`;
+  }
+  function cardContoQuote() {
+    const q = (S.gruppo && S.gruppo.quote) || null; if (!q) return ""; // funzione non ancora sul server
+    const c = q.conto || {}, on = quoteOn();
+    const sw = `<input type="checkbox" class="switch" id="q-gruppo" ${on ? "checked" : ""} aria-label="Quote gara con la società">`;
+    const testa = `<div class="between" style="gap:12px;align-items:flex-start"><span><span class="title">Quote gara con la società</span><br><span class="small muted">Bonifici delle iscrizioni, gara per gara</span><br>${infoBtn("quote")}</span>${sw}</div>`;
+    if (!on) return `<section class="card">${testa}</section>`;
+    return `<form id="q-conto" class="card" style="gap:10px">${testa}
+      <div class="field"><label for="q-int">Intestatario del conto</label><input class="input" id="q-int" value="${esc(c.intestatario || "")}" maxlength="120" autocomplete="off"></div>
+      <div class="field"><label for="q-iban">IBAN</label><input class="input" id="q-iban" value="${esc(c.iban || "")}" maxlength="42" autocomplete="off" style="text-transform:uppercase" placeholder="IT…"></div>
+      <button class="btn ghost" type="submit">Salva</button></form>`;
+  }
+  async function caricaQuote() { const q = await rpc("stato_quote", { p_token: token() }); if (q) { S.gruppo.quote = q; salva(); } }
+  async function azioneQuote(fn, msg) {
+    try { await fn(); await caricaQuote(); if (msg) toast(msg); }
+    catch (e) { toast(e.message || "Non riuscito"); }
+    rerender();
+  }
 
   // Dettaglio di una gara della società (#/gruppo/soc/:id): per tutti chi corre (o chi è arrivato), la propria scheda
   // o "Corro anch'io"; per il direttivo "Togli dalle gare della società".
@@ -2188,11 +2291,13 @@
         <b>${esc(L.fmtKm(Number(c.km_prima)))} → ${esc(L.fmtKm(Number(c.km)))} km${c.annullata ? " · annullata" : ""}</b><span class="small muted">${esc(L.fmtGiorno(String(c.creato).slice(0, 10)))}${c.da ? ` · ${esc(c.da)}` : ""}</span>
         ${c.nota ? `<span class="small">«${esc(c.nota)}»</span>` : ""}<a class="small" href="${esc(c.fonte)}" target="_blank" rel="noopener">La fonte</a></div>`).join("")}</details>` : "";
     return `${bannerProva()}<header class="head-back">${back("#/gruppo/societa")}<div><span class="eyebrow">Gara della società · la ${stag.indexOf(s) + 1}ª di ${stag.length} nel ${esc(anno)}</span><h1 style="font-size:28px">${esc(titoloGara(s.nome))}</h1></div></header>
+      ${cardIscrizione(s)}
       <section class="card" style="gap:4px"><span class="title">${esc(L.etichettaDist(s))} · ${esc(L.fmtGiorno(s.data))} ${esc(anno)}</span>${s.luogo ? `<span class="small muted">${esc(nomeLuogo(s.luogo))}</span>` : ""}
         ${distanza}
         ${!passata && !oggiGara && io.partecipa ? `<span class="small" style="color:var(--accent-strong);font-weight:700">In palio fino a ${L.PUNTI.arrivo + L.PUNTI.pb + L.PUNTI.obiettivo + L.PUNTI.borsa} punti Impegno</span>` : ""}</section>
       ${lista}
       ${azione}
+      ${dir ? cardQuotaDirettivo(s) : ""}
       ${strumenti}
       ${storico}
       ${dir ? `<button class="btn ghost block" type="button" data-act="gs-togli" data-id="${esc(s.id)}" data-nome="${esc(titoloGara(s.nome))}" data-torna="1">Togli dalle gare della società</button>` : ""}`;
@@ -3011,6 +3116,7 @@
       <div><span class="eyebrow">${esc(d.gruppo.nome)} · ${RUOLI_G[io.ruolo]}</span><h1 style="font-size:36px">${io.ruolo === "membro" ? "Membri" : "Gestione"}</h1></div>
       ${cardDoppi(d)}
       ${cardClassificheAdmin(d)}
+      ${admin && clAttive() ? cardContoQuote() : ""}
       ${link ? `<section class="card"><span class="eyebrow">Invito</span><div class="between" style="gap:12px"><span class="codice-invito">${esc(d.gruppo.codice)}</span><button class="btn ghost" data-act="g-condividi" data-link="${esc(link)}">Condividi</button></div>
         <span class="small muted">Condividi manda il link con un messaggio pronto: chi lo apre dal telefono entra in 3 minuti, guidato passo per passo.</span>
         <div class="row" style="gap:18px"><button class="linkbtn small" data-act="g-copia" data-link="${esc(link)}">Copia il link</button>${admin ? `<button class="linkbtn small" data-act="g-nuovocodice">Cambia codice</button>` : ""}</div></section>` : ""}
@@ -3980,6 +4086,17 @@
       confirmBox(t, `Annulli il tempo di ${t.dataset.nome}? Esce dalle classifiche.`, () => azioneGruppo(async () => { await rpc("annulla_risultato", { p_token: token(), p_id: t.dataset.id }); if (GM) await caricaGareMembri(); await aggiornaClassifiche(); }, "Tempo annullato"));
       return;
     }
+    if (act === "q-scegli") {
+      t.disabled = true;
+      azioneQuote(() => rpc("scegli_iscrizione", { p_token: token(), p_id: t.dataset.id, p_scelta: t.dataset.s || null }), t.dataset.s === "societa" ? "Ecco i dati per il bonifico" : "");
+      return;
+    }
+    if (act === "q-annulla") {
+      confirmBox(t, "Togli il bonifico segnato? La gara torna da pagare.", () => azioneQuote(() => rpc("segna_pagato", { p_token: token(), p_id: t.dataset.id, p_data: null }), "Tornata da pagare"));
+      return;
+    }
+    if (act === "info") { apriInfo(t.dataset.k); return; }
+    if (act === "q-copia") { copia(t.dataset.t, t.dataset.cosa || "Testo"); return; }
     if (act === "soc-corro") {
       const g = gareSoc().find((x) => x.id === t.dataset.id); if (!g) return;
       const id = "M" + Date.now().toString(36);
@@ -4301,6 +4418,9 @@
     } else if (e.target.dataset && e.target.dataset.actChange === "rec-tog") {
       if (e.target.checked) REC_NO.delete(e.target.dataset.id); else REC_NO.add(e.target.dataset.id);
       rerender();
+    } else if (e.target.id === "q-gruppo") {
+      const on = e.target.checked;
+      azioneQuote(() => rpc("admin_quote", { p_token: token(), p_on: on }), on ? "Quote gara accese per la società" : "Quote gara spente: i dati restano");
     } else if (e.target.id === "cl-gruppo") {
       const on = e.target.checked;
       azioneGruppo(async () => { await rpc("admin_classifiche", { p_token: token(), p_on: on }); await aggiornaClassifiche(); }, on ? "Classifiche accese: ognuno sceglie se partecipare" : "Classifiche spente per il gruppo");
@@ -4462,6 +4582,13 @@
     const f = e.target; e.preventDefault();
     const v = (id) => (document.getElementById(id) || {}).value || "";
     if (f.id === "buddy-form") { inviaBuddy(v("buddy-testo")); return; }
+    if (f.id === "q-pagato" || f.id === "q-quota" || f.id === "q-conto") { // quote gara con la società
+      const btn = f.querySelector('button[type="submit"]'); if (btn) btn.disabled = true;
+      if (f.id === "q-pagato") azioneQuote(() => rpc("segna_pagato", { p_token: token(), p_id: f.dataset.id, p_data: v("q-data") || oggi() }), "Segnato come pagato");
+      else if (f.id === "q-quota") azioneQuote(() => rpc("quota_gara", { p_token: token(), p_id: f.dataset.id, p_quota: v("q-q").trim() }), v("q-q").trim() ? "Quota salvata" : "Quota tolta");
+      else azioneQuote(() => rpc("quote_conto", { p_token: token(), p: { intestatario: v("q-int").trim(), iban: v("q-iban").trim() } }), "Conto salvato");
+      return;
+    }
     if (f.id === "gd-form") { // correggi la distanza → "Cosa cambia"
       location.hash = `#/gruppo/soc/${encodeURIComponent(f.dataset.id)}/distanza?km=${encodeURIComponent(v("gd-km").trim())}&fonte=${encodeURIComponent(v("gd-fonte").trim())}&nota=${encodeURIComponent(v("gd-nota").trim())}&vedi=1`;
       return;
@@ -4727,7 +4854,7 @@
     const k = e.target.dataset && e.target.dataset.acc;
     if (k) { S.ioAperto = { ...(S.ioAperto || {}), [k]: e.target.open }; try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (err) { /* niente */ } }
   }, true);
-  window.addEventListener("hashchange", () => { route(); window.scrollTo(0, 0); });
+  window.addEventListener("hashchange", () => { document.querySelectorAll(".foglio").forEach((d) => d.remove()); route(); window.scrollTo(0, 0); });
 
   // Swipe tra le sezioni della gara (Panoramica · Preparazione · Info gara · Borsa), come toccare la barra a segmenti.
   // Non parte da campi, dalla barra stessa o da elementi che scorrono in orizzontale. Regole in L.sezioneSwipe (testate).

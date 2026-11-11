@@ -59,6 +59,13 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f tests/test_distanza.sql > esito12.txt 2>&1 || true
           cat esito12.txt
           if ! grep -q "permessi distanza ok" esito12.txt; then echo "::error::distanza: $(grep -iE 'error|errore|assert|context|line' esito12.txt | head -6 | tr '\n' ' ')"; exit 1; fi
+      - name: Quote gara con la società
+        run: |
+          psql -v ON_ERROR_STOP=1 -f docs/supabase_quote.sql
+          psql -v ON_ERROR_STOP=1 -f docs/supabase_quote.sql   # ripetibile
+          psql -v ON_ERROR_STOP=1 -f tests/test_quote.sql > esito13.txt 2>&1 || true
+          cat esito13.txt
+          if ! grep -q "permessi quote ok" esito13.txt; then echo "::error::quote: $(grep -iE 'error|errore|assert|context|line' esito13.txt | head -6 | tr '\n' ' ')"; exit 1; fi
       - name: Statistiche
         run: |
           psql -v ON_ERROR_STOP=1 -f docs/supabase.sql
