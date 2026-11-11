@@ -22,13 +22,22 @@ Aiuta l'atleta a gestire la rotazione delle scarpe fino alle gare obiettivo: qua
 
 ## Piano
 - Settimana 0 = il primo lunedì da oggi. Periodo: fino a 6 settimane dopo l'ultima gara obiettivo (minimo 20, massimo 52). Proiezione di altre 40 settimane allo stesso ritmo, solo per le date di fine e il prossimo acquisto.
-- Settimana tipo: Facile e Veloce ogni settimana, più il weekend dal ciclo del mese (lunghissimi alternati a lunghi facili e gare; i 4 weekend devono sommare 4). Settimana prima di una mezza o maratona: scarico; dopo: recupero.
+- Settimana tipo: Facile e Veloce ogni settimana, più il weekend dal ciclo del mese (lunghissimi alternati a lunghi facili; le gare vere arrivano dal calendario). Settimana prima di una mezza o maratona: scarico; dopo: recupero.
+- Quanto corri (novembre 2026, `L.scComanda`, `L.scCorsa`, `L.SC_PROFILI`): comanda la gara più lunga entro 12 settimane (a pari km la prima); senza gare l'atleta sceglie 10 km, mezza o maratona (`sc.tipo`). Proponiamo i km a settimana per distanza, l'atleta li corregge con − / + da 5 (15-150, `sc.corsa = { per, km }`; la correzione si azzera quando cambia la gara che comanda). La suddivisione è fissa, in % del volume del mese; il Facile prende il resto degli arrotondamenti, così la settimana tipo torna ai km scelti:
+
+| Distanza | km base | Facile | Veloce | Lungo facile | Lunghissimo / ritmo gara |
+|---|---|---|---|---|---|
+| 10 km | 35 | 40% | 20% | 30% (3 weekend) | 10% (1 weekend) |
+| Mezza | 45 | 45% | 20% | 15% (2 weekend) | 20% (2 weekend) |
+| Maratona | 60 | 42% | 15% | 18% (2 weekend) | 25% (2 weekend) |
+
+  Esempio maratona a 60 km: Facile 25, Veloce 9 a settimana, lungo facile 22 km e lunghissimo 30 km, due weekend al mese ciascuno. Il foglio "A cosa servono?" (`INFO.corsa`) mostra percentuali, km e scarpe ideali dell'atleta.
 - Acquisti (`L.scPiano`): alla prima settimana in cui un'uscita va su un ripiego o resta senza scarpa, due settimane prima (tre per una gara corta), con il tipo ideale del set. Un ripiego nelle prossime 2 settimane non fa comprare niente: la scarpa nuova non farebbe in tempo a rodarsi. Due acquisti mai a meno di tre settimane. Un tipo scelto e non posseduto entra solo quando serve. Più scarpe dello stesso tipo (`qty`) si danno il cambio.
 - Costo per mantenere il set (`L.scCosto`): euro al mese a regime con i prezzi tipici in sconto (`SC_PREZZO`: Daily 110, Super-trainer 150, Tempo 100, Gara 150).
 
 ## Funnel `#/scarpiera/:passo`
 1. `scarpe`: peso, tipo, km e durata di ogni scarpa, aggiunta.
-2. `corsa`: km di Facile e Veloce, weekend del mese, gare obiettivo (da Le mie gare, sola lettura).
+2. `corsa`: la gara che comanda e i km a settimana proposti (− / +, "Torna a N km", foglio "A cosa servono?"); senza gare nelle 12 settimane "Aggiungi una gara" o la scelta tra 10 km, mezza e maratona; le gare (da Le mie gare, sola lettura) con "comanda" / "a calendario".
 3. `set`: base, aggiunte Tempo e Gara con il costo in più, costo del set, due scarpe dello stesso tipo, grafico senza acquisti con le coperture (Facile, Veloce, Lunghi e gare).
 4. `piano`: cosa comprare e quando con il motivo, gare obiettivo con la scarpa e i km al via, grafico con le scarpe nuove.
 5. `modelli?i=N`: una scheda per acquisto con due domande del tipo (`SC_DOMANDE`), marca, spesa massima e i 3 modelli migliori con i motivi (`L.scModelli`). "Aggiungi a Oggi" crea le attività.

@@ -934,3 +934,28 @@ console.log("nomi ok");
   assert.ok(L.causaleQuota("K7M3P", "x".repeat(200), "y").length <= 140);
   console.log("quote ok");
 }
+
+// Scarpiera · Quanto corri e per cosa: gara che comanda, km proposti, suddivisione fissa per distanza
+{
+  for (const d of ["10", "21", "42"]) {
+    const P = L.SC_PROFILI[d];
+    assert.strictEqual(P.p.F + P.p.V + P.p.LF + P.p.R, 100, `percentuali ${d}`);
+    assert.strictEqual(P.n.LF + P.n.R, 4, `weekend ${d}`);
+    for (let km = L.SC_KM_MIN; km <= L.SC_KM_MAX; km += L.SC_KM_PASSO) {
+      const c = L.scCorsa(d, km);
+      assert.strictEqual(L.scKmSettimana(c), km, `la settimana tipo torna ai km scelti (${d}, ${km})`);
+      assert.strictEqual(c.mix.G.n, 0); // le gare vere arrivano dal calendario
+    }
+  }
+  assert.deepStrictEqual(L.scCorsa("42", 60), { wk: { F: 25, V: 9 }, mix: { LF: { n: 2, km: 22 }, R: { n: 2, km: 30 }, G: { n: 0, km: 0 } } });
+  assert.deepStrictEqual(L.scCorsa("21", 45), { wk: { F: 20, V: 9 }, mix: { LF: { n: 2, km: 14 }, R: { n: 2, km: 18 }, G: { n: 0, km: 0 } } });
+  assert.deepStrictEqual(L.scCorsa("10", 35), { wk: { F: 14, V: 7 }, mix: { LF: { n: 3, km: 14 }, R: { n: 1, km: 14 }, G: { n: 0, km: 0 } } });
+  assert.strictEqual(L.scCorsa("5", 30), null);
+  assert.deepStrictEqual(["5.5", "10", "15", "21.1", "29", "30", "42.2"].map((k) => L.scDistDa(Number(k))), ["10", "10", "21", "21", "21", "42", "42"]);
+  const gare = [{ id: "a", data: "2026-11-23", km: 10 }, { id: "b", data: "2026-12-06", km: 42.2 }, { id: "c", data: "2027-03-22", km: 42.2 }, { id: "d", data: "2026-11-01", km: 42.2 }];
+  assert.strictEqual(L.scComanda(gare, "2026-11-11").id, "b"); // la più lunga entro 12 settimane, non quelle passate o oltre
+  assert.strictEqual(L.scComanda([gare[0], { id: "e", data: "2026-12-20", km: 10 }], "2026-11-11").id, "a"); // a pari km la prima
+  assert.strictEqual(L.scComanda([gare[2]], "2026-11-11"), null);
+  assert.strictEqual(L.scComanda([gare[2]], "2027-01-01").id, "c"); // entra nella finestra 12 settimane prima
+  console.log("quanto corri ok");
+}
