@@ -1800,7 +1800,7 @@
   async function caricaClassifiche() {
     try {
       const [d, st, qt] = await Promise.all([rpc("stato_classifiche", { p_token: token() }), rpc("stato_stagione", { p_token: token() }).catch(() => null),
-        rpc("stato_quote", { p_token: token() }).catch(() => null)]);
+        quoteOn() ? rpc("stato_quote", { p_token: token() }).catch(() => null) : null]);
       const prima = JSON.stringify([CL(), S.gruppo.st || null, S.gruppo.quote || null]);
       S.gruppo.cl = d; if (st) S.gruppo.st = st; if (qt) S.gruppo.quote = qt;
       const part = !!(d && d.io && d.io.partecipa);
@@ -2155,7 +2155,9 @@
   // Il direttivo dà la quota alla gara; l'atleta sceglie se iscriversi con la società, fa il bonifico con il codice nella
   // causale e segna che ha pagato. Nessun soldo passa dall'app e la società non conferma niente qui (per ora).
   // Si vede solo nelle gare della società: mai in Le mie gare, Oggi, Panoramica o notifiche.
-  const QT = () => (S.gruppo && S.gruppo.quote) || {};
+  // Interruttore: `quote: true` in config.js. Spento, non si legge niente e non compare niente (dati online intatti).
+  const quoteOn = () => !!C().quote;
+  const QT = () => (quoteOn() && S.gruppo && S.gruppo.quote) || {};
   const mioNome = () => (GD() && GD().io && GD().io.nome) || (S.profilo && S.profilo.nome) || "";
   function datiBonifico(s, mia) {
     const c = QT().conto || {}, causale = L.causaleQuota(mia.codice, mioNome(), titoloGara(s.nome));
@@ -2172,6 +2174,7 @@
           : `<div class="avviso attenzione"><span>L'IBAN della società non è ancora in RaceBuddy: chiedilo al direttivo.</span></div>`}</div>`;
   }
   function cardIscrizione(s) {
+    if (!quoteOn()) return "";
     const { quota, mia, stato } = L.quotaGara(QT(), s, oggi());
     if (!stato) return "";
     if (stato === "scegli") return `<section class="card" style="gap:10px"><div class="between" style="align-items:baseline"><h2>Iscrizione</h2><span class="small muted">quota società ${esc(L.fmtEuro(quota))}</span></div>
@@ -2191,6 +2194,7 @@
       <span class="small muted">RaceBuddy non vede né muove soldi: tieni traccia tu, la società controlla sul suo estratto conto. <button class="linkbtn small" type="button" data-act="q-scegli" data-id="${esc(s.id)}" data-s="conto_mio">Non mi iscrivo più con la società</button></span></section>`;
   }
   function cardQuotaDirettivo(s) {
+    if (!quoteOn()) return "";
     const { quota } = L.quotaGara(QT(), s, oggi()), { righe, pagati } = L.elencoQuota(QT(), s.id), c = QT().conto || {};
     const admin = ((CL() || {}).io || {}).ruolo === "admin";
     const testo = [`${titoloGara(s.nome)} · ${L.fmtGiorno(s.data)} ${s.data.slice(0, 4)}`, ...righe.map((x) => `${x.codice}\t${x.nome}\t${L.fmtEuro(x.importo)}\t${x.pagato ? `pagato ${L.fmtBreve(x.pagato)}` : "da pagare"}`)].join("\n");
@@ -2204,6 +2208,7 @@
         ${righe.length ? `<span class="small muted" style="padding-top:8px">${pagati} di ${righe.length} hanno segnato il bonifico. Solo lettura: è quello che dicono gli atleti, la conferma sull'estratto conto resta fuori dall'app.</span>` : ""}</section>` : ""}`;
   }
   function cardContoQuote() {
+    if (!quoteOn()) return "";
     const c = QT().conto || {};
     return `<form id="q-conto" class="card" style="gap:10px"><span class="title">Conto per le quote gara</span><span class="small muted">Lo vede chi si iscrive con la società a una gara con la quota. La quota si imposta gara per gara, in Gare della società.</span>
       <div class="field"><label for="q-int">Intestatario del conto</label><input class="input" id="q-int" value="${esc(c.intestatario || "")}" maxlength="120" autocomplete="off"></div>

@@ -17,4 +17,7 @@ window.RB_CONFIG = {
   // Classifiche del gruppo (fase 1: Gare corse, PB della stagione, Albo d'oro con i tempi certificati). Restano spente
   // finché l'amministratore non le accende in Gestione; servono docs/supabase_classifiche.sql e la funzione "tempi".
   classifiche: true,
+  // Quote gara con la società (codice per il bonifico e "ho pagato", docs/supabase_quote.sql): true = visibili nelle gare
+  // della società, false = spente per tutti (i dati online restano).
+  quote: false,
 };
