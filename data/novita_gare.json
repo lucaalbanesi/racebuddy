@@ -1,34 +1,6 @@
 {
- "aggiornato": "2026-11-10T08:50Z",
+ "aggiornato": "2026-11-11T03:50Z",
  "novita": [
-  {
-   "id": "nd6e06463289",
-   "gara": "H88b48310e5-42",
-   "tema": "notizia",
-   "urgenza": "mattino",
-   "titolo": "Riunione Volontari 3 novembre",
-   "link": "https://www.youtube.com/watch?v=uN8QBG4x-D4",
-   "data": "2026-11-05",
-   "fonte": "YouTube della gara",
-   "ufficiale": true,
-   "tipo": "video",
-   "immagine": "https://i2.ytimg.com/vi/uN8QBG4x-D4/hqdefault.jpg",
-   "trovato": "2026-11-10T08:50Z"
-  },
-  {
-   "id": "n507cc56312a",
-   "gara": "H88b48310e5-42",
-   "tema": "notizia",
-   "urgenza": "mattino",
-   "titolo": "Riunione Volontari - Maratona di FIrenze 2026",
-   "link": "https://www.youtube.com/watch?v=IuIspwzx1U4",
-   "data": "2026-11-05",
-   "fonte": "YouTube della gara",
-   "ufficiale": true,
-   "tipo": "video",
-   "immagine": "https://i2.ytimg.com/vi/IuIspwzx1U4/hqdefault.jpg",
-   "trovato": "2026-11-10T08:50Z"
-  },
   {
    "id": "nd6b687385e9",
    "gara": "H88b48310e5-42",
@@ -42,20 +14,6 @@
    "tipo": "articolo",
    "immagine": "https://hips.hearstapps.com/hmg-prod/images/fb279261-42bc-40c1-8652-ee0ee3f66966.jpeg",
    "trovato": "2026-11-05T04:50Z"
-  },
-  {
-   "id": "n7da83547cd9",
-   "gara": "H88b48310e5-42",
-   "tema": "notizia",
-   "urgenza": "mattino",
-   "titolo": "Live streaming di firenze marathon",
-   "link": "https://www.youtube.com/watch?v=nc51UwQPFWg",
-   "data": "2026-11-03",
-   "fonte": "YouTube della gara",
-   "ufficiale": true,
-   "tipo": "video",
-   "immagine": "https://i3.ytimg.com/vi/nc51UwQPFWg/hqdefault.jpg",
-   "trovato": "2026-11-10T08:50Z"
   },
   {
    "id": "nfb46f8c9ec7",
