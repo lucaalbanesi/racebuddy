@@ -2143,7 +2143,7 @@
     // riga a due livelli: nome e dettagli a sinistra (vanno a capo), colonna fissa a destra con lo stato della quota sopra e gli avatar sotto
     const riga = (s, passata) => { const n = passata ? arrivati(s) : ciSonoSoc(s), mia = S.gare.some((x) => x.data === s.data && x.distanza === s.distanza);
       const mioId = ioId(), chi = passata ? [] : chiSoc(s).sort((a, b) => (a.membro_id === mioId ? -1 : b.membro_id === mioId ? 1 : 0));
-      const avs = chi.length ? `<span class="avs" aria-hidden="true">${chi.slice(0, 3).map((x) => avatar(x.membro, 24).replace('class="av"', `class="av${x.membro_id === mioId ? " io" : ""}"`)).join("")}${chi.length > 3 ? `<span class="av piu" style="width:24px;height:24px">+${chi.length - 3}</span>` : ""}</span>` : "";
+      const avs = chi.length ? `<span class="avs" aria-hidden="true">${chi.slice(0, 3).map((x) => avatar(x.membro).replace('class="av"', `class="av${x.membro_id === mioId ? " io" : ""}"`)).join("")}${chi.length > 3 ? `<span class="av piu">+${chi.length - 3}</span>` : ""}</span>` : "";
       const lettura = !passata && n ? ` · ${n === 1 ? "c'è 1" : `ci sono ${n}`}${mia ? ", ci sei anche tu" : ""}` : "";
       return `<a class="riga-soc link-card" href="${hrefSoc(s)}"><b class="rs-nome">${esc(titoloGara(s.nome))}</b><span class="rs-stato">${bollinoQ(s)}</span><span class="rs-va" aria-hidden="true">›</span>
         <span class="small muted rs-det">${esc(L.etichettaDist(s))} · ${esc(L.fmtGiorno(s.data))}${s.luogo ? " · " + esc(nomeLuogo(s.luogo)) : ""}${passata && n ? ` · ${n} al traguardo` : ""}${lettura ? `<span class="sr-only">${esc(lettura)}</span>` : ""}</span><span class="rs-av">${avs}</span></a>`; };
