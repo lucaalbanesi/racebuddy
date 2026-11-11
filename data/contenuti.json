@@ -2,6 +2,260 @@
  "aggiornato": "2026-11-11",
  "contenuti": [
   {
+   "id": "ed69a4b59a51",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Valencia 2027, presentata Batonet: la mascotte degli Europei Indoor",
+   "estratto": "Un testimone con le ali di pipistrello, il colore delle arance e un nome che profuma di staffetta: il personaggio unisce atletica e tradizione valenciana. 11 novembre – A Valencia…",
+   "link": "https://podisti.net/valencia-2027-presentata-batonet-la-mascotte-degli-europei-indoor/",
+   "data": "2026-11-11",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Batonet2027.jpg",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "e384afa1a3af",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Urge surfing: lasciar passare un impulso senza assecondarlo",
+   "estratto": "Senti il bisogno automatico di prendere il telefono in mano? L’urge surfing ti insegna a cavalcare quel sintomo fisico aspettando che si esaurisca. Le nostre giornate sono…",
+   "link": "https://runlovers.it/2026/urge-surfing-impulso-tecnica/",
+   "data": "2026-11-11",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/04-202611111235-Urge-W-Unsplash-Flavie-Martin.jpeg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "c962e92f0d09",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "Protetto: Joma dedica una RS-9000 Special Edition alla Firenze Marathon 2026",
+   "estratto": "Questo contenuto è protetto da password. Per visualizzarlo inserisci la password qui sotto. Password: L'articolo Protetto: Joma dedica una RS-9000 Special Edition alla Firenze…",
+   "link": "https://correre.it/joma-rs-9000-special-edition-firenze-marathon-2026/",
+   "data": "2026-11-11",
+   "immagine": "https://correre.it/wp-content/uploads/2026/11/shokz_openfit_air_2_openrun_pro_2.png",
+   "argomenti": [],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "ef9831ad7fd7",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Perché per la Gen Z la corsa è il nuovo Tinder (e HYROX fa match)",
+   "estratto": "La Gen Z corre, si allena e fa nuove conoscenze sportive. Da Tinder alla partnership tra Surf Dating e HYROX, ecco come lo sport è diventato un terreno d’incontro",
+   "link": "https://www.runnersworld.com/it/news/a74388730/gen-z-corsa-nuovo-tinder-hyrox/",
+   "data": "2026-11-11",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/851c7dca-6dce-4487-9c20-e300185d581c.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "97318bf377ca",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Milano Half Marathon punta ai 20mila: percorso velocissimo e un nuovo progetto con Napoli",
+   "estratto": "Dopo il sold out dello scorso anno, la Milano Half Marathon vede i 20mila iscritti: un appuntamento imperdibile e da personal best",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74396081/milano-half-marathon-2026-percorso-presentazione/",
+   "data": "2026-11-11",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/6054dfab-9add-43f2-b6ba-e21a160f724b.jpg",
+   "argomenti": [],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "b5f80a0cca05",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "Milano Half Marathon 2026: percorso e programma",
+   "estratto": "La Powerade Milano Half Marathon 2026 si prepara a far vivere a Milano una grande giornata all’insegna di corsa, benessere, solidarietà, innovazione e turismo: l’appuntamento è…",
+   "link": "https://correre.it/powerade-milano-half-marathon-2026-percorso/",
+   "data": "2026-11-11",
+   "immagine": "https://correre.it/wp-content/uploads/2026/11/Powerade_Milano_Half_-Marathon.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "21",
+    "10"
+   ],
+   "fasi": [
+    "gara"
+   ]
+  },
+  {
+   "id": "41d5a9cd05da",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "La fitta al fianco quando corri e come farla passare",
+   "estratto": "Da dove arriva il dolore sotto le costole che ferma tanti runner nei primi chilometri, come farlo rientrare senza interrompere l’uscita e cosa cambiare perché si presenti meno…",
+   "link": "https://runlovers.it/2026/fitta-fianco-corsa-come-farla-passare/",
+   "data": "2026-11-11",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/dolore-fianco-cause-rimedi.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "alimentazione",
+    "scarpe",
+    "allenamento",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "68a6d4dd568a",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Ha corso 100 miglia nel gelo dell’Antartide: è la prima donna a riuscirci",
+   "estratto": "Tra vento, freddo, ghiaccio e gelo: Stephanie Case ha scritto una pagina storica dell'ultraendurance",
+   "link": "https://www.runnersworld.com/it/news/a74393756/stephanie-case-antartide-cento-miglia-corsa/",
+   "data": "2026-11-11",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/2e1c98a9-a068-4f66-9d4e-cb639f3b8c0c.jpg",
+   "argomenti": [
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "7434030a576d",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Gel con caffeina a metà gara: un boost per la 100km",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/9ysvl7unLz4",
+   "data": "2026-11-11",
+   "immagine": "https://i2.ytimg.com/vi/9ysvl7unLz4/hqdefault.jpg",
+   "argomenti": [
+    "rifornimento",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico"
+   ]
+  },
+  {
+   "id": "489b0dff112d",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Come individuare i tuoi punti deboli e come migliorarli",
+   "estratto": "Uno studio condotto su un gruppo di runner ha evidenziato come la prevenzione di un infortunio funzioni meglio quando viene svolta con attenzione e consapevolezza",
+   "link": "https://www.runnersworld.com/it/salute/psicologia/a74388820/come-individuare-punti-deboli-corsa/",
+   "data": "2026-11-11",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/e118a266-4e85-4f57-8100-29a13a145db5.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "212e055fbfe6",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Avete presente quel punto del lungo o della gara in cui non vi va più di mandare giù niente?",
+   "estratto": "Avete presente quel punto del lungo o della gara in cui non vi va più di mandare giù niente? Ecco, noi li usiamo i 2:1 Gel di 4Endurance…",
+   "link": "https://www.youtube.com/shorts/cG6dlEBd5e8",
+   "data": "2026-11-11",
+   "immagine": "https://i4.ytimg.com/vi/cG6dlEBd5e8/hqdefault.jpg",
+   "argomenti": [
+    "rifornimento",
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico"
+   ]
+  },
+  {
+   "id": "662188dcaeff",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Arena sì o no? Il dubbio che agita la Maratona di Verona",
+   "estratto": "A quattro giorni dalla Verona Run resta l’incertezza sul passaggio degli atleti nell’Arena. Un eventuale cambio di percorso potrebbe mettere a rischio l’omologazione della maratona",
+   "link": "https://www.runnersworld.com/it/news/a74399716/verona-marathon-giallo-percorso-arena/",
+   "data": "2026-11-11",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/65801468-ad43-4105-ac72-a0874ec133d6.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "c0e55d9520d6",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "200 grammi di carboidrati all’ora: addio al limite dei 90? Cosa insegna il record Ironman di Ditlev",
+   "estratto": "Il record Ironman di Magnus Ditlev riapre la discussione sulla quantità di carboidrati che si può assumere durante una gara. Ma i suoi 200 grammi all’ora sono un modello da…",
+   "link": "https://www.runnersworld.com/it/alimentazione/a74390443/piano-nutrizionale-ditlev-record-ironman/",
+   "data": "2026-11-11",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/48a295df-9f6c-441d-87b0-fc6bf48cc01a.jpeg",
+   "argomenti": [
+    "rifornimento",
+    "gara",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico"
+   ]
+  },
+  {
+   "id": "e65d2e49e331",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "172, 178, 185: qual è il numero giusto per la cadenza perfetta?",
+   "estratto": "172, 178, 185: qual è il numero giusto per la cadenza perfetta? Non ce n’è uno uguale per tutti. E se la forzi troppo rischi di perdere…",
+   "link": "https://www.youtube.com/shorts/F0CkWV8OGYc",
+   "data": "2026-11-11",
+   "immagine": "https://i3.ytimg.com/vi/F0CkWV8OGYc/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
    "id": "efdc0596523c",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -60,11 +314,27 @@
    "tipo": "articolo",
    "fonte": "Correre",
    "fonteId": "correre",
-   "titolo": "Protetto: Shokz e l’evoluzione dell’audio Open-Ear: dalla corsa alla vita quotidiana!",
-   "estratto": "Questo contenuto è protetto da password. Per visualizzarlo inserisci la password qui sotto. Password: L'articolo Protetto: Shokz e l’evoluzione dell’audio Open-Ear: dalla corsa…",
+   "titolo": "Shokz e l’evoluzione dell’audio Open-Ear: dalla corsa alla vita quotidiana!",
+   "estratto": "Ascoltare musica durante una corsa, seguire un podcast mentre si cammina o rispondere a una telefonata senza isolarsi completamente da ciò che accade intorno, sono situazioni…",
    "link": "https://correre.it/shokz-evoluzione-audio-open-ear/",
    "data": "2026-11-10",
-   "immagine": "https://correre.it/wp-content/uploads/2026/11/shokz_openfit_air_2_openrun_pro_2.png",
+   "immagine": "https://correre.it/wp-content/uploads/2026/06/shokz_openrun_pro_2_cuffie_open_ear_banner_2.jpg",
+   "argomenti": [
+    "racconti"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "8d7f5a8005c1",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Preparare una 100km in solitaria: non è semplice!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/Rh8-VrxJtU8",
+   "data": "2026-11-10",
+   "immagine": "https://i3.ytimg.com/vi/Rh8-VrxJtU8/hqdefault.jpg",
    "argomenti": [],
    "distanze": [],
    "fasi": []
@@ -3240,6 +3510,26 @@
     "10"
    ],
    "fasi": []
+  },
+  {
+   "id": "c4531613630e",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Il saluto alla luna per chiudere la giornata con lo yoga",
+   "estratto": "Il saluto al sole spalanca la porta della giornata. Il saluto alla luna la accosta piano, disinnescando la tensione meccanica accumulata su fianchi e anche. Il saluto alla luna…",
+   "link": "https://runlovers.it/2026/saluto-luna-sequenza-yoga-sera/",
+   "data": "2026-11-01",
+   "immagine": "https://runlovers.it/wp-content/uploads/2026/10/10-20261101-1235-Luna-W-Depositphotos_-Anton-Matyukha.jpeg",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico"
+   ]
   },
   {
    "id": "e58c7e9e96e5",
