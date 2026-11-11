@@ -16,6 +16,15 @@ begin
   senza := public.gare_societa_aggiungi(a, jsonb_build_object('data', oggi + 30, 'distanza', '21', 'nome', 'Senza quota'));
   passata := public.gare_societa_aggiungi(a, jsonb_build_object('data', oggi - 3, 'distanza', '10', 'nome', 'Passata'));
 
+  -- interruttore della società: spento di partenza, lo accende solo l'amministratore
+  assert not (public.stato_quote(b)->>'attive')::boolean, 'spente di partenza';
+  begin perform public.quota_gara(a, gid, '12'); assert false, 'quota a quote spente';
+  exception when others then if sqlerrm not like '%spente%' then raise; end if; end;
+  begin perform public.admin_quote(b, true); assert false, 'membro accende';
+  exception when others then if sqlerrm not like '%amministratore%' then raise; end if; end;
+  perform public.admin_quote(a, true);
+  assert (public.stato_quote(b)->>'attive')::boolean, 'accese';
+
   -- conto: solo l'amministratore, IBAN controllato e normalizzato
   begin perform public.quote_conto(b, '{"intestatario": "X", "iban": "IT60X0542811101000000123456"}'); assert false, 'membro conto';
   exception when others then if sqlerrm not like '%amministratore%' then raise; end if; end;
@@ -75,8 +84,18 @@ begin
   perform public.scegli_iscrizione(b, gid, null);
   assert not exists (select 1 from public.iscrizioni_quote where gara_id = gid and membro_id = ib), 'scelta tolta';
 
+  -- spente di nuovo: niente si vede né si scrive, i dati restano
+  perform public.admin_quote(a, false);
+  assert json_array_length(public.stato_quote(b)->'mie') = 0 and json_typeof(public.stato_quote(b)->'conto') = 'null', 'spente: niente';
+  assert (public.stato_quote(a)->'conto'->>'iban') is not null, 'l''amministratore vede il conto anche spente';
+  begin perform public.scegli_iscrizione(b, gid, 'societa'); assert false, 'scelta a quote spente';
+  exception when others then if sqlerrm not like '%spente%' then raise; end if; end;
+  assert exists (select 1 from public.iscrizioni_quote where membro_id = ib), 'dati restano';
+  perform public.admin_quote(a, true);
+
   -- un altro gruppo non tocca queste gare
   perform public.crea_gruppo(repeat('t', 40), 'Altro Gruppo', 'Mario Rossi');
+  perform public.admin_quote(repeat('t', 40), true);
   begin perform public.scegli_iscrizione(repeat('t', 40), gid, 'societa'); assert false, 'altro gruppo';
   exception when others then if sqlerrm not like '%non trovata%' then raise; end if; end;
 
@@ -93,6 +112,7 @@ begin
   assert not has_function_privilege('anon', 'public._codice_quota()', 'execute'), 'codice anon';
   assert not has_function_privilege('anon', 'public._gara_quota(public.membri, uuid)', 'execute'), 'gara anon';
   assert has_function_privilege('anon', 'public.stato_quote(text)', 'execute'), 'stato anon';
+  assert has_function_privilege('anon', 'public.admin_quote(text, boolean)', 'execute'), 'interruttore anon';
   assert has_function_privilege('anon', 'public.scegli_iscrizione(text, uuid, text)', 'execute'), 'scegli anon';
   assert has_function_privilege('anon', 'public.segna_pagato(text, uuid, date)', 'execute'), 'pagato anon';
   raise notice 'permessi quote ok';

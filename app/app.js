@@ -1800,7 +1800,7 @@
   async function caricaClassifiche() {
     try {
       const [d, st, qt] = await Promise.all([rpc("stato_classifiche", { p_token: token() }), rpc("stato_stagione", { p_token: token() }).catch(() => null),
-        quoteOn() ? rpc("stato_quote", { p_token: token() }).catch(() => null) : null]);
+        rpc("stato_quote", { p_token: token() }).catch(() => null)]);
       const prima = JSON.stringify([CL(), S.gruppo.st || null, S.gruppo.quote || null]);
       S.gruppo.cl = d; if (st) S.gruppo.st = st; if (qt) S.gruppo.quote = qt;
       const part = !!(d && d.io && d.io.partecipa);
@@ -2155,8 +2155,8 @@
   // Il direttivo dà la quota alla gara; l'atleta sceglie se iscriversi con la società, fa il bonifico con il codice nella
   // causale e segna che ha pagato. Nessun soldo passa dall'app e la società non conferma niente qui (per ora).
   // Si vede solo nelle gare della società: mai in Le mie gare, Oggi, Panoramica o notifiche.
-  // Interruttore: `quote: true` in config.js. Spento, non si legge niente e non compare niente (dati online intatti).
-  const quoteOn = () => !!C().quote;
+  // Interruttore per società: l'amministratore le accende in Gestione (admin_quote). Spente, non compare niente (i dati restano).
+  const quoteOn = () => !!(S.gruppo && S.gruppo.quote && S.gruppo.quote.attive);
   const QT = () => (quoteOn() && S.gruppo && S.gruppo.quote) || {};
   const mioNome = () => (GD() && GD().io && GD().io.nome) || (S.profilo && S.profilo.nome) || "";
   function datiBonifico(s, mia) {
@@ -2208,9 +2208,14 @@
         ${righe.length ? `<span class="small muted" style="padding-top:8px">${pagati} di ${righe.length} hanno segnato il bonifico. Solo lettura: è quello che dicono gli atleti, la conferma sull'estratto conto resta fuori dall'app.</span>` : ""}</section>` : ""}`;
   }
   function cardContoQuote() {
-    if (!quoteOn()) return "";
-    const c = QT().conto || {};
-    return `<form id="q-conto" class="card" style="gap:10px"><span class="title">Conto per le quote gara</span><span class="small muted">Lo vede chi si iscrive con la società a una gara con la quota. La quota si imposta gara per gara, in Gare della società.</span>
+    const q = (S.gruppo && S.gruppo.quote) || null; if (!q) return ""; // funzione non ancora sul server
+    const c = q.conto || {}, on = quoteOn();
+    const sw = `<input type="checkbox" class="switch" id="q-gruppo" ${on ? "checked" : ""} aria-label="Quote gara con la società">`;
+    const testa = `<div class="between" style="gap:12px;align-items:flex-start"><span><span class="title">Quote gara con la società</span><br><span class="small muted">Codice per il bonifico e "ho pagato" nelle gare della società</span></span>${sw}</div>`;
+    if (!on) return `<section class="card" style="gap:10px">${testa}
+      ${voceOk("Il direttivo dà una quota alle gare della società che vuole.")}${voceOk("Chi si iscrive con la società riceve un codice da mettere nella causale e segna quando ha fatto il bonifico.")}${voceOk("Voi vedete, gara per gara, chi ha segnato il bonifico. Nessun soldo passa dall'app.")}
+      <span class="small muted">Spento, nessuno vede niente. Puoi spegnerlo quando vuoi: i dati restano.</span></section>`;
+    return `<form id="q-conto" class="card" style="gap:10px">${testa}<span class="small muted">Il conto lo vede chi si iscrive con la società a una gara con la quota. La quota si imposta gara per gara, in Gare della società.</span>
       <div class="field"><label for="q-int">Intestatario del conto</label><input class="input" id="q-int" value="${esc(c.intestatario || "")}" maxlength="120" autocomplete="off"></div>
       <div class="field"><label for="q-iban">IBAN</label><input class="input" id="q-iban" value="${esc(c.iban || "")}" maxlength="42" autocomplete="off" style="text-transform:uppercase" placeholder="IT…"></div>
       <button class="btn ghost" type="submit">Salva</button></form>`;
@@ -4387,6 +4392,9 @@
     } else if (e.target.dataset && e.target.dataset.actChange === "rec-tog") {
       if (e.target.checked) REC_NO.delete(e.target.dataset.id); else REC_NO.add(e.target.dataset.id);
       rerender();
+    } else if (e.target.id === "q-gruppo") {
+      const on = e.target.checked;
+      azioneQuote(() => rpc("admin_quote", { p_token: token(), p_on: on }), on ? "Quote gara accese per la società" : "Quote gara spente: i dati restano");
     } else if (e.target.id === "cl-gruppo") {
       const on = e.target.checked;
       azioneGruppo(async () => { await rpc("admin_classifiche", { p_token: token(), p_on: on }); await aggiornaClassifiche(); }, on ? "Classifiche accese: ognuno sceglie se partecipare" : "Classifiche spente per il gruppo");

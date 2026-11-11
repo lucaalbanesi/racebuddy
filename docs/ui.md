@@ -116,7 +116,7 @@ le gare già corse dalle classifiche ufficiali (`#/gruppo/recupero`); i tempi no
 Nella pagina della gara della società (Gruppo › Gare della società › gara), in alto: l'atleta sceglie se iscriversi
 con la società; con la società vede codice, causale, importo e IBAN, poi segna il bonifico. Nell'elenco delle gare il
 bollino Pagato / Da pagare compare solo dove ha scelto la società. Il direttivo imposta la quota e vede chi si iscrive
-(sola lettura); intestatario e IBAN in Gestione (solo amministratore).
+(sola lettura). In Gestione l'amministratore accende la funzione per la sua società (spenta di partenza) e mette intestatario e IBAN.
 
 | Scelta | Da pagare | Pagato | Elenco | Direttivo |
 |---|---|---|---|---|

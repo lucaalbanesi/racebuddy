@@ -5,7 +5,8 @@
 -- aiutare il tesoriere a riconciliare l'estratto conto), fa il bonifico dalla sua banca e segna in app che ha pagato.
 -- RaceBuddy non vede né muove soldi: "pagato" è quello che dichiara l'atleta, la società non conferma niente in app
 -- (per ora). Il direttivo vede, gara per gara, chi si iscrive con la società, con codice, importo e data del bonifico.
--- Intestatario e IBAN della società li imposta l'amministratore in Gestione.
+-- Intestatario e IBAN della società li imposta l'amministratore in Gestione, dove ogni società accende o spegne la
+-- funzione (gruppi.quote_attive, spenta di partenza): spenta, niente si vede e niente si scrive, i dati restano.
 --
 -- Richiede gruppo, classifiche, stagione e distanza (in quest'ordine). Ripetibile: lo applica il workflow "Pubblica
 -- funzioni Supabase" dopo la distanza; provato in tests/test_quote.sql.
@@ -14,6 +15,7 @@ begin;
 -- ------------------------------------------------------------------ tabelle
 alter table public.gruppi add column if not exists intestatario text check (char_length(intestatario) between 1 and 120);
 alter table public.gruppi add column if not exists iban text check (iban ~ '^[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}$');
+alter table public.gruppi add column if not exists quote_attive boolean not null default false;
 -- quota della società per quella gara; null = niente iscrizione con la società
 alter table public.gare_societa add column if not exists quota numeric(6,2) check (quota > 0 and quota < 1000);
 
@@ -56,14 +58,25 @@ begin
   return v;
 end $$;
 
--- la gara della società del gruppo del membro
+-- la gara della società del gruppo del membro, con le quote accese nel gruppo
 create or replace function public._gara_quota(m public.membri, p_id uuid) returns public.gare_societa
 language plpgsql stable security definer set search_path = '' as $$
 declare s public.gare_societa;
 begin
+  if not coalesce((select g.quote_attive from public.gruppi g where g.id = m.gruppo_id), false) then raise exception 'quote gara spente nel gruppo'; end if;
   select * into s from public.gare_societa where id = p_id and gruppo_id = m.gruppo_id;
   if s.id is null then raise exception 'gara della società non trovata'; end if;
   return s;
+end $$;
+
+-- ------------------------------------------------------------------ interruttore della società (amministratore)
+create or replace function public.admin_quote(p_token text, p_on boolean) returns json
+language plpgsql security definer set search_path = '' as $$
+declare m public.membri := public._io(p_token);
+begin
+  if m.ruolo <> 'admin' then raise exception 'solo per l''amministratore'; end if;
+  update public.gruppi set quote_attive = coalesce(p_on, false) where id = m.gruppo_id;
+  return json_build_object('attive', coalesce(p_on, false));
 end $$;
 
 -- ------------------------------------------------------------------ conto della società (amministratore)
@@ -140,7 +153,12 @@ language plpgsql security definer set search_path = '' as $$
 declare m public.membri := public._io(p_token); g public.gruppi; dir boolean := m.ruolo in ('admin', 'organizzatore');
 begin
   select * into g from public.gruppi where id = m.gruppo_id;
+  if not g.quote_attive then  -- spente: solo l'interruttore (e il conto per l'amministratore, per prepararlo)
+    return json_build_object('attive', false, 'conto', case when m.ruolo = 'admin' then json_build_object('intestatario', g.intestatario, 'iban', g.iban) end,
+      'quote', '[]'::json, 'mie', '[]'::json, 'elenco', '[]'::json);
+  end if;
   return json_build_object(
+    'attive', true,
     'conto', json_build_object('intestatario', g.intestatario, 'iban', g.iban),
     'quote', (select coalesce(json_agg(json_build_object('id', s.id, 'quota', s.quota)), '[]')
       from public.gare_societa s where s.gruppo_id = m.gruppo_id and s.quota is not null),
@@ -158,7 +176,7 @@ revoke all on function public._codice_quota(), public._quota_testo(text), public
 do $$
 declare f text;
 begin
-  foreach f in array array['quote_conto(text,jsonb)', 'quota_gara(text,uuid,text)', 'scegli_iscrizione(text,uuid,text)', 'segna_pagato(text,uuid,date)', 'stato_quote(text)']
+  foreach f in array array['admin_quote(text,boolean)', 'quote_conto(text,jsonb)', 'quota_gara(text,uuid,text)', 'scegli_iscrizione(text,uuid,text)', 'segna_pagato(text,uuid,date)', 'stato_quote(text)']
   loop
     execute format('revoke all on function public.%s from public', f);
     execute format('grant execute on function public.%s to anon', f);
