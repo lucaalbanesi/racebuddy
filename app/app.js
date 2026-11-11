@@ -2140,9 +2140,13 @@
     const futureAnno = future.filter((s) => s.data.slice(0, 4) === anno), anniDopo = [...new Set(future.map((s) => s.data.slice(0, 4)))].filter((a) => a > anno).sort();
     const { risultati } = datiSt();
     const arrivati = (s) => new Set(risultati.filter((r) => r.data === s.data && r.distanza === s.distanza).map((r) => r.membro_id)).size;
+    // riga a due livelli: nome e dettagli a sinistra (vanno a capo), colonna fissa a destra con lo stato della quota sopra e gli avatar sotto
     const riga = (s, passata) => { const n = passata ? arrivati(s) : ciSonoSoc(s), mia = S.gare.some((x) => x.data === s.data && x.distanza === s.distanza);
-      return `<a class="post link-card" href="${hrefSoc(s)}" style="text-decoration:none;color:inherit"><span style="flex:1;min-width:0"><b>${esc(titoloGara(s.nome))}</b><br><span class="small muted">${esc(L.etichettaDist(s))} · ${esc(L.fmtGiorno(s.data))}${s.luogo ? " · " + esc(nomeLuogo(s.luogo)) : ""}${n ? ` · ${n} ${passata ? "al traguardo" : n === 1 ? "c'è" : "ci sono"}` : ""}${!passata && mia ? " · ci sei" : ""}</span></span>
-        ${!passata && n ? avatari(chiSoc(s).map((x) => x.membro), 3) : ""}${bollinoQ(s)}<span aria-hidden="true">›</span></a>`; };
+      const mioId = ioId(), chi = passata ? [] : chiSoc(s).sort((a, b) => (a.membro_id === mioId ? -1 : b.membro_id === mioId ? 1 : 0));
+      const avs = chi.length ? `<span class="avs" aria-hidden="true">${chi.slice(0, 3).map((x) => avatar(x.membro, 24).replace('class="av"', `class="av${x.membro_id === mioId ? " io" : ""}"`)).join("")}${chi.length > 3 ? `<span class="av piu" style="width:24px;height:24px">+${chi.length - 3}</span>` : ""}</span>` : "";
+      const lettura = !passata && n ? ` · ${n === 1 ? "c'è 1" : `ci sono ${n}`}${mia ? ", ci sei anche tu" : ""}` : "";
+      return `<a class="riga-soc link-card" href="${hrefSoc(s)}"><b class="rs-nome">${esc(titoloGara(s.nome))}</b><span class="rs-stato">${bollinoQ(s)}</span><span class="rs-va" aria-hidden="true">›</span>
+        <span class="small muted rs-det">${esc(L.etichettaDist(s))} · ${esc(L.fmtGiorno(s.data))}${s.luogo ? " · " + esc(nomeLuogo(s.luogo)) : ""}${passata && n ? ` · ${n} al traguardo` : ""}${lettura ? `<span class="sr-only">${esc(lettura)}</span>` : ""}</span><span class="rs-av">${avs}</span></a>`; };
     const nAltre = tutte.filter((s) => s.km).length;
     const perDist = DISTANZE.map((d) => [d, tutte.filter((s) => s.distanza === d && !s.km).length]).filter((x) => x[1]).map(([d, n]) => `${n} ${d === "10" ? "da 10 km" : d === "21" ? (n === 1 ? "mezza" : "mezze") : n === 1 ? "maratona" : "maratone"}`)
       .concat(nAltre ? [`${nAltre} di altra distanza`] : []).join(" · ");

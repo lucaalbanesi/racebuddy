@@ -778,3 +778,18 @@ dialog.foglio::backdrop { background: rgba(16, 22, 31, .5); }
 .foglio-corpo { display: flex; flex-direction: column; gap: 10px; }
 .info-btn { padding: 6px 0 0; }
 @keyframes foglio-su { from { transform: translateY(100%); } to { transform: none; } }
+
+/* Gare della società: nome e dettagli a sinistra, colonna fissa a destra (stato della quota sopra, avatar sotto) */
+.riga-soc { display: grid; grid-template-columns: minmax(0, 1fr) 96px 12px; column-gap: 8px; row-gap: 3px; padding: 11px 0; border-bottom: 1px solid var(--line2); font-size: 15px; }
+.riga-soc:last-child { border-bottom: 0; }
+.riga-soc .rs-nome { grid-column: 1; line-height: 1.3; }
+.riga-soc .rs-stato { grid-column: 2; justify-self: end; align-self: start; }
+.riga-soc .rs-stato .pill { font-size: 12px; padding: 1px 8px; white-space: nowrap; }
+.riga-soc .rs-va { grid-column: 3; grid-row: 1 / 3; align-self: center; color: var(--muted); }
+.riga-soc .rs-det { grid-column: 1; }
+.riga-soc .rs-av { grid-column: 2; justify-self: end; align-self: start; }
+.riga-soc .avs .av { font-size: 10px; }
+.riga-soc .avs .av + .av { margin-left: -6px; }
+.av.io { position: relative; }
+.av.io::after { content: ""; position: absolute; right: -3px; bottom: -3px; width: 9px; height: 9px; border-radius: 50%; background: var(--ok); border: 2px solid var(--surface); }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
