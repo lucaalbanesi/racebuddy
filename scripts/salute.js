@@ -23,13 +23,16 @@ const JOBS = [
   { id: "estero", wf: "estero.yml", nome: "Gare estere", max: () => 32 * 24 },
   { id: "scarpe", wf: "scarpe.yml", nome: "Catalogo scarpe", max: () => 32 * 24 },
 ];
-// File di dati e giorni massimi dall'ultimo aggiornamento (campo "aggiornato")
+// File di dati e giorni massimi dall'ultimo aggiornamento (campo "aggiornato").
+// job: il job che lo scrive SOLO se trova novità. Lì un file fermo non è un problema se il job, nello stesso
+// intervallo, ha finito un giro con successo (ha controllato e non c'era niente di nuovo). Senza job il file
+// deve sempre avere la data recente (calendario e contenuti lo riscrivono a ogni giro riuscito).
 const DATI = [
   { id: "dati-calendario", file: "data/gare.json", nome: "Calendario delle gare", giorni: 9 },
   { id: "dati-contenuti", file: "data/contenuti.json", nome: "Articoli e video", giorni: 2 },
-  { id: "dati-seguite", file: "data/gare_seguite.json", nome: "Gare seguite", giorni: 2 },
-  { id: "dati-estero", file: "content/estero.json", nome: "Gare estere", giorni: 35 },
-  { id: "dati-scarpe", file: "content/scarpe.json", nome: "Catalogo scarpe", giorni: 35 },
+  { id: "dati-seguite", file: "data/gare_seguite.json", nome: "Gare seguite", giorni: 2, job: "seguite" },
+  { id: "dati-estero", file: "content/estero.json", nome: "Gare estere", giorni: 35, job: "estero" },
+  { id: "dati-scarpe", file: "content/scarpe.json", nome: "Catalogo scarpe", giorni: 35, job: "scarpe" },
 ];
 const FALLITO = new Set(["failure", "timed_out", "startup_failure"]);
 
@@ -57,13 +60,19 @@ function valutaJob(j, runs, adesso) {
   if (finito && finito.conclusion === "cancelled") return { ...base, stato: "attenzione", dettaglio: `Ultimo giro annullato (${quando(finito.created_at, adesso)})`, link: finito.html_url || link };
   return { ...base, stato: "ok", dettaglio: ultimo.status === "completed" ? `Ultimo giro ${quando(ultimo.created_at, adesso)}` : `In corso dalle ${quando(ultimo.created_at, adesso)}`, link };
 }
-/** Esito di un file di dati dal suo campo "aggiornato" (data o data e ora). */
-function valutaDato(d, aggiornato, adesso) {
+/** Esito di un file di dati dal suo campo "aggiornato" (data o data e ora).
+ *  runs: gli ultimi giri del job che lo scrive (d.job), dal più recente. */
+function valutaDato(d, aggiornato, adesso, runs = []) {
   const base = { id: d.id, gruppo: "dati", nome: d.nome };
   const t = aggiornato ? new Date(/T/.test(aggiornato) ? aggiornato : `${aggiornato}T12:00:00Z`) : null;
   if (!t || isNaN(t)) return { ...base, stato: "ko", dettaglio: "Data di aggiornamento mancante" };
   const giorni = (adesso - t) / (24 * ORA_MS), testo = /T/.test(aggiornato) ? quando(aggiornato, adesso) : aggiornato.split("-").reverse().slice(0, 2).join("/");
-  return giorni > d.giorni ? { ...base, stato: "ko", dettaglio: `Fermo da ${durata(giorni * 24)} (aggiornato ${testo})` } : { ...base, stato: "ok", dettaglio: `Aggiornato ${testo}` };
+  if (giorni <= d.giorni) return { ...base, stato: "ok", dettaglio: `Aggiornato ${testo}` };
+  // scritto solo con novità: basta un giro riuscito del job nell'intervallo
+  const riuscito = d.job && (runs || []).find((r) => r.status === "completed" && r.conclusion === "success");
+  if (riuscito && (adesso - new Date(riuscito.created_at)) / (24 * ORA_MS) <= d.giorni)
+    return { ...base, stato: "ok", dettaglio: `Nessuna novità dal ${testo} · controllato ${quando(riuscito.created_at, adesso)}` };
+  return { ...base, stato: "ko", dettaglio: `Fermo da ${durata(giorni * 24)} (aggiornato ${testo})` };
 }
 
 /** Il controllo completo. servizi: [{id, nome, stato, dettaglio}] già valutati. precedente: dati del controllo prima.
@@ -71,7 +80,7 @@ function valutaDato(d, aggiornato, adesso) {
 function valuta({ adesso, runs = {}, aggiornati = {}, servizi = [], precedente = null }) {
   const controlli = [
     ...JOBS.map((j) => valutaJob(j, runs[j.id], adesso)),
-    ...DATI.map((d) => valutaDato(d, aggiornati[d.id], adesso)),
+    ...DATI.map((d) => valutaDato(d, aggiornati[d.id], adesso, runs[d.job])),
     ...servizi.map((s) => ({ gruppo: "servizi", ...s })),
   ];
   const ko = controlli.filter((c) => c.stato === "ko").map((c) => c.id);
@@ -120,11 +129,20 @@ async function main() {
 
   // servizi
   const servizi = [];
-  const servizio = async (id, nome, fn) => { try { servizi.push({ id, nome, ...(await conTempo(fn(), 60000)) }); } catch (e) { servizi.push({ id, nome, stato: "ko", dettaglio: String(e.message || e).slice(0, 140) }); } };
+  const servizio = async (id, nome, fn, ms = 60000) => { try { servizi.push({ id, nome, ...(await conTempo(fn(), ms)) }); } catch (e) { servizi.push({ id, nome, stato: "ko", dettaglio: String(e.message || e).slice(0, 140) }); } };
   await servizio("sito", "Sito dell'app", async () => {
-    const r = await fetch("https://lucaalbanesi.github.io/racebuddy/"); const t = await r.text();
-    return r.ok && /RaceBuddy/.test(t) ? { stato: "ok", dettaglio: "Online" } : { stato: "ko", dettaglio: `Risponde ${r.status}` };
-  });
+    // GitHub Pages ogni tanto risponde 503 per un minuto: prima di dire KO si riprova (3 tentativi a 45 secondi)
+    let ultimo = "";
+    for (let i = 0; i < 3; i++) {
+      if (i) await new Promise((ok) => setTimeout(ok, 45000));
+      try {
+        const r = await fetch("https://lucaalbanesi.github.io/racebuddy/"); const t = await r.text();
+        if (r.ok && /RaceBuddy/.test(t)) return { stato: "ok", dettaglio: i ? `Online (al ${i + 1}° tentativo)` : "Online" };
+        ultimo = `Risponde ${r.status}`;
+      } catch (e) { ultimo = String(e.message || e).slice(0, 100); }
+    }
+    return { stato: "ko", dettaglio: `${ultimo} · 3 tentativi in 90 secondi` };
+  }, 150000);
   let iscritti = null;
   await servizio("database", "Database", async () => {
     const r = await sb("push_iscrizioni?select=endpoint", { headers: { Prefer: "count=exact", Range: "0-0" } });

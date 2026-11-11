@@ -31,6 +31,19 @@ assert.strictEqual(S.valutaJob(S.JOBS[2], [], adesso).stato, "ko");
 assert.strictEqual(S.valutaDato(S.DATI[0], "2026-10-10T04:00:00Z", adesso).stato, "ko");
 assert.strictEqual(S.valutaDato(S.DATI[1], null, adesso).stato, "ko");
 assert.strictEqual(S.valutaDato(S.DATI[1], "2026-10-21", adesso).stato, "ok");
+// file scritto solo con novità (gare seguite): fermo ma il job ha finito un giro riuscito → ok, "Nessuna novità"
+const seguite = S.DATI.find((d) => d.id === "dati-seguite"), calendario = S.DATI.find((d) => d.id === "dati-calendario");
+let dz = S.valutaDato(seguite, "2026-10-19", adesso, [giro(16)]);
+assert.strictEqual(dz.stato, "ok"); assert.ok(/^Nessuna novità dal 19\/10 · controllato/.test(dz.dettaglio), dz.dettaglio);
+// ... ma se l'ultimo giro riuscito è vecchio o i giri recenti sono falliti, resta KO
+assert.strictEqual(S.valutaDato(seguite, "2026-10-19", adesso, [giro(3 * 24)]).stato, "ko");
+assert.strictEqual(S.valutaDato(seguite, "2026-10-19", adesso, [giro(16, "failure")]).stato, "ko");
+assert.strictEqual(S.valutaDato(seguite, "2026-10-19", adesso, []).stato, "ko");
+// il calendario non ha job collegato: un giro riuscito non basta, il file deve essere recente
+assert.strictEqual(S.valutaDato(calendario, "2026-10-10T04:00:00Z", adesso, [giro(1)]).stato, "ko");
+// nel controllo completo il file fermo delle gare seguite non fa più scattare l'avviso
+e = S.valuta({ adesso, runs: tuttiOk, aggiornati: { ...datiOk, "dati-seguite": "2026-10-19" }, servizi: servOk });
+assert.ok(e.ok && !e.avviso);
 
 // avvisi: una volta, poi solo se si aggiunge un problema o dopo 24 ore
 const ko1 = { ...tuttiOk, push: [giro(3)] };
