@@ -1,6 +1,48 @@
 {
- "aggiornato": "2026-11-11T12:50Z",
+ "aggiornato": "2026-11-11T15:50Z",
  "novita": [
+  {
+   "id": "nd7a7bf3ae47",
+   "gara": "H0e7dc2579e-21",
+   "tema": "percorso",
+   "urgenza": "subito",
+   "titolo": "Milano Half Marathon punta ai 20mila: percorso velocissimo e un nuovo progetto con Napoli",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74396081/milano-half-marathon-2026-percorso-presentazione/",
+   "data": "2026-11-11",
+   "fonte": "Runner's World Italia",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/6054dfab-9add-43f2-b6ba-e21a160f724b.jpg",
+   "trovato": "2026-11-11T15:50Z"
+  },
+  {
+   "id": "na090876121a",
+   "gara": "H0e7dc2579e-21",
+   "tema": "percorso",
+   "urgenza": "subito",
+   "titolo": "Milano Half Marathon 2026: percorso e programma",
+   "link": "https://correre.it/powerade-milano-half-marathon-2026-percorso/",
+   "data": "2026-11-11",
+   "fonte": "Correre",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://correre.it/wp-content/uploads/2026/11/Powerade_Milano_Half_-Marathon.jpg",
+   "trovato": "2026-11-11T15:50Z"
+  },
+  {
+   "id": "n4f58158d112",
+   "gara": "H88b48310e5-42",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Protetto: Joma dedica una RS-9000 Special Edition alla Firenze Marathon 2026",
+   "link": "https://correre.it/joma-rs-9000-special-edition-firenze-marathon-2026/",
+   "data": "2026-11-11",
+   "fonte": "Correre",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://correre.it/wp-content/uploads/2026/11/shokz_openfit_air_2_openrun_pro_2.png",
+   "trovato": "2026-11-11T15:50Z"
+  },
   {
    "id": "n1e6f93eeda6",
    "gara": "H88b48310e5-42",
