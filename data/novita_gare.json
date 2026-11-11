@@ -1,6 +1,20 @@
 {
- "aggiornato": "2026-11-11T08:50Z",
+ "aggiornato": "2026-11-11T12:50Z",
  "novita": [
+  {
+   "id": "n1e6f93eeda6",
+   "gara": "H88b48310e5-42",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Iris, la mascotte dei maratoneti",
+   "link": "https://www.firenzemarathon.it/iris-la-mascotte-dei-maratoneti/",
+   "data": "2026-11-11",
+   "fonte": "Sito ufficiale",
+   "ufficiale": true,
+   "tipo": "articolo",
+   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/11/IRIS-ARTICOLO-ITA.png",
+   "trovato": "2026-11-11T12:50Z"
+  },
   {
    "id": "nd6e06463289",
    "gara": "H88b48310e5-42",
@@ -504,20 +518,6 @@
    "tipo": "articolo",
    "immagine": "https://romaostia.it/wp-content/uploads/2026/03/Roma-Ostia-@alessandro_annaloro-0354.jpg",
    "trovato": "2026-10-23T04:50Z"
-  },
-  {
-   "id": "n5b795d890f3",
-   "gara": "H88b48310e5-42",
-   "tema": "pacer",
-   "urgenza": "mattino",
-   "titolo": "Diventa Pacer della Estra Firenze Marathon 2026 🏃‍♂️",
-   "link": "https://www.firenzemarathon.it/diventa-pacer-della-estra-firenze-marathon-2026-%f0%9f%8f%83%e2%99%82%ef%b8%8f/",
-   "data": "2026-04-30",
-   "fonte": "Sito ufficiale",
-   "ufficiale": true,
-   "tipo": "articolo",
-   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/04/PACER-ART-ITA.png",
-   "trovato": "2026-11-09T12:50Z"
   }
  ]
 }
