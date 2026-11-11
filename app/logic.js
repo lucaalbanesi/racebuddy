@@ -1419,7 +1419,38 @@
   // "mario rossi" e "MARIO  ROSSI" sono la stessa riga. Lo stesso fa il database (trigger su membri, docs/supabase_nomi.sql).
   const nomePersona = (s) => String(s ?? "").trim().replace(/\s+/g, " ").toLocaleUpperCase("it");
 
-  const api = { nomePersona, KM_CLASSICA, kmUfficiali, kmEsatta, kmObiettivo, obiettivoSu, obiettiviAdattati, anteprimaDistanza, correggibile, portingCrea, portingLeggi, fuoriMisura, esatte, kmAltra, fmtKm, etichettaDist, baseKm, PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, finitaPrima, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, pbEventi, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, recuperoInEvidenza, daRecuperare, fontiNuove, fonteAperta, nuoveFontiInEvidenza, PASSI_ENTRA, passiEntra, prossimoEntra, SC_TIPI, SC_TK, SC_DA_APP, SC_A_APP, SC_PREZZO, SC_RUOLI, SC_RIGHE, SC_DOMANDE, SC_BUDGET, scDurata, scInizio, scSettimana, scData, scOrizzonte, scWeekend, scUscite, scSimula, scPiano, scFineScarpa, scCoperture, scVita, scKmSettimana, scCosto, scValuta, scModelli, scProtezione };
+  // ---------------------------------------------------------------- quote gara con la società (novembre 2026)
+  // Dati da stato_quote: { conto, quote: [{id, quota}], mie: [{gara_id, scelta, codice, importo, pagato}], elenco: [...] }.
+  // RaceBuddy non muove soldi: "pagato" è quello che segna l'atleta dopo il bonifico.
+  const fmtEuro = (n) => `${Number(n).toFixed(2).replace(".", ",")} €`;
+  // Causale SEPA: solo lettere, cifre, spazi e / - ? : ( ) . , ' + ; maiuscolo, senza accenti, al massimo 140 caratteri
+  function causaleQuota(codice, nome, gara) {
+    const pulito = (s) => String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase().replace(/[^A-Z0-9 /\-?:().,'+]/g, " ");
+    return [codice, nome, gara].map(pulito).join(" ").replace(/\s+/g, " ").trim().slice(0, 140).trim();
+  }
+  // Cosa mostra la card Iscrizione di una gara della società: null (niente), "scegli", "da_pagare", "pagato", "conto_mio".
+  // Senza scelta si chiede solo se c'è la quota e la gara non è passata; chi ha scelto la società vede sempre il suo stato.
+  function quotaGara(dati, gara, oggi) {
+    const d = dati || {}, q = (d.quote || []).find((x) => x.id === gara.id), mia = (d.mie || []).find((x) => x.gara_id === gara.id) || null;
+    const quota = q ? Number(q.quota) : null;
+    let stato = null;
+    if (mia && mia.scelta === "societa") stato = mia.pagato ? "pagato" : "da_pagare";
+    else if (mia && mia.scelta === "conto_mio") stato = quota != null && gara.data >= oggi ? "conto_mio" : null;
+    else if (quota != null && gara.data >= oggi) stato = "scegli";
+    return { quota, mia, stato };
+  }
+  // Bollino nell'elenco delle gare della società: solo dove l'atleta si iscrive con la società
+  function bollinoQuota(dati, garaId) {
+    const mia = ((dati || {}).mie || []).find((x) => x.gara_id === garaId);
+    return mia && mia.scelta === "societa" ? (mia.pagato ? "pagato" : "da_pagare") : null;
+  }
+  // Per il direttivo: chi si iscrive con la società a quella gara, e quanti hanno segnato il bonifico
+  function elencoQuota(dati, garaId) {
+    const righe = ((dati || {}).elenco || []).filter((x) => x.gara_id === garaId).sort((a, b) => String(a.nome).localeCompare(String(b.nome), "it"));
+    return { righe, pagati: righe.filter((x) => x.pagato).length };
+  }
+
+  const api = { fmtEuro, causaleQuota, quotaGara, bollinoQuota, elencoQuota, nomePersona, KM_CLASSICA, kmUfficiali, kmEsatta, kmObiettivo, obiettivoSu, obiettiviAdattati, anteprimaDistanza, correggibile, portingCrea, portingLeggi, fuoriMisura, esatte, kmAltra, fmtKm, etichettaDist, baseKm, PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, finitaPrima, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, pbEventi, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, recuperoInEvidenza, daRecuperare, fontiNuove, fonteAperta, nuoveFontiInEvidenza, PASSI_ENTRA, passiEntra, prossimoEntra, SC_TIPI, SC_TK, SC_DA_APP, SC_A_APP, SC_PREZZO, SC_RUOLI, SC_RIGHE, SC_DOMANDE, SC_BUDGET, scDurata, scInizio, scSettimana, scData, scOrizzonte, scWeekend, scUscite, scSimula, scPiano, scFineScarpa, scCoperture, scVita, scKmSettimana, scCosto, scValuta, scModelli, scProtezione };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);

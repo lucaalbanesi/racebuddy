@@ -111,6 +111,17 @@ Gare corse, PB della stagione e Albo d'oro (`#/gruppo/classifiche`), solo con te
 le gare già corse dalle classifiche ufficiali (`#/gruppo/recupero`); i tempi non trovati vanno al referente
 (coda "Da approvare" in Gestione).
 
+### Quote gara con la società (novembre 2026)
+
+Nella pagina della gara della società (Gruppo › Gare della società › gara), in alto: l'atleta sceglie se iscriversi
+con la società; con la società vede codice, causale, importo e IBAN, poi segna il bonifico. Nell'elenco delle gare il
+bollino Pagato / Da pagare compare solo dove ha scelto la società. Il direttivo imposta la quota e vede chi si iscrive
+(sola lettura); intestatario e IBAN in Gestione (solo amministratore).
+
+| Scelta | Da pagare | Pagato | Elenco | Direttivo |
+|---|---|---|---|---|
+| <img src="img/ui/quote-scelta.png" width="180" alt="Ti iscrivi con la società?"> | <img src="img/ui/quote-bonifico.png" width="180" alt="Dati del bonifico"> | <img src="img/ui/quote-pagato.png" width="180" alt="Pagato"> | <img src="img/ui/quote-elenco.png" width="180" alt="Gare della società con i bollini"> | <img src="img/ui/quote-direttivo.png" width="180" alt="Quota e chi si iscrive"> |
+
 ## Io
 
 <img src="img/ui/io.png" width="280" alt="Schermata Io">

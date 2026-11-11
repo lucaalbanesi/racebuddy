@@ -761,3 +761,10 @@ body.chat-on .app { padding-bottom: 150px; }
 .hub-riga .pill { flex: none; }
 .hub-chev { flex: none; color: var(--muted); }
 .hub-versione { background: none; border: 0; padding: 0; font: inherit; color: inherit; cursor: default; }
+/* quote gara con la società (novembre 2026) */
+.q-passo { display: flex; flex-direction: column; gap: 8px; }
+.q-codice { display: flex; justify-content: space-between; align-items: center; gap: 10px; background: var(--bg); border-radius: 12px; padding: 12px; }
+.q-cod { font: 700 34px/1 var(--display); letter-spacing: .08em; }
+.q-riga { border-bottom: 1px solid var(--line2); padding-bottom: 8px; }
+.q-iban { font-size: 15px; word-break: break-all; }
+.q-scelta .btn { padding: 0 8px; font-size: 15px; white-space: nowrap; }

@@ -910,3 +910,27 @@ assert.strictEqual(L.nomePersona("  mario   rossi "), "MARIO ROSSI");
 assert.strictEqual(L.nomePersona("Niccolò De Luca"), "NICCOLÒ DE LUCA");
 assert.strictEqual(L.nomePersona(null), "");
 console.log("nomi ok");
+
+// quote gara con la società
+{
+  const dati = { quote: [{ id: "g1", quota: 12.5 }, { id: "g3", quota: 10 }], mie: [{ gara_id: "g1", scelta: "societa", codice: "K7M3P", importo: 12.5, pagato: null }, { gara_id: "g2", scelta: "conto_mio" }],
+    elenco: [{ gara_id: "g1", nome: "ROSSI MARIO", codice: "K7M3P", pagato: "2026-11-11" }, { gara_id: "g1", nome: "BIANCHI ANNA", codice: "W2RQ8", pagato: null }, { gara_id: "g9", nome: "X" }] };
+  const o = "2026-11-11";
+  assert.strictEqual(L.fmtEuro(12.5), "12,50 €");
+  assert.strictEqual(L.quotaGara(dati, { id: "g1", data: "2027-01-25" }, o).stato, "da_pagare");
+  assert.strictEqual(L.quotaGara(dati, { id: "g1", data: "2026-10-01" }, o).stato, "da_pagare", "anche a gara passata chi ha scelto la società vede lo stato");
+  assert.strictEqual(L.quotaGara({ ...dati, mie: [{ ...dati.mie[0], pagato: "2026-11-10" }] }, { id: "g1", data: "2027-01-25" }, o).stato, "pagato");
+  assert.strictEqual(L.quotaGara(dati, { id: "g2", data: "2027-01-25" }, o).stato, null, "per conto mio senza quota: niente");
+  assert.strictEqual(L.quotaGara(dati, { id: "g3", data: "2027-01-25" }, o).stato, "scegli");
+  assert.strictEqual(L.quotaGara(dati, { id: "g3", data: "2026-11-10" }, o).stato, null, "gara passata: non si chiede");
+  assert.strictEqual(L.quotaGara(dati, { id: "g4", data: "2027-01-25" }, o).stato, null, "senza quota: niente");
+  assert.strictEqual(L.quotaGara(null, { id: "g1", data: "2027-01-25" }, o).stato, null);
+  assert.strictEqual(L.quotaGara({ ...dati, mie: [{ gara_id: "g3", scelta: "conto_mio" }] }, { id: "g3", data: "2027-01-25" }, o).stato, "conto_mio");
+  assert.strictEqual(L.bollinoQuota(dati, "g1"), "da_pagare");
+  assert.strictEqual(L.bollinoQuota(dati, "g2"), null);
+  const el = L.elencoQuota(dati, "g1");
+  assert.deepStrictEqual([el.righe.map((x) => x.nome), el.pagati], [["BIANCHI ANNA", "ROSSI MARIO"], 1]);
+  assert.strictEqual(L.causaleQuota("K7M3P", "Niccolò D'Amico", "Corsa di Miguel – 10 km!"), "K7M3P NICCOLO D'AMICO CORSA DI MIGUEL 10 KM");
+  assert.ok(L.causaleQuota("K7M3P", "x".repeat(200), "y").length <= 140);
+  console.log("quote ok");
+}
