@@ -1310,6 +1310,30 @@
   function scVita(sim, s) { const out = []; let km = s.km0; for (let w = 0; w < sim.H; w++) { if (w < s.da) { out.push(null); continue; } const c = sim.griglia[w][s.id]; if (c) for (const r in c) km += c[r]; out.push(Math.min(1.05, km / s.max)); } return out; }
   /** Km medi a settimana. */
   const scKmSettimana = (ctx) => Math.round((Number(ctx.wk.F) || 0) + (Number(ctx.wk.V) || 0) + ["LF", "R", "G"].reduce((t, k) => t + (ctx.mix[k].n || 0) * (ctx.mix[k].km || 0), 0) / 4);
+  /** Quanto corri e per cosa (novembre 2026): i km a settimana li proponiamo dalla gara che comanda (o dalla distanza
+   * scelta senza gare); l'atleta corregge solo i km, la suddivisione è fissa per distanza. p = % del volume del mese,
+   * n = weekend del mese (su 4) per lungo facile e lunghissimo / ritmo gara. Le gare vere arrivano dal calendario. */
+  const SC_PROFILI = {
+    "10": { nome: "10 km", per: "un 10 km", base: 35, p: { F: 40, V: 20, LF: 30, R: 10 }, n: { LF: 3, R: 1 } },
+    "21": { nome: "Mezza", per: "una mezza", base: 45, p: { F: 45, V: 20, LF: 15, R: 20 }, n: { LF: 2, R: 2 } },
+    "42": { nome: "Maratona", per: "una maratona", base: 60, p: { F: 42, V: 15, LF: 18, R: 25 }, n: { LF: 2, R: 2 } },
+  };
+  const SC_KM_MIN = 15, SC_KM_MAX = 150, SC_KM_PASSO = 5;
+  const scDistDa = (km) => (km >= 30 ? "42" : km >= 15 ? "21" : "10");
+  /** La gara che comanda: la più lunga entro 12 settimane (a pari km la prima). */
+  function scComanda(gare, oggi, giorni = 84) {
+    const fino = addDays(oggi, giorni);
+    return (gare || []).filter((g) => g.data >= oggi && g.data <= fino).sort((a, b) => (Number(b.km) || 0) - (Number(a.km) || 0) || a.data.localeCompare(b.data))[0] || null;
+  }
+  /** Settimana tipo per distanza e km: { wk: {F, V}, mix: {LF, R, G} } nel formato del motore. */
+  function scCorsa(dist, km) {
+    const P = SC_PROFILI[dist]; if (!P) return null;
+    const k = Number(km) || P.base, q = (r) => (k * P.p[r]) / 100;
+    const V = Math.round(q("V")), LF = Math.round((q("LF") * 4) / P.n.LF), R = Math.round((q("R") * 4) / P.n.R);
+    // il facile prende il resto, così la settimana tipo torna ai km scelti anche dopo gli arrotondamenti
+    const F = Math.max(0, Math.round(k - V - (LF * P.n.LF + R * P.n.R) / 4 - 0.001));
+    return { wk: { F, V }, mix: { LF: { n: P.n.LF, km: LF }, R: { n: P.n.R, km: R }, G: { n: 0, km: 0 } } };
+  }
   /** Costo per mantenere il set a regime: { mese (€ arrotondati a 5), per100, anno: { tipo: scarpe l'anno } }. */
   function scCosto(ctx, set, prezzi = SC_PREZZO) {
     const M = 4.345, km = { F: ctx.wk.F * M, V: ctx.wk.V * M, LF: ctx.mix.LF.n * ctx.mix.LF.km, R: ctx.mix.R.n * ctx.mix.R.km, G: ctx.mix.G.n * ctx.mix.G.km };
@@ -1450,7 +1474,7 @@
     return { righe, pagati: righe.filter((x) => x.pagato).length };
   }
 
-  const api = { fmtEuro, causaleQuota, quotaGara, bollinoQuota, elencoQuota, nomePersona, KM_CLASSICA, kmUfficiali, kmEsatta, kmObiettivo, obiettivoSu, obiettiviAdattati, anteprimaDistanza, correggibile, portingCrea, portingLeggi, fuoriMisura, esatte, kmAltra, fmtKm, etichettaDist, baseKm, PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, finitaPrima, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, pbEventi, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, recuperoInEvidenza, daRecuperare, fontiNuove, fonteAperta, nuoveFontiInEvidenza, PASSI_ENTRA, passiEntra, prossimoEntra, SC_TIPI, SC_TK, SC_DA_APP, SC_A_APP, SC_PREZZO, SC_RUOLI, SC_RIGHE, SC_DOMANDE, SC_BUDGET, scDurata, scInizio, scSettimana, scData, scOrizzonte, scWeekend, scUscite, scSimula, scPiano, scFineScarpa, scCoperture, scVita, scKmSettimana, scCosto, scValuta, scModelli, scProtezione };
+  const api = { fmtEuro, causaleQuota, quotaGara, bollinoQuota, elencoQuota, nomePersona, KM_CLASSICA, kmUfficiali, kmEsatta, kmObiettivo, obiettivoSu, obiettiviAdattati, anteprimaDistanza, correggibile, portingCrea, portingLeggi, fuoriMisura, esatte, kmAltra, fmtKm, etichettaDist, baseKm, PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, finitaPrima, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, pbEventi, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, recuperoInEvidenza, daRecuperare, fontiNuove, fonteAperta, nuoveFontiInEvidenza, PASSI_ENTRA, passiEntra, prossimoEntra, SC_TIPI, SC_TK, SC_DA_APP, SC_A_APP, SC_PREZZO, SC_RUOLI, SC_RIGHE, SC_DOMANDE, SC_PROFILI, SC_KM_MIN, SC_KM_MAX, SC_KM_PASSO, scDistDa, scComanda, scCorsa, SC_BUDGET, scDurata, scInizio, scSettimana, scData, scOrizzonte, scWeekend, scUscite, scSimula, scPiano, scFineScarpa, scCoperture, scVita, scKmSettimana, scCosto, scValuta, scModelli, scProtezione };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);
