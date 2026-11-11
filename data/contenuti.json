@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-10",
+ "aggiornato": "2026-11-11",
  "contenuti": [
   {
    "id": "efdc0596523c",
@@ -132,6 +132,24 @@
    ]
   },
   {
+   "id": "2dfc3daf9f72",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Le gare da correre nel weekend del 15 novembre",
+   "estratto": "Maratone, mezze, trail e tante gare diverse: il 15 novembre sono tantissime le possibilità di gareggiare in tutta Italia",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74386888/gare-correre-weekend-15-novembre-2026/",
+   "data": "2026-11-10",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/4e35bb63-344f-48c9-98b6-9818165ad3e9.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
    "id": "ffaac2e84124",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -144,6 +162,26 @@
    "argomenti": [],
    "distanze": [],
    "fasi": []
+  },
+  {
+   "id": "9e0d4e0027ee",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "La connessione mente-muscolo funziona, ma non in tutti gli esercizi",
+   "estratto": "Pensare al muscolo che lavora aiuta negli esercizi di isolamento con pesi gestibili, mentre nei grandi esercizi con carichi alti conviene seguire il movimento e il suo risultato…",
+   "link": "https://runlovers.it/2026/connessione-mente-muscolo-esercizi/",
+   "data": "2026-11-10",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/isolare-muscolo-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
   },
   {
    "id": "1c5771afd5ab",
@@ -163,6 +201,22 @@
     "42",
     "10"
    ],
+   "fasi": []
+  },
+  {
+   "id": "5cab249b3151",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Hugo Hugemarq, il runner “bellone” alla maratonina di Crema",
+   "estratto": "Il calendario podistico italiano, nel week end appena conclusosi, proponeva diverse gare, alcune delle quali in belle località turistiche come Riva del Garda e Ravenna, eppure…",
+   "link": "https://podisti.net/hugo-hugemarq-il-runner-bellone-alla-maratonina-di-crema/",
+   "data": "2026-11-10",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Crema-2026-Hugo-arrivo.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
    "fasi": []
   },
   {
@@ -246,6 +300,40 @@
     "costruzione",
     "picco",
     "scarico",
+    "dopo"
+   ]
+  },
+  {
+   "id": "73c0f86dd97a",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "A Luca Andreis e Marta Piterà la 33^ Maratonina Città di Busto Arsizio",
+   "estratto": "SERVIZIO FOTOGRAFICO DI ARTURO BARBIERI E LARA ROSSI Domenica 8 novembre si è corsa la 33^ edizione della Maratonina Città di Busto Arsizio, organizzata come ogni anno dall’A.S.D…",
+   "link": "https://podisti.net/a-luca-andreis-e-marta-pitera-la-33-maratonina-citta-di-busto-arsizio/",
+   "data": "2026-11-10",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/DSC_5168-podisti-net.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "9dda89686f3a",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "4 strategie di recupero dopo la corsa: quali funzionano davvero?",
+   "estratto": "La verità su immersioni in acqua fredda, saune, foam rolling e altro ancora",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a74388251/strategie-recupero-corsa-moda-o-efficaci/",
+   "data": "2026-11-10",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/31ed2c75-dc0a-43e6-afd5-2dfa04ecb666.jpeg",
+   "argomenti": [
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
     "dopo"
    ]
   },
