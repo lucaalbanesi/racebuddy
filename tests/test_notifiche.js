@@ -280,4 +280,14 @@ assert.strictEqual(r.invio, null);
   console.log("vestizione ok");
 }
 
+// meteo che cambia: soglia ±3° rispetto a ieri (2° non bastano)
+{
+  const ieri = { meteo: { data: "2026-10-20", temp: 12, pioggia: 10, fascia: 2 } };
+  let r = N.pianifica(base({ oggi: "2026-10-21", stato: ieri, dati: { ora: "07:00", gare: [], spunte: [] }, meteoUscita: { temp: 9, vento: 5, pioggia: 10, codice: 1 } }));
+  assert.ok(r.invio && /Più freddo di ieri: 9°/.test(r.invio.body), r.invio);
+  r = N.pianifica(base({ oggi: "2026-10-21", stato: ieri, dati: { ora: "07:00", gare: [], spunte: [] }, meteoUscita: { temp: 15, vento: 5, pioggia: 10, codice: 1 } }));
+  assert.ok(r.invio && /Più caldo di ieri: 15°/.test(r.invio.body), r.invio);
+  assert.strictEqual(N.pianifica(base({ oggi: "2026-10-21", stato: ieri, dati: { ora: "07:00", gare: [], spunte: [] }, meteoUscita: { temp: 10, vento: 5, pioggia: 10, codice: 1 } })).invio, null);
+}
+
 console.log("ok");

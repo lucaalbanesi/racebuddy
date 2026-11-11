@@ -23,7 +23,7 @@
    2. una cosa che l'utente ha rimandato a oggi ("Domani");
    3. una tappa chiave del percorso (voci con "notifica": true), se non già fatta;
    4. il meteo della gara, la prima volta che è disponibile (7 giorni prima) e se poi cambia molto;
-   5. il meteo dell'uscita, solo se cambia davvero rispetto a ieri: nuovo avviso importante, ±5°, arriva la pioggia.
+   5. il meteo dell'uscita, solo se cambia davvero rispetto a ieri: nuovo avviso importante, ±3°, arriva la pioggia.
       Un avviso già dato ieri (o negli ultimi giorni) non si ripete. Al massimo 2 notifiche di solo meteo a settimana.
    Il cambio di meteo, se c'è, si aggiunge come seconda riga alla notifica principale.
    Una novità ufficiale "del mattino" di una gara seguita (pacer, allenamenti ufficiali, video…) va come riga in più,
@@ -130,8 +130,8 @@ function cambioMeteo(m, prec, avvisiRecenti) {
   if (nuovo) return `${icona(m)} ${nuovo.titolo}: ${minuscola(primaFrase(nuovo.testo))}`;
   if (!prec) return null;
   const vest = primaFrase(L.vestizione(m));
-  if (m.temp - prec.temp <= -5) return `${icona(m)} Molto più freddo di ieri: ${Math.round(m.temp)}°. ${vest}`;
-  if (m.temp - prec.temp >= 5) return `${icona(m)} Più caldo di ieri: ${Math.round(m.temp)}°. ${vest}`;
+  if (m.temp - prec.temp <= -3) return `${icona(m)} Più freddo di ieri: ${Math.round(m.temp)}°. ${vest}`;
+  if (m.temp - prec.temp >= 3) return `${icona(m)} Più caldo di ieri: ${Math.round(m.temp)}°. ${vest}`;
   if (m.pioggia >= 60 && prec.pioggia < 30) return `🌧️ Oggi pioggia probabile (${Math.round(m.pioggia)}%) all'ora della tua uscita.`;
   if (Math.abs(fascia(m) - prec.fascia) >= 2) return `${icona(m)} ${Math.round(m.temp)}°: cambia la vestizione. ${vest}`;
   return null;
