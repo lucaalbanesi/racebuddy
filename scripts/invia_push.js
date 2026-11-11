@@ -23,7 +23,10 @@ const parti = Object.fromEntries(new Intl.DateTimeFormat("en-CA", { timeZone: "E
 const OGGI = `${parti.year}-${parti.month}-${parti.day}`, ORA = Number(parti.hour) + (Number(parti.minute) >= 30 ? 0.5 : 0);
 
 const cacheMeteo = {};
-async function meteo(luogo, ora, giorno = OGGI) {
+// campi orari: quelli di sempre + quelli della vestizione ogni giorno (percepita, umidità, rugiada, raffiche, mm, neve, UV);
+// past_days=1 per la pioggia delle 12 ore prima (ghiaccio) anche per le uscite del primo mattino
+const ORARI = "temperature_2m,apparent_temperature,relative_humidity_2m,dew_point_2m,precipitation_probability,precipitation,snowfall,wind_speed_10m,wind_gusts_10m,weather_code,is_day,uv_index";
+async function serieMeteo(luogo) {
   let lat, lon;
   if (luogo && luogo.lat != null) ({ lat, lon } = luogo);
   else if (luogo && luogo.citta) {
@@ -33,9 +36,18 @@ async function meteo(luogo, ora, giorno = OGGI) {
     ({ latitude: lat, longitude: lon } = g.results[0]);
   } else return null;
   const k = `${lat.toFixed(2)},${lon.toFixed(2)}`;
-  if (!cacheMeteo[k]) cacheMeteo[k] = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,precipitation_probability,wind_speed_10m,weather_code,is_day&timezone=auto&forecast_days=9`).then((r) => r.json());
-  const h = cacheMeteo[k].hourly, i = h.time.indexOf(`${giorno}T${String(ora).padStart(2, "0")}:00`);
+  if (!cacheMeteo[k]) cacheMeteo[k] = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=${ORARI}&timezone=auto&forecast_days=9&past_days=1`).then((r) => r.json());
+  return cacheMeteo[k].hourly || null;
+}
+async function meteo(luogo, ora, giorno = OGGI) {
+  const h = await serieMeteo(luogo);
+  const i = h ? h.time.indexOf(`${giorno}T${String(ora).padStart(2, "0")}:00`) : -1;
   return i < 0 ? null : { temp: h.temperature_2m[i], pioggia: h.precipitation_probability[i] ?? 0, vento: h.wind_speed_10m[i] ?? 0, codice: h.weather_code[i], notte: h.is_day[i] === 0 };
+}
+/** Meteo della corsa (vestizione ogni giorno): prima ora dell'uscita del giorno, con L.meteoCorsa. */
+async function corsa(luogo, oraUscita, giorno) {
+  const h = await serieMeteo(luogo), m = String(oraUscita || "07:00").match(/(\d{1,2})(?:[:.](\d{2}))?/);
+  return h && m ? L.meteoCorsa(h, `${giorno}T${m[1].padStart(2, "0")}:${m[2] || "00"}`) : null;
 }
 
 const N = require("./notifiche.js");
@@ -43,6 +55,7 @@ const schede = fs.existsSync(path.join(radice, "content/schede.json")) ? leggi("
 const opz = (f, def) => (fs.existsSync(path.join(radice, f)) ? leggi(f) : def);
 const novita = opz("data/novita_gare.json", { novita: [] }).novita || [];
 const contenuti = opz("data/contenuti.json", { contenuti: [] }).contenuti || [];
+const vestiario = opz("content/vestizione.json", null);
 const garaConUrgenti = new Set(novita.filter((n) => n.urgenza === "subito").map((n) => n.gara));
 const nomeLuogo = (l) => String(l || "").toLowerCase().replace(/(^|[\s'-])\S/g, (x) => x.toUpperCase());
 
@@ -62,12 +75,13 @@ async function main() {
   }
   let inviati = 0, scaduti = 0, valutati = 0, falliti = 0;
   const perTipo = {}; // totali per la pagina delle statistiche (nessun dato dell'utente)
-  const tipoInvio = (tag) => (String(tag).match(/^(mattino|meteo|novita|vigilia|gara|dopo|fase|esito)-/) || [, "altro"])[1];
+  const tipoInvio = (tag) => (String(tag).match(/^(mattino|meteo|novita|vigilia|gara|dopo|fase|esito|vestizione)-/) || [, "altro"])[1];
   for (const it of iscritti) {
     const d = it.dati || {};
     const gareVicine = (d.gare || []).filter((g) => { const n = L.diffDays(g.data, OGGI); return n >= 0 && n <= 7; });
     const esiti = esitiPer[d.membro] || [];
-    const personale = PROVA || ORA === N.oraMattino(d.ora) || ORA === 19 || gareVicine.some((g) => g.data === OGGI && (ORA === N.oraDopo(g, schede[g.id]) || ORA === N.oraGara(schede[g.id])));
+    const vestizione = !!(d.pref && d.pref.vestizione && vestiario);
+    const personale = PROVA || ORA === N.oraMattino(d.ora) || ORA === 19 || (vestizione && ORA === N.momentoVestizione(d.ora).ora) || gareVicine.some((g) => g.data === OGGI && (ORA === N.oraDopo(g, schede[g.id]) || ORA === N.oraGara(schede[g.id])));
     // le novità urgenti delle gare si controllano ogni ora (8-21), non solo nei momenti fissi
     const urgenti = !PROVA && Number.isInteger(ORA) && ORA >= 8 && ORA <= 21 && (d.gare || []).some((g) => garaConUrgenti.has(g.id));
     // tempo certificato dal direttivo o deciso dal referente: ogni ora (8-21)
@@ -87,12 +101,14 @@ async function main() {
       if (personale) {
         const oraUscita = Math.floor(Number(String(d.ora || "07:00").split(/[:.]/)[0]));
         const meteoUscita = await meteo(d.luogo, oraUscita).catch(() => null);
+        const corsaOggi = vestizione ? await corsa(d.luogo, d.ora, OGGI).catch(() => null) : null;
+        const corsaDomani = vestizione ? await corsa(d.luogo, d.ora, L.addDays(OGGI, 1)).catch(() => null) : null;
         const meteoGare = {};
         for (const g of gareVicine) {
           const ora = Math.floor(Number((String((schede[g.id] || {}).partenza || "9").match(/\d{1,2}/) || ["9"])[0]));
           meteoGare[g.id] = await meteo(String(g.id).startsWith("E-") ? { citta: g.luogo, mondo: true } : { citta: nomeLuogo(g.luogo) || (d.luogo && d.luogo.citta) }, ora, g.data).catch(() => null);
         }
-        let esito = N.pianifica({ oggi: OGGI, ora: ORA, dati: d, stato, fasi, percorso, schede, novita, contenuti, meteoUscita, meteoGara: (g) => meteoGare[g.id] || null, esiti });
+        let esito = N.pianifica({ oggi: OGGI, ora: ORA, dati: d, stato, fasi, percorso, schede, novita, contenuti, meteoUscita, vestiario, corsaOggi, corsaDomani, meteoGara: (g) => meteoGare[g.id] || null, esiti });
         if (PROVA && !esito.invio) esito = { invio: { title: "RaceBuddy · prova", body: "Le notifiche funzionano. Ti scrivo solo quando c'è qualcosa di nuovo: cambi di meteo, tappe del percorso, la tua gara.", url: "./#/oggi", tag: "prova" }, stato };
         stato = esito.stato;
         if (esito.invio) await invia(esito.invio);

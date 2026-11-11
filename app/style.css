@@ -116,6 +116,15 @@ details summary { cursor: pointer; font-weight: 700; color: var(--accent); min-h
 .avviso { display: flex; gap: 10px; align-items: flex-start; border-radius: 12px; padding: 10px 12px; font-size: 14px; background: var(--info-soft); color: var(--info-fg); }
 .avviso.attenzione { background: var(--warn-soft); color: var(--warn); }
 .avviso-ico { font-size: 18px; line-height: 1.1; }
+/* La tua corsa (vestizione ogni giorno): valori della prima ora e capi per parte del corpo */
+.corsa-dati { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.corsa-dati div { background: var(--line2); border-radius: 10px; padding: 6px 8px; display: flex; flex-direction: column; min-width: 0; }
+.corsa-dati span { font-size: 12px; color: var(--muted); }
+.corsa-dati b { font: 700 17px/1.15 var(--display); overflow-wrap: anywhere; }
+.corsa-zone { display: grid; grid-template-columns: 64px 1fr; gap: 6px 10px; font-size: 15px; }
+.corsa-zone .k { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding-top: 2px; }
+.corsa-fasce { display: flex; flex-direction: column; gap: 4px; }
+.corsa-fasce div { display: grid; grid-template-columns: 70px 1fr; gap: 8px; font-size: 14px; }
 .btn.gps { gap: 6px; color: var(--accent); align-self: flex-start; }
 input[type="time"].input { appearance: none; -webkit-appearance: none; }
 details.card:not([open]) { padding-top: 2px; padding-bottom: 2px; }

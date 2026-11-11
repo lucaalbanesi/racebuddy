@@ -192,4 +192,102 @@ assert.strictEqual(r.invio, null);
   assert.strictEqual(N.pianifica(base({ oggi: "2026-11-01", contenuti: cont, dati: { ora: "07:00", gare: [firenze], spunte: [], pref: { fase: false } } })).invio, null);
 }
 
+// vestizione ogni giorno (preferenza "vestizione", spenta di default)
+{
+  const L = require("../app/logic.js");
+  const vestiario = leggi("content/vestizione.json");
+  const corsa = (temp, extra = {}) => ({ temp, percepita: temp - 2, vento: 5, pioggia: 10, codice: 2, umidita: 70, ...extra });
+  const conV = (ora, over = {}) => base({ vestiario, corsaOggi: corsa(10), corsaDomani: corsa(5), ...over,
+    dati: { ora, gare: over.gare || [], spunte: [], pref: { vestizione: true, ...(over.pref || {}) }, ...(over.dati || {}) } });
+  // quando parte
+  assert.deepStrictEqual(N.momentoVestizione("06:30"), { tipo: "sera", ora: 20.5 });
+  assert.deepStrictEqual(N.momentoVestizione("07:30"), { tipo: "mattino", ora: 7 });
+  assert.deepStrictEqual(N.momentoVestizione("08:15"), { tipo: "mattino", ora: 7.5 });
+  assert.deepStrictEqual(N.momentoVestizione("18:30"), { tipo: "prima", ora: 17.5 });
+  assert.deepStrictEqual(N.momentoVestizione("12:00"), { tipo: "prima", ora: 11 });
+  // spenta: tutto come prima (giorno senza novità → niente)
+  assert.strictEqual(N.pianifica(base({ oggi: "2026-11-12", vestiario, corsaOggi: corsa(9), dati: { ora: "08:00", gare: [], spunte: [] }, ora: 7.5 })).invio, null);
+
+  // caso 2: uscita 7:30-12, giorno senza altro → push di vestizione mezz'ora prima, ogni giorno
+  let r = N.pianifica(conV("08:00", { oggi: "2026-11-12", ora: 7.5 }));
+  assert.strictEqual(r.invio.title, "👕 Corsa delle 8:00 · 10°, percepiti 8°");
+  assert.match(r.invio.body, /^Maniche lunghe sottili e pantaloncini/);
+  assert.strictEqual(r.invio.url, "./#/meteo?uscita=2026-11-12T08:00");
+  assert.strictEqual(r.invio.tag, "vestizione-2026-11-12");
+  assert.strictEqual(N.pianifica(conV("08:00", { oggi: "2026-11-12", ora: 7.5, stato: r.stato })).invio, null); // una volta al giorno
+  r = N.pianifica(conV("08:00", { oggi: "2026-11-13", ora: 7.5, stato: r.stato }));
+  assert.ok(r.invio && r.invio.title.startsWith("👕 Corsa delle 8:00"), "anche se uguale a ieri");
+  // il vecchio "il meteo cambia" non parte: c'è già la vestizione
+  r = N.pianifica(conV("08:00", { oggi: "2026-11-14", ora: 7.5, stato: { meteo: { temp: 20, pioggia: 0, fascia: 1 } }, meteoUscita: freddo }));
+  assert.ok(!/Il meteo cambia/.test(r.invio.title) && !/più freddo/i.test(r.invio.body), r.invio);
+  // caso 7: avviso serio → ⚠️ e l'elemento prima dei capi
+  r = N.pianifica(conV("07:30", { oggi: "2026-11-12", ora: 7, corsaOggi: corsa(1, { percepita: -2, pioggia12: 2 }) }));
+  assert.strictEqual(r.invio.title, "⚠️ Corsa delle 7:30 · 1°, percepiti -2°");
+  assert.match(r.invio.body, /^🧊 Rischio ghiaccio: scarpe con grip\. Termica/);
+  // caso 3: una cosa più importante → una sola notifica, vestizione come seconda riga
+  r = N.pianifica(conV("08:00", { oggi: "2026-11-12", ora: 7.5, dati: { documenti: { certificato: { scadenza: "2026-11-27" } } } }));
+  assert.match(r.invio.title, /Certificato medico: scade tra 15 giorni/);
+  const righe = r.invio.body.split("\n");
+  assert.match(righe[1], /^👕 Alle 8:00 · 10°, percepiti 8°\. Maniche lunghe sottili/);
+  assert.strictEqual(r.invio.url, "./#/io/documenti");
+  assert.strictEqual(r.stato.vestizione, "2026-11-12");
+  // caso 11: domenica senza altro → il contenuto per la fase come riga in più
+  const fase = L.fase(fasi, "42", "2026-11-29", "2026-11-01").id;
+  const cont = [{ id: "c1", tipo: "video", fonte: "Canale", titolo: "Il lungo a ritmo gara", data: "2026-10-28", fasi: [fase], distanze: ["42"], argomenti: [] }];
+  r = N.pianifica(conV("08:00", { oggi: "2026-11-01", ora: 7.5, gare: [firenze], contenuti: cont }));
+  assert.ok(r.invio.title.startsWith("👕 Corsa delle 8:00"), r.invio);
+  assert.match(r.invio.body, /\n📖 Per la tua fase: Il lungo a ritmo gara$/);
+
+  // caso 4: uscita prima delle 7:30 → la sera prima alle 20:30, per domattina
+  r = N.pianifica(conV("06:30", { oggi: "2026-11-12", ora: 20.5 }));
+  assert.strictEqual(r.invio.title, "👕 Domattina alle 6:30 · 5°, percepiti 3°");
+  assert.match(r.invio.body, /pantaloncini \(3\/4 se sei freddoloso\)/);
+  assert.strictEqual(r.invio.url, "./#/meteo?uscita=2026-11-13T06:30");
+  assert.strictEqual(N.pianifica(conV("06:30", { oggi: "2026-11-12", ora: 20, stato: {} })).invio, null); // solo alle 20:30
+  const sera = r.stato;
+  assert.strictEqual(N.pianifica(conV("06:30", { oggi: "2026-11-12", ora: 20.5, stato: sera })).invio, null); // una volta
+  // al mattino niente meteo se non cambia (giorno senza altro → nessuna notifica)
+  assert.strictEqual(N.pianifica(conV("06:30", { oggi: "2026-11-13", ora: 6, stato: sera, corsaOggi: corsa(6) })).invio, null);
+  // caso 5: cambia nella notte (fascia che salta di 2 o avviso nuovo) → correzione al mattino
+  r = N.pianifica(conV("06:30", { oggi: "2026-11-13", ora: 6, stato: sera, corsaOggi: corsa(16) }));
+  assert.ok(r.invio && r.invio.title.startsWith("👕 Cambia rispetto a ieri sera · 16°"), r.invio);
+  r = N.pianifica(conV("06:30", { oggi: "2026-11-13", ora: 6, stato: sera, corsaOggi: corsa(6, { pioggia: 90, codice: 95 }) }));
+  assert.ok(r.invio && r.invio.title.startsWith("⚠️ Cambia rispetto a ieri sera"), r.invio);
+  assert.match(r.invio.body, /^⛈️ Temporale/);
+  // la sera non è partita (attivata dopo le 20:30): al mattino arriva tutta
+  r = N.pianifica(conV("06:30", { oggi: "2026-11-13", ora: 6, corsaOggi: corsa(6) }));
+  assert.ok(r.invio && r.invio.title.startsWith("👕 Corsa delle 6:30"), r.invio);
+
+  // caso 6: uscita dalle 12 → un'ora prima, a parte dal messaggio delle 7 (che resta senza meteo)
+  r = N.pianifica(conV("18:30", { oggi: "2026-11-12", ora: 17.5 }));
+  assert.strictEqual(r.invio.title, "👕 Corsa delle 18:30 · 10°, percepiti 8°");
+  assert.strictEqual(N.pianifica(conV("18:30", { oggi: "2026-11-12", ora: 17.5, stato: r.stato })).invio, null);
+  assert.strictEqual(N.pianifica(conV("18:30", { oggi: "2026-11-12", ora: 7 })).invio, null);
+  r = N.pianifica(conV("18:30", { oggi: "2026-11-12", ora: 17.5, corsaOggi: corsa(12, { notte: true }) }));
+  assert.match(r.invio.body, /^🔦 Col buio: qualcosa di riflettente\./);
+
+  // casi 8 e 9: vigilia (niente sera) e giorno di gara (niente vestizione: c'è la notifica di gara)
+  const fi = { ...firenze };
+  assert.strictEqual(N.pianifica(conV("06:30", { oggi: "2026-11-28", ora: 20.5, gare: [fi] })).invio, null);
+  assert.strictEqual(N.pianifica(conV("18:30", { oggi: "2026-11-29", ora: 17.5, gare: [fi] })).invio, null);
+  r = N.pianifica(conV("08:00", { oggi: "2026-11-29", ora: 7.5, gare: [fi] }));
+  assert.ok(!r.invio || !/^👕|^⚠️/.test(r.invio.title), r.invio);
+  // caso 14: previsioni non disponibili → niente vestizione, nessun ripiego
+  assert.strictEqual(N.pianifica(conV("08:00", { oggi: "2026-11-12", ora: 7.5, corsaOggi: null })).invio, null);
+  assert.strictEqual(N.pianifica(conV("06:30", { oggi: "2026-11-12", ora: 20.5, corsaDomani: null })).invio, null);
+  // senza tabella (file mancante) la preferenza non fa nulla
+  assert.strictEqual(N.pianifica(conV("08:00", { oggi: "2026-11-12", ora: 7.5, vestiario: null })).invio, null);
+  console.log("vestizione ok");
+}
+
+// meteo che cambia: soglia ±3° rispetto a ieri (2° non bastano)
+{
+  const ieri = { meteo: { data: "2026-10-20", temp: 12, pioggia: 10, fascia: 2 } };
+  let r = N.pianifica(base({ oggi: "2026-10-21", stato: ieri, dati: { ora: "07:00", gare: [], spunte: [] }, meteoUscita: { temp: 9, vento: 5, pioggia: 10, codice: 1 } }));
+  assert.ok(r.invio && /Più freddo di ieri: 9°/.test(r.invio.body), r.invio);
+  r = N.pianifica(base({ oggi: "2026-10-21", stato: ieri, dati: { ora: "07:00", gare: [], spunte: [] }, meteoUscita: { temp: 15, vento: 5, pioggia: 10, codice: 1 } }));
+  assert.ok(r.invio && /Più caldo di ieri: 15°/.test(r.invio.body), r.invio);
+  assert.strictEqual(N.pianifica(base({ oggi: "2026-10-21", stato: ieri, dati: { ora: "07:00", gare: [], spunte: [] }, meteoUscita: { temp: 10, vento: 5, pioggia: 10, codice: 1 } })).invio, null);
+}
+
 console.log("ok");

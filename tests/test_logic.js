@@ -959,3 +959,63 @@ console.log("nomi ok");
   assert.strictEqual(L.scComanda([gare[2]], "2027-01-01").id, "c"); // entra nella finestra 12 settimane prima
   console.log("quanto corri ok");
 }
+
+// Vestizione ogni giorno (novembre 2026): tabella content/vestizione.json, fasce sulla percepita e correttivi
+{
+  const tab = JSON.parse(fs.readFileSync(path.join(root, "content/vestizione.json"), "utf8"));
+  const V = (m, o) => L.vestizioneCorsa(m, tab, o);
+  // le fasce sono in ordine dalla più calda e l'ultima non ha minimo
+  tab.fasce.forEach((f, i) => { if (i) assert.ok(f.min == null || f.min < tab.fasce[i - 1].min, f.id); });
+  assert.strictEqual(tab.fasce[tab.fasce.length - 1].min, null);
+  // gambe scalate: a 5° (percepiti 4°) pantaloncini, il pantacollant solo da 2° in giù
+  assert.strictEqual(V({ temp: 5, percepita: 4, vento: 5 }).fascia.id, "freddo");
+  assert.match(V({ temp: 5, percepita: 4, vento: 5 }).capi, /pantaloncini/);
+  assert.match(V({ temp: 1, percepita: 2, vento: 5 }).capi, /pantacollant/);
+  assert.match(V({ temp: 9, percepita: 9, vento: 5 }).push, /^Maniche lunghe sottili e pantaloncini/);
+  // senza percepita: temperatura meno 2 col vento (come prima)
+  assert.strictEqual(V({ temp: 9, vento: 25 }).percepita, 7);
+  // elemento: il più importante secondo l'ordine; avviso solo per i seri
+  let v = V({ temp: 1, percepita: -2, vento: 25, umidita: 80, pioggia12: 1.5, notte: true });
+  assert.strictEqual(v.elemento.id, "ghiaccio"); assert.ok(v.avviso);
+  assert.match(v.push, /^🧊 Rischio ghiaccio: scarpe con grip\. Termica/);
+  assert.ok(!/grip.*grip/.test(v.push), "l'aggiunta dell'elemento non si ripete");
+  assert.match(v.push, /qualcosa di riflettente/); // il buio resta come aggiunta
+  v = V({ temp: 10, percepita: 8, vento: 5, pioggia: 70, mm: 0.8, codice: 61 });
+  assert.strictEqual(v.elemento.id, "pioggia"); assert.ok(!v.avviso); assert.match(v.push, /cappellino con visiera/);
+  assert.strictEqual(V({ temp: 10, percepita: 8, vento: 5, pioggia: 70, mm: 3 }).elemento.id, "pioggia_forte");
+  assert.strictEqual(V({ temp: 10, vento: 5, pioggia: 70, mm: 0.1, codice: 3 }).elemento, null); // gocce: niente
+  assert.ok(V({ temp: 8, vento: 30, raffiche: 55 }).avviso);
+  assert.strictEqual(V({ temp: 12, percepita: 12, vento: 22 }).elemento.id, "vento");
+  assert.match(V({ temp: 12, percepita: 12, vento: 22 }).capi, /gilet antivento/);
+  assert.ok(!/gilet antivento/.test(V({ temp: 25, percepita: 25, vento: 22 }).capi)); // col caldo niente gilet
+  // afa: rugiada alta; avviso se anche la percepita è alta. Sole: occhiali senza ripetere il cappellino
+  v = V({ temp: 26, percepita: 30, vento: 5, rugiada: 22, uv: 8 });
+  assert.strictEqual(v.elemento.id, "afa"); assert.ok(v.avviso); assert.match(v.capi, /occhiali/); assert.ok(!/cappellino.*cappellino/.test(v.capi));
+  assert.ok(!V({ temp: 24, percepita: 25, vento: 5, rugiada: 18.5 }).avviso);
+  // freddo umido: uno strato in più sopra, le gambe non cambiano
+  v = V({ temp: 6, percepita: 4, vento: 5, umidita: 92 });
+  assert.strictEqual(v.fascia.id, "freddo"); assert.strictEqual(v.elemento.id, "freddo_umido");
+  // ghiaccio senza dati di umidità e pioggia: solo sotto zero
+  assert.ok(!V({ temp: 1, vento: 5 }).correttivi.some((c) => c.id === "ghiaccio"));
+  assert.ok(V({ temp: -1, vento: 5 }).correttivi.some((c) => c.id === "ghiaccio"));
+  // in gara un gradino più leggero e lo strato da buttare
+  assert.match(V({ temp: 8, percepita: 8, vento: 5 }, { gara: true }).capi, /strato da buttare/);
+  assert.strictEqual(V({ temp: 8, percepita: 8, vento: 5 }, { gara: true }).fascia.id, "frizzante");
+  assert.strictEqual(V({ temp: 6, percepita: 6, vento: 5 }, { gara: true }).fascia.id, "frizzante");
+  // L.vestizione con la tabella usa le stesse fasce; senza tabella resta quella di prima
+  assert.strictEqual(L.vestizione({ temp: 5, vento: 5 }, false, tab), "Maniche lunghe e gilet, pantaloncini (3/4 se sei freddoloso), guanti leggeri e fascia.");
+  assert.match(L.vestizione({ temp: 5, vento: 5 }), /pantacollant/);
+  assert.strictEqual(L.vestizioneCorsa(null, tab), null);
+  // meteo della corsa dalla serie oraria: prima ora, peggio dei due, escursione e pioggia delle 12 ore prima
+  const ore = Array.from({ length: 30 }, (_, i) => `2026-11-1${i < 24 ? 1 : 2}T${String(i % 24).padStart(2, "0")}:00`);
+  const h = { time: ore, temperature_2m: ore.map((_, i) => (i === 7 ? 2 : i === 8 ? 7 : 5)), apparent_temperature: ore.map(() => 1), precipitation_probability: ore.map((_, i) => (i === 8 ? 80 : 10)),
+    wind_speed_10m: ore.map(() => 10), precipitation: ore.map((_, i) => (i === 2 ? 1.2 : 0)), weather_code: ore.map((_, i) => (i === 8 ? 61 : 3)), is_day: ore.map((_, i) => (i >= 7 && i <= 17 ? 1 : 0)),
+    relative_humidity_2m: ore.map(() => 88) };
+  const m = L.meteoCorsa(h, "2026-11-11T07:30");
+  assert.strictEqual(m.temp, 2); assert.strictEqual(m.pioggia, 80); assert.strictEqual(m.codice, 61); assert.strictEqual(m.escursione, 5);
+  assert.strictEqual(m.pioggia12, 1.2); assert.strictEqual(m.quando, "2026-11-11T07:30"); assert.strictEqual(m.notte, false);
+  assert.strictEqual(L.meteoCorsa(h, "2026-12-01T07:00"), null);
+  assert.strictEqual(L.meteoOra(h, 999), null);
+  assert.strictEqual(L.afaLivello({ temp: 26, rugiada: 22 }), "alta"); assert.strictEqual(L.afaLivello({ temp: 10, rugiada: 9 }), null);
+  console.log("vestizione ok");
+}

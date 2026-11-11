@@ -23,7 +23,7 @@
    2. una cosa che l'utente ha rimandato a oggi ("Domani");
    3. una tappa chiave del percorso (voci con "notifica": true), se non già fatta;
    4. il meteo della gara, la prima volta che è disponibile (7 giorni prima) e se poi cambia molto;
-   5. il meteo dell'uscita, solo se cambia davvero rispetto a ieri: nuovo avviso importante, ±5°, arriva la pioggia.
+   5. il meteo dell'uscita, solo se cambia davvero rispetto a ieri: nuovo avviso importante, ±3°, arriva la pioggia.
       Un avviso già dato ieri (o negli ultimi giorni) non si ripete. Al massimo 2 notifiche di solo meteo a settimana.
    Il cambio di meteo, se c'è, si aggiunge come seconda riga alla notifica principale.
    Una novità ufficiale "del mattino" di una gara seguita (pacer, allenamenti ufficiali, video…) va come riga in più,
@@ -33,7 +33,19 @@
    partenza e orari, pettorale ed Expo, annullamento; dopo la gara risultati e foto. Al massimo una al giorno per
    gara, lo stesso tema di una gara non più di una volta ogni 14 giorni, mai una novità vecchia di oltre 2 giorni.
 
-   Preferenze dell'utente (dati.pref): meteo, percorso, gara, documenti, novita, fase (tutte attive di default). */
+   Vestizione ogni giorno (preferenza "vestizione", spenta di default, novembre 2026): chi la accende riceve ogni giorno
+   cosa mettersi per la corsa (tabella content/vestizione.json, L.vestizioneCorsa) al posto del "meteo che cambia".
+   Titolo "👕 Corsa delle HH:MM · T°, percepiti P°" (⚠️ con un avviso serio), testo = un elemento (ghiaccio, pioggia,
+   vento…) e i capi; il tocco apre #/meteo?uscita=…. Quando (momentoVestizione):
+   - uscita prima delle 7:30 → la sera prima alle 20:30 (non la vigilia di una gara); al mattino solo una correzione,
+     come riga o da sola, se la fascia salta di 2 o arriva un avviso nuovo (o se la sera non è partita);
+   - uscita tra le 7:30 e le 11:59 → nel messaggio del mattino: da sola, o seconda riga della cosa più importante;
+     la domenica il contenuto per la fase diventa una riga in più;
+   - uscita dalle 12 → un'ora prima dell'uscita, a parte (il messaggio delle 7 resta senza meteo).
+   Mai il giorno di una gara (c'è la notifica di gara con la vestizione da gara).
+
+   Preferenze dell'utente (dati.pref): meteo, percorso, gara, documenti, novita, fase (attive di default), vestizione
+   (spenta di default). */
 "use strict";
 const L = require("../app/logic.js");
 
@@ -62,12 +74,24 @@ function oraDopo(g, scheda) {
   const durata = obiettivo || (g && g.km ? g.km * 0.1 : DURATA_TIPICA[g && g.distanza] || 1);
   return Math.min(20, Math.max(12, Math.ceil(via + durata + 0.5)));
 }
+/** Vestizione ogni giorno: quando parte. "sera" = la sera prima alle 20:30 (uscita prima delle 7:30), "prima" = un'ora
+    prima dell'uscita (dalle 12), "mattino" = col messaggio del mattino. Ore a mezz'ore come oraMattino. */
+function momentoVestizione(oraUscita) {
+  const u = oraNum(oraUscita, 7);
+  if (u < 7.5) return { tipo: "sera", ora: 20.5 };
+  if (u >= 12) return { tipo: "prima", ora: Math.floor((u - 1) * 2) / 2 };
+  return { tipo: "mattino", ora: oraMattino(oraUscita) };
+}
+const gradi = (v) => `${v.temp}°, percepiti ${v.percepita}°`;
+const iconaVest = (v) => (v.avviso ? "⚠️" : "👕");
+const urlMeteo = (giorno, ora) => `./#/meteo?uscita=${giorno}T${String(Math.floor(oraNum(ora, 7))).padStart(2, "0")}:${String(Math.round((oraNum(ora, 7) % 1) * 60)).padStart(2, "0")}`;
+
 /** Fascia di vestizione (0 = caldo … 5 = gelo), per capire se il "cosa mettere" è cambiato. */
 function fascia(m) {
   const t = m.temp - (m.vento >= 20 ? 2 : 0);
   return t >= 22 ? 0 : t >= 16 ? 1 : t >= 11 ? 2 : t >= 6 ? 3 : t >= 1 ? 4 : 5;
 }
-const PREF = { meteo: true, percorso: true, gara: true, documenti: true, novita: true, fase: true };
+const PREF = { meteo: true, percorso: true, gara: true, documenti: true, novita: true, fase: true, vestizione: false };
 // Una novità è "fresca" se è uscita da poco e l'abbiamo vista da poco: le vecchie non si notificano mai.
 const fresca = (n, oggi, giorni) => n.data >= L.addDays(oggi, -giorni) && String(n.trovato || "").slice(0, 10) >= L.addDays(oggi, -giorni);
 const PRI_TEMA = ["annullata", "medaglia", "percorso", "partenza", "pettorale", "maglia", "risultati"];
@@ -106,8 +130,8 @@ function cambioMeteo(m, prec, avvisiRecenti) {
   if (nuovo) return `${icona(m)} ${nuovo.titolo}: ${minuscola(primaFrase(nuovo.testo))}`;
   if (!prec) return null;
   const vest = primaFrase(L.vestizione(m));
-  if (m.temp - prec.temp <= -5) return `${icona(m)} Molto più freddo di ieri: ${Math.round(m.temp)}°. ${vest}`;
-  if (m.temp - prec.temp >= 5) return `${icona(m)} Più caldo di ieri: ${Math.round(m.temp)}°. ${vest}`;
+  if (m.temp - prec.temp <= -3) return `${icona(m)} Più freddo di ieri: ${Math.round(m.temp)}°. ${vest}`;
+  if (m.temp - prec.temp >= 3) return `${icona(m)} Più caldo di ieri: ${Math.round(m.temp)}°. ${vest}`;
   if (m.pioggia >= 60 && prec.pioggia < 30) return `🌧️ Oggi pioggia probabile (${Math.round(m.pioggia)}%) all'ora della tua uscita.`;
   if (Math.abs(fascia(m) - prec.fascia) >= 2) return `${icona(m)} ${Math.round(m.temp)}°: cambia la vestizione. ${vest}`;
   return null;
@@ -115,9 +139,10 @@ function cambioMeteo(m, prec, avvisiRecenti) {
 
 /**
  * Decide cosa inviare a un iscritto in questo momento.
- * ctx: { oggi, ora, dati, stato, fasi, percorso, schede, meteoUscita, meteoGara(gara, ora) -> meteo|null }
+ * ctx: { oggi, ora, dati, stato, fasi, percorso, schede, meteoUscita, meteoGara(gara, ora) -> meteo|null,
+ *        vestiario (content/vestizione.json), corsaOggi, corsaDomani (L.meteoCorsa dell'uscita di oggi e di domani) }
  * Ritorna { invio: {title, body, url, tag} | null, stato }.
- * meteoUscita e meteoGara sono già calcolati da chi chiama (qui niente rete).
+ * meteoUscita, meteoGara e le corse sono già calcolati da chi chiama (qui niente rete).
  */
 function pianifica(ctx) {
   const { oggi, ora, dati = {}, fasi, percorso, schede = {} } = ctx;
@@ -141,7 +166,7 @@ function pianifica(ctx) {
     const righe = [];
     if (s.partenza) righe.push(`Partenza ${fmtOra(s.partenza) || s.partenza}${s.griglia ? ` · ${primaFrase(s.griglia).replace(/\.$/, "")}` : ""}.`);
     if (s.deposito) righe.push(`Deposito: ${minuscola(primaFrase(s.deposito))}`);
-    if (m) righe.push(`${icona(m)} ${Math.round(m.temp)}° al via. ${primaFrase(L.vestizione(m, true))}`);
+    if (m) righe.push(`${icona(m)} ${Math.round(m.temp)}° al via. ${primaFrase(L.vestizione(m, true, ctx.vestiario))}`);
     righe.push("Buona gara! 🏁");
     segna(`gara:${garaOggi.id}`); stato.ultimo = oggi;
     return { invio: { title: `Oggi è il giorno: ${titolo(garaOggi.nome)}`, body: righe.join("\n"), url: `./#/gara/${encodeURIComponent(garaOggi.id)}`, tag: `gara-${garaOggi.id}` }, stato };
@@ -157,9 +182,27 @@ function pianifica(ctx) {
     const s = schede[garaDomani.id] || {}, m = ctx.meteoGara && ctx.meteoGara(garaDomani, s.partenza);
     const righe = ["Prepara la borsa stasera: la checklist è pronta nell'app."];
     if (s.partenza) righe.push(`Partenza alle ${fmtOra(s.partenza) || s.partenza}${s.luogoPartenza ? `, ${minuscola(primaFrase(s.luogoPartenza).replace(/^Partenza (da|in)\s*/i, "").replace(/\.$/, ""))}` : ""}.`);
-    if (m) righe.push(`${icona(m)} ${Math.round(m.temp)}° previsti al via. ${primaFrase(L.vestizione(m, true))}`);
+    if (m) righe.push(`${icona(m)} ${Math.round(m.temp)}° previsti al via. ${primaFrase(L.vestizione(m, true, ctx.vestiario))}`);
     segna(`vigilia:${garaDomani.id}`);
     return { invio: { title: `Domani: ${titolo(garaDomani.nome)}`, body: righe.join("\n"), url: `./#/gara/${encodeURIComponent(garaDomani.id)}/borsa`, tag: `vigilia-${garaDomani.id}` }, stato };
+  }
+
+  // --- vestizione ogni giorno: la sera prima (uscita prima delle 7:30) o un'ora prima (uscita dalle 12)
+  const vestOn = !!(pref.vestizione && ctx.vestiario);
+  const momento = momentoVestizione(dati.ora), oraU = fmtOra(dati.ora) || "7:00";
+  const vestDi = (m) => (m ? L.vestizioneCorsa(m, ctx.vestiario) : null);
+  if (vestOn && momento.tipo === "sera" && ora === momento.ora) {
+    const domani = L.addDays(oggi, 1), v = vestDi(ctx.corsaDomani);
+    // la vigilia di una gara non parte: domattina si corre la gara (e la vigilia alle 19 ha già il meteo al via)
+    if (!v || gare.some((g) => g.data === domani) || (stato.vestSera && stato.vestSera.data === domani)) return { invio: null, stato };
+    stato.vestSera = { data: domani, fascia: v.fascia.indice, avvisi: v.correttivi.filter((c) => c.avviso).map((c) => c.id) };
+    return { invio: { title: `${iconaVest(v)} Domattina alle ${oraU} · ${gradi(v)}`, body: v.push, url: urlMeteo(domani, dati.ora), tag: `vestizione-${domani}` }, stato };
+  }
+  if (vestOn && momento.tipo === "prima" && ora === momento.ora) {
+    const v = vestDi(ctx.corsaOggi);
+    if (!v || garaOggi || stato.vestizione === oggi) return { invio: null, stato };
+    stato.vestizione = oggi;
+    return { invio: { title: `${iconaVest(v)} Corsa delle ${oraU} · ${gradi(v)}`, body: v.push, url: urlMeteo(oggi, dati.ora), tag: `vestizione-${oggi}` }, stato };
   }
 
   // --- mattino
@@ -225,7 +268,7 @@ function pianifica(ctx) {
     const prec = stato.meteoGara[g.id];
     const cambio = prec && (Math.abs(m.temp - prec.temp) >= 4 || (m.pioggia >= 60) !== (prec.pioggia >= 60) || L.avvisiMeteo(m, true).some((a) => a.livello === "attenzione" && !(prec.avvisi || []).includes(a.tipo)));
     if (!prec || (cambio && !prec.aggiornato)) {
-      candidati.push({ pri: 4, title: `${prec ? "Cambia il meteo" : "Prime previsioni"} per ${titolo(g.nome)}`, body: `${icona(m)} ${Math.round(m.temp)}° al via, pioggia ${Math.round(m.pioggia)}%, vento ${Math.round(m.vento)} km/h. ${primaFrase(L.vestizione(m, true))}`, url: `./#/gara/${encodeURIComponent(g.id)}`, poi: () => { stato.meteoGara[g.id] = { temp: m.temp, pioggia: m.pioggia, avvisi: L.avvisiMeteo(m, true).map((a) => a.tipo), aggiornato: !!prec }; } });
+      candidati.push({ pri: 4, title: `${prec ? "Cambia il meteo" : "Prime previsioni"} per ${titolo(g.nome)}`, body: `${icona(m)} ${Math.round(m.temp)}° al via, pioggia ${Math.round(m.pioggia)}%, vento ${Math.round(m.vento)} km/h. ${primaFrase(L.vestizione(m, true, ctx.vestiario))}`, url: `./#/gara/${encodeURIComponent(g.id)}`, poi: () => { stato.meteoGara[g.id] = { temp: m.temp, pioggia: m.pioggia, avvisi: L.avvisiMeteo(m, true).map((a) => a.tipo), aggiornato: !!prec }; } });
     }
   }
   // 5. meteo dell'uscita: si confronta sempre, si avvisa solo se cambia
@@ -233,7 +276,7 @@ function pianifica(ctx) {
   const m = ctx.meteoUscita;
   if (m) {
     const recenti = Object.entries(stato.avvisi || {}).filter(([, d]) => L.diffDays(oggi, d) <= 5).map(([t]) => t);
-    rigaMeteo = pref.meteo ? cambioMeteo(m, stato.meteo, recenti) : null;
+    rigaMeteo = pref.meteo && !vestOn ? cambioMeteo(m, stato.meteo, recenti) : null; // con la vestizione ogni giorno il "cambio" non serve
     stato.avvisi = stato.avvisi || {};
     for (const a of L.avvisiMeteo(m)) stato.avvisi[a.tipo] = oggi;
     stato.meteo = { data: oggi, temp: m.temp, pioggia: m.pioggia, fascia: fascia(m) };
@@ -245,19 +288,46 @@ function pianifica(ctx) {
     .sort((a, b) => (a.urgenza === "subito" ? 0 : 1) - (b.urgenza === "subito" ? 0 : 1) || (a.data < b.data ? 1 : -1))[0] : null;
   const rigaNovita = nov ? `Dalla ${titolo(perGara[nov.gara].nome)}: ${minuscola(nov.titolo).replace(/[.!\s]*$/, ".")}` : null;
   const segnaNovita = () => { if (nov) segna(`novita:${nov.id}`); };
+  // contenuto per la fase della domenica (una volta a settimana): { c, f } o null
+  function contenutoFase() {
+    if (new Date(`${oggi}T12:00:00Z`).getUTCDay() !== 0 || !focus) return null;
+    const f = L.fase(fasi, focus.distanza, focus.data, oggi);
+    const settimana = Object.entries(stato.inviati).some(([k, d]) => k.startsWith("contenuto:") && L.diffDays(oggi, d) < 7);
+    const c = !settimana && f.id !== "prima" && L.perTe(ctx.contenuti || [], { fase: f.id, distanza: focus.distanza, oggi })
+      .find((x) => x.perLaFase && !gia(`contenuto:${x.id}`) && L.diffDays(oggi, x.data) <= 21);
+    return c ? { c, f } : null;
+  }
+
+  // vestizione ogni giorno al mattino: per chi esce tra le 7:30 e le 12; per chi esce prima solo la correzione
+  // rispetto alla sera (fascia che salta di 2 o avviso nuovo), o tutta se la sera non è partita
+  let vest = null;
+  if (vestOn && momento.tipo !== "prima" && stato.vestizione !== oggi) {
+    const v = vestDi(ctx.corsaOggi);
+    const sera = stato.vestSera && stato.vestSera.data === oggi ? stato.vestSera : null;
+    if (v && momento.tipo === "mattino") vest = { v };
+    else if (v && !sera) vest = { v };
+    else if (v && (Math.abs(v.fascia.indice - sera.fascia) >= 2 || v.correttivi.some((c) => c.avviso && !sera.avvisi.includes(c.id)))) vest = { v, cambio: true };
+  }
+  const titoloVest = (x) => `${iconaVest(x.v)} ${x.cambio ? "Cambia rispetto a ieri sera" : `Corsa delle ${oraU}`} · ${gradi(x.v)}`;
+  const rigaVest = vest ? `👕 ${vest.cambio ? "Cambia rispetto a ieri sera" : `Alle ${oraU}`} · ${gradi(vest.v)}. ${vest.v.push}` : null;
+  const segnaVest = () => { if (vest) stato.vestizione = oggi; };
 
   candidati.sort((a, b) => a.pri - b.pri);
   const top = candidati[0];
+  if (vest && !top) {
+    // la domenica il contenuto per la fase diventa una riga in più
+    const cf = pref.fase ? contenutoFase() : null;
+    if (cf) segna(`contenuto:${cf.c.id}`);
+    segnaVest(); segnaNovita(); stato.ultimo = oggi;
+    return { invio: { title: titoloVest(vest), body: [vest.v.push, rigaNovita, cf ? `📖 Per la tua fase: ${cf.c.titolo}` : null].filter(Boolean).join("\n"), url: urlMeteo(oggi, dati.ora), tag: `vestizione-${oggi}` }, stato };
+  }
   if (!top && !rigaMeteo && nov) {
     segnaNovita(); stato.ultimo = oggi;
     return { invio: { title: `Novità: ${titolo(perGara[nov.gara].nome)}`, body: corpoNovita(nov), url: urlNovita(nov), tag: `mattino-${oggi}` }, stato };
   }
   // 7. la domenica, se non c'è proprio nulla: un contenuto per la fase, una volta a settimana
-  if (!top && !rigaMeteo && pref.fase && new Date(`${oggi}T12:00:00Z`).getUTCDay() === 0 && focus) {
-    const f = L.fase(fasi, focus.distanza, focus.data, oggi);
-    const settimana = Object.entries(stato.inviati).some(([k, d]) => k.startsWith("contenuto:") && L.diffDays(oggi, d) < 7);
-    const c = !settimana && f.id !== "prima" && L.perTe(ctx.contenuti || [], { fase: f.id, distanza: focus.distanza, oggi })
-      .find((x) => x.perLaFase && !gia(`contenuto:${x.id}`) && L.diffDays(oggi, x.data) <= 21);
+  if (!top && !rigaMeteo && pref.fase) {
+    const cf = contenutoFase(), c = cf && cf.c, f = cf && cf.f;
     if (c) {
       segna(`contenuto:${c.id}`); stato.ultimo = oggi;
       return { invio: { title: `Per la tua fase: ${f.nome}`, body: `${c.titolo} · ${c.fonte}`, url: "./#/perte", tag: `fase-${oggi}` }, stato };
@@ -272,8 +342,8 @@ function pianifica(ctx) {
   }
   if (top.chiave) segna(top.chiave);
   if (top.poi) top.poi();
-  stato.ultimo = oggi; segnaNovita();
-  return { invio: { title: top.title, body: [top.body, rigaNovita, rigaMeteo].filter(Boolean).join("\n"), url: top.url || url, tag: `mattino-${oggi}` }, stato };
+  stato.ultimo = oggi; segnaNovita(); segnaVest();
+  return { invio: { title: top.title, body: [top.body, rigaVest, rigaNovita, rigaMeteo].filter(Boolean).join("\n"), url: top.url || url, tag: `mattino-${oggi}` }, stato };
 }
 
 /**
@@ -297,4 +367,4 @@ function esitoTempi(ctx) {
     : { invio: { title: "Tempo non approvato", body: `Il referente non ha approvato il tempo che hai mandato per ${nome}. Puoi cercarlo nelle classifiche o rimandarlo.`, url: "./#/gruppo/mie", tag: `esito-${e.id}` }, stato };
 }
 
-module.exports = { pianifica, novitaUrgente, esitoTempi, oraMattino, oraGara, oraDopo, fascia, cambioMeteo };
+module.exports = { pianifica, novitaUrgente, esitoTempi, oraMattino, oraGara, oraDopo, momentoVestizione, fascia, cambioMeteo };
