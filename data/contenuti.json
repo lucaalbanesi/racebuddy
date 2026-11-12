@@ -2,6 +2,219 @@
  "aggiornato": "2026-11-12",
  "contenuti": [
   {
+   "id": "00aa120dbd0b",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Un anno di Major in numeri: dalla nazione più veloce (che non è il Kenya) all’Italia",
+   "estratto": "328.106 runner, sette Major, un Paese che corre più veloce del Kenya e l'Italia in top 10. Ecco cosa raccontano i numeri del 2026",
+   "link": "https://www.runnersworld.com/it/news/a74398916/anno-major-numeri-nazione-piu-veloce/",
+   "data": "2026-11-12",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/366cc716-ac8c-4acc-a51c-b64b7866fca1.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "2c01852b34c2",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Setup corsa 100km: zaino, vest e attrezzatura",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/znPpRp6BJrM",
+   "data": "2026-11-12",
+   "immagine": "https://i3.ytimg.com/vi/znPpRp6BJrM/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "ec4a05a90f9c",
+   "tipo": "video",
+   "fonte": "Andrea Vignone",
+   "fonteId": "yt_crazyvigno",
+   "titolo": "SCANSIONE 3D LIVE a EICMA! 🔥 Entriamo nel mondo PRODAMP: guarda cosa realizzano!",
+   "estratto": "🤯 IL FUTURO DELLE MOTO È GIÀ QUI! SCANSIONE 3D E STAMPA 3D LIVE A EICMA 2026 CON PRODAMP! Avete mai pensato di poter progettare e…",
+   "link": "https://www.youtube.com/watch?v=xWS14ddVvwA",
+   "data": "2026-11-12",
+   "immagine": "https://i1.ytimg.com/vi/xWS14ddVvwA/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "0ae7ef27b42b",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Ricomposizione corporea: perdere grasso e mettere muscolo, insieme",
+   "estratto": "Chi comincia, chi rientra dopo una lunga pausa e chi parte da una quota di grasso più alta può perdere grasso e costruire muscolo nello stesso periodo, con due leve precise e…",
+   "link": "https://runlovers.it/2026/ricomposizione-corporea-grasso-muscolo/",
+   "data": "2026-11-12",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/ricomposizione-corporea-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "alimentazione",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
+   "id": "04f61b36a7c5",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Olimpiadi 2028, addio De Coubertin: minimi severissimi, spesso più duri dei record italiani",
+   "estratto": "I minimi per Los Angeles 2028 sono durissimi: proiettando i risultati del 2026, soltanto 11 azzurri sarebbero già qualificati. E molti record italiani non basterebbero",
+   "link": "https://www.runnersworld.com/it/news/a74407133/olimpiadi-2028-minimi-qualificazione/",
+   "data": "2026-11-12",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/a312f0ae-aba6-4a18-ba28-72c279e61338.jpeg",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "d8dbeeb6b5dd",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Le posizioni yoga per sciogliere le spalle",
+   "estratto": "Siedi al computer e le tue spalle si irrigidiscono. Ecco cinque posizioni per ripristinare lo spazio articolare e sciogliere la tensione in dieci minuti. Stare a lungo di fronte a…",
+   "link": "https://runlovers.it/2026/yoga-posizioni-sciogliere-spalle/",
+   "data": "2026-11-12",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/06-202611120715-Yoga-W-Unsplash-Margaret-Young.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "alimentazione",
+    "allenamento",
+    "forza",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "eaa63d2f0e46",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Il TAPER PRE-GARA - perché sto sempre male?",
+   "estratto": "Lo scarico nelle ultime due settimane prima di una gara vale più di qualsiasi allenamento, e forse più di una scarpa da gara. Se state…",
+   "link": "https://www.youtube.com/watch?v=rtty69Nf37k",
+   "data": "2026-11-12",
+   "immagine": "https://i3.ytimg.com/vi/rtty69Nf37k/hqdefault.jpg",
+   "argomenti": [
+    "scarpe",
+    "allenamento",
+    "recupero",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara",
+    "dopo"
+   ]
+  },
+  {
+   "id": "abb7099284d6",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Cosa succede ai muscoli quando corri una maratona?",
+   "estratto": "Dalla fatica e dall'aumento degli enzimi muscolari fino al rischio di rabdomiolisi: come reagisce il corpo a 42,195 km e quali sono i segnali da non sottovalutare",
+   "link": "https://www.runnersworld.com/it/salute/infortuni/a74395930/muscoli-maratona-cosa-succede/",
+   "data": "2026-11-12",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/gettyimages-2148747681-6650a168e2af0.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "1cbcea539a66",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Corsa a tempo o a distanza: gli esperti spiegano quale sia la scelta migliore per i tuoi obiettivi",
+   "estratto": "I pro e i contro dell'allenamento basato sui minuti rispetto a quello basato sui chilometri",
+   "link": "https://www.runnersworld.com/it/allenamento/a74407225/corsa-tempo-distanza-scelta-migliore/",
+   "data": "2026-11-12",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/2f36d3ed-88b1-4a52-8867-65485be24b44.jpeg",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "63f520d2edff",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "Brooks Glycerin Max 3: ammortizzazione rivoluzionaria per una corsa ottimizzata",
+   "estratto": "La Glycerin Max 3 di Brooks è la nuova uscita della linea Glycerin Max. Una scarpa da running neutra per chi ama una corsa molto ammortizzata e non necessita di supporto…",
+   "link": "https://correre.it/brooks-glycerin-max-3/",
+   "data": "2026-11-12",
+   "immagine": "https://correre.it/wp-content/uploads/2026/11/Brooks_Glycerin_Max_3_esterno.jpg",
+   "argomenti": [
+    "scarpe",
+    "allenamento",
+    "racconti"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "6bc8fa8364dc",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Allenamento in soglia: 20, 30 o 40 minuti?",
+   "estratto": "ALLENAMENTO IN SOGLIA: MEGLIO 20, 30 O 40 MINUTI? COSA DICE DAVVERO LA SCIENZA La durata ideale non è un numero magico: contano intensità reale, tempo totale di lavoro, recuperi e…",
+   "link": "https://podisti.net/allenamento-in-soglia-20-30-o-40-minuti/",
+   "data": "2026-11-12",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Allenamento-in-soglia_-cosa-dice-la-scienza.png",
+   "argomenti": [
+    "allenamento",
+    "recupero",
+    "mente",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico",
+    "gara",
+    "dopo"
+   ]
+  },
+  {
    "id": "ed69a4b59a51",
    "tipo": "articolo",
    "fonte": "Podisti.net",
