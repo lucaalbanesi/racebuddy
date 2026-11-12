@@ -13,7 +13,8 @@ window.RB_CONFIG = {
   // Tempi dalle classifiche (Gare Podistiche Lazio e FIDAL) con la Edge Function "tempi".
   tempi: true,
   // Buddy, la chat AI su scarpe, integratori e allenamento (Edge Function "buddy", Groq).
-  buddy: true,
+  // Spento a novembre 2026: rimettere true per riaccenderlo (la funzione online e il segreto restano).
+  buddy: false,
   // Classifiche del gruppo (fase 1: Gare corse, PB della stagione, Albo d'oro con i tempi certificati). Restano spente
   // finché l'amministratore non le accende in Gestione; servono docs/supabase_classifiche.sql e la funzione "tempi".
   classifiche: true,
