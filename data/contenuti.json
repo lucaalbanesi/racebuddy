@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-11",
+ "aggiornato": "2026-11-12",
  "contenuti": [
   {
    "id": "ed69a4b59a51",
@@ -37,20 +37,22 @@
    ]
   },
   {
-   "id": "c962e92f0d09",
+   "id": "8d5844debfe8",
    "tipo": "articolo",
-   "fonte": "Correre",
-   "fonteId": "correre",
-   "titolo": "Protetto: Joma dedica una RS-9000 Special Edition alla Firenze Marathon 2026",
-   "estratto": "Questo contenuto è protetto da password. Per visualizzarlo inserisci la password qui sotto. Password: L'articolo Protetto: Joma dedica una RS-9000 Special Edition alla Firenze…",
-   "link": "https://correre.it/joma-rs-9000-special-edition-firenze-marathon-2026/",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "T-shirt da running: la guida definitiva alla scelta",
+   "estratto": "Tanti utili consigli e una selezione di maglie da allenamento perfette per ogni esigenza, leggere, traspiranti e confortevoli",
+   "link": "https://www.runnersworld.com/it/allenamento/a74179348/t-shirt-running-guida-scelta/",
    "data": "2026-11-11",
-   "immagine": "https://correre.it/wp-content/uploads/2026/11/shokz_openfit_air_2_openrun_pro_2.png",
-   "argomenti": [],
-   "distanze": [
-    "42"
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/rabbit-ez-tee-3112-1618234691.jpg",
+   "argomenti": [
+    "allenamento"
    ],
-   "fasi": []
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
   },
   {
    "id": "ef9831ad7fd7",
@@ -104,6 +106,49 @@
    ]
   },
   {
+   "id": "52205ebc31fc",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Metodo corsa-camminata: perché funziona anche per runner esperti e può aiutare a correre più veloce",
+   "estratto": "Alternare corsa e camminata non serve soltanto a chi inizia. Può aiutare a gestire meglio ritmo, recupero, lunghi e persino le gare",
+   "link": "https://www.runnersworld.com/it/allenamento/indoor/a74400168/metodo-corsa-camminata-runner-allenamento/",
+   "data": "2026-11-11",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/258d3868-da03-446d-a4da-d2b620deb052.jpg",
+   "argomenti": [
+    "allenamento",
+    "recupero",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "dopo"
+   ]
+  },
+  {
+   "id": "bfe5acae5713",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Le canzoni scritte alla velocità dei passi",
+   "estratto": "Scegliere una canzone solo per i suoi BPM trasforma un’opera d’arte in un pezzo di ingegneria biomeccanica che comanda le tue gambe. Ascoltare musica durante la corsa converte il…",
+   "link": "https://runlovers.it/2026/canzoni-velocita-passi-musica-cadenza/",
+   "data": "2026-11-11",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/05-202611111730-Canzoni-C-Unsplash-Fitnish-Media.jpeg?fit=1920%2C1279&quality=75&ssl=1",
+   "argomenti": [
+    "scarpe",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
    "id": "41d5a9cd05da",
    "tipo": "articolo",
    "fonte": "Runlovers",
@@ -126,6 +171,29 @@
     "picco",
     "scarico",
     "gara"
+   ]
+  },
+  {
+   "id": "c962e92f0d09",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "Joma dedica una RS-9000 Special Edition alla Firenze Marathon 2026",
+   "estratto": "Dopo Roma e Venezia , la Joma RS-9000 arriva anche alla Firenze Marathon 2026 , forte del successo ottenuto nel 2025 con le R-2000 e R-5000 . Sarà dunque possibile vedere e…",
+   "link": "https://correre.it/joma-rs-9000-special-edition-firenze-marathon-2026/",
+   "data": "2026-11-11",
+   "immagine": "https://correre.it/wp-content/uploads/2026/11/joma_rs-9000_firenze_marathon_2026.png",
+   "argomenti": [
+    "scarpe",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
    ]
   },
   {
@@ -163,6 +231,25 @@
     "costruzione",
     "picco",
     "scarico"
+   ]
+  },
+  {
+   "id": "1d6e6a523f01",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Correre al freddo fa male? Fino a che temperatura si può correre e come farlo in sicurezza",
+   "estratto": "Un fisioterapista, un allenatore e dei runner professionisti danno i loro migliori consigli per affrontare gli allenamenti con rigide temperature",
+   "link": "https://www.runnersworld.com/it/allenamento/a46171849/too-cold-to-run/",
+   "data": "2026-11-11",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/9b934632-c444-47b5-b2ac-b1f68b35e77c.jpeg",
+   "argomenti": [
+    "allenamento",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
    ]
   },
   {
