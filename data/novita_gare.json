@@ -1,6 +1,34 @@
 {
- "aggiornato": "2026-11-13T08:50Z",
+ "aggiornato": "2026-11-13T15:50Z",
  "novita": [
+  {
+   "id": "nde69360ba9d",
+   "gara": "E-valencia-42-2026",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "La Maratona di Valencia sogna il record del mondo: Ngetich debutta contro Tesfay",
+   "link": "https://www.runnersworld.com/it/news/a74419477/maratona-valencia-ngetich-debutta-tesfay/",
+   "data": "2026-11-13",
+   "fonte": "Runner's World Italia",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/d88924a6-ecf3-4239-875c-eb75e48e924e.jpeg",
+   "trovato": "2026-11-13T15:50Z"
+  },
+  {
+   "id": "nbab3d340aab",
+   "gara": "E-valencia-42-2026",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Maratona di Valencia: forfait di Kejelcha, ma i pretendenti non mancano",
+   "link": "https://www.runnersworld.com/it/news/a74419841/maratona-valencia-infortunio-kejelcha/",
+   "data": "2026-11-13",
+   "fonte": "Runner's World Italia",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/c71736f3-0034-4c73-a1a7-e7f7d5207220.jpeg",
+   "trovato": "2026-11-13T15:50Z"
+  },
   {
    "id": "nd7a7bf3ae47",
    "gara": "H0e7dc2579e-21",
