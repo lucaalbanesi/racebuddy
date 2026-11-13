@@ -2,6 +2,183 @@
  "aggiornato": "2026-11-13",
  "contenuti": [
   {
+   "id": "75ac265d8590",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Running Club: Napoli corre con il cuore",
+   "estratto": "Nato quasi per gioco Heart Run Club coglie l'anima sportiva di Napoli. Niente quote né obblighi: solo corsa, mare e voglia di fare community",
+   "link": "https://www.runnersworld.com/it/vip/a74407219/heart-run-club-napoli/",
+   "data": "2026-11-13",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/8b816a52-e9bd-4ffd-9998-f35295c5555a.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "b2c27906e78e",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Runner’s high, perché dopo la corsa ci si sente così bene",
+   "estratto": "La leggerezza che arriva verso la fine di certe uscite ha una spiegazione più nuova delle semplici endorfine, e condizioni precise in cui si presenta più spesso. Cos’è il runner’s…",
+   "link": "https://runlovers.it/2026/runners-high-euforia-dopo-corsa/",
+   "data": "2026-11-13",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/runners-high-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "scarpe",
+    "allenamento",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "15963ba66a74",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Ripetute brevi: recupero 15, 30 o 60 secondi?",
+   "estratto": "RIPETUTE BREVI: MEGLIO RECUPERARE 15, 30 O 60 SECONDI? Come scegliere la pausa in base allo stimolo desiderato, senza confondere velocità, VO₂max e fatica. Sommario Nelle ripetute…",
+   "link": "https://podisti.net/ripetute-brevi-recupero-15-30-o-60-secondi/",
+   "data": "2026-11-13",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Ripetute-brevi_-il-recupero-giusto.png",
+   "argomenti": [
+    "allenamento",
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "dopo"
+   ]
+  },
+  {
+   "id": "22a155b121b3",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Nelle ultime due settimane prima della gara vi viene la voglia di recuperare gli allenamenti saltati",
+   "estratto": "Nelle ultime due settimane prima della gara vi viene la voglia di recuperare gli allenamenti saltati? È un classico, e lo capisco, sembra…",
+   "link": "https://www.youtube.com/shorts/9FFGOvb_DKg",
+   "data": "2026-11-13",
+   "immagine": "https://i2.ytimg.com/vi/9FFGOvb_DKg/hqdefault.jpg",
+   "argomenti": [
+    "allenamento",
+    "recupero",
+    "gara",
+    "tecnologia"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "costruzione",
+    "scarico",
+    "gara",
+    "dopo"
+   ]
+  },
+  {
+   "id": "2cff920fe88e",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona di Verona, nozze d’argento con 15mila runner e il ritorno nell’Arena",
+   "estratto": "Il passaggio nell’Arena è stato in bilico fino all’ultimo: domenica 15 novembre la Maratona di Verona festeggia la 25ª edizione con 15mila runner e un percorso rinnovato",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74386483/maratona-verona-2026/",
+   "data": "2026-11-13",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/1c47d566-2192-4c4c-b02f-bddcab22a978.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "f3d7580e3ed3",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona di Valencia: forfait di Kejelcha, ma i pretendenti non mancano",
+   "estratto": "Un infortunio frena l'uomo più atteso. Addio spettacolo? Tutt'altro",
+   "link": "https://www.runnersworld.com/it/news/a74419841/maratona-valencia-infortunio-kejelcha/",
+   "data": "2026-11-13",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/c71736f3-0034-4c73-a1a7-e7f7d5207220.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "7b53fa2c232f",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "La Maratona di Valencia sogna il record del mondo: Ngetich debutta contro Tesfay",
+   "estratto": "Da una parte Ngetich, al debutto dopo aver fatto la storia in mezza e 10km, dall'altra Tesfay, seconda maratoneta di sempre: che scintille a Valencia",
+   "link": "https://www.runnersworld.com/it/news/a74419477/maratona-valencia-ngetich-debutta-tesfay/",
+   "data": "2026-11-13",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/d88924a6-ecf3-4239-875c-eb75e48e924e.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42",
+    "21",
+    "10"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "7441dd64c157",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Cernusco SN (MI) – Mezza maratona del Naviglio: serata del ringraziamento",
+   "estratto": "Ieri sera, 12 novembre, presso l’oratorio Sacer di Cernusco sul Naviglio si è tenuta la tradizionale serata dedicata agli sponsor, alle istituzioni e ai beneficiari della raccolta…",
+   "link": "https://podisti.net/cernusco-sn-mi-mezza-maratona-del-naviglio-serata-del-ringraziamento/",
+   "data": "2026-11-13",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Cernsuco-serata-2026-1.png",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "5dba16f0e48f",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "3 trucchi che possono aiutarti a fare più passi ogni giorno",
+   "estratto": "Camminare è un esercizio fisico che richiede poco sforzo ed è una delle chiavi per un buon benessere e un invecchiamento sano.",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a74419733/trucchi-fare-piu-passi-al-giorno/",
+   "data": "2026-11-13",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/d65f0c8d-c74c-4e8c-b0c3-be9315119e5e.jpeg",
+   "argomenti": [
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
    "id": "00aa120dbd0b",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -253,6 +430,31 @@
     "si_parte",
     "costruzione",
     "scarico"
+   ]
+  },
+  {
+   "id": "583c25c31821",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "100 KM IN SOLITARIA: TUTTA L'ATTREZZATURA PER AFFRONTARE LE DOLOMITI! 🎒🏃⛰️",
+   "estratto": "#100K #TrailRunning #Dolomiti 100 KM IN SOLITARIA E IN COMPLETA AUTOSUFFICIENZA SULLE DOLOMITI. Ma cosa serve davvero per affrontare…",
+   "link": "https://www.youtube.com/watch?v=Qb6taZFjyvE",
+   "data": "2026-11-12",
+   "immagine": "https://i2.ytimg.com/vi/Qb6taZFjyvE/hqdefault.jpg",
+   "argomenti": [
+    "rifornimento",
+    "alimentazione",
+    "scarpe",
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
    ]
   },
   {
