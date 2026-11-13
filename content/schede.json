@@ -238,29 +238,28 @@
  },
  "H0e7dc2579e-21": {
   "partenza": "8:45",
-  "luogoPartenza": "Partenza in Viale Eginardo (zona CityLife/Portello)",
-  "pettorale": "Village all'Allianz MiCo (Gate 7, viale Scarampo): ven 20/11 10-19, sab 21/11 9:30-19; domenica no. Delega firmata con copia del documento.",
-  "griglia": "Griglie per tempo dichiarato all'iscrizione (colore del pettorale), aperte dalle 8:20.",
-  "deposito": "Domenica dalle 7:15, consegna entro le 8:30, ritiro entro le 13:00; solo con la sacca a rete del pacco gara.",
+  "luogoPartenza": "Partenza e arrivo in Viale Eginardo (zona CityLife/Portello)",
+  "pettorale": "Expo Village all'Allianz MiCo (Gate 7, viale Scarampo): ven 20/11 10-19, sab 21/11 9-19; domenica no. Delega firmata con copia del documento.",
+  "griglia": "Griglie per tempo dichiarato all'iscrizione (colore del pettorale), aperte dalle 8:00.",
+  "deposito": "Domenica dalle 7:15 alle 8:20, ritiro entro le 13:00; solo con la sacca a rete del pacco gara.",
   "ristori": "Circa ai km 5, 10, 15 e 20, più ristoro all'arrivo.",
-  "arrivare": "Metro M4 Portello (da Centrale M3 e cambio a Zara). In auto parcheggi sotterranei CityLife o di corrispondenza; il Village è fuori dall'Area C.",
+  "arrivare": "Metro M5 lilla, fermata Portello (da Centrale e Garibaldi FS con la M5). In auto parcheggi sotterranei CityLife o parcheggi ATM di corrispondenza; Area C non attiva la domenica.",
   "mappa": "Viale Eginardo, Milano",
-  "percorsoLink": "https://followyourpassion.it/en/percorso-21km-milanohalfmarathon/",
-  "percorsoDescrizione": "Nel centro: CityLife, Parco Sempione, Castello Sforzesco, Duomo, Darsena. Dislivello 40 m. Tracciato ancora provvisorio.",
-  "sito": "https://followyourpassion.it/en/powerademilanohalfmarathon/",
+  "percorsoLink": "https://followyourpassion.it/percorso-21km-milanohalfmarathon/",
+  "percorsoDescrizione": "Nel centro: CityLife, Parco Sempione, Castello Sforzesco, Duomo, Darsena. Circa 40 m di dislivello.",
+  "sito": "https://followyourpassion.it/powerademilanohalfmarathon/",
   "nomi": [
    "Milano21",
    "Milano Half Marathon",
    "Mezza maratona di Milano"
   ],
-  "note": "Nel 2026 si chiama Powerade Milano Half Marathon. Tempo massimo 2h45. Pacer da 1h25 a 2h10 ogni 5 minuti.",
+  "note": "Nel 2026 si chiama Powerade Milano Half Marathon. Alle 8:45 partono Elite e griglie 1-3, alle 9:00 griglie 4-5 (con la 10 km). Tempo massimo 2h45. Pacer da 1h25 a 2h10 ogni 5 minuti.",
   "fonti": [
-   "https://followyourpassion.it/en/powerademilanohalfmarathon/",
-   "https://followyourpassion.it/wp-content/uploads/2026/10/Reg-Powerade-Milano-HM-competitive-ENG-2026_v4.pdf",
-   "https://followyourpassion.it/wp-content/uploads/2026/05/Reg-Milano-HM-competitiva-ITA-2026_v2.pdf",
-   "https://followyourpassion.it/en/percorso-21km-milanohalfmarathon/"
+   "https://followyourpassion.it/powerademilanohalfmarathon/",
+   "https://followyourpassion.it/wp-content/uploads/2026/11/Reg-Powerade-Milano-Half-Marathon-COMP-ITA-v.6.pdf",
+   "https://followyourpassion.it/percorso-21km-milanohalfmarathon/"
   ],
-  "verificato": "2026-11-05",
+  "verificato": "2026-11-13",
   "edizione": "2026"
  },
  "P8cb521dda8-42": {
@@ -338,7 +337,7 @@
    "https://www.romaurbsmundi.it/regolamento-2026/",
    "https://www.romaurbsmundi.it/regolamento-2/"
   ],
-  "verificato": "2026-10-30",
+  "verificato": "2026-11-13",
   "edizione": "2026"
  },
  "L12edf35333-10": {
