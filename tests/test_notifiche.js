@@ -264,7 +264,7 @@ assert.strictEqual(r.invio, null);
   assert.strictEqual(N.pianifica(conV("18:30", { oggi: "2026-11-12", ora: 17.5, stato: r.stato })).invio, null);
   assert.strictEqual(N.pianifica(conV("18:30", { oggi: "2026-11-12", ora: 7 })).invio, null);
   r = N.pianifica(conV("18:30", { oggi: "2026-11-12", ora: 17.5, corsaOggi: corsa(12, { notte: true }) }));
-  assert.match(r.invio.body, /^🔦 Col buio: qualcosa di riflettente\./);
+  assert.ok(!/🔦|riflettente/.test(r.invio.body), r.invio.body); // il buio non entra nella push
 
   // casi 8 e 9: vigilia (niente sera) e giorno di gara (niente vestizione: c'è la notifica di gara)
   const fi = { ...firenze };

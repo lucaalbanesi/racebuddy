@@ -979,7 +979,12 @@ console.log("nomi ok");
   assert.strictEqual(v.elemento.id, "ghiaccio"); assert.ok(v.avviso);
   assert.match(v.push, /^🧊 Rischio ghiaccio: scarpe con grip\. Termica/);
   assert.ok(!/grip.*grip/.test(v.push), "l'aggiunta dell'elemento non si ripete");
-  assert.match(v.push, /qualcosa di riflettente/); // il buio resta come aggiunta
+  assert.ok(!/riflettente/.test(v.push), "il buio non entra nella push");
+  assert.ok(v.correttivi.some((c) => c.id === "buio") && /riflettente/.test(v.capi), "il buio resta nell'app");
+  v = V({ temp: 12, percepita: 12, vento: 5, notte: true });
+  assert.strictEqual(v.elemento, null); assert.ok(!/riflettente|🔦/.test(v.push), v.push);
+  assert.match(V({ temp: 12, percepita: 12, vento: 5, codice: 45, notte: true }).push, /^🌫️ Nebbia: qualcosa di riflettente/); // la nebbia resta
+  v = V({ temp: 1, percepita: -2, vento: 25, umidita: 80, pioggia12: 1.5, notte: true });
   v = V({ temp: 10, percepita: 8, vento: 5, pioggia: 70, mm: 0.8, codice: 61 });
   assert.strictEqual(v.elemento.id, "pioggia"); assert.ok(!v.avviso); assert.match(v.push, /cappellino con visiera/);
   assert.strictEqual(V({ temp: 10, percepita: 8, vento: 5, pioggia: 70, mm: 3 }).elemento.id, "pioggia_forte");

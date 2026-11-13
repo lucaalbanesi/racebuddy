@@ -372,7 +372,9 @@
     const correttivi = [...on].filter((id) => T[id]).map((id) => ({ id, icona: T[id].icona || "", titolo: T[id].titolo || id, frase: sost(T[id].frase), testo: sost(T[id].testo),
       aggiunta: T[id].aggiunta || "", avviso: !!T[id].avviso || (id === "afa" && afaForte) }))
       .sort((x, y) => (ordine.indexOf(x.id) < 0 ? 99 : ordine.indexOf(x.id)) - (ordine.indexOf(y.id) < 0 ? 99 : ordine.indexOf(y.id)));
-    const elemento = correttivi.find((c) => c.frase && ordine.includes(c.id)) || null;
+    // nella push il buio non entra (d'inverno sarebbe ogni giorno): resta solo nell'app, tra i correttivi
+    const NO_PUSH = ["buio"];
+    const elemento = correttivi.find((c) => c.frase && ordine.includes(c.id) && !NO_PUSH.includes(c.id)) || null;
     // il gilet col vento serve solo nelle fasce in cui non c'è già (fresco e frizzante); niente doppioni nelle aggiunte
     const base = fascia.breve || "";
     // di ogni aggiunta restano solo i pezzi che la fascia non ha già ("cappellino e occhiali" col cappellino → "occhiali")
@@ -380,11 +382,13 @@
     const aggiunte = [...new Set(correttivi.filter((c) => c.aggiunta && !(c.id === "vento" && !["fresco", "frizzante"].includes(fascia.id))).map((c) => nuovo(c.aggiunta)).filter(Boolean))];
     // nella push l'aggiunta dell'elemento non si ripete se la sua frase la dice già
     const giaDetta = elemento && elemento.aggiunta ? nuovo(elemento.aggiunta) : "";
+    const aggiuntePush = [...new Set(correttivi.filter((c) => c.aggiunta && !NO_PUSH.includes(c.id) && !(c.id === "vento" && !["fresco", "frizzante"].includes(fascia.id))).map((c) => nuovo(c.aggiunta)).filter(Boolean))];
+    const capiPush = [base, ...aggiuntePush.filter((a) => !(a === giaDetta && elemento.frase.toLowerCase().includes(a.toLowerCase())))].filter(Boolean).join(", ");
     const capi = [base, ...aggiunte.filter((a) => !(a === giaDetta && elemento.frase.toLowerCase().includes(a.toLowerCase())))].filter(Boolean).join(", ");
     const zone = { ...(fascia.zone || {}) };
     if (aggiunte.length) zone.extra = [...new Map([zone.extra, ...aggiunte].filter(Boolean).map((x) => [x.toLowerCase(), maiuscola(x)])).values()].join(" · ");
     return { fascia, percepita: Math.round(percepita), temp: Math.round(m.temp), correttivi, elemento, avviso: correttivi.some((c) => c.avviso), capi, zone,
-      push: `${elemento ? elemento.icona + " " + elemento.frase + " " : ""}${maiuscola(capi)}.` };
+      push: `${elemento ? elemento.icona + " " + elemento.frase + " " : ""}${maiuscola(capiPush)}.` };
   }
   /** Livello dell'afa dal punto di rugiada (solo quando fa almeno 15°): bassa / media / alta. */
   function afaLivello(m) {
