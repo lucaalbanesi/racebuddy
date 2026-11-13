@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-12",
+ "aggiornato": "2026-11-13",
  "contenuti": [
   {
    "id": "00aa120dbd0b",
@@ -169,6 +169,26 @@
    ]
   },
   {
+   "id": "059c40b895e9",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Correre al passo di qualcun altro",
+   "estratto": "Rinunciare al proprio ritmo naturale per correre accanto a un’altra persona crea un terzo tempo, un’infrastruttura invisibile basata sull’attenzione chirurgica. Il ritmo naturale…",
+   "link": "https://runlovers.it/2026/correre-passo-altro-compagno/",
+   "data": "2026-11-12",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/07-202611121730-Passo-L-Unsplash-Evgenii-Iarichev.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
    "id": "63f520d2edff",
    "tipo": "articolo",
    "fonte": "Correre",
@@ -212,6 +232,27 @@
     "scarico",
     "gara",
     "dopo"
+   ]
+  },
+  {
+   "id": "0de5ecff86fd",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "20 esercizi per gambe forti utili anche ai runner: tutti da fare a casa",
+   "estratto": "Rinforzare gambe, glutei e anche aiuta muscoli, ossa e articolazioni. Una routine completa da fare a casa con manubri ed elastici",
+   "link": "https://www.runnersworld.com/it/allenamento/indoor/a74407480/esercizi-gambe-runner-casa/",
+   "data": "2026-11-12",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/9393f2f7-8401-4c35-9d80-d01c7b747e6e.jpeg",
+   "argomenti": [
+    "alimentazione",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico"
    ]
   },
   {
