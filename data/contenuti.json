@@ -1,6 +1,24 @@
 {
- "aggiornato": "2026-11-13",
+ "aggiornato": "2026-11-14",
  "contenuti": [
+  {
+   "id": "9e26904b7f64",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Trail nella nebbia, le regole per non perdere la traccia",
+   "estratto": "La nebbia azzera i riferimenti e distorce le distanze: i protocolli di sicurezza per correre sui sentieri quando la visibilità scende a pochi metri. La sospensione dell’umidità…",
+   "link": "https://runlovers.it/2026/trail-nebbia-orientamento-regole/",
+   "data": "2026-11-13",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/09-202611131730-Nebbia-T-Seven-Seven.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte"
+   ]
+  },
   {
    "id": "75ac265d8590",
    "tipo": "articolo",
@@ -140,6 +158,60 @@
     "10"
    ],
    "fasi": []
+  },
+  {
+   "id": "26c5184c1c59",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "I tapis roulant di livello professionale che vale la pena provare",
+   "estratto": "Macchine solide perfette per i runners che permettono di allenarsi al meglio e anche di ottenere un coaching interattivo",
+   "link": "https://www.runnersworld.com/it/equipment/a74179388/tapis-roulant-professionale-provare/",
+   "data": "2026-11-13",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/treadmill-testing-0367-1578930314.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "8bc1ecc01a77",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Era diventato virale alla Maratona di New York con il cinque di Ariana Grande, ma ora è squalificato",
+   "estratto": "Un cinque ad Ariana Grande, milioni di visualizzazioni: ma lui alla Maratona di New York non poteva correre",
+   "link": "https://www.runnersworld.com/it/news/a74423545/runner-virale-new-york-squalificato-ariana-grande/",
+   "data": "2026-11-13",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/7e3cd505-652a-4c77-8140-a1f454321cc1.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "d1ad9d523edc",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Dopo Sydney, Cape Town (e Shanghai), tocca a Rio: sarà la prossima Major?",
+   "estratto": "Anche Rio guarda alle Abbott World Marathon Majors? La partnership e i numeri della gara brasiliana alimentano le ipotesi",
+   "link": "https://www.runnersworld.com/it/news/a74424491/maratona-rio-prossima-major/",
+   "data": "2026-11-13",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/e637b93a-e41a-429a-bf76-5bd4fb13fcdd.jpeg",
+   "argomenti": [
+    "alimentazione",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "costruzione",
+    "scarico"
+   ]
   },
   {
    "id": "7441dd64c157",
@@ -12076,25 +12148,6 @@
    "fasi": [
     "costruzione",
     "scarico"
-   ]
-  },
-  {
-   "id": "d98f546b4e66",
-   "tipo": "articolo",
-   "fonte": "Garmin Blog Italia",
-   "fonteId": "garmin_blog",
-   "titolo": "10 luoghi dove fare kayak in Italia",
-   "estratto": "L’Italia è un Paese ricco di luoghi dove fare kayak. Dalle coste del Mediterraneo ai laghi alpini, fino ai corsi d’acqua che attraversano boschi, gole e aree protette, il nostro…",
-   "link": "https://www.garmin.com/it-IT/blog/outdoor/10-luoghi-dove-fare-kayak-in-italia/",
-   "data": "2026-09-14",
-   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/09/kayak-nei-fiumi.jpg",
-   "argomenti": [
-    "allenamento",
-    "tecnologia"
-   ],
-   "distanze": [],
-   "fasi": [
-    "costruzione"
    ]
   }
  ]
