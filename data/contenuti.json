@@ -2,6 +2,175 @@
  "aggiornato": "2026-11-14",
  "contenuti": [
   {
+   "id": "f81298997b34",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Stagione delle zuppe: 8 ricette proteiche per sportivi",
+   "estratto": "Calde, sazianti e ricche di ingredienti nutrienti: otto zuppe con fino a 30 g di proteine per porzione, ideali anche per chi si allena",
+   "link": "https://www.runnersworld.com/it/alimentazione/ricette/g74377042/zuppe-proteiche-sportivi-ricette/",
+   "data": "2026-11-14",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/fe36ac6f-99d8-4097-af89-3803ddb7bb5d.png",
+   "argomenti": [
+    "alimentazione"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
+   "id": "16929d297eea",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Sai che la colazione pre gara cambia in base a quando ti svegli?",
+   "estratto": "Domani è giorno di gara e quindi se correrai anche tu, ti do un consiglio… Sai che la colazione pre gara cambia in base a quando ti svegli?…",
+   "link": "https://www.youtube.com/shorts/zpj9C7fXOlI",
+   "data": "2026-11-14",
+   "immagine": "https://i3.ytimg.com/vi/zpj9C7fXOlI/hqdefault.jpg",
+   "argomenti": [
+    "rifornimento",
+    "alimentazione",
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "c4fe79ef19f8",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Pilates per runner: 4 esercizi per allenare core e mobilità",
+   "estratto": "Stabilità del centro, coordinazione degli arti e mobilità della colonna sono il focus del secondo video allenamento dedicato al Pilates per i runner",
+   "link": "https://www.runnersworld.com/it/allenamento/coach-del-mese-allenamenti/a74429924/pilates-runner-esercizi-core-mobilita/",
+   "data": "2026-11-14",
+   "immagine": "https://hips.hearstapps.com/vidthumb/dd6d9f73-46e1-47bc-8960-86bcbd6279aa/aea36c74-e735-4368-a03d-b86a44c2e53a.png",
+   "argomenti": [
+    "allenamento",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "1a2820e8f4c8",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "L'off-season del trail runner, tra recupero, allenamento, strada, sci, forza",
+   "estratto": "Non esiste un singolo modo di affrontare l'off-season nel trail, anzi, in molto non la fanno proprio. Vediamo allora alcuni dei diversi possibili approcci",
+   "link": "https://www.runnersworld.com/it/trail/allenamento-preparazione/a74423201/off-season-trail-runner-cosa-fare/",
+   "data": "2026-11-14",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/b9df72c5-d1cd-42bb-a8c9-3c3112eb54cb.jpeg",
+   "argomenti": [
+    "allenamento",
+    "forza",
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "dopo"
+   ]
+  },
+  {
+   "id": "0bfb6df023a5",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Il sentiero con il biglietto d’ingresso",
+   "estratto": "Il suono lo conosco a memoria. È il bip corto, un po’ acido, di una carta appoggiata sul lettore: il segnale che sblocca il tornello della metropolitana o il cancello di uno…",
+   "link": "https://runlovers.it/2026/sentiero-biglietto-montagna-accesso-prenotazione/",
+   "data": "2026-11-14",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/sentieri-pedaggio-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "123e49e248b9",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Elvanie Nimbona, due titoli italiani e un sogno: \"Voglio il record nella mezza maratona\"",
+   "estratto": "Due titoli italiani, il debutto in azzurro e un nuovo obiettivo: Elvanie Nimbona sogna il record italiano nella mezza maratona. \"Sogno la maratone e di partecipare alle Olimpiadi\"",
+   "link": "https://www.runnersworld.com/it/vip/a74423762/elvanie-nimbona-intervista-sogno-record-mezza-maratona/",
+   "data": "2026-11-14",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/c7b17538-f918-40f6-bd64-a0936b2f6a36.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
+   "id": "d027794e7769",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Da zero alla maratona a 60 anni: le 5 strategie che l'hanno portato al traguardo",
+   "estratto": "Un maratoneta over 50, alla sua prima maratona, condivide l'allenamento, la mentalità e il supporto che lo hanno accompagnato per 42 chilometri",
+   "link": "https://www.runnersworld.com/it/allenamento/corsa-principianti/a74419406/prima-maratona-dopo-60-anni-strategie/",
+   "data": "2026-11-14",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/2403126a-14e7-4620-b486-9e2ce922bbe6.jpg",
+   "argomenti": [
+    "allenamento",
+    "gara",
+    "mente"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "costruzione",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "1d33ab197ec7",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Camminare senza meta come un flâneur per schiarirsi le idee",
+   "estratto": "Un’ora a piedi senza destinazione, con le strade a scegliere il percorso e lo sguardo a decidere le soste: la passeggiata del flâneur, riportata nella città di tutti i giorni. Chi…",
+   "link": "https://runlovers.it/2026/camminare-senza-meta-flaneur-pensare/",
+   "data": "2026-11-14",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/walking-flaneur-paris-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "mente",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
    "id": "9e26904b7f64",
    "tipo": "articolo",
    "fonte": "Runlovers",
