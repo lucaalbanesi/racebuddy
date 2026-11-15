@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-14",
+ "aggiornato": "2026-11-15",
  "contenuti": [
   {
    "id": "f81298997b34",
@@ -17,6 +17,31 @@
    "distanze": [],
    "fasi": [
     "costruzione",
+    "scarico"
+   ]
+  },
+  {
+   "id": "3069bb86c9d7",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Sauna e longevità, cosa dicono vent’anni di studi finlandesi",
+   "estratto": "Vent’anni di dati finlandesi associano l’uso frequente della sauna a minori eventi cardiovascolari, ma la scienza richiede di distinguere la biologia dallo stile di vita. Il…",
+   "link": "https://runlovers.it/2026/sauna-longevita-studi-finlandesi/",
+   "data": "2026-11-14",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/10-202611141730-Sauna-W-Unsplash-Clay-Banks.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "rifornimento",
+    "allenamento",
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": [
+    "costruzione",
+    "picco",
     "scarico"
    ]
   },
@@ -63,6 +88,24 @@
     "si_parte",
     "costruzione"
    ]
+  },
+  {
+   "id": "362738c6be4b",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Le 5 nuove maratone italiane del 2027",
+   "estratto": "Tre novità assolute e i due graditi ritorni nelle maratone in programma il prossimo anno",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74395982/nuove-maratone-italiane-2027/",
+   "data": "2026-11-14",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/1744b9bc-09d5-417d-ac1b-6a6904f2624e.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
   },
   {
    "id": "1a2820e8f4c8",
