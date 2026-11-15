@@ -2,6 +2,169 @@
  "aggiornato": "2026-11-15",
  "contenuti": [
   {
+   "id": "031fcd4b7c8c",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Santarcangelo di Romagna (RN): la “Cheursa di Bech” è una cosa seria!",
+   "estratto": "15 novembre – La traduzione in italiano della frase in dialetto romagnolo “cheursa di bech” è “corsa dei becchi”. In senso figurato, “corsa dei cornuti”. Questo perché nel…",
+   "link": "https://podisti.net/santarcangelo-di-romagna-rn-la-cheursa-di-bech-e-una-cosa-seria/",
+   "data": "2026-11-15",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Lacheursadibech2025-foto-organizzazione-2.png",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "38cbdf0e12a6",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Nella settimana prima della gara togliete tutte le ripetute e fate solo lento?",
+   "estratto": "Nella settimana prima della gara togliete tutte le ripetute e fate solo lento? Ci sono cascato anch'io. Il volume si taglia, anche tanto…",
+   "link": "https://www.youtube.com/shorts/r2Gyq_1xlBc",
+   "data": "2026-11-15",
+   "immagine": "https://i3.ytimg.com/vi/r2Gyq_1xlBc/hqdefault.jpg",
+   "argomenti": [
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico"
+   ]
+  },
+  {
+   "id": "d93c705faf0a",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Il programma per correre in pausa pranzo quando fa buio presto",
+   "estratto": "Quattro settimane, da lunedì 16 novembre a domenica 13 dicembre, per usare l’unica ora di luce piena della giornata di lavoro e tornare alla scrivania con la doccia fatta e il…",
+   "link": "https://runlovers.it/2026/programma-corsa-pausa-pranzo-buio/",
+   "data": "2026-11-15",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/correre-pausa-pranzo-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
+   "id": "89411f77be55",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "I migliori leggins donna da running in assoluto",
+   "estratto": "Dai modelli capri a quelli a tutta lunghezza, da quelli leggeri a quelli invernali, sono questi i migliori leggings che vale la pena avere nel proprio guardaroba sportivo",
+   "link": "https://www.runnersworld.com/it/equipment/abbigliamento/a74179251/migliori-leggins-donna-running/",
+   "data": "2026-11-15",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/ba591bad-89ca-4ecd-8429-d5fefd00e024.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "234ce12643af",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Ginocchia più forti in un mese con il programma da fare a casa",
+   "estratto": "Quattro settimane di sedute brevi per rinforzare cosce e glutei e insegnare al ginocchio a restare allineato nei gesti di ogni giorno. Perché la tenuta del ginocchio dipende dai…",
+   "link": "https://runlovers.it/2026/programma-mensile-ginocchia-forti-casa/",
+   "data": "2026-11-15",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/rinforzare-ginocchia-esercizi-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "alimentazione",
+    "allenamento",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
+   "id": "d5096294d3e7",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Dedefi e Chebichi firmano le nozze d’argento della Eurospin Verona Run Marathon",
+   "estratto": "Il passaggio nell’anfiteatro romano ha caratterizzato la 25^ Eurospin Verona Run Marathon. L’etiope e la keniana conquistano i 42,195 km, mentre Mugnosso e Tuccitto si impongono…",
+   "link": "https://podisti.net/dedefi-e-chebichi-firmano-le-nozze-dargento-della-eurospin-verona-run-marathon/",
+   "data": "2026-11-15",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Il-podio-maschile-della-25^-Eurospin-Verona-Marathon-Foto-Organizzatori.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "187c5a96b9c3",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Boufars e Palomba sul trono della IV^ Spartacus Run",
+   "estratto": "Hicham Boufars si conferma sul gradino più alto del podio, precedendo Raffaele Giovannelli. Doppietta Caivano Runners nella gara femminile con Francesca e Filomena Palomba. Quinto…",
+   "link": "https://podisti.net/boufars-e-palomba-sul-trono-della-iv-spartacus-run/",
+   "data": "2026-11-15",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/IMG_0005.jpg",
+   "argomenti": [
+    "gara",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "b6898e5b7ab2",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Alimenti ricchi di grassi sorprendentemente sani: un carico di energia per runner",
+   "estratto": "Non tutte le fonti di grassi hanno lo stesso effetto sul corpo",
+   "link": "https://www.runnersworld.com/it/alimentazione/food-drink/a74422989/alimenti-ricchi-grassi-sani/",
+   "data": "2026-11-15",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/ca484619-bbaf-4bf2-bbb6-86a8a4d831f8.jpeg",
+   "argomenti": [
+    "alimentazione"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
+   "id": "c9b6e7b1154e",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "3 modi per allenarsi camminando: le sessioni per migliorare resistenza e forma fisica",
+   "estratto": "Non serve camminare per ore: alternare ritmo e intensità può rendere efficace anche una sessione breve",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a74400914/allenarsi-camminando-20-30-45-minuti/",
+   "data": "2026-11-15",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/6a24c4ec-8a3f-402d-b0d8-3835b59502cd.jpeg",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
    "id": "f81298997b34",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -286,6 +449,25 @@
    "distanze": [],
    "fasi": [
     "dopo"
+   ]
+  },
+  {
+   "id": "0087f0d934a3",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Nuotare a dorso apre spalle e torace dopo ore alla scrivania",
+   "estratto": "Nuotare a dorso inverte la geometria della giornata alla scrivania, aprendo il torace e offrendo una costruzione atletica a respirazione libera. L’orario da ufficio blocca il…",
+   "link": "https://runlovers.it/2026/nuoto-dorso-cross-training-spalle-postura/",
+   "data": "2026-11-13",
+   "immagine": "https://runlovers.it/wp-content/uploads/2026/11/08-202611131235-Dorso-T-Depositphotos_Pressmaster.jpg",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico"
    ]
   },
   {
