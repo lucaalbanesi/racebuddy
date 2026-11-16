@@ -81,7 +81,7 @@ async function main() {
     const gareVicine = (d.gare || []).filter((g) => { const n = L.diffDays(g.data, OGGI); return n >= 0 && n <= 7; });
     const esiti = esitiPer[d.membro] || [];
     const vestizione = !!(d.pref && d.pref.vestizione && vestiario);
-    const personale = PROVA || ORA === N.oraMattino(d.ora) || ORA === 19 || (vestizione && ORA === N.momentoVestizione(d.ora).ora) || gareVicine.some((g) => g.data === OGGI && (ORA === N.oraDopo(g, schede[g.id]) || ORA === N.oraGara(schede[g.id])));
+    const personale = PROVA || ORA === N.oraMattino(d.ora) || ORA === 19 || (vestizione && N.inFinestraVestizione(d.ora, ORA)) || gareVicine.some((g) => g.data === OGGI && (ORA === N.oraDopo(g, schede[g.id]) || ORA === N.oraGara(schede[g.id])));
     // le novità urgenti delle gare si controllano ogni ora (8-21), non solo nei momenti fissi
     const urgenti = !PROVA && Number.isInteger(ORA) && ORA >= 8 && ORA <= 21 && (d.gare || []).some((g) => garaConUrgenti.has(g.id));
     // tempo certificato dal direttivo o deciso dal referente: ogni ora (8-21)

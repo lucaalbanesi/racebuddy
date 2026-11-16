@@ -37,11 +37,11 @@
    cosa mettersi per la corsa (tabella content/vestizione.json, L.vestizioneCorsa) al posto del "meteo che cambia".
    Titolo "👕 Corsa delle HH:MM · T°, percepiti P°" (⚠️ con un avviso serio), testo = un elemento (ghiaccio, pioggia,
    vento…) e i capi; il tocco apre #/meteo?uscita=…. Quando (momentoVestizione):
-   - uscita prima delle 7:30 → la sera prima alle 20:30 (non la vigilia di una gara); al mattino solo una correzione,
+   - uscita prima delle 7:30 → la sera prima alle 20:30, recupero fino alle 21:30 se il giro salta (non la vigilia di una gara); al mattino solo una correzione,
      come riga o da sola, se la fascia salta di 2 o arriva un avviso nuovo (o se la sera non è partita);
    - uscita tra le 7:30 e le 11:59 → nel messaggio del mattino: da sola, o seconda riga della cosa più importante;
      la domenica il contenuto per la fase diventa una riga in più;
-   - uscita dalle 12 → un'ora prima dell'uscita, a parte (il messaggio delle 7 resta senza meteo).
+   - uscita dalle 12 → un'ora prima dell'uscita, recupero mezz'ora dopo (il messaggio delle 7 resta senza meteo).
    Mai il giorno di una gara (c'è la notifica di gara con la vestizione da gara).
 
    Preferenze dell'utente (dati.pref): meteo, percorso, gara, documenti, novita, fase (attive di default), vestizione
@@ -81,6 +81,16 @@ function momentoVestizione(oraUscita) {
   if (u < 7.5) return { tipo: "sera", ora: 20.5 };
   if (u >= 12) return { tipo: "prima", ora: Math.floor((u - 1) * 2) / 2 };
   return { tipo: "mattino", ora: oraMattino(oraUscita) };
+}
+/** Il giro del job in cui la vestizione "sera" o "prima" può partire: dall'ora giusta in avanti, con un margine di
+    recupero se un giro salta (GitHub ogni tanto lascia un giro in coda senza avviarlo, come il 16/11/2026 alle 20:37):
+    la sera fino alle 21:30 (due giri dopo), un'ora prima fino a mezz'ora prima dell'uscita (un giro dopo).
+    I doppioni restano esclusi dallo stato (vestSera, vestizione). Il mattino ha già il suo recupero. */
+function inFinestraVestizione(oraUscita, ora) {
+  const m = momentoVestizione(oraUscita);
+  if (m.tipo === "sera") return ora >= m.ora && ora <= m.ora + 1;
+  if (m.tipo === "prima") return ora >= m.ora && ora <= m.ora + 0.5;
+  return ora === m.ora;
 }
 const gradi = (v) => `${v.temp}°, percepiti ${v.percepita}°`;
 const iconaVest = (v) => (v.avviso ? "⚠️" : "👕");
@@ -191,14 +201,14 @@ function pianifica(ctx) {
   const vestOn = !!(pref.vestizione && ctx.vestiario);
   const momento = momentoVestizione(dati.ora), oraU = fmtOra(dati.ora) || "7:00";
   const vestDi = (m) => (m ? L.vestizioneCorsa(m, ctx.vestiario) : null);
-  if (vestOn && momento.tipo === "sera" && ora === momento.ora) {
+  if (vestOn && momento.tipo === "sera" && inFinestraVestizione(dati.ora, ora)) {
     const domani = L.addDays(oggi, 1), v = vestDi(ctx.corsaDomani);
     // la vigilia di una gara non parte: domattina si corre la gara (e la vigilia alle 19 ha già il meteo al via)
     if (!v || gare.some((g) => g.data === domani) || (stato.vestSera && stato.vestSera.data === domani)) return { invio: null, stato };
     stato.vestSera = { data: domani, fascia: v.fascia.indice, avvisi: v.correttivi.filter((c) => c.avviso).map((c) => c.id) };
     return { invio: { title: `${iconaVest(v)} Domattina alle ${oraU} · ${gradi(v)}`, body: v.push, url: urlMeteo(domani, dati.ora), tag: `vestizione-${domani}` }, stato };
   }
-  if (vestOn && momento.tipo === "prima" && ora === momento.ora) {
+  if (vestOn && momento.tipo === "prima" && inFinestraVestizione(dati.ora, ora)) {
     const v = vestDi(ctx.corsaOggi);
     if (!v || garaOggi || stato.vestizione === oggi) return { invio: null, stato };
     stato.vestizione = oggi;
@@ -367,4 +377,4 @@ function esitoTempi(ctx) {
     : { invio: { title: "Tempo non approvato", body: `Il referente non ha approvato il tempo che hai mandato per ${nome}. Puoi cercarlo nelle classifiche o rimandarlo.`, url: "./#/gruppo/mie", tag: `esito-${e.id}` }, stato };
 }
 
-module.exports = { pianifica, novitaUrgente, esitoTempi, oraMattino, oraGara, oraDopo, momentoVestizione, fascia, cambioMeteo };
+module.exports = { pianifica, novitaUrgente, esitoTempi, oraMattino, oraGara, oraDopo, momentoVestizione, inFinestraVestizione, fascia, cambioMeteo };

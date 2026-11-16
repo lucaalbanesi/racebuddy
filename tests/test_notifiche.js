@@ -243,9 +243,21 @@ assert.strictEqual(r.invio, null);
   assert.strictEqual(r.invio.title, "👕 Domattina alle 6:30 · 5°, percepiti 3°");
   assert.match(r.invio.body, /pantaloncini \(3\/4 se sei freddoloso\)/);
   assert.strictEqual(r.invio.url, "./#/meteo?uscita=2026-11-13T06:30");
-  assert.strictEqual(N.pianifica(conV("06:30", { oggi: "2026-11-12", ora: 20, stato: {} })).invio, null); // solo alle 20:30
+  assert.strictEqual(N.pianifica(conV("06:30", { oggi: "2026-11-12", ora: 20, stato: {} })).invio, null); // non prima delle 20:30
   const sera = r.stato;
   assert.strictEqual(N.pianifica(conV("06:30", { oggi: "2026-11-12", ora: 20.5, stato: sera })).invio, null); // una volta
+  assert.strictEqual(N.pianifica(conV("06:30", { oggi: "2026-11-12", ora: 21, stato: sera })).invio, null); // il recupero non la ripete
+  // giro delle 20:30 saltato (16/11/2026): parte al giro dopo, fino alle 21:30, poi più
+  r = N.pianifica(conV("06:30", { oggi: "2026-11-12", ora: 21 }));
+  assert.ok(r.invio && r.invio.title.startsWith("👕 Domattina alle 6:30"), r.invio);
+  assert.ok(N.pianifica(conV("06:30", { oggi: "2026-11-12", ora: 21.5 })).invio, "ultimo giro di recupero");
+  assert.strictEqual(N.pianifica(conV("06:30", { oggi: "2026-11-12", ora: 22 })).invio, null);
+  assert.strictEqual(N.inFinestraVestizione("06:30", 20), false);
+  assert.strictEqual(N.inFinestraVestizione("06:30", 21.5), true);
+  assert.strictEqual(N.inFinestraVestizione("18:30", 18), true);
+  assert.strictEqual(N.inFinestraVestizione("18:30", 18.5), false);
+  assert.strictEqual(N.inFinestraVestizione("08:00", 7.5), true);
+  assert.strictEqual(N.inFinestraVestizione("08:00", 8), false);
   // al mattino niente meteo se non cambia (giorno senza altro → nessuna notifica)
   assert.strictEqual(N.pianifica(conV("06:30", { oggi: "2026-11-13", ora: 6, stato: sera, corsaOggi: corsa(6) })).invio, null);
   // caso 5: cambia nella notte (fascia che salta di 2 o avviso nuovo) → correzione al mattino
@@ -263,6 +275,10 @@ assert.strictEqual(r.invio, null);
   assert.strictEqual(r.invio.title, "👕 Corsa delle 18:30 · 10°, percepiti 8°");
   assert.strictEqual(N.pianifica(conV("18:30", { oggi: "2026-11-12", ora: 17.5, stato: r.stato })).invio, null);
   assert.strictEqual(N.pianifica(conV("18:30", { oggi: "2026-11-12", ora: 7 })).invio, null);
+  // giro di un'ora prima saltato: parte mezz'ora dopo, una volta sola
+  r = N.pianifica(conV("18:30", { oggi: "2026-11-12", ora: 18 }));
+  assert.ok(r.invio && r.invio.title.startsWith("👕 Corsa delle 18:30"), r.invio);
+  assert.strictEqual(N.pianifica(conV("18:30", { oggi: "2026-11-12", ora: 18, stato: { vestizione: "2026-11-12" } })).invio, null);
   r = N.pianifica(conV("18:30", { oggi: "2026-11-12", ora: 17.5, corsaOggi: corsa(12, { notte: true }) }));
   assert.ok(!/🔦|riflettente/.test(r.invio.body), r.invio.body); // il buio non entra nella push
 
