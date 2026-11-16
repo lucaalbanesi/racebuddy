@@ -2,6 +2,338 @@
  "aggiornato": "2026-11-16",
  "contenuti": [
   {
+   "id": "bfaa70f580ec",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Zalando e la passione per il running: l'evoluzione passa dallo sport",
+   "estratto": "Dalle strade di Rome Half Marathon, passando per le nuove esigenze dei runner e gli strumenti digitali dedicati alla scelta delle scarpe. Zalando protagonista nella corsa con…",
+   "link": "https://www.runnersworld.com/it/news/a74436222/zalando-e-la-passione-per-il-running-levoluzione-passa-dallo-sport/",
+   "data": "2026-11-16",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/c9c5c568-73bf-4576-b86f-6bfe182c5beb.jpg",
+   "argomenti": [
+    "scarpe"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "15894de4fe84",
+   "tipo": "articolo",
+   "fonte": "Garmin Blog Italia",
+   "fonteId": "garmin_blog",
+   "titolo": "Yin yoga: cos’è, benefici e 4 esercizi per iniziare",
+   "estratto": "Tre minuti nella stessa posizione, senza contrarre un solo muscolo. Detto così sembra semplice, eppure chi prova per la prima volta lo yin yoga scopre presto che restare fermi e…",
+   "link": "https://www.garmin.com/it-IT/blog/fitness/yin-yoga-benefici-esercizi/",
+   "data": "2026-11-16",
+   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/11/yin.jpg",
+   "argomenti": [
+    "allenamento",
+    "forza",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "52d1ad9d6a7c",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Nike svela il futuro del running in una carrellata di novità",
+   "estratto": "Dall ritorno di Nike free all'innovazione della tecnologia Tuned Air. Dalla collezione trail ai prodotti per il recovery, fino alle nuove Vaporfly 5 e Vomero 19. Nike offre un…",
+   "link": "https://www.runnersworld.com/it/news/a74439864/nikefuturo-running-scarpe-free-tuned-air-vaporfly-5-vomero-19/",
+   "data": "2026-11-16",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/9de00449-57d1-4dda-a8f1-166c9871aae3.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "4ac67409b82e",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Nike Vaporfly 5, svelato il prototipo con più schiuma e una nuova piastra",
+   "estratto": "Nike svela il prototipo di Vaporfly 5. Nell'intersuola prevista la nuova schiuma ZoomX LT e una Flyplate ridisegnata. Più ammortizzata e reattiva",
+   "link": "https://www.runnersworld.com/it/scarpe/a74439230/nike-vaporfly-5-scarpe-corsa-svelato-prototipo-piu-schiuma-nuova-piastra/",
+   "data": "2026-11-16",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/b0d34c39-f5f5-4ec0-bafe-8f632336a4e5.jpg",
+   "argomenti": [
+    "scarpe"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "a116b1dd990d",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Nike Free, il ritorno della scarpa che ha cambiato il modo di pensare la corsa",
+   "estratto": "Nike Free ha contribuito a portare il natural running al grande pubblico. Ora si prepara a tornare, con una nuova generazione di modelli che debutterà nel 2027.",
+   "link": "https://www.runnersworld.com/it/scarpe/scarpe-running/a74439533/nike-free-scarpe-corsa-natural-running-running/",
+   "data": "2026-11-16",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/184cd0bc-4486-47bb-a3ce-a754b319f0ec.jpg",
+   "argomenti": [
+    "scarpe"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "11f8204b0d97",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Mike Foppen è quinto, ma fa festa: record europeo sui 15 km nella sua città",
+   "estratto": "Quinto al traguardo, Mike Foppen festeggia un’impresa da primo: nella sua Nijmegen corre i 15 km in 42’10” e migliora di 19 secondi il record europeo",
+   "link": "https://www.runnersworld.com/it/news/a74436834/mike-foppen-record-europeo-15-km-zevenheuvelenloop/",
+   "data": "2026-11-16",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/be3b9966-535a-4078-9f34-f3e2ea3bfa95.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "8a57247cabe3",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Le mie preoccupazioni: freddo e percorso impegnativo",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/wggOUCUjjKM",
+   "data": "2026-11-16",
+   "immagine": "https://i4.ytimg.com/vi/wggOUCUjjKM/hqdefault.jpg",
+   "argomenti": [
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "2c01324ce7cd",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Lake Como Half Marathon: il fascino del lago conquista runner da tutto mondo",
+   "estratto": "Domenica 6 dicembre si correrà la quindicesima edizione della Como Lake Half Marathon, un evento dal sapore sempre più internazionale, grazie alla bellezza del percorso sulle rive…",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74430592/como-half-marathon-lago-gara/",
+   "data": "2026-11-16",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/07155736-4b62-4b8d-b931-6a55e231d511.jpeg",
+   "argomenti": [],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "ff065efb38f4",
+   "tipo": "articolo",
+   "fonte": "Garmin Blog Italia",
+   "fonteId": "garmin_blog",
+   "titolo": "La 100 km del Passatore",
+   "estratto": "Nel mondo dell’endurance e delle ultramaratone su strada, poche competizioni riescono a esercitare un fascino magnetico pari a quello della “Firenze-Faenza”. Per i runner italiani…",
+   "link": "https://www.garmin.com/it-IT/blog/fitness/percorso-passatore/",
+   "data": "2026-11-16",
+   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/11/come-preparare-la-100-km-del-passatore-.png",
+   "argomenti": [
+    "gara",
+    "mente"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "2cc74dd78931",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "I 3 allenamenti indispensabili per prepararti alla tua prima mezza maratona",
+   "estratto": "Queste sessioni settimanali fondamentali ti porteranno al traguardo",
+   "link": "https://www.runnersworld.com/it/allenamento/mezza-maratona/a74433413/mezza-maratona-principiante-allenamenti/",
+   "data": "2026-11-16",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/851ce894-cea0-4b7e-9178-23133cccc22b.jpg",
+   "argomenti": [
+    "allenamento",
+    "gara",
+    "mente"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": [
+    "costruzione",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "70d5fa83f8dc",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Gli esercizi per il core che aiutano a correre meglio e dare stabilità, equilibrio e forza",
+   "estratto": "Un core forte sostiene il corpo durante la corsa e aiuta a migliorare stabilità, equilibrio e controllo del movimento. Ecco gli esercizi funzionali da inserire nella routine",
+   "link": "https://www.runnersworld.com/it/allenamento/esercizi/g71332279/esercizi-core-runner-correre-meglio/",
+   "data": "2026-11-16",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/m-doing-all-for-a-better-me-royalty-free-image-1770929308.pjpeg?crop=1.00xw:0.932xh;0,0.0685xh&resize=1200:*",
+   "argomenti": [
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "f3000b00a265",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Dieci maglie termiche in sconto su Amazon per il Black Friday",
+   "estratto": "In inverno è importante indossare capi d'abbigliamento tecnici che permettono di non soffrire troppo il freddo e queste sono le migliori maglie termiche in sconto per il Black…",
+   "link": "https://www.runnersworld.com/it/equipment/abbigliamento/g45874547/cinque-maglie-termiche-sconto-amazon-black-friday/",
+   "data": "2026-11-16",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/gettyimages-1209898980-65578628c0510.jpg",
+   "argomenti": [
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "e457f62f587a",
+   "tipo": "articolo",
+   "fonte": "Garmin Blog Italia",
+   "fonteId": "garmin_blog",
+   "titolo": "Correre in sovrappeso: come iniziare e non mollare",
+   "estratto": "A ogni passo di corsa, ginocchia, caviglie e piedi assorbono un carico che cresce insieme al peso corporeo. Per chi decide di iniziare a correre in sovrappeso , quindi, i primi…",
+   "link": "https://www.garmin.com/it-IT/blog/running/correre-in-sovrappeso/",
+   "data": "2026-11-16",
+   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/11/sovra-1.jpg",
+   "argomenti": [
+    "alimentazione",
+    "forza",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico",
+    "gara",
+    "dopo"
+   ]
+  },
+  {
+   "id": "142b9c91b1bb",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Come lavare le scarpe da running senza rovinarle: a mano, in lavatrice e dopo il fango",
+   "estratto": "Un vademecum prezioso per chi cerca di mantenere sempre in buono stato le proprie scarpe da corsa",
+   "link": "https://www.runnersworld.com/it/scarpe/a9494/come-lavare-scarpe-running-corsa-lavatrice-mano/",
+   "data": "2026-11-16",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/4ad574e0-90d5-4e25-89bd-bc8e4d0bf462.jpeg",
+   "argomenti": [
+    "scarpe"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "27e26c78fa49",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Come correre in sicurezza sulla neve e sul ghiaccio",
+   "estratto": "Sono arrivate le prime nevicate, ma anche con le strade imbiancate non è necessario rinunciare a correre forte se prendi le giuste precauzioni",
+   "link": "https://www.runnersworld.com/it/allenamento/a9944/running-come-correre-veloce-neve-inverno/",
+   "data": "2026-11-16",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/966ab654-9721-42b6-a2bd-65dfec1382ea.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "cd95f99644a4",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Batteria sociale scarica, perché stare con gli altri stanca",
+   "estratto": "Hai passato la serata con le persone che ami e ora sei uno straccio. Come mai? La batteria sociale indica le risorse mentali usate per processare stimoli e informazioni…",
+   "link": "https://runlovers.it/2026/batteria-sociale-scarica-stanchezza-relazioni/",
+   "data": "2026-11-16",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/01-202611161235-Batteria-W-Unsplash-Zac-Taheriyan.jpeg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "recupero",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "scarico",
+    "gara",
+    "dopo"
+   ]
+  },
+  {
+   "id": "2c1e99ca3365",
+   "tipo": "articolo",
+   "fonte": "Garmin Blog Italia",
+   "fonteId": "garmin_blog",
+   "titolo": "Allenamento over 60: consigli pratici",
+   "estratto": "Svolgere attività fisica con continuità non è una prerogativa degli atleti evoluti, dei giovani sportivi o degli appassionati di fitness, ma una sana abitudine che può e dovrebbe…",
+   "link": "https://www.garmin.com/it-IT/blog/fitness/allenamento-over-60/",
+   "data": "2026-11-16",
+   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/11/rinforzare-i-muscoli-dopo-i-60.jpg",
+   "argomenti": [
+    "allenamento",
+    "forza",
+    "recupero",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "dopo"
+   ]
+  },
+  {
    "id": "f62962c587e1",
    "tipo": "articolo",
    "fonte": "Podisti.net",
