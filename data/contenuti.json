@@ -1,6 +1,26 @@
 {
- "aggiornato": "2026-11-15",
+ "aggiornato": "2026-11-16",
  "contenuti": [
+  {
+   "id": "f62962c587e1",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Trino Vercellese (VC) – 22^ Mezza Maratona Terre d’Acqua, vincono Hanyn e Borello",
+   "estratto": "15 novembre – Hacim Hanyn (Olimpiatltica) e Sara Borello (Atletica Canavesana) hanno vinto sotto la pioggia la ventesima edizione della Maratona Terre d’Acqua di Trino Vercellese…",
+   "link": "https://podisti.net/trino-vercellese-vc-22-mezza-maratona-terre-dacqua-vincono-hanyn-e-borello/",
+   "data": "2026-11-15",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/IMG_0452-1.jpg",
+   "argomenti": [
+    "gara",
+    "abbigliamento",
+    "notizie"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
   {
    "id": "031fcd4b7c8c",
    "tipo": "articolo",
@@ -13,6 +33,43 @@
    "immagine": "https://podisti.net/wp-content/uploads/2026/11/Lacheursadibech2025-foto-organizzazione-2.png",
    "argomenti": [],
    "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "97483846afab",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Pignoletto Run, Gheduzzi vince ma Asmamaw Nega stupisce",
+   "estratto": "15 novembre Bazzano (BO) – Grandi risultati numerici per la Pignoletto Run, che la località bolognese di Bazzano ha allestito su due percorsi. La prova disegnata lungo i sentieri…",
+   "link": "https://podisti.net/pignoletto-run-gheduzzi-vince-ma-asmamaw-nega-stupisce/",
+   "data": "2026-11-15",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/PartenzaPignolettoRun2026FotoOrganizzatori.jpg",
+   "argomenti": [
+    "allenamento",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "f1c54d3fd5e1",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Nicolaci e Fares firmano la quinta Corsa del Ricordo di Milano",
+   "estratto": "15 novembre – E’ andata in scena oggi a Milano la V Edizione della Corsa del Ricordo, penultima di undici tappe del circuito 2026 organizzato da Asi con la fattiva collaborazione…",
+   "link": "https://podisti.net/nicolaci-e-fares-firmano-la-quinta-corsa-del-ricordo-di-milano/",
+   "data": "2026-11-15",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/La-partenza-della-Corsa-del-Ricordo-di-Milano-1.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "10"
+   ],
    "fasi": []
   },
   {
@@ -35,6 +92,45 @@
     "picco",
     "scarico"
    ]
+  },
+  {
+   "id": "10f2c6dbe21c",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona di Verona, Africa protagonista e Italia vincente in mezza. Tutti i risultati",
+   "estratto": "Nella gara regina oltre 3.500 al via, vince l'etiope Dedefi. Quarta Mara Galvani tra le donne. E nella Mezza corre anche il sindaco Damiano Tommasi",
+   "link": "https://www.runnersworld.com/it/eventi/a74432469/maratona-verona-2026-risultati/",
+   "data": "2026-11-15",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/a755564b-7fa4-47ff-ac13-9eaa41f06ecb.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "718e84d9a123",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Losa Experience 21K Half Marathon, la nuova mezza (e 10km) in provincia di Milano",
+   "estratto": "Un nuovo appuntamento agonistico: su un tracciato veloce arrivano mezza maratona e 10km nell'hinterland milanese",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74421575/mezza-maratona-arconate-milano/",
+   "data": "2026-11-15",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/746ab7a6-cff2-425d-8f23-a80e8649fcca.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "21",
+    "10"
+   ],
+   "fasi": []
   },
   {
    "id": "d93c705faf0a",
@@ -94,6 +190,26 @@
    ]
   },
   {
+   "id": "fb92803ca123",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Elkana Langat e Consalata Bertom firmano la 31^ Maratona di Palermo",
+   "estratto": "Nella mezza si impongono Vincenzo Agnello e Cristina Garcia Conde. Palermo, 15 novembre 2026 — I keniani Elkana Langat e Consolata Bertom, hanno vinto la XXXI Maratona di Palermo…",
+   "link": "https://podisti.net/elkana-langat-e-consalata-bertom-firmano-la-31-maratona-di-palermo/",
+   "data": "2026-11-15",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/ARRIVO-MARATONA-UOMINI.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": []
+  },
+  {
    "id": "d5096294d3e7",
    "tipo": "articolo",
    "fonte": "Podisti.net",
@@ -127,6 +243,72 @@
     "abbigliamento"
    ],
    "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "77c87e720afe",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Botticino (BS) – MUT Maddalena Urban Trail 2026",
+   "estratto": "La forza di Arrigoni Luca Arrigoni ha dimostrato ancora una volta che: “La forza non deriva dalla capacità fisica. Deriva da una volontà indomabile.” Questo motto è stato il suo…",
+   "link": "https://podisti.net/botticino-bs-mut-maddalena-urban-trail-2026/",
+   "data": "2026-11-15",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Podio-30-KM-MUT-2026-di-Giorgio-.jpg",
+   "argomenti": [
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "5f701730c20c",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Altamura (BA) – 11° Trofeo Correndo tra le Mura, Laurieri e Ceglia vincono “in casa”",
+   "estratto": "15 novembre – La Puglia non è più la regione del sole, almeno la domenica: anche oggi tanta pioggia è scesa ad Altamura, in occasione dell’undicesima edizione del Trofeo Correndo…",
+   "link": "https://podisti.net/altamura-ba-11-trofeo-correndo-tra-le-mura-laurieri-e-ceglia-vincono-in-casa/",
+   "data": "2026-11-15",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/0295-1.jpg",
+   "argomenti": [
+    "abbigliamento",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "50af4879464e",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Alpin Cup: una promessa mantenuta",
+   "estratto": "“L’ Alpin Cup è ripartita nel 2025 e tornerà competitiva nel 2026” era il titolo di questo nostro articolo di un anno fa. La promessa ci era stata fatta da Valerio Campari, vice…",
+   "link": "https://podisti.net/alpin-cup-una-promessa-mantenuta/",
+   "data": "2026-11-15",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Alpin-Cup-2026-Foto-R-Lollini.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "04acb7bf1729",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Alla Savona Half Marathon vittorie per Kenya ed Etiopia",
+   "estratto": "15 novembre – Dominio kenyano nella Savona Half Marathon nella sua versione classica, autunnale, nella quale i corridori degli altipiani hanno contraddistinto la manifestazione…",
+   "link": "https://podisti.net/alla-savona-half-marathon-vittorie-per-kenya-ed-etiopia/",
+   "data": "2026-11-15",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Arrivo-vincitore-2026.jpg",
+   "argomenti": [],
+   "distanze": [
+    "21"
+   ],
    "fasi": []
   },
   {
