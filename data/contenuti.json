@@ -2,6 +2,273 @@
  "aggiornato": "2026-11-17",
  "contenuti": [
   {
+   "id": "5ed6a834e080",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Testando la nuova torcia frontale da 4000 mAh!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/VKqa3ZBMNxo",
+   "data": "2026-11-17",
+   "immagine": "https://i3.ytimg.com/vi/VKqa3ZBMNxo/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "a21274cc7bf3",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Sul podio di una 10 km a 68 anni: la ricetta dei coach per continuare a correre forte",
+   "estratto": "A 68 anni è salita sul podio in una 10 km. I coach spiegano come allenarsi per correre forte e in salute a ogni età",
+   "link": "https://www.runnersworld.com/it/allenamento/a74449474/ricetta-coach-correre-forte-ogni-eta/",
+   "data": "2026-11-17",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/833506f8-f06c-465e-9e1f-71b42b1d1de8.jpeg",
+   "argomenti": [],
+   "distanze": [
+    "10"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "382cda809e4b",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "Sold out la Powerade Milano Half Marathon 2026",
+   "estratto": "La Powerade Milano Half Marathon 2026 è sold out: domenica 22 novembre saranno 20mila i runner sulla linea di partenza, un nuovo record , con 5mila iscritti in più rispetto ai…",
+   "link": "https://correre.it/la-milano-half-marathon-2026-sold-out/",
+   "data": "2026-11-17",
+   "immagine": "https://correre.it/wp-content/uploads/2026/11/Milano_Half_Marathon_2026.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": [
+    "gara"
+   ]
+  },
+  {
+   "id": "2d516b7844dd",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Sette maratone in gravidanza: ma era davvero necessario?",
+   "estratto": "Sette maratone durante la gestazione, l’ultima a 34 settimane. Una storia che divide e fa discutere: passione per la corsa o voglia di protagonismo? Per la serie “Gli…",
+   "link": "https://podisti.net/sette-maratone-in-gravidanza-ma-era-davvero-necessario/",
+   "data": "2026-11-17",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/foto-archivio.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "ddc4367199ec",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Qual è il chilometraggio minimo necessario per mantenersi in forma?",
+   "estratto": "Esiste un tipo di allenamento in particolare che fa la differenza",
+   "link": "https://www.runnersworld.com/it/allenamento/a74449324/quanto-correre-tenersi-forma/",
+   "data": "2026-11-17",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/e2b93402-0ab4-4c3b-93e9-d4edb99c7a04.jpg",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "c51222ae0c13",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Pogacar e Van der Poel, la preparazione invernale passa anche dalla corsa",
+   "estratto": "Anche i campioni del ciclismo inseriscono la corsa nella preparazione invernale: Pogacar si allena in Irlanda, mentre Van der Poel ha corso più volte",
+   "link": "https://www.runnersworld.com/it/news/a74441377/pogacar-van-der-poel-allenamenti-corsa-off-season/",
+   "data": "2026-11-17",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/2b16a735-7956-4d84-9db6-5f99df2a4b66.jpg",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
+   "id": "42d5520138be",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "PodcastQuanti grammi di carboidrati l'ora mangiate nei vostri lunghi?",
+   "estratto": "Quanti grammi di carboidrati l'ora mangiate nei vostri lunghi? Dieci anni fa si parlava solo di potenza lipidica e ci siamo cascati in…",
+   "link": "https://www.youtube.com/shorts/Hg3J0kXSltA",
+   "data": "2026-11-17",
+   "immagine": "https://i1.ytimg.com/vi/Hg3J0kXSltA/hqdefault.jpg",
+   "argomenti": [
+    "rifornimento",
+    "alimentazione",
+    "allenamento",
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico",
+    "dopo"
+   ]
+  },
+  {
+   "id": "09256346d70d",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Migliori esercizi di stretching per la schiena e le anche dei runner",
+   "estratto": "Come allungare i muscoli e trovare sollievo dal mal di schiena e dal dolore alle anche... e anche quando è il momento rivolgersi al fisioterapista",
+   "link": "https://www.runnersworld.com/it/salute/infortuni/a74450093/migliori-esercizi-schiena-anche-runner/",
+   "data": "2026-11-17",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/2e80e90e-ce1a-42e7-aee1-32d107131d14.jpeg",
+   "argomenti": [
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "2a2900385469",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "La stagione del cross è entrata nel vivo",
+   "estratto": "È tempo di cross in tutta Europa. Con obiettivo i Campionati europei di cross country del 13 dicembre a Belgrado (Serbia), alcune gare importanti hanno acceso l’interesse dei…",
+   "link": "https://correre.it/la-stagione-del-cross-e-entrata-nel-vivo/",
+   "data": "2026-11-17",
+   "immagine": "https://correre.it/wp-content/uploads/2026/11/Elvanie_Nimbona_cross.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
+   "id": "a90420a495a7",
+   "tipo": "articolo",
+   "fonte": "Garmin Blog Italia",
+   "fonteId": "garmin_blog",
+   "titolo": "Dolore al polpaccio durante la corsa: cause, cosa fare e come prevenirlo",
+   "estratto": "Prima un leggero fastidio, poi una tensione che cresce chilometro dopo chilometro: il dolore al polpaccio durante la corsa è uno dei segnali più comuni tra chi corre, dai…",
+   "link": "https://www.garmin.com/it-IT/blog/running/dolore-polpaccio-corsa/",
+   "data": "2026-11-17",
+   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/11/polpacci-solore-garmin.jpg",
+   "argomenti": [
+    "scarpe",
+    "allenamento",
+    "recupero",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "dopo"
+   ]
+  },
+  {
+   "id": "f5d5cccc0f04",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Cosa può fare la vitamina C contro il raffreddore",
+   "estratto": "Spremi le arance al primo starnuto sperando di spegnere l’infezione. Il tuo corpo ha regole diverse e richiede manutenzione costante. L’uso della vitamina C al primo starnuto non…",
+   "link": "https://runlovers.it/2026/vitamina-c-raffreddore-arance-inverno/",
+   "data": "2026-11-17",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/03-202611171235-Vitamina-C-W-Unsplash-Michael-Navarro.jpeg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "alimentazione",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
+   "id": "74ef755550b3",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Corsa e artrosi: correre rovina le ginocchia?",
+   "estratto": "CORRERE ROVINA LE GINOCCHIA? COSA DICE LA SCIENZA SUL RISCHIO DI ARTROSI Meta-analisi su oltre 125 mila persone: nei runner amatoriali l’artrosi di anca e ginocchio risulta meno…",
+   "link": "https://podisti.net/corsa-e-artrosi-correre-rovina-le-ginocchia/",
+   "data": "2026-11-17",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Correre-e-artrosi_-cosa-dice-la-scienza.png",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "6c73186fa8b6",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Aumentare la cadenza per ridurre il rischio di fratture da stress",
+   "estratto": "Qualche passo in più al minuto, alla stessa velocità, alleggerisce il carico che la tibia riceve a ogni appoggio: come misurare la propria cadenza e alzarla senza stravolgere il…",
+   "link": "https://runlovers.it/2026/aumentare-cadenza-fratture-stress-corsa/",
+   "data": "2026-11-17",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/aumentare-cadenza-no-fratture-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "17f5ce4b9381",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "A tu per tu con Jimmy Gressier: \"Ora la pista, dopo Los Angeles corro la maratona. E poi provo il trail\"",
+   "estratto": "Jimmy Gressier, dall’oro mondiale nei 10.000 metri al quarto posto agli Europei nei 5.000. E racconta i suoi progetti: la pista fino a Los Angeles 2028, poi la maratona e, più…",
+   "link": "https://www.runnersworld.com/it/vip/a74409001/jimmy-gressier-maratona-trail/",
+   "data": "2026-11-17",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/ec69410e-9095-417d-bd65-8ec3c0d7d6d9.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
    "id": "bfaa70f580ec",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -1577,6 +1844,27 @@
    ]
   },
   {
+   "id": "b5f80a0cca05",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "Powerade Milano Half Marathon 2026: percorso e programma",
+   "estratto": "La Powerade Milano Half Marathon 2026 si prepara a far vivere a Milano una grande giornata all’insegna di corsa, benessere, solidarietà, innovazione e turismo: l’appuntamento è…",
+   "link": "https://correre.it/powerade-milano-half-marathon-2026-percorso/",
+   "data": "2026-11-11",
+   "immagine": "https://correre.it/wp-content/uploads/2026/11/Powerade_Milano_Half_-Marathon.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "21",
+    "10"
+   ],
+   "fasi": [
+    "gara"
+   ]
+  },
+  {
    "id": "ef9831ad7fd7",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -1605,27 +1893,6 @@
     "21"
    ],
    "fasi": []
-  },
-  {
-   "id": "b5f80a0cca05",
-   "tipo": "articolo",
-   "fonte": "Correre",
-   "fonteId": "correre",
-   "titolo": "Milano Half Marathon 2026: percorso e programma",
-   "estratto": "La Powerade Milano Half Marathon 2026 si prepara a far vivere a Milano una grande giornata all’insegna di corsa, benessere, solidarietà, innovazione e turismo: l’appuntamento è…",
-   "link": "https://correre.it/powerade-milano-half-marathon-2026-percorso/",
-   "data": "2026-11-11",
-   "immagine": "https://correre.it/wp-content/uploads/2026/11/Powerade_Milano_Half_-Marathon.jpg",
-   "argomenti": [
-    "gara"
-   ],
-   "distanze": [
-    "21",
-    "10"
-   ],
-   "fasi": [
-    "gara"
-   ]
   },
   {
    "id": "52205ebc31fc",
@@ -3742,7 +4009,7 @@
    "estratto": "Preparata per settimane tra ripetute, lunghi e uscite di recupero, la mezza maratona sembra una sfida tutta fisica: 21,0975 km da coprire con il ritmo giusto. Eppure chi l’ha…",
    "link": "https://www.garmin.com/it-IT/blog/running/mezza-maratona-come-allenare-la-testa-quando-le-gambe-non-ne-hanno-piu/",
    "data": "2026-11-05",
-   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/11/pic1-1.jpg",
+   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/11/psicologia-mezza-maratona.jpg",
    "argomenti": [
     "allenamento",
     "recupero",
