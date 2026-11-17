@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-16",
+ "aggiornato": "2026-11-17",
  "contenuti": [
   {
    "id": "bfaa70f580ec",
@@ -46,12 +46,47 @@
    ]
   },
   {
+   "id": "16993609ae84",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Siena – 4^ Le Mura di Siena City Trail, Basile e Fanfani vincono la 42km",
+   "estratto": "16 novembre – Si è svolta ieri, domenica 15 novembre, la quarta edizione de Le mura di Siena City Trail con la nuova veste di “Strade Storiche” che da Asciano ha raggiunto Siena…",
+   "link": "https://podisti.net/siena-4-le-mura-di-siena-city-trail-basile-e-fanfani-vincono-la-42km/",
+   "data": "2026-11-16",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/IMG_5302-1.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "b8aeee2ae296",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Policiano (AR) – Corriamo con Moreno, vincono Castelli e Musabyeyezu",
+   "estratto": "15 novembre Policiano (AR) – Si è disputato ieri a Policiano, in provincia di Arezzo, il Campionato Regionale Toscano di Corsa in Montagna, manifestazione organizzata dalla…",
+   "link": "https://podisti.net/policiano-ar-corriamo-con-moreno-vincono-castelli-e-musabyeyezu/",
+   "data": "2026-11-16",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Girma-taglia-il-traguardo.jpg",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
    "id": "52d1ad9d6a7c",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
    "fonteId": "runnersworld",
    "titolo": "Nike svela il futuro del running in una carrellata di novità",
-   "estratto": "Dall ritorno di Nike free all'innovazione della tecnologia Tuned Air. Dalla collezione trail ai prodotti per il recovery, fino alle nuove Vaporfly 5 e Vomero 19. Nike offre un…",
+   "estratto": "Dal ritorno di Nike Free all'innovazione della tecnologia Tuned Air. Dalla collezione trail ai prodotti per il recovery, fino alle nuove Vaporfly 5 e Vomero 19. Nike offre un…",
    "link": "https://www.runnersworld.com/it/news/a74439864/nikefuturo-running-scarpe-free-tuned-air-vaporfly-5-vomero-19/",
    "data": "2026-11-16",
    "immagine": "https://hips.hearstapps.com/hmg-prod/images/9de00449-57d1-4dda-a8f1-166c9871aae3.jpg",
@@ -149,6 +184,20 @@
    "fasi": []
   },
   {
+   "id": "35e778abf491",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "La frontale perfetta: vedo da dio nel buio!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/7KVL_RAmbVE",
+   "data": "2026-11-16",
+   "immagine": "https://i4.ytimg.com/vi/7KVL_RAmbVE/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
    "id": "ff065efb38f4",
    "tipo": "articolo",
    "fonte": "Garmin Blog Italia",
@@ -169,6 +218,27 @@
     "picco",
     "scarico",
     "gara"
+   ]
+  },
+  {
+   "id": "c652efff0a87",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Il body scan per addormentarsi quando la testa non si ferma",
+   "estratto": "Spegni la luce e il cervello accelera. Il body scan offre alla tua attenzione un bersaglio solido per disinnescare i pensieri. Il buio rimuove gli stimoli esterni e amplifica il…",
+   "link": "https://runlovers.it/2026/body-scan-meditazione-addormentarsi/",
+   "data": "2026-11-16",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/02-202611161730-Body-scan-W-Unsplash-Anya-Akbari.jpeg?fit=1920%2C1282&quality=75&ssl=1",
+   "argomenti": [
+    "recupero",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "scarico",
+    "gara",
+    "dopo"
    ]
   },
   {
@@ -285,6 +355,22 @@
    "data": "2026-11-16",
    "immagine": "https://hips.hearstapps.com/hmg-prod/images/966ab654-9721-42b6-a2bd-65dfec1382ea.jpeg",
    "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "1fc235ea814f",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Castelvetro Wine Trail, Zancarli e Catti firmano la prima edizione del Grasparossa Trail",
+   "estratto": "Il Team Mud & Snow ASD ha portato i runner nel cuore delle colline modenesi: 22 chilometri di gara tra vigneti, borghi e sentieri. Tre le proposte della giornata, con spazio anche…",
+   "link": "https://podisti.net/castelvetro-wine-trail-zancarli-e-catti-firmano-la-prima-edizione-del-grasparossa-trail/",
+   "data": "2026-11-16",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Screenshot_2026-11-16-19-55-11-521_com.facebook.katana-edit.jpg",
+   "argomenti": [
+    "gara"
+   ],
    "distanze": [],
    "fasi": []
   },
@@ -13035,27 +13121,6 @@
     "si_parte",
     "costruzione",
     "picco"
-   ]
-  },
-  {
-   "id": "49ee8fe0112c",
-   "tipo": "video",
-   "fonte": "Andrea Vignone",
-   "fonteId": "yt_crazyvigno",
-   "titolo": "NON COMPRARE QUESTI ACCESSORI - nuovi upgrade moto e allenamento enduro estremo al ProPark",
-   "estratto": "NON COMPRARE QUESTI ACCESSORI - nuovi upgrade moto e allenamento enduro estremo al ProPark con Nico Camponovo Prodotti nice cnc: Link…",
-   "link": "https://www.youtube.com/watch?v=pYhkWUvevpk",
-   "data": "2026-09-17",
-   "immagine": "https://i1.ytimg.com/vi/pYhkWUvevpk/hqdefault.jpg",
-   "argomenti": [
-    "alimentazione",
-    "allenamento",
-    "gara"
-   ],
-   "distanze": [],
-   "fasi": [
-    "costruzione",
-    "scarico"
    ]
   }
  ]
