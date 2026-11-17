@@ -1,6 +1,20 @@
 {
- "aggiornato": "2026-11-16T08:50Z",
+ "aggiornato": "2026-11-17T15:50Z",
  "novita": [
+  {
+   "id": "n0d7b45c0e8a",
+   "gara": "H0e7dc2579e-21",
+   "tema": "iscrizioni",
+   "urgenza": "app",
+   "titolo": "Sold out la Powerade Milano Half Marathon 2026",
+   "link": "https://correre.it/la-milano-half-marathon-2026-sold-out/",
+   "data": "2026-11-17",
+   "fonte": "Correre",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://correre.it/wp-content/uploads/2026/11/Milano_Half_Marathon_2026.jpg",
+   "trovato": "2026-11-17T15:50Z"
+  },
   {
    "id": "nde69360ba9d",
    "gara": "E-valencia-42-2026",
@@ -48,7 +62,7 @@
    "gara": "H0e7dc2579e-21",
    "tema": "percorso",
    "urgenza": "subito",
-   "titolo": "Milano Half Marathon 2026: percorso e programma",
+   "titolo": "Powerade Milano Half Marathon 2026: percorso e programma",
    "link": "https://correre.it/powerade-milano-half-marathon-2026-percorso/",
    "data": "2026-11-11",
    "fonte": "Correre",
