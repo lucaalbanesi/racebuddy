@@ -2,6 +2,182 @@
  "aggiornato": "2026-11-18",
  "contenuti": [
   {
+   "id": "100df4fcd9dc",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Milano Half Marathon, in treno conviene: arriva il DayPass a 10 euro",
+   "estratto": "L'Italia prende spunto dalle grandi gare europee e nasce il DayPass Milano Half Marathon per promuovere la mobilità sostenibile nel giorno della gara",
+   "link": "https://www.runnersworld.com/it/news/a74453135/milano-half-marathon-trenord-biglietto-speciale/",
+   "data": "2026-11-18",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/afb1bad8-72ba-4d84-9841-e88d965a0702.jpeg",
+   "argomenti": [
+    "forza",
+    "gara"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "gara"
+   ]
+  },
+  {
+   "id": "ad6eeb09d78c",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Laurence Pithie da record: il ciclista arriva in top 10 in una mezza maratona",
+   "estratto": "Dopo una stagione in bici, Laurence Pithie si è cimentato in mezza maratona, conquistando un sorprendente settimo posto assoluto",
+   "link": "https://www.runnersworld.com/it/news/a74453729/laurence-pithie-mezza-maratona/",
+   "data": "2026-11-18",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/867b2d02-574b-49b8-a865-bda1cdc58af4.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "01bcc51015b3",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "In un video virale Tom Evans corre zavorrato in discesa sul tapis roulant. Ma serve davvero?",
+   "estratto": "Il vincitore dell'UTMB 2025 è noto per gli allenamenti con la zavorra. In un recente video lo si vede farlo in discesa sul tappeto. Ma non è cosa per tutti",
+   "link": "https://www.runnersworld.com/it/trail/allenamento-preparazione/a74454202/video-virale-tom-evans-tapis-roulant/",
+   "data": "2026-11-18",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/095729e1-6b18-4160-ad5e-ef6d84042863.jpeg",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "b875503ff9bf",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "DOMS: perché i muscoli fanno male il giorno dopo l’allenamento",
+   "estratto": "Il dolore che arriva uno o due giorni dopo una seduta nuova accompagna i muscoli mentre si riparano, e si gestisce continuando a muoversi con giudizio. Cosa sono i DOMS e perché…",
+   "link": "https://runlovers.it/2026/doms-dolori-muscolari-giorno-dopo-allenamento/",
+   "data": "2026-11-18",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/doms-spiegazione-dolore-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "scarpe",
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "6c5ee3fbdc52",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Crolla a 400 metri dall’arrivo, due runner la sorreggono fino al traguardo: squalificata",
+   "estratto": "A Curitiba due runner si sono fermati per aiutare Naum Jepchirchir, crollata a pochi metri dal traguardo. La squalifica riporta alla memoria altri gesti di solidarietà in…",
+   "link": "https://www.runnersworld.com/it/news/a74450337/maratona-curitiba-runner-aiutano-atleta-squalificata/",
+   "data": "2026-11-18",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/ac68244e-7390-46be-91c9-bb71003627fb.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "cbe33687f9e0",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Camminare dopo cena per contenere il picco di glicemia",
+   "estratto": "Sparecchi e cedi al divano mentre il glucosio entra in circolo. Allaccia le scarpe: bastano pochi minuti per cambiare la chimica della tua serata. Il corpo smonta il cibo in…",
+   "link": "https://runlovers.it/2026/camminare-dopo-cena-picco-glicemico/",
+   "data": "2026-11-18",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/04-202611180715-Dopocena-W-Unsplash-Dominik-Mattern.jpeg?fit=1920%2C1276&quality=75&ssl=1",
+   "argomenti": [
+    "alimentazione",
+    "scarpe"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico"
+   ]
+  },
+  {
+   "id": "10ce13b130d1",
+   "tipo": "articolo",
+   "fonte": "Garmin Blog Italia",
+   "fonteId": "garmin_blog",
+   "titolo": "Cadenza nella corsa: cos’è, valori ideali e come migliorarla",
+   "estratto": "Spesso messa in secondo piano rispetto al passo al chilometro, la cadenza nella corsa è uno dei parametri che raccontano meglio la tecnica di un runner. Indica il numero di passi…",
+   "link": "https://www.garmin.com/it-IT/blog/running/cadenza-corsa-cos-e-come-migliorarla/",
+   "data": "2026-11-18",
+   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/11/come-misurare-cadenza-corsa.jpg",
+   "argomenti": [
+    "allenamento",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "ca0da4fa3538",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Avete mai provato a passare alle scarpe minimaliste per prevenire gli infortuni?",
+   "estratto": "Avete mai provato a passare alle scarpe minimaliste per prevenire gli infortuni? Per carità, il piede va rinforzato, ma una transizione…",
+   "link": "https://www.youtube.com/shorts/5JLCI5mN2WI",
+   "data": "2026-11-18",
+   "immagine": "https://i2.ytimg.com/vi/5JLCI5mN2WI/hqdefault.jpg",
+   "argomenti": [
+    "scarpe"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "59dd954234f3",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Allenamento rilassato, orario tramonto, 12km easy!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/0E57UrzUoes",
+   "data": "2026-11-18",
+   "immagine": "https://i1.ytimg.com/vi/0E57UrzUoes/hqdefault.jpg",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
    "id": "5ed6a834e080",
    "tipo": "video",
    "fonte": "ricsvlog",
