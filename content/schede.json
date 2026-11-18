@@ -92,23 +92,26 @@
  },
  "E-copenaghen-mezza-21-2027": {
   "partenza": "9:30",
+  "pettorale": "Ritiro all'Expo CPH Half alla Royal Arena (Ørestad, stazione Ørestad); giorni e orari non ancora pubblicati.",
   "sito": "https://cphhalf.dk/en/",
   "canali": {
    "notizie": "https://cphhalf.dk/en/feed/",
    "instagram": "https://www.instagram.com/cphhalf/",
-   "facebook": "https://www.facebook.com/cphhalf"
+   "facebook": "https://www.facebook.com/cphhalf",
+   "youtube": "https://www.youtube.com/feeds/videos.xml?channel_id=UCe3pQmVSN_I7b2L-HJZwkmA"
   },
   "nomi": [
    "Copenhagen Half Marathon",
    "CPH Half",
    "Mezza maratona di Copenaghen"
   ],
-  "note": "Informazioni pratiche dell'edizione 2027 (luogo di partenza, ritiro pettorale, percorso) non ancora pubblicate. Iscrizione solo con ballottaggio.",
+  "note": "Luogo di partenza e percorso dell'edizione 2027 non ancora pubblicati. Iscrizione solo con ballottaggio (188.522 iscritti al sorteggio per 45.000 posti).",
   "fonti": [
    "https://cphhalf.dk/en/",
+   "https://cphhalf.dk/en/a-bigger-cph-half-expo-awaits-at-royal-arena-in-2027/",
    "https://cphhalf.dk/en/feed/"
   ],
-  "verificato": "2026-11-03",
+  "verificato": "2026-11-18",
   "edizione": "2027"
  },
  "Hd9df59d4b1-21": {
