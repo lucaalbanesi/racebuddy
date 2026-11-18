@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-17",
+ "aggiornato": "2026-11-18",
  "contenuti": [
   {
    "id": "5ed6a834e080",
@@ -172,6 +172,75 @@
    ]
   },
   {
+   "id": "2e3f0033407f",
+   "tipo": "video",
+   "fonte": "Riccardo Bugari · Running Bug",
+   "fonteId": "yt_runningbug",
+   "titolo": "L'unico uomo che sia mai riuscito a batterti ti dà appuntamento ogni mattina per una rivincita.#run",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/kkAlmprLBFs",
+   "data": "2026-11-17",
+   "immagine": "https://i4.ytimg.com/vi/kkAlmprLBFs/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "fb5ad4909021",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Kit di sopravvivenza: pronto soccorso, acqua e sicurezza!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/x6O_N6psLSE",
+   "data": "2026-11-17",
+   "immagine": "https://i1.ytimg.com/vi/x6O_N6psLSE/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "3340cd662a28",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Fuma erba alla Maratona di New York: runner squalificata per un video virale",
+   "estratto": "Un video virale, una squalifica e una reazione ironica (?): runner esclusa dai risultati della Maratona di New York dopo aver fumato marijuana in gara",
+   "link": "https://www.runnersworld.com/it/news/a74453731/squalifica-marijuana-maratona-new-york/",
+   "data": "2026-11-17",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/b459d726-fa27-47d6-a77a-8480d65f46eb.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "gara"
+   ]
+  },
+  {
+   "id": "698808861c42",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Firenze Marathon 2026: percorso e consigli per affrontare la gara",
+   "estratto": "Una buona preparazione muscolare e la voglia di fare il pieno di bellezza: i consigli di Fulvio Massini, direttore tecnico della Firenze Marathon, per affrontare al meglio il…",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74442330/firenze-marathon-percorso-consigli-fulvio-massini/",
+   "data": "2026-11-17",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/6ad88ea0-ff17-4009-ad71-f8f3269b1de4.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
    "id": "a90420a495a7",
    "tipo": "articolo",
    "fonte": "Garmin Blog Italia",
@@ -229,6 +298,30 @@
    "argomenti": [],
    "distanze": [],
    "fasi": []
+  },
+  {
+   "id": "8435621d6696",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Correre nel fango dei sentieri d’inverno come quando eravamo bambini",
+   "estratto": "D’inverno il fango toglie al trail ritmi e chilometri e gli restituisce il gioco: per goderselo servono poche attenzioni e una borsa pronta in auto. Perché il fango d’inverno…",
+   "link": "https://runlovers.it/2026/correre-fango-sentieri-inverno-bambini/",
+   "data": "2026-11-17",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/corsa-fango-divertimento-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "alimentazione",
+    "scarpe",
+    "allenamento",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico"
+   ]
   },
   {
    "id": "6c73186fa8b6",
