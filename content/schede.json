@@ -244,7 +244,7 @@
   "luogoPartenza": "Partenza e arrivo in Viale Eginardo (zona CityLife/Portello)",
   "pettorale": "Expo Village all'Allianz MiCo (Gate 7, viale Scarampo): ven 20/11 10-19, sab 21/11 9-19; domenica no. Delega firmata con copia del documento.",
   "griglia": "Griglie per tempo dichiarato all'iscrizione (colore del pettorale), aperte dalle 8:00.",
-  "deposito": "Domenica dalle 7:15 alle 8:20, ritiro entro le 13:00; solo con la sacca a rete del pacco gara.",
+  "deposito": "All'Allianz MiCo (Gate 7, viale Scarampo): domenica 7:15-8:20, ritiro entro le 13:00; solo con la sacca a rete del pacco gara.",
   "ristori": "Circa ai km 5, 10, 15 e 20, più ristoro all'arrivo.",
   "arrivare": "Metro M5 lilla, fermata Portello (da Centrale e Garibaldi FS con la M5). In auto parcheggi sotterranei CityLife o parcheggi ATM di corrispondenza; Area C non attiva la domenica.",
   "mappa": "Viale Eginardo, Milano",
@@ -260,9 +260,10 @@
   "fonti": [
    "https://followyourpassion.it/powerademilanohalfmarathon/",
    "https://followyourpassion.it/wp-content/uploads/2026/11/Reg-Powerade-Milano-Half-Marathon-COMP-ITA-v.6.pdf",
-   "https://followyourpassion.it/percorso-21km-milanohalfmarathon/"
+   "https://followyourpassion.it/percorso-21km-milanohalfmarathon/",
+   "https://followyourpassion.it/programma-milanohalfmarathon/"
   ],
-  "verificato": "2026-11-13",
+  "verificato": "2026-11-19",
   "edizione": "2026"
  },
  "P8cb521dda8-42": {
@@ -369,7 +370,7 @@
  },
  "L950d7c45f5-10": {
   "partenza": "9:30",
-  "luogoPartenza": "Partenza da Viale Guglielmo Massaia 31 (Garbatella); ritrovo dalle 8:00.",
+  "luogoPartenza": "Partenza e arrivo in Viale Guglielmo Massaia 31 (Garbatella); ritrovo dalle 8:00.",
   "pettorale": "Agenzia Allianz Roma Ostiense 499, Circonvallazione Ostiense 171: sabato 21/11 10-19. Serve tessera FIDAL, o certificato medico per EPS e Runcard.",
   "deposito": "Compreso nella quota, solo per la gara competitiva; luogo non indicato.",
   "ristori": "Un ristoro d'acqua al passaggio del primo giro, più ristoro all'arrivo.",
@@ -381,14 +382,15 @@
   "nomi": [
    "Corri alla Garbatella"
   ],
-  "note": "32ª edizione, 9,8 km (anche non competitiva di 4,9 km, stessa partenza; corsa dei bambini alle 9:00). Iscrizioni fino alle 20 del 17/11 o a 1.000 iscritti: 15 € fino al 10/11, poi 20 €; niente iscrizioni il giorno della gara. Planimetria 2026 non ancora pubblicata.",
+  "note": "32ª edizione, 9,8 km (anche non competitiva di 4,9 km, che parte subito dopo; corsa dei bambini alle 9:00). Iscrizioni chiuse: superato il limite di 1.000 iscritti, niente iscrizioni il giorno della gara. Planimetria 2026 non ancora pubblicata.",
   "fonti": [
    "https://www.rionegarbatella.it/articoli/corri-alla-garbatella-2026-regolamento",
    "https://www.rionegarbatella.it/eventi/corri-alla-garbatella",
    "https://www.rionegarbatella.it/",
-   "https://rionegarbatella.it/articoli/corriallagarbatella-32-edizione-comunicato-stampa"
+   "https://rionegarbatella.it/articoli/corriallagarbatella-32-edizione-comunicato-stampa",
+   "https://www.rionegarbatella.it/articoli/corriallagarbatella-32-edizione-iscrizioni-chiuse"
   ],
-  "verificato": "2026-11-15",
+  "verificato": "2026-11-19",
   "edizione": "2026"
  },
  "L0c212379c2-21": {
