@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-18",
+ "aggiornato": "2026-11-19",
  "contenuti": [
   {
    "id": "100df4fcd9dc",
@@ -25,6 +25,25 @@
    ]
   },
   {
+   "id": "c6db07e02da0",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Le gare da correre nel weekend del 22 novembre",
+   "estratto": "Milano Half Marathon ma non solo: dal cross alle corse di quartiere, in questo fine settimana per tutti",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74452330/gare-weekend-22-novembre/",
+   "data": "2026-11-18",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/588b280c-8b70-4bf2-a1f8-6568ed8e28d0.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": []
+  },
+  {
    "id": "ad6eeb09d78c",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -44,6 +63,27 @@
    "fasi": []
   },
   {
+   "id": "f069b9aeb35b",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "La mia attrezzatura top: scarpe, vest e giacca a vento!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/e1eo-Rsie8w",
+   "data": "2026-11-18",
+   "immagine": "https://i2.ytimg.com/vi/e1eo-Rsie8w/hqdefault.jpg",
+   "argomenti": [
+    "scarpe",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
    "id": "01bcc51015b3",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -59,6 +99,50 @@
    "distanze": [],
    "fasi": [
     "costruzione"
+   ]
+  },
+  {
+   "id": "894e67c4e4c0",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Il saluto agli sconosciuti che incrociamo ogni mattina",
+   "estratto": "Conosci i loro orari, i loro vestiti e il loro passo, ma non sai come si chiamano e non lo saprai mai. Nel 1972 Stanley Milgram ha definito estranei familiari le persone che…",
+   "link": "https://runlovers.it/2026/saluto-sconosciuti-corsa-mattina/",
+   "data": "2026-11-18",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/05-202611181730-Sconosciuti-L-Unsplash-First-Designs.jpeg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "mente",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "01a4175fdb1f",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Ho finalmente corso una maratona con un piano di allenamento: ecco cosa è cambiato",
+   "estratto": "Un piano di allenamento per la maratona deve combinare lunghi, intervalli, salite e recupero, ma anche adattarsi quando la preparazione cambia",
+   "link": "https://www.runnersworld.com/it/allenamento/maratona/a74462349/maratona-sotto-4-ore-piano-allenamento/",
+   "data": "2026-11-18",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/533532a5-e8b5-434c-88b7-0c6cb0871dd1.jpeg",
+   "argomenti": [
+    "allenamento",
+    "recupero",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "dopo"
    ]
   },
   {
@@ -99,6 +183,30 @@
     "42"
    ],
    "fasi": []
+  },
+  {
+   "id": "35b6daf202e1",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Carboidrati e proteine: una ricetta per il recupero post-corsa",
+   "estratto": "Casarecce Strapasta Garofalo, bresaola croccante e crema di sedano rapa: una ricetta pensata per il recupero dopo una corsa lunga o un allenamento di qualità",
+   "link": "https://www.runnersworld.com/it/alimentazione/ricette/a74423790/carboidrati-proteine-recupero-corsa/",
+   "data": "2026-11-18",
+   "immagine": "https://hips.hearstapps.com/vidthumb/75fc424f-fee1-4cb3-bf91-57bde5e08ff7/b1dc2101-99fc-4e12-ae04-c9b4543b497a.png",
+   "argomenti": [
+    "rifornimento",
+    "alimentazione",
+    "allenamento",
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico",
+    "dopo"
+   ]
   },
   {
    "id": "cbe33687f9e0",
