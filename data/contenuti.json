@@ -2,6 +2,276 @@
  "aggiornato": "2026-11-19",
  "contenuti": [
   {
+   "id": "57691a6afa36",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Yeman Crippa, l'intervista: \"New York gli ha cambiato la prospettiva\"",
+   "estratto": "Secondo a New York dopo il successo di Parigi, Yeman Crippa racconta la sua maturazione nella maratona e la nuova consapevolezza sulla distanza",
+   "link": "https://www.runnersworld.com/it/vip/a74474574/yeman-crippa-corsa-new-york-consapevolezza-maratona-running/",
+   "data": "2026-11-19",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/31ae1479-e35a-439a-af97-3414db7e08c1.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "ec76fec5217a",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "VALTELLINA WINE TRAIL - La maratona tra cantine e vigneti",
+   "estratto": "Dopo una stagione di triathlon ho cambiato completamente aria: il mio esordio nel trail, i 42 km della Valtellina Wine Trail da Tirano a…",
+   "link": "https://www.youtube.com/watch?v=VsfzRV9BdlU",
+   "data": "2026-11-19",
+   "immagine": "https://i3.ytimg.com/vi/VsfzRV9BdlU/hqdefault.jpg",
+   "argomenti": [
+    "scarpe",
+    "allenamento",
+    "gara",
+    "tecnologia"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "ab027a5512f0",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Terreno difficile e luce: la mia preparazione top!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/Pd7WE0-gY4M",
+   "data": "2026-11-19",
+   "immagine": "https://i1.ytimg.com/vi/Pd7WE0-gY4M/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
+   "id": "d9bb0d6421fd",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Succo di barbabietola e nitrati: funzionano?",
+   "estratto": "SUCCO DI BARBABIETOLA E NITRATI: FANNO DAVVERO CORRERE PIÙ VELOCE? Una nuova meta-analisi su 659 atleti ridimensiona le promesse degli integratori di nitrati. E una prova su 70…",
+   "link": "https://podisti.net/succo-di-barbabietola-e-nitrati-funzionano/",
+   "data": "2026-11-19",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Succo-di-Barbabietola-e-Performance.png",
+   "argomenti": [
+    "rifornimento",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "1b190133133a",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Strategia per la maratona: come gestire il ritmo dall'inizio alla fine della gara",
+   "estratto": "Coach Fulvio Massini spiega come preparare la strategia di gara già in allenamento, partire più lentamente, ascoltare il corpo e affrontare gli ultimi chilometri senza perdere…",
+   "link": "https://www.runnersworld.com/it/allenamento/maratona/a74467508/strategia-maratona-gestire-ritmo-gara/",
+   "data": "2026-11-19",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/debbfdaa-7591-4263-a509-5d268839cc68.jpeg",
+   "argomenti": [
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "gara"
+   ]
+  },
+  {
+   "id": "2297284c2714",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Sos maratone: ecco dove puoi ancora correrne una nel 2026",
+   "estratto": "Scopri le ultime maratone del 2026 con ancora pettorali disponibili",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74454990/ultime-maratone-italia-2026/",
+   "data": "2026-11-19",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/5efbc490-cd37-48eb-898c-c6fa24753c57.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "fcfd80284d28",
+   "tipo": "video",
+   "fonte": "Andrea Vignone",
+   "fonteId": "yt_crazyvigno",
+   "titolo": "SMORZATORI INERZIALI 4K: DOPO UN ANNO DI TEST! 🤯 Come funzionano? ON THE FORK",
+   "estratto": "🤯 **SMORZATORI INERZIALI 4K PARTI SPECIALI: DOPO UN ANNO DI TEST!** Un anno di utilizzo, prove sul campo e finalmente un approfondimento…",
+   "link": "https://www.youtube.com/watch?v=Ty6BXpvYvb0",
+   "data": "2026-11-19",
+   "immagine": "https://i1.ytimg.com/vi/Ty6BXpvYvb0/hqdefault.jpg",
+   "argomenti": [
+    "racconti"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
+   "id": "a3d046c3db4a",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Recovery run: quanto deve durare davvero per recuperare senza aggiungere fatica",
+   "estratto": "Correre piano non basta: se la seduta si prolunga troppo può aumentare il carico e compromettere l’allenamento successivo. Ecco come trovare la durata giusta",
+   "link": "https://www.runnersworld.com/it/allenamento/a74465905/recovery-run-durata-recupero-corsa/",
+   "data": "2026-11-19",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/dbc762ca-f3ff-40cf-9d55-c11c7d3c6b1b.jpg",
+   "argomenti": [
+    "allenamento",
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "dopo"
+   ]
+  },
+  {
+   "id": "b6955d22e804",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Parte il tesseramento Fidal 2027. Runcard più cara per chi rinnova",
+   "estratto": "Al via il tesseramento Fidal per il 2027. Entra nel vivo la riforma che prevede incrementi progressivi per i tesserati Runcard con l'obiettivo di favorire il passaggio alle…",
+   "link": "https://www.runnersworld.com/it/news/a74476494/tesseramento-fidal-2027-corsa-atletica-runcard-cara-rinnovo/",
+   "data": "2026-11-19",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/e29be43d-80ea-4999-8425-b88af6877a01.png",
+   "argomenti": [
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
+   "id": "d89a2433deb3",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Maratona di Valencia, livello (sempre) stellare: assalto al record del mondo e italiani al via",
+   "estratto": "Un cast da super major per l’ultima grande maratona dell’anno: John Korir guida l’assalto al record del mondo, anche al femminile si sogna il milione di euro. Al via top atleti…",
+   "link": "https://www.runnersworld.com/it/news/a74438462/maratona-valencia-record-mondo-korir-ngetich-italiani/",
+   "data": "2026-11-19",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/0b5ef9e2-e4f5-41f4-b4b7-ab2effc1b203.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "c913b99cdd0e",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "L’equilibrio su una gamba e il test di longevità",
+   "estratto": "Il tuo corpo possiede spie di segnalazione. Stare su una gamba sola per dieci secondi rivela la sua efficienza. Il declino fisico sfugge spesso ai normali esami del sangue…",
+   "link": "https://runlovers.it/2026/equilibrio-una-gamba-test-longevita/",
+   "data": "2026-11-19",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/06-202611191235-Una-gamba-W-Depositphotos_-andreyshevchuk.jpeg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "90602cdcf69f",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "Esordio europeo alla Powerade Milano Half Marathon per il robot umanoide HONOR Robot D1 Flash",
+   "estratto": "Tra gli oltre 20mila runner (nuovo record di partecipanti per la Powerade Milano Half Marathon ) provenienti da 125 Nazioni che domenica 22 novembre prenderanno il via, ci sarà un…",
+   "link": "https://correre.it/powerade-milano-half-marathon-robot-umanoide-honor-robot-d1-flash/",
+   "data": "2026-11-19",
+   "immagine": "https://correre.it/wp-content/uploads/2026/11/Powerade_Milano_Half_-Marathon.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": [
+    "gara"
+   ]
+  },
+  {
+   "id": "e90b62a1ff52",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Battocletti in Spagna, Crippa alla Cinque Mulini: la domenica del cross azzurro",
+   "estratto": "Nadia Battocletti prepara gli Europei di cross ad Atapuerca, mentre Yeman Crippa prova a riportare un italiano alla vittoria della Cinque Mulini dopo 40 anni",
+   "link": "https://www.runnersworld.com/it/news/a74455322/cross-battocletti-crippa-cinque-mulini/",
+   "data": "2026-11-19",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/a58c5507-87bb-4bba-9c1e-e3d29be2c562.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "1c5a4946af3c",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Addominali, spalle e schiena: gli esercizi per una postura forte",
+   "estratto": "Davanti e dietro, il tronco sta dritto quando le due parti tengono nello stesso momento: per questo conviene allenarle in una seduta sola. Sei esercizi in un unico circuito, da…",
+   "link": "https://runlovers.it/2026/addominali-spalle-schiena-esercizi-postura/",
+   "data": "2026-11-19",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/esercizi-postura-core-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "gara"
+   ]
+  },
+  {
    "id": "100df4fcd9dc",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
