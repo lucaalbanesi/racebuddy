@@ -1,6 +1,34 @@
 {
- "aggiornato": "2026-11-18T15:50Z",
+ "aggiornato": "2026-11-19T15:50Z",
  "novita": [
+  {
+   "id": "nd8153b5f483",
+   "gara": "E-valencia-42-2026",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Maratona di Valencia, livello (sempre) stellare: assalto al record del mondo e italiani al via",
+   "link": "https://www.runnersworld.com/it/news/a74438462/maratona-valencia-record-mondo-korir-ngetich-italiani/",
+   "data": "2026-11-19",
+   "fonte": "Runner's World Italia",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/0b5ef9e2-e4f5-41f4-b4b7-ab2effc1b203.jpeg",
+   "trovato": "2026-11-19T15:50Z"
+  },
+  {
+   "id": "n27571ed1805",
+   "gara": "H0e7dc2579e-21",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Esordio europeo alla Powerade Milano Half Marathon per il robot umanoide HONOR Robot D1 Flash",
+   "link": "https://correre.it/powerade-milano-half-marathon-robot-umanoide-honor-robot-d1-flash/",
+   "data": "2026-11-19",
+   "fonte": "Correre",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://correre.it/wp-content/uploads/2026/11/Powerade_Milano_Half_-Marathon.jpg",
+   "trovato": "2026-11-19T15:50Z"
+  },
   {
    "id": "n7034609da97",
    "gara": "H0e7dc2579e-21",
