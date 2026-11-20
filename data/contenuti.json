@@ -2,6 +2,330 @@
  "aggiornato": "2026-11-20",
  "contenuti": [
   {
+   "id": "8956848b0d97",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Scegliere il vest giusto: la mia decisione finale!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/mmHl5vBVEVU",
+   "data": "2026-11-20",
+   "immagine": "https://i2.ytimg.com/vi/mmHl5vBVEVU/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "ba00222d86c2",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Runner’s World Show 2026: lo spettacolo della corsa",
+   "estratto": "Una serata speciale per celebrare chi corre e chi fa crescere la cultura del running: sul palco i campioni Yeman Crippa, Cristian Minoggio e le nuove Icone del Running. Premiate…",
+   "link": "https://www.runnersworld.com/it/news/a74476628/runners-world-show-2026-corsa-spettacolo/",
+   "data": "2026-11-20",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/e02e2551-d991-4706-b7e3-5bec388b139f.png",
+   "argomenti": [
+    "scarpe",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "ae38d93b9734",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Runner italiane, il 68% ha subito molestie mentre correva. La ricerca che racconta la loro paura",
+   "estratto": "Una ricerca inedita di ChangeTheGame fotografa la questione che condiziona la libertà di migliaia di donne. E che, in alcuni casi, le porta ad abbandonare la corsa all'aperto",
+   "link": "https://www.runnersworld.com/it/news/a74477971/runner-italiane-molestie-corsa-ricerca-changethegame-nielsen/",
+   "data": "2026-11-20",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/32e087e8-2685-4738-9890-8e8329883ab5.jpg",
+   "argomenti": [
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "c399ad4d0da7",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Ossigeno nel muscolo: cos’è la SmO2 e cosa ci permette di capire",
+   "estratto": "Un sensore appoggiato sulla coscia legge quanto ossigeno resta nel muscolo che lavora, e aggiunge al battito un punto di vista che il cuore non può avere. Cosa misura la SmO2 e…",
+   "link": "https://runlovers.it/2026/smo2-ossigeno-muscolo-saturazione-corsa/",
+   "data": "2026-11-20",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/smo2-ossigneno-muscolo-foto.jpg?fit=1920%2C1282&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "1dff207e8426",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Milano Half Marathon, strade chiuse e viabilità: cosa cambia nel weekend della gara",
+   "estratto": "Domenica 22 novembre la Milano Half Marathon attraversa la città con 20mila runner. Ecco le strade chiuse per partenza, arrivo e passaggio delle gare, con gli orari dei divieti",
+   "link": "https://www.runnersworld.com/it/news/a74477203/milano-half-marathon-2026-strade-chiuse/",
+   "data": "2026-11-20",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/d8a4bb4a-ba0e-47ee-9ab9-1b19c40bc916.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": [
+    "gara"
+   ]
+  },
+  {
+   "id": "7cecf8535dc0",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "La ricetta vincente per unire corsa e allenamento della forza",
+   "estratto": "Fare entrambe le cose può migliorare prestazioni e forma fisica, ma il timing conta. Gli studi spiegano come distribuire corsa e pesi nella settimana",
+   "link": "https://www.runnersworld.com/it/allenamento/esercizi/a74477638/corsa-allenamento-forza-come-unirli/",
+   "data": "2026-11-20",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/451b5774-fad3-413f-94fc-0c4f6b12197b.jpeg",
+   "argomenti": [
+    "allenamento",
+    "forza",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "2ffefd752f00",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "HOKA UTMB Mont-Blanc: svelate le date dell’edizione 2027",
+   "estratto": "A fine agosto, il territorio del Monte Bianco ospiterà due grandi appuntamenti sportivi internazionali. Oltre al tradizione HOKA UTMB Mont-Blanc , in programma dal 22 al 28 agosto…",
+   "link": "https://correre.it/utmb-mont-blanc-2027-calendario/",
+   "data": "2026-11-20",
+   "immagine": "https://correre.it/wp-content/uploads/2026/02/Partenza_HOKA_UTMB®_Mont_Blanc.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
+   "id": "1462ef8366f3",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "D’inverno nessuno ci chiede per che gara ci alleniamo",
+   "estratto": "La pioggia gelata blocca l’asfalto e minaccia il programma. La piscina coperta offre la densità perfetta per salvare la struttura dell’allenamento. Ecco l’elenco reso più…",
+   "link": "https://runlovers.it/2026/nuoto-cross-training-maltempo-allenamento/",
+   "data": "2026-11-20",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/08-202611201235-Nuoto-T-Unsplash-Todd-Quackenbush.jpeg?fit=1920%2C969&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "recupero",
+    "gara",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico",
+    "dopo"
+   ]
+  },
+  {
+   "id": "82163ce92666",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Dieci km, mezza e maratona: come cambia quello che mangi in gara",
+   "estratto": "Settimana di gara, colazione, gel e borraccia: tre distanze, tre strategie diverse",
+   "link": "https://www.runnersworld.com/it/alimentazione/food-drink/a74488277/come-cambia-mangiare-gara/",
+   "data": "2026-11-20",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/500a1186-7ce7-48cd-80c3-02a617e09441.jpeg",
+   "argomenti": [
+    "rifornimento",
+    "alimentazione",
+    "gara"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "32d082b9063e",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "Crippa e Battocletti, esordio stagionale nel cross",
+   "estratto": "Il weekend del 21-22 novembre sarà denso di appuntamenti per tanti atleti azzurri: da Yeman Crippa e Nadia Battocletti , impegnati nel cross, a Yohanes Chiappinelli e Giovanna…",
+   "link": "https://correre.it/crippa-battocletti-cross/",
+   "data": "2026-11-20",
+   "immagine": "https://correre.it/wp-content/uploads/2026/11/Yohanes_Chiappinelli_Milano_Half_Marathon_2025-2.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42",
+    "21",
+    "10"
+   ],
+   "fasi": [
+    "si_parte",
+    "gara"
+   ]
+  },
+  {
+   "id": "258d32097a81",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Corsa in inverno: 3 errori di alimentazione che possono ridurre energia e prestazioni",
+   "estratto": "Bere meno, trascurare alcune vitamine o cambiare troppo l’alimentazione nei mesi freddi può incidere sull’allenamento. Tre dietiste spiegano come evitarlo",
+   "link": "https://www.runnersworld.com/it/alimentazione/food-drink/a74474699/corsa-inverno-errori-alimentazione-runner/",
+   "data": "2026-11-20",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/6b6cb1c4-e5d3-479e-92bf-978261196bee.jpeg",
+   "argomenti": [
+    "rifornimento",
+    "alimentazione",
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico"
+   ]
+  },
+  {
+   "id": "df90a8f3a3f1",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Corsa a digiuno: brucia più grassi e migliora la performance?",
+   "estratto": "CORRERE A DIGIUNO FA BRUCIARE PIÙ GRASSI? E AIUTA DAVVERO A MIGLIORARE LE PRESTAZIONI? La scienza distingue il carburante utilizzato durante la seduta dai risultati reali su peso…",
+   "link": "https://podisti.net/corsa-a-digiuno-brucia-piu-grassi-e-migliora-la-performance/",
+   "data": "2026-11-20",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Correre-a-digiuno_-cosa-dice-la-scienza.png",
+   "argomenti": [
+    "allenamento",
+    "gara",
+    "mente",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "60d019aac83c",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Correre con il raffreddore (o mal di gola): quando è sicuro e quando no",
+   "estratto": "Capire i segnali dell’organismo aiuta a scegliere se proseguire con l’attività oppure concedersi riposo",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a40500539/corsa-influenza-febbre-raffreddore-tosse-quando-correre-fermarsi/",
+   "data": "2026-11-20",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/52bfb95e-8759-4955-ac53-08e2a9a35fc7.jpeg",
+   "argomenti": [
+    "recupero",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "dopo"
+   ]
+  },
+  {
+   "id": "dacf479f439d",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Che fine ha fatto Kilian Jornet?",
+   "estratto": "Il campione catalano ha vissuto una stagione sportiva molto ridotta a causa degli infortuni. Cos'ha fatto nel frattempo? Lo rivedremo in gara?",
+   "link": "https://www.runnersworld.com/it/trail/a74476572/kilian-jornet-futuro/",
+   "data": "2026-11-20",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/df21ead3-d0ad-4fbf-b5f8-1312f5aa4aa8.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "gara"
+   ]
+  },
+  {
+   "id": "882617766281",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "ChangeToRun: l’app per correre in sicurezza",
+   "estratto": "Come funziona la nuova app pensata per aiutare le runner a scegliere percorsi più sicuri, condividere la propria posizione e attivare un SOS in caso di emergenza durante la corsa",
+   "link": "https://www.runnersworld.com/it/news/a74477754/changetorun-app-runner-sicurezza/",
+   "data": "2026-11-20",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/dcb61abd-7566-495c-accb-6bb1adfe2f6d.jpg",
+   "argomenti": [
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "bf55591ba127",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Avete mai corso dentro una cantina?",
+   "estratto": "Avete mai corso dentro una cantina? A me è successo al decimo chilometro del mio primo trail. La Valtellina Wine Trail è un percorso misto…",
+   "link": "https://www.youtube.com/shorts/Oz9nC7PQ_KA",
+   "data": "2026-11-20",
+   "immagine": "https://i4.ytimg.com/vi/Oz9nC7PQ_KA/hqdefault.jpg",
+   "argomenti": [
+    "allenamento",
+    "gara",
+    "racconti"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
    "id": "57691a6afa36",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -667,7 +991,7 @@
    "estratto": "La Powerade Milano Half Marathon 2026 è sold out: domenica 22 novembre saranno 20mila i runner sulla linea di partenza, un nuovo record , con 5mila iscritti in più rispetto ai…",
    "link": "https://correre.it/la-milano-half-marathon-2026-sold-out/",
    "data": "2026-11-17",
-   "immagine": "https://correre.it/wp-content/uploads/2026/11/Milano_Half_Marathon_2026.jpg",
+   "immagine": "https://correre.it/wp-content/uploads/2026/11/Powerade-Milano-Half-Marathon_3.jpg",
    "argomenti": [
     "gara",
     "notizie"
