@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-19T19:50Z",
+ "aggiornato": "2026-11-20T04:50Z",
  "novita": [
   {
    "id": "nd8153b5f483",
@@ -14,6 +14,20 @@
    "tipo": "articolo",
    "immagine": "https://hips.hearstapps.com/hmg-prod/images/0b5ef9e2-e4f5-41f4-b4b7-ab2effc1b203.jpeg",
    "trovato": "2026-11-19T15:50Z"
+  },
+  {
+   "id": "n7f7a99cb6f4",
+   "gara": "H88b48310e5-42",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Sarete alla Maratona di Firenze o vi va semplicemente di correre insieme?",
+   "link": "https://www.youtube.com/shorts/bFnRVMamjLE",
+   "data": "2026-11-19",
+   "fonte": "Personal Running Coach",
+   "ufficiale": false,
+   "tipo": "video",
+   "immagine": "https://i3.ytimg.com/vi/bFnRVMamjLE/hqdefault.jpg",
+   "trovato": "2026-11-20T04:50Z"
   },
   {
    "id": "n27571ed1805",
