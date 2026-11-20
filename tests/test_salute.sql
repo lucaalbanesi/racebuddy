@@ -23,6 +23,13 @@ begin
   exception when others then if sqlerrm not like '%superamministratore%' then raise; end if; end;
   perform public.salute_avvisi_imposta(x, 'https://push.example/1', false);
   assert (public.stato_salute(x)->>'telefoni')::int = 0, 'avvisi spenti';
+  -- conferma di ricezione: due invii senza ricevuta, poi la ricevuta azzera
+  perform public.push_inviata('https://push.example/1');
+  perform public.push_inviata('https://push.example/1');
+  assert (select senza_ricevuta = 2 and prima_senza is not null from public.push_iscrizioni where endpoint = 'https://push.example/1'), 'due invii senza ricevuta';
+  perform public.push_ricevuta('https://push.example/1', 'vestizione');
+  assert (select senza_ricevuta = 0 and prima_senza is null and ricevuta is not null and ricevuta_tipo = 'vestizione' from public.push_iscrizioni where endpoint = 'https://push.example/1'), 'ricevuta';
+  perform public.push_ricevuta('https://push.example/nessuna', 'x'); -- iscrizione che non c'è: niente
   delete from public.salute_controlli; delete from public.superadmin; perform public.cancella_iscrizione('https://push.example/1');
   raise notice 'ok';
 end $$;
@@ -31,5 +38,7 @@ set role anon;
 do $$ begin
   begin perform 1 from public.salute_controlli; assert false, 'anon legge i controlli'; exception when insufficient_privilege then null; end;
   begin perform 1 from public.salute_avvisi; assert false, 'anon legge gli avvisi'; exception when insufficient_privilege then null; end;
+  begin perform public.push_inviata('https://push.example/1'); assert false, 'anon segna un invio'; exception when insufficient_privilege then null; end;
+  perform public.push_ricevuta('https://push.example/1', 'mattino'); -- la ricevuta la manda il telefono
   raise notice 'permessi salute ok';
 end $$;

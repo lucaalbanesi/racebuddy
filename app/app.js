@@ -123,7 +123,7 @@
     const o = oggi(), attive = S.gare.filter((g) => g.data >= L.addDays(o, -14) && nonArchiviata(g));
     const ids = new Set(attive.map((g) => g.id));
     return {
-      v: 1, ora: S.profilo.ora || "07:00", pref: { meteo: true, percorso: true, gara: true, documenti: true, novita: true, fase: true, vestizione: false, ...(S.prefPush || {}) },
+      v: 1, ricevute: 1, ora: S.profilo.ora || "07:00", pref: { meteo: true, percorso: true, gara: true, documenti: true, novita: true, fase: true, vestizione: false, ...(S.prefPush || {}) },
       documenti: Object.fromEntries(Object.entries(S.documenti || {}).filter(([, d]) => d && d.scadenza).map(([k, d]) => [k, k === "tessera" ? { tipo: d.tipo || "", scadenza: d.scadenza } : { scadenza: d.scadenza }])),
       luogo: S.profilo.coord ? { lat: S.profilo.coord.lat, lon: S.profilo.coord.lon } : S.profilo.citta ? { citta: S.profilo.citta } : null,
       gare: attive.map((g) => ({ id: g.id, nome: g.nome, data: g.data, luogo: g.luogo || "", distanza: g.distanza, ruolo: g.ruolo, aggiunta: g.aggiunta, ...(g.km ? { km: g.km } : {}), ...(g.tempo ? { tempo: g.tempo } : {}) })),
@@ -193,12 +193,36 @@
     const j = sub.toJSON();
     await rpc("salva_iscrizione", { p_endpoint: j.endpoint, p_p256dh: j.keys.p256dh, p_auth: j.keys.auth, p_dati: datiPush() });
   }
+  // L'errore si salva senza salva(), che rilancerebbe subito la sincronizzazione: si riprova al prossimo salvataggio o apertura.
+  const memo = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* pieno */ } };
   async function sincronizzaPush() {
     try {
       const reg = await navigator.serviceWorker.ready, sub = await reg.pushManager.getSubscription();
-      if (sub) { await inviaIscrizione(sub); delete S.erroreSegnala; }
-      else { S.push = null; localStorage.setItem(KEY, JSON.stringify(S)); }
-    } catch (e) { /* riprova al prossimo salvataggio */ }
+      if (sub) {
+        await inviaIscrizione(sub);
+        const prima = !!S.erroreSync; delete S.erroreSync; S.pushCodice = await codicePush(sub.endpoint); memo();
+        if (prima && location.hash.startsWith("#/io/notifiche")) rerender();
+      } else { S.push = null; memo(); }
+    } catch (e) {
+      S.erroreSync = { msg: String(e.message || e).slice(0, 120), quando: new Date().toISOString() }; memo();
+      if (location.hash.startsWith("#/io/notifiche")) rerender();
+    }
+  }
+  /** Codice dell'iscrizione: 6 caratteri dell'impronta dell'endpoint, lo stesso della diagnosi (scripts/diagnosi_push.js). */
+  async function codicePush(endpoint) {
+    try { const h = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(endpoint)); return [...new Uint8Array(h)].slice(0, 3).map((b) => b.toString(16).padStart(2, "0")).join(""); }
+    catch (e) { return null; }
+  }
+  /** All'apertura: se il telefono ha un'iscrizione e il permesso, l'app la considera attiva e la rimanda al server con le
+      preferenze di adesso (copre il caso "notifiche che arrivano ma con preferenze vecchie"). */
+  async function riallineaPush() {
+    try {
+      if (supportoPush() !== "ok" || Notification.permission !== "granted") { if (S.push && S.push.attivo) sincronizzaPush(); return; }
+      const reg = await Promise.race([navigator.serviceWorker.ready, new Promise((_, ko) => setTimeout(ko, 4000))]);
+      const sub = await reg.pushManager.getSubscription();
+      if (sub && !(S.push && S.push.attivo)) { S.push = { attivo: true, dal: oggi(), riallineato: true }; memo(); }
+      if (sub || (S.push && S.push.attivo)) sincronizzaPush();
+    } catch (e) { if (S.push && S.push.attivo) sincronizzaPush(); }
   }
   async function attivaPush(btn) {
     btn.disabled = true;
@@ -241,7 +265,9 @@
       : `<label class="check" style="opacity:.6"><input type="checkbox" disabled><span><span class="t">Vestizione ogni giorno <span class="pill">In prova</span></span><br><span class="d">Per accenderla <a href="#/io/profilo">dimmi dove corri</a>.</span></span></label>`;
     if (on) corpo = `<span class="small">${pr.vestizione && dove ? `Ogni giorno la vestizione per la tua uscita delle <b>${ora}</b>; il resto solo quando c'è qualcosa di nuovo.` : `Ti scrivo solo quando c'è qualcosa di nuovo, al massimo una volta al giorno, mezz'ora prima della tua uscita delle <b>${ora}</b>.`} Mai di notte.</span>
       <div>${swVest}${sw("meteo", "Meteo che cambia", pr.vestizione && dove ? "Con la vestizione ogni giorno non serve: gli avvisi importanti arrivano lì." : "Solo se cambia davvero rispetto a ieri: gelo, caldo, vento forte, pioggia, ±3°. Mai lo stesso avviso due volte.")}${sw("percorso", "Tappe del percorso", "Le cose importanti da fare e quelle che hai rimandato a oggi.")}${sw("gara", "La tua gara", "Scheda pronta o cambiata, prime previsioni, la vigilia alle 19, la mattina della gara, \"Com'è andata?\" a gara finita e quando il tuo tempo è certificato dal direttivo o dal referente.")}${sw("novita", "Novità ufficiali della gara", "Medaglia, maglia, percorso, orari e pettorale appena escono, al massimo una al giorno per gara. Le altre notizie nel messaggio del mattino.")}${sw("documenti", "Scadenze", "Tessera e certificato medico: 30, 15 e 2 giorni prima.")}${sw("fase", "Da leggere per la tua fase", "Un contenuto a settimana, la domenica, solo se quel mattino non c'è altro.")}</div>
-      <div class="grid2"><button class="btn ghost" data-act="push-prova">Prova</button><button class="btn ghost" data-act="push-off">Disattiva</button></div>`;
+      <div class="grid2"><button class="btn ghost" data-act="push-prova">Prova</button><button class="btn ghost" data-act="push-off">Disattiva</button></div>
+      ${S.erroreSync ? `<div class="avviso attenzione" style="flex-direction:column"><span class="small">⚠️ Non riesco ad aggiornare le tue preferenze sul server: potresti ricevere notifiche vecchie o non riceverle. <span class="muted">(${esc(S.erroreSync.msg)})</span></span><button class="btn ghost" data-act="push-sync">Riprova</button></div>` : ""}
+      ${S.pushCodice ? `<span class="small muted">Codice notifiche: <b>${esc(S.pushCodice)}</b> · serve solo per l'assistenza</span>` : ""}`;
     else if (st === "ios-home") corpo = `<span class="small">Su iPhone le notifiche arrivano solo se RaceBuddy è sulla schermata Home: in Safari tocca <b>Condividi</b> → <b>Aggiungi alla schermata Home</b>, poi apri l'app da lì e torna qui.</span>`;
     else if (st === "negato") corpo = `<span class="small">Le notifiche sono bloccate per questa app: riattivale dalle impostazioni del telefono o del browser.</span>`;
     else if (st === "no") corpo = `<span class="small">Questo browser non supporta le notifiche.</span>`;
@@ -4262,6 +4288,8 @@
       disattivaPush();
     } else if (act === "push-prova") {
       provaNotifica();
+    } else if (act === "push-sync") {
+      t.disabled = true; sincronizzaPush().then(() => toast(S.erroreSync ? "Ancora non riesco: riprovo alla prossima apertura" : "Preferenze aggiornate"));
     } else if (act === "push-pref") {
       S.prefPush = { ...(S.prefPush || {}), [t.dataset.k]: t.checked }; salva(); toast("Preferenze salvate");
       if (t.dataset.k === "vestizione") rerender(); // cambiano i testi della card
@@ -4974,5 +5002,5 @@
     el.querySelector("button").addEventListener("click", () => { S.bannerHomeDopo = L.addDays(L.todayISO(), 7); salva(); bannerHome(); });
     document.body.appendChild(el); document.body.classList.add("con-banner-home");
   }
-  carica().then(() => { bannerHome(); route(); contaApertura(); if (C().strava) aggiornaScarpeStrava(); S.gare.forEach((g) => segnalaGara(g, g.id.startsWith("M") ? "manuale" : "FIDAL")); if (S.push && S.push.attivo) sincronizzaPush(); if (S.gruppo && S.gruppo.dentro) { aggiornaGruppo(true).then(() => sincronizzaPBGruppo()); sincronizzaGareGruppo(); } });
+  carica().then(() => { bannerHome(); route(); contaApertura(); if (C().strava) aggiornaScarpeStrava(); S.gare.forEach((g) => segnalaGara(g, g.id.startsWith("M") ? "manuale" : "FIDAL")); riallineaPush(); if (S.gruppo && S.gruppo.dentro) { aggiornaGruppo(true).then(() => sincronizzaPBGruppo()); sincronizzaGareGruppo(); } });
 })();

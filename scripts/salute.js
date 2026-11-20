@@ -2,7 +2,7 @@
    altri job; se non gira è Supabase a essere giù). Verifica:
    - job programmati: partiti quando dovevano e finiti bene (API di GitHub Actions);
    - dati: data di aggiornamento dei file del calendario, dei contenuti, delle gare seguite e delle gare estere;
-   - servizi: sito, database, invii push di oggi, funzione buddy e (una volta al giorno) la ricerca tempi su FIDAL, GPL e MarathonView.
+   - servizi: sito, database, invii push di oggi, consegna delle push (conferme dei telefoni), funzione buddy e (una volta al giorno) la ricerca tempi su FIDAL, GPL e MarathonView.
    Scrive l'esito in Supabase (salute_controlli, letto dalla pagina #/salute del superamministratore) e manda una push ai
    telefoni in salute_avvisi solo se qualcosa è KO: alla prima volta, quando si aggiunge un problema nuovo, e poi al
    massimo una volta al giorno finché resta. Stati: ok, attenzione (solo nella pagina), ko (pagina e push).
@@ -96,7 +96,20 @@ function valuta({ adesso, runs = {}, aggiornati = {}, servizi = [], precedente =
   return { ok: ko.length === 0, controlli, ko, avvisato, avviso };
 }
 
-module.exports = { JOBS, DATI, valuta, valutaJob, valutaDato, quando };
+/** Consegna delle push (novembre 2026): telefoni a cui le notifiche partono ma che non confermano di averle mostrate.
+ *  righe: iscrizioni con senza_ricevuta >= 1 ({ codice, telefono, senza_ricevuta, prima_senza, ricevuta }).
+ *  KO se almeno 3 invii di fila senza conferma da più di 40 ore (circa due giorni di notifiche perse). */
+const CONSEGNA = { invii: 3, ore: 40 };
+function valutaConsegna(righe, adesso) {
+  const base = { id: "consegna", nome: "Consegna delle notifiche" };
+  const mute = (righe || []).filter((r) => r.senza_ricevuta >= CONSEGNA.invii && r.prima_senza && (adesso - new Date(r.prima_senza)) / ORA_MS >= CONSEGNA.ore);
+  if (!mute.length) return { ...base, stato: "ok", dettaglio: "Tutti i telefoni confermano le notifiche" };
+  const testo = mute.map((r) => `${r.codice} (${r.telefono}, ${r.senza_ricevuta} senza conferma dal ${quando(r.prima_senza, adesso)}${r.ricevuta ? `, ultima arrivata ${quando(r.ricevuta, adesso)}` : ""})`).join("; ");
+  return { ...base, stato: "ko", dettaglio: `${mute.length === 1 ? "Un telefono non riceve" : `${mute.length} telefoni non ricevono`}: ${testo}. Chiedi di disattivare e riattivare le notifiche` };
+}
+const tipoTelefono = (e) => (/fcm\.googleapis|android\.googleapis/.test(e) ? "Android" : /push\.apple\.com/.test(e) ? "iPhone" : "altro");
+
+module.exports = { JOBS, DATI, CONSEGNA, valuta, valutaJob, valutaDato, valutaConsegna, quando };
 
 // ------------------------------------------------------------------ dal vivo
 async function main() {
@@ -155,6 +168,13 @@ async function main() {
     if (!r.ok) return { stato: "attenzione", dettaglio: "Conteggi non leggibili" };
     const l = await r.json(), falliti = l.filter((x) => x.tipo === "falliti").reduce((t, x) => t + x.n, 0), inviati = l.filter((x) => !["falliti", "scadute"].includes(x.tipo)).reduce((t, x) => t + x.n, 0);
     return falliti ? { stato: "attenzione", dettaglio: `${falliti} ${falliti === 1 ? "invio fallito" : "invii falliti"}, ${inviati} ${inviati === 1 ? "inviata" : "inviate"}` } : { stato: "ok", dettaglio: `${inviati} ${inviati === 1 ? "inviata" : "inviate"}, nessun errore` };
+  });
+  await servizio("consegna", "Consegna delle notifiche", async () => {
+    const r = await sb("push_iscrizioni?select=endpoint,senza_ricevuta,prima_senza,ricevuta&senza_ricevuta=gte.1");
+    if (!r.ok) return { stato: "attenzione", dettaglio: "Conferme non leggibili (docs/supabase_salute.sql non ancora applicato?)" };
+    const righe = (await r.json()).map((x) => ({ ...x, codice: require("crypto").createHash("sha256").update(x.endpoint).digest("hex").slice(0, 6), telefono: tipoTelefono(x.endpoint) }));
+    const { stato, dettaglio } = valutaConsegna(righe, adesso);
+    return { stato, dettaglio };
   });
   await servizio("buddy", "Chat Buddy", async () => {
     const t = require("crypto").randomBytes(32).toString("hex");

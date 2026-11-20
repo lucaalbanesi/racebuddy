@@ -61,3 +61,14 @@ assert.ok(e2.avviso, "dopo 24 ore si ricorda");
 e2 = S.valuta({ adesso: dopo, runs: tuttiOk, aggiornati: datiOk, servizi: servOk, precedente: prec });
 assert.ok(e2.ok && !e2.avviso && e2.avvisato === null);
 console.log("salute ok");
+
+// consegna delle push: KO solo con almeno 3 invii senza conferma da più di 40 ore
+const muto = (n, h, extra = {}) => ({ codice: "7953f7", telefono: "Android", senza_ricevuta: n, prima_senza: ore(h), ...extra });
+assert.strictEqual(S.valutaConsegna([], adesso).stato, "ok");
+assert.strictEqual(S.valutaConsegna([muto(2, 50)], adesso).stato, "ok", "due invii non bastano");
+assert.strictEqual(S.valutaConsegna([muto(5, 20)], adesso).stato, "ok", "meno di 40 ore: telefono magari spento");
+const c = S.valutaConsegna([muto(4, 48, { ricevuta: ore(60) })], adesso);
+assert.strictEqual(c.stato, "ko");
+assert.ok(/7953f7 \(Android, 4 senza conferma/.test(c.dettaglio), c.dettaglio);
+assert.ok(/riattivare/.test(c.dettaglio));
+console.log("consegna ok");

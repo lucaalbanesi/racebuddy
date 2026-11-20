@@ -54,3 +54,31 @@ revoke all on function public.stato_salute(text, text), public.salute_avvisi_imp
 grant execute on function public.stato_salute(text, text), public.salute_avvisi_imposta(text, text, boolean) to anon;
 
 commit;
+
+-- Conferma di ricezione delle push (novembre 2026, ripetibile). Il job, prima di ogni invio a un telefono che sa
+-- confermare (dati.ricevute), chiama push_inviata: +1 a senza_ricevuta. Il service worker, appena mostra la notifica,
+-- chiama push_ricevuta: azzera. Così un telefono a cui le push "partono" ma non arrivano si vede (controllo salute).
+-- Online niente di nuovo sull'utente: solo date e un contatore sull'iscrizione che c'è già.
+alter table public.push_iscrizioni
+  add column if not exists ricevuta timestamptz,
+  add column if not exists ricevuta_tipo text,
+  add column if not exists senza_ricevuta int not null default 0,
+  add column if not exists prima_senza timestamptz;
+
+create or replace function public.push_ricevuta(p_endpoint text, p_tipo text) returns void
+language sql security definer set search_path = '' as $$
+  update public.push_iscrizioni
+     set ricevuta = now(), ricevuta_tipo = left(regexp_replace(coalesce(p_tipo, ''), '[^a-z]', '', 'g'), 20), senza_ricevuta = 0, prima_senza = null
+   where endpoint = p_endpoint;
+$$;
+
+create or replace function public.push_inviata(p_endpoint text) returns void
+language sql security definer set search_path = '' as $$
+  update public.push_iscrizioni
+     set senza_ricevuta = senza_ricevuta + 1, prima_senza = coalesce(prima_senza, now())
+   where endpoint = p_endpoint;
+$$;
+
+revoke all on function public.push_ricevuta(text, text), public.push_inviata(text) from public, anon, authenticated;
+grant execute on function public.push_ricevuta(text, text) to anon;
+grant execute on function public.push_inviata(text) to service_role;

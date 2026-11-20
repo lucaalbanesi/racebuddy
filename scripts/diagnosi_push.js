@@ -31,6 +31,9 @@ async function main() {
       aggiornato: breve(it.aggiornato),
       ultimo_invio: it.ultimo_invio || "—",
       sera_per: st.vestSera ? st.vestSera.data : "—",
+      conferma: d.ricevute ? "sì" : "app vecchia",
+      ultima_ricevuta: it.ricevuta ? `${breve(it.ricevuta)} ${it.ricevuta_tipo || ""}`.trim() : "—",
+      senza_conferma: it.senza_ricevuta ?? "—",
     };
   }).sort((a, b) => a.telefono.localeCompare(b.telefono) || a.uscita.localeCompare(b.uscita));
   const col = Object.keys(righe[0] || { codice: 1 });

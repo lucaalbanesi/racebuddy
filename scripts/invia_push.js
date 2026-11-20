@@ -11,6 +11,9 @@ const radice = path.join(__dirname, "..");
 const cfg = fs.readFileSync(path.join(radice, "app/config.js"), "utf8");
 const URL_SB = cfg.match(/https:\/\/[a-z0-9]+\.supabase\.co/)[0];
 const VAPID_PUB = (cfg.match(/vapidPublic:\s*"([^"]+)"/) || [])[1];
+const PUB = (cfg.match(/sb_publishable_[A-Za-z0-9_-]+/) || [])[0];
+// conferma di ricezione: il service worker chiama questa funzione appena mostra la notifica (docs/supabase_salute.sql)
+const RICEVUTA = PUB ? { u: `${URL_SB}/rest/v1/rpc/push_ricevuta`, k: PUB } : null;
 const KEY = process.env.SUPABASE_SECRET_KEY, PRIV = process.env.VAPID_PRIVATE_KEY, PROVA = process.env.PROVA === "1";
 
 const leggi = (f) => JSON.parse(fs.readFileSync(path.join(radice, f), "utf8"));
@@ -91,7 +94,9 @@ async function main() {
     const sub = { endpoint: it.endpoint, keys: { p256dh: it.p256dh, auth: it.auth } };
     let stato = it.stato || {}, inviato = false, scaduta = false;
     const invia = async (msg) => {
-      try { await webpush.sendNotification(sub, JSON.stringify(msg), { TTL: 3 * 3600, urgency: "normal" }); inviati++; inviato = true; if (!PROVA) perTipo[tipoInvio(msg.tag)] = (perTipo[tipoInvio(msg.tag)] || 0) + 1; }
+      // i telefoni con l'app aggiornata confermano la ricezione: prima dell'invio +1, la ricevuta azzera
+      if (d.ricevute && RICEVUTA) await sb("rpc/push_inviata", { method: "POST", body: JSON.stringify({ p_endpoint: it.endpoint }) }).catch(() => null);
+      try { await webpush.sendNotification(sub, JSON.stringify(RICEVUTA ? { ...msg, r: RICEVUTA } : msg), { TTL: 3 * 3600, urgency: "normal" }); inviati++; inviato = true; if (!PROVA) perTipo[tipoInvio(msg.tag)] = (perTipo[tipoInvio(msg.tag)] || 0) + 1; }
       catch (e) {
         if (e.statusCode === 404 || e.statusCode === 410) { scaduta = true; scaduti++; await sb(`push_iscrizioni?endpoint=eq.${encodeURIComponent(it.endpoint)}`, { method: "DELETE" }); }
         else { falliti++; console.error("Invio fallito", e.statusCode || "", String(e.body || e.message || e).slice(0, 200)); }
