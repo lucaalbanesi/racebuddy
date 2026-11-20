@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-19",
+ "aggiornato": "2026-11-20",
  "contenuti": [
   {
    "id": "57691a6afa36",
@@ -108,6 +108,22 @@
    ]
   },
   {
+   "id": "4f38c36796d4",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Strategia abbigliamento per l'ultra: maglie e calze anti-vescica!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/tcXuemCb2UY",
+   "data": "2026-11-19",
+   "immagine": "https://i1.ytimg.com/vi/tcXuemCb2UY/hqdefault.jpg",
+   "argomenti": [
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
    "id": "2297284c2714",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -124,6 +140,28 @@
     "42"
    ],
    "fasi": []
+  },
+  {
+   "id": "98c640395416",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Sarete alla Maratona di Firenze o vi va semplicemente di correre insieme?",
+   "estratto": "Sarete alla Maratona di Firenze o vi va semplicemente di correre insieme? Sabato 28 novembre ritrovo alle 10:00 alla Stazione Leopolda…",
+   "link": "https://www.youtube.com/shorts/bFnRVMamjLE",
+   "data": "2026-11-19",
+   "immagine": "https://i3.ytimg.com/vi/bFnRVMamjLE/hqdefault.jpg",
+   "argomenti": [
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "scarico"
+   ]
   },
   {
    "id": "fcfd80284d28",
@@ -162,6 +200,20 @@
     "costruzione",
     "dopo"
    ]
+  },
+  {
+   "id": "a4b8b04c3945",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Quando entri nel tunnel (quello vero) della corsa…",
+   "estratto": "“Entrare in un tunnel” è una metafora comune per descrivere diversi periodi psicologici. Abbinato alla corsa richiama una sorta di dipendenza da questa attività sportiva. Ci…",
+   "link": "https://podisti.net/quando-entri-nel-tunnel-quello-vero-della-corsa/",
+   "data": "2026-11-19",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Tunnel-Marathon-Foto-sito-organizzazione.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
   },
   {
    "id": "b6955d22e804",
@@ -214,6 +266,27 @@
    "argomenti": [],
    "distanze": [],
    "fasi": []
+  },
+  {
+   "id": "db3d50fba8c8",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Il ciclismo ha inventato uno stile e adesso lo porta nella corsa",
+   "estratto": "Il ciclismo ha inventato l’estetica della fatica. Ora che perde terreno, sposta il suo vocabolario sulla tua meccanica di corsa. Gorewear ha chiuso i battenti nel 2025 e Rapha…",
+   "link": "https://runlovers.it/2026/marchi-ciclismo-abbigliamento-corsa/",
+   "data": "2026-11-19",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/07-202611191730-Gorewear-C-Unsplash-Coen-Van-de-Broek.jpeg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "scarpe",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
   },
   {
    "id": "90602cdcf69f",
@@ -1636,7 +1709,7 @@
    "estratto": "15 novembre – Dominio kenyano nella Savona Half Marathon nella sua versione classica, autunnale, nella quale i corridori degli altipiani hanno contraddistinto la manifestazione…",
    "link": "https://podisti.net/alla-savona-half-marathon-vittorie-per-kenya-ed-etiopia/",
    "data": "2026-11-15",
-   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Arrivo-vincitore-2026.jpg",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Savona-2026-primo-uomo-1.png",
    "argomenti": [],
    "distanze": [
     "21"
