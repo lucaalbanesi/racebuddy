@@ -1,0 +1,19 @@
+name: Diagnosi notifiche
+# Sola lettura: elenca le iscrizioni push con tipo di telefono, ora di uscita e vestizione, senza dati personali
+# (scripts/diagnosi_push.js). Si lancia a mano: Actions → "Diagnosi notifiche" → Run workflow.
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  diagnosi:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Iscrizioni
+        env:
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+        run: node scripts/diagnosi_push.js
