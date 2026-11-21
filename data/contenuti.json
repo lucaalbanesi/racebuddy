@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-20",
+ "aggiornato": "2026-11-21",
  "contenuti": [
   {
    "id": "8956848b0d97",
@@ -93,6 +93,22 @@
    ]
   },
   {
+   "id": "618f7853e0df",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "La sfida del freddo e la scelta della frontale!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/TpC-WvnYFHo",
+   "data": "2026-11-20",
+   "immagine": "https://i1.ytimg.com/vi/TpC-WvnYFHo/hqdefault.jpg",
+   "argomenti": [
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
    "id": "7cecf8535dc0",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -111,6 +127,28 @@
    "fasi": [
     "si_parte",
     "costruzione"
+   ]
+  },
+  {
+   "id": "1462ef8366f3",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Il nuoto per non perdere l’allenamento nei giorni di maltempo",
+   "estratto": "La pioggia gelata blocca l’asfalto e minaccia il programma. La piscina coperta offre la densità perfetta per salvare la struttura dell’allenamento. Ecco l’elenco reso più…",
+   "link": "https://runlovers.it/2026/nuoto-cross-training-maltempo-allenamento/",
+   "data": "2026-11-20",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/08-202611201235-Nuoto-T-Unsplash-Todd-Quackenbush.jpeg?fit=1920%2C969&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "recupero",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico",
+    "dopo"
    ]
   },
   {
@@ -133,26 +171,30 @@
    ]
   },
   {
-   "id": "1462ef8366f3",
+   "id": "12e7949d17b6",
    "tipo": "articolo",
    "fonte": "Runlovers",
    "fonteId": "runlovers",
    "titolo": "D’inverno nessuno ci chiede per che gara ci alleniamo",
-   "estratto": "La pioggia gelata blocca l’asfalto e minaccia il programma. La piscina coperta offre la densità perfetta per salvare la struttura dell’allenamento. Ecco l’elenco reso più…",
-   "link": "https://runlovers.it/2026/nuoto-cross-training-maltempo-allenamento/",
+   "estratto": "Il calendario si svuota e la tua fatica perde la sua utilità sociale. Nel gelo dell’inverno scopri il motivo esatto per cui corri. Corriamo in un’epoca che chiede spiegazioni e…",
+   "link": "https://runlovers.it/2026/inverno-corsa-senza-gare-obiettivo/",
    "data": "2026-11-20",
-   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/08-202611201235-Nuoto-T-Unsplash-Todd-Quackenbush.jpeg?fit=1920%2C969&quality=75&ssl=1",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/09-202611201730-Chiedere-L-Unsplash-Mathias-Reding.jpeg?fit=1920%2C1280&quality=75&ssl=1",
    "argomenti": [
+    "scarpe",
     "allenamento",
-    "recupero",
     "gara",
-    "abbigliamento"
+    "mente"
    ],
-   "distanze": [],
+   "distanze": [
+    "42"
+   ],
    "fasi": [
+    "si_parte",
     "costruzione",
+    "picco",
     "scarico",
-    "dopo"
+    "gara"
    ]
   },
   {
@@ -268,6 +310,22 @@
    "fasi": [
     "dopo"
    ]
+  },
+  {
+   "id": "98c243b3804b",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Cinque Mulini 2026, dove vederla in tv e streaming",
+   "estratto": "Yeman Crippa infiamma il 94esima edizione della Cinque Mulini: ecco dove seguire la gara in diretta tv e streaming",
+   "link": "https://www.runnersworld.com/it/news/a74450112/cinque-mulini-2026-tv-streaming/",
+   "data": "2026-11-20",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/f33c8133-130a-4629-acbd-ff786173f163.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": []
   },
   {
    "id": "dacf479f439d",
@@ -14377,55 +14435,6 @@
    "argomenti": [
     "scarpe",
     "allenamento"
-   ],
-   "distanze": [],
-   "fasi": [
-    "si_parte",
-    "costruzione",
-    "picco"
-   ]
-  },
-  {
-   "id": "a90e1a65859c",
-   "tipo": "articolo",
-   "fonte": "Garmin Blog Italia",
-   "fonteId": "garmin_blog",
-   "titolo": "Le più belle mezze maratone d’Europa",
-   "estratto": "C’è un momento speciale nella routine di ogni runner: quello in cui, dopo settimane di allenamenti, ci si siede davanti al calendario per scegliere la prossima grande sfida. I…",
-   "link": "https://www.garmin.com/it-IT/blog/running/mezze-maratone-piu-belle-europa/",
-   "data": "2026-09-21",
-   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/09/piu-belle-mezze-maratone-in-europa.jpg",
-   "argomenti": [
-    "allenamento",
-    "gara",
-    "mente"
-   ],
-   "distanze": [
-    "42",
-    "21"
-   ],
-   "fasi": [
-    "si_parte",
-    "costruzione",
-    "scarico",
-    "gara"
-   ]
-  },
-  {
-   "id": "03edadcee516",
-   "tipo": "video",
-   "fonte": "Riccardo Bugari · Running Bug",
-   "fonteId": "yt_runningbug",
-   "titolo": "ALTRA VANISH CARBON 3.",
-   "estratto": "🏃‍♂️ **ALTRA VANISH CARBON 3 – LA NUOVA SUPER SCARPA DA GARA DI ALTRA È finalmente arrivata la nuova Altra Vanish Carbon 3 e in questo…",
-   "link": "https://www.youtube.com/watch?v=XG2ruJ0qLdM",
-   "data": "2026-09-21",
-   "immagine": "https://i1.ytimg.com/vi/XG2ruJ0qLdM/hqdefault.jpg",
-   "argomenti": [
-    "scarpe",
-    "forza",
-    "gara",
-    "racconti"
    ],
    "distanze": [],
    "fasi": [
