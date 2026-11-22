@@ -1,6 +1,26 @@
 {
- "aggiornato": "2026-11-21",
+ "aggiornato": "2026-11-22",
  "contenuti": [
+  {
+   "id": "7428d67847f4",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Un braccialetto senza schermo per dimenticarsi di essere misurati",
+   "estratto": "C’è un gesto che faccio da quindici anni senza accorgermene. Il gomito si piega, il polso ruota verso l’interno, lo sguardo scende per mezzo secondo e torna sulla strada. Lo…",
+   "link": "https://runlovers.it/2026/braccialetto-senza-schermo-misurarsi/",
+   "data": "2026-11-21",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/braccialetto-garmin-cirqa.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "recupero",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "dopo"
+   ]
+  },
   {
    "id": "bd181a2feeae",
    "tipo": "video",
@@ -65,6 +85,54 @@
     "scarico",
     "dopo"
    ]
+  },
+  {
+   "id": "fe90aaf17a8c",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Non solo maratone: 10 gare europee con distanze più brevi",
+   "estratto": "Come vivere l'atmosfera di una maratona europea senza correre una maratona europea",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74489816/maratona-gare-europee-distanze-piu-brevi/",
+   "data": "2026-11-21",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/664cd48a-9f12-4a91-939c-9c3fc3ebeac8.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "a72458a36fd1",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Nemmeno con un fiore: a Campogalliano contro la violenza sulle donne",
+   "estratto": "L’undicesima edizione sfiora il record di partecipazione. Presenti anche 60 alunni delle scuole elementari e medie. 21 novembre Campogalliano (MO) – Una splendida giornata e una…",
+   "link": "https://podisti.net/nemmeno-con-un-fiore-a-campogalliano-contro-la-violenza-sulle-donne/",
+   "data": "2026-11-21",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/PartenzaNemmenoConUnFiore2026FotoOrganizzatori.jpeg",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "27eaa6cd8c63",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "La corsa al centro: Runner's World Show celebra il mondo del running",
+   "estratto": "Una serata di festa con tanti runner e tante storie diverse, ma tutti con la stessa identica passione per la corsa",
+   "link": "https://www.runnersworld.com/it/news/a74497282/runnersworld-show-festa-campioni-crippa-minoggio/",
+   "data": "2026-11-21",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/5cda7d8c-2957-4d1f-8e54-d41511660026.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
   },
   {
    "id": "edd9f7ea6124",
@@ -175,6 +243,31 @@
     "si_parte",
     "costruzione",
     "scarico"
+   ]
+  },
+  {
+   "id": "276f41980f24",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "100 KM DA SOLO nelle DOLOMITI FRIULANE | FROM DARK TO DARK x FUGA",
+   "estratto": "#100K #UltraTrail #FromDarkToDark 100 KM. IN SOLITARIA. SENZA RISTORI. NELLE DOLOMITI FRIULANE. 100 km · 3.079 m D+ · 13h 35' 50'' ·…",
+   "link": "https://www.youtube.com/watch?v=p0dBtXsaqT8",
+   "data": "2026-11-21",
+   "immagine": "https://i1.ytimg.com/vi/p0dBtXsaqT8/hqdefault.jpg",
+   "argomenti": [
+    "rifornimento",
+    "scarpe",
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
    ]
   },
   {
