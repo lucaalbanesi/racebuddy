@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-20T15:50Z",
+ "aggiornato": "2026-11-22T04:50Z",
  "novita": [
   {
    "id": "n553ffb17428",
@@ -590,6 +590,20 @@
    "trovato": "2026-11-19T19:50Z"
   },
   {
+   "id": "ndff74737156",
+   "gara": "E-valencia-42-2026",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Kejelcha and Tesfay lead elite lineup with big ambitions for Valencia Marathon 2026",
+   "link": "https://www.youtube.com/shorts/rVSbQykXdMk",
+   "data": "2026-07-02",
+   "fonte": "YouTube della gara",
+   "ufficiale": true,
+   "tipo": "video",
+   "immagine": "https://i3.ytimg.com/vi/rVSbQykXdMk/hqdefault.jpg",
+   "trovato": "2026-11-22T04:50Z"
+  },
+  {
    "id": "nb5d25638a26",
    "gara": "H88b48310e5-42",
    "tema": "promo",
@@ -646,6 +660,20 @@
    "trovato": "2026-11-19T19:50Z"
   },
   {
+   "id": "n95f89b813a4",
+   "gara": "E-valencia-42-2026",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Jornada de 'El Maratón al Cole' en Guadassuar",
+   "link": "https://www.youtube.com/watch?v=DMdf4T8yZiw",
+   "data": "2026-06-19",
+   "fonte": "YouTube della gara",
+   "ufficiale": true,
+   "tipo": "video",
+   "immagine": "https://i1.ytimg.com/vi/DMdf4T8yZiw/hqdefault.jpg",
+   "trovato": "2026-11-22T04:50Z"
+  },
+  {
    "id": "n9cd36496b34",
    "gara": "L0c212379c2-21",
    "tema": "notizia",
@@ -674,6 +702,20 @@
    "trovato": "2026-11-19T19:50Z"
   },
   {
+   "id": "n050289336f2",
+   "gara": "E-valencia-42-2026",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Comparte Maratón Valencia",
+   "link": "https://www.youtube.com/watch?v=7LkrcHbVCdE",
+   "data": "2026-06-11",
+   "fonte": "YouTube della gara",
+   "ufficiale": true,
+   "tipo": "video",
+   "immagine": "https://i4.ytimg.com/vi/7LkrcHbVCdE/hqdefault.jpg",
+   "trovato": "2026-11-22T04:50Z"
+  },
+  {
    "id": "ne5120bef76a",
    "gara": "H88b48310e5-42",
    "tema": "altro",
@@ -686,6 +728,20 @@
    "tipo": "articolo",
    "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/06/SOLD-OUT-NOTTURNA.png",
    "trovato": "2026-11-19T19:50Z"
+  },
+  {
+   "id": "n72070ce601a",
+   "gara": "E-valencia-42-2026",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Maratón Valencia 2026 | Certified by runners.",
+   "link": "https://www.youtube.com/shorts/HWMKjNFK1j0",
+   "data": "2026-05-27",
+   "fonte": "YouTube della gara",
+   "ufficiale": true,
+   "tipo": "video",
+   "immagine": "https://i1.ytimg.com/vi/HWMKjNFK1j0/hqdefault.jpg",
+   "trovato": "2026-11-22T04:50Z"
   },
   {
    "id": "n7ec2c6a30b3",
