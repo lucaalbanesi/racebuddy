@@ -42,6 +42,7 @@
   "percorsoDescrizione": "Percorso pianeggiante tra il Cabanyal e il centro storico, arrivo alla Città delle Arti e delle Scienze.",
   "sito": "https://www.valenciaciudaddelrunning.com/maraton/",
   "canali": {
+   "youtube": "https://www.youtube.com/feeds/videos.xml?user=MaratonValencia",
    "instagram": "https://www.instagram.com/maratonvalencia/",
    "facebook": "https://www.facebook.com/maratonvalencia"
   },
@@ -56,7 +57,7 @@
    "https://www.valenciaciudaddelrunning.com/maraton/reglamento-maraton-valencia/",
    "https://www.valenciaciudaddelrunning.com/maraton/recorrido-maraton/"
   ],
-  "verificato": "2026-11-14",
+  "verificato": "2026-11-22",
   "edizione": "2026"
  },
  "L2bda4b848d-10": {
@@ -168,7 +169,7 @@
    "https://www.firenzemarathon.it/la-maratona/",
    "https://www.firenzemarathon.it/"
   ],
-  "verificato": "2026-11-14",
+  "verificato": "2026-11-22",
   "edizione": "2026",
   "canali": {
    "notizie": "https://www.firenzemarathon.it/feed/",
@@ -418,7 +419,7 @@
    "https://romaostia.it/percorso/",
    "https://romaostia.it/"
   ],
-  "verificato": "2026-11-07",
+  "verificato": "2026-11-22",
   "edizione": "2027"
  },
  "L49616bcc0c-10": {
