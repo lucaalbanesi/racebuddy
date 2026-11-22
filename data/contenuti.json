@@ -2,6 +2,197 @@
  "aggiornato": "2026-11-22",
  "contenuti": [
   {
+   "id": "b009f690cc47",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "XI Reggia Reggia, Yassine ed Ermini mettono tutti in fila nella mezza di Caserta",
+   "estratto": "L’undicesima edizione della mezza maratona casertana ha regalato una giornata di sport nella suggestiva cornice della Reggia. Riflettori puntati sul passaggio inedito nei Giardini…",
+   "link": "https://podisti.net/xi-reggia-reggia-yassine-ed-ermini-mettono-tutti-in-fila-nella-mezza-di-caserta/",
+   "data": "2026-11-22",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/PartenzaCarrozzineReggiaReggia2026FotoOrganizzarori.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "875f3f64a515",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Why Are You Still Running? He Just Keeps Moving",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/uiycklO3irA",
+   "data": "2026-11-22",
+   "immagine": "https://i2.ytimg.com/vi/uiycklO3irA/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "f4fd6313d832",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "San Vittore Olona – 94esima edizione Cinque Mulini",
+   "estratto": "San Vittore Olona, 22 novembre 2026. «come i cross di una volta», commenta uno spettatore non più giovanissimo, in effetti fango, pioggia e un alto tasso di umidità sono stati…",
+   "link": "https://podisti.net/san-vittore-olona-94esima-edizione-cinque-mulini/",
+   "data": "2026-11-22",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Mulini-2026-winners.jpg",
+   "argomenti": [
+    "gara",
+    "abbigliamento",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "186f7f368e8a",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Run-crastinazione: 5 consigli per smettere di rimandare la corsa invernale",
+   "estratto": "Un esperto spiega quali strategie funzionano, cosa si rivela controproducente nel lungo periodo e quando la procrastinazione indica la necessità di una rivalutazione della…",
+   "link": "https://www.runnersworld.com/it/allenamento/motivazione/a74453594/inverno-corsa-procrastinare/",
+   "data": "2026-11-22",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/d62e80f5-912a-4455-9d8e-0219c57fbcde.jpeg",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "d5d9d233c4bb",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Ricette proteiche per runner: idee facili e gustose dalla colazione alla cena",
+   "estratto": "Uova, pollo, salmone, legumi, quinoa e molto altro: piatti ricchi di proteine per variare l’alimentazione e sostenere muscoli e recupero",
+   "link": "https://www.runnersworld.com/it/alimentazione/ricette/g73977840/ricette-proteiche-runner-facili/",
+   "data": "2026-11-22",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/02bc7110-7512-497f-92e0-c57686dd26c9.jpeg",
+   "argomenti": [
+    "alimentazione",
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico",
+    "dopo"
+   ]
+  },
+  {
+   "id": "8e31c3cbff1d",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Polpaccio, ginocchio, schiena: vi è mai venuto un dolore nuovo proprio nella settimana della gara?",
+   "estratto": "Polpaccio, ginocchio, schiena: vi è mai venuto un dolore nuovo proprio nella settimana della gara? Succede a quasi tutti, ai nostri allievi…",
+   "link": "https://www.youtube.com/shorts/c-yNQuXKMJc",
+   "data": "2026-11-22",
+   "immagine": "https://i4.ytimg.com/vi/c-yNQuXKMJc/hqdefault.jpg",
+   "argomenti": [
+    "gara",
+    "mente"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "5f5921af80c8",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Milano Half Marathon: la pioggia non ferma i 20mila runner. I risultati",
+   "estratto": "Una gara sempre più internazionale: a Milano la corsa è stata una festa \"bagnata\". Ecco com'è andata",
+   "link": "https://www.runnersworld.com/it/news/a74500957/milano-half-marathon2026-risultati/",
+   "data": "2026-11-22",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/37872885-fff7-43f1-ab06-c6d912dd7700.jpg",
+   "argomenti": [
+    "gara",
+    "abbigliamento",
+    "racconti",
+    "notizie"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "4cc9f2831df2",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "L’allenamento completo per chi corre: un mese di forza e mobilità",
+   "estratto": "Una seduta da mezz’ora con la stessa struttura ogni volta, otto esercizi in quattro blocchi, e un mese in cui a cambiare è soltanto quanto pesa il lavoro. Una seduta da…",
+   "link": "https://runlovers.it/2026/programma-mensile-allenamento-completo-runner/",
+   "data": "2026-11-22",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/allenamento-completo-runner-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "b75b4a31de92",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Le ripetute in salita d’inverno per essere più veloci in primavera",
+   "estratto": "Una seduta di ripetute in salita a settimana, da lunedì 23 novembre, per arrivare alla primavera con gambe più forti e un passo più efficiente. Cosa allena la salita e perché pesa…",
+   "link": "https://runlovers.it/2026/ripetute-salita-programma-inverno-primavera/",
+   "data": "2026-11-22",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/ripetute-salita-inverno-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "forza",
+    "recupero",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "gara",
+    "dopo"
+   ]
+  },
+  {
+   "id": "a991988ba68c",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Dalla città alla natura: 6 trekking perfetti per l'Immacolata",
+   "estratto": "Chi l’ha detto che bisogna aspettare la primavera per escursioni indimenticabili",
+   "link": "https://www.runnersworld.com/it/travel/a74474344/trekking-per-immacolata/",
+   "data": "2026-11-22",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/6e7ce0da-3fcf-4c50-8097-756068873e0c.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
    "id": "7428d67847f4",
    "tipo": "articolo",
    "fonte": "Runlovers",
