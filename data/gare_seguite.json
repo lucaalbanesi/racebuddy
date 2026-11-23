@@ -1,28 +1,6 @@
 {
- "aggiornato": "2026-11-09",
+ "aggiornato": "2026-11-23",
  "gare": [
-  {
-   "id": "L950d7c45f5-10",
-   "nome": "Corri alla Garbatella",
-   "data": "2026-11-22",
-   "luogo": "ROMA",
-   "distanza": "10",
-   "fonte": "FIDAL",
-   "prima_aggiunta": "2026-10-22",
-   "aggiunte": 1,
-   "ultima_aggiunta": "2026-10-22"
-  },
-  {
-   "id": "H0e7dc2579e-21",
-   "nome": "IX^ Milano21",
-   "data": "2026-11-22",
-   "luogo": "MILANO",
-   "distanza": "21",
-   "fonte": "FIDAL",
-   "prima_aggiunta": "2026-10-14",
-   "aggiunte": 1,
-   "ultima_aggiunta": "2026-10-14"
-  },
   {
    "id": "H88b48310e5-42",
    "nome": "XLII^ ESTRA Firenze Marathon",
