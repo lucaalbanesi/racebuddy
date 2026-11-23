@@ -487,6 +487,7 @@
   "percorsoDescrizione": "19,5 km su cinque fondi: asfalto, sampietrini, basolato, sterrato e pista d'atletica.",
   "sito": "https://www.rome4runners.it/appia-run/",
   "canali": {
+   "youtube": "https://www.youtube.com/feeds/videos.xml?channel_id=UCQQVuB_lCB3X9SmfasfSJyA",
    "instagram": "https://www.instagram.com/rome4runners",
    "facebook": "https://www.facebook.com/rome4runners"
   },
@@ -499,7 +500,7 @@
    "https://www.rome4runners.it/appia-run/",
    "https://www.rome4runners.it/faq-appia-run/"
   ],
-  "verificato": "2026-11-08",
+  "verificato": "2026-11-23",
   "edizione": "2027"
  }
 }
