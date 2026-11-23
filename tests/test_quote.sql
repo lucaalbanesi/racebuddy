@@ -4,7 +4,7 @@
 do $$
 declare
   a text := repeat('q', 40); b text := repeat('r', 40); c text := repeat('s', 40);
-  j json; cod text; gid uuid; senza uuid; passata uuid; ib uuid; codice text; oggi date := (now() at time zone 'Europe/Rome')::date;
+  j json; cod text; aq int; gid uuid; senza uuid; passata uuid; ib uuid; codice text; oggi date := (now() at time zone 'Europe/Rome')::date;
 begin
   j := public.crea_gruppo(a, 'Quote Roma', 'Luca Albanesi');
   cod := j->>'codice';
@@ -104,6 +104,65 @@ begin
   delete from public.gare_societa where id = gid;
   assert not exists (select 1 from public.iscrizioni_quote where membro_id = ib and scelta = 'societa'), 'cascata';
 
+  -- quota annuale: anno aperto secondo il mese (da luglio apre l'anno dopo)
+  assert public._anno_quota('2026-11-23', 11) = 2027 and public._anno_quota('2026-10-31', 11) = 2026, 'novembre';
+  assert public._anno_quota('2027-01-10', 1) = 2027 and public._anno_quota('2027-02-28', 3) = 2026 and public._anno_quota('2027-03-01', 3) = 2027, 'mesi primaverili';
+  assert public._anno_quota('2026-07-01', 7) = 2027 and public._apertura_quota(2027, 11) = '2026-11-01' and public._apertura_quota(2027, 3) = '2027-03-01', 'apertura';
+
+  -- solo l'amministratore; senza importo nessuna annualità
+  aq := public._anno_quota(oggi, 11);
+  assert (public.stato_quote(b)->'annuale'->>'anno') is null, 'nessuna quota annuale';
+  begin perform public.admin_quota_annuale(b, '50', 11); assert false, 'membro quota annuale';
+  exception when others then if sqlerrm not like '%amministratore%' then raise; end if; end;
+  begin perform public.quota_annuale_scegli(b, aq, 'paga'); assert false, 'senza quota';
+  exception when others then if sqlerrm not like '%non ha una quota%' then raise; end if; end;
+  perform public.admin_quota_annuale(a, '45', 11);
+  j := public.stato_quote(b)->'annuale';
+  assert (j->>'anno')::int = aq and (j->>'importo')::numeric = 45 and json_array_length(j->'anni') = 1, 'annualità aperta';
+  assert json_array_length(j->'elenco') = 0 and json_array_length(j->'soci') = 0, 'il membro non vede l''elenco';
+
+  -- il socio apre la quota: codice univoco anche rispetto alle gare; il direttivo cambia l'importo, lui resta
+  j := public.quota_annuale_scegli(b, aq, 'paga');
+  codice := j->>'codice';
+  assert codice ~ '^[ABCDEFGHJKMNPQRSTUVWXYZ2-9]{5}$' and (j->>'importo')::numeric = 45 and j->>'pagato' is null, 'quota aperta';
+  perform public.admin_quota_annuale(a, '50', 11);
+  assert (select importo from public.iscrizioni_annuali where membro_id = ib and anno = aq) = 45, 'importo fermo';
+  assert (select importo from public.quote_anni q where q.anno = aq and q.gruppo_id = (select gruppo_id from public.membri where id = ib)) = 50, 'annualità aggiornata';
+  begin perform public.quota_annuale_pagato(b, aq, oggi + 1); assert false, 'data futura';
+  exception when others then if sqlerrm not like '%data%' then raise; end if; end;
+  begin perform public.quota_annuale_pagato(c, aq, oggi); assert false, 'non aperta';
+  exception when others then if sqlerrm not like '%non hai aperto%' then raise; end if; end;
+  perform public.quota_annuale_pagato(b, aq, oggi);
+  assert (public.stato_quote(b)->'annuale'->'mie'->0->>'pagato')::date = oggi, 'pagata';
+
+  -- non rinnova: toglie il pagato, il codice resta; tornando a pagare prende l'importo di oggi
+  perform public.quota_annuale_scegli(c, aq, 'non_rinnova');
+  perform public.quota_annuale_scegli(b, aq, 'non_rinnova');
+  j := public.quota_annuale_scegli(b, aq, 'paga');
+  assert j->>'codice' = codice and j->>'pagato' is null and (j->>'importo')::numeric = 50, 'stesso codice, importo nuovo';
+
+  -- elenco: il direttivo (anche organizzatore) vede tutte le iscrizioni e i soci
+  update public.membri set ruolo = 'organizzatore' where token_hash = public._hash(c);
+  j := public.stato_quote(c)->'annuale';
+  assert json_array_length(j->'elenco') = 2 and json_array_length(j->'soci') = 3, 'elenco organizzatore';
+  begin perform public.admin_quota_annuale(c, '60', 11); assert false, 'organizzatore importo';
+  exception when others then if sqlerrm not like '%amministratore%' then raise; end if; end;
+
+  -- storico: un anno passato resta; togliendo l'importo l'anno aperto con iscrizioni resta
+  insert into public.quote_anni (gruppo_id, anno, importo, aperta) select gruppo_id, aq - 1, 40, public._apertura_quota(aq - 1, 11) from public.membri where id = ib;
+  perform public.quota_annuale_scegli(b, aq - 1, 'paga');
+  perform public.quota_annuale_pagato(b, aq - 1, oggi - 300);
+  assert json_array_length(public.stato_quote(b)->'annuale'->'mie') = 2 and json_array_length(public.stato_quote(b)->'annuale'->'anni') = 2, 'storico';
+  perform public.admin_quota_annuale(a, '', 11);
+  assert (public.stato_quote(b)->'annuale'->>'anno')::int = aq and (public.stato_quote(b)->'annuale'->>'importo') is null, 'anno con iscrizioni resta';
+
+  -- quote spente: niente quota annuale e niente scritture
+  perform public.admin_quote(a, false);
+  assert json_typeof(public.stato_quote(b)->'annuale') = 'null', 'spente: niente annuale';
+  begin perform public.quota_annuale_pagato(b, aq, oggi); assert false, 'pagato a quote spente';
+  exception when others then if sqlerrm not like '%spente%' then raise; end if; end;
+  perform public.admin_quote(a, true);
+
   delete from public.gruppi where nome in ('Quote Roma', 'Altro Gruppo');  -- le prove dopo (statistiche) contano i membri
 end $$;
 
@@ -115,5 +174,9 @@ begin
   assert has_function_privilege('anon', 'public.admin_quote(text, boolean)', 'execute'), 'interruttore anon';
   assert has_function_privilege('anon', 'public.scegli_iscrizione(text, uuid, text)', 'execute'), 'scegli anon';
   assert has_function_privilege('anon', 'public.segna_pagato(text, uuid, date)', 'execute'), 'pagato anon';
+  assert not has_function_privilege('anon', 'public._quota_aperta(uuid)', 'execute'), 'apertura anon';
+  assert has_function_privilege('anon', 'public.admin_quota_annuale(text, text, integer)', 'execute'), 'quota annuale anon';
+  assert has_function_privilege('anon', 'public.quota_annuale_scegli(text, integer, text)', 'execute'), 'scegli annuale anon';
+  assert has_function_privilege('anon', 'public.quota_annuale_pagato(text, integer, date)', 'execute'), 'pagato annuale anon';
   raise notice 'permessi quote ok';
 end $$;

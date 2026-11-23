@@ -1572,7 +1572,48 @@
     return { righe, pagati: righe.filter((x) => x.pagato).length };
   }
 
-  const api = { fmtEuro, causaleQuota, quotaGara, bollinoQuota, elencoQuota, nomePersona, KM_CLASSICA, kmUfficiali, kmEsatta, kmObiettivo, obiettivoSu, obiettiviAdattati, anteprimaDistanza, correggibile, portingCrea, portingLeggi, fuoriMisura, esatte, kmAltra, fmtKm, etichettaDist, baseKm, PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, finitaPrima, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, meteoOra, meteoCorsa, vestizioneCorsa, afaLivello, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, pbEventi, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, recuperoInEvidenza, daRecuperare, fontiNuove, fonteAperta, nuoveFontiInEvidenza, PASSI_ENTRA, passiEntra, prossimoEntra, SC_TIPI, SC_TK, SC_DA_APP, SC_A_APP, SC_PREZZO, SC_RUOLI, SC_RIGHE, SC_DOMANDE, SC_PROFILI, SC_KM_MIN, SC_KM_MAX, SC_KM_PASSO, scDistDa, scComanda, scCorsa, SC_BUDGET, scDurata, scInizio, scSettimana, scData, scOrizzonte, scWeekend, scUscite, scSimula, scPiano, scFineScarpa, scCoperture, scVita, scKmSettimana, scCosto, scValuta, scModelli, scProtezione };
+  // ---------------------------------------------------------------- quota annuale della società (novembre 2026)
+  // Dati da stato_quote.annuale: { importo, mese, anno (aperto o null), dal (ingresso del socio), anni: [{anno, importo,
+  // aperta}], mie: [{anno, scelta, codice, importo, pagato}], elenco e soci per il direttivo }. Ogni anno resta nello storico.
+  // stato di una riga del socio: "pagata", "da_pagare", "non_rinnova"; senza riga "da_rinnovare" (anno aperto) o "non_segnata"
+  const statoAnnuale = (mia, aperto) => mia ? (mia.scelta === "non_rinnova" ? "non_rinnova" : mia.pagato ? "pagata" : "da_pagare") : aperto ? "da_rinnovare" : "non_segnata";
+  // Un anno riguarda un socio se è entrato prima che si aprisse l'anno dopo (chi entra a dicembre, con il 2027 già aperto,
+  // paga il 2027, non il 2026); un socio con una riga in quell'anno conta sempre.
+  const entratoPer = (dal, anno, anni) => { const dopo = (anni || []).find((x) => x.anno === anno + 1); return !dal || !dopo || !dopo.aperta || dal < dopo.aperta; };
+  // Cosa vede il socio: l'anno aperto (con la sua riga) e lo storico degli anni prima, dal suo ingresso nel gruppo.
+  // Niente da mostrare = null.
+  function quotaAnnuale(dati) {
+    const a = (dati || {}).annuale;
+    if (!a) return null;
+    const anni = (a.anni || []).slice().sort((x, y) => y.anno - x.anno), mie = a.mie || [];
+    const riga = (anno) => mie.find((x) => x.anno === anno) || null;
+    const aperto = a.anno != null ? anni.find((x) => x.anno === a.anno) || null : null;
+    const corrente = aperto ? { anno: aperto.anno, importo: Number(aperto.importo), mia: riga(aperto.anno), stato: statoAnnuale(riga(aperto.anno), true) } : null;
+    const storico = anni.filter((x) => !aperto || x.anno !== aperto.anno).filter((x) => riga(x.anno) || entratoPer(a.dal, x.anno, anni))
+      .map((x) => { const m = riga(x.anno); return { anno: x.anno, importo: Number(m ? m.importo : x.importo), mia: m, stato: statoAnnuale(m, false) }; });
+    return corrente || storico.length ? { corrente, storico } : null;
+  }
+  // La riga in fondo a Gruppo: "2027 da rinnovare", "2027 pagata", … oppure "Storico" senza anno aperto
+  const TESTO_ANNUALE = { da_rinnovare: "da rinnovare", da_pagare: "da pagare", pagata: "pagata", non_rinnova: "non rinnovi" };
+  function rigaQuotaAnnuale(q) {
+    if (!q) return null;
+    return q.corrente ? `${q.corrente.anno} ${TESTO_ANNUALE[q.corrente.stato]}` : "Anni precedenti";
+  }
+  // Per il direttivo, un anno: tutti i soci di oggi che quell'anno riguarda, più chi ha una riga (stato e codice),
+  // in ordine di nome; "non_aperta" = non ha ancora aperto la quota (da pagare). Gli anni disponibili, dal più recente.
+  function elencoAnnuale(dati, anno) {
+    const a = (dati || {}).annuale || {}, righe = (a.elenco || []).filter((x) => x.anno === anno);
+    const soci = (a.soci || []).filter((s) => righe.some((r) => r.membro_id === s.id) || entratoPer(s.dal, anno, a.anni));
+    const lista = soci.map((s) => {
+      const r = righe.find((x) => x.membro_id === s.id);
+      return r ? { nome: s.nome, codice: r.codice, importo: Number(r.importo), pagato: r.pagato, stato: statoAnnuale(r, false) }
+        : { nome: s.nome, codice: null, importo: null, pagato: null, stato: "non_aperta" };
+    }).sort((x, y) => String(x.nome).localeCompare(String(y.nome), "it"));
+    const anni = (a.anni || []).map((x) => x.anno).sort((x, y) => y - x);
+    return { righe: lista, anni, pagati: lista.filter((x) => x.stato === "pagata").length, nonRinnova: lista.filter((x) => x.stato === "non_rinnova").length };
+  }
+
+  const api = { MESI_LUNGHI, quotaAnnuale, rigaQuotaAnnuale, elencoAnnuale, fmtEuro, causaleQuota, quotaGara, bollinoQuota, elencoQuota, nomePersona, KM_CLASSICA, kmUfficiali, kmEsatta, kmObiettivo, obiettivoSu, obiettiviAdattati, anteprimaDistanza, correggibile, portingCrea, portingLeggi, fuoriMisura, esatte, kmAltra, fmtKm, etichettaDist, baseKm, PUNTI, CENTRATO, scartoObiettivo, garaDellaSocieta, garaSocDi, obiettivoAperto, eventiPunti, classificaImpegno, puntiCarriera, LIVELLI, livello, classificaObiettivo, alboEta, miglioramento12, badgeAtleta, gareMembri, riepilogoMembri, registrabile, ESITO_LABEL, mieGareClassifica, STATO_MIE, cercaMieGare, riepilogoMie, diffDays, addDays, todayISO, fmtBreve, fmtGiorno, DIST_LABEL, RUOLO_LABEL, fase, vociGara, stato, checklist, adatta, inCasa, kmAlGiorno, scarpaAlVia, personeProposte, tempiUniti, tempiPerDistanza, tempiDellaGara, nomeRisultato, POST_GARA, FINE_GARA, finitaPrima, ciclo, dividiGare, ultimoDebrief, gareAttive, pillola, pillolePool, vestizione, meteoOra, meteoCorsa, vestizioneCorsa, afaLivello, descriviMeteo, tipoCielo, avvisiMeteo, perTe, varieta, segnaVisti, ordinaNovita, novitaInEvidenza, sorriso, prossimaUscita, cercaGare, cercaEstero, circuitiDi, benvenutoTop, introEstera, nelMirino, statoScarpa, leggiTempo, tempoDaParti, candidatiPersonali, corsaDellaGara, SEZIONI_GARA, sezioneSwipe, PASSI_PREPARA, passiPrepara, leggiDocumento, contestoBuddy, sessoCategoria, conPosizioni, classificaGareCorse, pbEventi, classificaPBStagione, alboDoro, recordCategorie, primiETu, recuperoAperto, recuperoInEvidenza, daRecuperare, fontiNuove, fonteAperta, nuoveFontiInEvidenza, PASSI_ENTRA, passiEntra, prossimoEntra, SC_TIPI, SC_TK, SC_DA_APP, SC_A_APP, SC_PREZZO, SC_RUOLI, SC_RIGHE, SC_DOMANDE, SC_PROFILI, SC_KM_MIN, SC_KM_MAX, SC_KM_PASSO, scDistDa, scComanda, scCorsa, SC_BUDGET, scDurata, scInizio, scSettimana, scData, scOrizzonte, scWeekend, scUscite, scSimula, scPiano, scFineScarpa, scCoperture, scVita, scKmSettimana, scCosto, scValuta, scModelli, scProtezione };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.RBLogic = api;
 })(typeof self !== "undefined" ? self : this);

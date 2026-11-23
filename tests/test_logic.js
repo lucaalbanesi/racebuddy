@@ -935,6 +935,35 @@ console.log("nomi ok");
   console.log("quote ok");
 }
 
+// quota annuale della società: anno aperto, storico dal suo ingresso, elenco del direttivo per anno
+{
+  const annuale = { importo: 50, mese: 11, anno: 2027, dal: "2025-03-01",
+    anni: [{ anno: 2025, importo: 40, aperta: "2024-11-01" }, { anno: 2027, importo: 50, aperta: "2026-11-01" }, { anno: 2024, importo: 40, aperta: "2023-11-01" }, { anno: 2026, importo: 45, aperta: "2025-11-01" }],
+    mie: [{ anno: 2026, scelta: "paga", codice: "K2MZ9", importo: 45, pagato: "2025-11-14" }, { anno: 2025, scelta: "non_rinnova", codice: "T8HQ4", importo: 40, pagato: null }],
+    elenco: [{ anno: 2027, membro_id: "m1", nome: "ROSSI MARIO", scelta: "paga", codice: "R4QA7", importo: 50, pagato: "2026-11-23" },
+      { anno: 2027, membro_id: "m2", nome: "BIANCHI ANNA", scelta: "non_rinnova", codice: "W2RQ8", importo: 50, pagato: null },
+      { anno: 2026, membro_id: "m1", nome: "ROSSI MARIO", scelta: "paga", codice: "K2MZ9", importo: 45, pagato: null }],
+    soci: [{ id: "m1", nome: "ROSSI MARIO", dal: "2025-01-01" }, { id: "m2", nome: "BIANCHI ANNA", dal: "2026-12-01" }, { id: "m3", nome: "VERDI PAOLO", dal: "2026-11-20" }] };
+  const q = L.quotaAnnuale({ annuale });
+  assert.deepStrictEqual([q.corrente.anno, q.corrente.importo, q.corrente.stato], [2027, 50, "da_rinnovare"]);
+  assert.deepStrictEqual(q.storico.map((x) => `${x.anno} ${x.stato} ${x.importo}`), ["2026 pagata 45", "2025 non_rinnova 40"], "2024 è prima del suo ingresso");
+  assert.strictEqual(L.rigaQuotaAnnuale(q), "2027 da rinnovare");
+  const conRiga = L.quotaAnnuale({ annuale: { ...annuale, mie: [...annuale.mie, { anno: 2027, scelta: "paga", codice: "R4QA7", importo: 45, pagato: "2026-11-23" }] } });
+  assert.deepStrictEqual([conRiga.corrente.stato, conRiga.corrente.mia.codice, L.rigaQuotaAnnuale(conRiga)], ["pagata", "R4QA7", "2027 pagata"]);
+  const chiuso = L.quotaAnnuale({ annuale: { ...annuale, anno: null } });
+  assert.strictEqual(chiuso.corrente, null);
+  assert.strictEqual(chiuso.storico[0].anno, 2027, "senza anno aperto anche l'ultimo va nello storico");
+  assert.strictEqual(L.rigaQuotaAnnuale(chiuso), "Anni precedenti");
+  assert.strictEqual(L.quotaAnnuale({ annuale: { anni: [], mie: [], anno: null } }), null, "niente da mostrare");
+  assert.strictEqual(L.quotaAnnuale({ annuale: null }), null);
+  const e27 = L.elencoAnnuale({ annuale }, 2027);
+  assert.deepStrictEqual(e27.righe.map((x) => `${x.nome} ${x.stato}`), ["BIANCHI ANNA non_rinnova", "ROSSI MARIO pagata", "VERDI PAOLO non_aperta"]);
+  assert.deepStrictEqual([e27.pagati, e27.nonRinnova, e27.anni.join()], [1, 1, "2027,2026,2025,2024"]);
+  const e26 = L.elencoAnnuale({ annuale }, 2026);
+  assert.deepStrictEqual(e26.righe.map((x) => `${x.nome} ${x.stato}`), ["ROSSI MARIO da_pagare"], "chi è entrato con il 2027 già aperto non deve il 2026");
+  console.log("quota annuale ok");
+}
+
 // Scarpiera · Quanto corri e per cosa: gara che comanda, km proposti, suddivisione fissa per distanza
 {
   for (const d of ["10", "21", "42"]) {

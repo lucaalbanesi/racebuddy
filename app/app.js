@@ -332,6 +332,12 @@
         "Voi vedete, gara per gara, chi ha segnato il bonifico: è quello che dicono gli atleti, la conferma sull'estratto conto resta fuori dall'app.",
         "Nessun soldo passa da RaceBuddy e non ci sono commissioni."],
       nota: "Intestatario e IBAN li vede solo chi si iscrive con la società a una gara con la quota. Spento, nessuno vede niente; puoi spegnerlo quando vuoi: i dati restano." },
+    annuale: { titolo: "Quota annuale",
+      voci: ["Metti l'importo e il mese: ogni anno, il 1° di quel mese, si apre da sola la nuova quota con lo stesso importo (da luglio in poi vale per l'anno dopo: novembre 2026 → quota 2027).",
+        "Ogni socio la trova in fondo a Gruppo: apre la sua quota, riceve un codice per la causale e segna il bonifico, oppure dice che quest'anno non rinnova.",
+        "Il direttivo vede i pagamenti anno per anno in «Pagamenti dei soci», con «Copia elenco» per l'estratto conto. Ogni anno resta nello storico.",
+        "Se cambi l'importo, chi ha già aperto la quota resta con quello di allora."],
+      nota: "Vuoto = niente quota annuale: le quote degli anni passati restano." },
   };
   // A cosa servono i km della Scarpiera: la suddivisione fissa della distanza, con i km dell'atleta e le scarpe
   INFO.corsa = () => {
@@ -2283,13 +2289,14 @@
   const quoteOn = () => !!(S.gruppo && S.gruppo.quote && S.gruppo.quote.attive);
   const QT = () => (quoteOn() && S.gruppo && S.gruppo.quote) || {};
   const mioNome = () => (GD() && GD().io && GD().io.nome) || (S.profilo && S.profilo.nome) || "";
-  function datiBonifico(s, mia) {
-    const c = QT().conto || {}, causale = L.causaleQuota(mia.codice, mioNome(), titoloGara(s.nome));
+  // s = gara della società; per la quota annuale s è null e opz.causale/opz.cosa dicono cosa si paga
+  function datiBonifico(s, mia, opz = {}) {
+    const c = QT().conto || {}, causale = opz.causale || L.causaleQuota(mia.codice, mioNome(), titoloGara(s.nome));
     const riga = (k, v) => `<div class="between q-riga"><span class="small muted">${k}</span><b>${v}</b></div>`;
     return `<div class="q-passo"><span class="lbl">1 · Metti questa causale nel bonifico</span>
         <div class="q-codice"><span style="min-width:0"><span class="q-cod">${esc(mia.codice)}</span><br><span class="small muted">${esc(causale)}</span></span>
           <button class="btn small" type="button" data-act="q-copia" data-t="${esc(causale)}" data-cosa="Causale">Copia</button></div>
-        <span class="small muted">Il codice è solo tuo e solo di questa gara: serve alla società per riconoscere il bonifico.</span></div>
+        <span class="small muted">Il codice è solo tuo e solo di questa ${opz.cosa || "gara"}: serve alla società per riconoscere il bonifico.</span></div>
       <div class="q-passo"><span class="lbl">2 · Fai il bonifico dalla tua banca</span>
         ${riga("Importo", esc(L.fmtEuro(mia.importo)))}
         ${c.iban ? `${riga("Intestatario", esc(c.intestatario || "—"))}
@@ -2341,6 +2348,88 @@
       <div class="field"><label for="q-int">Intestatario del conto</label><input class="input" id="q-int" value="${esc(c.intestatario || "")}" maxlength="120" autocomplete="off"></div>
       <div class="field"><label for="q-iban">IBAN</label><input class="input" id="q-iban" value="${esc(c.iban || "")}" maxlength="42" autocomplete="off" style="text-transform:uppercase" placeholder="IT…"></div>
       <button class="btn ghost" type="submit">Salva</button></form>`;
+  }
+  // ---- quota annuale della società (novembre 2026): una riga in fondo a Gruppo, la pagina #/gruppo/quota con l'anno
+  // aperto e lo storico; per il direttivo importo e mese in Gestione (solo amministratore) e i pagamenti dei soci,
+  // anno per anno, in #/gruppo/quote (anche organizzatori). Mai in cima a Gruppo, in Oggi o nelle notifiche.
+  const QA_PILL = { pagata: ["ok", "Pagata"], da_pagare: ["grigio", "Da pagare"], da_rinnovare: ["grigio", "Da pagare"], non_aperta: ["grigio", "Da pagare"],
+    non_rinnova: ["doc-presto", "Non rinnova"], non_segnata: ["grigio", "Non segnata"] };
+  const pillQA = (st, testo) => `<span class="pill ${QA_PILL[st][0]}">${esc(testo || QA_PILL[st][1])}</span>`;
+  const dirQuote = () => { const io = (GD() || {}).io || {}; return io.ruolo === "admin" || io.ruolo === "organizzatore"; };
+  function cardQuotaGruppo() {
+    if (!quoteOn()) return "";
+    const q = L.quotaAnnuale(QT());
+    if (!q) return "";
+    return `<section class="card" style="gap:0;padding-top:8px;padding-bottom:8px" aria-label="La tua iscrizione"><span class="eyebrow" style="padding:4px 0 6px">La tua iscrizione</span>
+      <a class="between link-card" href="#/gruppo/quota" style="min-height:44px"><span style="font-weight:600">Quota della società</span><span class="small muted">${esc(L.rigaQuotaAnnuale(q))} ›</span></a></section>`;
+  }
+  let qaApro = null; // la quota dell'anno aperto si apre (codice) la prima volta che il socio guarda la pagina
+  function vistaQuotaAnnuale() {
+    const d = GD(); if (!d) return vistaGruppo();
+    const q = quoteOn() ? L.quotaAnnuale(QT()) : null;
+    const testa = `${bannerProva()}<header class="head-back">${back("#/gruppo")}<div><span class="eyebrow">${esc(d.gruppo.nome)}</span><h1 style="font-size:30px">Quota della società</h1></div></header>`;
+    if (!q) return `${testa}<p class="sub">La società non ha ancora una quota annuale in RaceBuddy.</p>`;
+    const c = q.corrente;
+    let corrente = "";
+    if (c && c.stato === "da_rinnovare") {
+      if (qaApro !== c.anno) { qaApro = c.anno; setTimeout(() => azioneQuote(() => rpc("quota_annuale_scegli", { p_token: token(), p_anno: c.anno, p_scelta: "paga" })), 0); } // una volta sola
+      corrente = `<section class="card"><div class="between"><span class="eyebrow">${c.anno} · ${esc(L.fmtEuro(c.importo))}</span>${pillQA("da_pagare")}</div><span class="small muted">Preparo i dati del bonifico…</span><button class="btn ghost" type="button" data-act="qa-scegli" data-anno="${c.anno}" data-s="paga">Mostra i dati del bonifico</button></section>`;
+    } else if (c && c.stato === "da_pagare") {
+      const causale = L.causaleQuota(c.mia.codice, mioNome(), `Quota ${c.anno}`);
+      corrente = `<section class="card" style="gap:14px"><div class="between"><span class="eyebrow">${c.anno} · ${esc(L.fmtEuro(c.mia.importo))}</span>${pillQA("da_pagare")}</div>
+        ${datiBonifico(null, c.mia, { causale, cosa: "quota" })}
+        <form id="qa-pagato" class="q-passo" data-anno="${c.anno}"><span class="lbl">3 · Poi segnalo qui</span>
+          <div class="field"><label for="qa-data">Data del bonifico</label><input class="input" id="qa-data" type="date" value="${esc(oggi())}" max="${esc(oggi())}" required></div>
+          <button class="btn block" type="submit">Ho fatto il bonifico</button></form>
+        <span class="small muted">RaceBuddy non vede né muove soldi: la società controlla sul suo estratto conto. <button class="linkbtn small" type="button" data-act="qa-scegli" data-anno="${c.anno}" data-s="non_rinnova">Quest'anno non rinnovo</button></span></section>`;
+    } else if (c && c.stato === "pagata") {
+      const causale = L.causaleQuota(c.mia.codice, mioNome(), `Quota ${c.anno}`);
+      corrente = `<section class="card" style="gap:8px"><div class="between"><span class="eyebrow">${c.anno} · ${esc(L.fmtEuro(c.mia.importo))}</span>${pillQA("pagata")}</div>
+        <b style="font-size:15px">Bonifico del ${esc(L.fmtBreve(c.mia.pagato))} · ${esc(c.mia.codice)}</b>
+        <details><summary class="small">Dati del bonifico</summary><div style="display:flex;flex-direction:column;gap:12px;padding-top:10px">${datiBonifico(null, c.mia, { causale, cosa: "quota" })}</div></details>
+        <button class="linkbtn small" type="button" data-act="qa-annulla" data-anno="${c.anno}" style="align-self:flex-start;color:var(--muted)">Annulla: non l'ho ancora fatto</button></section>`;
+    } else if (c && c.stato === "non_rinnova") {
+      corrente = `<section class="card"><div class="between"><span class="eyebrow">${c.anno} · ${esc(L.fmtEuro(c.importo))}</span>${pillQA("non_rinnova", "Non rinnovi")}</div>
+        <span class="small">Hai detto che quest'anno non rinnovi. La società lo vede nell'elenco.</span>
+        <button class="btn ghost" type="button" data-act="qa-scegli" data-anno="${c.anno}" data-s="paga">Ho cambiato idea: rinnovo</button></section>`;
+    }
+    const sotto = (x) => x.stato === "pagata" ? `bonifico del ${L.fmtBreve(x.mia.pagato)} ${x.mia.pagato.slice(0, 4)} · ${x.mia.codice}` : x.stato === "da_pagare" ? `codice ${x.mia.codice}` : "";
+    const storico = q.storico.length ? `<section class="card" style="gap:0;padding-top:8px;padding-bottom:8px"><span class="eyebrow" style="padding:4px 0 6px">${c ? "Anni precedenti" : "Le tue quote"}</span>
+      ${q.storico.map((x, i) => `<div class="between" style="min-height:48px;gap:10px;${i < q.storico.length - 1 ? "border-bottom:1px solid var(--line2);" : ""}"><span style="min-width:0"><b>${x.anno} · ${esc(L.fmtEuro(x.importo))}</b>${sotto(x) ? `<br><span class="small muted">${esc(sotto(x))}</span>` : ""}</span>${pillQA(x.stato, x.stato === "non_rinnova" ? "Non rinnovata" : null)}</div>`).join("")}</section>` : "";
+    return `${testa}${corrente || `<p class="sub">Il rinnovo del prossimo anno non è ancora aperto.</p>`}${storico}`;
+  }
+  // Gestione: importo e mese (amministratore), riepilogo e link ai pagamenti (direttivo)
+  function cardQuotaAnnualeAdmin() {
+    if (!quoteOn() || !dirQuote()) return "";
+    const a = QT().annuale || {}, admin = ((GD() || {}).io || {}).ruolo === "admin", q = L.quotaAnnuale(QT());
+    const anno = a.anno || (q && q.storico[0] && q.storico[0].anno) || null, el = anno ? L.elencoAnnuale(QT(), anno) : null;
+    const riep = el ? `<a class="between link-card" href="#/gruppo/quote?a=${anno}" style="min-height:44px;border-top:1px solid var(--line2);padding-top:6px"><span style="font-weight:600">Pagamenti dei soci</span><span class="small muted">${anno} · ${el.pagati} di ${el.righe.length - el.nonRinnova} pagati ›</span></a>` : "";
+    if (!admin) return riep ? `<section class="card" style="gap:4px"><span class="title">Quota annuale</span>${riep}</section>` : "";
+    const mese = Number(a.mese) || 11;
+    const aperta = a.anno ? `Aperta ora: quota ${a.anno}. ` : "";
+    const prossima = a.importo != null ? `Il 1° ${L.MESI_LUNGHI[mese - 1]} si apre da sola la quota successiva con lo stesso importo, se non lo cambi.` : "Vuoto = niente quota annuale.";
+    return `<form id="qa-conf" class="card" style="gap:10px"><div><span class="title">Quota annuale</span><br><span class="small muted">Si ripete ogni anno</span> · ${infoBtn("annuale")}</div>
+      <div class="row" style="align-items:flex-end;gap:8px"><div class="field" style="flex:1"><label for="qa-imp">Importo (€)</label><input class="input" id="qa-imp" inputmode="decimal" value="${a.importo != null ? esc(Number(a.importo).toFixed(2).replace(".", ",")) : ""}" placeholder="es. 50" autocomplete="off"></div>
+        <div class="field" style="flex:1"><label for="qa-mese">Rinnovi aperti dal</label><select class="input" id="qa-mese">${L.MESI_LUNGHI.map((m, i) => `<option value="${i + 1}" ${i + 1 === mese ? "selected" : ""}>1° ${m}</option>`).join("")}</select></div></div>
+      <button class="btn ghost" type="submit">Salva</button>
+      <span class="small muted">${esc(aperta + prossima)}</span>${riep}</form>`;
+  }
+  // Pagamenti dei soci, anno per anno (#/gruppo/quote?a=anno): solo direttivo, sola lettura, "Copia elenco"
+  function vistaQuoteSoci(param) {
+    const d = GD(); if (!d || !dirQuote() || !quoteOn()) return vistaGruppo();
+    const anni = L.elencoAnnuale(QT(), 0).anni, anno = Number(param.a) || anni[0];
+    const testa = `${bannerProva()}<header class="head-back">${back("#/gruppo/admin")}<div><span class="eyebrow">${esc(d.gruppo.nome)} · direttivo</span><h1 style="font-size:30px">Quote dei soci</h1></div></header>`;
+    if (!anni.length) return `${testa}<p class="sub">Nessuna quota annuale ancora aperta.</p>`;
+    const el = L.elencoAnnuale(QT(), anno);
+    const chip = (x) => `<a class="chip" href="#/gruppo/quote?a=${x}" aria-pressed="${x === anno}" style="display:inline-flex;align-items:center;text-decoration:none;color:inherit">${x}</a>`;
+    const testoStato = (x) => x.stato === "pagata" ? `pagata ${L.fmtBreve(x.pagato)}` : x.stato === "non_rinnova" ? "non rinnova" : "da pagare";
+    const copia = [`Quota ${anno} · ${d.gruppo.nome}`, ...el.righe.map((x) => `${x.codice || "—"}\t${x.nome}\t${x.importo != null ? L.fmtEuro(x.importo) : ""}\t${testoStato(x)}`)].join("\n");
+    const sottoRiga = (x) => x.codice ? `${x.codice} · ${L.fmtEuro(x.importo)}` : "non l'ha ancora aperta";
+    const pill = (x) => x.stato === "pagata" ? pillQA("pagata", `Pagata ${x.pagato.slice(8, 10)}/${x.pagato.slice(5, 7)}`) : pillQA(x.stato);
+    return `${testa}<div class="cat-chips">${anni.map(chip).join("")}</div>
+      <section class="card" style="gap:0"><div class="between" style="margin-bottom:4px"><span class="title">Soci · ${el.pagati} di ${el.righe.length - el.nonRinnova} pagati</span><button class="btn ghost small" type="button" data-act="q-copia" data-t="${esc(copia)}" data-cosa="Elenco">Copia elenco</button></div>
+        ${el.righe.map((x) => `<div class="post"><span style="flex:1;min-width:0"><b>${esc(x.nome)}</b><br><span class="small muted">${esc(sottoRiga(x))}</span></span>${pill(x)}</div>`).join("")}
+        <span class="small muted" style="padding-top:8px">Solo lettura: è quello che dicono i soci. Confronta i codici con le causali dell'estratto conto.</span></section>`;
   }
   async function caricaQuote() { const q = await rpc("stato_quote", { p_token: token() }); if (q) { S.gruppo.quote = q; salva(); } }
   async function azioneQuote(fn, msg) {
@@ -3155,7 +3244,7 @@
     return `${bannerProva()}<header class="head"><div style="min-width:0"><span class="eyebrow">Il gruppo · ${d.membri.length} runner</span><h1>${esc(d.gruppo.nome)}</h1></div><a class="btn ghost small" href="#/gruppo/admin">${io.ruolo === "admin" ? "Gestisci" : io.ruolo === "organizzatore" ? "Invita" : "Membri"}</a></header>
       ${G().unione ? `<section class="card evid"><span class="title">Profilo in attesa di unione</span><span class="small">Hai chiesto di unire questo profilo al tuo vecchio. Appena un referente conferma, ritrovi qui tempi, punti e ruolo di prima. Gare e scarpe del vecchio telefono non si uniscono da sole.</span></section>` : ""}
       ${cardStagione(d)}
-      ${clAttive() ? "" : `<section aria-label="Gare in comune"><h2 style="margin-bottom:8px">Le gare del gruppo</h2>${comuni.length ? `<div class="lista-c">${comuni.slice(0, 6).map(cardComune).join("")}</div>` : `<p class="sub">Ancora nessuna gara condivisa.</p>`}</section>
+      ${clAttive() ? cardQuotaGruppo() : `<section aria-label="Gare in comune"><h2 style="margin-bottom:8px">Le gare del gruppo</h2>${comuni.length ? `<div class="lista-c">${comuni.slice(0, 6).map(cardComune).join("")}</div>` : `<p class="sub">Ancora nessuna gara condivisa.</p>`}</section>
       <p class="sub">Ognuno sceglie cosa condividere: le tue gare si vedono solo se lo hai scelto (Io → Gruppo).</p>`}`;
   }
 
@@ -3214,6 +3303,7 @@
       ${cardDoppi(d)}
       ${cardClassificheAdmin(d)}
       ${admin && clAttive() ? cardContoQuote() : ""}
+      ${clAttive() ? cardQuotaAnnualeAdmin() : ""}
       ${link ? `<section class="card"><span class="eyebrow">Invito</span><div class="between" style="gap:12px"><span class="codice-invito">${esc(d.gruppo.codice)}</span><button class="btn ghost" data-act="g-condividi" data-link="${esc(link)}">Condividi</button></div>
         <span class="small muted">Condividi manda il link con un messaggio pronto: chi lo apre dal telefono entra in 3 minuti, guidato passo per passo.</span>
         <div class="row" style="gap:18px"><button class="linkbtn small" data-act="g-copia" data-link="${esc(link)}">Copia il link</button>${admin ? `<button class="linkbtn small" data-act="g-nuovocodice">Cambia codice</button>` : ""}</div></section>` : ""}
@@ -3983,7 +4073,7 @@
       case "checklist": html = vistaBorsa(parts[1]); break;
       case "gruppo":
         html = parts[1] === "gara" ? vistaGaraGruppo(parts[2]) : parts[1] === "classifica" ? vistaClassifica(param) : parts[1] === "admin" ? vistaAdmin()
-          : parts[1] === "partecipa" ? vistaEntra("classifiche") : parts[1] === "regole" ? vistaRegole(param) : parts[1] === "recupero" ? vistaRecupero(param) : parts[1] === "classifiche" ? vistaClassifiche(param) : parts[1] === "mie" ? vistaMieGare(param) : parts[1] === "societa" ? vistaSocieta(param) : parts[1] === "soc" ? (parts[3] === "distanza" ? vistaDistanzaSoc(parts[2] || "", param) : parts[3] === "tempi" ? vistaTempiSoc(parts[2] || "") : vistaGaraSoc(decodeURIComponent(parts[2] || ""))) : parts[1] === "carriera" ? vistaCarriera() : parts[1] === "gare" ? vistaGareMembri(param) : vistaGruppo();
+          : parts[1] === "partecipa" ? vistaEntra("classifiche") : parts[1] === "regole" ? vistaRegole(param) : parts[1] === "recupero" ? vistaRecupero(param) : parts[1] === "classifiche" ? vistaClassifiche(param) : parts[1] === "mie" ? vistaMieGare(param) : parts[1] === "societa" ? vistaSocieta(param) : parts[1] === "soc" ? (parts[3] === "distanza" ? vistaDistanzaSoc(parts[2] || "", param) : parts[3] === "tempi" ? vistaTempiSoc(parts[2] || "") : vistaGaraSoc(decodeURIComponent(parts[2] || ""))) : parts[1] === "carriera" ? vistaCarriera() : parts[1] === "quota" ? vistaQuotaAnnuale() : parts[1] === "quote" ? vistaQuoteSoci(param) : parts[1] === "gare" ? vistaGareMembri(param) : vistaGruppo();
         break;
       case "invito": html = vistaInvito(parts[1], param); break;
       case "entra": html = vistaEntra(parts[1]); break;
@@ -4190,6 +4280,15 @@
     }
     if (act === "q-annulla") {
       confirmBox(t, "Togli il bonifico segnato? La gara torna da pagare.", () => azioneQuote(() => rpc("segna_pagato", { p_token: token(), p_id: t.dataset.id, p_data: null }), "Tornata da pagare"));
+      return;
+    }
+    if (act === "qa-scegli") {
+      t.disabled = true;
+      azioneQuote(() => rpc("quota_annuale_scegli", { p_token: token(), p_anno: Number(t.dataset.anno), p_scelta: t.dataset.s }), t.dataset.s === "paga" ? "Ecco i dati per il bonifico" : "Segnato: quest'anno non rinnovi");
+      return;
+    }
+    if (act === "qa-annulla") {
+      confirmBox(t, "Togli il bonifico segnato? La quota torna da pagare.", () => azioneQuote(() => rpc("quota_annuale_pagato", { p_token: token(), p_anno: Number(t.dataset.anno), p_data: null }), "Tornata da pagare"));
       return;
     }
     if (act === "info") { apriInfo(t.dataset.k); return; }
@@ -4682,6 +4781,12 @@
     const f = e.target; e.preventDefault();
     const v = (id) => (document.getElementById(id) || {}).value || "";
     if (f.id === "buddy-form") { inviaBuddy(v("buddy-testo")); return; }
+    if (f.id === "qa-pagato" || f.id === "qa-conf") { // quota annuale
+      const btn = f.querySelector('button[type="submit"]'); if (btn) btn.disabled = true;
+      if (f.id === "qa-pagato") azioneQuote(() => rpc("quota_annuale_pagato", { p_token: token(), p_anno: Number(f.dataset.anno), p_data: v("qa-data") || oggi() }), "Segnata come pagata");
+      else azioneQuote(() => rpc("admin_quota_annuale", { p_token: token(), p_quota: v("qa-imp").trim(), p_mese: Number(v("qa-mese")) || null }), v("qa-imp").trim() ? "Quota annuale salvata" : "Quota annuale tolta");
+      return;
+    }
     if (f.id === "q-pagato" || f.id === "q-quota" || f.id === "q-conto") { // quote gara con la società
       const btn = f.querySelector('button[type="submit"]'); if (btn) btn.disabled = true;
       if (f.id === "q-pagato") azioneQuote(() => rpc("segna_pagato", { p_token: token(), p_id: f.dataset.id, p_data: v("q-data") || oggi() }), "Segnato come pagato");
