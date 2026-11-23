@@ -2,6 +2,211 @@
  "aggiornato": "2026-11-23",
  "contenuti": [
   {
+   "id": "ff7a24d4b766",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Trabuco Max 6 di ASICS, più morbida e leggera per i trail lunghi",
+   "estratto": "La nuova Trabuco Max 6 di ASICS è costruita per le ultime ore delle uscite lunghe su sentieri scorrevoli, con un’intersuola a due strati e una calzata che lascia spazio alle dita…",
+   "link": "https://runlovers.it/2026/trabuco-max-6-asics-trail-lunghi/",
+   "data": "2026-11-23",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/Gel-Trabuco-Max-6_02.jpg?resize=1160%2C773&quality=75&ssl=1",
+   "argomenti": [
+    "alimentazione",
+    "scarpe",
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "a12da8440f31",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Recupero attivo o passivo tra le ripetute: quale scegliere e perché",
+   "estratto": "Come modulare le pause tra le prove per massimizzare gli adattamenti metabolici e neuromuscolari",
+   "link": "https://www.runnersworld.com/it/allenamento/a74501057/recupero-attivo-passivo-ripetute-come-scegliere/",
+   "data": "2026-11-23",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/20807b8a-ec16-46e3-ae0e-7f400289b8d8.jpeg",
+   "argomenti": [
+    "allenamento",
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "dopo"
+   ]
+  },
+  {
+   "id": "4ea110c127c3",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Ramo cade durante una corsa: nove runner ferite, due gravi",
+   "estratto": "Piante e rami caduti, attimi di grande paura durante una gara femminile. Alcune runner hanno riportato gravi fratture",
+   "link": "https://www.runnersworld.com/it/news/a74506187/ramo-caduto-barcellona-gara/",
+   "data": "2026-11-23",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/8ac055cb-7867-4d0d-ba8f-f61d077e4a07.jpeg",
+   "argomenti": [
+    "gara",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "89369468abfa",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "Powerade Milano Half Marathon, in 20mila sotto la pioggia",
+   "estratto": "A vincere la Milano21 Half Marathon, principale prova agonistica della festa del running di Followyourpassion, sono Titus Musau (Uganda, 1:01’31”) e Samiyah Hassan Nour (1:08’04”…",
+   "link": "https://correre.it/powerade-milano-half-marathon/",
+   "data": "2026-11-23",
+   "immagine": "https://correre.it/wp-content/uploads/2026/11/Milano_Half_Marathon_2026_robot.jpg",
+   "argomenti": [
+    "allenamento",
+    "gara",
+    "abbigliamento",
+    "notizie"
+   ],
+   "distanze": [
+    "21",
+    "10"
+   ],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "70ce970c608a",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Pilates per runner: 4 esercizi per il rinforzo della catena posteriore",
+   "estratto": "Estensione, forza, coordinazione e controllo del corpo. Gli esercizi di Pilates per allenare la catena posteriore e sostenere in modo più efficiente il gesto della corsa",
+   "link": "https://www.runnersworld.com/it/allenamento/coach-del-mese-allenamenti/g74504652/pilates-runner-forza-catena-posteriore/",
+   "data": "2026-11-23",
+   "immagine": "https://hips.hearstapps.com/vidthumb/6b28b2da-5071-4da8-b219-18311e4c1423/fa9f134a-560c-45b4-b7b5-dc5b9f0222a5.png",
+   "argomenti": [
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "83f5b4987bea",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Mind Over Mountain: Discipline When Motivation Fades",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/yPu0qp8LsMM",
+   "data": "2026-11-23",
+   "immagine": "https://i2.ytimg.com/vi/yPu0qp8LsMM/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "1de30ec78f4a",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Le posizioni yoga per alleviare la tensione nella zona lombare",
+   "estratto": "Cinque posizioni a terra e quindici minuti di respiro per sciogliere la tensione nella zona lombare accumulata dopo una giornata alla scrivania. Stare seduti per ore mantiene le…",
+   "link": "https://runlovers.it/2026/yoga-posizioni-tensione-lombare/",
+   "data": "2026-11-23",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/01-202611231235-Yoga-lombare-W-Depositphotos_220Selfmadestudio.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "614e285287c4",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Dubai Run 2026 da record: 310mila runner invadono di corsa la città",
+   "estratto": "Dubai si è svegliata di corsa: 310mila runner hanno invaso la Sheikh Zayed Road per la Dubai Run 2026, tra skyline, aerei acrobatici e festa cittadina",
+   "link": "https://www.runnersworld.com/it/news/a74504364/dubai-run-2026-record-310mila-runner/",
+   "data": "2026-11-23",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/07f803cd-bb48-452a-8913-be2c6bef7b08.jpeg",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "443564a8a182",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Dentro la Milano Half Marathon: la ventata d'aria fresca di una gara ormai internazionale",
+   "estratto": "L’aria nuova si sentiva già in metropolitana: runner da tutto il mondo, una gara veloce e internazionale e Milano presente anche sotto la pioggia",
+   "link": "https://www.runnersworld.com/it/news/a74504347/dentro-milano-half-marathon-2026/",
+   "data": "2026-11-23",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/21e45da3-c5d7-4c79-8d5d-d9a1332a1657.jpg",
+   "argomenti": [
+    "gara",
+    "abbigliamento"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "f83bd3167bfa",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Correre nella storia: le gare che trasformano l’Italia in un museo a cielo aperto",
+   "estratto": "Dall’antica Pompei all’Abbazia di Pomposa, passando per Verona, Assisi e le grandi città d’arte: le gare per scoprire la storia e la cultura italiana correndo",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74500087/gare-corsa-storia-italia/",
+   "data": "2026-11-23",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/4dc61ca0-a714-4d00-89e2-6d7c3eb4111f.gif?crop=1.00xw:0.753xh;0,0.203xh&resize=1200:*",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "a3e75cc65bec",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Come una pausa dalla corsa può cambiare il tuo modo di vedere il recupero",
+   "estratto": "Smetti di affidarti solo al chilometraggio, ai fitness tracker e ai piani di allenamento e impara ad ascoltare i tuoi piedi",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a74485637/pausa-corsa-recupero/",
+   "data": "2026-11-23",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/5e8206c9-7de5-487c-a31b-2f85fe2667e9.jpeg",
+   "argomenti": [
+    "allenamento",
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "dopo"
+   ]
+  },
+  {
    "id": "b009f690cc47",
    "tipo": "articolo",
    "fonte": "Podisti.net",
