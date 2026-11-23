@@ -1,271 +1,7 @@
 {
-  "aggiornato": "2026-11-16T04:18:31Z",
+  "aggiornato": "2026-11-23T04:18:32Z",
   "fonte": "Calendario FIDAL (https://www.fidal.it/calendario.php), calendario FIDAL di maratone e mezze dell'anno successivo e calendario di Gare Podistiche Lazio (https://www.garepodistichelazio.it/gare-lazio.php)",
   "gare": [
-    {
-      "id": "H71c7f2b0f6-21",
-      "nome": "XII^ Mezza Maratona Int.le Citta' di Caserta 'Reggia-Reggia'",
-      "data": "2026-11-21",
-      "luogo": "CASERTA",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "Hefc8ffafa3-10",
-      "nome": "10K San Francesco Marathon",
-      "data": "2026-11-22",
-      "luogo": "ASSISI",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H55390a9555-21",
-      "nome": "28^ MARATONINA CITTA' DI UTA",
-      "data": "2026-11-22",
-      "luogo": "UTA",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "L950d7c45f5-k9.8",
-      "nome": "Corri alla Garbatella",
-      "data": "2026-11-22",
-      "luogo": "ROMA",
-      "provincia": "RM",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "Gare Podistiche Lazio",
-      "url": "https://www.garepodistichelazio.it/info-gara-Corri-alla-Garbatella",
-      "km": 9.8,
-      "ora": "09:30",
-      "quota": "Termine Iscrizione: 17/11/2026"
-    },
-    {
-      "id": "L1f72783e20-k9.9",
-      "nome": "Corri per la Sicurezza Stradale",
-      "data": "2026-11-22",
-      "luogo": "ROMA",
-      "provincia": "RM",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "Gare Podistiche Lazio",
-      "url": "https://www.garepodistichelazio.it/info-gara-Corri-per-la-Sicurezza-Stradale",
-      "km": 9.9,
-      "ora": "09:30",
-      "quota": "Iscrizioni Chiuse"
-    },
-    {
-      "id": "Lde4c3e3b4b-k9.9",
-      "nome": "Corriamo al Tiburtino",
-      "data": "2026-11-22",
-      "luogo": "ROMA",
-      "provincia": "RM",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "Gare Podistiche Lazio",
-      "url": "https://www.garepodistichelazio.it/info-gara-Corriamo-al-Tiburtino",
-      "km": 9.9,
-      "ora": "09:30",
-      "quota": "Termine Iscrizione: 19/11/2026"
-    },
-    {
-      "id": "L8c74c6e02a-k14.6",
-      "nome": "Corsa del Ricordo Latina",
-      "data": "2026-11-22",
-      "luogo": "BORGO DI VILLA FOGLIANO",
-      "provincia": "LT",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "Gare Podistiche Lazio",
-      "url": "https://www.garepodistichelazio.it/info-gara-Corsa-del-Ricordo-Latina",
-      "km": 14.6,
-      "ora": "09:30",
-      "quota": "Termine Iscrizione: 19/11/2026"
-    },
-    {
-      "id": "L725eaeecea-10",
-      "nome": "Corsa dell'Acqua del Litorale",
-      "data": "2026-11-22",
-      "luogo": "ROMA",
-      "provincia": "RM",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "Gare Podistiche Lazio",
-      "url": "https://www.garepodistichelazio.it/info-gara-Corsa-dell'Acqua-del-Litorale",
-      "ora": "09:30",
-      "quota": "Termine Iscrizione: 20/11/2026"
-    },
-    {
-      "id": "Hdc03f5f540-21",
-      "nome": "III^ BCC Brescia Park Run",
-      "data": "2026-11-22",
-      "luogo": "BRESCIA",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "Hab4a59cd5c-10",
-      "nome": "III^ BCC Brescia Park Run 10K",
-      "data": "2026-11-22",
-      "luogo": "BRESCIA",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "Hb4500e5888-42",
-      "nome": "III^ San Francesco Marathon 2026",
-      "data": "2026-11-22",
-      "luogo": "ASSISI",
-      "distanza": "42",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H254ba03df8-21",
-      "nome": "II^ 21k San Francesco Marathon",
-      "data": "2026-11-22",
-      "luogo": "ASSISI",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H8c532b719b-10",
-      "nome": "IV^ 10K Riviera delle Palme 10km",
-      "data": "2026-11-22",
-      "luogo": "GROTTAMMARE",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "Hf1cb19af7d-10",
-      "nome": "IV^ La 10 km della Perla dello Jonio",
-      "data": "2026-11-22",
-      "luogo": "SOVERATO",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H724eb9889e-21",
-      "nome": "IX^ Half Marathon Riviera Palme",
-      "data": "2026-11-22",
-      "luogo": "GROTTAMMARE",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H0e7dc2579e-21",
-      "nome": "IX^ Milano21",
-      "data": "2026-11-22",
-      "luogo": "MILANO",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H9d7d1dd70d-10",
-      "nome": "IX^ Milano21 (10K)",
-      "data": "2026-11-22",
-      "luogo": "MILANO",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H7731e255df-k9.6",
-      "nome": "Piossasco (TO) - 32a 6 Miglia di Piossasco - Camminata per la Vita - Km. 9,6 - da 29/11 a 22/11",
-      "data": "2026-11-22",
-      "luogo": "PIOSSASCO",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php",
-      "km": 9.6
-    },
-    {
-      "id": "Lb3c6e3bb60-k9.8",
-      "nome": "Trofeo Santa Barbara",
-      "data": "2026-11-22",
-      "luogo": "COLLEFERRO",
-      "provincia": "RM",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "Gare Podistiche Lazio",
-      "url": "https://www.garepodistichelazio.it/info-gara-Trofeo-Santa-Barbara",
-      "km": 9.8,
-      "ora": "09:30",
-      "quota": "Termine Iscrizione: 20/11/2026"
-    },
-    {
-      "id": "H815bf515a2-21",
-      "nome": "VII^ Maratonina di San Biagio",
-      "data": "2026-11-22",
-      "luogo": "SAN BIAGIO DI CALLALTA",
-      "distanza": "21",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H2ec7578a3f-10",
-      "nome": "VI^ StraFloridia",
-      "data": "2026-11-22",
-      "luogo": "FLORIDIA",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H730a1fbd10-10",
-      "nome": "V^ 10 km Citta' di Faenza",
-      "data": "2026-11-22",
-      "luogo": "FAENZA",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H2f2a26d05b-10",
-      "nome": "XIV^ Taranto nel Cuore",
-      "data": "2026-11-22",
-      "luogo": "TARANTO",
-      "distanza": "10",
-      "annullata": true,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "H696ffb4c62-10",
-      "nome": "XXIV^ Palio Fiorentino",
-      "data": "2026-11-22",
-      "luogo": "SESTO FIORENTINO",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "FIDAL",
-      "url": "https://www.fidal.it/calendario.php"
-    },
     {
       "id": "Hcc1b41c975-10",
       "nome": "CAMPIONATO ITALIANO INDIVIDUALE e DI SOCIETA' MASTER KM 10 su STRADA",
@@ -297,20 +33,22 @@
       "annullata": false,
       "fonte": "Gare Podistiche Lazio",
       "url": "https://www.garepodistichelazio.it/info-gara-Corri-a-Terracina",
-      "ora": "09:30"
+      "ora": "09:30",
+      "quota": "Termine Iscrizione: 27/11/2026"
     },
     {
-      "id": "Lb15a0eaa4e-10",
-      "nome": "Fiumicino Half Marathon (10K)",
+      "id": "Hf77bd72603-10",
+      "nome": "Fiumicino Half Marathon - 9,980km",
       "data": "2026-11-29",
       "luogo": "FIUMICINO",
-      "provincia": "RM",
       "distanza": "10",
       "annullata": false,
-      "fonte": "Gare Podistiche Lazio",
-      "url": "https://www.garepodistichelazio.it/info-gara-Fiumicino-Half-Marathon-(10K)",
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php",
       "ora": "08:45",
-      "quota": "Termine Iscrizione: 23/11/2026"
+      "quota": "Termine Iscrizione: 23/11/2026 Ultimo Giorno",
+      "provincia": "RM",
+      "scheda_lazio": "https://www.garepodistichelazio.it/info-gara-Fiumicino-Half-Marathon-(10K)"
     },
     {
       "id": "H16538e4778-k9.9",
@@ -363,6 +101,16 @@
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php",
       "km": 9.9
+    },
+    {
+      "id": "Hcd9a6b2530-10",
+      "nome": "IV^ San Giovanni in Run",
+      "data": "2026-11-29",
+      "luogo": "SAN GIOVANNI ROTONDO",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "FIDAL",
+      "url": "https://www.fidal.it/calendario.php"
     },
     {
       "id": "H75715bdf54-10",
@@ -499,7 +247,7 @@
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php",
       "ora": "08:45",
-      "quota": "Termine Iscrizione: 23/11/2026",
+      "quota": "Termine Iscrizione: 23/11/2026 Ultimo Giorno",
       "provincia": "RM",
       "scheda_lazio": "https://www.garepodistichelazio.it/info-gara-Fiumicino-Half-Marathon"
     },
@@ -586,6 +334,19 @@
       "fonte": "Gare Podistiche Lazio",
       "url": "https://www.garepodistichelazio.it/info-gara-Maratona-di-Latina-(10K)",
       "km": 9.9,
+      "ora": "09:00",
+      "quota": "Termine Iscrizione: 04/12/2026"
+    },
+    {
+      "id": "L77e8c0c25a-10",
+      "nome": "Marconi Running",
+      "data": "2026-12-06",
+      "luogo": "ROMA",
+      "provincia": "RM",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-Marconi-Running",
       "ora": "09:00",
       "quota": "Termine Iscrizione: 04/12/2026"
     },
@@ -810,7 +571,7 @@
       "km": 15.0
     },
     {
-      "id": "L379e545b14-k10.65",
+      "id": "L379e545b14-k5",
       "nome": "Penta Run",
       "data": "2026-12-08",
       "luogo": "ROMA",
@@ -819,8 +580,8 @@
       "annullata": false,
       "fonte": "Gare Podistiche Lazio",
       "url": "https://www.garepodistichelazio.it/info-gara-Penta-Run",
-      "km": 10.65,
-      "ora": "08:30"
+      "km": 5.0,
+      "ora": "08:00"
     },
     {
       "id": "H31527128db-21",
@@ -842,6 +603,20 @@
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php",
       "km": 5.0
+    },
+    {
+      "id": "L43fe79c8af-k7",
+      "nome": "Corsa di Natale (Non Competitiva)",
+      "data": "2026-12-12",
+      "luogo": "LADISPOLI",
+      "provincia": "RM",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/info-gara-Corsa-di-Natale-(Non-Competitiva)",
+      "km": 7.0,
+      "ora": "09:30",
+      "quota": "Termine Iscrizione: 12/12/2026"
     },
     {
       "id": "H7e54ba4e8c-k6",
@@ -1050,19 +825,6 @@
       "annullata": false,
       "fonte": "FIDAL",
       "url": "https://www.fidal.it/calendario.php"
-    },
-    {
-      "id": "Lf9521ed1e2-10",
-      "nome": "Marconi Running",
-      "data": "2026-12-20",
-      "luogo": "ROMA",
-      "provincia": "RM",
-      "distanza": "10",
-      "annullata": false,
-      "fonte": "Gare Podistiche Lazio",
-      "url": "https://www.garepodistichelazio.it/info-gara-Marconi-Running",
-      "ora": "09:00",
-      "quota": "Termine Iscrizione: 18/12/2026"
     },
     {
       "id": "H9a62c7c244-21",
@@ -2527,7 +2289,9 @@
       "annullata": false,
       "fonte": "Gare Podistiche Lazio",
       "url": "https://www.garepodistichelazio.it/2027-info-gara-Trofeo-San-Francesco",
-      "ora": "09:30"
+      "ora": "09:30",
+      "quota": "€ 10",
+      "iscrizioni": "2027-04-15"
     },
     {
       "id": "P76d39ec1ab-21",
@@ -2895,6 +2659,21 @@
       "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
     },
     {
+      "id": "L12445f9744-10",
+      "nome": "RinCORRIAMO LA PACE con Emergency",
+      "data": "2027-05-23",
+      "luogo": "OSTIA",
+      "provincia": "RM",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/2027-info-gara-RinCORRIAMO-LA-PACE-con-Emergency",
+      "ora": "09:00",
+      "quota": "€ 18",
+      "iscrizioni": "2027-05-20",
+      "sito": "https://www.runnersforemergency.it/"
+    },
+    {
       "id": "P516e553f6e-21",
       "nome": "VIII^ Maratonina dei Laghi",
       "data": "2027-05-29",
@@ -2933,6 +2712,19 @@
       "annullata": false,
       "fonte": "FIDAL maratone e mezze",
       "url": "https://www.fidal.it/upload/files/Organizzazione/2027/Maratone%20e%20mezze%20maratone/Calendario%20Maratone%20e%20Mezze%20Maratone%202027%20agg.%2029%20settembre.pdf"
+    },
+    {
+      "id": "Lf1afac6bcc-k11",
+      "nome": "Panoramica Pian della Faggeta",
+      "data": "2027-06-06",
+      "luogo": "CARPINETO ROMANO",
+      "provincia": "RM",
+      "distanza": "10",
+      "annullata": false,
+      "fonte": "Gare Podistiche Lazio",
+      "url": "https://www.garepodistichelazio.it/2027-info-gara-Panoramica-Pian-della-Faggeta",
+      "km": 11.0,
+      "ora": "09:00"
     },
     {
       "id": "La4eb91b113-10",
