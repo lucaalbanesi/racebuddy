@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-22",
+ "aggiornato": "2026-11-23",
  "contenuti": [
   {
    "id": "b009f690cc47",
@@ -30,6 +30,34 @@
    "link": "https://www.youtube.com/shorts/uiycklO3irA",
    "data": "2026-11-22",
    "immagine": "https://i2.ytimg.com/vi/uiycklO3irA/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "7fad46266d13",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Treviso Walk in Red per dire NO alla violenza contro le donne",
+   "estratto": "Oltre 1200 iscritti per l’evento organizzato da Trevisatletica in collaborazione con il Centro Antiviolenza Telefono Rosa ODV per coniugare sport e impegno civile 22 novembre…",
+   "link": "https://podisti.net/treviso-walk-in-red-per-dire-no-alla-violenza-contro-le-donne/",
+   "data": "2026-11-22",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/TVWIR_1.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "70caa3a8c96f",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Stramilano Sottozero, torna la grande classica meneghina in versione invernale",
+   "estratto": "Il formato collaudato di Stramilano nell'evento invernale già diventato un must: Stramilano Sottozero porta i runner a correre a Citylife",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74463705/stramilano-sottozero-2026-corsa-milano-inverno/",
+   "data": "2026-11-22",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/03205a27-5825-4567-9c9d-34060fc1fb5f.jpg",
    "argomenti": [],
    "distanze": [],
    "fasi": []
@@ -155,6 +183,23 @@
    ]
   },
   {
+   "id": "48c26646dbc2",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "L’11^ Milano Half Marathon, nel segno di Titus Musau e Samiyah Hassan Nour",
+   "estratto": "Yohanes Chiappinelli e Giovanna Epis primi portacolori nazionali. Nella 10 km affermazioni di Nikolas Loss e Gaia Colli Milano 22 novembre – E’ stata una grande festa la Milano…",
+   "link": "https://podisti.net/l11-milano-half-marathon-nel-segno-di-titus-musau-e-samiyah-hassan-nour/",
+   "data": "2026-11-22",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Partenza-mezza.jpg",
+   "argomenti": [],
+   "distanze": [
+    "21",
+    "10"
+   ],
+   "fasi": []
+  },
+  {
    "id": "b75b4a31de92",
    "tipo": "articolo",
    "fonte": "Runlovers",
@@ -179,6 +224,38 @@
    ]
   },
   {
+   "id": "46238e079917",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Latina- Corsa del Ricordo, vincono Mansutti e Zorzetto",
+   "estratto": "22 Novembre – Partecipata e festosa conclusione dell’edizione 2026 del Circuito della Corsa del Ricordo. Dopo dieci appuntamenti in tutta Italia, l’ultimo atto è andato in scena…",
+   "link": "https://podisti.net/latina-corsa-del-ricordo-vincono-mansutti-e-zorzetto/",
+   "data": "2026-11-22",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/la-partenza-della-Corsa-del-rico.jpg",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "43fa3372191a",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Il Restena Trail incorona nuovamente Mirko Cocco. A Giulia Marchesoni la prova femminile",
+   "estratto": "22 novembre – Il vicentino si conferma una delle province più attive e dove il podismo è maggiormente radicato. Se ne è avuta la riprova alla settima edizione del Restena Trail…",
+   "link": "https://podisti.net/il-restena-trail-incorona-nuovamente-mirko-cocco-a-giulia-marchesoni-la-prova-femminile/",
+   "data": "2026-11-22",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Partenza.png",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
    "id": "a991988ba68c",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -188,6 +265,106 @@
    "link": "https://www.runnersworld.com/it/travel/a74474344/trekking-per-immacolata/",
    "data": "2026-11-22",
    "immagine": "https://hips.hearstapps.com/hmg-prod/images/6e7ce0da-3fcf-4c50-8097-756068873e0c.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "89a72d5d0471",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Cavalo di Fumane (VR) – Trail dello Sciamano, Clara e Filippini vincono la lunga",
+   "estratto": "22 novembre – Ancora una volta il Trail dello Sciamano ha colpito nel segno. La manifestazione veneta, accolta in una località, Cavalo di Fumane che si sta distinguendo sempre più…",
+   "link": "https://podisti.net/cavalo-di-fumane-vr-trail-dello-sciamano-clara-e-filippini-vincono-la-lunga/",
+   "data": "2026-11-22",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Arrivo-vincitore.jpg",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "4d744487eb1f",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Cassano delle Murge (BA) – 5^ CorriCassano, vincono Butoyi e Giustino",
+   "estratto": "22 Novembre – Quinta edizione della CorriCassano e ancora un successo per questa manifestazione, che, di anno in anno, migliora il record di iscritti e, conseguentemente di…",
+   "link": "https://podisti.net/cassano-delle-murge-ba-5-corricassano-vincono-butoyi-e-giustino/",
+   "data": "2026-11-22",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/1272-1.jpg",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "c6942463a7b7",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Assisi (PG) – 3^ San Francesco Marathon, tris per Lotti e prima per Bellandi",
+   "estratto": "22 novembre – Si è corsa stamani ad Assisi la terza edizione della San Francesco Marathon, evento podistico immerso nella storia e nella spiritualità di Assisi, organizzato dalla…",
+   "link": "https://podisti.net/assisi-pg-3-san-francesco-marathon-tris-per-lotti-e-prima-per-bellandi/",
+   "data": "2026-11-22",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/20264634_u7-Ef4VYrUo1LAgElTK8WBJ.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "19a5002fdcfe",
+   "tipo": "video",
+   "fonte": "Riccardo Bugari · Running Bug",
+   "fonteId": "yt_runningbug",
+   "titolo": "A volte la corsa che non hai voglia di fare e’ proprio quella di cui hai più bisogno #running",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/_SZzjYgTDyk",
+   "data": "2026-11-22",
+   "immagine": "https://i4.ytimg.com/vi/_SZzjYgTDyk/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "f15400cb0a07",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "A Giacomo Esposito e Betelhem Tenaw la Maratonina di San Biagio",
+   "estratto": "San Biagio di Callalta (Treviso), 22 novembre 2026 – L’obiettivo è la maratona di Valencia, tra due settimane, ma Giacomo Esposito non si è risparmiato neppure oggi: è lui il…",
+   "link": "https://podisti.net/a-giacomo-esposito-e-betelhem-tenaw-la-maratonina-di-san-biagio/",
+   "data": "2026-11-22",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Maratonina-di-San-Biagio-2026_Un-passaggio-di-gruppo_b.jpg",
+   "argomenti": [
+    "gara",
+    "abbigliamento",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
+   "id": "a1f550041e51",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "100 Kilometers Alone: I Did It! Dolomites Ultra",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/dBdivAQItU0",
+   "data": "2026-11-22",
+   "immagine": "https://i1.ytimg.com/vi/dBdivAQItU0/hqdefault.jpg",
    "argomenti": [],
    "distanze": [],
    "fasi": []
@@ -14898,27 +15075,6 @@
    "fasi": [
     "si_parte",
     "costruzione"
-   ]
-  },
-  {
-   "id": "3ab5acd54f75",
-   "tipo": "video",
-   "fonte": "Personal Running Coach",
-   "fonteId": "yt_personalrunningcoach",
-   "titolo": "La rotazione di tre scarpe rimane la scelta più intelligente.",
-   "estratto": "La rotazione di tre scarpe rimane la scelta più intelligente. Ma oggi esistono scarpe capaci di fare tutto, dai lenti alle ripetute. La…",
-   "link": "https://www.youtube.com/shorts/CESiJbT4duc",
-   "data": "2026-09-23",
-   "immagine": "https://i4.ytimg.com/vi/CESiJbT4duc/hqdefault.jpg",
-   "argomenti": [
-    "scarpe",
-    "allenamento"
-   ],
-   "distanze": [],
-   "fasi": [
-    "si_parte",
-    "costruzione",
-    "picco"
    ]
   }
  ]
