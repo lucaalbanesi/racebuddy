@@ -1,6 +1,20 @@
 {
- "aggiornato": "2026-11-23T04:50Z",
+ "aggiornato": "2026-11-24T15:50Z",
  "novita": [
+  {
+   "id": "n99dc28a3d75",
+   "gara": "H88b48310e5-42",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Presentata la 42^ Estra Firenze Marathon di domenica 29 novembre",
+   "link": "https://www.firenzemarathon.it/presentata-la-42-estra-firenze-marathon-di-domenica-29-novembre/",
+   "data": "2026-11-24",
+   "fonte": "Sito ufficiale",
+   "ufficiale": true,
+   "tipo": "articolo",
+   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/11/4P1A9606.jpeg",
+   "trovato": "2026-11-24T15:50Z"
+  },
   {
    "id": "nd8153b5f483",
    "gara": "E-valencia-42-2026",
@@ -798,20 +812,6 @@
    "tipo": "video",
    "immagine": "https://i4.ytimg.com/vi/7LkrcHbVCdE/hqdefault.jpg",
    "trovato": "2026-11-22T04:50Z"
-  },
-  {
-   "id": "ne5120bef76a",
-   "gara": "H88b48310e5-42",
-   "tema": "altro",
-   "urgenza": "app",
-   "titolo": "86^ CONAD Notturna di San Giovanni: SOLD OUT",
-   "link": "https://www.firenzemarathon.it/86-conad-notturna-di-san-giovanni-sold-out/",
-   "data": "2026-06-10",
-   "fonte": "Sito ufficiale",
-   "ufficiale": true,
-   "tipo": "articolo",
-   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/06/SOLD-OUT-NOTTURNA.png",
-   "trovato": "2026-11-19T19:50Z"
   },
   {
    "id": "n72070ce601a",
