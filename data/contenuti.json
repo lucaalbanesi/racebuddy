@@ -2,6 +2,326 @@
  "aggiornato": "2026-11-24",
  "contenuti": [
   {
+   "id": "0bf1eba6a32d",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Tapis roulant o corsa all’aperto: sono davvero equivalenti?",
+   "estratto": "TAPIS ROULANT O CORSA ALL’APERTO: SI ALLENA DAVVERO ALLO STESSO MODO? Una meta-analisi di 33 studi chiarisce quali aspetti della meccanica di corsa sono simili e quali cambiano…",
+   "link": "https://podisti.net/tapis-roulant-o-corsa-allaperto-sono-davvero-equivalenti/",
+   "data": "2026-11-24",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Tapis-roulant-o-corsa-allaperto_.png",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "0e79ad6bdfeb",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Smog, allenamento all'aperto e come ridurre i rischi",
+   "estratto": "L'inquinamento dell'aria delle nostre città riguarda da vicino i runner e il dubbio è spontaneo: è giusto correre nei giorni di smog elevato?",
+   "link": "https://www.runnersworld.com/it/salute/a6943/corsa-inquinamento-aria-emergenza-smog/",
+   "data": "2026-11-24",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/843acac1-7350-4eee-85b4-0fa2a286ca40.jpeg",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "20ba458a28e4",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Quattro ori olimpici nello sci di fondo e una mezza in 1h07’: Cologna sorprende a Milano",
+   "estratto": "Quattro ori olimpici nello sci di fondo, poi maratone e una mezza in 1h07’46”: Dario Cologna non è l'unico sciatore di fondo che corre forte",
+   "link": "https://www.runnersworld.com/it/news/a74505922/dario-cologna-mezza-milano-2026/",
+   "data": "2026-11-24",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/de330aa0-2530-41d0-9d47-8de846afa9df.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "3f5dc3379024",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Quanto tempo dovresti aspettare prima di correre una gara dopo una mezza maratona?",
+   "estratto": "Gli esperti condividono quanto tempo dovresti aspettare prima di tornare sulla linea di partenza",
+   "link": "https://www.runnersworld.com/it/allenamento/mezza-maratona/a74515507/quanto-tempo-aspettare-dopo-mezza-maratona/",
+   "data": "2026-11-24",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/01327fce-dfa8-4790-942f-e358cb9f7f18.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": [
+    "gara"
+   ]
+  },
+  {
+   "id": "69ebc91c6e94",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Pioggia, pozzanghere e sorrisi: la Milano Half Marathon in 15 foto",
+   "estratto": "La pioggia non ha fermato i 20mila runner della Milano Half Marathon. Francesco Bengasi racconta la gara tra pozzanghere, sampietrini e colori d’autunno",
+   "link": "https://www.runnersworld.com/it/news/a74505594/milano-half-marathon-2026-foto/",
+   "data": "2026-11-24",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/859401d0-6583-4796-a2a4-2225941802c4.jpg",
+   "argomenti": [
+    "gara",
+    "abbigliamento"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "dd81d339dee6",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Mind Adapts: Running Through History's Silent Valleys",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/HnCGiJHnolQ",
+   "data": "2026-11-24",
+   "immagine": "https://i1.ytimg.com/vi/HnCGiJHnolQ/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "99ac07680a37",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "L’uomo sconfigge il robot alla Milano Half Marathon",
+   "estratto": "Honor D1 Flash è il suo nome ed era stato presentato in pompa magna alla vigilia della XI^ Milano Half Marathon. Nel ruolo di assoluto favorito, visto il crono ottenuto sulla…",
+   "link": "https://podisti.net/luomo-sconfigge-il-robot-alla-milano-half-marathon/",
+   "data": "2026-11-24",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Rampa-del-Giovanni-Foto-Organizzazione-5-Mulini-2026.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": [
+    "scarico"
+   ]
+  },
+  {
+   "id": "2a3cbee49bab",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "L’allenamento 3-2-1 per correre in progressione: come farlo per mezza, 10 km e maratona",
+   "estratto": "Un allenamento in progressione per imparare a correre più forte nel finale: ecco come fare il 3-2-1 e come adattarlo alla mezza maratona, alle gare brevi e alla maratona",
+   "link": "https://www.runnersworld.com/it/allenamento/a74503784/allenamento-3-2-1-mezza-10-km-maratona/",
+   "data": "2026-11-24",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/c22a7527-5ab2-4cda-a4bb-8d08a97c620b.jpeg",
+   "argomenti": [
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [
+    "42",
+    "21",
+    "10"
+   ],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "92c2c9d01943",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "La febbre di GTA 6 colpisce anche la corsa, un giocatore completa un Ironman",
+   "estratto": "L’autore di questa impresa virtuale si sta davvero allenando per partecipare a uno vero Ironman",
+   "link": "https://www.runnersworld.com/it/news/a74507879/gta-6-ironman/",
+   "data": "2026-11-24",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/63e7f2ed-f817-4241-a14d-b6bddab3d090.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "4ace8492de80",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "La corsa in zona 2, un mese per imparare a correre piano",
+   "estratto": "Come riconoscere l’intensità a cui si parla senza fiato corto, e quattro settimane di uscite per abituarsi a starci dentro. Il test del parlato per trovare la zona 2 senza…",
+   "link": "https://runlovers.it/2026/corsa-zona-2-programma-mese/",
+   "data": "2026-11-24",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/corsa-zone-2-slow-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "58d178eda136",
+   "tipo": "articolo",
+   "fonte": "Garmin Blog Italia",
+   "fonteId": "garmin_blog",
+   "titolo": "Il Laboratorio al Polso: Running Economy e Running Tolerance su Forerunner 970",
+   "estratto": "Il Forerunner® 201 arrivò sui polsi dei runner nel 2003 e fu uno dei primi orologi GPS da corsa pensati per gli amatori: registrava distanza, passo e passo medio. Oltre vent’anni…",
+   "link": "https://www.garmin.com/it-IT/blog/running/running-economy-running-tolerance/",
+   "data": "2026-11-24",
+   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/11/guida-running-tollerance-economy-garmin.jpg",
+   "argomenti": [
+    "alimentazione",
+    "allenamento",
+    "gara",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
+   "id": "596c43c53f52",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "Donne runner: 7 su 10 vittime di molestie. Nasce l’app ChangeToRun",
+   "estratto": "Domani è il 25 novembre , Giornata Internazionale per l’eliminazione della violenza sulle donne . Cronaca e servizi giornalistici ci mettono ogni giorno davanti a una verità…",
+   "link": "https://correre.it/app-changetorun/",
+   "data": "2026-11-24",
+   "immagine": "https://correre.it/wp-content/uploads/2026/11/Change_to_Run.jpg",
+   "argomenti": [
+    "tecnologia"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "979bbb354572",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Dal caso Sinner a chi corre: cause, rimedi e prevenzione della bandelletta infiammata",
+   "estratto": "Dal caso di Jannik Sinner a quello dei runner: cause, diagnosi e trattamenti della sindrome della bandelletta ileo-tibiale, un disturbo che provoca dolore all’esterno del ginocchio",
+   "link": "https://www.runnersworld.com/it/salute/infortuni/a74518659/sindrome-bandelletta-sinner-infortunio/",
+   "data": "2026-11-24",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/7b51d139-f6dc-4e74-b087-27d44400314a.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "41f8f8e7434a",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Correre in strada e in città in sicurezza: le regole stradali che ogni runner deve conoscere",
+   "estratto": "Su quale lato della strada devi stare quando corri? Questa è solo una delle tante regole sul traffico che i runner devono conoscere",
+   "link": "https://www.runnersworld.com/it/news/a63039076/regole-stradali-corsa/",
+   "data": "2026-11-24",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/11b6a410-6868-4e50-bd04-3e63449b7e62.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "4987a3d862b0",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Come frenare la perdita di muscolo dopo i quarant’anni",
+   "estratto": "Dopo i quarant’anni il muscolo preleva dal tuo conto in automatico: due sedute di forza a settimana rimettono i versamenti in attivo. La bassa forza muscolare è il segnale…",
+   "link": "https://runlovers.it/2026/sarcopenia-perdita-muscolo-dopo-quarant-anni/",
+   "data": "2026-11-24",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/02-202611241235-Perdita-muscolo-W-Depositphotos-AndrewLozovyi-.jpg?fit=1920%2C1282&quality=75&ssl=1",
+   "argomenti": [
+    "alimentazione",
+    "allenamento",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico"
+   ]
+  },
+  {
+   "id": "447f39f4a4a3",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "24 ore prima della maratona: cosa fare e cosa evitare",
+   "estratto": "Mantenere le proprie abitudini, riposare e non improvvisare: i consigli di coach Andrea Giocondi per affrontare il giorno prima della gara e arrivare alla partenza senza ansia",
+   "link": "https://www.runnersworld.com/it/allenamento/maratona/a74518022/giorno-prima-maratona-cosa-fare-cosa-evitare/",
+   "data": "2026-11-24",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/f9f74454-07a9-43fa-b689-2b1a95b683a9.jpg",
+   "argomenti": [
+    "gara",
+    "mente"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "6d096f6e26ff",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "100 km a 3'57\" al km: la gara e la preparazione - PODCAST",
+   "estratto": "In questa puntata io e Daniele abbiamo ospitato Dario Ferrante, che il 20 settembre ad Ames, in Spagna, ha chiuso il Mondiale della 100 km…",
+   "link": "https://www.youtube.com/watch?v=H_RHPRZrrbg",
+   "data": "2026-11-24",
+   "immagine": "https://i1.ytimg.com/vi/H_RHPRZrrbg/hqdefault.jpg",
+   "argomenti": [
+    "rifornimento",
+    "scarpe",
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
    "id": "ff7a24d4b766",
    "tipo": "articolo",
    "fonte": "Runlovers",
