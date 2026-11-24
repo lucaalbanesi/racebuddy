@@ -166,8 +166,10 @@ async function main() {
   await servizio("invii", "Invii push di oggi", async () => {
     const r = await sb(`invii?select=tipo,n&giorno=eq.${giornoRoma(adesso)}`);
     if (!r.ok) return { stato: "attenzione", dettaglio: "Conteggi non leggibili" };
-    const l = await r.json(), falliti = l.filter((x) => x.tipo === "falliti").reduce((t, x) => t + x.n, 0), inviati = l.filter((x) => !["falliti", "scadute"].includes(x.tipo)).reduce((t, x) => t + x.n, 0);
-    return falliti ? { stato: "attenzione", dettaglio: `${falliti} ${falliti === 1 ? "invio fallito" : "invii falliti"}, ${inviati} ${inviati === 1 ? "inviata" : "inviate"}` } : { stato: "ok", dettaglio: `${inviati} ${inviati === 1 ? "inviata" : "inviate"}, nessun errore` };
+    const somma = (f) => l.filter(f).reduce((t, x) => t + x.n, 0);
+    const l = await r.json(), falliti = somma((x) => x.tipo === "falliti"), senzaMeteo = somma((x) => x.tipo === "senza_meteo"), inviati = somma((x) => !["falliti", "scadute", "senza_meteo"].includes(x.tipo));
+    const problemi = [falliti ? `${falliti} ${falliti === 1 ? "invio fallito" : "invii falliti"}` : "", senzaMeteo ? `${senzaMeteo} ${senzaMeteo === 1 ? "vestizione saltata" : "vestizioni saltate"} senza meteo` : ""].filter(Boolean);
+    return problemi.length ? { stato: "attenzione", dettaglio: `${problemi.join(", ")}, ${inviati} ${inviati === 1 ? "inviata" : "inviate"}` } : { stato: "ok", dettaglio: `${inviati} ${inviati === 1 ? "inviata" : "inviate"}, nessun errore` };
   });
   await servizio("consegna", "Consegna delle notifiche", async () => {
     const r = await sb("push_iscrizioni?select=endpoint,senza_ricevuta,prima_senza,ricevuta&senza_ricevuta=gte.1");

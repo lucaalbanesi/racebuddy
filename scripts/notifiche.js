@@ -204,13 +204,18 @@ function pianifica(ctx) {
   if (vestOn && momento.tipo === "sera" && inFinestraVestizione(dati.ora, ora)) {
     const domani = L.addDays(oggi, 1), v = vestDi(ctx.corsaDomani);
     // la vigilia di una gara non parte: domattina si corre la gara (e la vigilia alle 19 ha già il meteo al via)
-    if (!v || gare.some((g) => g.data === domani) || (stato.vestSera && stato.vestSera.data === domani)) return { invio: null, stato };
+    // motivo del salto: finisce nel riepilogo del giro (solo totali), così una sera senza push si spiega dai log
+    if (stato.vestSera && stato.vestSera.data === domani) return { invio: null, stato, motivo: "gia" };
+    if (gare.some((g) => g.data === domani)) return { invio: null, stato, motivo: "gara" };
+    if (!v) return { invio: null, stato, motivo: "meteo" };
     stato.vestSera = { data: domani, fascia: v.fascia.indice, avvisi: v.correttivi.filter((c) => c.avviso).map((c) => c.id) };
     return { invio: { title: `${iconaVest(v)} Domattina alle ${oraU} · ${gradi(v)}`, body: v.push, url: urlMeteo(domani, dati.ora), tag: `vestizione-${domani}` }, stato };
   }
   if (vestOn && momento.tipo === "prima" && inFinestraVestizione(dati.ora, ora)) {
     const v = vestDi(ctx.corsaOggi);
-    if (!v || garaOggi || stato.vestizione === oggi) return { invio: null, stato };
+    if (stato.vestizione === oggi) return { invio: null, stato, motivo: "gia" };
+    if (garaOggi) return { invio: null, stato, motivo: "gara" };
+    if (!v) return { invio: null, stato, motivo: "meteo" };
     stato.vestizione = oggi;
     return { invio: { title: `${iconaVest(v)} Corsa delle ${oraU} · ${gradi(v)}`, body: v.push, url: urlMeteo(oggi, dati.ora), tag: `vestizione-${oggi}` }, stato };
   }

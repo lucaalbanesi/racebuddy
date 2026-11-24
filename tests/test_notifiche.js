@@ -247,6 +247,12 @@ assert.strictEqual(r.invio, null);
   const sera = r.stato;
   assert.strictEqual(N.pianifica(conV("06:30", { oggi: "2026-11-12", ora: 20.5, stato: sera })).invio, null); // una volta
   assert.strictEqual(N.pianifica(conV("06:30", { oggi: "2026-11-12", ora: 21, stato: sera })).invio, null); // il recupero non la ripete
+  // motivo del salto (riepilogo del giro): già inviata, meteo mancante
+  assert.strictEqual(N.pianifica(conV("06:30", { oggi: "2026-11-12", ora: 21, stato: sera })).motivo, "gia");
+  const senza = N.pianifica(conV("06:30", { oggi: "2026-11-12", ora: 20.5, corsaDomani: null }));
+  assert.strictEqual(senza.invio, null); assert.strictEqual(senza.motivo, "meteo");
+  // senza meteo lo stato non segna l'invio: il giro dopo (recupero) può ancora mandarla
+  assert.ok(N.pianifica(conV("06:30", { oggi: "2026-11-12", ora: 21, stato: senza.stato })).invio);
   // giro delle 20:30 saltato (16/11/2026): parte al giro dopo, fino alle 21:30, poi più
   r = N.pianifica(conV("06:30", { oggi: "2026-11-12", ora: 21 }));
   assert.ok(r.invio && r.invio.title.startsWith("👕 Domattina alle 6:30"), r.invio);

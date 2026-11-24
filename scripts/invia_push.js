@@ -39,9 +39,21 @@ async function serieMeteo(luogo) {
     ({ latitude: lat, longitude: lon } = g.results[0]);
   } else return null;
   const k = `${lat.toFixed(2)},${lon.toFixed(2)}`;
-  if (!cacheMeteo[k]) cacheMeteo[k] = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=${ORARI}&timezone=auto&forecast_days=9&past_days=1`).then((r) => r.json());
+  if (!cacheMeteo[k]) {
+    // un secondo tentativo dopo una pausa; una risposta senza previsioni non si tiene in memoria (il prossimo iscritto riprova)
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=${ORARI}&timezone=auto&forecast_days=9&past_days=1`;
+    let j = null, errore = "";
+    for (let t = 0; t < 2 && !(j && j.hourly); t++) {
+      if (t) await new Promise((ok) => setTimeout(ok, 3000));
+      j = await fetch(url).then(async (r) => (r.ok ? r.json() : { errore: `HTTP ${r.status} ${(await r.text()).slice(0, 120)}` })).catch((e) => ({ errore: String(e.message || e) }));
+      if (!(j && j.hourly)) errore = (j && (j.errore || j.reason)) || "risposta senza previsioni";
+    }
+    if (!(j && j.hourly)) { meteoFalliti++; console.error("Meteo non disponibile", errore); return null; }
+    cacheMeteo[k] = j;
+  }
   return cacheMeteo[k].hourly || null;
 }
+let meteoFalliti = 0;
 async function meteo(luogo, ora, giorno = OGGI) {
   const h = await serieMeteo(luogo);
   const i = h ? h.time.indexOf(`${giorno}T${String(ora).padStart(2, "0")}:00`) : -1;
@@ -77,6 +89,7 @@ async function main() {
     else console.error("Esiti delle classifiche non letti", re ? re.status : "");
   }
   let inviati = 0, scaduti = 0, valutati = 0, falliti = 0;
+  const saltati = {}; // perché una push in programma non è partita (meteo, gara, gia): solo totali
   const perTipo = {}; // totali per la pagina delle statistiche (nessun dato dell'utente)
   const tipoInvio = (tag) => (String(tag).match(/^(mattino|meteo|novita|vigilia|gara|dopo|fase|esito|vestizione)-/) || [, "altro"])[1];
   for (const it of iscritti) {
@@ -116,6 +129,7 @@ async function main() {
         let esito = N.pianifica({ oggi: OGGI, ora: ORA, dati: d, stato, fasi, percorso, schede, novita, contenuti, meteoUscita, vestiario, corsaOggi, corsaDomani, meteoGara: (g) => meteoGare[g.id] || null, esiti });
         if (PROVA && !esito.invio) esito = { invio: { title: "RaceBuddy · prova", body: "Le notifiche funzionano. Ti scrivo solo quando c'è qualcosa di nuovo: cambi di meteo, tappe del percorso, la tua gara.", url: "./#/oggi", tag: "prova" }, stato };
         stato = esito.stato;
+        if (esito.motivo) saltati[esito.motivo] = (saltati[esito.motivo] || 0) + 1;
         if (esito.invio) await invia(esito.invio);
       }
       // una notifica per giro: l'urgente, se il messaggio del mattino è appena partito, aspetta l'ora dopo
@@ -134,16 +148,19 @@ async function main() {
   }
   if (scaduti) perTipo.scadute = scaduti;
   if (falliti && !PROVA) perTipo.falliti = falliti; // letti dal controllo salute (scripts/salute.js)
+  if (saltati.meteo && !PROVA) perTipo.senza_meteo = saltati.meteo; // vestizione saltata per meteo mancante: anche questo lo legge il controllo salute
   if (Object.keys(perTipo).length) {
     const c = await sb("rpc/conta_invii", { method: "POST", body: JSON.stringify({ p: perTipo }) }).catch(() => null);
     if (!c || !c.ok) console.log("Statistiche degli invii non salvate (funzione conta_invii non ancora sul database?)");
   }
-  const tipi = Object.entries(perTipo).filter(([k]) => k !== "scadute" && k !== "falliti").map(([k, n]) => `${k} ${n}`).join(", ");
-  const riepilogo = `${OGGI} ore ${ORA}${PROVA ? " (prova)" : ""}: iscritti ${iscritti.length}, valutati ${valutati}, inviati ${inviati}${tipi ? ` (${tipi})` : ""}, falliti ${falliti}, iscrizioni scadute rimosse ${scaduti}`;
+  const tipi = Object.entries(perTipo).filter(([k]) => !["scadute", "falliti", "senza_meteo"].includes(k)).map(([k, n]) => `${k} ${n}`).join(", ");
+  const NOMI_SALTO = { meteo: "senza meteo", gara: "gara", gia: "già inviata" };
+  const salti = Object.entries(saltati).map(([k, n]) => `${NOMI_SALTO[k] || k} ${n}`).join(", ");
+  const riepilogo = `${OGGI} ore ${ORA}${PROVA ? " (prova)" : ""}: iscritti ${iscritti.length}, valutati ${valutati}, inviati ${inviati}${tipi ? ` (${tipi})` : ""}${salti ? `, vestizione saltata (${salti})` : ""}, falliti ${falliti}, iscrizioni scadute rimosse ${scaduti}${meteoFalliti ? `, meteo non disponibile ${meteoFalliti}` : ""}`;
   console.log(riepilogo);
   // Evidenza degli invii: annotazione del giro (leggibile dall'API di GitHub) e riepilogo nella pagina del giro. Solo totali.
   if (process.env.GITHUB_ACTIONS) {
-    console.log(`::${falliti ? "warning" : "notice"} title=Invii notifiche::${riepilogo}`);
+    console.log(`::${falliti || saltati.meteo ? "warning" : "notice"} title=Invii notifiche::${riepilogo}`);
     if (process.env.GITHUB_STEP_SUMMARY) require("fs").appendFileSync(process.env.GITHUB_STEP_SUMMARY, `### Notifiche push\n${riepilogo}\n`);
   }
 }

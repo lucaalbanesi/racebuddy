@@ -3489,7 +3489,7 @@
     const primo = Object.keys(att).sort()[0] || oggiS, conDati = valori.filter((_, i) => giorni[i] >= primo); // si conta dal primo giorno del contatore
     const media = conDati.length ? Math.round(conDati.reduce((a, b) => a + b, 0) / conDati.length) : 0;
     const chip = (n) => `<button class="chip" data-act="stat-periodo" data-n="${n}" aria-pressed="${statPeriodo === n}" style="height:30px;font-size:13px">${n} g</button>`;
-    const invii = Object.entries(d.invii7 || {}).filter(([k]) => k !== "scadute").sort((a, b) => b[1] - a[1]);
+    const invii = Object.entries(d.invii7 || {}).filter(([k]) => k !== "scadute" && k !== "senza_meteo").sort((a, b) => b[1] - a[1]);
     const maxInv = Math.max(0, ...invii.map(([, n]) => n)), totInv = invii.reduce((a, [, n]) => a + n, 0);
     const interr = Object.entries(INTERR_LABEL).map(([k, l]) => [l, (d.interruttori || {})[k] || 0, d.iscritti]).sort((a, b) => b[1] - a[1]);
     const kpi = (t, n, sotto, scuro) => `<div class="stat-kpi ${scuro ? "dark" : ""}"><span class="eyebrow">${t}</span><b>${esc(n)}</b><span class="small">${sotto}</span></div>`;
@@ -3505,7 +3505,8 @@
         <details><summary class="small">Vedi come tabella</summary><div class="stat-tab">${giorni.slice().reverse().map((g) => `<span>${esc(L.fmtGiorno(g))}</span><b>${att[g] || 0}</b>`).join("")}</div></details></section>
       <section class="card"><div class="between"><h2>Notifiche inviate · 7 giorni</h2><b style="font:700 22px var(--display)">${totInv}</b></div>
         ${invii.length ? barreOrizz(invii.map(([k, n]) => [INVIO_LABEL[k] || k, n, maxInv]), (n) => n) : `<span class="small">Nessuna notifica negli ultimi 7 giorni.</span>`}
-        ${(d.invii7 || {}).scadute ? `<span class="small muted">${d.invii7.scadute} iscrizioni scadute rimosse (telefono cambiato o notifiche tolte).</span>` : ""}</section>
+        ${(d.invii7 || {}).scadute ? `<span class="small muted">${d.invii7.scadute} iscrizioni scadute rimosse (telefono cambiato o notifiche tolte).</span>` : ""}
+        ${(d.invii7 || {}).senza_meteo ? `<span class="small muted">${d.invii7.senza_meteo} vestizioni non inviate perché mancava il meteo.</span>` : ""}</section>
       <section class="card"><h2>Interruttori accesi · su ${esc(d.iscritti)}</h2>${d.iscritti ? barreOrizz(interr, (n) => `${Math.round((n / d.iscritti) * 100)}%`) : `<span class="small">Nessuno ha ancora attivato le notifiche.</span>`}</section>
       <section class="card" style="gap:0"><div class="between" style="margin-bottom:4px"><h2>Gare più seguite</h2><span class="small muted">${esc(d.gare_totali)} gare in tutto</span></div>
         ${(d.gare || []).map((g) => `<div class="post"><span style="flex:1;min-width:0"><b>${esc(titoloGara(g.nome))}</b><br><span class="small muted">${esc(L.fmtGiorno(g.data))} · ${esc(L.etichettaDist(g) || "")}</span></span><b style="font:700 20px var(--display)">${esc(g.n)}</b></div>`).join("") || `<span class="small">Nessuna gara seguita.</span>`}
