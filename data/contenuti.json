@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-23",
+ "aggiornato": "2026-11-24",
  "contenuti": [
   {
    "id": "ff7a24d4b766",
@@ -24,6 +24,25 @@
     "scarico",
     "gara"
    ]
+  },
+  {
+   "id": "b0e6eef7e690",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Run & Fun: a San Severo vincono Michele Curreli e Barbara Travaglio",
+   "estratto": "E’ Michele Curreli il vincitore dell’ottava edizione della Run & Fun. A San Severo (FG) la prova podistica di 10 km ha visto arrivare al traguardo ben 295 corridori a cui vanno…",
+   "link": "https://podisti.net/run-fun-a-san-severo-vincono-michele-curreli-e-barbara-travaglio/",
+   "data": "2026-11-23",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Arrivo-vincitore.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "10"
+   ],
+   "fasi": []
   },
   {
    "id": "a12da8440f31",
@@ -171,6 +190,20 @@
    "fasi": []
   },
   {
+   "id": "dc825a30504a",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Cuffie a conduzione ossea: tutto quello che devi sapere e i modelli migliori",
+   "estratto": "Le cuffie a conduzione ossea consentono di ascoltare l'audio non attraverso i condotti uditivi esterni ma sfruttando le ossa del cranio , e questa è una guida al loro funzionamento",
+   "link": "https://www.runnersworld.com/it/equipment/tech/g43333440/cuffie-a-conduzione-ossea/",
+   "data": "2026-11-23",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/bone-conduction-headphones-royalty-free-image-1678960770.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
    "id": "f83bd3167bfa",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -205,6 +238,42 @@
     "costruzione",
     "dopo"
    ]
+  },
+  {
+   "id": "7b6beed72c0a",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Collo da smartphone, gli esercizi per riportare indietro la testa",
+   "estratto": "Cinque esercizi da dieci minuti, a casa o accanto alla scrivania, per riportare la testa sopra le spalle e riaprire il petto dopo una giornata chini sullo schermo. Cosa succede a…",
+   "link": "https://runlovers.it/2026/collo-smartphone-esercizi-postura/",
+   "data": "2026-11-23",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/collo-da-smartphone-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "forza",
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "e89dc445d8c9",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Body Protests, Mind Leads: Willpower Takes Over the Ultra",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/kwXpQj8deFY",
+   "data": "2026-11-23",
+   "immagine": "https://i4.ytimg.com/vi/kwXpQj8deFY/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
   },
   {
    "id": "b009f690cc47",
@@ -15261,26 +15330,6 @@
    "argomenti": [],
    "distanze": [],
    "fasi": []
-  },
-  {
-   "id": "815daca0ecf8",
-   "tipo": "video",
-   "fonte": "Personal Running Coach",
-   "fonteId": "yt_personalrunningcoach",
-   "titolo": "Ho cambiato la mia TECNICA - Ecco cosa è successo...",
-   "estratto": "A giugno ho fatto delle riprese con il drone, mi sono visto correre e non mi è piaciuto per niente. Da lì ho iniziato a lavorare sulla mia…",
-   "link": "https://www.youtube.com/watch?v=d4tJzRPZ-ik",
-   "data": "2026-09-24",
-   "immagine": "https://i1.ytimg.com/vi/d4tJzRPZ-ik/hqdefault.jpg",
-   "argomenti": [
-    "allenamento",
-    "notizie"
-   ],
-   "distanze": [],
-   "fasi": [
-    "si_parte",
-    "costruzione"
-   ]
   }
  ]
 }
