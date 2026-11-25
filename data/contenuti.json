@@ -2,6 +2,218 @@
  "aggiornato": "2026-11-25",
  "contenuti": [
   {
+   "id": "68c4890927e9",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Vi è mai capitato di partire per una gara con lo stomaco già sottosopra?",
+   "estratto": "Vi è mai capitato di partire per una gara con lo stomaco già sottosopra? A Dario è successo al Mondiale, dopo una settimana a riso e pollo…",
+   "link": "https://www.youtube.com/shorts/3OT1n2TErqs",
+   "data": "2026-11-25",
+   "immagine": "https://i4.ytimg.com/vi/3OT1n2TErqs/hqdefault.jpg",
+   "argomenti": [
+    "rifornimento",
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico"
+   ]
+  },
+  {
+   "id": "33de498479ae",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Tuned Air: Nike cambia il modo di costruire l’ammortizzazione Air",
+   "estratto": "Con un inchiostro stampato dentro l’unità e una laminazione selettiva, Nike può dare all’Air forme e risposte diverse zona per zona, e costruirne i prototipi in giorni anziché in…",
+   "link": "https://runlovers.it/2026/nike-tuned-air-ammortizzazione-air-su-misura/",
+   "data": "2026-11-25",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/nike-tuned-air-02.jpg?resize=1160%2C773&quality=75&ssl=1",
+   "argomenti": [
+    "scarpe"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "1f090b952c59",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Le migliori scarpe da corsa del 2026. Lo Shoe Awards di Runner's World",
+   "estratto": "Nel corso dell'anno abbiamo recensito e provato decine di modelli di scarpe da corsa. Abbiamo selezionato i più interessanti per gli Shoe Awards 2026, il premio che Runner's World…",
+   "link": "https://www.runnersworld.com/it/scarpe/a74510213/migliori-scarpe-corsa-2026-shoe-awards-runners-world/",
+   "data": "2026-11-25",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/7da7474b-d995-4806-93f6-a3f83511507c.png",
+   "argomenti": [
+    "scarpe"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "53f4443c9775",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Le gare da correre nel weekend del 29 novembre",
+   "estratto": "Non solo le maratone di Firenze e Torino: il fine settimana in arrivo è quello delle mezze maratone con tanti appuntamenti sparsi per l'Italia",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74518805/gare-correre-weekend-29-novembre/",
+   "data": "2026-11-25",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/fab8f8ba-5190-4ed3-a8e5-dd9af709bc34.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "cafc280d1ec5",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Il diritto di correre: gesti concreti per la sicurezza delle runner",
+   "estratto": "Orari, percorsi e abbigliamento: troppe runner modificano le proprie abitudini per sentirsi al sicuro. Ma correre dovrebbe essere libertà. Cosa possiamo fare, tutti insieme",
+   "link": "https://www.runnersworld.com/it/news/a74518458/diritto-correre-sicurezza-runner-donne/",
+   "data": "2026-11-25",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/0972b860-40b9-414a-ac2f-6acf5040004d.jpg",
+   "argomenti": [
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "6d6736e584d1",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Gli sconti a tempo del Black Friday e la paura di perdere l’occasione",
+   "estratto": "Un conto alla rovescia fa scattare l’acquisto prima del pensiero: come leggere l’urgenza del Black Friday e tre gesti per decidere con calma. Il conto alla rovescia agisce come lo…",
+   "link": "https://runlovers.it/2026/black-friday-sconti-tempo-paura-perdere-occasione/",
+   "data": "2026-11-25",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/04-202611251235-Black-Friday-W-Unsplash-Rohit-Choudhari.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "gara",
+    "mente",
+    "tecnologia"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "1aa983ecd059",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Correre in sicurezza: la libertà delle runner riguarda tutti",
+   "estratto": "Consigli in positivo per le runner e indicazioni concrete per gli uomini: perché la sicurezza durante la corsa è una responsabilità condivisa",
+   "link": "https://www.runnersworld.com/it/salute/psicologia/a74527397/correre-sicurezza-liberta-runner/",
+   "data": "2026-11-25",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/15b96cd1-0f44-4120-bfb1-9d84bfa6bdce.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "0ab8c047f787",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Corre la mezza in 1h04'59\", ma arriva 207°",
+   "estratto": "Correre in 1h04’59” e arrivare 207°: le folli statistiche della mezza più veloce del mondo. Come leggere questi dati confrontati con le gare italiane e Valencia",
+   "link": "https://www.runnersworld.com/it/news/a74477541/mezza-maratona-ageo-city-tempi/",
+   "data": "2026-11-25",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/17a7c852-df65-4dc3-8dc1-8eee071290db.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "21"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "33d167571055",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Caso nel trail: si ferma a festeggiare prima del traguardo, ma il chip gli assegna la vittoria",
+   "estratto": "Episodio incredibile nel finale della 12 km del Patagonia Bariloche UTMB. Risultato confermato, ma organizzatori in imbarazzo",
+   "link": "https://www.runnersworld.com/it/news/a74519676/festeggia-troppo-presto-arrivo-utmb-argentina/",
+   "data": "2026-11-25",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/2ccd299b-e1c6-43b1-9f0f-53f601b0c2a6.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "e11042177836",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Black Friday sconti: tutte le promo dedicate ai runner",
+   "estratto": "Dai guanti traspiranti ai leggings da corsa, passando per gli smartwatch fitness, ecco una serie di articoli scontati per gli amanti del running",
+   "link": "https://www.runnersworld.com/it/equipment/abbigliamento/a62718577/black-friday-sconti-runner/",
+   "data": "2026-11-25",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/active-man-running-near-railing-on-terrace-at-royalty-free-image-1731337039.jpg",
+   "argomenti": [
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "c2a871922617",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Beyond the Finish Line: Where the Real Race Begins",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/t4i7AyH9eqI",
+   "data": "2026-11-25",
+   "immagine": "https://i1.ytimg.com/vi/t4i7AyH9eqI/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "57542b5e5062",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Antidoping, la nuova frontiera passerà anche dai droni?",
+   "estratto": "Una modalità più rapida e sicura per incastrare i \"bari\", potremmo vederla presto?",
+   "link": "https://www.runnersworld.com/it/news/a74527384/antidoping-droni/",
+   "data": "2026-11-25",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/b7dac240-2671-456e-936d-96ec0efcab44.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
    "id": "0bf1eba6a32d",
    "tipo": "articolo",
    "fonte": "Podisti.net",
@@ -265,7 +477,7 @@
    "fonte": "Correre",
    "fonteId": "correre",
    "titolo": "Donne runner: 7 su 10 vittime di molestie. Nasce l’app ChangeToRun",
-   "estratto": "Domani è il 25 novembre , Giornata Internazionale per l’eliminazione della violenza sulle donne . Cronaca e servizi giornalistici ci mettono ogni giorno davanti a una verità…",
+   "estratto": "Oggi è il 25 novembre , Giornata Internazionale per l’eliminazione della violenza sulle donne . Cronaca e servizi giornalistici ci mettono ogni giorno davanti a una verità cruda…",
    "link": "https://correre.it/app-changetorun/",
    "data": "2026-11-24",
    "immagine": "https://correre.it/wp-content/uploads/2026/11/Change_to_Run.jpg",
