@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-24",
+ "aggiornato": "2026-11-25",
  "contenuti": [
   {
    "id": "0bf1eba6a32d",
@@ -34,6 +34,24 @@
    "fasi": [
     "costruzione"
    ]
+  },
+  {
+   "id": "372a1dda4964",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Ragalna (CT) – Gran Trail dell’Etna, vincono Arrigoni e Hev’Yuk",
+   "estratto": "24 novembre – Una domenica memorabile quella del 22 novembre a Ragalna, nel parco dell’Etna, Catania. La competizione, che si estendeva per 42 km con un dislivello positivo di…",
+   "link": "https://podisti.net/ragalna-ct-gran-trail-delletna-vincono-arrigoni-e-hevyuk/",
+   "data": "2026-11-24",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/foto-di-Luca-Arrigoni.jpg",
+   "argomenti": [
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
   },
   {
    "id": "20ba458a28e4",
@@ -206,6 +224,42 @@
    ]
   },
   {
+   "id": "251ae1fe71db",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Ghiaccio nero, riconoscerlo sull’asfalto quando corri al mattino",
+   "estratto": "Sembra asfalto bagnato sotto i lampioni: dove si forma il ghiaccio nero al mattino e come adattare percorso e appoggio prima dell’alba. Il ghiaccio nero è una pellicola…",
+   "link": "https://runlovers.it/2026/ghiaccio-nero-asfalto-corsa-mattino/",
+   "data": "2026-11-24",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/03-202611241730-Ghiaccio-nero-T-Unsplash-Jens-Freudenau.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "56a9435e7062",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Firenze Marathon 2026: Expo, medaglia, Iris e tutto ciò che accompagna i runner",
+   "estratto": "Tutti gli eventi, i servizi e le iniziative che accompagneranno i runner durante il weekend della 42ª edizione della Maratona di Firenze",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74516004/firenze-marathon-2026-expo-medaglia-iris/",
+   "data": "2026-11-24",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/ea0eaf69-0965-44fe-a802-c9ae28599a2a.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
    "id": "596c43c53f52",
    "tipo": "articolo",
    "fonte": "Correre",
@@ -222,6 +276,20 @@
     "42",
     "21"
    ],
+   "fasi": []
+  },
+  {
+   "id": "2d6cfbbade4a",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Diadora Corsa, molto più di una daily trainer",
+   "estratto": "Diadora ha creato un nuovo modello che si posiziona fra le daily trainer più evolute e versatili in commercio con uno stile iconico.",
+   "link": "https://www.runnersworld.com/it/scarpe/scarpe-running/a74342938/diadora-corsa-scarpe-running-daily-trainer/",
+   "data": "2026-11-24",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/1bc769b7-c1d3-4b3e-8d5b-80633e37a684.png",
+   "argomenti": [],
+   "distanze": [],
    "fasi": []
   },
   {
@@ -275,6 +343,26 @@
    ]
   },
   {
+   "id": "6f047ae7d2c5",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "COROS Vertix 4: il nuovo orologio da spedizione",
+   "estratto": "Da oggi avventurieri come Amundsen, Erikson, Norgay e Nansen avrebbero avuto una strada decisamente più agevole verso i poli, le vette e le mete più remote grazie al nuovo COROS…",
+   "link": "https://correre.it/coros-vertix-4/",
+   "data": "2026-11-24",
+   "immagine": "https://correre.it/wp-content/uploads/2026/11/Coros_vertix_4.jpg",
+   "argomenti": [
+    "forza",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
    "id": "447f39f4a4a3",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -320,6 +408,20 @@
     "scarico",
     "gara"
    ]
+  },
+  {
+   "id": "f6a96593be45",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "100 km Solo Ultra: Why keep running? Only God knows!",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/uekXQWkRXNU",
+   "data": "2026-11-24",
+   "immagine": "https://i2.ytimg.com/vi/uekXQWkRXNU/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
   },
   {
    "id": "ff7a24d4b766",
@@ -15636,20 +15738,6 @@
     "si_parte",
     "costruzione"
    ]
-  },
-  {
-   "id": "5bce49166ce2",
-   "tipo": "video",
-   "fonte": "Personal Running Coach",
-   "fonteId": "yt_personalrunningcoach",
-   "titolo": "Quali aspetti della tecnica di corsa contano davvero per correre in modo più economico?",
-   "estratto": "Quali aspetti della tecnica di corsa contano davvero per correre in modo più economico? Una meta-analisi su 51 studi e oltre 1000 runner…",
-   "link": "https://www.youtube.com/shorts/g23hR0rviyk",
-   "data": "2026-09-25",
-   "immagine": "https://i4.ytimg.com/vi/g23hR0rviyk/hqdefault.jpg",
-   "argomenti": [],
-   "distanze": [],
-   "fasi": []
   }
  ]
 }
