@@ -1,6 +1,20 @@
 {
- "aggiornato": "2026-11-24T15:50Z",
+ "aggiornato": "2026-11-25T04:50Z",
  "novita": [
+  {
+   "id": "na394e121cfa",
+   "gara": "H88b48310e5-42",
+   "tema": "medaglia",
+   "urgenza": "subito",
+   "titolo": "Firenze Marathon 2026: Expo, medaglia, Iris e tutto ciò che accompagna i runner",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74516004/firenze-marathon-2026-expo-medaglia-iris/",
+   "data": "2026-11-24",
+   "fonte": "Runner's World Italia",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/ea0eaf69-0965-44fe-a802-c9ae28599a2a.jpg",
+   "trovato": "2026-11-25T04:50Z"
+  },
   {
    "id": "n99dc28a3d75",
    "gara": "H88b48310e5-42",
@@ -380,6 +394,34 @@
    "trovato": "2026-11-23T04:50Z"
   },
   {
+   "id": "nfaa31d43d1e",
+   "gara": "Mmwu9z3sn",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Il rigore più lungo del mondo in una valle della Patagonia",
+   "link": "https://www.lacorsadimiguel.it/il-rigore-piu-lungo-del-mondo-in-una-valle-della-patagonia/",
+   "data": "2026-10-06",
+   "fonte": "Sito ufficiale",
+   "ufficiale": true,
+   "tipo": "articolo",
+   "immagine": "https://www.lacorsadimiguel.it/miguel-newsite/wp-content/uploads/images.jpeg",
+   "trovato": "2026-11-25T04:50Z"
+  },
+  {
+   "id": "nf185ef085ef",
+   "gara": "Mmwu9z3sn",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "La pallavolo e quella sfida da quasi 100mila spettatori",
+   "link": "https://www.lacorsadimiguel.it/la-pallavolo-e-quella-sfida-da-quasi-100mila-spettatori/",
+   "data": "2026-10-06",
+   "fonte": "Sito ufficiale",
+   "ufficiale": true,
+   "tipo": "articolo",
+   "immagine": "https://www.lacorsadimiguel.it/miguel-newsite/wp-content/uploads/IMG_7600-scaled.jpg",
+   "trovato": "2026-11-25T04:50Z"
+  },
+  {
    "id": "nf03c7bb1049",
    "gara": "L12edf35333-10",
    "tema": "notizia",
@@ -420,6 +462,62 @@
    "tipo": "articolo",
    "immagine": "https://www.lacorsadimiguel.it/miguel-newsite/wp-content/uploads/shopping.jpg",
    "trovato": "2026-10-22T04:50Z"
+  },
+  {
+   "id": "n73e9e823847",
+   "gara": "Mmwu9z3sn",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Il capolavoro di Nelson Mandela con una palla ovale",
+   "link": "https://www.lacorsadimiguel.it/il-capolavoro-di-nelson-mandela-con-una-palla-ovale/",
+   "data": "2026-10-06",
+   "fonte": "Sito ufficiale",
+   "ufficiale": true,
+   "tipo": "articolo",
+   "immagine": "https://www.lacorsadimiguel.it/miguel-newsite/wp-content/uploads/61sltjoOofL._AC_UF8941000_QL80_.jpg",
+   "trovato": "2026-11-25T04:50Z"
+  },
+  {
+   "id": "n6cf7e32961e",
+   "gara": "Mmwu9z3sn",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Due “miracoli” sportivi in piena guerra fredda",
+   "link": "https://www.lacorsadimiguel.it/due-miracoli-sportivi-in-piena-guerra-fredda/",
+   "data": "2026-10-06",
+   "fonte": "Sito ufficiale",
+   "ufficiale": true,
+   "tipo": "articolo",
+   "immagine": "https://www.lacorsadimiguel.it/miguel-newsite/wp-content/uploads/CRAIPOS026000_zoom_IMAGE1_177385_large.jpg.webp",
+   "trovato": "2026-11-25T04:50Z"
+  },
+  {
+   "id": "n6be0099a94a",
+   "gara": "Mmwu9z3sn",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "L’ultimo rigore di Faruk",
+   "link": "https://www.lacorsadimiguel.it/lultimo-rigore-di-faruk/",
+   "data": "2026-10-06",
+   "fonte": "Sito ufficiale",
+   "ufficiale": true,
+   "tipo": "articolo",
+   "immagine": "https://www.lacorsadimiguel.it/miguel-newsite/wp-content/uploads/shopping.jpg",
+   "trovato": "2026-11-25T04:50Z"
+  },
+  {
+   "id": "n68067f0dcd8",
+   "gara": "Mmwu9z3sn",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Quando eravamo re: Ali il più grande",
+   "link": "https://www.lacorsadimiguel.it/cile-la-partita-fantasma-nello-stadio-della-morte/",
+   "data": "2026-10-06",
+   "fonte": "Sito ufficiale",
+   "ufficiale": true,
+   "tipo": "articolo",
+   "immagine": "https://www.lacorsadimiguel.it/miguel-newsite/wp-content/uploads/516VAGZMRBL._AC_UF8941000_QL80_.jpg",
+   "trovato": "2026-11-25T04:50Z"
   },
   {
    "id": "n5a2e622f0c6",
@@ -464,6 +562,20 @@
    "trovato": "2026-10-22T04:50Z"
   },
   {
+   "id": "n4a3c6ffc9c9",
+   "gara": "Mmwu9z3sn",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Andres Escobar: un autogol costato la vita",
+   "link": "https://www.lacorsadimiguel.it/andres-escobar-un-autogol-costato-la-vita/",
+   "data": "2026-10-06",
+   "fonte": "Sito ufficiale",
+   "ufficiale": true,
+   "tipo": "articolo",
+   "immagine": "https://www.lacorsadimiguel.it/miguel-newsite/wp-content/uploads/9791281626645_0_0_536_0_75.jpg",
+   "trovato": "2026-11-25T04:50Z"
+  },
+  {
    "id": "n4887da7cbcd",
    "gara": "L12edf35333-10",
    "tema": "notizia",
@@ -490,6 +602,20 @@
    "tipo": "articolo",
    "immagine": "https://www.lacorsadimiguel.it/miguel-newsite/wp-content/uploads/CRAIPOS026000_zoom_IMAGE1_177385_large.jpg.webp",
    "trovato": "2026-10-22T04:50Z"
+  },
+  {
+   "id": "n44a21effd14",
+   "gara": "Mmwu9z3sn",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "La mano de Dios di Maradona quattro anni dopo la guerra",
+   "link": "https://www.lacorsadimiguel.it/la-mano-de-dios-di-maradona-quattro-anni-dopo-la-guerra/",
+   "data": "2026-10-06",
+   "fonte": "Sito ufficiale",
+   "ufficiale": true,
+   "tipo": "articolo",
+   "immagine": "https://www.lacorsadimiguel.it/miguel-newsite/wp-content/uploads/The-Match-poster-70x100_ENGLISH_CMYK.jpg.webp",
+   "trovato": "2026-11-25T04:50Z"
   },
   {
    "id": "n3eec97e5e8e",
@@ -520,6 +646,48 @@
    "trovato": "2026-10-22T04:50Z"
   },
   {
+   "id": "n28d681b5bb3",
+   "gara": "Mmwu9z3sn",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "La guerra del football tra Honduras ed El Salvador",
+   "link": "https://www.lacorsadimiguel.it/la-guerra-del-football-tra-honduras-ed-el-salvador/",
+   "data": "2026-10-06",
+   "fonte": "Sito ufficiale",
+   "ufficiale": true,
+   "tipo": "articolo",
+   "immagine": "https://www.lacorsadimiguel.it/miguel-newsite/wp-content/uploads/91lED4g2exL._SY522_.jpg",
+   "trovato": "2026-11-25T04:50Z"
+  },
+  {
+   "id": "n1e669890c9b",
+   "gara": "Mmwu9z3sn",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "L’oro delle Coree, per una giorno di nuovo unite",
+   "link": "https://www.lacorsadimiguel.it/loro-delle-coree-per-una-giorno-di-nuovo-unite/",
+   "data": "2026-10-06",
+   "fonte": "Sito ufficiale",
+   "ufficiale": true,
+   "tipo": "articolo",
+   "immagine": "https://www.lacorsadimiguel.it/miguel-newsite/wp-content/uploads/IMG_7602-scaled.jpg",
+   "trovato": "2026-11-25T04:50Z"
+  },
+  {
+   "id": "n1e3cde281f9",
+   "gara": "Mmwu9z3sn",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Cile: la partita fantasma nello stadio della morte",
+   "link": "https://www.lacorsadimiguel.it/cile-la-partita-fantasma-nello-stadio-della-morte-2/",
+   "data": "2026-10-06",
+   "fonte": "Sito ufficiale",
+   "ufficiale": true,
+   "tipo": "articolo",
+   "immagine": "https://www.lacorsadimiguel.it/miguel-newsite/wp-content/uploads/gregorio_20scorsetti_20gara_20di_20ritorno_20cile_201973_2066thand2nd_960x960_crop_center.png.webp",
+   "trovato": "2026-11-25T04:50Z"
+  },
+  {
    "id": "n1c52313a855",
    "gara": "L12edf35333-10",
    "tema": "notizia",
@@ -532,6 +700,20 @@
    "tipo": "articolo",
    "immagine": "https://www.lacorsadimiguel.it/miguel-newsite/wp-content/uploads/The-Match-poster-70x100_ENGLISH_CMYK.jpg.webp",
    "trovato": "2026-10-22T04:50Z"
+  },
+  {
+   "id": "n0f51900d691",
+   "gara": "Mmwu9z3sn",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "La battaglia dei sessi",
+   "link": "https://www.lacorsadimiguel.it/la-battaglia-dei-sessi/",
+   "data": "2026-10-06",
+   "fonte": "Sito ufficiale",
+   "ufficiale": true,
+   "tipo": "articolo",
+   "immagine": "https://www.lacorsadimiguel.it/miguel-newsite/wp-content/uploads/81Q4TidiPxL.jpg",
+   "trovato": "2026-11-25T04:50Z"
   },
   {
    "id": "n0f259238749",
