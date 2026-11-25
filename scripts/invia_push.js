@@ -109,7 +109,7 @@ async function main() {
     const invia = async (msg) => {
       // i telefoni con l'app aggiornata confermano la ricezione: prima dell'invio +1, la ricevuta azzera
       if (d.ricevute && RICEVUTA) await sb("rpc/push_inviata", { method: "POST", body: JSON.stringify({ p_endpoint: it.endpoint }) }).catch(() => null);
-      try { await webpush.sendNotification(sub, JSON.stringify(RICEVUTA ? { ...msg, r: RICEVUTA } : msg), { TTL: 3 * 3600, urgency: "normal" }); inviati++; inviato = true; if (!PROVA) perTipo[tipoInvio(msg.tag)] = (perTipo[tipoInvio(msg.tag)] || 0) + 1; }
+      try { await webpush.sendNotification(sub, JSON.stringify(RICEVUTA ? { ...msg, r: RICEVUTA } : msg), N.opzioniInvio(msg.tag)); inviati++; inviato = true; if (!PROVA) perTipo[tipoInvio(msg.tag)] = (perTipo[tipoInvio(msg.tag)] || 0) + 1; }
       catch (e) {
         if (e.statusCode === 404 || e.statusCode === 410) { scaduta = true; scaduti++; await sb(`push_iscrizioni?endpoint=eq.${encodeURIComponent(it.endpoint)}`, { method: "DELETE" }); }
         else { falliti++; console.error("Invio fallito", e.statusCode || "", String(e.body || e.message || e).slice(0, 200)); }

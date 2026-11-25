@@ -22,6 +22,16 @@ assert.strictEqual(N.oraMattino("18:30"), 7);
 assert.strictEqual(N.oraGara({ partenza: "8:30" }), 6);
 assert.strictEqual(N.oraGara({ partenza: "9:30 da confermare" }), 7);
 
+// priorità di invio: alta per quello che ha un orario, normale per il resto
+assert.strictEqual(N.opzioniInvio("vestizione-2026-11-26").urgency, "high");
+assert.strictEqual(N.opzioniInvio("mattino-2026-11-26").urgency, "high");
+assert.strictEqual(N.opzioniInvio("vigilia-F-42").urgency, "high");
+assert.strictEqual(N.opzioniInvio("gara-F-42").urgency, "high");
+assert.strictEqual(N.opzioniInvio("novita-abc").urgency, "normal");
+assert.strictEqual(N.opzioniInvio("esito-12").urgency, "normal");
+assert.strictEqual(N.opzioniInvio("prova").urgency, "normal");
+assert.strictEqual(N.opzioniInvio(undefined).TTL, 3 * 3600);
+
 // giorno qualunque senza novità: nessuna notifica (niente countdown), ma il meteo diventa il riferimento
 let r = N.pianifica(base({ oggi: "2026-10-20" }));
 assert.strictEqual(r.invio, null);

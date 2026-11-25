@@ -382,4 +382,12 @@ function esitoTempi(ctx) {
     : { invio: { title: "Tempo non approvato", body: `Il referente non ha approvato il tempo che hai mandato per ${nome}. Puoi cercarlo nelle classifiche o rimandarlo.`, url: "./#/gruppo/mie", tag: `esito-${e.id}` }, stato };
 }
 
-module.exports = { pianifica, novitaUrgente, esitoTempi, oraMattino, oraGara, oraDopo, momentoVestizione, inFinestraVestizione, fascia, cambioMeteo };
+/** Opzioni di invio (novembre 2026): le notifiche legate a un orario partono con priorità alta, perché su Android a schermo
+ * spento (risparmio energetico) quelle a priorità normale vengono rimandate e possono scadere prima di comparire
+ * (caso della vestizione serale mai mostrata). Le altre restano normali, per non consumare batteria. */
+const URGENTI_ORARIO = /^(vestizione|mattino|meteo|vigilia|gara|dopo)-/;
+function opzioniInvio(tag) {
+  return { TTL: 3 * 3600, urgency: URGENTI_ORARIO.test(String(tag || "")) ? "high" : "normal" };
+}
+
+module.exports = { pianifica, novitaUrgente, esitoTempi, oraMattino, oraGara, oraDopo, momentoVestizione, inFinestraVestizione, fascia, cambioMeteo, opzioniInvio };
