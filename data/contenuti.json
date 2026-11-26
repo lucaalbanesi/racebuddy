@@ -2,6 +2,274 @@
  "aggiornato": "2026-11-26",
  "contenuti": [
   {
+   "id": "52c95a4b846f",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "È tra le europee più quotate alla Maratona di Valencia, ma non partirà con le big: il caso Johaug",
+   "estratto": "L'ex sciatrice di fondo sta correndo fortissimo e punta al record nazionale, ma correrà come una runner \"qualunque\"",
+   "link": "https://www.runnersworld.com/it/news/a74532310/johaug-maratona-valencia/",
+   "data": "2026-11-26",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/e514f0cb-9bf7-449e-a0b7-3afeeaf20640.jpeg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "1e959b438a7c",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Yeman Crippa: un runner come noi, solo più veloce",
+   "estratto": "Dalla vittoria alla Maratona di Parigi al secondo posto a New York: Yeman Crippa racconta la sua evoluzione sulla distanza, le lezioni delle sconfitte e gli obiettivi verso Los…",
+   "link": "https://www.runnersworld.com/it/vip/a74507341/yeman-crippa-intervista-runnersworld-show/",
+   "data": "2026-11-26",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/253ff4f2-f441-4ea3-a25a-f9b1eba25111.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "c8c6c9e69c2e",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Verso la Maratona di Firenze, l'ospitalità che parla la lingua dei runner",
+   "estratto": "Nel weekend della Firenze Marathon, l'Hotel Indigo Florence è una base strategica per vivere la gara, prima e dopo il traguardo, grazie anche alla passione per la corsa del suo…",
+   "link": "https://www.runnersworld.com/it/travel/a74537830/maratona-firenze-hotel-indigo-ospitalita-corsa-runner/",
+   "data": "2026-11-26",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/12e94e51-1e93-46e0-a217-cfb191da3b53.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "452a0f0a0b8f",
+   "tipo": "video",
+   "fonte": "Andrea Vignone",
+   "fonteId": "yt_crazyvigno",
+   "titolo": "UNBOXING MIBRO GS EXPLORER S! ⌚ RISPARMI 2000€ con GASGAS HEROES e si parte per il DESERTO!",
+   "estratto": "UNBOXING MIBRO GS EXPLORER S! ⌚ RISPARMI 2000€ con GASGAS HEROES e si parte per il DESERTO! Website：https://bit.ly/4eEbYvp…",
+   "link": "https://www.youtube.com/watch?v=x5gPr6tWUqU",
+   "data": "2026-11-26",
+   "immagine": "https://i1.ytimg.com/vi/x5gPr6tWUqU/hqdefault.jpg",
+   "argomenti": [
+    "allenamento",
+    "racconti"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "c8d034c94b51",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Respirazione nella corsa veloce: naso, bocca o entrambi?",
+   "estratto": "RESPIRAZIONE NELLA CORSA VELOCE: MEGLIO NASO, BOCCA O ENTRAMBI? La scelta della via respiratoria conta meno di quanto suggeriscano le regole assolute. Ecco cosa sappiamo davvero…",
+   "link": "https://podisti.net/respirazione-nella-corsa-veloce-naso-bocca-o-entrambi/",
+   "data": "2026-11-26",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Respirazione-nella-corsa-veloce.png",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "e8d461020bb3",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Maratona di primavera, l’allenamento di base da iniziare a dicembre",
+   "estratto": "Sei settimane, da lunedì 30 novembre a domenica 10 gennaio, per far crescere volume e lungo e arrivare all’inizio del programma specifico con le gambe già pronte. Per chi ha già…",
+   "link": "https://runlovers.it/2026/maratona-primavera-allenamento-base-dicembre/",
+   "data": "2026-11-26",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/maratona-primavera-dicembre-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [
+    "42",
+    "21"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
+   "id": "cc8c37911367",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Maratona di Valencia 2026: atleta non trova posto nella lista elite",
+   "estratto": "Fin qui nessuna sorpresa, del resto stiamo parlando di una maratona (si correrà il prossimo 6 dicembre) che ha visto le prime 10 donne correre sotto 2:24 nell’edizione 2025…",
+   "link": "https://podisti.net/maratona-di-valencia-2026-atleta-non-trova-posto-nella-lista-elite/",
+   "data": "2026-11-26",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Rohaug.jpg",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "2f8655310747",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "MEZZA di VERONA - Ultimo lungo prima di Firenze",
+   "estratto": "Otto mesi senza pettorale, l'ultima settimana di carico prima della Maratona di Firenze e la testa piena di dubbi dopo tanti lunghi andati…",
+   "link": "https://www.youtube.com/watch?v=EzAMU1tOptg",
+   "data": "2026-11-26",
+   "immagine": "https://i2.ytimg.com/vi/EzAMU1tOptg/hqdefault.jpg",
+   "argomenti": [
+    "rifornimento",
+    "scarpe",
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [
+    "42",
+    "21",
+    "10"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "6abd96b20780",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Le Icone del Running 2026: atleti e protagonisti della corsa premiati da Runner’s World",
+   "estratto": "Atleti, runner, volontari e personalità del mondo della corsa: Runner’s World celebra chi, con il proprio esempio, contribuisce ogni giorno a far crescere la community del running",
+   "link": "https://www.runnersworld.com/it/vip/g74505643/icone-del-running-2026-premi-runnersworld/",
+   "data": "2026-11-26",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/51da7424-60b5-4508-af76-203df9e394fa.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "da671d771ad3",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Da YouTube alla pista: IShowSpeed corre i 100 in 10”35 davanti a Usain Bolt",
+   "estratto": "Dopo le sfide contro Lyles e un... ghepardo, lo youtuber IShowSpeed ha corso i 100 davanti a Bolt e il risultato è stato notevole",
+   "link": "https://www.runnersworld.com/it/news/a74532931/ishowspeed-100-metri-bolt/",
+   "data": "2026-11-26",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/d877e74f-95d2-475d-85f2-790eca57b631.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "a9476c9d2bed",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Black Friday 2026, tutti gli sconti sulle gare di corsa",
+   "estratto": "Maratone, mezze, trail e gare su strada: le promozioni del Black Friday per iscriversi a prezzo scontato agli eventi tra fine 2026 e 2027",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74529184/black-friday-2026-sconti-gare-corsa-trail/",
+   "data": "2026-11-26",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/73ed9acf-b03f-4421-8534-ae4ad755ff56.jpeg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte"
+   ]
+  },
+  {
+   "id": "cde45239a023",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Asics Gel-Nimbus 29, il comfort si rinnova",
+   "estratto": "Asics presenta la nuova Gel Nimbus 29. Grazie a una nuova mescola, l'intersuola è più morbida e ammortizzata, mentre la tomaia è più accogliente. Una rivoluzione di comfort",
+   "link": "https://www.runnersworld.com/it/scarpe/scarpe-running/a74540697/asics-gel-nimbus-29-scarpe-corsa-running-comfort-si-rinnova/",
+   "data": "2026-11-26",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/29d7ce5e-0d78-4d9e-972a-679687d9b584.jpg",
+   "argomenti": [
+    "rifornimento",
+    "scarpe"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico"
+   ]
+  },
+  {
+   "id": "017f3bac0eb5",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Alone in the Dark: My Ultra Trail Journey - From Night to Dawn",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/yYh6cefSOyQ",
+   "data": "2026-11-26",
+   "immagine": "https://i2.ytimg.com/vi/yYh6cefSOyQ/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "e02fc11c2c4c",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "A Seoul la metropolitana tiene la borsa di chi va a correre",
+   "estratto": "A Seoul la metropolitana custodisce il tuo zaino da lavoro mentre corri lungo il fiume. A Seoul il Comune ha trasformato spazi inutilizzati della metropolitana in “Runner’s Base”…",
+   "link": "https://runlovers.it/2026/seoul-metropolitana-spogliatoi-runner/",
+   "data": "2026-11-26",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/05-202611261235-Seoul-Borsa-C-Unsplash-Moren-Hsu-1.jpg?fit=1920%2C1355&quality=75&ssl=1",
+   "argomenti": [
+    "scarpe",
+    "allenamento",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico"
+   ]
+  },
+  {
    "id": "68c4890927e9",
    "tipo": "video",
    "fonte": "Personal Running Coach",
@@ -360,7 +628,7 @@
    "estratto": "Quattro ori olimpici nello sci di fondo, poi maratone e una mezza in 1h07’46”: Dario Cologna non è l'unico sciatore di fondo che corre forte",
    "link": "https://www.runnersworld.com/it/news/a74505922/dario-cologna-mezza-milano-2026/",
    "data": "2026-11-24",
-   "immagine": "https://hips.hearstapps.com/hmg-prod/images/de330aa0-2530-41d0-9d47-8de846afa9df.jpeg",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/93359e66-6bd5-4df3-a999-6d1c087b9228.jpg",
    "argomenti": [
     "gara"
    ],
