@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-25",
+ "aggiornato": "2026-11-26",
  "contenuti": [
   {
    "id": "68c4890927e9",
@@ -42,6 +42,62 @@
     "si_parte",
     "costruzione",
     "picco"
+   ]
+  },
+  {
+   "id": "98787bd0088e",
+   "tipo": "articolo",
+   "fonte": "Correre",
+   "fonteId": "correre",
+   "titolo": "Stramilano SottoZero 2026: appuntamento a domenica 29 novembre",
+   "estratto": "Domenica 29 novembre CityLife si prepara ad accogliere la Stramilano SottoZero 2026 , l’appuntamento che porta anche in inverno la passione per la corsa e lo sport. La…",
+   "link": "https://correre.it/stramilano-sottozero-2026/",
+   "data": "2026-11-25",
+   "immagine": "https://correre.it/wp-content/uploads/2026/11/Stramilano_Sottozero_Percorso_2026.png",
+   "argomenti": [
+    "gara",
+    "notizie"
+   ],
+   "distanze": [
+    "10"
+   ],
+   "fasi": [
+    "si_parte",
+    "gara"
+   ]
+  },
+  {
+   "id": "ee86bdbf8fe1",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "No Finish Line: Battling the Wild Dolomites Alone",
+   "estratto": "",
+   "link": "https://www.youtube.com/shorts/yqR_mtdLzts",
+   "data": "2026-11-25",
+   "immagine": "https://i2.ytimg.com/vi/yqR_mtdLzts/hqdefault.jpg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "67083f968732",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "L’asciugamano sul pavimento è un attrezzo per allenare tutto il corpo",
+   "estratto": "Su un pavimento liscio un asciugamano piegato fa scivolare mani e piedi, e sei esercizi a corpo libero chiedono di colpo forza per spingere e controllo per frenare. Perché un…",
+   "link": "https://runlovers.it/2026/asciugamano-allenamento-corpo-intero-casa-wow/",
+   "data": "2026-11-25",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/esercizi-asciugamano-allenamento-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
    ]
   },
   {
@@ -122,6 +178,20 @@
    ]
   },
   {
+   "id": "793b5410b047",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Federica Brignone, l’epilogo di una carriera partita dall’atletica",
+   "estratto": "Prima delle vittorie sulla neve, c’erano la pista, i salti e i colori dell’Atletica Sandro Calvesi. Le origini di Federica Brignone e il cerchio che si chiude con il suo addio…",
+   "link": "https://www.runnersworld.com/it/news/a74531888/federica-brignone-ritiro/",
+   "data": "2026-11-25",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/cf81397c-6554-42ab-be59-60f479c61768.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
    "id": "1aa983ecd059",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -151,6 +221,22 @@
    "distanze": [
     "21"
    ],
+   "fasi": []
+  },
+  {
+   "id": "aa3ea4745527",
+   "tipo": "articolo",
+   "fonte": "Podisti.net",
+   "fonteId": "podistinet",
+   "titolo": "Chiacchierate col Fisioterapista (22) – Running economy: correre consumando meno",
+   "estratto": "Quando parliamo di prestazione nella corsa, siamo abituati a pensare soprattutto al VO2max, cioè alla massima quantità di ossigeno che il nostro organismo riesce a utilizzare…",
+   "link": "https://podisti.net/chiacchierate-col-fisioterapista-22-running-economy-correre-consumando-meno/",
+   "data": "2026-11-25",
+   "immagine": "https://podisti.net/wp-content/uploads/2025/09/Foto-Mattia-Plati-con-scritta.jpg",
+   "argomenti": [
+    "allenamento"
+   ],
+   "distanze": [],
    "fasi": []
   },
   {
@@ -934,7 +1020,7 @@
    "fonte": "ricsvlog",
    "fonteId": "yt_ricsvlog",
    "titolo": "Why Are You Still Running? He Just Keeps Moving",
-   "estratto": "",
+   "estratto": "Why are you still running? In this video, we explore the relentless pursuit and the psychological weight of a force that never stops…",
    "link": "https://www.youtube.com/shorts/uiycklO3irA",
    "data": "2026-11-22",
    "immagine": "https://i2.ytimg.com/vi/uiycklO3irA/hqdefault.jpg",
