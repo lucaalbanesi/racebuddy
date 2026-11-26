@@ -1,6 +1,48 @@
 {
- "aggiornato": "2026-11-25T10:50Z",
+ "aggiornato": "2026-11-26T15:50Z",
  "novita": [
+  {
+   "id": "neea81d3a927",
+   "gara": "E-valencia-42-2026",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "È tra le europee più quotate alla Maratona di Valencia, ma non partirà con le big: il caso Johaug",
+   "link": "https://www.runnersworld.com/it/news/a74532310/johaug-maratona-valencia/",
+   "data": "2026-11-26",
+   "fonte": "Runner's World Italia",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/e514f0cb-9bf7-449e-a0b7-3afeeaf20640.jpeg",
+   "trovato": "2026-11-26T15:50Z"
+  },
+  {
+   "id": "n3f3bae3cb68",
+   "gara": "E-valencia-42-2026",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Maratona di Valencia 2026: atleta non trova posto nella lista elite",
+   "link": "https://podisti.net/maratona-di-valencia-2026-atleta-non-trova-posto-nella-lista-elite/",
+   "data": "2026-11-26",
+   "fonte": "Podisti.net",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://podisti.net/wp-content/uploads/2026/11/Rohaug.jpg",
+   "trovato": "2026-11-26T15:50Z"
+  },
+  {
+   "id": "n02b835e1119",
+   "gara": "H88b48310e5-42",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Verso la Maratona di Firenze, l'ospitalità che parla la lingua dei runner",
+   "link": "https://www.runnersworld.com/it/travel/a74537830/maratona-firenze-hotel-indigo-ospitalita-corsa-runner/",
+   "data": "2026-11-26",
+   "fonte": "Runner's World Italia",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/12e94e51-1e93-46e0-a217-cfb191da3b53.jpg",
+   "trovato": "2026-11-26T15:50Z"
+  },
   {
    "id": "neffcdb852a7",
    "gara": "H90a44ed91b-10",
