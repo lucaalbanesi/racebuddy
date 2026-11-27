@@ -1,6 +1,20 @@
 {
- "aggiornato": "2026-11-27T08:50Z",
+ "aggiornato": "2026-11-27T11:50Z",
  "novita": [
+  {
+   "id": "nd86493e12e9",
+   "gara": "E-valencia-42-2026",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "El Maratón al Cole 2026",
+   "link": "https://www.youtube.com/watch?v=M6tSraANfy0",
+   "data": "2026-11-27",
+   "fonte": "YouTube della gara",
+   "ufficiale": true,
+   "tipo": "video",
+   "immagine": "https://i2.ytimg.com/vi/M6tSraANfy0/hqdefault.jpg",
+   "trovato": "2026-11-27T11:50Z"
+  },
   {
    "id": "n376ca9e96e3",
    "gara": "H88b48310e5-42",
