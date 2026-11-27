@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-26",
+ "aggiornato": "2026-11-27",
  "contenuti": [
   {
    "id": "52c95a4b846f",
@@ -57,6 +57,31 @@
    "fasi": []
   },
   {
+   "id": "7fa63ce15d06",
+   "tipo": "video",
+   "fonte": "Riccardo Bugari · Running Bug",
+   "fonteId": "yt_runningbug",
+   "titolo": "VALENCIA MARATHON, come mi sono allenato per correre SUB 2H40.",
+   "estratto": "ROAD TO VALENCIA – Il viaggio verso il SUB 2:40! Mancano due settimane alla maratona di Valencia e in questo video vi racconto come ho…",
+   "link": "https://www.youtube.com/watch?v=j3oSS6PDKNI",
+   "data": "2026-11-26",
+   "immagine": "https://i3.ytimg.com/vi/j3oSS6PDKNI/hqdefault.jpg",
+   "argomenti": [
+    "allenamento",
+    "gara",
+    "tecnologia",
+    "racconti"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "gara"
+   ]
+  },
+  {
    "id": "452a0f0a0b8f",
    "tipo": "video",
    "fonte": "Andrea Vignone",
@@ -90,6 +115,42 @@
    ],
    "distanze": [],
    "fasi": []
+  },
+  {
+   "id": "59c4165a4338",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Natalia Girotto e Mattia Terranova, runner tra comfort e performance",
+   "estratto": "I due ambassador ASICS, runner e professionisti della riabilitazione, raccontano il loro modo di vivere la corsa: ascoltare il corpo per trovare l'equilibrio tra comfort e…",
+   "link": "https://www.runnersworld.com/it/vip/a74535655/comfort-performance-natalia-girotto-mattia-terranova/",
+   "data": "2026-11-26",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/b40e20f8-2a2b-4a11-94c6-1c957aa603cb.png",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "a3a9c4e284cc",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Mental coaching per la maratona: 6 strategie per affrontare i 42K",
+   "estratto": "Strategie pratiche per gestire ansia, dubbi, fatica e motivazione prima e durante la maratona (soprattutto se è la prima)",
+   "link": "https://www.runnersworld.com/it/mental-coach/a74510384/mental-coaching-maratona-strategie-42k/",
+   "data": "2026-11-26",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/7f99e483-5010-4710-9548-a157ff055a3e.jpeg",
+   "argomenti": [
+    "gara",
+    "mente"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
   },
   {
    "id": "e8d461020bb3",
@@ -177,6 +238,31 @@
    "fasi": []
   },
   {
+   "id": "914d42b947da",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Il boulder indoor per allenare presa, spalle e concentrazione",
+   "estratto": "Ogni blocco in parete è un rompicapo verticale: cosa costruisce il boulder indoor per presa, spalle e testa, e come affrontare la prima sessione. Il boulder è arrampicata su…",
+   "link": "https://runlovers.it/2026/boulder-cross-training-presa-spalle/",
+   "data": "2026-11-26",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/06-202611261730-Boulder-T-Unsplash-Tofan-Teodor.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "scarpe",
+    "forza",
+    "mente",
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
    "id": "da671d771ad3",
    "tipo": "articolo",
    "fonte": "Runner's World Italia",
@@ -186,6 +272,46 @@
    "link": "https://www.runnersworld.com/it/news/a74532931/ishowspeed-100-metri-bolt/",
    "data": "2026-11-26",
    "immagine": "https://hips.hearstapps.com/hmg-prod/images/d877e74f-95d2-475d-85f2-790eca57b631.jpeg",
+   "argomenti": [],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "7c7e7e367fd1",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "Cosa mangio per preparare un ULTRA TRAIL? Alimentazione e integratori | UTMB Chiang Mai EP. 1",
+   "estratto": "#UltraTrail #TrailRunning #UTMBChiangMai Come si prepara il proprio corpo ad affrontare una gara ULTRA TRAIL? Cosa mangio durante una…",
+   "link": "https://www.youtube.com/watch?v=JP6t7Dk2Ogo",
+   "data": "2026-11-26",
+   "immagine": "https://i3.ytimg.com/vi/JP6t7Dk2Ogo/hqdefault.jpg",
+   "argomenti": [
+    "rifornimento",
+    "alimentazione",
+    "allenamento",
+    "recupero"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara",
+    "dopo"
+   ]
+  },
+  {
+   "id": "48e448000e1d",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Corsa e community: passione da condividere, anche a tavola",
+   "estratto": "L’impegno di Barilla nel mondo del running per sostenere in modo sano chi corre nel percorso verso i propri obiettivi sportivi",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a74527866/corsa-community-passione-tavola/",
+   "data": "2026-11-26",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/171bb059-1b32-4d44-bd69-73b538ca272b.png",
    "argomenti": [],
    "distanze": [],
    "fasi": []
@@ -238,13 +364,20 @@
    "fonte": "ricsvlog",
    "fonteId": "yt_ricsvlog",
    "titolo": "Alone in the Dark: My Ultra Trail Journey - From Night to Dawn",
-   "estratto": "",
+   "estratto": "Experience the intensity of an ultra trail race through the silence of the night and the hope of the dawn. In this video, I take you along…",
    "link": "https://www.youtube.com/shorts/yYh6cefSOyQ",
    "data": "2026-11-26",
    "immagine": "https://i2.ytimg.com/vi/yYh6cefSOyQ/hqdefault.jpg",
-   "argomenti": [],
-   "distanze": [],
-   "fasi": []
+   "argomenti": [
+    "mente"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
   },
   {
    "id": "e02fc11c2c4c",
@@ -16283,26 +16416,6 @@
     "costruzione",
     "picco",
     "dopo"
-   ]
-  },
-  {
-   "id": "7240d03a698b",
-   "tipo": "video",
-   "fonte": "Personal Running Coach",
-   "fonteId": "yt_personalrunningcoach",
-   "titolo": "Ma quando ha davvero senso inserire il potenziamento nei nostri programmi di corsa?!",
-   "estratto": "Ma quando ha davvero senso inserire il potenziamento nei nostri programmi di corsa?! Nell'ultimo video uscito sul canale Youtube parliamo…",
-   "link": "https://www.youtube.com/shorts/7cC9soyTZXc",
-   "data": "2026-09-27",
-   "immagine": "https://i4.ytimg.com/vi/7cC9soyTZXc/hqdefault.jpg",
-   "argomenti": [
-    "allenamento",
-    "forza"
-   ],
-   "distanze": [],
-   "fasi": [
-    "si_parte",
-    "costruzione"
    ]
   }
  ]
