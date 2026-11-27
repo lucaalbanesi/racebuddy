@@ -1,6 +1,20 @@
 {
- "aggiornato": "2026-11-27T11:50Z",
+ "aggiornato": "2026-11-27T15:50Z",
  "novita": [
+  {
+   "id": "nda445c59deb",
+   "gara": "H88b48310e5-42",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Firenze Marathon: il closing party per i runner firmato Ditta Artigianale",
+   "link": "https://www.runnersworld.com/it/news/a74546022/firenze-marathon-closing-party-ditta-artigianale/",
+   "data": "2026-11-27",
+   "fonte": "Runner's World Italia",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/c80c4c41-046f-4a39-b269-24b9ad2fb43f.jpg",
+   "trovato": "2026-11-27T15:50Z"
+  },
   {
    "id": "nd86493e12e9",
    "gara": "E-valencia-42-2026",
@@ -14,6 +28,20 @@
    "tipo": "video",
    "immagine": "https://i2.ytimg.com/vi/M6tSraANfy0/hqdefault.jpg",
    "trovato": "2026-11-27T11:50Z"
+  },
+  {
+   "id": "n4bd3d57a220",
+   "gara": "H88b48310e5-42",
+   "tema": "medaglia",
+   "urgenza": "subito",
+   "titolo": "Firenze Marathon 2026: la storia della medaglia firmata Susanna Alisi",
+   "link": "https://www.runnersworld.com/it/vip/a74545802/firenze-marathon-storia-medaglia-susanna-alisi/",
+   "data": "2026-11-27",
+   "fonte": "Runner's World Italia",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/a14f4c09-0b99-4306-ab84-0ffd3c16db60.jpg",
+   "trovato": "2026-11-27T15:50Z"
   },
   {
    "id": "n376ca9e96e3",
