@@ -1,6 +1,20 @@
 {
- "aggiornato": "2026-11-27T05:50Z",
+ "aggiornato": "2026-11-27T07:50Z",
  "novita": [
+  {
+   "id": "n376ca9e96e3",
+   "gara": "H88b48310e5-42",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "BLACK FRIDAY",
+   "link": "https://www.firenzemarathon.it/black-friday/",
+   "data": "2026-11-27",
+   "fonte": "Sito ufficiale",
+   "ufficiale": true,
+   "tipo": "articolo",
+   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/11/ART-BLACK-FRIDAY-ITA.png",
+   "trovato": "2026-11-27T07:50Z"
+  },
   {
    "id": "neea81d3a927",
    "gara": "E-valencia-42-2026",
@@ -212,6 +226,34 @@
    "trovato": "2026-11-19T19:50Z"
   },
   {
+   "id": "nd6e06463289",
+   "gara": "H88b48310e5-42",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Riunione Volontari 3 novembre",
+   "link": "https://www.youtube.com/watch?v=uN8QBG4x-D4",
+   "data": "2026-11-05",
+   "fonte": "YouTube della gara",
+   "ufficiale": true,
+   "tipo": "video",
+   "immagine": "https://i2.ytimg.com/vi/uN8QBG4x-D4/hqdefault.jpg",
+   "trovato": "2026-11-27T07:50Z"
+  },
+  {
+   "id": "n507cc56312a",
+   "gara": "H88b48310e5-42",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Riunione Volontari - Maratona di FIrenze 2026",
+   "link": "https://www.youtube.com/watch?v=IuIspwzx1U4",
+   "data": "2026-11-05",
+   "fonte": "YouTube della gara",
+   "ufficiale": true,
+   "tipo": "video",
+   "immagine": "https://i2.ytimg.com/vi/IuIspwzx1U4/hqdefault.jpg",
+   "trovato": "2026-11-27T07:50Z"
+  },
+  {
    "id": "nd6b687385e9",
    "gara": "H88b48310e5-42",
    "tema": "notizia",
@@ -224,6 +266,20 @@
    "tipo": "articolo",
    "immagine": "https://hips.hearstapps.com/hmg-prod/images/fb279261-42bc-40c1-8652-ee0ee3f66966.jpeg",
    "trovato": "2026-11-05T04:50Z"
+  },
+  {
+   "id": "n7da83547cd9",
+   "gara": "H88b48310e5-42",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Live streaming di firenze marathon",
+   "link": "https://www.youtube.com/watch?v=nc51UwQPFWg",
+   "data": "2026-11-03",
+   "fonte": "YouTube della gara",
+   "ufficiale": true,
+   "tipo": "video",
+   "immagine": "https://i3.ytimg.com/vi/nc51UwQPFWg/hqdefault.jpg",
+   "trovato": "2026-11-27T07:50Z"
   },
   {
    "id": "nfb46f8c9ec7",
@@ -674,6 +730,20 @@
    "trovato": "2026-10-22T04:50Z"
   },
   {
+   "id": "ne47c51f33d4",
+   "gara": "P8cb521dda8-42",
+   "tema": "medaglia",
+   "urgenza": "subito",
+   "titolo": "Run Rome The Marathon 2027, the medal",
+   "link": "https://www.youtube.com/shorts/2YGEZuXDXTM",
+   "data": "2026-09-25",
+   "fonte": "YouTube della gara",
+   "ufficiale": true,
+   "tipo": "video",
+   "immagine": "https://i3.ytimg.com/vi/2YGEZuXDXTM/hqdefault.jpg",
+   "trovato": "2026-11-27T07:50Z"
+  },
+  {
    "id": "nd27787873a2",
    "gara": "H88b48310e5-42",
    "tema": "iscrizioni",
@@ -798,20 +868,6 @@
    "tipo": "articolo",
    "immagine": "https://romaostia.it/wp-content/uploads/2026/06/FOTO-1.jpeg",
    "trovato": "2026-10-23T04:50Z"
-  },
-  {
-   "id": "n7c044cb6df0",
-   "gara": "H88b48310e5-42",
-   "tema": "altro",
-   "urgenza": "app",
-   "titolo": "Presentata la 86^ Conad Notturna di San Giovanni di Firenze",
-   "link": "https://www.firenzemarathon.it/presentata-la-86-conad-notturna-di-san-giovanni-di-firenze/",
-   "data": "2026-06-17",
-   "fonte": "Sito ufficiale",
-   "ufficiale": true,
-   "tipo": "articolo",
-   "immagine": "https://www.firenzemarathon.it/wp-content/uploads/2026/06/870A2138.jpeg",
-   "trovato": "2026-11-19T19:50Z"
   },
   {
    "id": "n7ec2c6a30b3",
