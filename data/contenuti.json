@@ -2,6 +2,160 @@
  "aggiornato": "2026-11-28",
  "contenuti": [
   {
+   "id": "a26980dbfa0d",
+   "tipo": "video",
+   "fonte": "Personal Running Coach",
+   "fonteId": "yt_personalrunningcoach",
+   "titolo": "Vuoi una Novablast con una marcia in più?",
+   "estratto": "Vuoi una Novablast con una marcia in più? La Sonicblast 2 ha più schiuma da gara, tomaia più leggera e una piastra (in plastica): la mia…",
+   "link": "https://www.youtube.com/shorts/7aD9SMgB8mU",
+   "data": "2026-11-28",
+   "immagine": "https://i4.ytimg.com/vi/7aD9SMgB8mU/hqdefault.jpg",
+   "argomenti": [
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "53b35c58cf8d",
+   "tipo": "articolo",
+   "fonte": "Garmin Blog Italia",
+   "fonteId": "garmin_blog",
+   "titolo": "Perché i ciclisti dovrebbero condividere la posizione LiveTrack con Waze",
+   "estratto": "Che si tratti del tragitto casa-lavoro o di un allenamento lungo sulle strade di campagna, per chi pedala, a qualunque livello, la priorità resta una: sentirsi al sicuro sulla…",
+   "link": "https://www.garmin.com/it-IT/blog/ciclismo/livetrack-waze-ciclisti/",
+   "data": "2026-11-28",
+   "immagine": "https://s22643.pcdn.co/it-IT/blog/wp-content/uploads/2026/11/livetrack-ciclisti-su-waze.jpg",
+   "argomenti": [
+    "allenamento",
+    "tecnologia"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione"
+   ]
+  },
+  {
+   "id": "ea5c7f8cc058",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Infaticabili e leggendarie: due italiane sul podio in una delle ultramaratone più dure del mondo",
+   "estratto": "Francesca Ferraro e Maria Pinto hanno affrontato centinaia di chilometri in Grecia: una ha vinto la prova lunga, l’altra è arrivata seconda nella gara Atene–Sparta–Atene",
+   "link": "https://www.runnersworld.com/it/news/a74549982/authentic-pheidippides-run-ferraro-pinto-podio/",
+   "data": "2026-11-28",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/a908cf5f-5e93-4da8-b149-9bc257905773.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "a05df9c5d9ae",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Il sorteggio decide chi corre le grandi maratone",
+   "estratto": "La mail che arriva a luglio La mail arriva un giovedì di luglio e la apro prima del caffè, a piedi nudi sulle piastrelle della cucina, che a quell’ora sono l’unica cosa fresca…",
+   "link": "https://runlovers.it/2026/sorteggio-maratone-chi-corre/",
+   "data": "2026-11-28",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/sorteggio-grandi-maraton-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "scarpe",
+    "allenamento",
+    "gara",
+    "abbigliamento"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": [
+    "si_parte",
+    "costruzione",
+    "picco"
+   ]
+  },
+  {
+   "id": "71a3f5ae035d",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Green exercise, allenarti nel verde per ritrovare (e mantenere) il benessere mentale",
+   "estratto": "A dirlo è la scienza",
+   "link": "https://www.runnersworld.com/it/salute/benessere-sport/a74532653/green-exercise-correre-verde/",
+   "data": "2026-11-28",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/ac483a36-4fd3-4a14-a2fe-c64dac94cb30.jpeg",
+   "argomenti": [
+    "mente"
+   ],
+   "distanze": [],
+   "fasi": [
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "f2b7b2e59a37",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Firenze Marathon, dove (non) vederla in tv e streaming",
+   "estratto": "Si corre una delle maratone più affascinanti e partecipate d’Italia. Scopri dove potrai seguirla in tv e streaming",
+   "link": "https://www.runnersworld.com/it/news/a74547150/firenze-marathon-2026-dove-vederla-tv-streaming/",
+   "data": "2026-11-28",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/b57a249e-9a33-4d5b-a66e-c905d5c90104.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [
+    "42"
+   ],
+   "fasi": []
+  },
+  {
+   "id": "eb89014d209f",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Correre al freddo: gli effetti sulle prestazioni e i consigli per allenarsi al meglio",
+   "estratto": "Come il freddo influisce sulle prestazioni e quali accorgimenti aiutano a correre al meglio.",
+   "link": "https://www.runnersworld.com/it/allenamento/a74501035/correre-freddo-effetti-prestazioni-consigli/",
+   "data": "2026-11-28",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/69f25cb5-f1f3-48d8-a33c-bac441f1cca6.jpeg",
+   "argomenti": [
+    "abbigliamento"
+   ],
+   "distanze": [],
+   "fasi": []
+  },
+  {
+   "id": "cef9b89df455",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "Allenamento del core per runner: quante sessioni servono (davvero) ogni settimana",
+   "estratto": "Per sostenere la tecnica di corsa e migliorare stabilità ed efficienza possono bastare sessioni brevi, purché svolte con costanza",
+   "link": "https://www.runnersworld.com/it/allenamento/esercizi/a74501039/allenamento-core-runner-quante-sessioni-settimana/",
+   "data": "2026-11-28",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/copenhagen-side-plank-0029-698b8eb577010.jpg",
+   "argomenti": [
+    "allenamento",
+    "forza"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
+  },
+  {
    "id": "87044424a049",
    "tipo": "articolo",
    "fonte": "Podisti.net",
