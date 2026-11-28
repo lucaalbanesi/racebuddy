@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-27T15:50Z",
+ "aggiornato": "2026-11-28T04:50Z",
  "novita": [
   {
    "id": "nda445c59deb",
@@ -350,6 +350,20 @@
    "tipo": "articolo",
    "immagine": "https://hips.hearstapps.com/hmg-prod/images/df0deeb3-07da-40a9-9a93-77bd24089124.jpg",
    "trovato": "2026-10-26T03:50Z"
+  },
+  {
+   "id": "nd4c2878a94b",
+   "gara": "P3b1e99ee8f-42",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "La 25^ edizione si correrà domenica 4 aprile.",
+   "link": "https://www.milanomarathon.it/la-25-edizione-si-correra-domenica-4-aprile/",
+   "data": "2026-10-23",
+   "fonte": "Sito ufficiale",
+   "ufficiale": true,
+   "tipo": "articolo",
+   "immagine": "https://www.milanomarathon.it/wp-content/uploads/2026/10/image005.jpg",
+   "trovato": "2026-11-28T04:50Z"
   },
   {
    "id": "n075029179a9",
