@@ -525,5 +525,31 @@
   ],
   "verificato": "2026-11-25",
   "edizione": "2027"
+ },
+ "P3b1e99ee8f-42": {
+  "partenza": "8:15",
+  "pettorale": "Al Milano Running Festival: gio 1/4 16-20, ven 2/4 10-20, sab 3/4 9-19 (luogo da comunicare). Niente spedizione né ritiro la domenica; delega firmata con documento e lettera di conferma.",
+  "griglia": "Settori per tempo di accredito (netti in maratona o mezza dal 1/1/2025), indicato anche col colore sul pettorale; accesso dalle 7:00 col pettorale.",
+  "deposito": "In Piazza Castello, solo con la sacca dell'organizzazione con l'etichetta del pettorale.",
+  "ristori": "Ogni 5 km e all'arrivo (acqua e integratori, dal km 20 anche frutta e biscotti), più 2 ristori aggiuntivi; punti spugnaggio.",
+  "sito": "https://www.milanomarathon.it/",
+  "canali": {
+   "notizie": "https://www.milanomarathon.it/feed/",
+   "youtube": "https://www.youtube.com/feeds/videos.xml?channel_id=UC4FiuDeQj0k5afyi5zftvgg",
+   "instagram": "https://www.instagram.com/milanomarathon/",
+   "facebook": "https://www.facebook.com/MilanoMarathon"
+  },
+  "nomi": [
+   "Milano Marathon",
+   "Maratona di Milano"
+  ],
+  "note": "25ª edizione. Tempo massimo 6h30, cancelli al km 21,1 dopo 3h15 e al km 27,8 dopo 4h20. Pacer da 3h00 a 6h30. Iscrizioni online fino al 31/3/2027. Luogo di partenza e percorso 2027 non ancora pubblicati (sul sito c'è ancora quello 2026).",
+  "fonti": [
+   "https://www.milanomarathon.it/wp-content/uploads/2026/04/Rules-Wizz-Air-Milano-Marathon-2027_EN.pdf",
+   "https://www.milanomarathon.it/la-25-edizione-si-correra-domenica-4-aprile/",
+   "https://www.milanomarathon.it/"
+  ],
+  "verificato": "2026-11-28",
+  "edizione": "2027"
  }
 }
