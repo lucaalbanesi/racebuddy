@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-27",
+ "aggiornato": "2026-11-28",
  "contenuti": [
   {
    "id": "87044424a049",
@@ -15,6 +15,22 @@
    "distanze": [
     "42"
    ],
+   "fasi": []
+  },
+  {
+   "id": "8dda53919b45",
+   "tipo": "articolo",
+   "fonte": "Runner's World Italia",
+   "fonteId": "runnersworld",
+   "titolo": "UTLAC 2027, aperte le iscrizioni: 5 gare e 259 chilometri sui sentieri del Lago di Como",
+   "estratto": "Un evento sempre più apprezzato in Italia e all'estero: cinque distanze e un nuovo title sponsor nello spettacolo del Lago di Como",
+   "link": "https://www.runnersworld.com/it/eventi/gare/a74541063/utlac-2027-iscrizioni/",
+   "data": "2026-11-27",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/59d68649-fde6-47e3-9a53-2edc1b83009f.jpg",
+   "argomenti": [
+    "gara"
+   ],
+   "distanze": [],
    "fasi": []
   },
   {
@@ -68,6 +84,52 @@
    ],
    "distanze": [],
    "fasi": []
+  },
+  {
+   "id": "c5f23966fd7b",
+   "tipo": "video",
+   "fonte": "ricsvlog",
+   "fonteId": "yt_ricsvlog",
+   "titolo": "In gara non si prova niente di nuovo: il gel che porto alla UTMB #adv",
+   "estratto": "Long Distance Gel di NutriPure: 30 g di carboidrati, gusto neutro. Testato nel lungo Aviano - Piancavallo, lo porto a Chiang Mai. Prodotti…",
+   "link": "https://www.youtube.com/shorts/LUqdSvEo93w",
+   "data": "2026-11-27",
+   "immagine": "https://i1.ytimg.com/vi/LUqdSvEo93w/hqdefault.jpg",
+   "argomenti": [
+    "rifornimento",
+    "alimentazione",
+    "allenamento",
+    "gara"
+   ],
+   "distanze": [],
+   "fasi": [
+    "costruzione",
+    "picco",
+    "scarico",
+    "gara"
+   ]
+  },
+  {
+   "id": "7c6a13f9ff5a",
+   "tipo": "articolo",
+   "fonte": "Runlovers",
+   "fonteId": "runlovers",
+   "titolo": "Il programma di dicembre per allenarsi anche nei giorni di festa",
+   "estratto": "Quattro settimane di sedute brevi a corpo libero, da fare in salotto, per arrivare a gennaio con il motore al minimo invece che spento. Quattro settimane, da lunedì 30 novembre a…",
+   "link": "https://runlovers.it/2026/programma-mensile-dicembre-allenamento-feste/",
+   "data": "2026-11-27",
+   "immagine": "https://i0.wp.com/runlovers.it/wp-content/uploads/2026/11/allenamento-dicembre-feste-foto.jpg?fit=1920%2C1280&quality=75&ssl=1",
+   "argomenti": [
+    "allenamento",
+    "forza",
+    "abbigliamento",
+    "notizie"
+   ],
+   "distanze": [],
+   "fasi": [
+    "si_parte",
+    "costruzione"
+   ]
   },
   {
    "id": "220e17818b5a",
@@ -16639,32 +16701,6 @@
    "distanze": [],
    "fasi": [
     "costruzione"
-   ]
-  },
-  {
-   "id": "0282812b4a7d",
-   "tipo": "video",
-   "fonte": "Personal Running Coach",
-   "fonteId": "yt_personalrunningcoach",
-   "titolo": "Oggi con le nuove Deviate NITRO Elite 4 di @pumarunning farò un 4x6' in soglia Z4, recupero 2'. ⏱️",
-   "estratto": "Oggi con le nuove Deviate NITRO Elite 4 di @pumarunning farò un 4x6' in soglia Z4, recupero 2'. ⏱️ Una scarpa leggerissima e reattiva…",
-   "link": "https://www.youtube.com/shorts/sXuDseM7VWU",
-   "data": "2026-09-28",
-   "immagine": "https://i4.ytimg.com/vi/sXuDseM7VWU/hqdefault.jpg",
-   "argomenti": [
-    "scarpe",
-    "allenamento",
-    "recupero",
-    "gara"
-   ],
-   "distanze": [
-    "42"
-   ],
-   "fasi": [
-    "si_parte",
-    "costruzione",
-    "picco",
-    "dopo"
    ]
   }
  ]
