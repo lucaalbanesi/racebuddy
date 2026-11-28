@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-25",
+ "aggiornato": "2026-11-28",
  "gare": [
   {
    "id": "H88b48310e5-42",
@@ -88,6 +88,17 @@
    "prima_aggiunta": "2026-10-14",
    "aggiunte": 7,
    "ultima_aggiunta": "2026-10-24"
+  },
+  {
+   "id": "P3b1e99ee8f-42",
+   "nome": "XXV^ Wizz Air Milano Marathon",
+   "data": "2027-04-04",
+   "luogo": "MILANO",
+   "distanza": "42",
+   "fonte": "FIDAL",
+   "prima_aggiunta": "2026-11-27",
+   "aggiunte": 1,
+   "ultima_aggiunta": "2026-11-27"
   },
   {
    "id": "La92f52eec5-k19.5",
