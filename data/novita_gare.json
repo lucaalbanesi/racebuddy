@@ -1,6 +1,20 @@
 {
- "aggiornato": "2026-11-28T08:50Z",
+ "aggiornato": "2026-11-28T15:50Z",
  "novita": [
+  {
+   "id": "n5cefd6093f0",
+   "gara": "H88b48310e5-42",
+   "tema": "notizia",
+   "urgenza": "mattino",
+   "titolo": "Firenze Marathon, dove (non) vederla in tv e streaming",
+   "link": "https://www.runnersworld.com/it/news/a74547150/firenze-marathon-2026-dove-vederla-tv-streaming/",
+   "data": "2026-11-28",
+   "fonte": "Runner's World Italia",
+   "ufficiale": false,
+   "tipo": "articolo",
+   "immagine": "https://hips.hearstapps.com/hmg-prod/images/b57a249e-9a33-4d5b-a66e-c905d5c90104.jpg",
+   "trovato": "2026-11-28T15:50Z"
+  },
   {
    "id": "nda445c59deb",
    "gara": "H88b48310e5-42",
